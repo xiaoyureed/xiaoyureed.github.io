@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="Autohotkey 脚本集"/><meta name="keywords" content="blog 博客 网络日志" /><link rel="alternate" href="/default" title="肖雨的网络 WiKi"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://xiaoyureed.gitee.io/2018/04/02/autohotkey/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":false,"pjax":"","latex":false};
+</script>
+
+    <title>Autohotkey 脚本集 - 肖雨的网络 WiKi</title>
+  <meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">肖雨的网络 WiKi</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">肖雨的网络 WiKi</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            Categories
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">Autohotkey 脚本集
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2018-04-02
+        </span><span class="post-category">
+            <a href="/categories/tool/">tool</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#quickstart"><span class="toc-text">quickstart</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#demo"><span class="toc-text">demo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#my-scripts"><span class="toc-text">my scripts</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#优秀脚本收集"><span class="toc-text">优秀脚本收集</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><div align="center">
+autohotkey note & 我的脚本集
+https://greyli.com/autohotkey-automate-your-life/
+开机启动文件夹 # r ---> shell:startup
+</div>
+
+<a id="more"></a>
+
+<h1 id="quickstart"><a href="#quickstart" class="headerlink" title="quickstart"></a>quickstart</h1><ul>
+<li><p>热键， run(相应的有RunWait xx表示程序xx关闭后执行命令); eg: <code>#space::Run www.baidu.com</code>同时按下win+space会调用默认browser访问指定地址(命令和变量的名称是不区分大小写的)</p>
+<ul>
+<li>保存为demo.ahk, 双击执行; </li>
+<li>#表示win键, space表示空格键, 双冒号 :: 表示每次按下此热键时会执行其后续命令, run表示运行后面的语句,  文档, URL 或快捷方式. 这里有一些常见示例<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Run Notepad</span><br><span class="line">Run C:\My Documents\Address List.doc &#x2F;&#x2F; 如果程序没有包含在env变量中, 需要指定完整的路径, 如Run %A_ProgramFiles%\Winamp\Winamp.exe;</span><br><span class="line">Run C:\My Documents\My Shortcut.lnk</span><br><span class="line">Run www.yahoo.com</span><br><span class="line">Run mailto:someone@somedomain.com</span><br></pre></td></tr></table></figure></li>
+<li>其他一些例子:<br><code>#n::Run Notepad</code>win+n唤起记事本程序<br><code>^!c::Run calc.exe</code>ctrl+alt+c唤起指定程序</li>
+<li>多行热键: 执行多行命令, 请把首行放在热键定义的下面，且在最后行命令的下一行添加 return<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#n::</span><br><span class="line">Run http:&#x2F;&#x2F;www.google.com</span><br><span class="line">Run Notepad.exe</span><br><span class="line">return</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>热字串<br><code>::btw::by the way</code>输入“Btw”跟着空格或逗号时，会把它替换为“By the way”：</p>
+</li>
+<li><p>发送键击&amp;鼠标点击, Send 命令可以发送键击到活动的 (最前面的) 窗口<br>Control+Alt+S被设置为输入签名的热键</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">^!s::</span><br><span class="line">Send Sincerely,&#123;Enter&#125;John Smith ;;;发送字符串Sincerely,&#123;Enter&#125;John Smith, &#123;enter&#125;表示换行键</span><br><span class="line">Send ^c!&#123;tab&#125;pasted:^v ;;;发送ctrl+c跟着atl+tab键, 跟着字符串 &quot;pasted:&quot; 和 Control+V</span><br><span class="line">return</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h1><figure class="highlight ahk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; 热键, 见 https://wyagd001.github.io/zh-cn/docs/Hotkeys.htm</span></span><br><span class="line"><span class="title">^u::</span></span><br><span class="line"><span class="built_in">  Send,</span> Hahahah first demo</span><br><span class="line"><span class="keyword">Return</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 热字串, 空格即出, 注意末尾的空格也有效</span></span><br><span class="line"><span class="title">::btw::</span>By the Way,</span><br></pre></td></tr></table></figure>
+
+<h1 id="my-scripts"><a href="#my-scripts" class="headerlink" title="my scripts"></a>my scripts</h1><figure class="highlight ahk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.</span></span><br><span class="line"><span class="comment">; #Warn  ; Enable warnings to assist with detecting common errors.</span></span><br><span class="line">SendMode Input  <span class="comment">; Recommended for new scripts due to its superior speed and reliability.</span></span><br><span class="line"><span class="built_in">SetWorkingDir %</span><span class="built_in">A_ScriptDir</span>%  <span class="comment">; Ensures a consistent starting directory.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 交换win和ctrl和alt</span></span><br><span class="line"><span class="comment">;LWin::LControl</span></span><br><span class="line"><span class="comment">;LControl::LWin</span></span><br><span class="line"><span class="comment">; LAlt::LControl</span></span><br><span class="line"></span><br><span class="line"><span class="comment">;-----------------------------------方向键映射 start--------------------------------------------------------------</span></span><br><span class="line"><span class="title">CapsLock &amp; i::</span></span><br><span class="line"><span class="built_in">    Send,</span> &#123;up&#125;</span><br><span class="line"><span class="keyword">return</span> </span><br><span class="line"></span><br><span class="line"><span class="title">CapsLock &amp; k::</span></span><br><span class="line"><span class="built_in">    Send,</span> &#123;down&#125;</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="title">CapsLock &amp; j::</span></span><br><span class="line"><span class="built_in">    Send,</span> &#123;left&#125;</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="title">CapsLock &amp; l::</span></span><br><span class="line"><span class="built_in">    Send,</span> &#123;right&#125;</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="comment">;-----------------------------------方向键映射 end-------</span></span><br><span class="line"></span><br><span class="line"><span class="comment">;-----------------------------------方向键选择 start-----</span></span><br><span class="line"><span class="comment">; o, p 单个字符左右选择, nm整个单词左右选择</span></span><br><span class="line"></span><br><span class="line"><span class="title">CapsLock &amp; o::</span></span><br><span class="line"><span class="built_in">    Send,</span> +&#123;left&#125;</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="title">CapsLock &amp; p::</span></span><br><span class="line"><span class="built_in">    Send,</span> +&#123;right&#125;</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="title">CapsLock &amp; n::</span></span><br><span class="line"><span class="built_in">    Send,</span> ^+&#123;left&#125;</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="title">CapsLock &amp; m::</span></span><br><span class="line"><span class="built_in">    Send,</span> ^+&#123;right&#125;</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">;----------------------------------- &amp;选择 end---------</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; --------------------右边alt, win改为home和end. start--------------</span></span><br><span class="line"><span class="title">RAlt::</span>Home</span><br><span class="line"><span class="title">RWin::</span>End</span><br><span class="line"></span><br><span class="line"><span class="comment">; ------------大写锁定 &amp; 退格=删除一个单词--------------</span></span><br><span class="line"><span class="title">CapsLock &amp; BS::</span></span><br><span class="line"><span class="built_in">    Send,</span> ^+&#123;Left&#125;&#123;BS&#125;</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="comment">;---------------------------code上下移动(alt+i/k)--------------</span></span><br><span class="line"></span><br><span class="line"><span class="title">!i::</span></span><br><span class="line"><span class="built_in">    Send,</span> !&#123;up&#125;</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line"><span class="title">!k::</span></span><br><span class="line"><span class="built_in">    Send,</span> !&#123;down&#125;</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="comment">;;;;;;;;;;;;;;;;;;;;; alt + m, 向下复制一行 ;;;;;;;;;;;;</span></span><br><span class="line"><span class="title">!m::</span></span><br><span class="line"><span class="built_in">    Send,</span> ^!&#123;down&#125;</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="comment">;;;;;;;;;;;;;;;;;;;;; 标签页切换 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span><br><span class="line"></span><br><span class="line"><span class="title">!w::</span></span><br><span class="line"><span class="built_in">    Send,</span> ^&#123;Tab&#125;</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="title">!q::</span></span><br><span class="line"><span class="built_in">    Send,</span> ^+&#123;Tab&#125;</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; D:\sync\我的坚果云\green\AutoHotkeyHelp_CN\scripts\autohotkey.ahk</span></span><br><span class="line"><span class="comment">; ctrl &amp; shift &amp; c ---&gt; 复制文件路径</span></span><br><span class="line"><span class="title">^+c::</span></span><br><span class="line"><span class="comment">; null= </span></span><br><span class="line">Send ^c</span><br><span class="line"><span class="built_in">sleep,</span><span class="number">200</span></span><br><span class="line"><span class="built_in">clipboard</span>=<span class="variable">%clipboard%</span> <span class="comment">;%null%</span></span><br><span class="line"><span class="built_in">tooltip,</span><span class="variable">%clipboard%</span></span><br><span class="line"><span class="built_in">sleep,</span><span class="number">500</span></span><br><span class="line"><span class="built_in">tooltip,</span></span><br><span class="line"><span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; win &amp; c ---&gt; 复制16进制颜色 23B167</span></span><br><span class="line"><span class="title">#c::</span></span><br><span class="line"><span class="built_in">MouseGetPos,</span> mouseX, mouseY</span><br><span class="line"><span class="comment">; 获得鼠标所在坐标，把鼠标的 X 坐标赋值给变量 mouseX ，同理 mouseY</span></span><br><span class="line"><span class="built_in">PixelGetColor,</span> color, <span class="variable">%mouseX%</span>, <span class="variable">%mouseY%</span>, RGB</span><br><span class="line"><span class="comment">; 调用 PixelGetColor 函数，获得鼠标所在坐标的 RGB 值，并赋值给 color</span></span><br><span class="line">StringRight color,color,<span class="number">6</span></span><br><span class="line"><span class="comment">; 截取 color（第二个 color）右边的6个字符，因为获得的值是这样的：#RRGGBB，一般我们只需要 RRGGBB 部分。把截取到的值再赋给 color（第一个 color）。</span></span><br><span class="line"><span class="built_in">clipboard</span> = <span class="variable">%color%</span></span><br><span class="line"><span class="comment">; 把 color 的值发送到剪贴板</span></span><br><span class="line"><span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; Chrome没打开状态时候 –&gt; 打开；打开没激活状态时候 –&gt; 激活；打开处在激活状态时候 —&gt; 隐藏</span></span><br><span class="line"><span class="title">#CapsLock::</span></span><br><span class="line">IfWinNotExist <span class="keyword">ahk_class</span> Chrome_WidgetWin_1</span><br><span class="line">&#123;</span><br><span class="line">    Run <span class="string">"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"</span></span><br><span class="line">    WinActivate</span><br><span class="line">&#125;</span><br><span class="line">Else IfWinNotActive <span class="keyword">ahk_class</span> Chrome_WidgetWin_1</span><br><span class="line">&#123;</span><br><span class="line">    WinActivate</span><br><span class="line">&#125;</span><br><span class="line">Else</span><br><span class="line">&#123;</span><br><span class="line">    WinMinimize</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">Return</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; -----------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; Ctrl+Shift+T 在当前目录打开cmder / git bash</span></span><br><span class="line"><span class="title">CapsLock &amp; g::</span></span><br><span class="line"><span class="built_in">Process,</span>Exist,explorer.exe</span><br><span class="line">if (<span class="variable">%ErrorLevel%</span> != <span class="number">0</span>)&#123;</span><br><span class="line">    if WinActive(<span class="string">"ahk_class CabinetWClass"</span>)&#123;</span><br><span class="line">        path := getExplorerPath()   </span><br><span class="line">        <span class="comment">; MsgBox "%path%"</span></span><br><span class="line"><span class="built_in">        Run,</span> git bash <span class="string">"%path%"</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125; <span class="comment">; 如果在桌面</span></span><br><span class="line">    if WinActive(<span class="string">"ahk_class WorkerW"</span>)&#123;</span><br><span class="line"><span class="built_in">        Run ,</span>git bash <span class="variable">%A_Desktop%</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">; 获取当前路径的函数</span></span><br><span class="line">getExplorerPath()&#123;</span><br><span class="line"><span class="built_in">    IfWinExist,</span> <span class="keyword">ahk_class</span> CabinetWClass</span><br><span class="line">    &#123;</span><br><span class="line"><span class="built_in">        ControlGetText,</span>address,ToolbarWindow323,<span class="keyword">ahk_class</span> CabinetWClass</span><br><span class="line"><span class="built_in">        StringLen,</span> length, address</span><br><span class="line"><span class="built_in">        StringRight,</span> path, address, length-<span class="number">4</span></span><br><span class="line">        <span class="keyword">return</span> path</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">; -----------------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; :*:string:: 输入完后直接执行，无需空格，回车，tab键 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">; MouseGetPos, mouseX, mouseY</span></span><br><span class="line"><span class="comment">; if (%mouseY% &gt; 1000) &#123;</span></span><br><span class="line"><span class="comment">; WheelUp::Send &#123;Volume_Up&#125;     ; 在任务栏上滚动滚轮:增加/减小音量.</span></span><br><span class="line"><span class="comment">; WheelDown::Send &#123;Volume_Down&#125; ;</span></span><br><span class="line"><span class="comment">; &#125;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="优秀脚本收集"><a href="#优秀脚本收集" class="headerlink" title="优秀脚本收集"></a>优秀脚本收集</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.</span><br><span class="line">; #Warn  ; Enable warnings to assist with detecting common errors.</span><br><span class="line">SendMode Input  ; Recommended <span class="keyword">for</span> <span class="keyword">new</span> scripts due to its superior speed and reliability.</span><br><span class="line">SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">;url编码解码     </span><br><span class="line">uriEncode(str) &#123;       f = %A_FormatInteger%       SetFormat, Integer, Hex       If RegExMatch(str, <span class="string">"^\w+:/&#123;0,2&#125;"</span>, pr)          StringTrimLeft, str, str, StrLen(pr)       StringReplace, str, str, <span class="string">`%, `</span>%<span class="number">25</span>, All       Loop          If RegExMatch(str, <span class="string">"i)[^\w\.~%]"</span>, char)             StringReplace, str, str, %char%, % <span class="string">"%"</span> . Asc(char), All          Else Break       SetFormat, Integer, %f%       Return, pr . str    &#125;    uriDecode(str) &#123;       Loop          If RegExMatch(str, <span class="string">"i)(?&lt;=%)[\da-f]&#123;1,2&#125;"</span>, hex)             StringReplace, str, str, <span class="string">`%%hex%, % Chr("0x" . hex), All          Else Break       Return, str    &#125;     </span></span><br><span class="line"><span class="string">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;快速命令;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    </span></span><br><span class="line"><span class="string">:://g::    Run http://www.google.com     return    </span></span><br><span class="line"><span class="string">:://b::    Run http://www.baidu.com    return     </span></span><br><span class="line"><span class="string">:://s::    Run C:\Program Files\Everything\Everything.exe    return     </span></span><br><span class="line"><span class="string">:://qq::    Run C:\Program Files\Tencent\QQ\Bin\QQ.exe    return     </span></span><br><span class="line"><span class="string">:://cmd::    Run cmd    return     </span></span><br><span class="line"><span class="string">:://n::    Run notepad    return     </span></span><br><span class="line"><span class="string">:://d::    Run C:\Program Files\http://dict.cn\DianDian.exe    return     </span></span><br><span class="line"><span class="string">:://e::    Run explorer    return     </span></span><br><span class="line"><span class="string">;打开任务管理器    </span></span><br><span class="line"><span class="string">:://t::    if WinExist Windows 任务管理器    WinActivate    else    Run taskmgr.exe    return     </span></span><br><span class="line"><span class="string">;一些经常输入的字符串    </span></span><br><span class="line"><span class="string">:://m::    Send babyking1949@gmail.com    return     </span></span><br><span class="line"><span class="string">;打开系统属性    </span></span><br><span class="line"><span class="string">:://sys::    Run control sysdm.cpl    return     </span></span><br><span class="line"><span class="string">;打开autohotkey 配置文件    </span></span><br><span class="line"><span class="string">:://ahk::    Run D:\GreenSoft\AutoHotKey 中文版\AutoHotKey.ini    return    </span></span><br><span class="line"><span class="string">;;;;;;;;;;快速打开程序(快捷键);;;;;;;;;;;;;;;;;;;;;;;;;     </span></span><br><span class="line"><span class="string">;用google搜索    </span></span><br><span class="line"><span class="string">!g::    Send ^c    Run http://www.google.com/search?q=%clipboard%    return    </span></span><br><span class="line"><span class="string">;用百度搜索    !b::    Send ^c    Run http://www.baidu.com/s?wd=%clipboard%    return     </span></span><br><span class="line"><span class="string">!t::    Send ^c     Run http://s.taobao.com/search?q=%clipboard%    return     </span></span><br><span class="line"><span class="string">;快速打开记事本    #n::    If WinExist Untitled - Notepad    WinActivate    else    Run Notepad    return     </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;通用键的映射;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     </span></span><br><span class="line"><span class="string">;对windows下的一些常用键进行映射,与苹果下的一些习惯一样(苹果下的快捷键有些非常合理:)    </span></span><br><span class="line"><span class="string">!f::Send ^f  ;查找    </span></span><br><span class="line"><span class="string">!q:: !F4    ;退出    </span></span><br><span class="line"><span class="string">!w::Send ^w ;关闭网页窗口    </span></span><br><span class="line"><span class="string">!r::Send #r ;调出cmd    </span></span><br><span class="line"><span class="string">!s::Send ^s ;保存    </span></span><br><span class="line"><span class="string">!n::Send ^n ;新建    </span></span><br><span class="line"><span class="string">!z::Send ^z    </span></span><br><span class="line"><span class="string">;选择文字    </span></span><br><span class="line"><span class="string">!,::Send ^+&#123;Left&#125;    </span></span><br><span class="line"><span class="string">!.::Send ^+&#123;Right&#125;    return    </span></span><br><span class="line"><span class="string">!y:: Send+&#123;Home&#125;  ;选择当前位置到行首的文字    </span></span><br><span class="line"><span class="string">!p:: Send +&#123;End&#125;   ;选择当前位置到行末的文字     </span></span><br><span class="line"><span class="string">;选择一行    </span></span><br><span class="line"><span class="string">!a::    Send &#123;Home&#125;    Send +&#123;End&#125;    return     </span></span><br><span class="line"><span class="string">;鼠标的左右键实现任务切换,对thinkpad trackpoint 特别有用    </span></span><br><span class="line"><span class="string">~LButton &amp; RButton::AltTab    </span></span><br><span class="line"><span class="string">~LButton &amp; MButton::MsgBox,hello     </span></span><br><span class="line"><span class="string">;&lt;短时间双击alt键切换capslock键&gt;    </span></span><br><span class="line"><span class="string">;~ 设置一个时钟，比如400 毫秒，    </span></span><br><span class="line"><span class="string">;~ 设置一个计数器，Alt_presses，按击次数，每次响应时钟把计数器清0复位    </span></span><br><span class="line"><span class="string">#Persistent    </span></span><br><span class="line"><span class="string">$Alt::</span></span><br><span class="line"><span class="string">    if Alt_presses &gt; 0 ; SetTimer 已经启动，所以我们记录按键。</span></span><br><span class="line"><span class="string">    &#123;        Alt_presses += 1        return    &#125;</span></span><br><span class="line"><span class="string">    ;否则，这是新一系列按键的首次按键。将计数设为 1 并启动定时器：</span></span><br><span class="line"><span class="string">    Alt_presses = 1</span></span><br><span class="line"><span class="string">    SetTimer, KeyAlt, 300 ;在 300 毫秒内等待更多的按键。</span></span><br><span class="line"><span class="string">    return</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    KeyAlt:</span></span><br><span class="line"><span class="string">    SetTimer, KeyAlt, off</span></span><br><span class="line"><span class="string">    if Alt_presses = 1 ;该键已按过一次。</span></span><br><span class="line"><span class="string">    &#123;        Gosub singleClick    &#125;    else if Alt_presses = 2 ;该键已按过两次。</span></span><br><span class="line"><span class="string">    &#123;    Gosub doubleClick    &#125;     ;不论上面哪个动作被触发，将计数复位以备下一系列的按键：</span></span><br><span class="line"><span class="string">    Alt_presses = 0    return</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    singleClick:</span></span><br><span class="line"><span class="string">    send &#123;alt&#125;    return</span></span><br><span class="line"><span class="string">    doubleClick:</span></span><br><span class="line"><span class="string">    if GetKeyState("Capslock", "T")</span></span><br><span class="line"><span class="string">    SetCapsLockState,off    else    SetCapsLockState,on    return     </span></span><br><span class="line"><span class="string">    ;&lt;/短时间双击alt键切换capslock键&gt;     </span></span><br><span class="line"><span class="string">    ;copy cut paste 的快捷键</span></span><br><span class="line"><span class="string">    !c::Send ^c    !x::Send ^x    !v::Send ^v</span></span><br><span class="line"><span class="string">    ;上页翻页键映射</span></span><br><span class="line"><span class="string">    !h::Send &#123;PgUp&#125;    !;::Send &#123;PgDn&#125;    </span></span><br><span class="line"><span class="string">    ;HOME END键映射</span></span><br><span class="line"><span class="string">    !u:: Send &#123;Home&#125;      ;    !o:: Send &#123;End&#125;   ;    ;Alt + jkli 实现对方向键的映射,写代码的时候灰常有用    !j:: Send &#123;left&#125;    !l:: Send &#123;right&#125;    !i:: Send &#123;up&#125;    !k:: Send &#123;down&#125;     ;Delete Backspace的映射    ;!f::Send &#123;Backspace&#125;    !d::Send &#123;Delete&#125;    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;通用键的映射;(结束);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;实用功能;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    ;win键 + PrintScreen键关闭屏幕    #PrintScreen::    KeyWait PrintScreen    KeyWait LWin ;释放左Win键才激活下面的命令    SendMessage,0x112,0xF170,2,,Program Manager ;关闭显示器。0x112:WM_SYSCOMMAND，0xF170:SC_MONITORPOWER。2：关闭，-1：开启显示器    Return     /*    ;双击鼠标右键在窗口最大化与正常状态之间切换    WinStatus:=0    RButton::        KeyWait, RButton    ;松开鼠标右键后才继续执行下面的代码        keyWait, RButton, D T0.15  ;在 100 毫秒内等待再次按下鼠标右键，可以设置一个自己觉得适合的等待时间。     If ErrorLevel            Click, Right        Else        &#123;             if WinStatus=0    &#123;         WinMaximize , A         WinStatus:=1    &#125;    else    &#123;         WinRestore ,A         WinStatus:=0    &#125;        &#125;    Return    !m::    if WinStatus=0    &#123;         WinMaximize , A         WinStatus:=1    &#125;    else    &#123;         WinRestore ,A         WinStatus:=0    &#125;    return     ;命令行cmd里可以ctrl v    #IfWinActive ahk_class ConsoleWindowClass    ^v::    MouseClick, Right, %A_CaretX%, %A_CaretY%,,0    send p    return     */    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;实用功能(结束);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;&lt;Chrome&gt;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    #IfWinActive ahk_class Chrome_WidgetWin_0    !,::Send ^+&#123;Tab&#125;    !.::Send ^&#123;Tab&#125;    !1::Send ^+&#123;Tab&#125;    !2::Send ^&#123;Tab&#125;    !n::Send ^t    !/::Send ^w    !z::Send ^+t    !-::Send ^-    !=::Send ^=     ;选择当前位置到页尾的文字,适用于浏览器    F2::    Send ^+&#123;End&#125;     ;Send ^c    return     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;&lt;资源管理器&gt;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    #IfWinActive ahk_class CabinetWClass    !f::    Run C:\Program Files\Everything\Everything.exe    return     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;&lt;Notepad&gt;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    #IfWinActive ahk_class Notepad    ;!u::Send ^&#123;Home&#125;    ;!o::Send ^&#123;End&#125;    return     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;&lt;Eclipse&gt;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    #IfWinActive,Eclipse    !.::Send ^&#123;F8&#125;    return     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;&lt;VisualStudio 2008&gt;;;;;;;;;;;;;;;;;;;;;;;;    #IfWinActive ahk_class wndclass_desked_gsk    !/::Send ^&#123;Tab&#125;    !.::Send ^+&#123;Tab&#125;    !m::Send !+&#123;Enter&#125;    return     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;&lt;ADB&gt;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;&lt;Onenote&gt;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    #IfWinActive ahk_class OfficeTooltip    !u::Send ^&#123;Home&#125;    !o::Send ^&#123;End&#125;    return</span></span><br></pre></td></tr></table></figure>
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://xiaoyureed.gitee.io">肖雨</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://xiaoyureed.gitee.io/2018/04/02/autohotkey/">https://xiaoyureed.gitee.io/2018/04/02/autohotkey/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+      <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">Reward</label>
+    <div class="qr-code"><label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/wechat.png" title="wechat">
+        </label>
+      <label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/ali.png" title="alipay">
+        </label>
+      </div>
+  </div><footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/autohotkey/">autohotkey</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2018/04/02/mvc-mvvm/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">MVC to MVVM</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2018/03/30/npm-note/">
+        <span class="next-text nav-default">Npm</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:775000738@qq.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/xiaoyureed" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="https://www.douban.com/people/xiaoyu_red/" target="_blank" rel="noopener" class="iconfont icon-douban" title="douban"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2015 - 2020<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">肖雨</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>

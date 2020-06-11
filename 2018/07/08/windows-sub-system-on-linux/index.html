@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="WSL windows-sub-system-on-linux"/><meta name="keywords" content="blog 博客 网络日志" /><link rel="alternate" href="/default" title="肖雨的网络 WiKi"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://xiaoyureed.gitee.io/2018/07/08/windows-sub-system-on-linux/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":false,"pjax":"","latex":false};
+</script>
+
+    <title>WSL windows-sub-system-on-linux - 肖雨的网络 WiKi</title>
+  <meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">肖雨的网络 WiKi</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">肖雨的网络 WiKi</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            Categories
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">WSL windows-sub-system-on-linux
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2018-07-08
+        </span><span class="post-category">
+            <a href="/categories/tool/">tool</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#命令"><span class="toc-text">命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#记录"><span class="toc-text">记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL"><span class="toc-text">MySQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vscode配合"><span class="toc-text">vscode配合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker"><span class="toc-text">docker</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#raspberry-pi-树莓派"><span class="toc-text">raspberry pi 树莓派</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#静态ip"><span class="toc-text">静态ip</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#windows-常用命令"><span class="toc-text">windows 常用命令</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><div align="center">
+try Windows subsystem on Linux ---- WSL
+</div>
+
+<a id="more"></a>
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#命令">命令</a></li>
+<li><a href="#记录">记录</a><ul>
+<li><a href="#安装">安装</a></li>
+<li><a href="#mysql">MySQL</a></li>
+<li><a href="#vscode配合">vscode配合</a></li>
+<li><a href="#docker">docker</a></li>
+</ul>
+</li>
+<li><a href="#raspberry-pi-树莓派">raspberry pi 树莓派</a><ul>
+<li><a href="#静态ip">静态ip</a></li>
+</ul>
+</li>
+<li><a href="#windows-常用命令">windows 常用命令</a></li>
+</ul>
+<!-- /TOC -->
+
+<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打开PowerShell (admin): win+x, a</span></span><br><span class="line"></span><br><span class="line">wsl -l -v <span class="comment"># 查看 wsl 版本, Linux 发行版本</span></span><br><span class="line"></span><br><span class="line">ubuntu1804.exe config --default-user root <span class="comment"># 修改默认用户</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="记录"><a href="#记录" class="headerlink" title="记录"></a>记录</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a href="https://03k.org/kms.html" target="_blank" rel="noopener">激活 Windows10 professional</a></p>
+<p>试用的是Ubuntu最新版本</p>
+<p>Ubuntu的默认root密码是随机的, 可以自己修改root密码: <code>sudo passwd</code>, 然后敲入当前用户密码, 设置新的密码, 此时密码即为root密码;<br>也有另外的方法 <code>sudo su -</code> 然后 <code>passwd</code><br>输入两遍设定密码, 此时即为 root 密码</p>
+<p>修改默认的软件包仓库数据源: <a href="https://blog.csdn.net/sunnyliqian/article/details/50179915" target="_blank" rel="noopener">https://blog.csdn.net/sunnyliqian/article/details/50179915</a></p>
+<p><a href="https://docs.microsoft.com/zh-cn/windows/wsl/wsl2-install" target="_blank" rel="noopener">升级到 wsl2</a></p>
+<p>wsl2 没有启 systemd、systemctl 等等</p>
+<h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><p>安装 MySQL : <a href="https://blog.csdn.net/weixin_39345384/article/details/80860060" target="_blank" rel="noopener">https://blog.csdn.net/weixin_39345384/article/details/80860060</a></p>
+<p>安装好后需要新建 user, 无法用root远程登陆: <a href="https://blog.csdn.net/hyl999/article/details/77777184" target="_blank" rel="noopener">https://blog.csdn.net/hyl999/article/details/77777184</a><br>连接参数: localhost, 3306, newUser, 123456</p>
+<h2 id="vscode配合"><a href="#vscode配合" class="headerlink" title="vscode配合"></a>vscode配合</h2><p>vscode 在 wsl 中打开后 无法移动文件, 重命名文件 (wsl2 已经没有这个问题了): <a href="https://code.visualstudio.com/docs/remote/wsl#_i-see-eaccess-permission-denied-error-trying-to-rename-a-folder-in-the-open-workspace" target="_blank" rel="noopener">https://code.visualstudio.com/docs/remote/wsl#_i-see-eaccess-permission-denied-error-trying-to-rename-a-folder-in-the-open-workspace</a></p>
+<h2 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h2><p><a href="https://www.cnblogs.com/dmego/p/12082013.html" target="_blank" rel="noopener">配置 wsl2 一条龙开发环境</a></p>
+<p><a href="https://blog.csdn.net/weixin_44008092/article/details/98254833" target="_blank" rel="noopener">Windows 连接 wsl2 中 docker 的 mysql 还有bug</a>, 如使用 navicat 无法连接, 使用 idea 连的时候, 需要查 wsl2 的 ip, 不能使用 localhost 连接</p>
+<h1 id="raspberry-pi-树莓派"><a href="#raspberry-pi-树莓派" class="headerlink" title="raspberry pi 树莓派"></a>raspberry pi 树莓派</h1><h2 id="静态ip"><a href="#静态ip" class="headerlink" title="静态ip"></a>静态ip</h2><p><a href="https://www.jianshu.com/p/ac9d784f112b" target="_blank" rel="noopener">https://www.jianshu.com/p/ac9d784f112b</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sudo vi &#x2F;etc&#x2F;dhcpcd.conf</span><br><span class="line"></span><br><span class="line">#重启</span><br><span class="line">sudo reboot</span><br><span class="line"></span><br><span class="line">######</span><br><span class="line"></span><br><span class="line">interface eth0</span><br><span class="line"></span><br><span class="line">static ip_address&#x3D;192.168.0.10&#x2F;24 # 静态ip</span><br><span class="line">static routers&#x3D;192.168.0.1 # 网关</span><br><span class="line">static domain_name_servers&#x3D;192.168.0.1 # dns</span><br><span class="line"></span><br><span class="line">interface wlan0 # 无线网卡</span><br><span class="line"></span><br><span class="line">static ip_address&#x3D;192.168.0.200&#x2F;24</span><br><span class="line">static routers&#x3D;192.168.0.1</span><br><span class="line">static domain_name_servers&#x3D;192.168.0.1</span><br></pre></td></tr></table></figure>
+
+<h1 id="windows-常用命令"><a href="#windows-常用命令" class="headerlink" title="windows 常用命令"></a>windows 常用命令</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># windows 查看端口占用, 查杀进程</span></span><br><span class="line">netstat -ano | findstr <span class="string">"8090"</span></span><br><span class="line">taskkill -pid xxx -f</span><br></pre></td></tr></table></figure>
+
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://xiaoyureed.gitee.io">肖雨</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://xiaoyureed.gitee.io/2018/07/08/windows-sub-system-on-linux/">https://xiaoyureed.gitee.io/2018/07/08/windows-sub-system-on-linux/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+      <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">Reward</label>
+    <div class="qr-code"><label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/wechat.png" title="wechat">
+        </label>
+      <label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/ali.png" title="alipay">
+        </label>
+      </div>
+  </div><footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/wsl/">wsl</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2018/09/10/dev-resources/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Dev Resources</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2018/07/01/effective-java-reading-note/">
+        <span class="next-text nav-default">Effective Java Reading Note</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:775000738@qq.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/xiaoyureed" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="https://www.douban.com/people/xiaoyu_red/" target="_blank" rel="noopener" class="iconfont icon-douban" title="douban"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2015 - 2020<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">肖雨</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>

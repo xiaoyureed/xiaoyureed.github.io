@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="Front End Module History"/><meta name="keywords" content="blog 博客 网络日志" /><link rel="alternate" href="/default" title="肖雨的网络 WiKi"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://xiaoyureed.gitee.io/2018/04/02/js-proj-history/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":false,"pjax":"","latex":false};
+</script>
+
+    <title>Front End Module History - 肖雨的网络 WiKi</title>
+  <meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">肖雨的网络 WiKi</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">肖雨的网络 WiKi</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            Categories
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">Front End Module History
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2018-04-02
+        </span><span class="post-category">
+            <a href="/categories/frontend/">frontend</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前端模块管理器和工具"><span class="toc-text">前端模块管理器和工具</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#npm和bower和browserify"><span class="toc-text">npm和bower和browserify</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Browserify"><span class="toc-text">Browserify</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#babel"><span class="toc-text">babel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#webpack"><span class="toc-text">webpack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gulp和grunt"><span class="toc-text">gulp和grunt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ESLint"><span class="toc-text">ESLint</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#阶段一-无模块化-CDN-Based"><span class="toc-text">阶段一:无模块化(CDN-Based)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#阶段二-CommonJS规范"><span class="toc-text">阶段二:CommonJS规范</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#阶段三-AMD规范"><span class="toc-text">阶段三:AMD规范</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#阶段四-CMD规范"><span class="toc-text">阶段四:CMD规范</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AMD和CMD区别"><span class="toc-text">AMD和CMD区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#阶段五-ES6规范中的模块化"><span class="toc-text">阶段五:ES6规范中的模块化</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><div align="center">
+[JavaScript模块化](https://zhuanlan.zhihu.com/p/32324311)的进化
+模块化七日谈: https://github.com/Huxpro/js-module-7day
+</div>
+
+<img width="30%" src="Snipaste_2018-05-26_14-53-49.png">
+
+<a id="more"></a>
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#前端模块管理器和工具">前端模块管理器和工具</a><ul>
+<li><a href="#npm和bower和browserify">npm和bower和browserify</a></li>
+<li><a href="#browserify">Browserify</a></li>
+<li><a href="#babel">babel</a></li>
+<li><a href="#webpack">webpack</a></li>
+<li><a href="#gulp和grunt">gulp和grunt</a></li>
+<li><a href="#eslint">ESLint</a></li>
+</ul>
+</li>
+<li><a href="#阶段一无模块化cdn-based">阶段一:无模块化(CDN-Based)</a></li>
+<li><a href="#阶段二commonjs规范">阶段二:CommonJS规范</a></li>
+<li><a href="#阶段三amd规范">阶段三:AMD规范</a></li>
+<li><a href="#阶段四cmd规范">阶段四:CMD规范</a></li>
+<li><a href="#amd和cmd区别">AMD和CMD区别</a></li>
+<li><a href="#阶段五es6规范中的模块化">阶段五:ES6规范中的模块化</a></li>
+</ul>
+<!-- /TOC -->
+
+<h1 id="前端模块管理器和工具"><a href="#前端模块管理器和工具" class="headerlink" title="前端模块管理器和工具"></a>前端模块管理器和工具</h1><p>Bower，Browserify, npm<br>babel</p>
+<p><a href="https://www.zhihu.com/question/37694275/answer/113609266" target="_blank" rel="noopener">https://www.zhihu.com/question/37694275/answer/113609266</a><br><a href="http://www.ruanyifeng.com/blog/2014/09/package-management.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2014/09/package-management.html</a><br><a href="https://github.com/carlleton/reactjs101/blob/zh-CN/Ch02/browserify-gulp-dev-enviroment.md" target="_blank" rel="noopener">https://github.com/carlleton/reactjs101/blob/zh-CN/Ch02/browserify-gulp-dev-enviroment.md</a></p>
+<h2 id="npm和bower和browserify"><a href="#npm和bower和browserify" class="headerlink" title="npm和bower和browserify"></a>npm和bower和browserify</h2><a href="/2018/03/30/npm-note/" title="📚 npm笔记">📚 npm笔记</a>
+
+<ul>
+<li><p>npm是Node.js 下的主流套件管理工具</p>
+</li>
+<li><p>NPM 主要是基于 CommonJS 的规范, 通常必须搭配 Browserify (见 <a href="#Browserify">Browserify</a>)这样的工具才能在前端使用 NPM 的模组</p>
+</li>
+<li><p>NPM 是基于 Nested Dependency Tree，不同的套件有可能会在引入依赖时会引入相同但不同版本的套件，造成档案大小过大的情形</p>
+</li>
+<li><p>另一个套件管理工具 Bower 和npm区别</p>
+<ul>
+<li><p>Bower的安装和升级全都依赖于NPM，使用如下命令就可以全局安装Bower : <code>npm install -g bower</code></p>
+</li>
+<li><p>bower专注在前端套件比如bootstrap，jquery等前端框架, 下载到当前目录的bower_components子目录中,当然依赖的下载目录结构可以自定义; nmp适用于后端比如express(Node.js项目的内部依赖包管理), 安装的模块位于项目根目录下的node_modules文件夹内</p>
+</li>
+<li><p>bower使用 Flat Dependency Tree（只能支持扁平的依赖（嵌套的依赖，由程序员自己解决）; npm基于 Nested Dependency Tree支持嵌套依赖</p>
+</li>
+<li><p>比如 <code>bower install jquery</code>之后, 可以在html中这么使用: (其他方面和npm非常类似)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"bower_components/jquery/jquery.min.js"</span>&gt;&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Browserify"><a href="#Browserify" class="headerlink" title="Browserify"></a>Browserify</h2><p><a href="https://www.ibm.com/developerworks/cn/web/1501_chengfu_browserify/index.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/web/1501_chengfu_browserify/index.html</a></p>
+<ul>
+<li><p>Browserify: Browserify本身不是模块管理器，只是让服务器端的CommonJS格式(使用require(…))的模块可以运行在浏览器端(将require语法编译为普通js, 接着在html中引入)。这意味着通过它，我们可以使用Node.js的npm模块管理器。所以，实际上，它等于间接为浏览器提供了npm的功能</p>
+</li>
+<li><p>前后端可以使用一致的模块管理方式</p>
+</li>
+</ul>
+<blockquote>
+<p>如同官网上说明的：Browserify lets you require(‘modules’) in the browser by bundling up all of your dependencies.，Browserify 是一个可以让你在浏览器端也能使用像 Node 用的 CommonJS 规范一样，用输出（export）和引用（require）来管理模组。此外，也能让前端使用许多在 NPM 中的模组。</p>
+</blockquote>
+<h2 id="babel"><a href="#babel" class="headerlink" title="babel"></a>babel</h2><p>ref: <a href="http://www.ruanyifeng.com/blog/2016/01/babel.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/01/babel.html</a></p>
+<ul>
+<li>Babel: 将ES6+ 、JSX 等换成浏览器可以看得懂的语法。通常会在 root 位置加入 .babelrc 进行转译规则 preset 和引用插件（plugin）的设定。</li>
+</ul>
+<blockquote>
+<p>babellify 这个是 babel 为 browserify 提供的, babellify 类似 babel-loader 是一个使用 Browserify 进行 Babel 转换的插件</p>
+</blockquote>
+<h2 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h2><a href="/2018/06/28/webpack-note/" title="🚪 webpack笔记">🚪 webpack笔记</a>
+
+<h2 id="gulp和grunt"><a href="#gulp和grunt" class="headerlink" title="gulp和grunt"></a>gulp和grunt</h2><p>👉 更新: 发现更好的替代品——npm srcipts(<a href="http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html</a>)</p>
+<p>Gulp 是一个前端任务工具自动化管理工具（Task Runner）, 同类: Grunt( Gulp 是通过 pipeline (编码🐎)方式来处理档案，在使用上比起 Grunt 的方式直观许多)</p>
+<p>类似 java 中的 编译(.java –&gt; .class)</p>
+<blockquote>
+<p>开发前端应用程式时有许多工作是必须重复进行，例如：打包文件、uglify、将 LESS 转译成一般的 CSS 的档案，转译 ES6 语法等工作。若是使用一般手动的方式，往往会造成效率的低下，所以透过像是 Grunt、Gulp 这类的 Task Runner 不但可以提升效率，也可以更方便管理这些任务。</p>
+</blockquote>
+<h2 id="ESLint"><a href="#ESLint" class="headerlink" title="ESLint"></a>ESLint</h2><p>提供 JavaScript 和 JSX 的程式码检查, 根据需求在 .eslintrc 设定检查规则(常用 <a href="https://github.com/airbnb/javascript/tree/master/react" target="_blank" rel="noopener"> Airbnb React/JSX Style Guide</a>)</p>
+<h1 id="阶段一-无模块化-CDN-Based"><a href="#阶段一-无模块化-CDN-Based" class="headerlink" title="阶段一:无模块化(CDN-Based)"></a>阶段一:无模块化(CDN-Based)</h1><p>也就是最传统的 <code>&lt;script&gt;</code> 引入方式, 最开始的js都处在一个script标签中, 进一步发展为提出单独js文件, 使用时候引入, 类似:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">缺点:</span></span><br><span class="line"><span class="comment">    1. 污染全局作用域. 因为每一个模块都是暴露在全局的，简单的使用，会导致全局变量命名冲突，当然，我们也可以使用命名空间的方式来解决, 典型的例子如 YUI 库</span></span><br><span class="line"><span class="comment">    2. 依赖关系不明显，不利于维护(即引入顺序不能变). 比如main.js需要使用jquery，但是，从上面的文件中，我们是看不出来的，如果jquery忘记了，那么就会报错</span></span><br><span class="line"><span class="comment"> --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery_scroller.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"main.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"other1.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"other2.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"other3.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="阶段二-CommonJS规范"><a href="#阶段二-CommonJS规范" class="headerlink" title="阶段二:CommonJS规范"></a>阶段二:CommonJS规范</h1><ul>
+<li><p>CommonJS就是一个JavaScript模块化的规范，该规范最初是用在服务器端的node的(npm基于commonjs)，前端的webpack也是对CommonJS原生支持的</p>
+</li>
+<li><p>CommonJS规范加载模块是同步的，也就是说，只有加载完成，才能执行后面的操作</p>
+</li>
+<li><p>CommonJS的核心思想就是通过 require 方法来同步加载所要依赖的其他模块，然后通过 exports 或者 module.exports 来导出需要暴露的接口</p>
+</li>
+<li><p>缺点: 只适合服务器端,不适用于浏览器端(由于 CommonJS 是同步加载模块的, 在服务器端，文件都是保存在硬盘上，所以同步加载没有问题，但是对于浏览器端，需要将文件从服务器端请求过来，那么同步加载就不适用了，所以，CommonJS是不适用于浏览器端的。)</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">var</span> x = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">var</span> addX = <span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> value + x;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">module</span>.exports.x = x;<span class="comment">// module就代表了这个模块</span></span><br><span class="line"><span class="built_in">module</span>.exports.addX = addX;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">使用</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a.js'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(a.x); <span class="comment">// 5</span></span><br><span class="line"><span class="built_in">console</span>.log(a.addX(<span class="number">1</span>)); <span class="comment">// 6</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="阶段三-AMD规范"><a href="#阶段三-AMD规范" class="headerlink" title="阶段三:AMD规范"></a>阶段三:AMD规范</h1><ul>
+<li><p>AMD规范则是非同步加载模块，允许指定回调函数. 因此浏览器端一般采用AMD规范。而AMD规范的实现，就是大名鼎鼎的<code>require.js</code>了。</p>
+</li>
+<li><p>优点: 适合在浏览器环境中异步加载模块。可以并行加载多个模块。</p>
+</li>
+<li><p>缺点:　提高了开发成本，并且不能按需加载，而是必须提前加载所有的依赖</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">amd规范定义了两个api</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  1.require([module], callback)</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">   2. define(id, [depends], callback)</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">define(<span class="string">'alert'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> alertName = <span class="function"><span class="keyword">function</span> (<span class="params">str</span>) </span>&#123;</span><br><span class="line">      alert(<span class="string">"I am "</span> + str);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> alertAge = <span class="function"><span class="keyword">function</span> (<span class="params">num</span>) </span>&#123;</span><br><span class="line">      alert(<span class="string">"I am "</span> + num + <span class="string">" years old"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      alertName: alertName,</span><br><span class="line">      alertAge: alertAge</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">require</span>([<span class="string">'alert'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">alert</span>) </span>&#123;</span><br><span class="line">  alert.alertName(<span class="string">'JohnZhu'</span>);</span><br><span class="line">  alert.alertAge(<span class="number">21</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h1 id="阶段四-CMD规范"><a href="#阶段四-CMD规范" class="headerlink" title="阶段四:CMD规范"></a>阶段四:CMD规范</h1><ul>
+<li><p>实现js库为<code>sea.js</code></p>
+</li>
+<li><p>它和requirejs(AMD)非常类似，即一个js文件就是一个模块, 但是CMD的加载方式更加优秀，是通过<code>按需加载</code>的方式，而不是必须在模块开始就加载所有的依赖</p>
+</li>
+<li><p>优点: 可以按需加载，依赖就近。比amd简洁，却又保持和 CommonJS 的兼容性</p>
+</li>
+<li><p>缺点: 依赖SPM打包，模块的加载逻辑偏重</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">require, exports, module</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> $ = <span class="built_in">require</span>(<span class="string">'jquery'</span>);</span><br><span class="line">  <span class="keyword">var</span> Spinning = <span class="built_in">require</span>(<span class="string">'./spinning'</span>);</span><br><span class="line">  exports.doSomething = ...</span><br><span class="line">  <span class="built_in">module</span>.exports = ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="AMD和CMD区别"><a href="#AMD和CMD区别" class="headerlink" title="AMD和CMD区别"></a>AMD和CMD区别</h1><p>AMD: 对于依赖的模块提前执行; 推崇依赖前置</p>
+<p>CMD: 对于依赖的模块延迟执行; 推崇依赖就近(在需要用到某个模块的时候再require)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// AMD</span></span><br><span class="line">define([<span class="string">'./a'</span>, <span class="string">'./b'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;  <span class="comment">// 依赖必须一开始就写好  </span></span><br><span class="line">   a.doSomething()    </span><br><span class="line">   <span class="comment">// 此处略去 100 行    </span></span><br><span class="line">   b.doSomething()    </span><br><span class="line">   ...</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// CMD</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">require, exports, module</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>)   </span><br><span class="line">   a.doSomething()   </span><br><span class="line">   <span class="comment">// 此处略去 100 行   </span></span><br><span class="line">   <span class="keyword">var</span> b = <span class="built_in">require</span>(<span class="string">'./b'</span>) </span><br><span class="line">   <span class="comment">// 依赖可以就近书写   </span></span><br><span class="line">   b.doSomething()</span><br><span class="line">   <span class="comment">// ... </span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>UMD: 为了要兼容 CommonJS 和 AMD 所设计的规范，希望让模组能跨平台执行</p>
+</blockquote>
+<h1 id="阶段五-ES6规范中的模块化"><a href="#阶段五-ES6规范中的模块化" class="headerlink" title="阶段五:ES6规范中的模块化"></a>阶段五:ES6规范中的模块化</h1><ul>
+<li><p>之前的几种模块化方案都是前端社区自己实现的, 而ES6的模块化方案是真正的规范;</p>
+</li>
+<li><p>在ES6中，我们可以使用 import 关键字引入模块，通过 export 关键字导出模块</p>
+</li>
+<li><p>但是由于ES6目前无法在浏览器中执行，所以，我们只能通过babel将不被支持的import编译为当前受到广泛支持的 require。</p>
+</li>
+<li><p>ES6 模块的设计思想，是尽量的静态化，使得编译时就能确定模块的依赖关系，以及输入和输出的变量。CommonJS 和 AMD 模块，都只能在运行时确定这些东西。所以容易进行静态分析.</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'../store/index'</span></span><br><span class="line"><span class="keyword">import</span> &#123;mapState, mapMutations, mapActions&#125; <span class="keyword">from</span> <span class="string">'vuex'</span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'../assets/js/request'</span></span><br><span class="line"><span class="keyword">import</span> util <span class="keyword">from</span> <span class="string">'../utils/js/util.js'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    created () &#123;</span><br><span class="line">        <span class="keyword">this</span>.getClassify(); </span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.RESET_VALUE();</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'created'</span> ,<span class="keyword">new</span> <span class="built_in">Date</span>().getTime());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://xiaoyureed.gitee.io">肖雨</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://xiaoyureed.gitee.io/2018/04/02/js-proj-history/">https://xiaoyureed.gitee.io/2018/04/02/js-proj-history/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+      <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">Reward</label>
+    <div class="qr-code"><label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/wechat.png" title="wechat">
+        </label>
+      <label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/ali.png" title="alipay">
+        </label>
+      </div>
+  </div><footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/history/">history</a>
+            <a href="/tags/module/">module</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2018/05/02/springcloud-note/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Spring Cloud</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2018/04/02/mvc-mvvm/">
+        <span class="next-text nav-default">MVC to MVVM</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:775000738@qq.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/xiaoyureed" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="https://www.douban.com/people/xiaoyu_red/" target="_blank" rel="noopener" class="iconfont icon-douban" title="douban"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2015 - 2020<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">肖雨</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>

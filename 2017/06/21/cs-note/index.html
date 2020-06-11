@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="Computer Science"/><meta name="keywords" content="blog 博客 网络日志" /><link rel="alternate" href="/default" title="肖雨的网络 WiKi"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://xiaoyureed.gitee.io/2017/06/21/cs-note/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":false,"pjax":"","latex":false};
+</script>
+
+    <title>Computer Science - 肖雨的网络 WiKi</title>
+  <meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">肖雨的网络 WiKi</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">肖雨的网络 WiKi</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            Categories
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">Computer Science
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-06-21
+        </span><span class="post-category">
+            <a href="/categories/computer-science/">computer science</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#早期计算机early-computing"><span class="toc-text">早期计算机early computing</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#电子计算机electronic-computing"><span class="toc-text">电子计算机electronic computing</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#布尔逻辑和逻辑门Boolean-logic-amp-logic-gates"><span class="toc-text">布尔逻辑和逻辑门Boolean logic &amp; logic gates</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二进制"><span class="toc-text">二进制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#算术逻辑单元ALU"><span class="toc-text">算术逻辑单元ALU</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#寄存器-amp-内存-Registers-amp-RAM"><span class="toc-text">寄存器&amp;内存 Registers&amp;RAM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#the-CPU"><span class="toc-text">the CPU</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#编程语言发展史"><span class="toc-text">编程语言发展史</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#语句-amp-函数-statement-amp-function"><span class="toc-text">语句&amp;函数(statement&amp;function)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#算法和数据结构"><span class="toc-text">算法和数据结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#操作系统-Operation-System"><span class="toc-text">操作系统(Operation System)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#冯·诺依曼体系结构"><span class="toc-text">冯·诺依曼体系结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据的二进制表示"><span class="toc-text">数据的二进制表示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统调用"><span class="toc-text">系统调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#并发"><span class="toc-text">并发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多任务"><span class="toc-text">多任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程"><span class="toc-text">进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#信号量"><span class="toc-text">信号量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存管理-amp-存储-memory-amp-storage"><span class="toc-text">内存管理&amp;存储(memory&amp;storage)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#程序可执行文件在内存中的结构"><span class="toc-text">程序可执行文件在内存中的结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#data-和-bss-区"><span class="toc-text">data 和 bss 区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#stack-栈"><span class="toc-text">stack-栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#heap-堆"><span class="toc-text">heap-堆</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#磁盘调度算法"><span class="toc-text">磁盘调度算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件系统-file-system"><span class="toc-text">文件系统(file system)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#计算机网络"><span class="toc-text">计算机网络</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#编译原理"><span class="toc-text">编译原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#各种编码"><span class="toc-text">各种编码</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><div align="center">
+Computer Science
+</div>
+
+<a id="more"></a>
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#早期计算机early-computing">早期计算机early computing</a></li>
+<li><a href="#电子计算机electronic-computing">电子计算机electronic computing</a></li>
+<li><a href="#布尔逻辑和逻辑门boolean-logic--logic-gates">布尔逻辑和逻辑门Boolean logic &amp; logic gates</a></li>
+<li><a href="#二进制">二进制</a></li>
+<li><a href="#算术逻辑单元alu">算术逻辑单元ALU</a></li>
+<li><a href="#寄存器内存-registersram">寄存器&amp;内存 Registers&amp;RAM</a></li>
+<li><a href="#the-cpu">the CPU</a></li>
+<li><a href="#编程语言发展史">编程语言发展史</a></li>
+<li><a href="#语句函数statementfunction">语句&amp;函数(statement&amp;function)</a></li>
+<li><a href="#算法和数据结构">算法和数据结构</a></li>
+<li><a href="#操作系统operation-system">操作系统(Operation System)</a><ul>
+<li><a href="#冯·诺依曼体系结构">冯·诺依曼体系结构</a></li>
+<li><a href="#数据的二进制表示">数据的二进制表示</a></li>
+<li><a href="#系统调用">系统调用</a></li>
+<li><a href="#并发">并发</a><ul>
+<li><a href="#多任务">多任务</a></li>
+<li><a href="#进程">进程</a></li>
+<li><a href="#信号量">信号量</a></li>
+</ul>
+</li>
+<li><a href="#内存管理存储memorystorage">内存管理&amp;存储(memory&amp;storage)</a><ul>
+<li><a href="#程序可执行文件在内存中的结构">程序可执行文件在内存中的结构</a><ul>
+<li><a href="#data-和-bss-区">data 和 bss 区</a></li>
+<li><a href="#stack-栈">stack-栈</a></li>
+<li><a href="#heap-堆">heap-堆</a></li>
+</ul>
+</li>
+<li><a href="#磁盘调度算法">磁盘调度算法</a></li>
+</ul>
+</li>
+<li><a href="#文件系统file-system">文件系统(file system)</a></li>
+</ul>
+</li>
+<li><a href="#计算机网络">计算机网络</a></li>
+<li><a href="#编译原理">编译原理</a></li>
+<li><a href="#各种编码">各种编码</a></li>
+</ul>
+<!-- /TOC -->
+
+<h1 id="早期计算机early-computing"><a href="#早期计算机early-computing" class="headerlink" title="早期计算机early computing"></a>早期计算机early computing</h1><ul>
+<li><p>最早 算盘</p>
+</li>
+<li><p>最早服务于战争(计算弹道), 然后 人口普查, 只是用于特定用途, 并不是”general goal Computer”</p>
+</li>
+<li><p>第一位程序员: Ada Lovelace</p>
+</li>
+</ul>
+<h1 id="电子计算机electronic-computing"><a href="#电子计算机electronic-computing" class="headerlink" title="电子计算机electronic computing"></a>电子计算机electronic computing</h1><ul>
+<li>机械继电器(relay), 翻转速度慢, 磨损 bug由来—-&gt;&gt; 代替: 三极真空管, 易碎 —–&gt;&gt; 替代: 晶体管(固体, 小), 材料: 硅, 硅谷</li>
+</ul>
+<h1 id="布尔逻辑和逻辑门Boolean-logic-amp-logic-gates"><a href="#布尔逻辑和逻辑门Boolean-logic-amp-logic-gates" class="headerlink" title="布尔逻辑和逻辑门Boolean logic &amp; logic gates"></a>布尔逻辑和逻辑门Boolean logic &amp; logic gates</h1><p>二进制(晶体管可表示两种状态, 事实上可以有更多状态, 但是容易受环境干扰, 二进制最容易区分信号)</p>
+<p>一个晶体管类似这样: (最简逻辑门单元)</p>
+<p><img src="Snipaste_2018-07-15_13-08-45.png" alt="alt"></p>
+<ul>
+<li><p>NOT gate 接地</p>
+<p><img src="Snipaste_2018-07-15_13-16-42.png" alt="alt"></p>
+</li>
+<li><p>AND gate 串联</p>
+<p><img src="Snipaste_2018-07-15_13-23-06.png" alt="alt"></p>
+</li>
+<li><p>OR gate 并联</p>
+<p><img src="Snipaste_2018-07-15_13-33-47.png" alt="alt"></p>
+</li>
+<li><p>XOR gate inputA和inputB必须不同, output才为true</p>
+<p><img src="Snipaste_2018-07-15_13-38-10.png" alt="alt"></p>
+</li>
+</ul>
+<h1 id="二进制"><a href="#二进制" class="headerlink" title="二进制"></a>二进制</h1><p>表示数字, 表示文字(英语, 其他国家字符, emoji)</p>
+<p>8bit, 32bit, 64bit</p>
+<p>8bit = 1Byte</p>
+<h1 id="算术逻辑单元ALU"><a href="#算术逻辑单元ALU" class="headerlink" title="算术逻辑单元ALU"></a>算术逻辑单元ALU</h1><p>alu: 负责运算(加减乘除…)</p>
+<p>2个单元: 算术单元, 逻辑单元</p>
+<p>先看算术单元(负责数字操作, 比如加减操作, +1操作): 半加器, 全加器</p>
+<ul>
+<li><p>半加器(最简单的加法电路): 适合1+1的计算(即2个bit相加, bit为 0 or 1)</p>
+<p><img src="Snipaste_2018-07-17_18-24-31.png" alt="alt"></p>
+<p>进一步抽象: </p>
+<p><img src="Snipaste_2018-07-15_15-28-30.png" alt="alt"></p>
+</li>
+<li><p>全加器: 超过1+1的计算需要 full adder</p>
+<p>全加器的表格:</p>
+<p><img src="Snipaste_2018-07-17_18-26-23.png" alt="alt"></p>
+<p>简图:</p>
+<p><img src="Snipaste_2018-07-15_16-29-52.png" alt="alt"></p>
+<p>现在, 可以计算8bit的加法了: 8bit full adder, A, B表示两个数字, A0, B0表示8bit中的第一个bit</p>
+<p><img src="Snipaste_2018-07-15_16-31-23.png" alt="alt"></p>
+<p>如果最后一个全加器还有carry bit(即还有carry7存在, 为1), 会溢出(overflow), 表示相加的结果超过8bit了, 比如8bit的吃豆人游戏, 当玩到了256关(8bit最高可表示数字255), 画面会出现乱码bug, (而这个乱码界面也表示了你是个吃豆人高水平玩家😀)</p>
+<p>要避免overflow, 可以拓展full adder, 使得可以操作16bit or 32bit的数字, 代价是增加更多的logic gate, 而且每次进位(产生 carry bit)都会花费实践</p>
+</li>
+</ul>
+<p>简单的alu 没有乘除法的计算操作, 都是通过加减法来变相实现乘除法, 可以实现, 但是耗时, 适用于遥控器, 冰箱, 空调等等; 但是电脑, 手机就不行了, 需要专门的乘除法alu</p>
+<p>再看看逻辑单元: 执行逻辑操作( and, not, or, xor))</p>
+<p>现在, 可以对 alu 做一个抽象: (就像抽象出了一个逻辑门)):</p>
+<p><img src="Snipaste_2018-07-15_16-50-00.png" alt="alt"></p>
+<h1 id="寄存器-amp-内存-Registers-amp-RAM"><a href="#寄存器-amp-内存-Registers-amp-RAM" class="headerlink" title="寄存器&amp;内存 Registers&amp;RAM"></a>寄存器&amp;内存 Registers&amp;RAM</h1><p>存储 + alu –&gt; cpu</p>
+<p>存储 1 和 0 的电路:</p>
+<p><img src="Snipaste_2018-07-17_19-19-33.png" alt="alt"></p>
+<p>可以存贮 1 bit 的电路: —–锁存器(latch)</p>
+<p><img src="Snipaste_2018-07-17_19-23-37.png" alt="alt"></p>
+<p>并排排列多个锁存器, 就可以存储多位, 比如并排 8 个 latch 可以存储8bit数据(eg: 一个 8bit 的数字), 一组(8个, 16个, 32个, 64个)这样的latch —–&gt; 寄存器(register), 可以存一个数字, 数字有几位就是有多少个latch(叫做”位宽”)</p>
+<p>但是这种解决方案耗费线材——–可以矩阵排列以节省线材</p>
+<p>register继续增大, 存储256位: 16*16 (256 bit) 的锁存器组成的矩阵————–RAM</p>
+<p>要启用某个锁存器, 打开相应的 行线 和 列线; 所以存储 1 bit, 需要知道行列号(最多16行/列, 所以行列号需要 4 bit 就够了), ——&gt; 多路复用器(multiplexer), 两个, 一个处理行, 一个处理列, 专门用于解码8位地址定位到单个latch</p>
+<p>现在线材只需要 16(行)+16(列)+1(数据线)+1(允许写入)+1(允许读取) = 35根</p>
+<p>256bit内存抽象图:</p>
+<p><img src="Snipaste_2018-07-17_19-46-53.png" alt="alt"></p>
+<p>8个256内存并排: ——–&gt; 可寻址的256byte内存</p>
+<p><img src="Snipaste_2018-07-17_19-50-33.png" alt="alt"></p>
+<p>存储时候, 赋值给每个256bit内存块”一样的地址”, 可以赋值256次(256个不同的地址, 每个地址可以存储一个8bit的值), 也就是说可以存储256byte(字节)</p>
+<p>内存地址: 8bit(4bit给行号, 4bit给列号)最多只能指定256个地址(1111 1111是255, 0~255共256个内存地址)</p>
+<h1 id="the-CPU"><a href="#the-CPU" class="headerlink" title="the CPU"></a>the CPU</h1><p>ram + register + alu ——&gt; cpu(取指令-解释-执行)</p>
+<p>程序就是一个个指令(instruction), eg: 数学指令(加减, cpu调用alu), 内存指令(cpu和内存通信, 读写值)</p>
+<p>时钟: 控制”取指令-解释-执行”的进行, 这3个阶段为一个周期, 一个周期的的速度就是”时钟速度(clock speed)”, 单位Hz(1Hz—&gt; 1s 一个周期; “超频” 修改clock speed)</p>
+<p>cpu 微结构示意图:</p>
+<p><img src="Snipaste_2018-07-17_21-01-30.png" alt="alt"></p>
+<p>instruction 和 program 步步分析</p>
+<p>处理器生产商: amd, arm, intel; 一般我们的 x64 就是指的 amd 生产的 64位处理器</p>
+<h1 id="编程语言发展史"><a href="#编程语言发展史" class="headerlink" title="编程语言发展史"></a>编程语言发展史</h1><p>reference: <a href="https://zhuanlan.zhihu.com/p/20887949" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/20887949</a></p>
+<ul>
+<li><p>C# - Windows平台 的应用, 企业应用, 软件开发; 著名的 SOS 就是 C# 写就</p>
+<ul>
+<li><p>基于 C , 因此 c# 的结构可以可以转移至 C++, Java, Object-C , PHP</p>
+</li>
+<li><p>全面集成 .Net 库, 强大的同时, 丢失了跨平台性 (不过现在也在逐渐拥抱开源)</p>
+</li>
+</ul>
+</li>
+<li><p>C - 操作系统, 硬件/驱动; 如Linux, Kindle</p>
+<ul>
+<li><p>体型小, 可移植性好, 可被嵌入几乎一切处理器中, 可以运行在冰箱, 闹钟…中</p>
+</li>
+<li><p>现代编程语言的始祖, 或多或少都有借鉴</p>
+</li>
+<li><p>不具备 “运行时检查” 机制</p>
+</li>
+<li><p>不支持 OOP , 因此 c++ 才会诞生</p>
+</li>
+</ul>
+</li>
+<li><p>C++  - 操作系统, 搜索引擎, 视频游戏; 如Google搜索, outlook</p>
+<ul>
+<li><p>灵活自由, 操作内存/指针. 对于新手会是灾难</p>
+</li>
+<li><p>对于于 C, 升级出了 OOP.</p>
+</li>
+</ul>
+</li>
+<li><p>Java - 视频游戏, Android; 如 mineCraft</p>
+<ul>
+<li><p>Android app 开发的基石</p>
+</li>
+<li><p>占用大量内存, 开发时无需手都管理内存(GC)</p>
+</li>
+<li><p>spring framework, mybatis, springboot, springcloud</p>
+</li>
+</ul>
+</li>
+<li><p>Go - 网络编程语言</p>
+<ul>
+<li><p>完整的开发工具链(命令)</p>
+</li>
+<li><p>部署简单</p>
+</li>
+<li><p>native http 库, 内建的模板引擎</p>
+</li>
+<li><p>优秀的并发模型(无需关心 锁)</p>
+</li>
+</ul>
+</li>
+<li><p>JavaScript - 网站, 分析, web交互</p>
+<ul>
+<li><p>脚本语言</p>
+</li>
+<li><p>V8 引擎</p>
+</li>
+<li><p>nodejs 前后通吃</p>
+</li>
+<li><p>React, Vue 各种框架</p>
+</li>
+<li><p>需要适配不同客户端/浏览器</p>
+</li>
+</ul>
+</li>
+<li><p>PHP - wordpress 插件, 快速的 web开发, 包含数据库功能的页面; wordpress, 早期的Facebook</p>
+<ul>
+<li><p>脚本语言</p>
+</li>
+<li><p>社区庞大</p>
+</li>
+<li><p>速度快</p>
+</li>
+<li><p>糟糕的错误处理机制</p>
+</li>
+</ul>
+</li>
+<li><p>python - web开发, 视频游戏, 物联网, 机器学习, 爬虫; 如 YouTube, Instagram</p>
+<ul>
+<li><p>丰富的工具库</p>
+</li>
+<li><p>脚本语言</p>
+</li>
+</ul>
+</li>
+<li><p>ruby - web开发; 如 airbnb</p>
+<ul>
+<li><p>脚本语言</p>
+</li>
+<li><p>ruby on rails框架</p>
+</li>
+<li><p>广泛的库, 社区强大</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="语句-amp-函数-statement-amp-function"><a href="#语句-amp-函数-statement-amp-function" class="headerlink" title="语句&amp;函数(statement&amp;function)"></a>语句&amp;函数(statement&amp;function)</h1><p>变量, 赋值语句, 条件控制语句, 循环</p>
+<p>对多个statement打包 —&gt; function</p>
+<p>参见yinwang：<a href="http://www.yinwang.org/blog-cn/2017/07/06/master-pl" target="_blank" rel="noopener">http://www.yinwang.org/blog-cn/2017/07/06/master-pl</a> 重视语言特性而不是语言</p>
+<p>语言特性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">变量定义</span><br><span class="line">算术运算</span><br><span class="line">for 循环语句，while 循环语句</span><br><span class="line">函数定义，函数调用</span><br><span class="line">递归</span><br><span class="line">静态类型系统</span><br><span class="line">类型推导</span><br><span class="line">lambda 函数</span><br><span class="line">面向对象</span><br><span class="line">垃圾回收</span><br><span class="line">指针算术</span><br><span class="line">goto 语句</span><br></pre></td></tr></table></figure>
+
+<h1 id="算法和数据结构"><a href="#算法和数据结构" class="headerlink" title="算法和数据结构"></a>算法和数据结构</h1><p>check here: <a href="/2018/11/25/data-structure-and-algorithm/" title="📚 数据结构和算法">📚 数据结构和算法</a></p>
+<h1 id="操作系统-Operation-System"><a href="#操作系统-Operation-System" class="headerlink" title="操作系统(Operation System)"></a>操作系统(Operation System)</h1><p><img src="Snipaste_2018-08-09_19-15-41.png" alt="alt"></p>
+<p>批处理(batch processing)</p>
+<p>计算机变得便宜变多, 有不同的配置, 写程序处理不同的硬件细节很痛苦, 操作系统出现 ==&gt; 用来抽象硬件细节(操作系统提供api来操作硬件, 叫”硬件驱动程序”)</p>
+<h2 id="冯·诺依曼体系结构"><a href="#冯·诺依曼体系结构" class="headerlink" title="冯·诺依曼体系结构"></a>冯·诺依曼体系结构</h2><p>计算机硬件由运算器、控制器、存储器、输入设备和输出设备五大部分组成</p>
+<h2 id="数据的二进制表示"><a href="#数据的二进制表示" class="headerlink" title="数据的二进制表示"></a>数据的二进制表示</h2><ul>
+<li><p>机器数 – 真实数据在机器中的二进制表示, 用最高位0表示正、1表示负, 这是对于 “有符号机器数”. “无符号机器数” 没有符号位</p>
+</li>
+<li><p>真值 – 用正负号表示的数称为“真值”</p>
+</li>
+<li><p>编码 – 真值表示成二进制字串的机器数的过程就称为编码</p>
+</li>
+<li><p><code>原码</code>– 符号位+真值的绝对值, 是否就是真值?存疑</p>
+<p>8bit 二进制数据表示范围:  正负2^7-1=127 (第一位位符号位)</p>
+</li>
+<li><p><code>反码</code> - 正数反码是自身, 不变; 负数反码是 : 符号位不变, 其余各个位取反</p>
+</li>
+<li><p><code>补码</code> - 正数的补码就是自身, 不变; 负数的补码, 符号位不变, 其余各个位取反, 最后 +1</p>
+</li>
+<li><p>定点数与浮点数</p>
+<ul>
+<li><p>定点数是小数点固定的数 - 在计算机中没有专门表示小数点的位，小数点的位置是约定默认的。一般固定在机器数的最低位之后，或是固定在符号位之后;</p>
+<p>定点数表示法简单直观，但是数值表示的范围太小，运算时容易产生溢出。</p>
+</li>
+<li><p>浮点数是小数点的位置可以变动的数 - 为增大数值表示范围，防止溢出，采用浮点数表示法。浮点表示法类似于十进制中的科学计数法。</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[+1] &#x3D; [00000001]原 &#x3D; [00000001]反 &#x3D; [00000001]补</span><br><span class="line"></span><br><span class="line">[-1] &#x3D; [10000001]原 &#x3D; [11111110]反 &#x3D; [11111111]补</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>位：”位(bit)”是电子计算机中最小的数据单位。每一位的状态只能是0或1。计算机进行数据处理和运算的单位为 32bit or 64bit</p>
+</li>
+<li><p>字节：8个二进制位构成1个”字节(Byte)”，它是<code>存储空间的基本计量单位</code>。1个字节可以储存1个英文字母或者半个汉字，换句话说，1个汉字占据2个字节的存储空间。</p>
+</li>
+<li><p>字节对齐</p>
+</li>
+</ul>
+<h2 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h2><p>进程的执行在系统上的两个级别：用户级和核心级，也称为用户态和系统态(user mode and kernel mode)。</p>
+<p>程序的执行一般是在<code>用户态</code>下执行的，但当程序需要使用操作系统提供的服务时，比如说打开某一设备、创建文件、读写文件等，就需要向操作系统发出调用服务的请求，这就是<code>系统调用</code>, 当进程发出系统调用之后，它所处的运行状态就会<code>由用户态变成核心态</code>, 但这个时候，进程本身其实并没有做什么事情，这个时候是由内核在做相应的操作</p>
+<p>用户态, 系统态区别:</p>
+<ul>
+<li>用户态的进程能存取它们自己的指令和数据，但不能存取内核指令和数据（或其他进程的指令和数据）。然而，核心态下的进程能够存取内核和用户地址</li>
+<li>某些机器指令是特权指令，在用户态下执行特权指令会引起错误</li>
+</ul>
+<h2 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h2><p>check here: <a href="/2018/09/22/java-concurrent/" title="📚 java-concurrent">📚 java-concurrent</a></p>
+<h3 id="多任务"><a href="#多任务" class="headerlink" title="多任务"></a>多任务</h3><p>问题: 如果让 CPU 只能运行一个程序，那么当 CPU 空闲下来（例如等待 I/O 时），CPU 就空闲下来了</p>
+<p>改进: 使得每个程序运行一段时间之后，都主动让出 CPU 资源，这样每个程序在一段时间内都有机会运行一小段时间 —– 这种程序协作方式 -&gt; 分时系统（Time-Sharing System）</p>
+<p>但是又有问题: 一个程序出错会影响整个系统</p>
+<p>改进: 操作系统从最底层接管了所有硬件资源。所有的应用程序在操作系统之上以 进程（Process） 的方式运行，每个进程都有自己独立的地址空间，相互隔离; CPU 由操作系统统一进行分配。每个进程都有机会得到 CPU. 如果一个进程运行超过了一定时间，就会被暂停掉，失去 CPU 资源。这样就避免了一个程序的错误导致整个系统死机 ———这种方式 -&gt; 多任务（Multi-tasking）系统</p>
+<h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><p>就是一个执行中的程序, 有自己的内存区域, 资源.</p>
+<p>进程的基本状态:</p>
+<ul>
+<li>等待态：等待某个事件的完成；</li>
+<li>就绪态：等待系统分配处理器以便运行；</li>
+<li>运行态：占有处理器正在运行</li>
+</ul>
+<h3 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h3><p>信号量是一个确定的二元组（s，q）</p>
+<ul>
+<li><p>s是一个具有非负初值的整形变量, 表示系统中某类资源的数目</p>
+<p>当其值 ≥ 0 时，表示系统中当前可用资源的数目</p>
+<p>当其值 &lt; 0 时，其绝对值表示系统中因请求该类资源而被阻塞的进程数目</p>
+</li>
+<li><p>q是一个初始状态为空的队列</p>
+</li>
+</ul>
+<p>过程: 类似 生产者 − 消费者 模式</p>
+<ul>
+<li>有一个进程执行 A(semaphore) 操作, semaphore 表示信号量 (s, q),这个操作会使得 资源数量 -1. 如果s &gt;= 0, A 顺利执行; 如果 s &lt; 0, 进程阻塞, 同时被加入 等待队列q; </li>
+<li>有一个进程执行 B(semaphore) 操作, …………………….., 这个操作会使得资源数量 +1, 如果 s &gt;= 0, 则进程继续执行, 如果 s &lt; 0, 则处理往下执行外还会有额外操作: 从 等待队列q 中取出第一个被阻塞的进程, 使其变为 “就绪状态”.</li>
+</ul>
+<p>相当于一个升级版的 锁, 普通锁同一时刻只允许一个  thread 进入 某个资源, 信号量同一时刻允许多个 thread 进入 某个资源</p>
+<h2 id="内存管理-amp-存储-memory-amp-storage"><a href="#内存管理-amp-存储-memory-amp-storage" class="headerlink" title="内存管理&amp;存储(memory&amp;storage)"></a>内存管理&amp;存储(memory&amp;storage)</h2><h3 id="程序可执行文件在内存中的结构"><a href="#程序可执行文件在内存中的结构" class="headerlink" title="程序可执行文件在内存中的结构"></a>程序可执行文件在内存中的结构</h3><p>一个程序的可执行文件在内存中的结果，可以分为两个部分：只读部分和可读写部分。只读部分包括程序代码（.text）和程序中的常量（.rodata）。可读写部分（也就是变量）大致可以分成下面几个部分</p>
+<ul>
+<li>.data： 初始化了的全局变量和静态变量</li>
+<li>.bss： 即 Block Started by Symbol， 未初始化的全局变量和静态变量</li>
+<li>heap： 堆，使用 malloc, realloc, 和 free 函数控制的变量，堆在所有的线程，共享库，和动态加载的模块中被共享使用</li>
+<li>stack： 栈，函数调用时使用栈来保存函数现场，自动变量（即生命周期限制在某个 scope 的变量）也存放在栈中。</li>
+</ul>
+<h4 id="data-和-bss-区"><a href="#data-和-bss-区" class="headerlink" title="data 和 bss 区"></a>data 和 bss 区</h4><p>他们都是用来存储<code>全局变量和静态变量</code>的，区别在于 data 区存放的是初始化过的， bss 区存放的是没有初始化过的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> val = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">char</span> string[] = <span class="string">"Hello World"</span>;</span><br><span class="line"></span><br><span class="line">- 这两个变量的值会一开始被存储在 .text 中（因为值是写在代码里面的），在</span><br><span class="line">程序启动时会拷贝到 .data 中</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> i;</span><br><span class="line">这个变量就会被放在 bss 区中。</span><br></pre></td></tr></table></figure>
+
+<p>attention: 静态变量和全局变量</p>
+<p>在一个代码文件中，一个变量要么定义在函数中，要么定义在在函数外面。当定义在函数外面时，这个变量就有了全局作用域，成为了全局变量。全局变量不光意味着这个变量可以在整个文件中使用，也意味着这个变量可以在其他文件中使用. 此为前提.</p>
+<p>如果在不同的代码文件定义了同名的全局变量, 在 Link 过程中会产生重复定义错误, 为了避免这种情况，就需要引入 static</p>
+<p>静态变量： 指使用 static 关键字修饰的变量，static 关键字对变量的作用域进行了限制，具体的限制如下: (针对 c, go等来说, Java 相当于跟class类文件绑定了, 不属于对象实例)</p>
+<ul>
+<li>在函数外定义：全局变量，但是只在当前文件中可见</li>
+<li>在函数内定义：全局变量，但是只在此函数内可见</li>
+<li>在类中定义：全局变量，但是只在此类中可见</li>
+</ul>
+<h4 id="stack-栈"><a href="#stack-栈" class="headerlink" title="stack-栈"></a>stack-栈</h4><p>栈是一块连续的内存区域，栈顶的地址和栈的最大容量是系统预先规定好的。</p>
+<p>栈是用于存放本地变量，内部临时变量以及有关上下文的内存区域; 程序在调用函数时，操作系统会自动通过压栈和弹栈完成<code>保存函数现场</code>等操作，不需要程序员手动干预</p>
+<p>能从栈获得的空间较小。如果申请的空间超过栈的剩余空间时，例如递归深度过深，将提示stackoverflow。</p>
+<p>栈是机器系统提供的数据结构，计算机会在底层对栈提供支持, 压栈出栈都有专门的指令执行，这就决定了<code>栈的效率比较高</code>。</p>
+<h4 id="heap-堆"><a href="#heap-堆" class="headerlink" title="heap-堆"></a>heap-堆</h4><p>堆是用于存放除了栈里的东西之外所有其他东西的内存区域</p>
+<p>对于堆来说，释放工作由程序员控制，容易产生memory leak(泄漏)</p>
+<p>计算机底层并没有对堆的支持，堆则是C/C++函数库提供的，同时由于频繁的new/delete势必会造成堆内存空间的不连续，从而造成大量的碎片，都会导致堆的效率比栈要低。</p>
+<h3 id="磁盘调度算法"><a href="#磁盘调度算法" class="headerlink" title="磁盘调度算法"></a>磁盘调度算法</h3><h2 id="文件系统-file-system"><a href="#文件系统-file-system" class="headerlink" title="文件系统(file system)"></a>文件系统(file system)</h2><p><img src="Snipaste_2018-08-09_19-57-20.png" alt="alt"></p>
+<p>参考 linux-note</p>
+<h1 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h1><p><img src="Snipaste_2018-08-09_20-20-42.png" alt="alt"></p>
+<p>参考 tcp-ip-note</p>
+<h1 id="编译原理"><a href="#编译原理" class="headerlink" title="编译原理"></a>编译原理</h1><p>词法分析器<br>语法分析器<br>语义分析及中间代码生成<br>代码优化<br>代码生成</p>
+<h1 id="各种编码"><a href="#各种编码" class="headerlink" title="各种编码"></a>各种编码</h1><p><a href="https://blog.csdn.net/a_little_a_day/article/details/78923071?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1&utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1" target="_blank" rel="noopener">utf-8 是否需要带 bom</a></p>
+<p>UTF-8 不需要 BOM，尽管 Unicode 标准允许在 UTF-8 中使用 BOM。<br>所以不含 BOM 的 UTF-8 才是标准形式，在 UTF-8 文件中放置 BOM 主要是微软的习惯（顺便提一下：把带有 BOM 的小端序 UTF-16 称作「Unicode」而又不详细说明，这也是微软的习惯）。<br>BOM（byte order mark）是为 UTF-16 和 UTF-32 准备的，用于标记字节序（byte order）。微软在 UTF-8 中使用 BOM 是因为这样可以把 UTF-8 和 ASCII 等编码明确区分开，但这样的文件在 Windows 之外的操作系统里会带来问题。</p>
+<p>「UTF-8」和「带 BOM 的 UTF-8」的区别就是有没有 BOM。即文件开头有没有 U+FEFF。</p>
+
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://xiaoyureed.gitee.io">肖雨</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://xiaoyureed.gitee.io/2017/06/21/cs-note/">https://xiaoyureed.gitee.io/2017/06/21/cs-note/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+      <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">Reward</label>
+    <div class="qr-code"><label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/wechat.png" title="wechat">
+        </label>
+      <label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/ali.png" title="alipay">
+        </label>
+      </div>
+  </div><footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/cs/">cs</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2017/06/21/tcp-ip-note/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">TCP IP</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2017/06/20/git-note/">
+        <span class="next-text nav-default">Git Backup</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:775000738@qq.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/xiaoyureed" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="https://www.douban.com/people/xiaoyu_red/" target="_blank" rel="noopener" class="iconfont icon-douban" title="douban"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2015 - 2020<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">肖雨</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>
