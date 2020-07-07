@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="几种CSS预处理器比较选型"/><meta name="keywords" content="blog 博客 网络日志" /><link rel="alternate" href="/default" title="肖雨的网络 WiKi"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://xiaoyureed.gitee.io/2018/05/02/css-pre-processor/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":false,"pjax":"","latex":false};
+</script>
+
+    <title>几种CSS预处理器比较选型 - 肖雨的网络 WiKi</title>
+  <meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">肖雨的网络 WiKi</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">肖雨的网络 WiKi</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            Categories
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">几种CSS预处理器比较选型
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2018-05-02
+        </span><span class="post-category">
+            <a href="/categories/frontend/">frontend</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#css-预处理器介绍"><span class="toc-text">css 预处理器介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#选型和对比"><span class="toc-text">选型和对比</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PostCSS"><span class="toc-text">PostCSS</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><div align="center">
+css的预处理器主流的大概有: SASS, LESS, Stylus;
+</div>
+
+<a id="more"></a>
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#css-预处理器介绍">css 预处理器介绍</a></li>
+<li><a href="#选型和对比">选型和对比</a></li>
+<li><a href="#postcss">PostCSS</a></li>
+</ul>
+<!-- /TOC -->
+
+<h1 id="css-预处理器介绍"><a href="#css-预处理器介绍" class="headerlink" title="css 预处理器介绍"></a>css 预处理器介绍</h1><p>============= why css preprocessor</p>
+<p>CSS仅仅是一个标记语言，不是编程语言，因此不可以自定义变量，不可以引用</p>
+<p>========== 会带来的新问题</p>
+<p>CSS的好处在于简便、随时随地被使用和调试。预编译CSS步骤的加入，让我们开发工作流中多了一个环节，调试也变得更麻烦了。更大的问题在于，预编译很容易造成后代选择器的滥用。</p>
+<h1 id="选型和对比"><a href="#选型和对比" class="headerlink" title="选型和对比"></a>选型和对比</h1><p>语法区别: <a href="https://zhuanlan.zhihu.com/p/38715068" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/38715068</a>, <a href="https://efe.baidu.com/blog/revisiting-css-preprocessors/" target="_blank" rel="noopener">https://efe.baidu.com/blog/revisiting-css-preprocessors/</a></p>
+<p>============ sass 优点</p>
+<p>sass 比 less 更像完整的编程语言, 有 变量 (全局, 局部区分), 函数, 作用域, 流程控制, 数据结构…, </p>
+<p>有成熟的框架, 如 Compass, Foundation</p>
+<p>社区热度比 less 更发达</p>
+<p>还有Scss对sass语法进行了改良, 完全兼容 css 语法 (和 less 打平了)</p>
+<p>bootstrap最新版就抛弃 less, 转向 sass了</p>
+<p>丰富的 ruby api 支持, 适合开发 css 框架</p>
+<p>=============== sass 缺点</p>
+<p>但是 sass 安装需要 ruby 环境支持, less 只需要 引入 ‘less.js’ 即可</p>
+<p>开发工具也没有相应的sass编码提示</p>
+<p>=================Stylus</p>
+<p>来自node.js社区</p>
+<p>人气不及sass, less</p>
+<p>语法更简洁, 比如用缩进代替大括号</p>
+<h1 id="PostCSS"><a href="#PostCSS" class="headerlink" title="PostCSS"></a>PostCSS</h1><p>不是 css preprocessor, 是一个使用JS插件来转换样式的工具</p>
+<p>丰富的插件, 借助插件实现更强大的 css 预处理功能 (如, 只要某个 selector 有某个样式, 就自动添加另外的某个样式)</p>
+
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://xiaoyureed.gitee.io">肖雨</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://xiaoyureed.gitee.io/2018/05/02/css-pre-processor/">https://xiaoyureed.gitee.io/2018/05/02/css-pre-processor/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+      <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">Reward</label>
+    <div class="qr-code"><label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/wechat.png" title="wechat">
+        </label>
+      <label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/ali.png" title="alipay">
+        </label>
+      </div>
+  </div><footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/css/">css</a>
+            <a href="/tags/processor/">processor</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2018/05/02/less-note/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Less Note</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2018/05/02/springcloud-note/">
+        <span class="next-text nav-default">Spring Cloud</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:775000738@qq.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/xiaoyureed" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="https://www.douban.com/people/xiaoyu_red/" target="_blank" rel="noopener" class="iconfont icon-douban" title="douban"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2015 - 2020<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">肖雨</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>

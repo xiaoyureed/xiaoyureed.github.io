@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="缓存概述"/><meta name="keywords" content="blog 博客 网络日志" /><link rel="alternate" href="/default" title="肖雨的网络 WiKi"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://xiaoyureed.gitee.io/2017/08/17/outline-about-cache/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":false,"pjax":"","latex":false};
+</script>
+
+    <title>缓存概述 - 肖雨的网络 WiKi</title>
+  <meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">肖雨的网络 WiKi</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">肖雨的网络 WiKi</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            Categories
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">缓存概述
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-08-17
+        </span><span class="post-category">
+            <a href="/categories/java-web/">java web</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#为什么要使用缓存"><span class="toc-text">为什么要使用缓存</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#缓存的特征"><span class="toc-text">缓存的特征</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#命中率"><span class="toc-text">命中率</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最大元素（最大空间）"><span class="toc-text">最大元素（最大空间）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#清空策略"><span class="toc-text">清空策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存介质"><span class="toc-text">缓存介质</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分类-应用场景"><span class="toc-text">分类 应用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#本地缓存（local-cache）"><span class="toc-text">本地缓存（local cache）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编程直接实现缓存"><span class="toc-text">编程直接实现缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#成员变量or局部变量实现"><span class="toc-text">成员变量or局部变量实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#静态变量实现"><span class="toc-text">静态变量实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ehcache"><span class="toc-text">Ehcache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Guava-Cache"><span class="toc-text">Guava Cache</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分布式缓存（remote-cache）"><span class="toc-text">分布式缓存（remote cache）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#memcache缓存"><span class="toc-text">memcache缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis缓存"><span class="toc-text">Redis缓存</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存方案选型"><span class="toc-text">缓存方案选型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#缓存更新的策略"><span class="toc-text">缓存更新的策略</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#缓存带来的问题"><span class="toc-text">缓存带来的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存一致性问题"><span class="toc-text">缓存一致性问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#雪崩问题"><span class="toc-text">雪崩问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存穿透"><span class="toc-text">缓存穿透</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存击穿问题"><span class="toc-text">缓存击穿问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存并发竞争问题"><span class="toc-text">缓存并发竞争问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#静态资源缓存-图片缓存"><span class="toc-text">静态资源缓存-图片缓存</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><div align="center">
+ehchach, memcache, redis...
+https://www.tianmaying.com/tutorial/spring-web-ehcache
+web缓存体系: http://clsn.io/clsn/lx1088.html
+</div>
+<a id="more"></a>
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#为什么要使用缓存">为什么要使用缓存</a></li>
+<li><a href="#缓存的特征">缓存的特征</a><ul>
+<li><a href="#命中率">命中率</a></li>
+<li><a href="#最大元素最大空间">最大元素（最大空间）</a></li>
+<li><a href="#清空策略">清空策略</a></li>
+<li><a href="#缓存介质">缓存介质</a></li>
+</ul>
+</li>
+<li><a href="#分类-应用场景">分类 应用场景</a><ul>
+<li><a href="#本地缓存local-cache">本地缓存（local cache）</a><ul>
+<li><a href="#编程直接实现缓存">编程直接实现缓存</a><ul>
+<li><a href="#成员变量or局部变量实现">成员变量or局部变量实现</a></li>
+<li><a href="#静态变量实现">静态变量实现</a></li>
+</ul>
+</li>
+<li><a href="#ehcache">Ehcache</a></li>
+<li><a href="#guava-cache">Guava Cache</a></li>
+</ul>
+</li>
+<li><a href="#分布式缓存remote-cache">分布式缓存（remote cache）</a><ul>
+<li><a href="#memcache缓存">memcache缓存</a></li>
+<li><a href="#redis缓存">Redis缓存</a></li>
+</ul>
+</li>
+<li><a href="#缓存方案选型">缓存方案选型</a></li>
+</ul>
+</li>
+<li><a href="#缓存更新的策略">缓存更新的策略</a></li>
+<li><a href="#缓存带来的问题">缓存带来的问题</a><ul>
+<li><a href="#缓存一致性问题">缓存一致性问题</a></li>
+<li><a href="#雪崩问题">雪崩问题</a></li>
+<li><a href="#缓存穿透">缓存穿透</a></li>
+<li><a href="#缓存击穿问题">缓存击穿问题</a></li>
+<li><a href="#缓存并发竞争问题">缓存并发竞争问题</a></li>
+</ul>
+</li>
+<li><a href="#静态资源缓存-图片缓存">静态资源缓存-图片缓存</a></li>
+</ul>
+<!-- /TOC -->
+
+<h1 id="为什么要使用缓存"><a href="#为什么要使用缓存" class="headerlink" title="为什么要使用缓存"></a>为什么要使用缓存</h1><p>高性能(请求执行耗时更短)</p>
+<p>高并发(1s内可以接收更多请求)</p>
+<h1 id="缓存的特征"><a href="#缓存的特征" class="headerlink" title="缓存的特征"></a>缓存的特征</h1><h2 id="命中率"><a href="#命中率" class="headerlink" title="命中率"></a>命中率</h2><p>命中率=返回正确结果数/请求缓存次数，命中率越高，表明缓存的使用率越高。</p>
+<h2 id="最大元素（最大空间）"><a href="#最大元素（最大空间）" class="headerlink" title="最大元素（最大空间）"></a>最大元素（最大空间）</h2><p>缓存中可以存放的最大元素的数量，一旦超过，那么将会触发缓存启动清空策略</p>
+<h2 id="清空策略"><a href="#清空策略" class="headerlink" title="清空策略"></a>清空策略</h2><p>缓存的存储空间有限制，当缓存空间被用满时，如何保证在稳定服务的同时有效提升命中率？这就由缓存清空策略来处理</p>
+<ul>
+<li><p>FIFO(first in first out)</p>
+<p>  先进先出；满足数据实效性，优先保证最新数据可用</p>
+</li>
+<li><p>LFU(less frequently used)</p>
+<p>  最少使用；无论是否过期，清除使用次数较少的元素，缓存的元素有一个hit (命中次数)属性，hit 值最小的将会被清出缓存。，满足高频数据有效性</p>
+</li>
+<li><p>LRU(least recently used)ehcache 默认值</p>
+<p>  最近最少使用；无论是否过期，缓存的元素有一个时间戳，当缓存容量满了，而又需要腾出地方来缓存新的元素的时候，那么现有缓存元素中时间戳离当前时间最远的元素将被清出缓存，优先保证热点数据有效性  </p>
+</li>
+</ul>
+<p>此外还有一些：<br>根据过期时间判断，清理过期时间最长的元素；<br>根据过期时间判断，清理最近要过期的元素；<br>随机清理；<br>根据关键字（或元素内容）长短清理等。  </p>
+<h2 id="缓存介质"><a href="#缓存介质" class="headerlink" title="缓存介质"></a>缓存介质</h2><p>内存、硬盘(文件系统)、数据库（redis等nosql数据库）</p>
+<h1 id="分类-应用场景"><a href="#分类-应用场景" class="headerlink" title="分类 应用场景"></a>分类 应用场景</h1><p>根据缓存与应用的耦合度可分为local Cache、remote Cache  </p>
+<ul>
+<li>local cache</li>
+</ul>
+<p>直接存在于应用中的缓存组件；<br>优点：直接与应用存在于同一个进程，请求缓存速度快，没有过多的网络开销<br>缺点：由于与应用耦合，多个程序无法共享缓存；每个程序需要维护自己的单独缓存，浪费内存<br>适用于： 单应用不需要集群，或集群下各节点不许互相通信</p>
+<ul>
+<li>remote cache</li>
+</ul>
+<p>与应用分离的缓存组件；<br>优点：与程序解耦，多个程序可共享缓存<br>缺点： 网络开销</p>
+<p>根据缓存位置不同可以分为客户端缓存和服务器缓存</p>
+<ul>
+<li>客户端缓存（缓存在用户的客户端，例如浏览器中）</li>
+<li>服务器缓存（缓存在服务器中，可以缓存在内存中，也可以缓存在文件里，并且还可以进一步地区分为本地缓存和分布式缓存两种）</li>
+</ul>
+<h2 id="本地缓存（local-cache）"><a href="#本地缓存（local-cache）" class="headerlink" title="本地缓存（local cache）"></a>本地缓存（local cache）</h2><h3 id="编程直接实现缓存"><a href="#编程直接实现缓存" class="headerlink" title="编程直接实现缓存"></a>编程直接实现缓存</h3><p>例如使用hashmap存储键值对.</p>
+<h4 id="成员变量or局部变量实现"><a href="#成员变量or局部变量实现" class="headerlink" title="成员变量or局部变量实现"></a>成员变量or局部变量实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">UseLocalCache</span><span class="params">()</span></span>&#123;</span><br><span class="line">     <span class="comment">//一个本地的缓存变量,只作用域类内部，类间无法共享缓存</span></span><br><span class="line">     Map&lt;String, Object&gt; localCacheStoreMap = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</span><br><span class="line"></span><br><span class="line">    List&lt;Object&gt; infosList = <span class="keyword">this</span>.getInfoList();</span><br><span class="line">    <span class="keyword">for</span>(Object item:infosList)&#123;</span><br><span class="line">        <span class="keyword">if</span>(localCacheStoreMap.containsKey(item))&#123; <span class="comment">//缓存命中 使用缓存数据</span></span><br><span class="line">            <span class="comment">// todo</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 缓存未命中  IO获取数据，结果存入缓存</span></span><br><span class="line">            Object valueObject = <span class="keyword">this</span>.getInfoFromDB();</span><br><span class="line">            localCacheStoreMap.put(valueObject.toString(), valueObject);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//示例</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> List&lt;Object&gt; <span class="title">getInfoList</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;Object&gt;();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//示例数据库IO获取</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Object <span class="title">getInfoFromDB</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Object();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="静态变量实现"><a href="#静态变量实现" class="headerlink" title="静态变量实现"></a>静态变量实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//O2O业务中常用的城市基础基本信息判断，通过静态变量一次获取缓存内存中，减少频繁的I/O读取，静态变量实现类间可共享，进程内可共享，缓存的实时性稍差</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CityUtils</span> </span>&#123;</span><br><span class="line">      <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> HttpClient httpClient = ServerHolder.createClientWithPool(); </span><br><span class="line">      <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;Integer, String&gt; cityIdNameMap = <span class="keyword">new</span> HashMap&lt;Integer, String&gt;();</span><br><span class="line">      <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;Integer, String&gt; districtIdNameMap = <span class="keyword">new</span> HashMap&lt;Integer, String&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> &#123;</span><br><span class="line">    HttpGet get = <span class="keyword">new</span> HttpGet(<span class="string">"http://gis-in.sankuai.com/api/location/city/all"</span>);</span><br><span class="line">    BaseAuthorizationUtils.generateAuthAndDateHeader(get,</span><br><span class="line">            BaseAuthorizationUtils.CLIENT_TO_REQUEST_MDC,</span><br><span class="line">            BaseAuthorizationUtils.SECRET_TO_REQUEST_MDC);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        String resultStr = httpClient.execute(get, <span class="keyword">new</span> BasicResponseHandler());</span><br><span class="line">        JSONObject resultJo = <span class="keyword">new</span> JSONObject(resultStr);</span><br><span class="line">        JSONArray dataJa = resultJo.getJSONArray(<span class="string">"data"</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; dataJa.length(); i++) &#123;</span><br><span class="line">            JSONObject itemJo = dataJa.getJSONObject(i);</span><br><span class="line">            cityIdNameMap.put(itemJo.getInt(<span class="string">"id"</span>), itemJo.getString(<span class="string">"name"</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Init City List Error!"</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">    HttpGet get = <span class="keyword">new</span> HttpGet(<span class="string">"http://gis-in.sankuai.com/api/location/district/all"</span>);</span><br><span class="line">    BaseAuthorizationUtils.generateAuthAndDateHeader(get,</span><br><span class="line">            BaseAuthorizationUtils.CLIENT_TO_REQUEST_MDC,</span><br><span class="line">            BaseAuthorizationUtils.SECRET_TO_REQUEST_MDC);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        String resultStr = httpClient.execute(get, <span class="keyword">new</span> BasicResponseHandler());</span><br><span class="line">        JSONObject resultJo = <span class="keyword">new</span> JSONObject(resultStr);</span><br><span class="line">        JSONArray dataJa = resultJo.getJSONArray(<span class="string">"data"</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; dataJa.length(); i++) &#123;</span><br><span class="line">            JSONObject itemJo = dataJa.getJSONObject(i);</span><br><span class="line">            districtIdNameMap.put(itemJo.getInt(<span class="string">"id"</span>), itemJo.getString(<span class="string">"name"</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Init District List Error!"</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getCityName</span><span class="params">(<span class="keyword">int</span> cityId)</span> </span>&#123;</span><br><span class="line">      String name = cityIdNameMap.get(cityId);</span><br><span class="line">      <span class="keyword">if</span> (name == <span class="keyword">null</span>) &#123;</span><br><span class="line">        name = <span class="string">"未知"</span>;</span><br><span class="line">      &#125;</span><br><span class="line">       <span class="keyword">return</span> name;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getDistrictName</span><span class="params">(<span class="keyword">int</span> districtId)</span> </span>&#123;</span><br><span class="line">      String name = districtIdNameMap.get(districtId);</span><br><span class="line">       <span class="keyword">if</span> (name == <span class="keyword">null</span>) &#123;</span><br><span class="line">         name = <span class="string">"未知"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">       <span class="keyword">return</span> name;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>静态变量实现类间可共享，进程内可共享，缓存的实时性稍差<br>为了解决本地缓存数据的实时性问题，目前大量使用的是结合ZooKeeper的自动发现机制，实时变更本地静态变量缓存  </p>
+<blockquote>
+<p>这类缓存实现，优点是能直接在heap区内读写，最快也最方便；缺点同样是受heap区域影响，缓存的数据量非常有限，同时缓存时间受GC影响。主要满足单机场景下的小数据量缓存需求，同时对缓存数据的变更无需太敏感感知，如上一般配置管理、基础静态数据等场景。</p>
+</blockquote>
+<h3 id="Ehcache"><a href="#Ehcache" class="headerlink" title="Ehcache"></a>Ehcache</h3><p>具有如下特点：</p>
+<ul>
+<li><p>纯Java开源缓存框架</p>
+</li>
+<li><p>一个非常轻量级的缓存实现, 只依赖slf4j, Hibernate就使用了他</p>
+</li>
+<li><p>两级缓存介质，cache.flush()才能确保数据不会丢失</p>
+</li>
+<li><p>快速，针对大型高并发系统场景，Ehcache的多线程机制有相应的优化改善。</p>
+</li>
+<li><p>具有缓存(CacheEvenListener)和缓存管理器(CacheManagerListener)的侦听接口，能更简单方便的进行缓存实例的监控管理(做一些统计或数据一致性广播挺好用的)</p>
+</li>
+<li><p>支持多缓存管理器实例，以及一个实例的多个缓存区域。</p>
+</li>
+</ul>
+<p>核心定义：  </p>
+<ul>
+<li><p>cache manager：缓存管理器</p>
+</li>
+<li><p>cache： 缓存管理器中可放置若干</p>
+</li>
+<li><p>element： 单条缓存数据的组成单位</p>
+</li>
+<li><p>system of record（SOR）：可以取到真实数据的组件，可以是真正的业务逻辑、外部接口调用、存放真实数据的数据库等，缓存就是从SOR中读取或者写入到SOR中去的。</p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ehcache</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">        磁盘存储:将缓存中暂时不使用的对象,转移到硬盘,类似于Windows系统的虚拟内存</span></span><br><span class="line"><span class="comment">        path:指定在硬盘上存储对象的路径</span></span><br><span class="line"><span class="comment">     --&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;<span class="name">diskStore</span> <span class="attr">path</span>=<span class="string">"d:/ehcache/"</span>&gt;</span><span class="tag">&lt;/<span class="name">diskStore</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 默认缓存配置 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    必须:</span></span><br><span class="line"><span class="comment">        * defaultCache:默认的缓存配置信息,如果不加特殊说明,则所有对象按照此配置项处理</span></span><br><span class="line"><span class="comment">        * maxElementsInMemory:设置了缓存的上限,最多存储多少个记录对象</span></span><br><span class="line"><span class="comment">        * eternal:代表对象是否永不过期(如果为true，则缓存的数据始终有效，如果为false那么还要根据timeToIdleSeconds，timeToLiveSeconds判断。)</span></span><br><span class="line"><span class="comment">        * overflowToDisk:如果内存中数据超过内存限制，是否要缓存到磁盘上</span></span><br><span class="line"><span class="comment">    可选:</span></span><br><span class="line"><span class="comment">        * maxElementsOnDisk：在磁盘上缓存的element的最大数目, 达到后old data会刷到磁盘，默认值为0，表示不限制</span></span><br><span class="line"><span class="comment">        * timeToIdleSeconds:最大的发呆时间(多长时间没有被访问就会失效), 默认0, 永不失效</span></span><br><span class="line"><span class="comment">        * timeToLiveSeconds:最大的存活时间, 默认0, 同上</span></span><br><span class="line"><span class="comment">        * diskSpoolBufferSizeMB： DiskStore使用的磁盘大小，默认值30MB。每个cache使用各自的DiskStore</span></span><br><span class="line"><span class="comment">        * memoryStoreEvictionPolicy： 如果内存中数据超过内存限制，向磁盘缓存时的策略。默认值LRU，可选FIFO、LFU</span></span><br><span class="line"><span class="comment">     --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">defaultCache</span></span></span><br><span class="line"><span class="tag">        <span class="attr">maxElementsInMemory</span>=<span class="string">"10000"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">eternal</span>=<span class="string">"false"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">timeToIdleSeconds</span>=<span class="string">"120"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">timeToLiveSeconds</span>=<span class="string">"120"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">overflowToDisk</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">    /&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- User缓存配置 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">        cache:为指定名称的对象进行缓存的特殊配置</span></span><br><span class="line"><span class="comment">        name:指定对象的完整名(如果有别名亦可    )</span></span><br><span class="line"><span class="comment">     --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">cache</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">name</span>=<span class="string">"User"</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">maxElementsInMemory</span>=<span class="string">"10000"</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">eternal</span>=<span class="string">"false"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">timeToIdleSeconds</span>=<span class="string">"300"</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">timeToLiveSeconds</span>=<span class="string">"600"</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">overflowToDisk</span>=<span class="string">"true"</span> </span></span><br><span class="line"><span class="tag">    /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">ehcache</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Guava-Cache"><a href="#Guava-Cache" class="headerlink" title="Guava Cache"></a>Guava Cache</h3><h2 id="分布式缓存（remote-cache）"><a href="#分布式缓存（remote-cache）" class="headerlink" title="分布式缓存（remote cache）"></a>分布式缓存（remote cache）</h2><h3 id="memcache缓存"><a href="#memcache缓存" class="headerlink" title="memcache缓存"></a>memcache缓存</h3><p><a href="https://blog.csdn.net/jationxiaozi/article/details/8509732" target="_blank" rel="noopener">ref</a></p>
+<h3 id="Redis缓存"><a href="#Redis缓存" class="headerlink" title="Redis缓存"></a>Redis缓存</h3><p><a href="https://blog.csdn.net/jationxiaozi/article/details/8509732" target="_blank" rel="noopener">ref</a></p>
+<h2 id="缓存方案选型"><a href="#缓存方案选型" class="headerlink" title="缓存方案选型"></a>缓存方案选型</h2><p><a href="https://www.zhihu.com/question/24504292/answer/86908460" target="_blank" rel="noopener">ref</a>, <a href="https://www.zhihu.com/question/19645807/answer/12605611" target="_blank" rel="noopener">ref</a>, <a href="https://www.zhihu.com/question/19829601" target="_blank" rel="noopener">更多memcached和redis区别</a></p>
+<p><a href="https://www.imooc.com/article/23549" target="_blank" rel="noopener">memcache 和 redis 区别</a></p>
+<ul>
+<li><p>ehcache直接在jvm虚拟机中缓存，速度快, 但是缓存共享麻烦, 大型分布式系统不选用</p>
+</li>
+<li><p>redis 数据类型多 (String list，set，zset(sort set)，hash), meme 仅仅支持 string/二进制</p>
+</li>
+<li><p>redis 支持持久化 (rdb快照, aof日志), binlog, mem 不支持持久化</p>
+</li>
+<li><p>redis 原生支持集群部署, mem 支持不好 (需要通过客户端来实现往集群中分片写入数据)</p>
+</li>
+<li><p>Redis使用单线程的IO复用模型。Memcached是多线程, 可以高效利用多核，非阻塞IO复用的网络模型.</p>
+<p>  redis是单线程模型, 只使用cpu单核, mem 可使用多核, 所以在缓存小数据的时候, redis更快(没有线程切换,资源竞争), 缓存100k以上的大数据时mem更快</p>
+</li>
+</ul>
+<h1 id="缓存更新的策略"><a href="#缓存更新的策略" class="headerlink" title="缓存更新的策略"></a>缓存更新的策略</h1><p><a href="https://coolshell.cn/articles/17416.html" target="_blank" rel="noopener">ref</a></p>
+<h1 id="缓存带来的问题"><a href="#缓存带来的问题" class="headerlink" title="缓存带来的问题"></a>缓存带来的问题</h1><h2 id="缓存一致性问题"><a href="#缓存一致性问题" class="headerlink" title="缓存一致性问题"></a>缓存一致性问题</h2><p>有如下几种解决方案, 开发成本依次升高:</p>
+<ul>
+<li><p>指定过期时间 - 指定一个缓存超时时间, 比如 某商品/视频的描述信息, 容许某段时间的数据不一致</p>
+<p>  在某段时间内存在数据不一致</p>
+</li>
+<li><p>主动更新 - 数据库更新后, 缓存立即更新, 适用于对数据一致性要求高的场景</p>
+<p>  一致性最好, 但是如果主动更新出现问题, 可能很久都不会再更新缓存, 所以<code>一般结合超时剔除</code> (最佳实践)</p>
+<p>  开发成本最高, 需要我们自己完成缓存的更新 ; 推荐</p>
+</li>
+</ul>
+<p>对于手动更新缓存, 正常逻辑是这样: </p>
+<ul>
+<li>对于读库操作, 先查 cache, 如果查到, 直接返回, 没有再查 db, 查到后放入 cache.</li>
+<li>对于写库操作, 先写 db, 成功后, 再删除缓存/让缓存失效</li>
+</ul>
+<p>但是也有问题, 问题描述: </p>
+<ul>
+<li><p>比如，一个是读操作，但是没有命中缓存，然后就到数据库中取数据，此时来了一个写操作，写完数据库后，让缓存失效，然后，之前的那个读操作再把老的数据放进去，所以，会造成脏数据</p>
+<p>  顺序是这样的: thread 1读库 (缓存没有) -&gt; thread2写库 -&gt; thread2让缓存失效 -&gt; thread1 设置缓存</p>
+<p>  实际上出现的概率可能非常低, 因为这种情况要求一个完整的写库操作在一个读库操作周期内完成, 这显然不大可能, 因为写库大概率慢于读库</p>
+</li>
+<li><p>写库时, 先更新数据库, 再删除缓存, 如果删除缓存失败了, 那数据库和缓存数据就不一致了 </p>
+<p>  解决: 利用消息中间件对缓存删除进行失败重试</p>
+<p>  解决: 改为先删除缓存然后更新数据库, 这样如果数据库更新失败, 数据库中是旧数据, 缓存中是空的, 数据不会不一致;</p>
+<p>  但是在高并发下, 还是有可能问题: 先删除缓存, 正准备更新数据库, 这时又有一个查询请求进来了, 没有缓存, 查询数据库, 得到旧数据并写入缓存结束返回, 这时之前那个更新请求更新数据库完成, 缓存和数据库数据不一致了</p>
+<p>  解决: </p>
+<p>  简单点的: “延时重复删除” - 在更新数据库前后各删除一次缓存, 第二次删除前等待一段时间(比如200ms); 第二次删除是为了删除写库前有读库操作造成缓存脏数据, 这段延时就是一个读库操作的耗时, 目的是为了让脏数据完全写入缓存, 以便我们刚好能够删除; (休眠和第二次删除可另起一个线程,这样可以提高qps)</p>
+<p>  还可以 利用内存queue , 将读请求/写请求 串行化, 对同一个 id 的读写串行化, 写库完成前, 无法读库 (严格的一致性): 创建几个jvm内存queue, 比如20个， 每个queue对应一个worker线程; 所有请求均匀分发给各个 queue, 比如按照 id 取模, 然后让对应的线程处理</p>
+<p>  还可以 : 利用MySQL的binlog异步更新数据到缓存; 推荐</p>
+</li>
+<li><p>如果对缓存的操作是更新而不是删除, 那么高并发下, 两个并发的写库操作会导致不一致, 一个可能的请求执行顺序是: thread1更新缓存, thread2更新缓存, thread2更新db, thread1更新db. 此时 缓存和db数据不一致了</p>
+<p>  这时因为 在高并发下, 更新db 和 更新缓存不是原子操作 (通过加锁可以避免)</p>
+<p>  解决: 删除缓存, 而不是更新缓存 </p>
+<p>  也有懒加载的思想; 还有这个原因: 缓存数据可能是通过负责计算后得出的, 更新缓存太复杂, 还是直接删除简单方便</p>
+</li>
+</ul>
+<p>利用 queue 的详细介绍:</p>
+<p>这样的话, 更新数据时根据唯一标识(比如商品id),得到hashcode,然后对queue个数取模, 均匀的放入queue中; </p>
+<p>读取数据时，如果发现数据不再缓存中， 将进行【重新读取数据+添加缓存】的操作，根据唯一标识hash路由后加入同一个jvm内存队列；这样worker串行拿到对应操作，然后依次执行，这样的话，一个更新数据的操作，先删除缓存， 然后更新数据库， 还没有完成的话，后面的读请求会在queue中积压， 等待数据库更新操作完成；</p>
+<p>这里有个优化点：一个队列中，其实对同个id的多个更新缓存请求串在一起是没意义的，因此可以做过滤，如果发现队列中已经有一个更新缓存的请求了，那么就不用再放个更新请求操作进去了，直接等待前面的更新操作请求完成即可</p>
+<p>如果请求还在等待时间范围内，不断轮询发现可以取到值了，那么就直接返回；如果请求等待的时间超过一定时长，那么这一次直接从数据库中读取当前的旧值。</p>
+<h2 id="雪崩问题"><a href="#雪崩问题" class="headerlink" title="雪崩问题"></a>雪崩问题</h2><p>缓存层突然挂掉, 所有请求直接奔向数据库, 导致数据库也挂</p>
+<ul>
+<li>使得 缓存层高可用 - 多个缓存节点(redis 集群, 主从 + 哨兵)</li>
+<li>使用依赖隔离组件为后端限流如队列, 降级如 Hystrix</li>
+<li>redis持久化，快速恢复缓存数据</li>
+</ul>
+<h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><p>查询一条不存在的空记录, 每次请求都会穿透缓存层到达数据库 (并且查不到数据,也没有写入缓存), 失去了 “缓存保护后端数据库” 的意义</p>
+<p>造成这个问题的原因:</p>
+<ul>
+<li>业务代码本身的问题</li>
+<li>恶意攻击, 爬虫… 造成的大量空命中</li>
+</ul>
+<p>怎么解决:</p>
+<ul>
+<li><p>缓存空对象 - 当第一次穿透缓存到达数据库, 查询为空, 就将这个空对象缓存到 redis, 之后针对这条数据的访问就不会穿透缓存而是直接返回空对象</p>
+<p>  这种方法占用更多的 redis 存储空间, 需要为 null 缓存对象设置较短的过期时间</p>
+<p>  数据一致性问题, 可利用消息队列清除 null 对象</p>
+</li>
+<li><p>布隆过滤器拦截 - 适用于 数据命中不高, 数据变化不大的场景 //todo</p>
+</li>
+</ul>
+<h2 id="缓存击穿问题"><a href="#缓存击穿问题" class="headerlink" title="缓存击穿问题"></a>缓存击穿问题</h2><p>项目刚上线, redis 中没有任何数据, 瞬间大量请求过来, 造成雪崩</p>
+<ul>
+<li>缓存预热 - 上线前, 预先将热点数据放入redis</li>
+</ul>
+<p>或者 某个时刻, 缓存中的数据集中过期, 发生大量缓存穿透合起来造成雪崩 </p>
+<ul>
+<li>使用 “逻辑过期” 策略, 即设置key永不过期, 而将业务要求的过期时间存储到value, 每次读取value, 都评估一下是否过期, 如果过期, 则手动删除key(这样, 永远不会查不到key)</li>
+</ul>
+<h2 id="缓存并发竞争问题"><a href="#缓存并发竞争问题" class="headerlink" title="缓存并发竞争问题"></a>缓存并发竞争问题</h2><p>多个 client 对某个 key 操作, 如果:</p>
+<ul>
+<li><p>对这个 key 的操作不要求顺序: 使用分布式锁, 抢到锁的client就进行操作</p>
+</li>
+<li><p>对这个 key 的操作要求顺序: 在 set value 时, value 中包含一个时间戳(标识顺序), 每个client 在 set 时要保证自己的时间晚于该时间戳</p>
+</li>
+</ul>
+<h1 id="静态资源缓存-图片缓存"><a href="#静态资源缓存-图片缓存" class="headerlink" title="静态资源缓存-图片缓存"></a>静态资源缓存-图片缓存</h1><p>图片这些是静态资源吧，静态资源推荐的话是使用CDN缓存或者Nginx本地代理缓存和控制客户端浏览器的缓存时常以此来达到一个缓存的作用。</p>
+
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://xiaoyureed.gitee.io">肖雨</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://xiaoyureed.gitee.io/2017/08/17/outline-about-cache/">https://xiaoyureed.gitee.io/2017/08/17/outline-about-cache/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+      <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">Reward</label>
+    <div class="qr-code"><label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/wechat.png" title="wechat">
+        </label>
+      <label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/ali.png" title="alipay">
+        </label>
+      </div>
+  </div><footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/cache/">cache</a>
+            <a href="/tags/outline/">outline</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2017/08/18/outline-about-rest-api/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">RESTful api 及 其他webService技术</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2017/08/05/class-conflict-check/">
+        <span class="next-text nav-default">Class Conflict Check</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:775000738@qq.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/xiaoyureed" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="https://www.douban.com/people/xiaoyu_red/" target="_blank" rel="noopener" class="iconfont icon-douban" title="douban"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2015 - 2020<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">肖雨</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>

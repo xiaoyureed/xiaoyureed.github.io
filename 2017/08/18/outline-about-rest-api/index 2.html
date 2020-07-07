@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="RESTful api 及 其他webService技术"/><meta name="keywords" content="blog 博客 网络日志" /><link rel="alternate" href="/default" title="肖雨的网络 WiKi"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://xiaoyureed.gitee.io/2017/08/18/outline-about-rest-api/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":false,"pjax":"","latex":false};
+</script>
+
+    <title>RESTful api 及 其他webService技术 - 肖雨的网络 WiKi</title>
+  <meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">肖雨的网络 WiKi</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">肖雨的网络 WiKi</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            Categories
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">RESTful api 及 其他webService技术
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-08-18
+        </span><span class="post-category">
+            <a href="/categories/java-web/">java web</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web-Service"><span class="toc-text">Web Service</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是restful架构？"><span class="toc-text">什么是restful架构？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RESTful最大的优势"><span class="toc-text">RESTful最大的优势</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#典型的设计错误"><span class="toc-text">典型的设计错误</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设计合理的restful-API"><span class="toc-text">设计合理的restful API</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#接口安全设计"><span class="toc-text">接口安全设计</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实践"><span class="toc-text">实践</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设计统一的响应结构"><span class="toc-text">设计统一的响应结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现对象序列化"><span class="toc-text">实现对象序列化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理异常"><span class="toc-text">处理异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#支持参数验证"><span class="toc-text">支持参数验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决跨域问题"><span class="toc-text">解决跨域问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#API访问权"><span class="toc-text">API访问权</span></a></li></ol></li></ol>
+    </div>
+  </div><div class="post-content"><div align="center">
+reference: http://www.ruanyifeng.com/blog/2014/05/restful_api.html, java的rmi使用https://blog.csdn.net/zhaowen25/article/details/45443951, xml-rpc使用http://www.cnblogs.com/flyoung2008/archive/2011/11/12/2246282.html
+</div>
+<a id="more"></a>
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#web-service">Web Service</a></li>
+<li><a href="#什么是restful架构">什么是restful架构？</a></li>
+<li><a href="#restful最大的优势">RESTful最大的优势</a></li>
+<li><a href="#典型的设计错误">典型的设计错误</a></li>
+<li><a href="#设计合理的restful-api">设计合理的restful API</a></li>
+<li><a href="#接口安全设计">接口安全设计</a></li>
+<li><a href="#实践">实践</a><ul>
+<li><a href="#设计统一的响应结构">设计统一的响应结构</a></li>
+<li><a href="#实现对象序列化">实现对象序列化</a></li>
+<li><a href="#处理异常">处理异常</a></li>
+<li><a href="#支持参数验证">支持参数验证</a></li>
+<li><a href="#解决跨域问题">解决跨域问题</a></li>
+<li><a href="#api访问权">API访问权</a></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+
+
+<h1 id="Web-Service"><a href="#Web-Service" class="headerlink" title="Web Service"></a>Web Service</h1><p>服务器如何向客户端提供服务</p>
+<p>常用的方法有:</p>
+<p>RPC 所谓的远程过程调用 (面向方法, 强调动作): 像调用本地服务(方法)一样调用服务器的服务(方法), 比如xml-rpc, json-rpc<br>SOA 所谓的面向服务的架构(面向消息), 和具体语言无关<br>REST 所谓的 Representational state transfer 表现层状态转移 (面向资源, 强调资源)<br>Hessian 见<a href="https://blog.csdn.net/weigao_easy/article/details/52351042" target="_blank" rel="noopener">ref</a></p>
+<p><a href="#webservice关注点">webservice关注点</a></p>
+<h1 id="什么是restful架构？"><a href="#什么是restful架构？" class="headerlink" title="什么是restful架构？"></a>什么是restful架构？</h1><ul>
+<li><p>一个架构符合rest原则则称之为restful架构</p>
+</li>
+<li><p>rest原则（资源的“表现层状态转化”）</p>
+<ul>
+<li><p>每个URI代表一个资源（资源可以使一段文本，一张图片，甚至是一个动作），URI中只能出现名词</p>
+</li>
+<li><p>client 和server间传递资源的某种表现层（文本表现层有text，json，xml；图片表现层有JPG，png等）</p>
+</li>
+<li><p>客户端通过http四个动词对服务器资源进行操作，实现“表现层状态转化”</p>
+</li>
+<li><p>无状态原则：即http的无状态，指的是服务器没有保存客户端的状态信息，客户端必须每次带上自己的状态去请求服务器。比如登陆，我们使用Cookie通过客户端保持登陆状态。有利于实现负载均衡（因为请求自身带有状态信息，任何server均可以处理client请求）</p>
+<blockquote>
+<p>如：如果遥控器与空调之间是有状态的，假设你离开空调接收范围调整了遥控器温度，变成19，那回到范围内你按一次升高一度，基于原先温度状态，遥控器给空调发送一个”提高1度“的指令，就会出现遥控器提高到20，而空调变成21。如果要空间与空调之前是无状态的，假设你离开空调接收范围调整了遥控器温度，变成19，那回到范围内你按一次升高一度，遥控器给空调发送一个”设定温度值20“，这样两者最终还是相同的值。</p>
+</blockquote>
+</li>
+<li><p>如果一个动作是http动词表现不了的，应该把这个动作变为一个资源，以名词形式通过URI发布出来</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="RESTful最大的优势"><a href="#RESTful最大的优势" class="headerlink" title="RESTful最大的优势"></a>RESTful最大的优势</h1><p>要求从资源的角度对系统进行拆分, 而不是像以前从动作/操作的角度</p>
+<p>我们平时搞系统是这样的：</p>
+<ol>
+<li>有新建用户功能</li>
+<li>新建用户需要一个URL</li>
+<li>往这个URL发送的数据要定义好</li>
+<li>开始写后端和前端</li>
+</ol>
+<p>这种方式当然可以架构出一个系统，甚至是一个好系统，但是偶尔会有些问题</p>
+<ul>
+<li>操作之间是会有关联，你的设计容易变成“第2个操作要求第1个操作进行过”，这种关系多起来系统就乱了</li>
+<li>URL设计会缺乏一致性</li>
+<li>操作通常被认为是有副作用（Side Effect）的，所以很少有人基于操作去设计缓存之类的东西</li>
+</ul>
+<p>遵循Restful风格后, 系统会获得这些好处:</p>
+<ul>
+<li>各个资源虽然可能有关联，但依旧是能够简单地切掉这些关联导致相互独立的，所以不会有非常乱的耦合性</li>
+<li>对资源的操作就这么几种，所以很容易设计一致的URL</li>
+<li>我们明白对资源的读操作是无副作用的，所以能方便的接入缓存</li>
+</ul>
+<h1 id="典型的设计错误"><a href="#典型的设计错误" class="headerlink" title="典型的设计错误"></a>典型的设计错误</h1><ul>
+<li><p>URI中包含动词</p>
+<p>  URI中不应该有动词，因为URI表示一个资源，只能是名词，动词放在http协议中，如：  </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;posts&#x2F;show&#x2F;1--------错误    </span><br><span class="line">&#x2F;posts&#x2F;1-----------正确，在http中用get表示show方法</span><br></pre></td></tr></table></figure>
+
+<p>  如果某个动作四个http动词表现不了，如：transfer 转账,用户1向用户2转账500元  </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST &#x2F;accounts&#x2F;1&#x2F;transfer&#x2F;500&#x2F;to&#x2F;2-------错误</span><br><span class="line"></span><br><span class="line">----------</span><br><span class="line"></span><br><span class="line">POST &#x2F;transaction HTTP&#x2F;1.1  </span><br><span class="line">Host: 127.0.0.1</span><br><span class="line"></span><br><span class="line">from&#x3D;1&amp;to&#x3D;2&amp;amount&#x3D;500.00  ------------正确，资源可以是一种服务，将动作 作为一种资源对外提供</span><br></pre></td></tr></table></figure>
+
+<p>  再比如: 登录场景. 我们可以将登录这个动作资源化, 将登录视作一种资源</p>
+<p>  把“登录”作为一个资源，所以登录是POST /logins，退出是DELETE /logins; 当然还有其他的解释比如, 登录登出视作session的增删, 而session是资源</p>
+</li>
+</ul>
+<ul>
+<li><p>URI中加入资源的版本号</p>
+<p>  API的版本号可以放进URI中，资源的版本号则不要放入  </p>
+<p>  不同的版本是同一个资源的不同表现形式，如下是错误的：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.example.com&#x2F;app&#x2F;1.0&#x2F;foo</span><br><span class="line">http:&#x2F;&#x2F;www.example.com&#x2F;app&#x2F;1.1&#x2F;foo</span><br><span class="line">http:&#x2F;&#x2F;www.example.com&#x2F;app&#x2F;2.0&#x2F;foo</span><br></pre></td></tr></table></figure>
+
+<p>  正确的做法是采用同一个URI，版本号在http的请求头accept字段中标明：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Accept: vnd.example-com.foo+json; version&#x3D;1.0</span><br><span class="line">Accept: vnd.example-com.foo+json; version&#x3D;1.1</span><br><span class="line">Accept: vnd.example-com.foo+json; version&#x3D;2.0</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h1 id="设计合理的restful-API"><a href="#设计合理的restful-API" class="headerlink" title="设计合理的restful API"></a>设计合理的restful API</h1><p>主要考虑如下几个要素：</p>
+<ul>
+<li><p>协议</p>
+<p>  http 或者 https  </p>
+</li>
+<li><p>身份认证</p>
+<p>  API的身份认证应该使用OAuth 2.0框架</p>
+</li>
+<li><p>数据格式</p>
+<p>  json避免使用xml</p>
+</li>
+<li><p>域名</p>
+<p>  尽量部署在专有域名下，如：<a href="https://api.example.com" target="_blank" rel="noopener">https://api.example.com</a><br>  如果确定API很简单，不会有进一步扩展，可以考虑放在主域名下：<a href="https://example.org/api/" target="_blank" rel="noopener">https://example.org/api/</a></p>
+</li>
+<li><p>版本</p>
+<p>  应该将API版本号放入URL：<a href="https://api.example.com/v1/" target="_blank" rel="noopener">https://api.example.com/v1/</a><br>  or<br>  将版本信息放在http header中，但是不如放在URL中直观</p>
+</li>
+<li><p>路径（endpoint)</p>
+<p>  只含有名词，一般为复数形式，如：  </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;api.example.com&#x2F;v1&#x2F;zoos</span><br><span class="line">https:&#x2F;&#x2F;api.example.com&#x2F;v1&#x2F;animals</span><br><span class="line">https:&#x2F;&#x2F;api.example.com&#x2F;v1&#x2F;employees</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>http动词</p>
+<p>  常用的有如下5种：  </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET（SELECT）：从服务器取出资源（一项或多项）。</span><br><span class="line">POST（CREATE）：在服务器新建一个资源。</span><br><span class="line">PUT（UPDATE）：在服务器更新资源（客户端提供改变后的完整资源）。</span><br><span class="line">PATCH（UPDATE）：在服务器更新资源（客户端提供改变的属性）。</span><br><span class="line">DELETE（DELETE）：从服务器删除资源。</span><br></pre></td></tr></table></figure>
+
+<p>  还有两个不常用的：—-<a href="https://stackoverflow.com/questions/6660019/restful-api-methods-head-options" target="_blank" rel="noopener">ref</a></p>
+  <img src="Snipaste_2018-05-07_22-35-43.png" align="left">
+
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HEAD: 获取某些header, 和get类似, 但是response没有body, 确定缓存哪些信息, 哪些缓存信息需要更新</span><br><span class="line">OPTIONS：对于某个resources可以使用哪些http动词</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<pre><code>下面是一些例子
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;zoos：列出所有动物园</span><br><span class="line">POST &#x2F;zoos：新建一个动物园</span><br><span class="line">GET &#x2F;zoos&#x2F;ID：获取某个指定动物园的信息</span><br><span class="line">PUT &#x2F;zoos&#x2F;ID：更新某个指定动物园的信息（提供该动物园的全部信息）</span><br><span class="line">PATCH &#x2F;zoos&#x2F;ID：更新某个指定动物园的信息（提供该动物园的部分信息）</span><br><span class="line">DELETE &#x2F;zoos&#x2F;ID：删除某个动物园</span><br><span class="line">GET &#x2F;zoos&#x2F;ID&#x2F;animals：列出某个指定动物园的所有动物</span><br><span class="line">DELETE &#x2F;zoos&#x2F;ID&#x2F;animals&#x2F;ID：删除某个指定动物园的指定动物</span><br></pre></td></tr></table></figure></code></pre><ul>
+<li><p>过滤信息（filtering）</p>
+<p>  如果记录数量很多，服务器不可能都将它们返回给用户。API应该提供参数，过滤返回结果。下面是一些常见的参数：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">?limit&#x3D;10：指定返回记录的数量</span><br><span class="line">?offset&#x3D;10：指定返回记录的开始位置。</span><br><span class="line">?page&#x3D;2&amp;per_page&#x3D;100：指定第几页，以及每页的记录数。</span><br><span class="line">?sortby&#x3D;name&amp;order&#x3D;asc：指定返回结果按照哪个属性排序，以及排序顺序。</span><br><span class="line">?animal_type_id&#x3D;1：指定筛选条件</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>状态码（status code）</p>
+<p>  常用的如下：  </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">200 OK - [GET]：服务器成功返回用户请求的数据，该操作是幂等的（Idempotent）。</span><br><span class="line">201 CREATED - [POST&#x2F;PUT&#x2F;PATCH]：用户新建或修改数据成功。</span><br><span class="line">202 Accepted - [*]：表示一个请求已经进入后台排队（异步任务）</span><br><span class="line">204 NO CONTENT - [DELETE]：用户删除数据成功。</span><br><span class="line">400 INVALID REQUEST - [POST&#x2F;PUT&#x2F;PATCH]：用户发出的请求有错误，服务器没有进行新建或修改数据的操作，该操作是幂等的。</span><br><span class="line">401 Unauthorized - [*]：表示用户没有权限（令牌、用户名、密码错误）。</span><br><span class="line">403 Forbidden - [*] 表示用户得到授权（与401错误相对），但是访问是被禁止的。</span><br><span class="line">404 NOT FOUND - [*]：用户发出的请求针对的是不存在的记录，服务器没有进行操作，该操作是幂等的。</span><br><span class="line">406 Not Acceptable - [GET]：用户请求的格式不可得（比如用户请求JSON格式，但是只有XML格式）。</span><br><span class="line">410 Gone -[GET]：用户请求的资源被永久删除，且不会再得到的。</span><br><span class="line">422 Unprocesable entity - [POST&#x2F;PUT&#x2F;PATCH] 当创建一个对象时，发生一个验证错误。</span><br><span class="line">500 INTERNAL SERVER ERROR - [*]：服务器发生错误，用户将无法判断发出的请求是否成功。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>错误处理（error handling）</p>
+<p>  如果状态码是4xx，就应该向用户返回出错信息。一般来说，返回的信息中将error作为键名，出错信息作为键值即可。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    error: &quot;Invalid API key&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>返回结果</p>
+<p>  针对不同的操作，服务器的返回结果应该符合下面的规范：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;collection：返回资源对象的列表（数组）</span><br><span class="line">GET &#x2F;collection&#x2F;resource：返回单个资源对象</span><br><span class="line">POST &#x2F;collection：返回新生成的资源对象</span><br><span class="line">PUT &#x2F;collection&#x2F;resource：返回完整的资源对象</span><br><span class="line">PATCH &#x2F;collection&#x2F;resource：返回完整的资源对象</span><br><span class="line">DELETE &#x2F;collection&#x2F;resource：返回一个空文档</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li>Hypermedia API</li>
+</ul>
+<h1 id="接口安全设计"><a href="#接口安全设计" class="headerlink" title="接口安全设计"></a>接口安全设计</h1><p><a href="https://www.cnblogs.com/jurendage/p/12653865.html" target="_blank" rel="noopener">1</a></p>
+<p>对于安全敏感的接口, 需要作出特殊的安全设计, 当然首先就是推荐使用 https</p>
+<ul>
+<li><p>token - 一般为 一个 UUID, 用于标识接口调用者的身份, 减少用户名和密码的传输次数  </p>
+<p>一般情况下客户端(接口调用方)需要先向服务器端申请一个接口调用的账号，服务器会给出一个appId和一个key, key用于参数签名使用</p>
+<p>server 生成 token 后, 将 token 作为 key, 将其他关联信息作为 value 存入 redis, 当一个 req 过来, 会带着 token, 到 redis 查这个 token, 如果存在, 则放行, 不存在, 则拦截</p>
+<p>细分为:</p>
+<ul>
+<li>接口令牌 (api token) - 访问无需登录的接口, 如 登录, 注册 需要拿appId、timestamp和sign来换，sign=加密(appId + timestamp + key)</li>
+<li>用户令牌 (user token) - 用于访问需要登录后调用的接口 需要拿用户名和密码来换</li>
+</ul>
+</li>
+<li><p>timestamp - 是客户端调用接口时对应的当前时间戳，用于防止DoS攻击</p>
+<p>每次调用接口时接口都会判断服务器当前系统时间和接口中传的的timestamp的差值，如果这个差值超过某个设置的时间(假如5分钟)，那么这个请求将被拦截掉，如果在设置的超时时间范围内，是不能阻止DoS攻击的</p>
+</li>
+<li><p>sign - 用于参数签名，防止参数被非法篡改, 比如涉及到转账的接口</p>
+<p>sign的值一般是将所有非空参数按照升续排序然后+token+key+timestamp+nonce拼接在一起，然后使用某种加密算法进行加密，作为接口中的一个参数sign来传递，也可以将sign放到请求头中 (nonce 为随机数, 客户端随机生成, 目的是增加sign签名的多变性, 一般是数字和字母的组合，6位长度)</p>
+<p>当服务器调用接口前会按照sign的规则重新计算出sign的值然后和接口传递的sign参数的值做比较, 相同则放行, 否则拦截</p>
+<p>server 也可以返回一个 sign 给 client, 用于防止 response 被篡改</p>
+</li>
+<li><p>防重复提交(幂等)</p>
+<p>  当请求第一次提交时将sign作为key保存到redis，并设置超时时间，超时时间和Timestamp中设置的差值相同</p>
+<p>  这样, 当同一个请求第二次访问时会先检测redis是否存在该sign，如果存在则证明重复提交了，接口就不再继续调用了。如果sign在缓存服务器中因过期时间到了，而被删除了，此时当这个url再次请求服务器时，因token的过期时间和sign的过期时间一直，sign过期也意味着token过期，那样同样的url再访问服务器会因token错误会被拦截掉</p>
+</li>
+</ul>
+<p>最终的使用流程:</p>
+<ol>
+<li>server 给 client 提供 appId, key</li>
+<li>client 携带 appId、timestamp、sign, 去获取 server 的 api token, sign = 加密(appId + timestamp + key)</li>
+<li>接着, client 就可以携带 api token 访问无需登录的 api.当访问用户需要登录的接口时，客户端跳转到登录页面，通过用户名和密码调用登录接口，登录接口会返回一个usertoken, 客户端拿着usertoken 去访问需要登录才能访问的接口</li>
+</ol>
+<h1 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h1><h2 id="设计统一的响应结构"><a href="#设计统一的响应结构" class="headerlink" title="设计统一的响应结构"></a>设计统一的响应结构</h2><p>json格式如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"meta"</span>: &#123;<span class="comment">//元数据</span></span><br><span class="line">        <span class="attr">"success"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"message"</span>: <span class="string">"ok"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"data"</span>: ...<span class="comment">//数据</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>相应的response类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Response</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String OK = <span class="string">"ok"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ERROR = <span class="string">"error"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Meta meta;</span><br><span class="line">    <span class="keyword">private</span> Object data;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">success</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.meta = <span class="keyword">new</span> Meta(<span class="keyword">true</span>, OK);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">success</span><span class="params">(Object data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.meta = <span class="keyword">new</span> Meta(<span class="keyword">true</span>, OK);</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">failure</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.meta = <span class="keyword">new</span> Meta(<span class="keyword">false</span>, ERROR);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">failure</span><span class="params">(String message)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.meta = <span class="keyword">new</span> Meta(<span class="keyword">false</span>, message);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Meta <span class="title">getMeta</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> meta;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Meta</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">boolean</span> success;</span><br><span class="line">        <span class="keyword">private</span> String message;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Meta</span><span class="params">(<span class="keyword">boolean</span> success)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.success = success;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Meta</span><span class="params">(<span class="keyword">boolean</span> success, String message)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.success = success;</span><br><span class="line">            <span class="keyword">this</span>.message = message;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSuccess</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> success;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">getMessage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> message;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="实现对象序列化"><a href="#实现对象序列化" class="headerlink" title="实现对象序列化"></a>实现对象序列化</h2><p>Spring MVC 已经为我们提供了这类序列化特性，只需在 Controller 的方法参数中使用 @RequestBody 注解定义需要反序列化的参数即可  </p>
+<p>若需要对 Controller 的方法返回值进行序列化，则需要在该返回值上使用 @ResponseBody 注解来定义  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdvertiserController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/advertiser/&#123;id&#125;"</span>, method = RequestMethod.GET)</span><br><span class="line">    <span class="keyword">public</span> <span class="meta">@ResponseBody</span> <span class="function">Response <span class="title">getAdvertiser</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> String advertiserId) </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于经常会使用到 @ResponseBody 注解，所以 Spring 提供了一个名为 @RestController 的注解来取代以上的 @Controller 注解，这样我们就可以省略返回值前面的 @ResponseBody 注解了，但参数前面的 @RequestBody 注解是无法省略的  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdvertiserController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/advertiser"</span>, method = RequestMethod.POST)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">createAdvertiser</span><span class="params">(@RequestBody AdvertiserParam advertiserParam)</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/advertiser/&#123;id&#125;"</span>, method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">getAdvertiser</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> String advertiserId) </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用 Jackson 来提供 JSON 的序列化操作，在 Spring 配置文件中只需添加以下配置即可：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mvc:annotation-driven</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:annotation-driven</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>但是这是最基础的json序列化操作，如果需要排除值为空属性、进行缩进输出、将驼峰转为下划线、进行日期格式化等，这又如何实现呢？  </p>
+<p>第一步：扩展 Jackson 提供的 ObjectMapper 类  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomObjectMapper</span> <span class="keyword">extends</span> <span class="title">ObjectMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> camelCaseToLowerCaseWithUnderscores = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">private</span> String dateFormatPattern;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCamelCaseToLowerCaseWithUnderscores</span><span class="params">(<span class="keyword">boolean</span> camelCaseToLowerCaseWithUnderscores)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.camelCaseToLowerCaseWithUnderscores = camelCaseToLowerCaseWithUnderscores;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDateFormatPattern</span><span class="params">(String dateFormatPattern)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.dateFormatPattern = dateFormatPattern;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 排除值为空属性</span></span><br><span class="line">        setSerializationInclusion(JsonInclude.Include.NON_NULL);</span><br><span class="line">        <span class="comment">// 进行缩进输出</span></span><br><span class="line">        configure(SerializationFeature.INDENT_OUTPUT, <span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// 将驼峰转为下划线</span></span><br><span class="line">        <span class="keyword">if</span> (camelCaseToLowerCaseWithUnderscores) &#123;</span><br><span class="line">            setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 进行日期格式化</span></span><br><span class="line">        <span class="keyword">if</span> (StringUtil.isNotEmpty(dateFormatPattern)) &#123;</span><br><span class="line">            DateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(dateFormatPattern);</span><br><span class="line">            setDateFormat(dateFormat);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第二步：将 CustomObjectMapper 注入到 MappingJackson2HttpMessageConverter 中，Spring 配置如下：  </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"objectMapper"</span> <span class="attr">class</span>=<span class="string">"com.xxx.api.json.CustomObjectMapper"</span> <span class="attr">init-method</span>=<span class="string">"init"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"camelCaseToLowerCaseWithUnderscores"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dateFormatPattern"</span> <span class="attr">value</span>=<span class="string">"yyyy-MM-dd HH:mm:ss"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">mvc:annotation-driven</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"objectMapper"</span> <span class="attr">ref</span>=<span class="string">"objectMapper"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:annotation-driven</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="处理异常"><a href="#处理异常" class="headerlink" title="处理异常"></a>处理异常</h2><p>使用 AOP 技术，编写一个全局的异常处理切面类，用它来统一处理所有的异常行为;定义一个类，并通过 @ControllerAdvice 注解将其标注即可，同时需要使用 @ResponseBody 注解表示返回值可序列化为 JSON 字符串    </p>
+<p>在运行时从上往下依次调用每个异常处理方法，匹配当前异常类型是否与 @ExceptionHandler 注解所定义的异常相匹配，若匹配，则执行该方法，同时忽略后续所有的异常处理方法，最终会返回经 JSON 序列化后的 Response 对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExceptionAdvice</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 400 - Bad Request</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ResponseStatus</span>(HttpStatus.BAD_REQUEST)</span><br><span class="line">    <span class="meta">@ExceptionHandler</span>(HttpMessageNotReadableException<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">Response</span> <span class="title">handleHttpMessageNotReadableException</span>(<span class="title">HttpMessageNotReadableException</span> <span class="title">e</span>) </span>&#123;</span><br><span class="line">        logger.error(<span class="string">"参数解析失败"</span>, e);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Response().failure(<span class="string">"could_not_read_json"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 405 - Method Not Allowed</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ResponseStatus</span>(HttpStatus.METHOD_NOT_ALLOWED)</span><br><span class="line">    <span class="meta">@ExceptionHandler</span>(HttpRequestMethodNotSupportedException<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">Response</span> <span class="title">handleHttpRequestMethodNotSupportedException</span>(<span class="title">HttpRequestMethodNotSupportedException</span> <span class="title">e</span>) </span>&#123;</span><br><span class="line">        logger.error(<span class="string">"不支持当前请求方法"</span>, e);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Response().failure(<span class="string">"request_method_not_supported"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 415 - Unsupported Media Type</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ResponseStatus</span>(HttpStatus.UNSUPPORTED_MEDIA_TYPE)</span><br><span class="line">    <span class="meta">@ExceptionHandler</span>(HttpMediaTypeNotSupportedException<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">Response</span> <span class="title">handleHttpMediaTypeNotSupportedException</span>(<span class="title">Exception</span> <span class="title">e</span>) </span>&#123;</span><br><span class="line">        logger.error(<span class="string">"不支持当前媒体类型"</span>, e);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Response().failure(<span class="string">"content_type_not_supported"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 500 - Internal Server Error</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ResponseStatus</span>(HttpStatus.INTERNAL_SERVER_ERROR)</span><br><span class="line">    <span class="meta">@ExceptionHandler</span>(Exception<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">Response</span> <span class="title">handleException</span>(<span class="title">Exception</span> <span class="title">e</span>) </span>&#123;</span><br><span class="line">        logger.error(<span class="string">"服务运行异常"</span>, e);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Response().failure(e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="支持参数验证"><a href="#支持参数验证" class="headerlink" title="支持参数验证"></a>支持参数验证</h2><p>提供一个 @Valid 注解来定义 AdvertiserParam 参数，并在 AdvertiserParam 类中通过 @NotEmpty 注解来定义 advertiserName 属性, like this:  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdvertiserController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/advertiser"</span>, method = RequestMethod.POST)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">createAdvertiser</span><span class="params">(@RequestBody @Valid AdvertiserParam advertiserParam)</span> </span>&#123;<span class="comment">//这里的@Valid需要jar包支持，pom引入</span></span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdvertiserParam</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NotEmpty</span></span><br><span class="line">    <span class="keyword">private</span> String advertiserName;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String description;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 省略 getter/setter 方法</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义@NotEmpty 注解类</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Target</span>(&#123;ElementType.FIELD, ElementType.PARAMETER&#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Constraint</span>(validatedBy = NotEmptyValidator<span class="class">.<span class="keyword">class</span>)//指定一个验证器类</span></span><br><span class="line"><span class="class"><span class="title">public</span> @<span class="title">interface</span> <span class="title">NotEmpty</span> </span>&#123;</span><br><span class="line"><span class="comment">//以下三个属性为必须，是规范所要求</span></span><br><span class="line">    <span class="function">String <span class="title">message</span><span class="params">()</span> <span class="keyword">default</span> "not_empty"</span>;</span><br><span class="line"></span><br><span class="line">    Class&lt;?&gt;[] groups() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    Class&lt;? extends Payload&gt;[] payload() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义验证器类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NotEmptyValidator</span> <span class="keyword">implements</span> <span class="title">ConstraintValidator</span>&lt;<span class="title">NotEmpty</span>, <span class="title">String</span>&gt; </span>&#123;<span class="comment">//NotEmpty是验证注解类型，String是需要验证的参数类型</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">(NotEmpty constraintAnnotation)</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isValid</span><span class="params">(String value, ConstraintValidatorContext context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> StringUtil.isNotEmpty(value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的 @Valid 注解实际上是 Validation Bean 规范提供的注解，该规范已由 Hibernate Validator 框架实现，因此需要添加以下 Maven 依赖到 pom.xml 文件中:  </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.hibernate<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hibernate-validator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;hibernate-validator.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最后，需要在 Spring 配置文件中开启校验，需添加如下配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.validation.beanvalidation.MethodValidationPostProcessor"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最后，需要在全局异常处理类中添加参数验证处理方法，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExceptionAdvice</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 400 - Bad Request</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ResponseStatus</span>(HttpStatus.BAD_REQUEST)</span><br><span class="line">    <span class="meta">@ExceptionHandler</span>(ValidationException<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">Response</span> <span class="title">handleValidationException</span>(<span class="title">ValidationException</span> <span class="title">e</span>) </span>&#123;</span><br><span class="line">        logger.error(<span class="string">"参数验证失败"</span>, e);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Response().failure(<span class="string">"validation_exception"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="解决跨域问题"><a href="#解决跨域问题" class="headerlink" title="解决跨域问题"></a>解决跨域问题</h2><p>整个架构包含两个应用，前端应用提供纯静态的 HTML 页面，后端应用发布 REST API，前端需要通过 AJAX 调用后端发布的 REST API，然而 AJAX 是不支持跨域访问的  </p>
+<p>解决这个问题需要前后端互相配合，后端的工作只要能将 CORS 响应头写入 response 对象中即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CorsFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String allowOrigin;</span><br><span class="line">    <span class="keyword">private</span> String allowMethods;</span><br><span class="line">    <span class="keyword">private</span> String allowCredentials;</span><br><span class="line">    <span class="keyword">private</span> String allowHeaders;</span><br><span class="line">    <span class="keyword">private</span> String exposeHeaders;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">        allowOrigin = filterConfig.getInitParameter(<span class="string">"allowOrigin"</span>);</span><br><span class="line">        allowMethods = filterConfig.getInitParameter(<span class="string">"allowMethods"</span>);</span><br><span class="line">        allowCredentials = filterConfig.getInitParameter(<span class="string">"allowCredentials"</span>);</span><br><span class="line">        allowHeaders = filterConfig.getInitParameter(<span class="string">"allowHeaders"</span>);</span><br><span class="line">        exposeHeaders = filterConfig.getInitParameter(<span class="string">"exposeHeaders"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest req, ServletResponse res, FilterChain chain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        HttpServletRequest request = (HttpServletRequest) req;</span><br><span class="line">        HttpServletResponse response = (HttpServletResponse) res;</span><br><span class="line">        <span class="keyword">if</span> (StringUtil.isNotEmpty(allowOrigin)) &#123;</span><br><span class="line">            List&lt;String&gt; allowOriginList = Arrays.asList(allowOrigin.split(<span class="string">","</span>));<span class="comment">//解决了跨多个域的问题</span></span><br><span class="line">            <span class="keyword">if</span> (CollectionUtil.isNotEmpty(allowOriginList)) &#123;</span><br><span class="line">                String currentOrigin = request.getHeader(<span class="string">"Origin"</span>);</span><br><span class="line">                <span class="keyword">if</span> (allowOriginList.contains(currentOrigin)) &#123;</span><br><span class="line">                    response.setHeader(<span class="string">"Access-Control-Allow-Origin"</span>, currentOrigin);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (StringUtil.isNotEmpty(allowMethods)) &#123;</span><br><span class="line">            response.setHeader(<span class="string">"Access-Control-Allow-Methods"</span>, allowMethods);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (StringUtil.isNotEmpty(allowCredentials)) &#123;</span><br><span class="line">            response.setHeader(<span class="string">"Access-Control-Allow-Credentials"</span>, allowCredentials);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (StringUtil.isNotEmpty(allowHeaders)) &#123;</span><br><span class="line">            response.setHeader(<span class="string">"Access-Control-Allow-Headers"</span>, allowHeaders);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (StringUtil.isNotEmpty(exposeHeaders)) &#123;</span><br><span class="line">            response.setHeader(<span class="string">"Access-Control-Expose-Headers"</span>, exposeHeaders);</span><br><span class="line">        &#125;</span><br><span class="line">        chain.doFilter(req, res);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以下是 web.xml 中配置 CorsFilter 的方法：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>corsFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>com.xxx.api.cors.CorsFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>allowOrigin<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>http://web.xxx.com<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>allowMethods<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>GET,POST,PUT,DELETE,OPTIONS<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>allowCredentials<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>allowHeaders<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>Content-Type<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>corsFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="API访问权"><a href="#API访问权" class="headerlink" title="API访问权"></a>API访问权</h2><p>由于 REST 是无状态的，后端应用发布的 REST API 可在用户未登录的情况下被任意调用，这显然是不安全的  </p>
+<p>实现思路：  </p>
+<ol>
+<li>登录成功后，server生成一个token，JVM中保存一份，同时返回客户端一份</li>
+<li>客户端中将token写入cookie，每次请求都带上</li>
+<li>提供一个aop切面，拦截所有请求，判断token有效性</li>
+<li>登出时，清楚cookie中的token，服务端的token可设置过期时间，自行移除</li>
+</ol>
+<p>如果需要做到分布式集群，建议基于 Redis 提供一个实现类<br>如下是一个简单的实现：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TokenManager</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">String <span class="title">createToken</span><span class="params">(String username)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">checkToken</span><span class="params">(String token)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//简单版的实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultTokenManager</span> <span class="keyword">implements</span> <span class="title">TokenManager</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, String&gt; tokenMap = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">createToken</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">        String token = CodecUtil.createUUID();</span><br><span class="line">        tokenMap.put(token, username);</span><br><span class="line">        <span class="keyword">return</span> token;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">checkToken</span><span class="params">(String token)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> !StringUtil.isEmpty(token) &amp;&amp; tokenMap.containsKey(token);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//切面类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecurityAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_TOKEN_NAME = <span class="string">"X-Token"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> TokenManager tokenManager;</span><br><span class="line">    <span class="keyword">private</span> String tokenName;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTokenManager</span><span class="params">(TokenManager tokenManager)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.tokenManager = tokenManager;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTokenName</span><span class="params">(String tokenName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (StringUtil.isEmpty(tokenName)) &#123;</span><br><span class="line">            tokenName = DEFAULT_TOKEN_NAME;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.tokenName = tokenName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">execute</span><span class="params">(ProceedingJoinPoint pjp)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="comment">// 从切点上获取目标方法</span></span><br><span class="line">        MethodSignature methodSignature = (MethodSignature) pjp.getSignature();</span><br><span class="line">        Method method = methodSignature.getMethod();</span><br><span class="line">        <span class="comment">// 若目标方法忽略了安全性检查，则直接调用目标方法</span></span><br><span class="line">        <span class="keyword">if</span> (method.isAnnotationPresent(IgnoreSecurity<span class="class">.<span class="keyword">class</span>)) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> pjp.proceed();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 从 request header 中获取当前 token</span></span><br><span class="line">        String token = WebContext.getRequest().getHeader(tokenName);</span><br><span class="line">        <span class="comment">// 检查 token 有效性</span></span><br><span class="line">        <span class="keyword">if</span> (!tokenManager.checkToken(token)) &#123;</span><br><span class="line">            String message = String.format(<span class="string">"token [%s] is invalid"</span>, token);</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> TokenException(message);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 调用目标方法</span></span><br><span class="line">        <span class="keyword">return</span> pjp.proceed();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使切面生效，添加如下Spring配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"securityAspect"</span> <span class="attr">class</span>=<span class="string">"com.xxx.api.security.SecurityAspect"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"tokenManager"</span> <span class="attr">ref</span>=<span class="string">"tokenManager"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"tokenName"</span> <span class="attr">value</span>=<span class="string">"X-Token"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">ref</span>=<span class="string">"securityAspect"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:around</span> <span class="attr">method</span>=<span class="string">"execute"</span> <span class="attr">pointcut</span>=<span class="string">"@annotation(org.springframework.web.bind.annotation.RequestMapping)"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最后，在 web.xml 中添加允许的 X-Token 响应头，配置如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>allowHeaders<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>Content-Type,X-Token<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://xiaoyureed.gitee.io">肖雨</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://xiaoyureed.gitee.io/2017/08/18/outline-about-rest-api/">https://xiaoyureed.gitee.io/2017/08/18/outline-about-rest-api/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+      <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">Reward</label>
+    <div class="qr-code"><label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/wechat.png" title="wechat">
+        </label>
+      <label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/ali.png" title="alipay">
+        </label>
+      </div>
+  </div><footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/restful/">restful</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2017/08/21/outline-about-cors/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">跨域问题</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2017/08/17/outline-about-cache/">
+        <span class="next-text nav-default">缓存概述</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:775000738@qq.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/xiaoyureed" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="https://www.douban.com/people/xiaoyu_red/" target="_blank" rel="noopener" class="iconfont icon-douban" title="douban"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2015 - 2020<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">肖雨</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>
