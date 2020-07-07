@@ -14,7 +14,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 <meta name="keywords" content="blog 博客 网络日志" /><link rel="alternate" href="/default" title="肖雨的网络 WiKi"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
-<link rel="canonical" href="https://xiaoyureed.gitee.io/tags/video/"/>
+<link rel="canonical" href="https://xiaoyureed.gitee.io/my/demo/experiment/layout/inline-block-layout.html"/>
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
@@ -37,9 +37,8 @@
   window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":false,"pjax":"","latex":false};
 </script>
 
-    <title>video · 肖雨的网络 WiKi
-  </title>
-  <meta name="generator" content="Hexo 4.2.1"></head>
+    <title> - 肖雨的网络 WiKi</title>
+  </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
   <div class="mobile-header-logo">
@@ -105,23 +104,53 @@
 
       <main id="main" class="main">
         <div class="content-wrapper">
-          <div id="content" class="content"><section id="archive" class="archive"><div class="archive-title tag">
-          <h2 class="archive-name">video</h2>
-        </div>
-      <div class="collection-title">
-            <h2 class="archive-year">2017</h2>
-          </div>
-        <div class="archive-post">
-        <span class="archive-post-time">
-          02-25
-          </span>
-        <span class="archive-post-title">
-          <a href="/2017/02/25/video-shoot/" class="archive-post-link">
-            Video Shooting
-          </a>
-        </span>
-      </div>
-    </section><nav class="pagination"></nav></div></div>
+          <div id="content" class="content"><article class="post">
+    <div class="post-content">
+      <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>inline-block-layout</title>
+  <style>
+    nav {
+      display: inline-block;
+      vertical-align: top;/* vertical-align 属性会影响到 inline-block 元素，你可能会把它的值设置为 top */
+      width: 25%;/* 需要设置每一列的宽度 */
+    }
+    .column {
+      display: inline-block;
+      vertical-align: top;
+      width: 70%;
+    }
+    .container {/* 貌似没啥用 */
+      position: relative;
+      box-sizing: border-box; 
+    }
+  </style>
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body><!-- 如果HTML源代码中元素之间有空格，那么列与列之间会产生空隙 -->
+  <div class="container" style="border: 2px solid black;">
+    <nav style="border: 2px solid green">
+      <ul>
+        <li>link1</li>
+        <li>link2</li>
+        <li>link3</li>
+      </ul>
+    </nav>
+    <div class="column">
+      <section style="border: 2px solid blue;">凑字数凑字数凑字数凑字数凑字数凑字数凑字数凑字数凑字数凑字数凑字数凑字数。</section>
+      <section style="border: 2px solid blue;">凑字数--凑字数凑字数--凑字数凑字数--凑字数凑字数--凑字数凑字数--凑字数凑字数--凑字数凑字
+        数--凑字数凑字数--凑字数凑字数--凑字数凑字数--凑字数凑字数--凑字数凑字数--凑字数凑字数--凑字数凑字数--凑字数凑字数--凑字数
+        凑字数--凑字数凑字数--凑字数凑字数--凑字数凑字数--凑字数凑字数--凑字数凑字数--凑字数凑字数--凑字数凑字数--凑字数凑字数--凑字数
+      </section>
+    </div>
+  </div>
+</body>
+</html>
+    </div>
+  </article></div><div class="comments" id="comments"></div></div>
       </main>
 
       <footer id="footer" class="footer"><div class="social-links"><a href="mailto:775000738@qq.com" class="iconfont icon-email" title="email"></a>

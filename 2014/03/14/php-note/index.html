@@ -121,7 +121,7 @@
     <div class="post-toc" id="post-toc">
     <h2 class="post-toc-title">Contents</h2>
     <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#环境搭建"><span class="toc-text">环境搭建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#语法"><span class="toc-text">语法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#trait，interface和abstract的异同"><span class="toc-text">trait，interface和abstract的异同</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#表单处理"><span class="toc-text">表单处理</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#环境搭建"><span class="toc-text">环境搭建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#语法"><span class="toc-text">语法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#trait，interface和abstract的异同"><span class="toc-text">trait，interface和abstract的异同</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#表单处理"><span class="toc-text">表单处理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#swoole2-0-和协程"><span class="toc-text">swoole2.0 和协程</span></a></li></ol>
     </div>
   </div><div class="post-content"><div align="center">
 php（PHP: Hypertext Processor）是一种服务器上运行的脚本语言;
@@ -129,6 +129,17 @@ php文件包括 文本、html、js、php代码这些元素;
 执行后， 返回给browser的结果是html形式的， 默认拓展名".php"
 </div>
 <a id="more"></a>
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#环境搭建">环境搭建</a></li>
+<li><a href="#语法">语法</a></li>
+<li><a href="#traitinterface和abstract的异同">trait，interface和abstract的异同</a></li>
+<li><a href="#表单处理">表单处理</a></li>
+<li><a href="#swoole20-和协程">swoole2.0 和协程</a></li>
+</ul>
+<!-- /TOC -->
 
 <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>reference: <a href="https://blog.csdn.net/tojohnonly/article/details/79820471" target="_blank" rel="noopener">1</a></p>
 <p>也可以使用php内置的server, <code>php -S localhost:8000 -t D:\_learn\php</code>, D:/_learn/php即为被代理的文件夹; (<a href="https://www.cnblogs.com/HouJiao/p/4985597.html" target="_blank" rel="noopener">ref</a>); 访问: <a href="http://localhost:8000/demo1.php" target="_blank" rel="noopener">http://localhost:8000/demo1.php</a></p>
@@ -149,18 +160,7 @@ php文件包括 文本、html、js、php代码这些元素;
 <p>welcome.php 文件如下所示</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">欢迎 <span class="meta">&lt;?php</span> <span class="keyword">echo</span> $_POST[<span class="string">"fname"</span>]; <span class="meta">?&gt;</span>!&lt;br&gt;</span><br><span class="line">你的年龄是 <span class="meta">&lt;?php</span> <span class="keyword">echo</span> $_POST[<span class="string">"age"</span>]; <span class="meta">?&gt;</span>  岁。</span><br></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-
-
-
-
-
-
+<h1 id="swoole2-0-和协程"><a href="#swoole2-0-和协程" class="headerlink" title="swoole2.0 和协程"></a>swoole2.0 和协程</h1><p>Swoole 2.x 让 PHP 这门 20多年历史的老牌后台编程语言也能有协程的能力</p>
 
       </div>
       <div class="post-copyright">

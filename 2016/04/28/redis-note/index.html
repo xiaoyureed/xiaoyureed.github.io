@@ -570,7 +570,8 @@ reference: [redis基础](https://juejin.im/post/5ad6e4066fb9a028d82c4b66), [redi
 <li>Jedis类中有RedisInputStream和RedisOutputStream两个属性，而发送命令和获取返回值都是使用这两个成员变量，显然，这很容易引发多线程问题。</li>
 </ul>
 <p>可以通过JedisPool连接池去管理实例，在多线程情况下让每个线程有自己独立的jedis实例 来实现线程安全</p>
-<h2 id="lettuce"><a href="#lettuce" class="headerlink" title="lettuce"></a>lettuce</h2><p>spring boot2 默认使用</p>
+<h2 id="lettuce"><a href="#lettuce" class="headerlink" title="lettuce"></a>lettuce</h2><p><a href="https://www.cnblogs.com/throwable/p/11601538.html" target="_blank" rel="noopener">https://www.cnblogs.com/throwable/p/11601538.html</a> - 使用</p>
+<p>spring boot2 默认使用</p>
 <p>Lettuce 基于 netty, 线程安全</p>
 <p>需要添加依赖 <code>common-pool2</code>, 用于提供连接池, <a href="https://blog.csdn.net/qq447995687/article/details/80233621" target="_blank" rel="noopener">自定义对象连接池</a> //todo</p>
 <p><a href="https://blog.csdn.net/bai_bug/article/details/81222519" target="_blank" rel="noopener">GenericJackson2JsonRedisSerializer Jackson2JsonRedisSerializer 区别</a> - 前者可以直接从redis 反序列化成对象, 但是占用内存高 (使用GenericJackson2JsonRedisSerializer序列化时，会保存序列化的对象的包名和类名，反序列化时以这个作为标示就可以反序列化成指定的对象)</p>

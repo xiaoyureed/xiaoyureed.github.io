@@ -14,7 +14,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 <meta name="keywords" content="blog 博客 网络日志" /><link rel="alternate" href="/default" title="肖雨的网络 WiKi"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
-<link rel="canonical" href="https://xiaoyureed.gitee.io/archives/2017/02/"/>
+<link rel="canonical" href="https://xiaoyureed.gitee.io/my/demo/experiment/layout/float-layout.html"/>
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
@@ -37,9 +37,8 @@
   window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":false,"pjax":"","latex":false};
 </script>
 
-    <title>Archives - 肖雨的网络 WiKi
-  </title>
-  <meta name="generator" content="Hexo 4.2.1"></head>
+    <title> - 肖雨的网络 WiKi</title>
+  </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
   <div class="mobile-header-logo">
@@ -105,25 +104,57 @@
 
       <main id="main" class="main">
         <div class="content-wrapper">
-          <div id="content" class="content"><section id="archive" class="archive"><div class="archive-title">
-          <span class="archive-post-counter">
-            70 Posts In Total
-          </span>
-        </div>
-      <div class="collection-title">
-            <h2 class="archive-year">2017</h2>
-          </div>
-        <div class="archive-post">
-        <span class="archive-post-time">
-          02-25
-          </span>
-        <span class="archive-post-title">
-          <a href="/2017/02/25/video-shoot/" class="archive-post-link">
-            Video Shooting
-          </a>
-        </span>
-      </div>
-    </section><nav class="pagination"></nav></div></div>
+          <div id="content" class="content"><article class="post">
+    <div class="post-content">
+      <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>float-layout</title>
+  <style>
+    .container {
+      overflow: auto;
+    }
+    nav {
+      float: left;
+      width: 200px;
+    }
+    section {
+      margin-left: 200px;
+    }
+  </style>
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body>
+  <div class="container" style="border: 2px solid black;">
+    <!-- nav 参考: https://www.cnblogs.com/space007/p/6210632.html -->
+    <nav style="border: 2px solid green;">
+      <ul>
+        <li>link1</li>
+        <li>link2</li>
+        <li>link3</li>
+      </ul>
+      <p>这个例子和之前那个外观一模一样。请注意我们在容器上做了“清除浮动”。原本在这个例子中是不需要的，但
+        是当 nav 比非浮动的内容还要高时就需要了。</p>
+    </nav>
+
+    <section style="border: 2px solid red;">section 的 margin-left 样式确保了有足够的空间容纳 nav 元素。</section>
+    <section style="border: 2px solid red;">凑字数~凑字数凑字数~凑字数凑字数~凑字数凑字数~凑字数凑字数~凑字数凑字数~凑字数凑字数~凑字数
+      凑字数~凑字数凑字数~凑字数凑字数~凑字数凑字数~凑字数凑字数~凑字数凑字数~凑字数凑字数~凑字数凑字数
+      ~凑字数凑字数~凑字数凑字数~凑字数凑字数~凑字数凑字数~凑字数凑字数~凑字数凑字数~凑字数凑字数~凑字数凑
+      凑字数~凑字数凑字数~凑字数凑字数~凑字数凑凑字数~凑字数凑字数~凑字数凑字数~凑字数凑字数~凑字数凑
+      凑字数~凑字数凑字数~凑字数凑字数~凑字数凑凑字数~凑字数凑字数~凑字数凑字数~凑字数凑
+      凑字数~凑字数凑字数~凑字数凑字数~凑字数凑凑字数~凑字数凑字数~凑字数凑字数~凑字数凑
+    </section>
+    <section style="border: 2px solid red;">调整浏览器窗口时, 元素宽度会动态变化, 因为section元素没有手动设置width。</section>
+    
+  </div>
+</body>
+</html>
+
+    </div>
+  </article></div><div class="comments" id="comments"></div></div>
       </main>
 
       <footer id="footer" class="footer"><div class="social-links"><a href="mailto:775000738@qq.com" class="iconfont icon-email" title="email"></a>

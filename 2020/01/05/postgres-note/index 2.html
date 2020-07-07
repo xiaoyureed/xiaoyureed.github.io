@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="Postgres note"/><meta name="keywords" content="blog 博客 网络日志" /><link rel="alternate" href="/default" title="肖雨的网络 WiKi"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://xiaoyureed.gitee.io/2020/01/05/postgres-note/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":false,"pjax":"","latex":false};
+</script>
+
+    <title>Postgres note - 肖雨的网络 WiKi</title>
+  <meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">肖雨的网络 WiKi</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">肖雨的网络 WiKi</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            Categories
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">Postgres note
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2020-01-05
+        </span><span class="post-category">
+            <a href="/categories/java-web/">java web</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#what-is-postgres"><span class="toc-text">what is postgres</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-Postgres"><span class="toc-text">Why Postgres</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#how-to-use"><span class="toc-text">how to use</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#sql-示例"><span class="toc-text">sql 示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#时间"><span class="toc-text">时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#array类型"><span class="toc-text">array类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hstore-键值对类型"><span class="toc-text">hstore 键值对类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#json类型"><span class="toc-text">json类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数字类型"><span class="toc-text">数字类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#序号类型"><span class="toc-text">序号类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符类型"><span class="toc-text">字符类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不同于MySQL的特性"><span class="toc-text">不同于MySQL的特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#账号系统"><span class="toc-text">账号系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#schema"><span class="toc-text">schema</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sql查询"><span class="toc-text">sql查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据修改"><span class="toc-text">数据修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#表管理"><span class="toc-text">表管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#导入导出"><span class="toc-text">导入导出</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#crontab-定时操作-postgresql"><span class="toc-text">crontab 定时操作 postgresql</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker-中启动-postgres"><span class="toc-text">docker 中启动 postgres</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><p><a href="http://www.postgresqltutorial.com/#" target="_blank" rel="noopener">http://www.postgresqltutorial.com/#</a> - postgresql tutorial</p>
+<p><a href="https://medium.com/quick-code/top-tutorials-to-learn-postgresql-database-for-beginners-99ff0deb9f84" target="_blank" rel="noopener">https://medium.com/quick-code/top-tutorials-to-learn-postgresql-database-for-beginners-99ff0deb9f84</a></p>
+<p><a href="http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html</a> - 通俗的入门</p>
+<p><a href="https://github.com/PostgREST/postgrest" target="_blank" rel="noopener">https://github.com/PostgREST/postgrest</a> - postgresql to rest api</p>
+<a id="more"></a>
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#what-is-postgres">what is postgres</a></li>
+<li><a href="#why-postgres">Why Postgres</a></li>
+<li><a href="#how-to-use">how to use</a><ul>
+<li><a href="#sql-示例">sql 示例</a></li>
+<li><a href="#数据类型">数据类型</a><ul>
+<li><a href="#时间">时间</a></li>
+<li><a href="#array类型">array类型</a></li>
+<li><a href="#hstore-键值对类型">hstore 键值对类型</a></li>
+<li><a href="#json类型">json类型</a></li>
+<li><a href="#数字类型">数字类型</a></li>
+<li><a href="#序号类型">序号类型</a></li>
+<li><a href="#字符类型">字符类型</a></li>
+</ul>
+</li>
+<li><a href="#不同于mysql的特性">不同于MySQL的特性</a><ul>
+<li><a href="#账号系统">账号系统</a></li>
+<li><a href="#schema">schema</a></li>
+<li><a href="#sql查询">sql查询</a></li>
+<li><a href="#数据修改">数据修改</a></li>
+<li><a href="#表管理">表管理</a></li>
+<li><a href="#导入导出">导入导出</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#crontab-定时操作-postgresql">crontab 定时操作 postgresql</a></li>
+<li><a href="#docker-中启动-postgres">docker 中启动 postgres</a></li>
+</ul>
+<!-- /TOC -->
+
+
+<h1 id="what-is-postgres"><a href="#what-is-postgres" class="headerlink" title="what is postgres"></a>what is postgres</h1><p>关系型数据库, 开源, 同类是 MySQL</p>
+<p>Greenplum: 开源分布式数据库集群技术，基于PostgreSQL</p>
+<h1 id="Why-Postgres"><a href="#Why-Postgres" class="headerlink" title="Why Postgres"></a>Why Postgres</h1><p>或者说, 比MySQL好在哪里 (<a href="https://www.zhihu.com/question/20010554/answer/62628256" target="_blank" rel="noopener">https://www.zhihu.com/question/20010554/answer/62628256</a>)</p>
+<ul>
+<li>MySQL 的各种 text 字段有不同的限制, 要手动区分 small text, middle text, large text… Pg 没有这个限制, text 能支持各种大小.</li>
+<li>pg 可以设置 transform_null_equals 把 = null 翻译成 is null (按照 SQL 标准, 做 null 判断不能用 = null, 只能用 is null, 这是因为 null永远不等于null) - <a href="http://www.postgresqltutorial.com/postgresql-is-null/" target="_blank" rel="noopener">http://www.postgresqltutorial.com/postgresql-is-null/</a></li>
+<li>MySQL 里需要 utf8mb4 才能显示 emoji 的坑, Pg 就没这个坑.</li>
+<li>MySQL 的事务隔离级别 repeatable read 并不能阻止常见的并发更新, 得加锁才可以, 但悲观锁会影响性能, 手动实现乐观锁又复杂. 而 Pg 的列里有<code>隐藏的乐观锁</code> version 字段, 默认的 repeatable read 级别就能保证并发更新的正确性, 并且又有乐观锁的性能</li>
+<li>MySQL 不支持多个表从同一个序列中取 id, 而 Pg 可以</li>
+<li>MySQL 不支持 OVER 子句, 而 Pg 支持. OVER 子句能简单的解决 “每组取 top 5” 的这类问题</li>
+<li>子查询 (subquery) 性能都比 MySQL 好.</li>
+<li>存储 array 和 json, 可以在 array 和 json 上建索引,  jsonb 的存储结构用来实现文档数据库存储, 不必引入mongodb了</li>
+<li>自带全文检索, 不必引入 elasticsearch</li>
+<li>MySQL 处理树状回复的设计会很复杂, 而且需要写很多代码, 而 Pg 可以高效处理树结构</li>
+<li>postgres 打通所有类型的数据源, 使用sql语法去查询控制，像使用本地表一样. 这就不必引入 ETL了 (postgresql有丰富的fdw拓展插件，能打通sql server, sybase, oracle ,mysql，甚至能打通nosql 如redis, mongodb，还能打通各种文件比如日志文件)</li>
+<li>Postgresql 的PL/Python过程语言允许函数用Python语言编写</li>
+</ul>
+<h1 id="how-to-use"><a href="#how-to-use" class="headerlink" title="how to use"></a>how to use</h1><h2 id="sql-示例"><a href="#sql-示例" class="headerlink" title="sql 示例"></a>sql 示例</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> product</span><br><span class="line">(</span><br><span class="line">	<span class="keyword">id</span> <span class="built_in">serial</span> <span class="keyword">not</span> <span class="literal">null</span></span><br><span class="line">		<span class="keyword">constraint</span> product_pk</span><br><span class="line">			primary <span class="keyword">key</span>,</span><br><span class="line">	<span class="keyword">name</span> <span class="built_in">text</span> <span class="keyword">default</span> <span class="string">''</span> <span class="keyword">not</span> <span class="literal">null</span>,</span><br><span class="line">	price <span class="built_in">decimal</span> <span class="keyword">default</span> <span class="number">0</span> <span class="keyword">not</span> <span class="literal">null</span>,</span><br><span class="line">	create_date <span class="built_in">timestamp</span> <span class="keyword">default</span> <span class="keyword">now</span>() <span class="keyword">not</span> <span class="literal">null</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">comment</span> <span class="keyword">on</span> <span class="keyword">table</span> product <span class="keyword">is</span> <span class="string">'product'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">comment</span> <span class="keyword">on</span> <span class="keyword">column</span> product.name <span class="keyword">is</span> <span class="string">'product name'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">comment</span> <span class="keyword">on</span> <span class="keyword">column</span> product.price <span class="keyword">is</span> <span class="string">'product price</span></span><br><span class="line"><span class="string">'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">comment</span> <span class="keyword">on</span> <span class="keyword">column</span> product.create_date <span class="keyword">is</span> <span class="string">'create date'</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p><a href="http://www.postgres.cn/docs/11/datatype-numeric.html" target="_blank" rel="noopener">http://www.postgres.cn/docs/11/datatype-numeric.html</a></p>
+<h3 id="时间"><a href="#时间" class="headerlink" title="时间"></a>时间</h3><ul>
+<li>date 日期</li>
+<li>time [without time zone] 时间</li>
+<li>timestamp [without time zone], 日期时间, 无时区</li>
+<li>time/timestamp with time zone 有时区 or timestamptz</li>
+<li>interval 时间间隔</li>
+</ul>
+<p>time、timestamp和interval接受一个可选的精度值 p，这个精度值声明在秒域中小数点之后保留的位数。缺省情况下，在精度上没有明确的边界。p允许的范围是从 0 到 6</p>
+<p>时间输入输出最好遵循 ISO 8601, ISO 8601指定使用大写字母T来分隔日期和时间。PostgreSQL在输入上接受这种格式，但是在输出时它采用一个空格而不是T</p>
+<h3 id="array类型"><a href="#array类型" class="headerlink" title="array类型"></a>array类型</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> contacts (</span><br><span class="line"><span class="keyword">id</span> <span class="built_in">serial</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line"><span class="keyword">name</span> <span class="built_in">VARCHAR</span> (<span class="number">100</span>),</span><br><span class="line">phones <span class="built_in">TEXT</span> []</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> contacts (<span class="keyword">name</span>, phones)</span><br><span class="line"><span class="keyword">VALUES</span></span><br><span class="line">(</span><br><span class="line"><span class="string">'John Doe'</span>,</span><br><span class="line"><span class="built_in">ARRAY</span> [ <span class="string">'(408)-589-5846'</span>,</span><br><span class="line"><span class="string">'(408)-589-5555'</span> ]</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 一次插入两行</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> contacts (<span class="keyword">name</span>, phones)</span><br><span class="line"><span class="keyword">VALUES</span></span><br><span class="line">(</span><br><span class="line"><span class="string">'Lily Bush'</span>,</span><br><span class="line"><span class="string">'&#123;"(408)-589-5841"&#125;'</span> <span class="comment">-- 单引号包裹中括号</span></span><br><span class="line">),</span><br><span class="line">(</span><br><span class="line"><span class="string">'William Gate'</span>,</span><br><span class="line"><span class="string">'&#123;"(408)-589-5842","(408)-589-58423"&#125;'</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line"><span class="keyword">name</span>,</span><br><span class="line">phones [ <span class="number">1</span> ]</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">contacts;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line"><span class="keyword">name</span>,</span><br><span class="line">phones</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">contacts</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line"><span class="string">'(408)-589-5555'</span> = <span class="keyword">ANY</span> (phones);</span><br></pre></td></tr></table></figure>
+
+<h3 id="hstore-键值对类型"><a href="#hstore-键值对类型" class="headerlink" title="hstore 键值对类型"></a>hstore 键值对类型</h3><p>, ref <a href="http://www.postgresqltutorial.com/postgresql-hstore/" target="_blank" rel="noopener">http://www.postgresqltutorial.com/postgresql-hstore/</a></p>
+<h3 id="json类型"><a href="#json类型" class="headerlink" title="json类型"></a>json类型</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orders (</span><br><span class="line"><span class="keyword">ID</span> <span class="built_in">serial</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">info <span class="keyword">json</span> <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders (info)</span><br><span class="line"><span class="keyword">VALUES</span></span><br><span class="line">(</span><br><span class="line"><span class="string">'&#123; "customer": "Lily Bush", "items": &#123;"product": "Diaper","qty": 24&#125;&#125;'</span></span><br><span class="line">),</span><br><span class="line">(</span><br><span class="line"><span class="string">'&#123; "customer": "Josh William", "items": &#123;"product": "Toy Car","qty": 1&#125;&#125;'</span></span><br><span class="line">),</span><br><span class="line">(</span><br><span class="line"><span class="string">'&#123; "customer": "Mary Clark", "items": &#123;"product": "Toy Train","qty": 2&#125;&#125;'</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">info</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">orders;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">info -&gt; <span class="string">'customer'</span> <span class="keyword">AS</span> customer <span class="comment">-- 获取json中某个key的值, 以json格式返回, 可以继续加箭头</span></span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">orders;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">info -&gt;&gt; <span class="string">'customer'</span> <span class="keyword">AS</span> customer <span class="comment">-- 以字符串格式返回</span></span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">orders;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">info -&gt; <span class="string">'items'</span> -&gt;&gt; <span class="string">'product'</span> <span class="keyword">as</span> product</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">orders</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span></span><br><span class="line">product;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数字类型"><a href="#数字类型" class="headerlink" title="数字类型"></a>数字类型</h3><ul>
+<li><p>整型: 常用的类型是integer/int，因为它提供了在范围、存储空间和性能之间的最佳平衡。一般只有在磁盘空间紧张的时候才使用 smallint类型。而只有在integer的范围不够的时候才使用bigint</p>
+<p>  int2、int4和int8 是 smallint, integer, bigint 简写</p>
+</li>
+<li><p>小数: decimal和numeric是等效的, </p>
+<p>  一个numeric的precision（精度）是整个数中有效位的总数, numeric的scale（刻度）是小数部分的数字位数, <code>NUMERIC(precision, scale)</code></p>
+</li>
+</ul>
+<h3 id="序号类型"><a href="#序号类型" class="headerlink" title="序号类型"></a>序号类型</h3><p>smallserial、serial和bigserial类型不是真正的类型，它们只是为了创建唯一标识符列而存在的方便符号</p>
+<p>也有类似 int 的简写</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tablename (</span><br><span class="line">    colname <span class="built_in">SERIAL</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">等价于</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">SEQUENCE</span> tablename_colname_seq;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tablename (</span><br><span class="line">    colname <span class="built_in">integer</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">nextval</span>(<span class="string">'tablename_colname_seq'</span>)</span><br><span class="line">);</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">SEQUENCE</span> tablename_colname_seq OWNED <span class="keyword">BY</span> tablename.colname;</span><br></pre></td></tr></table></figure>
+
+<h3 id="字符类型"><a href="#字符类型" class="headerlink" title="字符类型"></a>字符类型</h3><ul>
+<li><p>character varying(n) 变长 ,有限制 最多存储 n 个字符</p>
+</li>
+<li><p>character(n) 定长, 空格填充</p>
+<p>  没有长度声明词的character等效于character(1)</p>
+</li>
+<li><p>text 无限变长</p>
+</li>
+</ul>
+<h2 id="不同于MySQL的特性"><a href="#不同于MySQL的特性" class="headerlink" title="不同于MySQL的特性"></a>不同于MySQL的特性</h2><h3 id="账号系统"><a href="#账号系统" class="headerlink" title="账号系统"></a>账号系统</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认提供 db account: postgres/none, Linux account: postgres</span></span><br><span class="line">su postgres <span class="comment"># 切换user</span></span><br><span class="line">psql <span class="comment"># 登陆</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">\password postgres; <span class="comment">-- 为postgres设置一个密码</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> dbuser <span class="keyword">with</span> <span class="keyword">password</span> <span class="string">'dbuser'</span>; <span class="comment">-- 默认只有登陆权限</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> demodb owner dbuser;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">privileges</span> <span class="keyword">on</span> <span class="keyword">database</span> demodb <span class="keyword">to</span> dbuser; <span class="comment">-- 赋予操作权限</span></span><br><span class="line">\q <span class="comment">-- 退出psql</span></span><br></pre></td></tr></table></figure>
+
+<p>设置免密登陆</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 退出后再次登陆</span></span><br><span class="line"><span class="comment"># psql [options] [dbname [username]]</span></span><br><span class="line">psql --host=localhost --port=5432 --dbname=demodb --username=tiger --password=tiger <span class="comment"># 报错, 不允许指定密码, 需要手动输入</span></span><br><span class="line"><span class="comment"># 怎么自动密码登陆呢? 定时任务可能会用到</span></span><br><span class="line"><span class="comment"># 方法1: 在Linux中创建和db用户同名的账户, 在shell中, psql &lt;dbname&gt; 即可</span></span><br><span class="line"><span class="comment">#           要导入数据: psql exampledb &lt; exampledb.sql</span></span><br><span class="line"><span class="comment"># 方法2: 设置环境变量 export PGPASSWORD="password"</span></span><br><span class="line"><span class="comment"># 方法3: 在 home dir 中创建.pgpass文件, 写入 localhost:5432:mydbname:postgres:mypass, 文件权限为 600,</span></span><br><span class="line"><span class="comment">#       然后在 shell中 psql ... -w 即可</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行sql</span></span><br><span class="line">psql -f &lt;Sql_file&gt; ...</span><br><span class="line">psql -c <span class="string">"sql query"</span> ...</span><br></pre></td></tr></table></figure>
+
+<p>准备数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># </span></span><br><span class="line">docker cp &lt;host_sql_location&gt; &lt;container&gt;:&lt;container_location&gt; <span class="comment"># 复制到docker</span></span><br><span class="line">psql -c <span class="string">"create database dvdrental owner postgres"</span></span><br><span class="line">psql -c <span class="string">"grant all privileges on database dvdrental to postgres"</span></span><br><span class="line">pg_restore -U tiger -d demodb &lt;xxx.tar&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="schema"><a href="#schema" class="headerlink" title="schema"></a>schema</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">schema</span> <span class="keyword">public</span>; <span class="comment">-- schema 把一个数据库分为了多个区域, 各个区域中可以存在同名的表</span></span><br><span class="line">          <span class="comment">-- schema public 是默认存在的, 创建表如果不指定 schema 则默认是 public</span></span><br><span class="line">          <span class="comment">-- 一般开发时不会写死 schema, 即不会指定schema, 通过 search_path 设置</span></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">schema</span> <span class="keyword">public</span> [<span class="keyword">cascade</span>]; <span class="comment">-- 删除空schema(前置删除)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">revoke</span> <span class="keyword">create</span> <span class="keyword">on</span> &lt;schema_name&gt; <span class="keyword">from</span> <span class="keyword">public</span>; <span class="comment">-- 为schema赋予create权限, public表示所有用户</span></span><br><span class="line">                <span class="comment">-- 权限有多种: create(创建表)/usage(使用表)/...</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> search_path ; <span class="comment">-- 查看模式的搜索路径</span></span><br><span class="line"><span class="comment">-- 默认是这样的:</span></span><br><span class="line"> search_path</span><br><span class="line"><span class="comment">--------------</span></span><br><span class="line"> $user,public</span><br><span class="line"> </span><br><span class="line"><span class="comment">-- 这表示, sql 中没有指定schema, 会这么确定schema: 首先查看是否有和当前用户同名的schema, 如果有则使用; 如果没有则使用默认的 public schema</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> search_path <span class="keyword">TO</span> myschema,<span class="keyword">public</span>; <span class="comment">-- 修改默认的 search_path</span></span><br></pre></td></tr></table></figure>
+
+<p>schema的最佳实践:</p>
+<ul>
+<li>仅仅使用 默认的public, 相当于不使用 schema 这个特性; 适用于 “只有一个用户或者数据库里只有几个合作用户的情形”</li>
+<li>为每个用户创建一个模式，名字和用户相同</li>
+</ul>
+<h3 id="sql查询"><a href="#sql查询" class="headerlink" title="sql查询"></a>sql查询</h3><p>select distinct on (column1, …) column1, column2 order by …  按照 column1 分组, 返回每组的第一行, 需要和order by一起使用 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 理解 distinct on 需要从 distinct 看起</span></span><br><span class="line"><span class="comment">-- 查询 某一字段唯一的行</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> column1 <span class="keyword">from</span> t1;</span><br><span class="line"><span class="comment">-- 查询 两字段组合在一起唯一的行</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> column1, column2 <span class="keyword">from</span>  t1;</span><br><span class="line"><span class="comment">-- 问题来了: 查询仅仅某一个字段唯一的行, 但是需要 select 多列</span></span><br><span class="line"><span class="comment">-- 这时如果仅仅使用 distinct 就有歧义了, 需要使用 distinct on</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> <span class="keyword">on</span> (column1) column1, column2 <span class="keyword">from</span> t1; <span class="comment">-- 没有排序, 结果不定</span></span><br></pre></td></tr></table></figure>
+
+<p>limit null 等价于省略 limit</p>
+<p>limit n offset m 返回n行, 但是偏移m行后开始计算</p>
+<p>fetch 通过游标抓取结果, 效果类似limit, 因为limit并不是 sql 标准中的语法, 所以引入fetch</p>
+<p>ref: <a href="http://www.postgres.cn/docs/9.4/sql-fetch.html" target="_blank" rel="noopener">http://www.postgres.cn/docs/9.4/sql-fetch.html</a></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 语法 FETCH &#123; FIRST | NEXT &#125; [ row_count ] &#123; ROW | ROWS &#125; ONLY</span></span><br><span class="line"><span class="keyword">select</span> ... <span class="keyword">order</span> <span class="keyword">by</span> xxx <span class="keyword">FETCH</span> <span class="keyword">FIRST</span> <span class="keyword">ROW</span> <span class="keyword">ONLY</span>; <span class="comment">-- 返回第一行</span></span><br><span class="line">                    <span class="comment">-- 等同于 FETCH FIRST 1 ROW ONLY;</span></span><br><span class="line">FETCH FIRST 5 ROW ONLY; <span class="comment">-- 返回前5行</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 和 offset 合用</span></span><br><span class="line">OFFSET 5 ROWS FETCH FIRST 5 ROW ONLY; <span class="comment">-- 获取排序后的 6-10 行</span></span><br></pre></td></tr></table></figure>
+
+<p>like 模糊查询, 等价于 “~~” (% - 一个或多个字符; 下划线 - 一个字符)</p>
+<p>not like 等价于 “!~~”</p>
+<p>ilike 大小写不敏感 , 等价 “~~*”</p>
+<p>连接符 “||”</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> first_name||<span class="string">' '</span>|| last_name <span class="keyword">as</span> full_name <span class="keyword">from</span> customer <span class="keyword">order</span> <span class="keyword">by</span> full_name;</span><br></pre></td></tr></table></figure>
+
+<p>inner join</p>
+<p>自连接</p>
+<p>left join, right join</p>
+<p>full [outer] join - 返回A表中的行, 这些行在B表中没有关联的行 </p>
+<p>cross join</p>
+<p>natural [inner/left/right] join (默认 inner) 无需指定连接条件, 将表中具有相同名称的列自动进行匹配</p>
+<p>union 并集</p>
+<p>intersect 并集</p>
+<p>except 差集</p>
+<p>grouping sets() - group by 的子句, 效果相当于对多个 group by 结果进行 union all; 最后的结果集列数为多个group by 中的最大的列数, 合并时,列数不够的会用 null 补全;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 一个 grouping set 就是一个包含多个列的集合, 用这些列来进行group by</span></span><br><span class="line"><span class="comment">-- In this syntax, you have four grouping sets (c1,c2), (c1), (c2), and ().</span></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    c1,</span><br><span class="line">    c2,</span><br><span class="line">    aggregate_function(c3)</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    table_name</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span></span><br><span class="line">    <span class="keyword">GROUPING</span> <span class="keyword">SETS</span> (</span><br><span class="line">        (c1, c2),</span><br><span class="line">        (c1),</span><br><span class="line">        (c2),</span><br><span class="line">        ()</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>cube(c1, c2, c3) 用来简写 grouping sets(…), 为指定的列产生所有可能的grouping set组合</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CUBE(c1,c2,c3)</span><br><span class="line"> <span class="comment">-- 等价于</span></span><br><span class="line">GROUPING SETS (</span><br><span class="line">    (c1,c2,c3),</span><br><span class="line">    (c1,c2),</span><br><span class="line">    (c1,c3),</span><br><span class="line">    (c2,c3),</span><br><span class="line">    (c1),</span><br><span class="line">    (c2),</span><br><span class="line">    (c3),</span><br><span class="line">    ()</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>rollup 是group by 的子句, 也是产生 grouping set, 只是不是产生全部的可能组合, 而是只产生少部分; 多个列间有层级关系; 常用来计算年月日</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- cube 和 rollup 区别:</span></span><br><span class="line"></span><br><span class="line">CUBE (c1,c2,c3)</span><br><span class="line"><span class="comment">-- 等价于</span></span><br><span class="line">(c1, c2, c3)</span><br><span class="line">(c1, c2)</span><br><span class="line">(c2, c3)</span><br><span class="line">(c1,c3)</span><br><span class="line">(c1)</span><br><span class="line">(c2)</span><br><span class="line">(c3)</span><br><span class="line">()</span><br><span class="line"></span><br><span class="line">ROLLUP(c1,c2,c3)</span><br><span class="line"><span class="comment">-- 等价于</span></span><br><span class="line">(c1, c2, c3)</span><br><span class="line">(c1, c2)</span><br><span class="line">(c1)</span><br><span class="line">()</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据修改"><a href="#数据修改" class="headerlink" title="数据修改"></a>数据修改</h3><p>update… from … 根据其他表的条件进行更新</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> A</span><br><span class="line"><span class="keyword">SET</span> A.c1 = expresion</span><br><span class="line"><span class="keyword">FROM</span> B</span><br><span class="line"><span class="keyword">WHERE</span> A.c2 = B.c2;</span><br></pre></td></tr></table></figure>
+
+<p>insert into … on conflict target action 插入or更新</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- target: 列名/约束名/where子句</span></span><br><span class="line"><span class="comment">-- action: DO NOTHING  或者  DO UPDATE SET column_1 = value_1, .. WHERE condition</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="表管理"><a href="#表管理" class="headerlink" title="表管理"></a>表管理</h3><p>字段类型</p>
+<p><a href="http://www.postgresqltutorial.com/postgresql-data-types/" target="_blank" rel="noopener">http://www.postgresqltutorial.com/postgresql-data-types/</a></p>
+<p>create table</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> table_name (</span><br><span class="line">column_name <span class="keyword">TYPE</span> column_constraint,</span><br><span class="line">table_constraint table_constraint</span><br><span class="line">) INHERITS existing_table_name; <span class="comment">-- 继承所有字段</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> new_table_name [(columns...)]</span><br><span class="line"><span class="keyword">AS</span> some_query; <span class="comment">-- 用查询到的数据填充新建的表</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> new_table_name <span class="comment">-- 不存在才创建</span></span><br><span class="line"><span class="keyword">AS</span> <span class="keyword">query</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TEMPORARY</span>/TEMP <span class="keyword">TABLE</span> temp_table <span class="comment">-- 临时表, 在一次会话中有效</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="导入导出"><a href="#导入导出" class="headerlink" title="导入导出"></a>导入导出</h3><p><a href="http://www.postgresqltutorial.com/#" target="_blank" rel="noopener">http://www.postgresqltutorial.com/#</a></p>
+<h1 id="crontab-定时操作-postgresql"><a href="#crontab-定时操作-postgresql" class="headerlink" title="crontab 定时操作 postgresql"></a>crontab 定时操作 postgresql</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># crontab -e</span></span><br><span class="line"><span class="comment"># * * * * * /root/xy/crontab.sh</span></span><br><span class="line"><span class="comment"># service cron restart</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># psql "host=192.168.0.123 port =5432 user = treece password =1123 dbname=amt" -f ./deal_str.sql</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">step = 20 <span class="comment"># period seconds</span></span><br><span class="line">sql_location = <span class="string">'/root/xy/update.sql'</span></span><br><span class="line">host = <span class="string">'10.59.97.227'</span></span><br><span class="line">port = 5432</span><br><span class="line">db_name = <span class="string">'sat'</span></span><br><span class="line">user_name = <span class="string">'pimpopr'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>((i = 0; i &lt; 60; i = (i + step)));<span class="keyword">do</span></span><br><span class="line">        <span class="comment">#$(echo "test-test" &gt;&gt; /root/xy/test.txt)</span></span><br><span class="line">        psql <span class="string">"host=<span class="variable">$&#123;host&#125;</span> port=<span class="variable">$&#123;port&#125;</span> dbname=<span class="variable">$&#123;db_name&#125;</span> user=<span class="variable">$&#123;user&#125;</span> password="</span></span><br><span class="line">        sleep <span class="variable">$&#123;step&#125;</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
+
+<h1 id="docker-中启动-postgres"><a href="#docker-中启动-postgres" class="headerlink" title="docker 中启动 postgres"></a>docker 中启动 postgres</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="variable">$HOME</span>/docker/volumes/postgres</span><br><span class="line"></span><br><span class="line">docker run -d --rm --name postgresql -e POSTGRES_USER=dbuser -e POSTGRES_DB=testdb  -e POSTGRES_PASSWORD=password -p 5432:5432 -v <span class="variable">$HOME</span>/docker/volumes/postgres:/var/lib/postgresql/data  postgres</span><br></pre></td></tr></table></figure>
+
+<p>我是在 wsl2 中运行的 docker, 使用 navicat 可以正常使用 localhost 连接 .使用 inteliJ 系列, 需要 查出 wsl2 的 eth0 地址, 不能直接用 localhost 连接</p>
+
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://xiaoyureed.gitee.io">肖雨</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://xiaoyureed.gitee.io/2020/01/05/postgres-note/">https://xiaoyureed.gitee.io/2020/01/05/postgres-note/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+      <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">Reward</label>
+    <div class="qr-code"><label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/wechat.png" title="wechat">
+        </label>
+      <label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/ali.png" title="alipay">
+        </label>
+      </div>
+  </div><footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/db/">db</a>
+            <a href="/tags/postgres/">postgres</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2020/04/17/money/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">投资概述</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2020/01/05/create-blog-by-react/">
+        <span class="next-text nav-default">Create a Blog with React</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:775000738@qq.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/xiaoyureed" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="https://www.douban.com/people/xiaoyu_red/" target="_blank" rel="noopener" class="iconfont icon-douban" title="douban"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2015 - 2020<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">肖雨</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>

@@ -208,6 +208,8 @@
 <p>为了从环境属性配置一个bean，将@ConfigurationProperties添加到它的bean注册过程,任何以foo为前缀的属性定义都会被映射到FooComponent上：  </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"foo"</span>)</span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> FooComponent <span class="title">fooComponent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>对于无法转换的属性, 比如本来是一个 Boolean 类型, 但是配置文件中配置的是 string 类型, ignoreInvalidFields 可以决定是否抛出异常, 默认为 false, 表示要抛出异常</p>
+<p>对于配置文件中多余的属性, ignoreUnknownFields 决定是否抛出异常, 默认 true, 表示不抛出异常</p>
 <h2 id="EnableConfigurationProperties"><a href="#EnableConfigurationProperties" class="headerlink" title="@EnableConfigurationProperties"></a>@EnableConfigurationProperties</h2><p>配置哪些类是用来接受配置文件信息的bean,当@EnableConfigurationProperties注解应用到你的@Configuration时，任何被@ConfigurationProperties注解的beans将自动被Environment属性配置  </p>
 <pre><code>@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})</code></pre><p>当一个 @ConfigurationProperties bean 像如上这样注册，这个bean就有了一个名字，规范是这样：<code>&lt;prefix&gt;-&lt;fqn&gt;</code>, 即：前缀-全限定名，如：  </p>
 <pre><code>myProps-com.xy.PropertiesBean</code></pre><h2 id="EnableAutoConfiguration"><a href="#EnableAutoConfiguration" class="headerlink" title="@EnableAutoConfiguration"></a>@EnableAutoConfiguration</h2><p>根据添加的jar依赖猜测你想如何配置Spring，如果发现应用了你不想要的特定自动配置类，你可以使用 @EnableAutoConfiguration 注解的exclude属性来禁用它们  </p>
@@ -275,7 +277,8 @@
 <p>spring.factories 示例:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.boot.autoconfigure.EnableAutoConfiguration &#x3D; \</span><br><span class="line">com.mycorp.libx.autoconfigure.LibXAutoConfiguration，\</span><br><span class="line">com.mycorp.libx.autoconfigure.LibXWebAutoConfiguration</span><br></pre></td></tr></table></figure>
 
-<h2 id="反爬虫-starter"><a href="#反爬虫-starter" class="headerlink" title="反爬虫 starter"></a>反爬虫 starter</h2><p><a href="https://www.cnblogs.com/zouhao/p/12175653.html" target="_blank" rel="noopener">https://www.cnblogs.com/zouhao/p/12175653.html</a> //todo</p>
+<h2 id="反爬虫-starter"><a href="#反爬虫-starter" class="headerlink" title="反爬虫 starter"></a>反爬虫 starter</h2><p><a href="https://www.cnblogs.com/zouhao/p/12175653.html" target="_blank" rel="noopener">https://www.cnblogs.com/zouhao/p/12175653.html</a> </p>
+<p>TODO</p>
 <h1 id="spring-boot-actuator"><a href="#spring-boot-actuator" class="headerlink" title="spring-boot-actuator"></a>spring-boot-actuator</h1><p>spring boot 的 sub project, 提供产品级别的监控</p>
 <p>spring cloud 中, refresh 的 post 端点被 actuator 接管, 配置 <code>management.endpoints.web.exposure.include=health, info</code> (默认) 需要添加 ‘refresh’, 最终需要 <code>curl -d{} http://xxx:xxx/actuator/refresh</code></p>
 <p><a href="https://github.com/Netflix/Hystrix/issues/1566" target="_blank" rel="noopener">hystrix.stream 也被接管</a>, 配置添加 ‘hystrix.stream’, 监控流为 <code>http://xxx:xxx/actuator/hystrix.stream</code></p>
