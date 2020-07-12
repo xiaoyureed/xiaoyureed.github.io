@@ -561,6 +561,8 @@ reference: [redis基础](https://juejin.im/post/5ad6e4066fb9a028d82c4b66), [redi
 <p>Redis 没有关系型数据库中的表这一概念来将同种类型的数据存放在一起，而是使用命名空间的方式来实现这一功能。键名的前面部分存储命名空间，后面部分的内容存储 ID，通常使用 : 来进行分隔。例如下面的 HASH 的键名为 article:92617，其中 article 为命名空间，ID 为 92617。</p>
 <p><img src="Snipaste_2018-07-20_12-35-52.png" alt="alt"></p>
 <h2 id="点赞功能"><a href="#点赞功能" class="headerlink" title="点赞功能"></a>点赞功能</h2><p><img src="Snipaste_2018-07-20_12-39-13.png" alt="alt"></p>
+<p>点赞、取消点赞是高频次的操作，若每次都读写数据库，大量的操作会影响数据库性能，所以需要做缓存</p>
+<p>定时从 redis 中取出点赞数据持久化存入 db, 比如 2h</p>
 <h2 id="对文章进行排序"><a href="#对文章进行排序" class="headerlink" title="对文章进行排序"></a>对文章进行排序</h2><p><img src="Snipaste_2018-07-20_12-39-35.png" alt="alt"></p>
 <h1 id="一致性哈希"><a href="#一致性哈希" class="headerlink" title="一致性哈希"></a>一致性哈希</h1><p>//todo</p>
 <h1 id="整合-spring-boot2"><a href="#整合-spring-boot2" class="headerlink" title="整合 spring boot2"></a>整合 spring boot2</h1><p>Java客户端 </p>
