@@ -121,7 +121,7 @@
     <div class="post-toc" id="post-toc">
     <h2 class="post-toc-title">Contents</h2>
     <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#单系统中的登陆是怎样的"><span class="toc-text">单系统中的登陆是怎样的</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多系统中的登陆"><span class="toc-text">多系统中的登陆</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单点登陆"><span class="toc-text">单点登陆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单点注销"><span class="toc-text">单点注销</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#部署图"><span class="toc-text">部署图</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#分布式-session-一致性"><span class="toc-text">分布式 session 一致性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#session-复制同步"><span class="toc-text">session 复制同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#客户端存储-session"><span class="toc-text">客户端存储 session</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NGINX-中对-ip-进行hash-路由"><span class="toc-text">NGINX 中对 ip 进行hash 路由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后端集中-session"><span class="toc-text">后端集中 session</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#单系统中的登陆是怎样的"><span class="toc-text">单系统中的登陆是怎样的</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多系统中的登陆"><span class="toc-text">多系统中的登陆</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单点登陆"><span class="toc-text">单点登陆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单点注销"><span class="toc-text">单点注销</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#部署图"><span class="toc-text">部署图</span></a></li></ol>
     </div>
   </div><div class="post-content"><div align="center">
 SSO 的实现, 原理 , ref: https://zhuanlan.zhihu.com/p/39623706 ; 
@@ -132,6 +132,13 @@ SSO 的实现, 原理 , ref: https://zhuanlan.zhihu.com/p/39623706 ;
 <!-- TOC -->
 
 <ul>
+<li><a href="#分布式-session-一致性">分布式 session 一致性</a><ul>
+<li><a href="#session-复制同步">session 复制同步</a></li>
+<li><a href="#客户端存储-session">客户端存储 session</a></li>
+<li><a href="#nginx-中对-ip-进行hash-路由">NGINX 中对 ip 进行hash 路由</a></li>
+<li><a href="#后端集中-session">后端集中 session</a></li>
+</ul>
+</li>
 <li><a href="#单系统中的登陆是怎样的">单系统中的登陆是怎样的</a></li>
 <li><a href="#多系统中的登陆">多系统中的登陆</a><ul>
 <li><a href="#原理">原理</a></li>
@@ -143,6 +150,36 @@ SSO 的实现, 原理 , ref: https://zhuanlan.zhihu.com/p/39623706 ;
 </ul>
 <!-- /TOC -->
 
+<h1 id="分布式-session-一致性"><a href="#分布式-session-一致性" class="headerlink" title="分布式 session 一致性"></a>分布式 session 一致性</h1><h2 id="session-复制同步"><a href="#session-复制同步" class="headerlink" title="session 复制同步"></a>session 复制同步</h2><p>利:</p>
+<ul>
+<li>Tomcat 原生支持, 只需要修改配置文件, 无需改动代码</li>
+</ul>
+<p>弊</p>
+<ul>
+<li>复制操作会消耗机器额外性能</li>
+</ul>
+<h2 id="客户端存储-session"><a href="#客户端存储-session" class="headerlink" title="客户端存储 session"></a>客户端存储 session</h2><p>将 session 加密后存储在 cookie中, 每个 client 都存储自己的 session</p>
+<p>利</p>
+<ul>
+<li>服务端无需存储</li>
+</ul>
+<p>弊</p>
+<ul>
+<li>cookie 有大小限制</li>
+<li>每次 http 请求都得带上 session</li>
+</ul>
+<h2 id="NGINX-中对-ip-进行hash-路由"><a href="#NGINX-中对-ip-进行hash-路由" class="headerlink" title="NGINX 中对 ip 进行hash 路由"></a>NGINX 中对 ip 进行hash 路由</h2><p>反向代理层使用用户ip来做hash，以保证同一个ip的请求落在同一个web-server上</p>
+<p>即Nginx 四层负载均衡方式，其实 Nginx 还可以做到七层负载均衡方式，也就是使用 Http 协议中的一些业务属性来做 Hash，常见的有 userId,loginId等等</p>
+<h2 id="后端集中-session"><a href="#后端集中-session" class="headerlink" title="后端集中 session"></a>后端集中 session</h2><p>比如 session 集中存储到 redis, 可以借助  spring-session 集成</p>
+<p>利</p>
+<ul>
+<li>应用水平拓展方便</li>
+</ul>
+<p>弊</p>
+<ul>
+<li>需要对相应的代码做出修改，这样复杂度就变高</li>
+<li>每次请求都需要调用一次 Redis ，这就增加一次网络的开销</li>
+</ul>
 <h1 id="单系统中的登陆是怎样的"><a href="#单系统中的登陆是怎样的" class="headerlink" title="单系统中的登陆是怎样的"></a>单系统中的登陆是怎样的</h1><p>web 应用采用 B/S 架构, http 作为通信协议, 是 stateless 的</p>
 <p>client 首次请求 server, server 会创建一个 session, 将这个 session 的 id 返回给 client, 后续的 请求, client 都会带上这个 id, 这样后续的请求和第一个请求 就关联了</p>
 <p>浏览器端使用 cookie 机制 来保存 session id, (cookie是浏览器用来存储少量数据的一种机制，数据以”key/value“形式存储，浏览器发送http请求时自动附带cookie信息)</p>
@@ -253,7 +290,7 @@ SSO 的实现, 原理 , ref: https://zhuanlan.zhihu.com/p/39623706 ;
   </span>
 
   <span class="copyright-year">&copy;2015 - 2020<span class="heart">
-      <i class="iconfont icon-heart"></i>
+      | Create with <i class="iconfont icon-heart"></i> by
     </span>
     <span class="author">肖雨</span>
   </span>

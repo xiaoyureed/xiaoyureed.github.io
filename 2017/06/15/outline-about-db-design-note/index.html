@@ -121,7 +121,7 @@
     <div class="post-toc" id="post-toc">
     <h2 class="post-toc-title">Contents</h2>
     <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PowerDsinger"><span class="toc-text">PowerDsinger</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设计发生变动怎么修改"><span class="toc-text">设计发生变动怎么修改?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PD中1-n和0-n的问题"><span class="toc-text">PD中1:n和0:n的问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#表设计原则"><span class="toc-text">表设计原则</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据编码"><span class="toc-text">数据编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库引擎"><span class="toc-text">数据库引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#容忍度高"><span class="toc-text">容忍度高</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库设计范式"><span class="toc-text">数据库设计范式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库禁用高级功能"><span class="toc-text">数据库禁用高级功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#禁用子查询，限制多表连接查询"><span class="toc-text">禁用子查询，限制多表连接查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#uuid主键-不要外键"><span class="toc-text">uuid主键, 不要外键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#逻辑删除or物理删除"><span class="toc-text">逻辑删除or物理删除</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字段设置tips"><span class="toc-text">字段设置tips</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通用表处理"><span class="toc-text">通用表处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引添加原则"><span class="toc-text">索引添加原则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#并发编辑的问题"><span class="toc-text">并发编辑的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#历史版本设计"><span class="toc-text">历史版本设计</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库分库分表"><span class="toc-text">数据库分库分表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么需要分库分表"><span class="toc-text">为什么需要分库分表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#两类拆分方法"><span class="toc-text">两类拆分方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#垂直拆分"><span class="toc-text">垂直拆分</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#针对表进行拆分"><span class="toc-text">针对表进行拆分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#针对库进行拆分"><span class="toc-text">针对库进行拆分</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#水平-分库-拆分"><span class="toc-text">水平(分库)拆分</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#只有一种-只能针对表拆分-水平分库分表"><span class="toc-text">只有一种-只能针对表拆分-水平分库分表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#水平分库分表切分规则"><span class="toc-text">水平分库分表切分规则</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实际拆分案例"><span class="toc-text">实际拆分案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拆分后面临的问题"><span class="toc-text">拆分后面临的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#这些问题怎么解决"><span class="toc-text">这些问题怎么解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#全局主键生成策略"><span class="toc-text">全局主键生成策略</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#几种不够好的生成策略"><span class="toc-text">几种不够好的生成策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一种优秀的生成策略"><span class="toc-text">一种优秀的生成策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#twitter的分布式自增id算法"><span class="toc-text">twitter的分布式自增id算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有哪些现成的解决方案"><span class="toc-text">有哪些现成的解决方案</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数字签名实现数据库记录防篡改"><span class="toc-text">数字签名实现数据库记录防篡改</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PowerDsinger"><span class="toc-text">PowerDsinger</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设计发生变动怎么修改"><span class="toc-text">设计发生变动怎么修改?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PD中1-n和0-n的问题"><span class="toc-text">PD中1:n和0:n的问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#表设计原则"><span class="toc-text">表设计原则</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#主键"><span class="toc-text">主键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据编码"><span class="toc-text">数据编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选择容忍度高的设计"><span class="toc-text">选择容忍度高的设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库设计范式and反范式"><span class="toc-text">数据库设计范式and反范式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库禁用高级功能"><span class="toc-text">数据库禁用高级功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#禁用子查询，限制多表连接查询"><span class="toc-text">禁用子查询，限制多表连接查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#是否需要外键"><span class="toc-text">是否需要外键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#逻辑删除or物理删除"><span class="toc-text">逻辑删除or物理删除</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字段设置tips"><span class="toc-text">字段设置tips</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通用表处理"><span class="toc-text">通用表处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引添加原则"><span class="toc-text">索引添加原则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#并发编辑的问题"><span class="toc-text">并发编辑的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#历史版本设计"><span class="toc-text">历史版本设计</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库分库分表"><span class="toc-text">数据库分库分表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么需要分库分表"><span class="toc-text">为什么需要分库分表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#两类拆分方法"><span class="toc-text">两类拆分方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#垂直拆分"><span class="toc-text">垂直拆分</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#针对表进行拆分"><span class="toc-text">针对表进行拆分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#针对库进行拆分"><span class="toc-text">针对库进行拆分</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#水平-分库-拆分"><span class="toc-text">水平(分库)拆分</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#只有一种-只能针对表拆分-水平分库分表"><span class="toc-text">只有一种-只能针对表拆分-水平分库分表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#水平分库分表切分规则"><span class="toc-text">水平分库分表切分规则</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实际拆分案例"><span class="toc-text">实际拆分案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拆分后面临的问题"><span class="toc-text">拆分后面临的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#这些问题怎么解决"><span class="toc-text">这些问题怎么解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#全局主键生成策略"><span class="toc-text">全局主键生成策略</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#几种不够好的生成策略"><span class="toc-text">几种不够好的生成策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一种优秀的生成策略"><span class="toc-text">一种优秀的生成策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#twitter的分布式自增id算法"><span class="toc-text">twitter的分布式自增id算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有哪些现成的解决方案"><span class="toc-text">有哪些现成的解决方案</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数字签名实现数据库记录防篡改"><span class="toc-text">数字签名实现数据库记录防篡改</span></a></li></ol>
     </div>
   </div><div class="post-content"><div align="center">
 数据库设计, 表设计培训相关笔记整理
@@ -140,13 +140,13 @@
 </ul>
 </li>
 <li><a href="#表设计原则">表设计原则</a><ul>
+<li><a href="#主键">主键</a></li>
 <li><a href="#数据编码">数据编码</a></li>
-<li><a href="#数据库引擎">数据库引擎</a></li>
-<li><a href="#容忍度高">容忍度高</a></li>
-<li><a href="#数据库设计范式">数据库设计范式</a></li>
+<li><a href="#选择容忍度高的设计">选择容忍度高的设计</a></li>
+<li><a href="#数据库设计范式and反范式">数据库设计范式and反范式</a></li>
 <li><a href="#数据库禁用高级功能">数据库禁用高级功能</a></li>
 <li><a href="#禁用子查询限制多表连接查询">禁用子查询，限制多表连接查询</a></li>
-<li><a href="#uuid主键-不要外键">uuid主键, 不要外键</a></li>
+<li><a href="#是否需要外键">是否需要外键</a></li>
 <li><a href="#逻辑删除or物理删除">逻辑删除or物理删除</a></li>
 <li><a href="#字段设置tips">字段设置tips</a></li>
 <li><a href="#通用表处理">通用表处理</a></li>
@@ -213,17 +213,20 @@
 <li>many to many—-需要借助中间表实现, 分解成2个one to many, 类似可以分成严格多对多(eg: 1个user至少有1个role, 1个role至少属于一个user)和模糊多对多(一个user可以没有role, 一个role也可以不属于任何人)</li>
 </ul>
 <p>其实对one-to-many和many-to-many进行细化意义不大, 因为无论是否细化, 前者都需要进行主外键关联, 后者都需要关系中间表, 而对于one to one的细化则有意义, 如订单和取消原因(可以是1:1或1:0), 如果是严格的一对一, 取消原因可以整合到订单表而无需另外存储.</p>
-<h1 id="表设计原则"><a href="#表设计原则" class="headerlink" title="表设计原则"></a>表设计原则</h1><h2 id="数据编码"><a href="#数据编码" class="headerlink" title="数据编码"></a>数据编码</h2><p>MySQL数据库编码设置为utf8(cmd中显示latin1)， SQLServer、Oralce可先采用默认设置</p>
+<h1 id="表设计原则"><a href="#表设计原则" class="headerlink" title="表设计原则"></a>表设计原则</h1><h2 id="主键"><a href="#主键" class="headerlink" title="主键"></a>主键</h2><p>每个表都要有主键, 因为你不设主键的情况下，innodb也会帮你生成一个隐藏列，作为自增主键, 还不如主动设置一个主键, 还能用上主键索引，提高查询效率</p>
+<p>主键要自增 还是 UUID看情况, 如果主键为UUID，统一命名为id，统一为char(32)类型。如果是自增, 就是 int类型</p>
+<p>相较于自增主键类型，使用UUID会导致查询速度稍慢，可是用自增主键的话，想要同时支持多数据库就比较麻烦了，备份合并不同数据库中相同表数据也会出现冲突. 同时, 如果innodb 中的主键是自增的，那么每次插入新的记录，记录就会顺序添加到当前索引节点的后续位置，当一页写满，就会自动开辟一个新的页。如果不是自增主键，那么可能会在中间插入，就会引发页的分裂，产生很多表碎片！。</p>
+<p>主键要使用单独的列, 不要有业务含义. 这是为了防止主键频繁变动, 同时保证有序, 总的来说就是减少数据页分裂, 减少磁盘碎片</p>
+<h2 id="数据编码"><a href="#数据编码" class="headerlink" title="数据编码"></a>数据编码</h2><p>MySQL数据库编码设置为utf8(cmd中显示latin1)， SQLServer、Oralce可先采用默认设置</p>
 <p>如果字段允许存储表情，则一定不能使用utf8，而是使用utf8mb4。</p>
 <p>编码问题设置不妥当，数据库导入导出备份很容易出现乱码</p>
-<h2 id="数据库引擎"><a href="#数据库引擎" class="headerlink" title="数据库引擎"></a>数据库引擎</h2><p>关于InnoDB和MyISAM引擎:<br>区别在于MyISAM类型不支持事务处理等高级处理，而InnoDB类型支持, MyISAM类型的表强调的是性能，其执行数度比InnoDB类型更快,但是不提供事务支持，而InnoDB提供事务支持及外部键等高级数据库功能(一般推荐InnoDB,数据库默认安装的也是InnoDB类型)</p>
-<h2 id="容忍度高"><a href="#容忍度高" class="headerlink" title="容忍度高"></a>容忍度高</h2><p>如表的某个字段表示时间, 尽量设为datetime类型精确到时分秒而不要仅仅date类型, 即使当前业务只需要精确到”日时”, 这是为了方便后续拓展(比如后面有业务要求这个字段精确到”秒”)</p>
+<h2 id="选择容忍度高的设计"><a href="#选择容忍度高的设计" class="headerlink" title="选择容忍度高的设计"></a>选择容忍度高的设计</h2><p>如表的某个字段表示时间, 尽量设为datetime类型精确到时分秒而不要仅仅date类型, 即使当前业务只需要精确到”日时”, 这是为了方便后续拓展(比如后面有业务要求这个字段精确到”秒”)</p>
 <p>如对于某个业务, 开发时关系尚不明确表关系, 能一对多就不要一对一，能多对多就不要一对多, 这样开发的复杂度会增加，却消除了后面可能的修改扩展的隐患</p>
-<h2 id="数据库设计范式"><a href="#数据库设计范式" class="headerlink" title="数据库设计范式"></a>数据库设计范式</h2><ol>
+<h2 id="数据库设计范式and反范式"><a href="#数据库设计范式and反范式" class="headerlink" title="数据库设计范式and反范式"></a>数据库设计范式and反范式</h2><ol>
 <li>字段不可再分</li>
 <li>要有主键, 其他字段完全依赖此主键</li>
 <li>非主键字段必须互不依赖</li>
-<li>(消除数据冗余)</li>
+<li>数据冗余字段要不要需要看情况</li>
 </ol>
 <h2 id="数据库禁用高级功能"><a href="#数据库禁用高级功能" class="headerlink" title="数据库禁用高级功能"></a>数据库禁用高级功能</h2><p>禁止使用存储过程、触发器、函数、视图、事件等高级功能,数据库中只有表，数据库只做数据存储、标明业务关系,而具体业务逻辑相关的处理均由程序实现，比如分页、日志记录等等;这是为了增加后续的可维护性.</p>
 <h2 id="禁用子查询，限制多表连接查询"><a href="#禁用子查询，限制多表连接查询" class="headerlink" title="禁用子查询，限制多表连接查询"></a>禁用子查询，限制多表连接查询</h2><ul>
@@ -240,9 +243,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="uuid主键-不要外键"><a href="#uuid主键-不要外键" class="headerlink" title="uuid主键, 不要外键"></a>uuid主键, 不要外键</h2><p>主键为UUID，统一命名为id，统一为char(32)类型。</p>
-<p>是否使用自增主键需要权衡<br>相较于自增主键类型，使用UUID会导致查询速度稍慢，可用自增主键的话，想要同时支持多数据库就比较麻烦了，备份合并不同数据库中相同表数据也会出现冲突</p>
-<p>业务表之间实现外键关联有两个方法, 一是直接通过数据库设置, 二是在app 的应用层管理相关的外键逻辑; </p>
+<h2 id="是否需要外键"><a href="#是否需要外键" class="headerlink" title="是否需要外键"></a>是否需要外键</h2><p>业务表之间实现外键关联有两个方法, 一是直接通过数据库设置, 二是在app 的应用层管理相关的外键逻辑; </p>
 <p>那么如何决定采用哪种方式? 可以根据如下几条原则:</p>
 <ul>
 <li><p>用户量大，并发度高的场景, 不适合通过数据库设置外键, 而适合通过app应用层管理外键关系. 因为此时数据库服务器很容易成为性能瓶颈，尤其受IO能力限制，且不能轻易地水平扩展, 若是把数据一致性的控制放到事务中(也即让应用服务器承担此部分的压力), 可以实现轻松的水平伸缩.</p>
@@ -268,7 +269,7 @@
 <li><p>表中应该尽可能避免可为NULL的列，且尽可能显示设置默认值，尤其是被索引的列。</p>
 <p>  因为在MySQL数据库中，空值是不占用空间的，而NULL其实是占用空间的, 而且, MySQL表的列中包含NULL的话，该列就不会包含在索引中，也就是说使用索引是无效的, 当然如果业务有需求表示”未初始化”, 还是可以有null的</p>
 </li>
-<li><p>除了 timestamp、datetime等字段, 应尽量设置默认值, 对用实体类中的属性也要设置默认值</p>
+<li><p>除了 timestamp、datetime等字段, 应尽量设置默认值, 实体类中的属性也要设置默认值</p>
 </li>
 <li><p>如果一张表有些字段并不是必须的, 可分流到子表中存储, 这样可以避免很多可为NULL或空值的列, 但也要合理取舍, 因为这样会使得记录的维护变得麻烦.(订单（会诊单）这种表，取消、退回、安排这些字段的信息都不是必须有的，可以分流到子表中存储,不要让某张表过分臃肿)</p>
 </li>
@@ -282,7 +283,7 @@
 </li>
 </ul>
 </li>
-<li><p>对于小数, 禁止使用float、double类型，建议使用decimal替代, 对应于Oracle的number 类型; decimal(a,b)表示数字整数部分和小数部分共a位, 其中小数部分b位, a最大38, b默认是0(比如decimal(5,2)规定了存储的值将不会超过5位数字，并且小数点后面有2位数字。)</p>
+<li><p>对于小数, 禁止使用float、double类型，建议使用decimal替代, 对应于Oracle的number 类型; decimal(a,b)表示数字整数部分和小数部分共a位, 其中小数部分b位, a最大38, b默认是0(比如decimal(5,2)规定了存储的值将不会超过5位数字，并且小数点后面有2位数字。)也可 int 用类型然后数值乘以倍数后存入</p>
 </li>
 <li><p>节省空间的设计</p>
 <ul>
@@ -335,7 +336,8 @@
 <h2 id="并发编辑的问题"><a href="#并发编辑的问题" class="headerlink" title="并发编辑的问题"></a>并发编辑的问题</h2><p>唯一可以解决的方法是: 加入一个标识字段, datetime类型或数值型, 表示时间; app 在进入修改页面时, 进行一次查询, 将该对应的字段记录为time1, 编辑完成后, 点击提交按钮是再次查询该标识字段为time2, 比较time1和time2, 如果相同, 表示编辑期间, 该条记录没有并发编辑, 可以提交本次的修改, 同时该标识字段修改为time2; 如果time1和time2不同, 则表示编辑期间, 存在并发编辑, 当前修改动作作废不能提交.  </p>
 <h2 id="历史版本设计"><a href="#历史版本设计" class="headerlink" title="历史版本设计"></a>历史版本设计</h2><p>和并发编辑的解决方案类似, 加入一个版本号字段, 可以是datetime类型，也可以是int类型, 每进行数据操作时，都是创建一个新的版本，版本是只增不减的, 历史数据应该存储到另外专门存储历史的表中, 不要和最新数据混存在同一张表里</p>
 <p>另外一种方式是: 给业务表新增一个字段, 文本类型, 专门存储历史信息</p>
-<h1 id="数据库分库分表"><a href="#数据库分库分表" class="headerlink" title="数据库分库分表"></a>数据库分库分表</h1><p><a href="http://3gods.com/database/MySQL-Sharding.html" target="_blank" rel="noopener">参考这里</a></p>
+<h1 id="数据库分库分表"><a href="#数据库分库分表" class="headerlink" title="数据库分库分表"></a>数据库分库分表</h1><p><a href="https://mp.weixin.qq.com/s/IWytJhcxth4ig2qrqdQjvg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/IWytJhcxth4ig2qrqdQjvg</a> 演进过程稿</p>
+<p><a href="https://mp.weixin.qq.com/s/l7BNUj8kOflzrtXcSNf_CA" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/l7BNUj8kOflzrtXcSNf_CA</a> 谨慎使用分库分表</p>
 <h2 id="为什么需要分库分表"><a href="#为什么需要分库分表" class="headerlink" title="为什么需要分库分表"></a>为什么需要分库分表</h2><p>刚开始我们只用单机数据库就够了，随后面对越来越多的请求，我们将数据库的写操作和读操作进行分离， 使用多个从库副本（Slaver Replication）负责读，使用主库（Master）负责写， 从库从主库同步更新数据，保持数据一致。架构上就是数据库主从同步。 从库可以水平扩展，所以更多的读请求不成问题</p>
 <p>但是当用户量级上来后，写请求越来越多，该怎么办？加一个Master是不能解决问题的， 因为数据要保存一致性，写操作需要2个master之间同步，相当于是重复了，而且更加复杂。</p>
 <p>这时就需要用到分库分表（sharding），对写操作进行切分; </p>
@@ -449,7 +451,7 @@
         <span class="prev-text nav-mobile">Prev</span>
       </a>
     <a class="next" href="/2017/05/20/job-interview-cv/">
-        <span class="next-text nav-default">Interview and Job</span>
+        <span class="next-text nav-default">Interview and resume 经验之谈</span>
         <span class="prev-text nav-mobile">Next</span>
         <i class="iconfont icon-right"></i>
       </a>
@@ -472,7 +474,7 @@
   </span>
 
   <span class="copyright-year">&copy;2015 - 2020<span class="heart">
-      <i class="iconfont icon-heart"></i>
+      | Create with <i class="iconfont icon-heart"></i> by
     </span>
     <span class="author">肖雨</span>
   </span>

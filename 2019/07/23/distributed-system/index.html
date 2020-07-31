@@ -121,7 +121,7 @@
     <div class="post-toc" id="post-toc">
     <h2 class="post-toc-title">Contents</h2>
     <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是分布式系统and为什么需要它"><span class="toc-text">什么是分布式系统and为什么需要它</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#分布式存储系统"><span class="toc-text">分布式存储系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分布式计算系统"><span class="toc-text">分布式计算系统</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分布式系统的特性and如何衡量"><span class="toc-text">分布式系统的特性and如何衡量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#涉及哪些技术规范"><span class="toc-text">涉及哪些技术规范</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CAP-理论"><span class="toc-text">CAP 理论</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#cap-介绍"><span class="toc-text">cap 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#保证一致性的算法"><span class="toc-text">保证一致性的算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Raft-算法"><span class="toc-text">Raft 算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Paxos-算法"><span class="toc-text">Paxos 算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BASE-理论"><span class="toc-text">BASE 理论</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分布式事务"><span class="toc-text">分布式事务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#分布式事务概念和选型比较"><span class="toc-text">分布式事务概念和选型比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2PC"><span class="toc-text">2PC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3PC"><span class="toc-text">3PC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCC"><span class="toc-text">TCC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于异步消息"><span class="toc-text">基于异步消息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#只使用消息中间件"><span class="toc-text">只使用消息中间件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结合消息中间件和数据库表"><span class="toc-text">结合消息中间件和数据库表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最大努力通知"><span class="toc-text">最大努力通知</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分布式锁"><span class="toc-text">分布式锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分布式-id-生成"><span class="toc-text">分布式 id 生成</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#并发请求数据冲突-超卖问题"><span class="toc-text">并发请求数据冲突-超卖问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#幂等问题"><span class="toc-text">幂等问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#负载均衡"><span class="toc-text">负载均衡</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#负载均衡算法"><span class="toc-text">负载均衡算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#轮询"><span class="toc-text">轮询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加权轮询"><span class="toc-text">加权轮询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#随机算法"><span class="toc-text">随机算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加权随机算法"><span class="toc-text">加权随机算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哈希法（hash）"><span class="toc-text">哈希法（hash）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一致性哈希"><span class="toc-text">一致性哈希</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最少连接算法（least-connection）"><span class="toc-text">最少连接算法（least connection）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#怎么实现子系统间的通信"><span class="toc-text">怎么实现子系统间的通信</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于消息的方式"><span class="toc-text">基于消息的方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jdk自带"><span class="toc-text">jdk自带</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开源框架"><span class="toc-text">开源框架</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于远程调用的方式"><span class="toc-text">基于远程调用的方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jdk自带的远程调用"><span class="toc-text">jdk自带的远程调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开源框架实现远程调用"><span class="toc-text">开源框架实现远程调用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分布式架构之soa"><span class="toc-text">分布式架构之soa</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于-sca-实现-soa"><span class="toc-text">基于 sca 实现 soa</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于-esb-实现中心化的-soa"><span class="toc-text">基于 esb 实现中心化的 soa</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于spring-cloud-实现去中心化的soa"><span class="toc-text">基于spring cloud 实现去中心化的soa</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#微服务-micro-service"><span class="toc-text">微服务 micro service</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么需要微服务"><span class="toc-text">为什么需要微服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是微服务架构"><span class="toc-text">什么是微服务架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何搭建微服务架构"><span class="toc-text">如何搭建微服务架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整体选型"><span class="toc-text">整体选型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#微服务系统要素"><span class="toc-text">微服务系统要素</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#客户端访问服务-API-Gateway"><span class="toc-text">客户端访问服务 API Gateway</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务间通信"><span class="toc-text">服务间通信</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务注册、发现"><span class="toc-text">服务注册、发现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务挂了怎么办-熔断降级"><span class="toc-text">服务挂了怎么办-熔断降级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运维的压力怎么解决"><span class="toc-text">运维的压力怎么解决</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关开源项目"><span class="toc-text">相关开源项目</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是分布式系统and为什么需要它"><span class="toc-text">什么是分布式系统and为什么需要它</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#分布式存储系统"><span class="toc-text">分布式存储系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分布式计算系统"><span class="toc-text">分布式计算系统</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分布式系统的特性and如何衡量"><span class="toc-text">分布式系统的特性and如何衡量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#涉及哪些技术规范"><span class="toc-text">涉及哪些技术规范</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CAP-理论"><span class="toc-text">CAP 理论</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#cap-介绍"><span class="toc-text">cap 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#保证一致性的算法"><span class="toc-text">保证一致性的算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Raft-算法"><span class="toc-text">Raft 算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Paxos-算法"><span class="toc-text">Paxos 算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BASE-理论"><span class="toc-text">BASE 理论</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分布式事务"><span class="toc-text">分布式事务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#分布式事务概念和选型比较"><span class="toc-text">分布式事务概念和选型比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2PC"><span class="toc-text">2PC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3PC"><span class="toc-text">3PC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCC"><span class="toc-text">TCC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于异步消息"><span class="toc-text">基于异步消息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#只使用消息中间件"><span class="toc-text">只使用消息中间件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结合消息中间件和数据库表"><span class="toc-text">结合消息中间件和数据库表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最大努力通知"><span class="toc-text">最大努力通知</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分布式锁"><span class="toc-text">分布式锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分布式-id-生成"><span class="toc-text">分布式 id 生成</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#并发请求数据冲突-超卖问题"><span class="toc-text">并发请求数据冲突-超卖问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#幂等问题"><span class="toc-text">幂等问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#限流"><span class="toc-text">限流</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#负载均衡"><span class="toc-text">负载均衡</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#负载均衡算法"><span class="toc-text">负载均衡算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#轮询"><span class="toc-text">轮询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加权轮询"><span class="toc-text">加权轮询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#随机算法"><span class="toc-text">随机算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加权随机算法"><span class="toc-text">加权随机算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哈希法hash"><span class="toc-text">哈希法hash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一致性哈希hash"><span class="toc-text">一致性哈希hash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最少连接算法（least-connection）"><span class="toc-text">最少连接算法（least connection）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#怎么实现子系统间的通信"><span class="toc-text">怎么实现子系统间的通信</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于消息的方式"><span class="toc-text">基于消息的方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jdk自带"><span class="toc-text">jdk自带</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开源框架"><span class="toc-text">开源框架</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于远程调用的方式"><span class="toc-text">基于远程调用的方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jdk自带的远程调用"><span class="toc-text">jdk自带的远程调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开源框架实现远程调用"><span class="toc-text">开源框架实现远程调用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#灰度发布"><span class="toc-text">灰度发布</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分布式架构之soa"><span class="toc-text">分布式架构之soa</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于-sca-实现-soa"><span class="toc-text">基于 sca 实现 soa</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于-esb-实现中心化的-soa"><span class="toc-text">基于 esb 实现中心化的 soa</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于spring-cloud-实现去中心化的soa"><span class="toc-text">基于spring cloud 实现去中心化的soa</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#微服务-micro-service"><span class="toc-text">微服务 micro service</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么需要微服务"><span class="toc-text">为什么需要微服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是微服务架构"><span class="toc-text">什么是微服务架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何搭建微服务架构"><span class="toc-text">如何搭建微服务架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整体选型"><span class="toc-text">整体选型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#微服务系统要素"><span class="toc-text">微服务系统要素</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#客户端访问服务-API-Gateway"><span class="toc-text">客户端访问服务 API Gateway</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务间通信"><span class="toc-text">服务间通信</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务注册、发现"><span class="toc-text">服务注册、发现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务挂了怎么办-熔断降级"><span class="toc-text">服务挂了怎么办-熔断降级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运维的压力怎么解决"><span class="toc-text">运维的压力怎么解决</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关开源项目"><span class="toc-text">相关开源项目</span></a></li></ol></li></ol>
     </div>
   </div><div class="post-content"><div align="center">
 [CAP是什么](https://mwhittaker.github.io/blog/an_illustrated_proof_of_the_cap_theorem/)
@@ -169,14 +169,15 @@
 <li><a href="#分布式-id-生成">分布式 id 生成</a></li>
 <li><a href="#并发请求数据冲突-超卖问题">并发请求数据冲突-超卖问题</a></li>
 <li><a href="#幂等问题">幂等问题</a></li>
+<li><a href="#限流">限流</a></li>
 <li><a href="#负载均衡">负载均衡</a><ul>
 <li><a href="#负载均衡算法">负载均衡算法</a><ul>
 <li><a href="#轮询">轮询</a></li>
 <li><a href="#加权轮询">加权轮询</a></li>
 <li><a href="#随机算法">随机算法</a></li>
 <li><a href="#加权随机算法">加权随机算法</a></li>
-<li><a href="#哈希法hash">哈希法（hash）</a></li>
-<li><a href="#一致性哈希">一致性哈希</a></li>
+<li><a href="#哈希法hash">哈希法hash</a></li>
+<li><a href="#一致性哈希hash">一致性哈希hash</a></li>
 <li><a href="#最少连接算法least-connection">最少连接算法（least connection）</a></li>
 </ul>
 </li>
@@ -195,6 +196,7 @@
 </li>
 </ul>
 </li>
+<li><a href="#灰度发布">灰度发布</a></li>
 <li><a href="#分布式架构之soa">分布式架构之soa</a><ul>
 <li><a href="#基于-sca-实现-soa">基于 sca 实现 soa</a></li>
 <li><a href="#基于-esb-实现中心化的-soa">基于 esb 实现中心化的 soa</a></li>
@@ -551,10 +553,21 @@
 <p>  对于新增操作, 当然是对 业务id (比如邮箱) 设置唯一索引</p>
 </li>
 </ul>
-<h1 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h1><p><a href="https://www.cnblogs.com/xybaby/p/7867735.html#_label_14" target="_blank" rel="noopener">https://www.cnblogs.com/xybaby/p/7867735.html#_label_14</a></p>
+<h1 id="限流"><a href="#限流" class="headerlink" title="限流"></a>限流</h1><ul>
+<li><p>Semaphore 控制并发数量</p>
+</li>
+<li><p>漏桶算法, 令牌桶算法控制访问速率</p>
+<p>  Guava提供的限流工具类RateLimiter来实现控制速率，该类基于令牌桶算法来完成限流</p>
+</li>
+<li><p>分布式限流 redis (注解+aop)</p>
+</li>
+<li><p>nginx 限流</p>
+</li>
+</ul>
+<h1 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h1><p>ref: <a href="https://www.cnblogs.com/xybaby/p/7867735.html#_label_14" target="_blank" rel="noopener">https://www.cnblogs.com/xybaby/p/7867735.html#_label_14</a></p>
 <h2 id="负载均衡算法"><a href="#负载均衡算法" class="headerlink" title="负载均衡算法"></a>负载均衡算法</h2><h3 id="轮询"><a href="#轮询" class="headerlink" title="轮询"></a>轮询</h3><p>round-robin</p>
-<p>各个节点逐个对外提供服务, 没有考虑不同节点 的机器性能不同</p>
-<p>比如, 也许同样数目的请求，高配的机器CPU才20%，低配的机器CPU已经80%了 </p>
+<p>各个节点逐个对外提供服务</p>
+<p>没有考虑不同节点 的机器性能不同.比如, 也许同样数目的请求，高配的机器CPU才20%，低配的机器CPU已经80%了 </p>
 <h3 id="加权轮询"><a href="#加权轮询" class="headerlink" title="加权轮询"></a>加权轮询</h3><p>weight round-robin</p>
 <p>在轮训算法的基础上，考虑到机器的差异性，分配给机器不同的权重，能者多劳</p>
 <p>这个权重的分配依赖于请求的类型，比如计算密集型，那就考虑CPU、内存；如果是IO密集型，那就考虑磁盘性能</p>
@@ -562,10 +575,11 @@
 <p>随机选择一个节点服务，按照概率，只要请求数量足够多，那么也能达到绝对均衡的效果。而且实现简单很多</p>
 <h3 id="加权随机算法"><a href="#加权随机算法" class="headerlink" title="加权随机算法"></a>加权随机算法</h3><p>weight random</p>
 <p>在随机的时候引入不同节点的权重</p>
-<h3 id="哈希法（hash）"><a href="#哈希法（hash）" class="headerlink" title="哈希法（hash）"></a>哈希法（hash）</h3><p>根据客户端的IP，或者请求的“Key”，计算出一个hash值，然后对节点数目取模。好处就是，同一个请求能够分配到同样的服务节点，这对于“有状态”的服务很有必要</p>
+<h3 id="哈希法hash"><a href="#哈希法hash" class="headerlink" title="哈希法hash"></a>哈希法hash</h3><p>根据客户端的IP，或者请求的“Key”，计算出一个hash值，然后对节点数目取模。好处就是，同一个请求能够分配到同样的服务节点，这对于“有状态”的服务很有必要</p>
 <p>只要hash结果足够分散，也是能做到绝对均衡的</p>
-<p>哈希算法的缺陷也很明显，当节点的数目发生变化的时候，请求会大概率分配到其他的节点，引发到一系列问题，比如sticky session。而且在某些情况，比如分布式存储，是绝对的不允许的</p>
-<h3 id="一致性哈希"><a href="#一致性哈希" class="headerlink" title="一致性哈希"></a>一致性哈希</h3><p>一个物理节点与多个虚拟节点映射，在hash的时候，使用虚拟节点数目而不是物理节点数目。当物理节点变化的时候，虚拟节点的数目无需变化，只涉及到虚拟节点的重新分配</p>
+<p>哈希算法的缺陷也很明显，当节点的数目发生变化的时候，请求会大概率分配到其他的节点，引发一系列问题，比如sticky session。而且在某些情况，比如分布式存储，是绝对的不允许的</p>
+<h3 id="一致性哈希hash"><a href="#一致性哈希hash" class="headerlink" title="一致性哈希hash"></a>一致性哈希hash</h3><p>为了解决取余hash伸缩性差的问题, 一致性hash则利用hash环对其进行了改进。</p>
+<p>每个节点 hash(ip), 按照顺序均匀分布在环形上作为虚拟节点(环形有刻度, 0 ~ 正无穷(0)), 接受到请求, hash(req_ip或者user_id)肯定会落到环形上的某个刻度, 顺时针找到最近的 node 处理这个请求</p>
 <p>调整每个物理节点对应的虚拟节点数目，也就相当于每个物理节点有不同的权重</p>
 <h3 id="最少连接算法（least-connection）"><a href="#最少连接算法（least-connection）" class="headerlink" title="最少连接算法（least connection）"></a>最少连接算法（least connection）</h3><p>一般其他算法, 要么没有考虑到节点间的差异（轮询、随机、哈希），要么节点间的权重是静态分配的（加权轮训、加权随机、一致性hash）</p>
 <h1 id="怎么实现子系统间的通信"><a href="#怎么实现子系统间的通信" class="headerlink" title="怎么实现子系统间的通信"></a>怎么实现子系统间的通信</h1><h2 id="基于消息的方式"><a href="#基于消息的方式" class="headerlink" title="基于消息的方式"></a>基于消息的方式</h2><ul>
@@ -597,6 +611,7 @@
 <li>spring rmi: spring 集成 rmi</li>
 <li>cxf: apache项目; webservice 方式; 现在有更好的替代: springmvc , 可以方便的发布 restful api</li>
 </ul>
+<h1 id="灰度发布"><a href="#灰度发布" class="headerlink" title="灰度发布"></a>灰度发布</h1><p>将服务器集群分成若干部分，每天只发布一部分机器，观察运行稳定没有故障，第二天继续发布一部分机器，持续几天才把整个集群全部发布完毕，期间如果发现问题，只需要回滚已发布的一部分服务器即可</p>
 <h1 id="分布式架构之soa"><a href="#分布式架构之soa" class="headerlink" title="分布式架构之soa"></a>分布式架构之soa</h1><p>soa: service oriented architecture 面向服务架构. 各个子系统 (子系统可以各不相同, 架构, 语言…) 间以统一的 “服务方式” 进行交互.</p>
 <p>soa 并没有给出具体的实现方式， 目前业界有两套实现方式：去中心化 （spring cloud， dubbox） and 中心化 （esb）的方式</p>
 <p>引入 soa 会带来新的问题:</p>
@@ -655,6 +670,15 @@
 <li>缺点：多服务运维难、通信成本、数据一致性、系统集成测试</li>
 </ul>
 <p><img src="Snipaste_2019-01-24_16-43-41.png" alt="微服务架构图"></p>
+<p>一般架构是这样:</p>
+<ol>
+<li>负载均衡层</li>
+<li>网关(内部gw, 第三方gw)</li>
+<li>业务服务层 (如订单服务, 库存服务, 用户服务)</li>
+<li>支撑服务 (注册发现, 配置中心, 日志聚合, 监控告警)</li>
+<li>平台服务 PaaS( 发布系统, 镜像治理, 资源治理)</li>
+<li>基础设施 IaaS (计算, 网络 , 存储…)</li>
+</ol>
 <h2 id="如何搭建微服务架构"><a href="#如何搭建微服务架构" class="headerlink" title="如何搭建微服务架构"></a>如何搭建微服务架构</h2><h3 id="整体选型"><a href="#整体选型" class="headerlink" title="整体选型"></a>整体选型</h3><p><a href="https://www.infoq.cn/article/micro-service-technology-stack" target="_blank" rel="noopener">https://www.infoq.cn/article/micro-service-technology-stack</a><br><a href="https://zhuanlan.zhihu.com/p/94488453" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/94488453</a><br><a href="https://blog.csdn.net/hardworking0323/article/details/81170961" target="_blank" rel="noopener">https://blog.csdn.net/hardworking0323/article/details/81170961</a></p>
 <p><a href="https://blog.csdn.net/mulinsen77/article/details/84583716" target="_blank" rel="noopener">https://blog.csdn.net/mulinsen77/article/details/84583716</a><br><a href="https://www.cnblogs.com/waterystone/p/4920797.html" target="_blank" rel="noopener">https://www.cnblogs.com/waterystone/p/4920797.html</a><br><a href="https://www.cnblogs.com/shijiaqi1066/p/3412346.html" target="_blank" rel="noopener">https://www.cnblogs.com/shijiaqi1066/p/3412346.html</a></p>
 <h3 id="微服务系统要素"><a href="#微服务系统要素" class="headerlink" title="微服务系统要素"></a>微服务系统要素</h3><img src="Screenshot_1.png" width=50% />
@@ -777,7 +801,7 @@
   </span>
 
   <span class="copyright-year">&copy;2015 - 2020<span class="heart">
-      <i class="iconfont icon-heart"></i>
+      | Create with <i class="iconfont icon-heart"></i> by
     </span>
     <span class="author">肖雨</span>
   </span>
