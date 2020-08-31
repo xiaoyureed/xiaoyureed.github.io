@@ -126,7 +126,7 @@
   </div><div class="post-content"><div align="center">
 [官方文档](https://webpack.js.org/concepts/)
 http://zhaoda.net/webpack-handbook/module-system.html
-<a href="/2018/04/02/js-proj-history/" title="📚 前端模块化">📚 前端模块化</a>
+
 </div>
 
 <a id="more"></a>
@@ -173,12 +173,12 @@ http://zhaoda.net/webpack-handbook/module-system.html
 <blockquote>
 <p>全局安装有一个版本管理问题， 如果我们的项目中，有的用webpack 1.0，有的用webpack2.0 ，而全局webpack 却只有一个命令，那就不好办了</p>
 </blockquote>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm init                    <span class="comment"># 生成package.json</span></span><br><span class="line">npm install webpack -D      <span class="comment"># 安装</span></span><br><span class="line">npm info webpack            <span class="comment"># 查看安装情况</span></span><br><span class="line"><span class="comment"># Webpack 开发工具: webpack-dev-server 可以启动开发用 server，方便我们测试</span></span><br><span class="line">npm install webpack-dev-server --save-dev</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm init                    <span class="comment"># 生成package.json</span></span><br><span class="line">npm install webpack webpack-cli -D      <span class="comment"># 安装</span></span><br><span class="line">npm info webpack            <span class="comment"># 查看安装情况</span></span><br><span class="line"><span class="comment"># Webpack 开发工具: webpack-dev-server 可以启动开发用 server，方便我们测试</span></span><br><span class="line">npm install webpack-dev-server --save-dev</span><br></pre></td></tr></table></figure>
 
 <p>打开package.json 文件，找到scripts 字段: </p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">    "dev": "webpack --mode development",</span><br><span class="line">    "build": "webpack --mode production"// 输出压缩过的代码</span><br><span class="line">&#125;,</span><br><span class="line"><span class="comment">// webapck4开始, 可以直接配置 "build": "webpack", 默认输入为 ./src/index.js 默认输出为./dist/main.js</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">    "dev": "webpack-dev-server --mode development",</span><br><span class="line">    "build": "webpack --mode production"// 输出压缩过的代码</span><br><span class="line">&#125;,</span><br><span class="line"><span class="comment">// webapck4开始, 可以直接配置 "build": "webpack", 默认输入为 ./src/index.js 默认输出为./dist/main.js</span></span><br></pre></td></tr></table></figure>
 
-<p><code>npm run build</code>or <code>npm run dev</code> 打包</p>
+<p><code>npm run build</code>or <code>npm run dev</code> </p>
 <p>这时候没有 webpack.config.js(为空文件), <code>webpack</code>命令默认读取<code>src/index.js</code>生成 <code>dist/main.js</code></p>
 <h1 id="webpack-config-js"><a href="#webpack-config-js" class="headerlink" title="webpack.config.js"></a>webpack.config.js</h1><p>分环境配置: <a href="https://segmentfault.com/a/1190000019711348" target="_blank" rel="noopener">https://segmentfault.com/a/1190000019711348</a></p>
 <p>webpack也提供了另外一种方式来完成打包工作，就是使用webpack的配置文件 webpack.config.js</p>

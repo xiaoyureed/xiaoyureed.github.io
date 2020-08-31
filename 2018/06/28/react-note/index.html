@@ -133,6 +133,7 @@ https://reactjs.org/
 <p><a href="https://github.com/bailicangdu/react-pxq" target="_blank" rel="noopener">https://github.com/bailicangdu/react-pxq</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/37148975" target="_blank" rel="noopener">效率优化</a></p>
 <p><a href="https://reacttraining.com/" target="_blank" rel="noopener">react tutorial</a></p>
+<p><a href="https://www.zhihu.com/question/59073695/answer/1071631250" target="_blank" rel="noopener">https://www.zhihu.com/question/59073695/answer/1071631250</a> 推荐的 react 库</p>
 </div>
 
 <a id="more"></a>
@@ -348,7 +349,11 @@ https://reactjs.org/
 <p><a href="https://blog.csdn.net/lishuan182/article/details/89575678" target="_blank" rel="noopener">vscode 关闭 eslint</a></p>
 <p><a href="https://segmentfault.com/a/1190000020379876" target="_blank" rel="noopener">eslint + airbnb 规范</a></p>
 <p><a href="https://thomlom.dev/setup-eslint-prettier-react/" target="_blank" rel="noopener">eslint + prettier 配合使用, 冲突解决, 使用 git hooks 在每次提交 commit 时 (pre-commit)格式化</a></p>
-<h2 id="webpack-环境搭建"><a href="#webpack-环境搭建" class="headerlink" title="webpack 环境搭建"></a>webpack 环境搭建</h2><p><a href="https://juejin.im/post/5d7a7e7e518825345a05c518" target="_blank" rel="noopener">https://juejin.im/post/5d7a7e7e518825345a05c518</a></p>
+<h2 id="webpack-环境搭建"><a href="#webpack-环境搭建" class="headerlink" title="webpack 环境搭建"></a>webpack 环境搭建</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yarn add webpack webpack-cli webpack-dev-server</span><br><span class="line">touch webpack.config.js</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">        "dev": "webpack-dev-server --mode development",</span><br><span class="line">        "build": "webpack --mode production",</span><br><span class="line"> &#125;,</span><br><span class="line"># yarn dev 去启动本地server</span><br><span class="line"># yarn build 去生成生产代码</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://juejin.im/post/5d7a7e7e518825345a05c518" target="_blank" rel="noopener">https://juejin.im/post/5d7a7e7e518825345a05c518</a></p>
 <p><a href="https://juejin.im/post/5cfb8c0051882541b24c3ed3" target="_blank" rel="noopener">https://juejin.im/post/5cfb8c0051882541b24c3ed3</a> //todo</p>
 <h1 id="组件化"><a href="#组件化" class="headerlink" title="组件化"></a>组件化</h1><h2 id="Web-Components"><a href="#Web-Components" class="headerlink" title="Web Components"></a>Web Components</h2><p><a href="http://www.ruanyifeng.com/blog/2019/08/web_components.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2019/08/web_components.html</a></p>
 <p>TODO</p>
@@ -1064,7 +1069,7 @@ https://reactjs.org/
 <p>mock 假数据, 模拟假的 api: json-server配合faker.js</p>
 <h1 id="GraphQL-和-Relay"><a href="#GraphQL-和-Relay" class="headerlink" title="GraphQL 和 Relay"></a>GraphQL 和 Relay</h1><p>GraphQL 是一种数据查询语言（Data Query Language）, 主要是想解决传统 RESTful API 所遇到的一些问题</p>
 <p>Relay 是搭配 GraphQL 用于 React 的一个宣告式数据框架，可以降低 Ajax 的请求数量</p>
-<h1 id="CSS-Module-模块化"><a href="#CSS-Module-模块化" class="headerlink" title="CSS-Module 模块化"></a>CSS-Module 模块化</h1><p>解决了 css 类名的冲突问题</p>
+<h1 id="CSS-Module-模块化"><a href="#CSS-Module-模块化" class="headerlink" title="CSS-Module 模块化"></a>CSS-Module 模块化</h1><p>解决了 css 类名的冲突问题, <a href="https://zhuanlan.zhihu.com/p/20495964" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/20495964</a></p>
 <p>业界另一种方案是 BEM 类命名方法 (<a href="https://www.ibm.com/developerworks/cn/web/1512_chengfu_bem/index.html" target="_blank" rel="noopener">bem 命名</a>)</p>
 <p>如果使用 webpack, css-loader 需要如此配置: <code>&#39;css-loader?modules&amp;localIdentName=[name]__[local]-[hash:base64:5]&#39;</code></p>
 <p>可以和 <code>react-css-modules</code> 配合使用 (<a href="https://segmentfault.com/a/1190000004530909" target="_blank" rel="noopener">ref</a>)</p>
@@ -1098,7 +1103,8 @@ https://reactjs.org/
 <li><p>phantomjs 处理同构</p>
 </li>
 </ul>
-<h1 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h1><h2 id="常见的性能问题场景"><a href="#常见的性能问题场景" class="headerlink" title="常见的性能问题场景"></a>常见的性能问题场景</h2><p>键盘输入卡顿</p>
+<h1 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h1><p><a href="https://zhuanlan.zhihu.com/p/37148975" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/37148975</a></p>
+<h2 id="常见的性能问题场景"><a href="#常见的性能问题场景" class="headerlink" title="常见的性能问题场景"></a>常见的性能问题场景</h2><p>键盘输入卡顿</p>
 <p>鼠标移动/滚动卡顿 (调整尺寸 resize)</p>
 <p>组件拆分的要足够小, 减少 virtual dom 的 diff 操作负担</p>
 <h2 id="使用工具定位性能问题"><a href="#使用工具定位性能问题" class="headerlink" title="使用工具定位性能问题"></a>使用工具定位性能问题</h2><p>react devtools (highlight update 功能)<br>chrome devtools</p>

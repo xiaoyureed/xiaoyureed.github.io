@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="经典的系统设计思路"/><meta name="keywords" content="blog 博客 网络日志" /><link rel="alternate" href="/default" title="肖雨的网络 WiKi"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://xiaoyureed.gitee.io/2020/08/31/interview-system-design/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":false,"pjax":"","latex":false};
+</script>
+
+    <title>经典的系统设计思路 - 肖雨的网络 WiKi</title>
+  <meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">肖雨的网络 WiKi</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">肖雨的网络 WiKi</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            Categories
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">经典的系统设计思路
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2020-08-31
+        </span><span class="post-category">
+            <a href="/categories/distributed-system/">distributed system</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#直播弹幕系统"><span class="toc-text">直播弹幕系统</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#秒杀系统"><span class="toc-text">秒杀系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#秒杀解决方案"><span class="toc-text">秒杀解决方案</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#点赞模块设计"><span class="toc-text">点赞模块设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设计思路"><span class="toc-text">设计思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优缺点"><span class="toc-text">优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据结构设计"><span class="toc-text">数据结构设计</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#扫码登录"><span class="toc-text">扫码登录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#扫码设计思路"><span class="toc-text">扫码设计思路</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Excel-表导入优化"><span class="toc-text">Excel 表导入优化</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><p>收集一些经典的系统设计思路</p>
+<p><a href="https://blog.csdn.net/Brad_PiTt7/article/details/90717429" target="_blank" rel="noopener">https://blog.csdn.net/Brad_PiTt7/article/details/90717429</a><br>TODO</p>
+<a id="more"></a>
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#直播弹幕系统">直播弹幕系统</a></li>
+<li><a href="#秒杀系统">秒杀系统</a><ul>
+<li><a href="#秒杀解决方案">秒杀解决方案</a></li>
+</ul>
+</li>
+<li><a href="#点赞模块设计">点赞模块设计</a><ul>
+<li><a href="#设计思路">设计思路</a></li>
+<li><a href="#优缺点">优缺点</a></li>
+<li><a href="#数据结构设计">数据结构设计</a></li>
+</ul>
+</li>
+<li><a href="#扫码登录">扫码登录</a><ul>
+<li><a href="#扫码设计思路">扫码设计思路</a></li>
+</ul>
+</li>
+<li><a href="#excel-表导入优化">Excel 表导入优化</a></li>
+</ul>
+<!-- /TOC -->
+
+<h1 id="直播弹幕系统"><a href="#直播弹幕系统" class="headerlink" title="直播弹幕系统"></a>直播弹幕系统</h1><p><a href="https://mp.weixin.qq.com/s/QTslEl7FRupsckfeq7fSLg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/QTslEl7FRupsckfeq7fSLg</a><br>TODO</p>
+<h1 id="秒杀系统"><a href="#秒杀系统" class="headerlink" title="秒杀系统"></a>秒杀系统</h1><h2 id="秒杀解决方案"><a href="#秒杀解决方案" class="headerlink" title="秒杀解决方案"></a>秒杀解决方案</h2><ul>
+<li><p>分布式 session , 为了抗并发, app 可能水平拓展, 各个 node 的 session 需要统一</p>
+<p>使用 Redis 存储 session</p>
+</li>
+<li><p>加缓存缓解数据库读取压力</p>
+<p>“分层校验”, 过滤尽量多的请求, 这时不做一致性校验, 比如可以直接从缓存读, 直到写库，才对库存做一致性检查</p>
+<p>允许读场景下一定的脏数据，这样只会导致少量原本无库存的下单请求被误认为是有库存的，等到真正写数据时再保证最终一致性，由此做到高可用和一致性之间的平衡。</p>
+</li>
+<li><p>页面静态化</p>
+</li>
+<li><p>异步下单</p>
+<p>使用消息队列</p>
+</li>
+<li><p>限流降级</p>
+</li>
+<li><p>应用层优化</p>
+<ul>
+<li><p>裁剪日志异常堆栈, 减少日志打印量</p>
+</li>
+<li><p>去组件框架, 比如去掉传统的 MVC 框架，直接使用 Servlet 处理请求</p>
+</li>
+<li><p>如何扣减库存</p>
+<ul>
+<li><p>下单减库存</p>
+<p>用户体验好, 但是可能面临恶意下单, 造成最后货物剩余</p>
+</li>
+<li><p>付款减库存</p>
+<p>会出现 用户付款却没货了. 出现超卖, 用户体验较差</p>
+</li>
+<li><p>预扣库存 (买家下单后，库存为其保留一定的时间（如 15 分钟），超过这段时间，库存自动释放)</p>
+<p>提高了恶意下单的成本, 体验还可以</p>
+<p>一般采用这种</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="点赞模块设计"><a href="#点赞模块设计" class="headerlink" title="点赞模块设计"></a>点赞模块设计</h1><h2 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h2><p>点赞、取消点赞是高频次的操作，若每次都读写数据库，大量的操作会影响数据库性能，所以需要做缓存。将点赞数据扔到 redis 中, 然后离线刷回 MySQL</p>
+<p>多久从 redis 中刷出一次数据到 MySQL 呢, 暂定为 2h</p>
+<p>文章热度计算:文章获得点赞数越高，文章的热度就越高，那么怎么判断呢？不就直接记录点赞数就行啦，但是对于最新的文章怎么办？例如有一篇文章一年前发布的，获得 50 个赞，有篇最新文章获得 49 个赞，但是按照上面所说的一年前的文章热度还比最新的高，这就不合理了. ————- 解决办法: 为每个文章加入一个 时间戳字段</p>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><ul>
+<li><p>缓解了数据库写操作的压力</p>
+</li>
+<li><p>没法保证数据安全性</p>
+<p>比如 redis 挂了会丢失数据</p>
+<p>比如 点赞数据刷回 MySQL 不及时, 可能 redis 会在执行内存淘汰策略时淘汰这些数据 (不过 点赞数据也不是什么关键数据, 丢失一点问题也不大)</p>
+</li>
+</ul>
+<h2 id="数据结构设计"><a href="#数据结构设计" class="headerlink" title="数据结构设计"></a>数据结构设计</h2><p>MySQL:</p>
+<ul>
+<li>user (id, name)</li>
+<li>like_info (id, tweet_id, user, status)</li>
+<li>tweet(id, content, user, like_count, hate_count)</li>
+</ul>
+<p>redis:</p>
+<p>每有一条点赞数据, 就存一条数据 tweet_id::user_id status, 点赞 status = 1, 取消点赞 status = 0</p>
+<p>一个 hash(tweet_id, set(user_id, …)) 结构存储某个人所有文章的点赞人情况, tweet_id:(user_id1, user_id2…)</p>
+<h1 id="扫码登录"><a href="#扫码登录" class="headerlink" title="扫码登录"></a>扫码登录</h1><h2 id="扫码设计思路"><a href="#扫码设计思路" class="headerlink" title="扫码设计思路"></a>扫码设计思路</h2><p>web 端 和 服务器的配合:</p>
+<ol>
+<li>user 访问登录页, server 随机生成 uuid, 作为键存入 redis, 值暂时为空, 同时设置过期时间, 根据 UUID + 验证字符串, 生成二维码 , 和 UUID 一起, 返回给 浏览器</li>
+<li>browser 拿到 UUID 和 二维码, 之后每隔一秒向服务器发送一个请求, 看是否已经登录成功, 请求携带 UUID</li>
+<li>server 根据 UUID 从 redis 获取 userID, 生成登录成功的 token, 浏览器登录成功</li>
+</ol>
+<p>手机端 和 服务器配合:</p>
+<ol>
+<li>手机扫描二维码, 得到 UUID, 向 手机端服务器发送请求, 携带 UUID + 验证字符串 + user token (穿 token 而不是 直接 userId 是为了安全, token 是经过加密的)</li>
+<li>手机端服务器收到请求, 首先对比参数中的验证信息，确定是否为用户登录请求接口, 如果是，返回一个确认信息给手机端。</li>
+<li>手机端收到返回后，将登录确认框显示给用户, 用户确认, 手机再次发送请求, 携带 UUID, token</li>
+<li>服务器拿到 uuId 和 token 解析的 userId 后，将用户的 userid 作为 value 值存入 redis 中以 uuid 作为 key 的键值对中。</li>
+</ol>
+<h1 id="Excel-表导入优化"><a href="#Excel-表导入优化" class="headerlink" title="Excel 表导入优化"></a>Excel 表导入优化</h1><p>缴费记录导入, 用户 将别的系统的数据填入我们系统中的 Excel 模板，应用将文件内容读取、校对、转换之后产生欠费数据、票据、票据详情并存储到数据库中; 校验包括:</p>
+<ul>
+<li>字段长度, 字段内容正则校验, 都在内存中没有外部数据交互, 性能影响小</li>
+<li>数据正确性, 重复性校验, 如票据号是否和系统已存在的票据号重复, 房屋是否存在</li>
+</ul>
+<p>在我接手之前数据量还不大, 接手后数据量增加到 10w 级别, 对应到数据库就是 30w 级别, 经过优化后可以在 100s 内完成 (测试服务器 4g 内存不仅放了数据库 MySQL5.7，还放了很多微服务应用。处理能力不太行)</p>
+<ol>
+<li>poi 读取 Excel 成 list</li>
+<li>遍历 list, 检验字段长度, 一些查询数据库的校验，比如校验当前行欠费对应的房屋是否在系统中存在, 写入当前行数据</li>
+<li>返回执行结果，如果出错 / 校验不合格。则返回提示信息并回滚数据 (涉及到三个表)</li>
+</ol>
+<p>优化:</p>
+<ul>
+<li><p>缓存: 将参加校验的数据全部缓存到 HashMap 中。直接到 HashMap 去命中</p>
+<p>校验行中的房屋是否存在，原本是要用 区域 + 楼宇 + 单元 + 房号 去查询房屋表匹配房屋 ID，查到则校验通过，生成的欠单中存储房屋 ID.因此我采用一条 SQL，将该小区下所有的房屋以 区域/楼宇/单元/房号 作为 key，以 房屋 ID 作为 value，存储到 HashMap 中</p>
+</li>
+<li><p>批量插入: MySQL insert 语句支持使用 values (),(),() 的方式一次插入多行数据，通过 mybatis foreach 结合 java 集合可以实现批量插入</p>
+</li>
+<li><p>EasyExcel 代替 poi, 注解方式读写 Excel</p>
+</li>
+<li><p>优化插入速度</p>
+<p>我使用了 values 批量插入代替逐行插入。每 30000 行拼接一个长 SQL、顺序插入。整个导入方法这块耗时最多。后来我将每次拼接的行数减少到 10000、5000、3000、1000、500 发现执行最快的是 1000</p>
+</li>
+<li><p>日志, info 日志 对比不打日志, 不打印日志耗时仅仅是打印日志耗时的 1/10</p>
+</li>
+</ul>
+<ul>
+<li>并行流, 榨干数据库的 CPU，利用网络 IO 的等待时间</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InsertConsumer</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 每个长 SQL 插入的行数，可以根据数据库性能调整</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="keyword">int</span> SIZE = <span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 如果需要调整并发数目，修改下面方法的第二个参数即可</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.setProperty(<span class="string">"java.util.concurrent.ForkJoinPool.common.parallelism"</span>, <span class="string">"4"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 插入方法</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> list     插入数据集合</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> consumer 消费型方法，直接使用 mapper::method 方法引用的方式</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;T&gt;      插入的数据类型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">insertData</span><span class="params">(List&lt;T&gt; list, Consumer&lt;List&lt;T&gt;&gt; consumer)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (list == <span class="keyword">null</span> || list.size() &lt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        List&lt;List&lt;T&gt;&gt; streamList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i += SIZE) &#123;</span><br><span class="line">            <span class="keyword">int</span> j = Math.min((i + SIZE), list.size());</span><br><span class="line">            List&lt;T&gt; subList = list.subList(i, j);</span><br><span class="line">            streamList.add(subList);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 并行流使用的并发数是 CPU 核心数，不能局部更改。全局更改影响较大，斟酌</span></span><br><span class="line">        streamList.parallelStream().forEach(consumer);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://xiaoyureed.gitee.io">肖雨</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://xiaoyureed.gitee.io/2020/08/31/interview-system-design/">https://xiaoyureed.gitee.io/2020/08/31/interview-system-design/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+      <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">Reward</label>
+    <div class="qr-code"><label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/wechat.png" title="wechat">
+        </label>
+      <label class="qr-code-image" for="reward">
+          <img class="image" src="/images/reword/ali.png" title="alipay">
+        </label>
+      </div>
+  </div><footer class="post-footer">
+        
+        <nav class="post-nav"><a class="prev" href="/2020/08/31/joke-collecting/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">joke-collecting</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2020/08/31/mongodb-note/">
+        <span class="next-text nav-default">mongodb-note</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:775000738@qq.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/xiaoyureed" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="https://www.douban.com/people/xiaoyu_red/" target="_blank" rel="noopener" class="iconfont icon-douban" title="douban"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2015 - 2020<span class="heart">
+      | Create with <i class="iconfont icon-heart"></i> by
+    </span>
+    <span class="author">肖雨</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>
