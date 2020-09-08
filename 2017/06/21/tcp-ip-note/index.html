@@ -121,51 +121,68 @@
     <div class="post-toc" id="post-toc">
     <h2 class="post-toc-title">Contents</h2>
     <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#入门"><span class="toc-text">入门</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#网络协议"><span class="toc-text">网络协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据包结构"><span class="toc-text">数据包结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五层模型"><span class="toc-text">五层模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用层-application-layer"><span class="toc-text">应用层(application-layer)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#传输层-transport-layer"><span class="toc-text">传输层(transport-layer)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#udp协议"><span class="toc-text">udp协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp协议"><span class="toc-text">tcp协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#三次握手"><span class="toc-text">三次握手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四次挥手"><span class="toc-text">四次挥手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tcp如何保证可靠传输"><span class="toc-text">tcp如何保证可靠传输</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络层-network-layer"><span class="toc-text">网络层(network-layer)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ip-地址"><span class="toc-text">ip 地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查询-IP地址"><span class="toc-text">查询 IP地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#手动配置-ip-地址"><span class="toc-text">手动配置 ip 地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#动态分配地址"><span class="toc-text">动态分配地址</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据链路层-data-link-layer"><span class="toc-text">数据链路层(data-link-layer)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#以太网协议"><span class="toc-text">以太网协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mac地址"><span class="toc-text">mac地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#广播-broadcasting"><span class="toc-text">广播(broadcasting)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#物理层-physical-layer"><span class="toc-text">物理层(physical-layer)</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#入门"><span class="toc-text">入门</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#五层模型"><span class="toc-text">五层模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一次请求涉及到的网络协议"><span class="toc-text">一次请求涉及到的网络协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据包结构"><span class="toc-text">数据包结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用层-application-layer"><span class="toc-text">应用层(application-layer)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#传输层-transport-layer"><span class="toc-text">传输层(transport-layer)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#udp协议"><span class="toc-text">udp协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp协议"><span class="toc-text">tcp协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本特点"><span class="toc-text">基本特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三次握手"><span class="toc-text">三次握手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP包的序号问题"><span class="toc-text">TCP包的序号问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四次挥手"><span class="toc-text">四次挥手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tcp如何保证可靠传输"><span class="toc-text">tcp如何保证可靠传输</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络层-network-layer-或者-ip-层"><span class="toc-text">网络层(network-layer 或者 ip 层)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ip-地址"><span class="toc-text">ip 地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查询-IP地址"><span class="toc-text">查询 IP地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#手动配置-ip-地址"><span class="toc-text">手动配置 ip 地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#动态分配地址-DHCP"><span class="toc-text">动态分配地址 DHCP</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ping-原理-ICMP协议"><span class="toc-text">ping 原理 ICMP协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#路由器作为网关"><span class="toc-text">路由器作为网关</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据链路层-data-link-layer-或者-mac-layer"><span class="toc-text">数据链路层(data-link-layer 或者 mac layer)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mac-和-mac地址"><span class="toc-text">mac 和 mac地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mac-层数据包格式"><span class="toc-text">mac 层数据包格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ARP-协议"><span class="toc-text">ARP 协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决环路问题-广播风暴-stp-协议"><span class="toc-text">解决环路问题(广播风暴) stp 协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#网络隔离"><span class="toc-text">网络隔离</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#两台机器不通"><span class="toc-text">两台机器不通</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#物理层-physical-layer"><span class="toc-text">物理层(physical-layer)</span></a></li></ol>
     </div>
-  </div><div class="post-content"><p><a href="http://c.biancheng.net/tcp_ip/" target="_blank" rel="noopener">http://c.biancheng.net/tcp_ip/</a><br><a href="https://coolshell.cn/articles/11564.html" target="_blank" rel="noopener">https://coolshell.cn/articles/11564.html</a><br><a href="http://www.tcpipguide.com/" target="_blank" rel="noopener">http://www.tcpipguide.com/</a><br><a href="https://www.lanqiao.cn/courses/98" target="_blank" rel="noopener">https://www.lanqiao.cn/courses/98</a><br>结合WireShark, tcpdump 边看边抓包. 推荐书目《WireShark 数据包分析实战》、《TCP/IP详解 卷一》<br>谢希仁教授的《计算机网络》<br>TODO</p>
+  </div><div class="post-content"><p><a href="http://c.biancheng.net/tcp_ip/" target="_blank" rel="noopener">http://c.biancheng.net/tcp_ip/</a><br><a href="https://coolshell.cn/articles/11564.html" target="_blank" rel="noopener">https://coolshell.cn/articles/11564.html</a><br><a href="http://www.tcpipguide.com/" target="_blank" rel="noopener">http://www.tcpipguide.com/</a><br><a href="https://www.lanqiao.cn/courses/98" target="_blank" rel="noopener">https://www.lanqiao.cn/courses/98</a><br>结合WireShark (<a href="https://www.wireshark.org/" target="_blank" rel="noopener">https://www.wireshark.org/</a>) 或者 tcpdump 边看边抓包. 推荐书目《WireShark 数据包分析实战》、《TCP/IP详解 卷一》<br>谢希仁教授的《计算机网络》<br>TODO</p>
 <a id="more"></a>
 
 <!-- TOC -->
 
 <ul>
 <li><a href="#入门">入门</a><ul>
-<li><a href="#网络协议">网络协议</a></li>
-<li><a href="#数据包结构">数据包结构</a></li>
 <li><a href="#五层模型">五层模型</a></li>
+<li><a href="#一次请求涉及到的网络协议">一次请求涉及到的网络协议</a></li>
+<li><a href="#数据包结构">数据包结构</a></li>
 </ul>
 </li>
 <li><a href="#应用层application-layer">应用层(application-layer)</a></li>
 <li><a href="#传输层transport-layer">传输层(transport-layer)</a><ul>
 <li><a href="#udp协议">udp协议</a></li>
 <li><a href="#tcp协议">tcp协议</a><ul>
+<li><a href="#基本特点">基本特点</a></li>
 <li><a href="#三次握手">三次握手</a></li>
+<li><a href="#tcp包的序号问题">TCP包的序号问题</a></li>
 <li><a href="#四次挥手">四次挥手</a></li>
 <li><a href="#tcp如何保证可靠传输">tcp如何保证可靠传输</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#网络层network-layer">网络层(network-layer)</a><ul>
+<li><a href="#网络层network-layer-或者-ip-层">网络层(network-layer 或者 ip 层)</a><ul>
 <li><a href="#ip-地址">ip 地址</a><ul>
 <li><a href="#查询-ip地址">查询 IP地址</a></li>
 <li><a href="#手动配置-ip-地址">手动配置 ip 地址</a></li>
-<li><a href="#动态分配地址">动态分配地址</a></li>
+<li><a href="#动态分配地址-dhcp">动态分配地址 DHCP</a></li>
 </ul>
 </li>
+<li><a href="#ping-原理-icmp协议">ping 原理 ICMP协议</a></li>
+<li><a href="#路由器作为网关">路由器作为网关</a></li>
 </ul>
 </li>
-<li><a href="#数据链路层data-link-layer">数据链路层(data-link-layer)</a><ul>
-<li><a href="#以太网协议">以太网协议</a></li>
-<li><a href="#mac地址">mac地址</a></li>
-<li><a href="#广播broadcasting">广播(broadcasting)</a></li>
+<li><a href="#数据链路层data-link-layer-或者-mac-layer">数据链路层(data-link-layer 或者 mac layer)</a><ul>
+<li><a href="#mac-和-mac地址">mac 和 mac地址</a></li>
+<li><a href="#mac-层数据包格式">mac 层数据包格式</a></li>
+<li><a href="#arp-协议">ARP 协议</a><ul>
+<li><a href="#解决环路问题广播风暴-stp-协议">解决环路问题(广播风暴) stp 协议</a></li>
+<li><a href="#网络隔离">网络隔离</a></li>
+</ul>
+</li>
+<li><a href="#两台机器不通">两台机器不通</a></li>
 </ul>
 </li>
 <li><a href="#物理层physical-layer">物理层(physical-layer)</a></li>
 </ul>
 <!-- /TOC -->
 
-<h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><h3 id="网络协议"><a href="#网络协议" class="headerlink" title="网络协议"></a>网络协议</h3><p>三要素: 语法, 语义, 顺序</p>
+<h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><h3 id="五层模型"><a href="#五层模型" class="headerlink" title="五层模型"></a>五层模型</h3><ol>
+<li>应用层: (http) 业务数据封装</li>
+<li>传输层 (tcp) </li>
+<li>网络层(ip) 远程路由</li>
+<li>数据链路层(mac) 局域网定位</li>
+<li>物理层 (网线) 连接</li>
+</ol>
+<p>所谓的二层设备、三层设备，都是这些设备上跑的程序不同而已。一个HTTP协议的包经过一个二层设备，二层设备收进去的是整个网络包。这里面HTTP、TCP、 IP、 MAC都有。什么叫二层设备呀，就是只把MAC头摘下来，看看到底是丢弃、转发，还是自己留着。那什么叫三层设备呢？就是把MAC头摘下来之后，再把IP头摘下来，看看到底是丢弃、转发，还是自己留着</p>
+<h3 id="一次请求涉及到的网络协议"><a href="#一次请求涉及到的网络协议" class="headerlink" title="一次请求涉及到的网络协议"></a>一次请求涉及到的网络协议</h3><p>三要素: 语法, 语义, 顺序</p>
 <ol>
 <li>应用层: 输入 URL, 浏览器通过 DNS/httpdns 查找 到 ip 地址 (假设 本机 host 中没有任何配置), 根据 HTTP/HTTPS 协议, 浏览器打包请求, 交给传输层.</li>
 <li>传输层: tcp/udp 协议将浏览器监听端口, 目标服务器端口封装, 交给网络层</li>
@@ -175,11 +192,26 @@
 </ol>
 <h3 id="数据包结构"><a href="#数据包结构" class="headerlink" title="数据包结构"></a>数据包结构</h3><p>Mac头 Ip头 Tcp头 Http头 数据体</p>
 <ul>
-<li>以太网头部</li>
+<li>以太网头部 (mac header)<ul>
+<li>target mac address 48bit</li>
+<li>source mac address 48bit</li>
+<li>协议类型 16bit : 用来说明里面是IP协议</li>
+</ul>
+</li>
 <li>ip header<ul>
-<li>版本</li>
-<li>源 ip address</li>
-<li>目的 ip address</li>
+<li>版本 4bit: 目前主流的还是IPv4</li>
+<li>首部长度 4bit</li>
+<li>服务类型 TOS (type of service) 8bit:  代表了当前的包是高优先级的，还是低优先级的。</li>
+<li>总长度 16bit</li>
+<li>标识 16bit</li>
+<li>标志 3bit</li>
+<li>片偏移 13bit</li>
+<li>TTL 8bit</li>
+<li>协议 8bit: TCP还是UDP</li>
+<li>首部校验和 16bit</li>
+<li>源 ip address 32bit</li>
+<li>目的 ip address 32bit</li>
+<li>选项</li>
 </ul>
 </li>
 <li>tcp header<ul>
@@ -190,25 +222,18 @@
 <li>确认序号 32bit, 确认包收到, 解决丢包的问题</li>
 </ul>
 </li>
-<li>应用层 data</li>
+<li>实际数据</li>
 </ul>
-<h3 id="五层模型"><a href="#五层模型" class="headerlink" title="五层模型"></a>五层模型</h3><ol>
-<li>应用层: (http) 业务数据封装</li>
-<li>传输层 (tcp) </li>
-<li>网络层(ip) 远程路由</li>
-<li>数据链路层(mac) 局域网定位</li>
-<li>物理层 (网线) 连接</li>
-</ol>
-<p>所谓的二层设备、三层设备，都是这些设备上跑的程序不同而已。一个HTTP协议的包经过一个二层设备，二层设备收进去的是整个网络包。这里面HTTP、TCP、 IP、 MAC都有。什么叫二层设备呀，就是只把MAC头摘下来，看看到底是丢弃、转发，还是自己留着。那什么叫三层设备呢？就是把MAC头摘下来之后，再把IP头摘下来，看看到底是丢弃、转发，还是自己留着</p>
 <h2 id="应用层-application-layer"><a href="#应用层-application-layer" class="headerlink" title="应用层(application-layer)"></a>应用层(application-layer)</h2><p>application-layer 定义了app进程间的通信规则，专门完成进程间的数据交互, 不同应用有不同的应用层协议</p>
 <p>应用层协议包括：DHCP(分配 ip), DNS（域名查询）, HTTP/HTTPS（网页访问），SMTP邮件协议,  P2p, rpc；</p>
 <p>应用层交互的数据单元称为报文。</p>
-<h2 id="传输层-transport-layer"><a href="#传输层-transport-layer" class="headerlink" title="传输层(transport-layer)"></a>传输层(transport-layer)</h2><p>tcp, udp, sctp协议</p>
-<p>transport-layer 定义了不同主机进程间的通信规则， 是通用的， 不同应用有不同的应用层协议，但是都是基于通用的transport-layer协议；</p>
+<h2 id="传输层-transport-layer"><a href="#传输层-transport-layer" class="headerlink" title="传输层(transport-layer)"></a>传输层(transport-layer)</h2><p>transport-layer 定义了不同主机进程间的通信规则， 是通用的， 不同应用有不同的应用层协议，但是都是基于通用的transport-layer协议；</p>
+<p>如 tcp, udp, sctp协议</p>
 <ul>
 <li><p>传输控制协议 TCP（Transmission Control Protocol）–提供面向连接的，可靠的数据传输服务。</p>
+<p>所谓面向连接, 就是通信双方可以维护一定状态</p>
 </li>
-<li><p>用户数据协议 UDP（User Datagram Protocol）–提供无连接的，尽最大努力的数据传输服务（不保证数据传输的可靠性）</p>
+<li><p>用户数据协议 UDP（User Datagram Protocol）–提供无连接的，不可靠的数据传输服务</p>
 </li>
 </ul>
 <h3 id="udp协议"><a href="#udp协议" class="headerlink" title="udp协议"></a>udp协议</h3><p>udp数据包内嵌在 ip数据包 的 “data”部分; 总长度最大 65535byte</p>
@@ -219,15 +244,37 @@
 <li><p>data</p>
 </li>
 </ul>
-<p>特定:</p>
+<p>特点:</p>
 <ul>
 <li>无连接， 不保证可靠性， 相应的也无需维护负责的连接状态</li>
-<li>没有拥堵控制 （因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如 直播，实时视频会议等）；）</li>
+<li>没有拥堵控制 （因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如 直播，实时视频会议等））</li>
+<li>发送一个一个数据包来传输数据 (基于数据报的，一个一个地发，一个一个地收)</li>
 <li>支持一对一， 一对多， 多对一，多对多的通信</li>
 <li>UDP 的首部开销小，只有8个字节，比TCP的20个字节的首部要短</li>
 </ul>
-<h3 id="tcp协议"><a href="#tcp协议" class="headerlink" title="tcp协议"></a>tcp协议</h3><p><a href="https://hit-alibaba.github.io/interview/basic/network/TCP.html" target="_blank" rel="noopener">https://hit-alibaba.github.io/interview/basic/network/TCP.html</a></p>
-<p>有确认机制, 每次发送一个数据包, 都要收到确认才会认为发送成功(不成功就重发)</p>
+<p>使用场景:</p>
+<ul>
+<li><p>需要资源少，在网络情况比较好的内网中使用, 如 DHCP就是基于UDP协议的</p>
+</li>
+<li><p>不需要一对一沟通，而是可以广播的应用, 如 DHCP就是一种广播</p>
+</li>
+<li><p>需要处理速度快，时延低，可以容忍少数丢包的场景, 如直播，实时视频会议</p>
+</li>
+</ul>
+<p>QUIC（全称Quick UDP Internet Connections，快速UDP互联网连接）是Google提出的一种基于UDP改进的通信协议</p>
+<p>物联网通信协议Thread，就是基于UDP协议的</p>
+<h3 id="tcp协议"><a href="#tcp协议" class="headerlink" title="tcp协议"></a>tcp协议</h3><p>顺序问题，丢包问题，连接维护，流量控制(对另一端)，拥塞控制(针对网络)</p>
+<h4 id="基本特点"><a href="#基本特点" class="headerlink" title="基本特点"></a>基本特点</h4><p><a href="https://hit-alibaba.github.io/interview/basic/network/TCP.html" target="_blank" rel="noopener">https://hit-alibaba.github.io/interview/basic/network/TCP.html</a></p>
+<ul>
+<li><p>面向连接, 可以维护通信双方的状态</p>
+</li>
+<li><p>发送字节流传输数据, 发送的时候发的是一个流，没头没尾</p>
+</li>
+<li><p>有拥塞控制 (意识到包丢弃了或者网络的环境不好了，就会根据情况调整自己的行为)</p>
+</li>
+<li><p>有确认机制, 每次发送一个数据包, 都要收到确认才会认为发送成功(不成功就重发)</p>
+</li>
+</ul>
 <p>内嵌在ip数据包的 “data部分”</p>
 <p>没有长度限制, 但是为了性能, tcp 包长度不会超过ip数据包长度, 以确保单个tcp包不会被分割</p>
 <ul>
@@ -252,6 +299,15 @@
 <p>发送完毕后，客户端进入 ESTABLISHED 状态，当服务器端接收到这个包时，也进入 ESTABLISHED 状态，TCP 握手结束。</p>
 </li>
 </ul>
+<p>总结: 一开始，客户端和服务端都处于CLOSED状态。先是服务端主动监听某个端口，处于LISTEN状态。然后客户端主动发起连接SYN，之后处于SYN-SENT状态。服务端收到发起的连接，返回SYN，并且ACK客户端的SYN，之后处于SYN-RCVD状态。客户端收到服务端发送的SYN和ACK之后，发送ACK的ACK，之后处于ESTABLISHED状态，因为它一发一收成功了。服务端收到ACK的ACK之后，处于ESTABLISHED状态，因为它也一发一收了。</p>
+<p>为什么两次握手不行?</p>
+<p>如果只有两次握手, 可能出现这种错误: 超时的连接请求报文突然成功到达服务端, 服务端成功进入链接建立状态, 而此时客户端已经使用完关闭了, 那么服务端会永远无法关闭.</p>
+<p>为什么四次握手不行?</p>
+<p>是可以的, 但是耗费资源. 第三次握手后, 客户端会继续发送数据, server 端收到, 这完全可以代替第四次握手.</p>
+<h4 id="TCP包的序号问题"><a href="#TCP包的序号问题" class="headerlink" title="TCP包的序号问题"></a>TCP包的序号问题</h4><p>A要告诉B，我这面发起的包的序号起始是从哪个号开始的，B同样也要告诉A，B发起的包的序号起始是从哪个号开始的。</p>
+<blockquote>
+<p>为什么序号不能都从1开始呢？<br>因为这样往往会出现冲突。例如，A连上B之后，发送了1、2、3三个包，但是发送3的时候，中间丢了，或者绕路了，于是重新发送，后来A掉线了，重新连上B后，序号又从1开始，然后发送2，但是压根没想发送3，但是上次绕路的那个3又回来了，发给了B，B自然认为，这就是下一个包，于是发生了错误。<br>因而，每个连接都要有不同的序号。这个序号的起始序号是随着时间变化的，可以看成一个32位的计数器，每4ms加一，如果计算一下，如果到重复，需要4个多小时，那个绕路的包早就死翘翘了</p>
+</blockquote>
 <h4 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h4><p>断开 tcp 连接需要 “四次挥手”</p>
 <p>图示: <a href="https://www.draw.io/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Untitled%20Diagram.xml#R7Vrfl6I2FP5rfJxzIIDAozrjdk5n2z3V032cEyFiupGwIY7av74JJECI0zpW7XYcXoSbmxu433d%2FEBx4k%2FXuE4PF6jNNERkAJ90NvPsBAK4PhuJHSva1JHKdWpAxnCqlVjDDfyIl1GobnKLSUOSUEo4LU5jQPEcJN2SQMbo11ZaUmKsWMEOWYJZAYku%2F4pSvlNR1nHbgJ4SzlVo6CtTAAibfMkY3uVpvALxlddTDa6htKf1yBVO67Yi8h4E3YZTy%2Bmy9myAifavdVs%2BbvjLa3DdDOT9mQriAC%2Bgm%2FiIB4dJfOHegtvACyUb5okTsBTF1u3yvXSTuvJCnmzV5wktEcC6uxgVieI240PfuiRJ%2FaWXj7QpzNCtgIqduBXmEbMXXRFy54lTgyaGYwpprQmBR4kW1qiMkDCUbVuIX9Bsqa9pIKd1wudKkoUOlKmFAqTLVeNqp7K5xos4JXCAybnCbUELl8jmtHqjkjH5DWijgdKqjGdH0kEssMSEdzWl1SLl4qilcYyKj4XfEUphDJVbUd4G6PrQQJDjLhSwRmFZOzBhMMWqV1a3a2Cs6CPg42nVEigufEBW4sL1QUaNhENZTVNx6Q8XTbScKdBCsOgEgQiNS4adCL2uMt%2FQTJ4qBR7IxstiYEPnkH2z8cdioHtx3zkNBoFPpf0NBO%2F8NwJBw5RCDdMPvG6oH7movjISC6xe7dlCcZfK33OfPC8wrbMBE2kHfxcVOWxf3VS9Qq1sEb%2BnjmCT9A3G%2BV8DBDaeSf4yvaEZzSJ4oLRry1iSz2FcvhVKrIvZAtBFjiEAuyG%2BW3wPOV1O%2FUFy5UCHtOWay8UPHNFHSDUuQmtUtYj1DYWwaCkDPEIcsQ9wyVHGheZ6j6OFb9CC45Ci38BJs5yZQTKYI2OaOQt5OdYPBeBDcy9AS8KlocjuRRtBSmpIhhEWLMlJiLqEdlyJ74TybVzjf%2BQ2eVsAdhaiOQX9oIgNiKwb9AyHY9%2FspARjchIcj3zc97F%2FPw0O7xTucnPY6OS2YzkuiMJmaUpBv1nUqG7v2jCtmslLEOR%2FJ9l%2FWJwLLEifzFc710BQTvRbKU62oSquQqPEfKikOo3MlxeHFkqLdpf0NTfY1TW6vvIXOqUhGPUN9SpwPyfhgaigPddz%2F6%2FTb5NF%2BcHTS7%2FBC6VfvcXScjER6WrwzD3umh8PY9nBwKQ%2B7t%2BDhCJgtRORd0cMHtolEohCvw0gkzPS9ORqYJVlvknQcHV%2FK0XaztsSvvUneQk01s0oUBKfWVNNQ7PUMna%2BmuqEF4T930R89879gheucvpPQo0VwsVbLtbtm%2FfKU4pf27akWicSWa9n08Zfnr6PH%2BbPb2TzqKnTEhqn3lJT7HVx84AU6ulRSttvkI6GbPP06e6jAu2Ho%2BnsfrgPszuVSBRXY3fcrBXV%2FCwU1jM2dvvYT51tTp%2Bf2LIG%2BpfPlTmA3%2BG%2FNneCGA7B5BW1A18XoCslTN9N2O3T3sVfUBk%2Ff1aduFrneBcPQOzUMn0az%2BfNo8vMNB2Hke70gjK8YhPZ3rCORmz9%2BvvkGpt97uiAG14PO%2FkD2lubz%2FoZxizxzI8f1fBu3S237Hvjs9oHbsZ%2Bjox5usXsp3MRl%2B%2B%2B7uia2f3H0Hv4C" target="_blank" rel="noopener">online</a></p>
 <p><img src="Snipaste_2018-11-25_14-43-20.png" alt="alt"></p>
@@ -274,6 +330,8 @@
 <p>客户端等待了某个固定时间（两个最大段生命周期，2MSL，2 Maximum Segment Lifetime）之后，没有收到服务器端的 ACK ，认为服务器端已经正常关闭连接，于是自己也关闭连接，进入 CLOSED 状态。</p>
 </li>
 </ul>
+<p>为什么需要四次挥手?</p>
+<p>TCP连接是双向的，因此在四次挥手中，前两次挥手用于断开一个方向的连接，后两次挥手用于断开另一方向的连接</p>
 <h4 id="tcp如何保证可靠传输"><a href="#tcp如何保证可靠传输" class="headerlink" title="tcp如何保证可靠传输"></a>tcp如何保证可靠传输</h4><ul>
 <li>数据被分割成合适的数据块</li>
 <li>tcp会给每个数据报编号， 接收方接收到后排序；</li>
@@ -283,7 +341,7 @@
 <li>停止等待协议 也是为了实现可靠传输的，它的基本原理就是每发完一个分组就停止发送，等待对方确认。在收到确认后再发下一个分组</li>
 <li>超时重传： 当 TCP 发出一个段后，它启动一个定时器，等待目的端确认收到这个报文段。如果不能及时收到一个确认，将重发这个报文段。</li>
 </ul>
-<h2 id="网络层-network-layer"><a href="#网络层-network-layer" class="headerlink" title="网络层(network-layer)"></a>网络层(network-layer)</h2><p>ICMP, ip, ospf, bgp, IPSec, GRE</p>
+<h2 id="网络层-network-layer-或者-ip-层"><a href="#网络层-network-layer-或者-ip-层" class="headerlink" title="网络层(network-layer 或者 ip 层)"></a>网络层(network-layer 或者 ip 层)</h2><p>ICMP, ip, ospf, bgp, IPSec, GRE</p>
 <p>定义主机到主机的通信规范， 例如 ip协议， 将运输层产生的报文段or用户数据报封装成ip数据报</p>
 <p>引入新的地址: 网址（ip地址） ———— 确定机器所在的子网 (mac地址确定这个子网中的具体哪一台机器)</p>
 <h3 id="ip-地址"><a href="#ip-地址" class="headerlink" title="ip 地址"></a>ip 地址</h3><ul>
@@ -343,7 +401,7 @@
 <blockquote>
 <p>如果将网关配置为192.168.1.6呢？不可能，Linux不会让你配置成功的，因为网关要和当前的网络至少一个网卡是同一个网段的，怎么可能16.158.23.6的网关是192.168.1.6呢</p>
 </blockquote>
-<h4 id="动态分配地址"><a href="#动态分配地址" class="headerlink" title="动态分配地址"></a>动态分配地址</h4><p>动态主机配置协议（Dynamic Host Configuration Protocol），简称DHCP。</p>
+<h4 id="动态分配地址-DHCP"><a href="#动态分配地址-DHCP" class="headerlink" title="动态分配地址 DHCP"></a>动态分配地址 DHCP</h4><p>动态主机配置协议（Dynamic Host Configuration Protocol），简称DHCP。</p>
 <p>只需要配置一段共享的IP地址。每一台新接入的机器都通过DHCP协议，来这个共享的IP地址里申请，然后自动配置好就可以了。等人走了，或者用完了，还回去，这样其他的机器也能用</p>
 <p>工作过程: </p>
 <ol>
@@ -385,7 +443,7 @@
 </li>
 <li><p>bootP header: boot request</p>
 </li>
-<li><p>实际数据:  我的 mac 是 xxx, 我准备租用这个 server 给的 ip 了</p>
+<li><p>实际数据:  我的 mac 是 xxx, 我准备租用这个 server 给的 ip 了, ip 是 xxx, 其他 ip 都不要了</p>
 </li>
 </ul>
 </li>
@@ -404,27 +462,72 @@
 </ul>
 </li>
 </ol>
-<h2 id="数据链路层-data-link-layer"><a href="#数据链路层-data-link-layer" class="headerlink" title="数据链路层(data-link-layer)"></a>数据链路层(data-link-layer)</h2><p>ARP, VLAN, STP</p>
-<p>数据包的定义, 网卡mac地址, broadcasting ——- 现在可以在数据链路层输出数据了</p>
-<h3 id="以太网协议"><a href="#以太网协议" class="headerlink" title="以太网协议"></a>以太网协议</h3><ul>
-<li><p>以太网是以广播(broadcasting)方式发送数据的</p>
-</li>
-<li><p>以前每家厂商都有自己的电信号分组方式 —— 以太网协议占据主导市场, 沿用到今天</p>
-</li>
-<li><p>定义”多少个电信号合为一组(电信号分组方式)”</p>
-</li>
-<li><p>一组电信号构成一个数据包 ———– “帧”</p>
+<p>ip 地址回收和续租: 客户机会在租期过去50%的时候，直接向为其提供IP地址的DHCP Server发送DHCP request消息包。客户机接收到该服务器回应的DHCP ACK消息包，会根据包中所提供的新的租期以及其他已经更新的TCP/IP参数，更新自己的配置</p>
+<p>预启动执行环境（PXE）:管理多个主机, 安装操作系统 (DHCP协议能给客户推荐“装修队”PXE，能够安装操作系统，这个在云计算领域大有用处)</p>
+<h3 id="ping-原理-ICMP协议"><a href="#ping-原理-ICMP协议" class="headerlink" title="ping 原理 ICMP协议"></a>ping 原理 ICMP协议</h3><p>ping是基于ICMP协议工作的。ICMP全称Internet Control Message Protocol，就是互联网控制报文协议</p>
+<p>ICMP报文是封装在IP包里面的。因为传输指令的时候，肯定需要源地址和目标地址.</p>
+<p>分类如下:</p>
 <ul>
-<li><p>head(标头) - 18byte, 包含这个数据包(帧)的元数据(发送者mac地址, 接受者mac地址, 数据类型)</p>
+<li><p>查询报文: 主动发起的查询, 例如，常用的ping就是查询报文，是一种主动请求，并且获得主动应答的ICMP协议</p>
 </li>
-<li><p>data (数据) - 46byte ~ 1500byte</p>
+<li><p>差错报文: 异常情况发起的，来报告发生了不好的事情, 如 Traceroute 就是使用的差错报文</p>
+</li>
+</ul>
+<p>数据结构是这样的:</p>
+<ul>
+<li>ICMP 报文内容 (如 类型, 序号)</li>
+<li>source ip, target ip</li>
+<li>source mac, target mac</li>
+</ul>
+<h3 id="路由器作为网关"><a href="#路由器作为网关" class="headerlink" title="路由器作为网关"></a>路由器作为网关</h3><p>路由器工作在这层, 所以是三层设备;</p>
+<p>网关往往是一个路由器，是一个三层转发的设备, 就是把MAC头和IP头都取下来，然后根据里面的内容，看看接下来把包往哪里转发的设备</p>
+<p>两台机器互联:</p>
+<ul>
+<li><p>如果是同一个网段，例如，你访问你旁边的兄弟的电脑，那就没网关什么事情，直接将源地址和目标地址放入IP头中，然后通过ARP获得MAC地址，将源MAC和目的MAC放入MAC头中，发出去就可以了</p>
+</li>
+<li><p>如果不是同一网段，分两种网关:</p>
+<ul>
+<li><p>转发网关, 不改变数据包IP地址. 例如，你要访问你们校园网里面的BBS(192.168.4.0/24), 假设经历了路由器 A, B, 首先需要发往默认网关 A, 将源地址和目标IP地址放入IP头中，通过ARP获得网关的MAC地址，将源MAC和网关的MAC放入MAC头中，发送出去。网关A所在的端口，例如192.168.1.1/24 发现 mac 地址符合, 将网络包收进来，查看A配置的静态路由, 要想访问192.168.4.0/24，要从192.168.56.1这个口出去，下一跳为192.168.56.2(即 B 的入口), 路由器A发送ARP获取B 的MAC地址，然后发送包, 包到达B 的192.168.56.2这个网口，发现MAC一致，将包收进来</p>
+</li>
+<li><p>NAT 网关 (Network Address Translation, 常见), 改变IP地址. 如 机器 x, y 都有局域网 ip 192.168.0.101/24, 两者通信, 需要网关在发出接受数据包时, 转换 ip 地址为公网 ip 地址. 否则就冲突了</p>
 </li>
 </ul>
 </li>
-<li><p>如果数据非常长, 会分割成多个帧发送</p>
+</ul>
+<blockquote>
+<p>人们把网关就叫作路由器。其实不完全准确，而另一种比喻更加恰当：路由器是一台设备，它有五个网口或者网卡，相当于有五只手，分别连着五个局域网。每只手的IP地址都和对应局域网的IP地址处在相同的网段，每只手都是它握住的那个局域网的网关;<br>想发往其他局域网的包，都会到达其中一只手，被拿进来，拿下MAC头和IP头，看看，根据自己的路由算法，选择另一只手，加上IP头和MAC头，然后扔出去。</p>
+</blockquote>
+<p>数据包跨过网关, mac 都会变, ip 地址则不一定变</p>
+<p>静态路由: 其实就是在路由器上，配置一条一条规则, 每一条规则至少包含这三项信息:</p>
+<ul>
+<li><p>目的网络：这个包想去哪儿？</p>
+</li>
+<li><p>出口设备：将包从哪个口扔出去？</p>
+</li>
+<li><p>下一跳网关：下一个路由器的地址</p>
 </li>
 </ul>
-<h3 id="mac地址"><a href="#mac地址" class="headerlink" title="mac地址"></a>mac地址</h3><p>每个物理设备(网卡)都有的唯一标识, 48二进制位, 通过12个十六进制数表示;只和厂商有关</p>
+<p>通过route命令和ip route命令配置, 例如，我们设置ip route add 10.176.48.0/20 via 10.173.32.1 dev eth0，就说明要去10.176.48.0/20这个目标网络，要从eth0端口出去，经过10.173.32.1。还能配置复杂的策略路由, 实现控制转发策略.</p>
+<p>动态路由: 根据路由协议算法生成动态路由表. 动态路由主流算法有两种，距离矢量算法和链路状态算法。基于两种算法产生两种协议，BGP协议和OSPF协议</p>
+<h2 id="数据链路层-data-link-layer-或者-mac-layer"><a href="#数据链路层-data-link-layer-或者-mac-layer" class="headerlink" title="数据链路层(data-link-layer 或者 mac layer)"></a>数据链路层(data-link-layer 或者 mac layer)</h2><p>ARP, VLAN, STP 协议</p>
+<p>数据包的定义, 网卡mac地址, broadcasting ——- 现在可以在数据链路层输出数据了</p>
+<p>考虑三个问题:</p>
+<ul>
+<li>数据包的发送方, 接收方如何确定 — mac地址</li>
+<li>包发送先后顺序, 如何防止堵车混乱 — 信道划分协议, 轮流协议, 随机接入协议</li>
+<li>如何处理发送中的错误 - CRC 循环冗余检测</li>
+</ul>
+<h3 id="mac-和-mac地址"><a href="#mac-和-mac地址" class="headerlink" title="mac 和 mac地址"></a>mac 和 mac地址</h3><p>Medium Access Control，即媒体访问控制, 其实就是控制在往媒体上发数据的时候，谁先发、谁后发的问题。防止发生混乱, 这个规则叫做 <code>多路访问</code></p>
+<p>三种方式解决混乱问题:</p>
+<ul>
+<li><p>方式一：分多个车道。每个车一个车道，你走你的，我走我的。这在计算机网络里叫作信道划分；</p>
+</li>
+<li><p>方式二：今天单号出行，明天双号出行，轮着来。这在计算机网络里叫作轮流协议；</p>
+</li>
+<li><p>方式三：不管三七二十一，有事儿先出门，发现特堵，就回去。错过高峰再出。我们叫作随机接入协议。著名的以太网，用的就是这个方式。</p>
+</li>
+</ul>
+<p>MAC地址: 每个物理设备(网卡)都有的唯一标识, 48二进制位, 通过12个十六进制数表示;只和厂商有关; 解决发给谁，谁接收的问题;</p>
 <p>MAC地址的通信范围比较小，局限在一个子网里面。例如，从192.168.0.2/24访问192.168.0.3/24是可以用MAC地址的。一旦跨子网，即从192.168.0.2/24到192.168.1.2/24，MAC地址就不行了，需要IP地址起作用了</p>
 <ul>
 <li><p>为什么有了 mac 地址, 还会发明 ip 地址呢</p>
@@ -435,23 +538,82 @@
 <p>局域网中机器的 ip 都是变化的, 这时就需要mac地址来唯一对应一台机器</p>
 </li>
 </ul>
-<h3 id="广播-broadcasting"><a href="#广播-broadcasting" class="headerlink" title="广播(broadcasting)"></a>广播(broadcasting)</h3><ul>
-<li><p>同一个子网的设备通信: broadcasting</p>
+<h3 id="mac-层数据包格式"><a href="#mac-层数据包格式" class="headerlink" title="mac 层数据包格式"></a>mac 层数据包格式</h3><p>对于以太网，第二层的最开始，就是目标的MAC地址和源的MAC地址: </p>
+<ol>
+<li><p>target mac address 6 byte</p>
+<p>有了这个目标MAC地址，数据包在链路上广播，MAC的网卡才能发现，这个包是给它的。MAC的网卡把包收进来，然后打开IP包，发现IP地址也是自己的，再打开TCP包，发现端口是自己，也就是80，而nginx就是监听80</p>
+<p>nginx返回一个网页。然后将网页需要发回请求的机器。然后层层封装，最后到MAC层。因为来的时候有源MAC地址，返回的时候，源MAC就变成了目标MAC，再返给请求的机器</p>
+</li>
+<li><p>source mac address 6byte</p>
+</li>
+<li><p>类型 2byte </p>
 <ul>
-<li><p>arp协议 ——- 两个主机在同一个子网, 通过 arp协议 找到 mac 地址</p>
+<li><p>类型 0800 : ip 数据报 (大部分的类型是IP数据包，然后IP里面包含TCP、UDP，以及HTTP等)</p>
 </li>
-<li><p>arp协议过程: 发出一个数据包(包含在以太网据包), 包括 “目标主机ip”(已知), “目标主机mac地址”(未知. 那么如何得到目标mac地址呢? 向同一个子网的所有主机广播, 其他主机解析包中的ip地址, 和自己的ip地址比较, 如果相同, 则上报自己的mac地址, 如果不同, 则丢弃这个广播数据包)</p>
-</li>
-</ul>
-</li>
-<li><p>不同子网的设备: 路由的方式发送</p>
+<li><p>类型 0806: ARP 请求, 应答</p>
 </li>
 </ul>
-<p><img src="Snipaste_2018-10-14_12-14-51.png" alt="alt"></p>
-<p>device1 希望给 device2 发送信息, 一号会向这个局域网中的所有设备发送数据包, 其他机器读取数据包中的标头的mac地址和自己的比对, 如果相同, 接受, 如果不同则丢弃</p>
-<h2 id="物理层-physical-layer"><a href="#物理层-physical-layer" class="headerlink" title="物理层(physical-layer)"></a>物理层(physical-layer)</h2><p>网线, 电磁信号…</p>
-<p>通过电信号传输 0 1</p>
-<p>单纯的0和1没有意义, 需要 data link layer</p>
+</li>
+<li><p>数据 46 ~ 1500 byte</p>
+</li>
+<li><p>CRC 4 byte (循环冗余检测)</p>
+<p>通过XOR异或的算法，来计算整个包是否在发送的过程中出现了错误，主要解决第三个问题。</p>
+</li>
+</ol>
+<h3 id="ARP-协议"><a href="#ARP-协议" class="headerlink" title="ARP 协议"></a>ARP 协议</h3><p>ARP协议，也就是已知IP地址，求MAC地址的协议, 通过广播的方式来寻找目标MAC地址，拿到后记住一段时间，这个叫作缓存；</p>
+<blockquote>
+<p>RARP协议，即已知MAC求IP的协议</p>
+</blockquote>
+<p>机器 a 访问机器 b 过程:</p>
+<ol>
+<li><p>a 根据 b 的 ip 查看本地 ARP缓存表, 没找到 mac</p>
+</li>
+<li><p>广播 ARP请求, “谁是 192.168.0.2 ? 你的 mac 是多少”</p>
+</li>
+<li><p>b ARP 应答 “我就是 192.168.0.2, 我的 mac 是 xxx”</p>
+</li>
+<li><p>a 缓存 ip-mac 映射表</p>
+</li>
+</ol>
+<p>两台机器互联可以使用 hub, 多台机器使用有学习功能的 switch</p>
+<h4 id="解决环路问题-广播风暴-stp-协议"><a href="#解决环路问题-广播风暴-stp-协议" class="headerlink" title="解决环路问题(广播风暴) stp 协议"></a>解决环路问题(广播风暴) stp 协议</h4><p>随着网络中 switch 越来越多, 出现环路问题 and 广播风暴</p>
+<blockquote>
+<p>如果一个局域网里面有多个交换机, 或者 2 个局域网有多个 switch 连接，ARP广播的模式有广播风暴的问题<br>比如数据包经过交换机A到达交换机B，交换机B又将包复制为多份广播出去, 如果整个局域网存在一个环路，使得数据包又重新回到了最开始的交换机A，这个包又会被A再次复制多份广播出去。如此循环，数据包会不停得转发，而且越来越多，最终占满带宽，或者使解析协议的硬件过载，形成广播风暴</p>
+</blockquote>
+<p>那么如何破除环路呢?  stp 协议: 数据结构中, 有环的我们常称为图。将图中的环破了，就生成了树。在计算机网络中，生成树的算法叫作STP，全称Spanning Tree Protocol。</p>
+<p>stp 缺点:</p>
+<ul>
+<li>STP 对于跨地域甚至跨国组织的网络支持，就很难做了，计算量摆着呢</li>
+<li>某个交换机状态发生变化的时候，整个树需要重新构建</li>
+<li>被破开的环的链路被浪费了</li>
+</ul>
+<p>所以现在很少用了</p>
+<h4 id="网络隔离"><a href="#网络隔离" class="headerlink" title="网络隔离"></a>网络隔离</h4><p>随着 switch 变多, 也需要进行网络隔离, 这是因为当一个局域网中有各种各样的数据包, 混合在一起, 无法保证安全性</p>
+<ul>
+<li><p>物理隔离: 组件多个子网, 通过路由器连接</p>
+</li>
+<li><p>虚拟隔离: VLAN，或者叫虚拟局域网</p>
+<p>一个交换机上会连属于多个虚拟局域网的机器</p>
+<p>那交换机怎么区分哪个机器属于哪个局域网呢？在原来的二层的头上加一个TAG，里面有一个VLAN ID，一共12位; 当这个交换机把二层的头取下来的时候，就能够识别这个VLAN ID。这样只有相同VLAN的包，才会互相转发，不同VLAN的包，是看不到的。这样广播问题和安全问题就都能够解决了</p>
+<p>交换机之间怎么连接呢？将两个交换机连接起来的口应该设置成什么VLAN呢？对于支持VLAN的交换机，有一种口叫作Trunk口。它可以转发属于任何VLAN的口。交换机之间可以通过这种口相互连接</p>
+</li>
+</ul>
+<h3 id="两台机器不通"><a href="#两台机器不通" class="headerlink" title="两台机器不通"></a>两台机器不通</h3><p>ping + traceroute/wireshark</p>
+<h2 id="物理层-physical-layer"><a href="#物理层-physical-layer" class="headerlink" title="物理层(physical-layer)"></a>物理层(physical-layer)</h2><p>网线, 电磁信号… 通过电信号传输 0 1</p>
+<p>早些年, 电脑连电脑啊，还是电脑连网口用的网线不同; </p>
+<blockquote>
+<p>电脑连电脑。这种方式就是一根网线，有两个头。一头插在一台电脑的网卡上，另一头插在另一台电脑的网卡上。但是在当时，普通的网线这样是通不了的，所以水晶头要做交叉线，用的就是所谓的1－3、2－6交叉接法: 水晶头的第1、2和第3、6脚，它们分别起着收、发信号的作用。将一端的1号和3号线、2号和6号线互换一下位置，就能够在物理层实现一端发送的信号，另一端能收到<br>除了网线要交叉，还需要配置这两台电脑的IP地址、子网掩码和默认网关, 可以一个是192.168.0.1/24，另一个是192.168.0.2/24</p>
+</blockquote>
+<p>多台机器互联: </p>
+<ul>
+<li><p>集线器(hub, 没有大脑，它完全在物理层工作。它会将自己收到的每一个字节，都复制到其他端口上去), </p>
+</li>
+<li><p>交换机(Switch, 在 mac 层工作, 会记住每个口对应机器的 mac 地址, 转发包时, 能把MAC头拿下来，检查一下目标MAC地址, 如果目标MAC地址不是这台电脑的，这个口就不用转发了)</p>
+</li>
+</ul>
+<blockquote>
+<p>交换机怎么知道每个口的电脑的MAC地址呢？这需要交换机会学习<br>一台MAC1电脑将一个包发送给另一台MAC2电脑，当这个包到达交换机的时候，一开始交换机也不知道MAC2的电脑在哪个口，所以没办法，它只能将包转发给除了来的那个口之外的其他所有的口。但是，这个时候，交换机会干一件非常聪明的事情，就是交换机会记住，MAC1是来自一个明确的口。以后有包的目的地址是MAC1的，直接发送到这个口就可以了<br>过了一段时间之后，就有了整个网络的一个结构了，这个时候，基本上不用广播了，全部可以准确转发。当然，每个机器的IP地址会变，所在的口也会变，因而交换机上的学习的结果，我们称为转发表，是有一个过期时间的</p>
+</blockquote>
 
       </div>
       <div class="post-copyright">
