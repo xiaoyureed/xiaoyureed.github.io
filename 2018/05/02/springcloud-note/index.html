@@ -131,6 +131,9 @@ https://www.youtube.com/watch?v=aO3W-lYnw-o (一个入门介绍)
 [demo在这里](https://github.com/xiaoyureed/springcloud-tutorial)
 
 <p>spring cloud alibaba: nacos (服务注册, 配置中心, bus),  sentinel (熔断限流), seata (分布式事务)</p>
+<p><a href="https://juejin.im/post/6870288195674718222" target="_blank" rel="noopener">https://juejin.im/post/6870288195674718222</a> 选型 2020</p>
+<p><a href="https://github.com/macrozheng" target="_blank" rel="noopener">https://github.com/macrozheng</a> 电商系统tutorial</p>
+<p><a href="https://github.com/zhoutaoo/SpringCloud" target="_blank" rel="noopener">https://github.com/zhoutaoo/SpringCloud</a> demo</p>
 </div>
 
 <a id="more"></a>
@@ -339,6 +342,7 @@ https://www.youtube.com/watch?v=aO3W-lYnw-o (一个入门介绍)
 <p>引入 <code>spring-boot-starter-security</code>, <code>security.user.name=你的用户名</code> 和 <code>security.user.password=你的密码</code></p>
 <p><code>eureka.client.serviceUrl.defaultZone=http://${security.user.name}:${security.user.password}@127.0.0.1:${server.port}/eureka/</code></p>
 <h2 id="consul"><a href="#consul" class="headerlink" title="consul"></a>consul</h2><p>功能比 Eureka 多 (还能做 配置中心, 消息总线bus), 作为注册中心, 区别在于: Eureka保证 AP (自我保护机制导致 ap), Consul为CP。</p>
+<p>目前，Consul  已经取代 Eureka 成为 Spring Cloud 的缺省服务注册发现组件</p>
 <h2 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h2><p>业界使用暂时不多, 原生不带 ui 界面</p>
 <h2 id="nacos-作为注册中心"><a href="#nacos-作为注册中心" class="headerlink" title="nacos 作为注册中心"></a>nacos 作为注册中心</h2><p>完美替代 eureka</p>
 <h1 id="服务相互调用"><a href="#服务相互调用" class="headerlink" title="服务相互调用"></a>服务相互调用</h1><h2 id="feign"><a href="#feign" class="headerlink" title="feign"></a>feign</h2><p>进入 maintenance, 不推荐使用</p>
