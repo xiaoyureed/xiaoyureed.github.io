@@ -454,7 +454,7 @@ reference: [redis基础](https://juejin.im/post/5ad6e4066fb9a028d82c4b66), [redi
 <p>不要仅仅使用 RDB，因为那样会导致你丢失很多数据，因为RDB是隔一段时间来备份数据</p>
 <p>也不要仅仅使用 AOF，因为那样有两个问题，第一，速度慢; 第二，aof日志文件出bug 的几率大于 rdb快照的二进制文件</p>
 <p>用RDB恢复内存状态会丢失很多数据，重放AOP日志又很慢。Redis4.0推出了混合持久化来解决这个问题。将 rdb 文件的内容和增量的 AOF 日志文件存在一起。这里的 AOF 日志不再是全量的日志，而是自持久化开始到持久化结束的这段时间发生的增量 AOF 日志，通常这部分 AOF 日志很小。于是在 Redis 重启的时候，可以先加载 rdb 的内容，然后再重放增量 AOF 日志就可以完全替代之前的 AOF 全量文件重放</p>
-<h2 id="RDB-快照持久化"><a href="#RDB-快照持久化" class="headerlink" title="RDB-快照持久化"></a>RDB-快照持久化</h2><h3 id="RDB持久化概念"><a href="#RDB持久化概念" class="headerlink" title="RDB持久化概念"></a>RDB持久化概念</h3><p>写操作到达一定密度, 出发快照, 频率可配置</p>
+<h2 id="RDB-快照持久化"><a href="#RDB-快照持久化" class="headerlink" title="RDB-快照持久化"></a>RDB-快照持久化</h2><h3 id="RDB持久化概念"><a href="#RDB持久化概念" class="headerlink" title="RDB持久化概念"></a>RDB持久化概念</h3><p>写操作到达一定密度, 触发快照, 频率可配置</p>
 <p>优:</p>
 <ul>
 <li><p>rdb文件是经过压缩的二进制文件, 体积小</p>
@@ -480,6 +480,9 @@ reference: [redis基础](https://juejin.im/post/5ad6e4066fb9a028d82c4b66), [redi
 <p>将写命令添加到 AOF 文件（Append Only File）的末尾。 ——— 以独立日志文件的方式记录每次写命令, 解决了 RDB方式不能实时持久化的问题</p>
 <p>rdb, aof同时存在时, redis重启时优先载入 aof 文件来恢复数据 (aof 比 rdb 记录的数据更全)</p>
 <p>通过 <code>appendonly yes</code> 配置 开启 aof, aof文件名通过 appendfilename 配置设置, 默认为 appendonly.aof, 保存路径同rdb中的dir配置</p>
+<p>编辑 /etc/redis/redis.conf, </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">appendonly yes</span><br></pre></td></tr></table></figure>
+
 <h3 id="写入原理"><a href="#写入原理" class="headerlink" title="写入原理"></a>写入原理</h3><p>以<code>文本方式</code>写入<code>aof缓存区</code> , 然后由操作系统决定什么时候将该内容同步到硬盘，用户可以调用 file.flush() 方法请求操作系统尽快将缓冲区存储的数据同步到硬盘。可以看出<code>写入文件的数据不会立即同步到硬盘</code>上，在将写命令添加到 AOF 文件时，要根据需求来保证何时同步到硬盘上。</p>
 <ul>
 <li><p>为什么使用文本格式? 📌 文本格式具有很好的兼容性; 📌 文本格式很容易处理追加操作; 📌 可读性, 直接修改处理;</p>
