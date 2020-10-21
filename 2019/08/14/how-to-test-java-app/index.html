@@ -121,7 +121,7 @@
     <div class="post-toc" id="post-toc">
     <h2 class="post-toc-title">Contents</h2>
     <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-AssertJ"><span class="toc-text">1. AssertJ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Mockito"><span class="toc-text">2. Mockito</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-web层测试"><span class="toc-text">3. web层测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-压测"><span class="toc-text">4. 压测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-siege"><span class="toc-text">4.1 siege</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-jmeter"><span class="toc-text">4.2 jmeter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-ab"><span class="toc-text">4.3 ab</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-吞吐量-qps"><span class="toc-text">5. 吞吐量-qps</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Junit"><span class="toc-text">6 Junit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ab-test"><span class="toc-text">ab test</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#AssertJ"><span class="toc-text">AssertJ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mockito"><span class="toc-text">Mockito</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web层测试"><span class="toc-text">web层测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#压测"><span class="toc-text">压测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#性能指标"><span class="toc-text">性能指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#siege"><span class="toc-text">siege</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jmeter"><span class="toc-text">jmeter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ab"><span class="toc-text">ab</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Junit"><span class="toc-text">Junit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ab-test"><span class="toc-text">ab test</span></a></li></ol>
     </div>
   </div><div class="post-content"><p>相关工具和类库</p>
 <ul>
@@ -138,50 +138,50 @@
 <!-- TOC -->
 
 <ul>
-<li><a href="#1-assertj">1. AssertJ</a></li>
-<li><a href="#2-mockito">2. Mockito</a></li>
-<li><a href="#3-web层测试">3. web层测试</a></li>
-<li><a href="#4-压测">4. 压测</a><ul>
-<li><a href="#41-siege">4.1 siege</a></li>
-<li><a href="#42-jmeter">4.2 jmeter</a></li>
-<li><a href="#43-ab">4.3 ab</a></li>
+<li><a href="#assertj">AssertJ</a></li>
+<li><a href="#mockito">Mockito</a></li>
+<li><a href="#web层测试">web层测试</a></li>
+<li><a href="#压测">压测</a><ul>
+<li><a href="#性能指标">性能指标</a></li>
+<li><a href="#siege">siege</a></li>
+<li><a href="#jmeter">jmeter</a></li>
+<li><a href="#ab">ab</a></li>
 </ul>
 </li>
-<li><a href="#5-吞吐量-qps">5. 吞吐量-qps</a></li>
-<li><a href="#6-junit">6 Junit</a></li>
+<li><a href="#junit">Junit</a></li>
 <li><a href="#ab-test">ab test</a></li>
 </ul>
 <!-- /TOC -->
 
 
-<h2 id="1-AssertJ"><a href="#1-AssertJ" class="headerlink" title="1. AssertJ"></a>1. AssertJ</h2><p>流式断言库, spring-boot-starter-test 提供了依赖</p>
+<h2 id="AssertJ"><a href="#AssertJ" class="headerlink" title="AssertJ"></a>AssertJ</h2><p>流式断言库, spring-boot-starter-test 提供了依赖</p>
 <p><a href="http://joel-costigliola.github.io/assertj/" target="_blank" rel="noopener">http://joel-costigliola.github.io/assertj/</a></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.assertj.core.api.Assertions.assertThat;</span><br></pre></td></tr></table></figure>
 
-<h2 id="2-Mockito"><a href="#2-Mockito" class="headerlink" title="2. Mockito"></a>2. Mockito</h2><p>测试用 mocking framework, 比如 web app 测试, spring boot-starter-test提供了</p>
+<h2 id="Mockito"><a href="#Mockito" class="headerlink" title="Mockito"></a>Mockito</h2><p>测试用 mocking framework, 比如 web app 测试, spring boot-starter-test提供了</p>
 <p><a href="http://wiki.jikexueyuan.com/project/spring-boot-cookbook-zh/test-mockito.html" target="_blank" rel="noopener">http://wiki.jikexueyuan.com/project/spring-boot-cookbook-zh/test-mockito.html</a></p>
 <p><a href="https://github.com/xiaoyureed/springboot-demos/blob/master/mockito-mybatis-plus-demo/src/test/java/io/github/xiaoyureed/mockitomybatisplusdemo/MockitoDemoApplicationTests_1.java" target="_blank" rel="noopener">service unit test demo</a> </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.mockito.ArgumentMatchers.any;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.mockito.Mockito.when;</span><br></pre></td></tr></table></figure>
 
 <p>powerMock 用于解决 mockito 无法覆盖的 case, </p>
-<h2 id="3-web层测试"><a href="#3-web层测试" class="headerlink" title="3. web层测试"></a>3. web层测试</h2><ul>
+<h2 id="web层测试"><a href="#web层测试" class="headerlink" title="web层测试"></a>web层测试</h2><ul>
 <li>MockMVC 单元测试</li>
 <li><a href="https://www.baeldung.com/spring-boot-testresttemplate" target="_blank" rel="noopener">TestRestTemplate</a>, RestAssured 集成测试</li>
 </ul>
 <p>[区别]](<a href="https://stackoverflow.com/questions/52051570/whats-the-difference-between-mockmvc-restassured-and-testresttemplate" target="_blank" rel="noopener">https://stackoverflow.com/questions/52051570/whats-the-difference-between-mockmvc-restassured-and-testresttemplate</a>)</p>
 <p><a href="https://github.com/xiaoyureed/springboot-demos/blob/master/mockito-mybatis-plus-demo/src/test/java/io/github/xiaoyureed/mockitomybatisplusdemo/controller/UserControllerTest.java" target="_blank" rel="noopener">web层unit test demo</a></p>
 <p><a href="https://github.com/rest-assured/rest-assured" target="_blank" rel="noopener">https://github.com/rest-assured/rest-assured</a> - rest api 测试库</p>
-<h2 id="4-压测"><a href="#4-压测" class="headerlink" title="4. 压测"></a>4. 压测</h2><p><a href="https://www.ibm.com/developerworks/cn/java/j-lo-performance-analysissy-tools/index.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-lo-performance-analysissy-tools/index.html</a><br><a href="https://www.ibm.com/developerworks/cn/java/j-lo-performance-analysissy-tools2/index.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-lo-performance-analysissy-tools2/index.html</a><br><a href="https://www.ibm.com/developerworks/cn/java/j-lo-performance-analysissy-tools3/" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-lo-performance-analysissy-tools3/</a></p>
-<h3 id="4-1-siege"><a href="#4-1-siege" class="headerlink" title="4.1 siege"></a>4.1 siege</h3><p>http 压测工具</p>
+<h2 id="压测"><a href="#压测" class="headerlink" title="压测"></a>压测</h2><p><a href="https://www.ibm.com/developerworks/cn/java/j-lo-performance-analysissy-tools/index.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-lo-performance-analysissy-tools/index.html</a><br><a href="https://www.ibm.com/developerworks/cn/java/j-lo-performance-analysissy-tools2/index.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-lo-performance-analysissy-tools2/index.html</a><br><a href="https://www.ibm.com/developerworks/cn/java/j-lo-performance-analysissy-tools3/" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-lo-performance-analysissy-tools3/</a></p>
+<p>测试 内存泄漏 , 并发, 同步, …问题</p>
+<h3 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h3><p>RS: response time </p>
+<p>QPS：Queries Per Second意思是“每秒查询数”，是一台服务器每秒能够的查询次数, 次/秒 , qps 衡量接口性能</p>
+<p>TPS：是TransactionsPerSecond的缩写, 每秒交易数, 笔/秒, 一个交易/事务可能包含多个请求, tps 用来衡量整个业务流程性能; 金融系统 1000tps-5000tps, 保险系统 100-100000tps, 制造行业 100-5000tps, 电商 10000-1000000tps, 中小型网站类似金融系统</p>
+<p>吞吐量: 表示应用系统每秒钟最大能接受的用户访问量 , 反应系统的承压能力; 单个reqeust 对CPU消耗越高，外部系统接口、IO影响速度越慢，系统吞吐能力越低，反之越高, 类似 tps, qps</p>
+<h3 id="siege"><a href="#siege" class="headerlink" title="siege"></a>siege</h3><p>http 压测工具</p>
 <p><a href="https://www.joedog.org/siege-manual/" target="_blank" rel="noopener">https://www.joedog.org/siege-manual/</a></p>
 <p>TODO</p>
-<h3 id="4-2-jmeter"><a href="#4-2-jmeter" class="headerlink" title="4.2 jmeter"></a>4.2 jmeter</h3><h3 id="4-3-ab"><a href="#4-3-ab" class="headerlink" title="4.3 ab"></a>4.3 ab</h3><p>apache benchmark并发测试工具</p>
-<h2 id="5-吞吐量-qps"><a href="#5-吞吐量-qps" class="headerlink" title="5. 吞吐量-qps"></a>5. 吞吐量-qps</h2><p>都是性能指标</p>
-<p>QPS：Queries Per Second意思是“每秒查询率”，是一台服务器每秒能够相应的查询次数，是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准</p>
-<p>TPS：是TransactionsPerSecond的缩写, 表示一次请求响应的总时间 (用户请求服务器, 服务器自己的内部处理, 服务器返回给用户)</p>
-<p>qps 和 tps 区别: Qps基本类似于Tps，但是不同的是，对于一个页面的一次访问，形成一个Tps；但一次页面请求，可能产生多次对服务器的请求，服务器对这些请求，就可计入“Qps”之中. </p>
-<p>吞吐量: 表示应用系统每秒钟最大能接受的用户访问量 , 反应系统的承压能力; 单个reqeust 对CPU消耗越高，外部系统接口、IO影响速度越慢，系统吞吐能力越低，反之越高</p>
-<h2 id="6-Junit"><a href="#6-Junit" class="headerlink" title="6 Junit"></a>6 Junit</h2><p>这里主要介绍 Junit5 (<a href="https://junit.org/junit5/docs/current/user-guide/#overview-getting-started" target="_blank" rel="noopener">https://junit.org/junit5/docs/current/user-guide/#overview-getting-started</a>)</p>
+<h3 id="jmeter"><a href="#jmeter" class="headerlink" title="jmeter"></a>jmeter</h3><h3 id="ab"><a href="#ab" class="headerlink" title="ab"></a>ab</h3><p>apache benchmark并发测试工具</p>
+<h2 id="Junit"><a href="#Junit" class="headerlink" title="Junit"></a>Junit</h2><p>这里主要介绍 Junit5 (<a href="https://junit.org/junit5/docs/current/user-guide/#overview-getting-started" target="_blank" rel="noopener">https://junit.org/junit5/docs/current/user-guide/#overview-getting-started</a>)</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">maven.compiler.source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.source</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">maven.compiler.target</span>&gt;</span>$&#123;maven.compiler.source&#125;<span class="tag">&lt;/<span class="name">maven.compiler.target</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">junit.jupiter.version</span>&gt;</span>5.6.2<span class="tag">&lt;/<span class="name">junit.jupiter.version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.junit.jupiter<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit-jupiter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;junit.jupiter.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>JUnit 5 = JUnit Platform + JUnit Jupiter + JUnit Vintage</p>
