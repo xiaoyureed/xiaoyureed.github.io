@@ -392,8 +392,10 @@
 <h1 id="移动端消息推送"><a href="#移动端消息推送" class="headerlink" title="移动端消息推送"></a>移动端消息推送</h1><p><a href="https://juejin.im/post/6844903838495801357" target="_blank" rel="noopener">https://juejin.im/post/6844903838495801357</a><br><a href="https://crossoverjie.top/2018/09/25/netty/million-sms-push/" target="_blank" rel="noopener">https://crossoverjie.top/2018/09/25/netty/million-sms-push/</a><br><a href="https://juejin.im/post/6844903478200909837" target="_blank" rel="noopener">https://juejin.im/post/6844903478200909837</a><br>TODO</p>
 <h1 id="即时通信-IM系统"><a href="#即时通信-IM系统" class="headerlink" title="即时通信 IM系统"></a>即时通信 IM系统</h1><p><a href="https://github.com/tywo45" target="_blank" rel="noopener">https://github.com/tywo45</a></p>
 <h1 id="lombok-notice"><a href="#lombok-notice" class="headerlink" title="lombok notice"></a>lombok notice</h1><ul>
-<li>和 Java8 配合良好, jdk升级很麻烦</li>
-<li>@builder 构造对象时用的是全参数构造器, 需要 @AllArgsConstructor, 而 @data 不包含 @RequiredArgsConstructor; 所以好的组合是 @NoArgsConstructor @AllArgsConstructor @Builder @Data, 但是这太复杂, 一般 web 开发, 只需要 跟 Java bean 加 @data</li>
+<li>和 Java8 配合良好, jdk升级很麻烦, 需要 delombok</li>
+<li>@RequiredArgsConstructor 表示生成这样的构造函数: 参数只有 final 的 没初始化的 field, 或者 @notnull 标注的 field, 其他field 不会作为参数</li>
+<li>@builder 构造对象时用的是全参数构造器, 需要 @AllArgsConstructor, 而 @data 包含 @RequiredArgsConstructor 不包含 @AllArgsConstructor; 所以好的组合是 @NoArgsConstructor @AllArgsConstructor @Builder @Data, 但是这太复杂</li>
+<li>如果不要@builder, 一般 web 开发, 只需要 跟 Java bean 加 @data</li>
 <li>若 bean 有父类, 最好 @EqualsAndHashCode(callSuper=true)</li>
 </ul>
 <h1 id="校验"><a href="#校验" class="headerlink" title="校验"></a>校验</h1><h2 id="校验配置文件"><a href="#校验配置文件" class="headerlink" title="校验配置文件"></a>校验配置文件</h2><p>任何添加@ConfigurationProperties的类，class上加 <code>@Validated</code> annotation, app都会进行属性校验, 确保引入了 JSR-303 javax.validation 规范的实现;<br>使用校验规范JSR-303 javax.validation中的注解即可实现校验（介绍见这里<a href="https://www.ibm.com/developerworks/cn/java/j-lo-jsr303/）" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-lo-jsr303/）</a></p>
@@ -402,7 +404,8 @@
 <p>@Validated 也可以可以加到 @Bean 方法上 来触发校验;</p>
 <p>也可以使用自定的Spring Validator，bean id是 configurationPropertiesValidator 即可</p>
 <p>spring-boot-actuator 模块有一个端点，对外暴露了所有的 @ConfigurationProperties beans。浏览器中访问 /configprops 即可</p>
-<h2 id="校验请求参数"><a href="#校验请求参数" class="headerlink" title="校验请求参数"></a>校验请求参数</h2><h2 id="自定义校验"><a href="#自定义校验" class="headerlink" title="自定义校验"></a>自定义校验</h2><h2 id="Validated和-Valid"><a href="#Validated和-Valid" class="headerlink" title="@Validated和@Valid"></a>@Validated和@Valid</h2><p>@Valid是 JSR-303 规范, hibernate-validator实现了这一规范</p>
+<h2 id="校验请求参数"><a href="#校验请求参数" class="headerlink" title="校验请求参数"></a>校验请求参数</h2><p><a href="https://blog.csdn.net/mzh_cn/article/details/80637015" target="_blank" rel="noopener">https://blog.csdn.net/mzh_cn/article/details/80637015</a></p>
+<h2 id="自定义校验"><a href="#自定义校验" class="headerlink" title="自定义校验"></a>自定义校验</h2><h2 id="Validated和-Valid"><a href="#Validated和-Valid" class="headerlink" title="@Validated和@Valid"></a>@Validated和@Valid</h2><p>@Valid是 JSR-303 规范, hibernate-validator实现了这一规范</p>
 <p>@Validated来自于spring, 是 spring 对于 @Valid 的实现, 提供”validation groups”功能(创建空接口作为分组), valid则不具备;(<a href="https://stackoverflow.com/questions/36173332/difference-between-valid-and-validated-in-spring" target="_blank" rel="noopener">https://stackoverflow.com/questions/36173332/difference-between-valid-and-validated-in-spring</a>) , 一旦controler 中使用 @Validated(group={…}), 那么实体类字段上的注解若指定 group 则约束生效, 不指定分组的不生效. 反之, 若 @validated 没有指定分组, 则 实体类字段指定了 group 的不生效, 不指定group 的字段生效</p>
 
       </div>
