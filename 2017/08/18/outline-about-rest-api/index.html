@@ -283,7 +283,7 @@
 <p>对于安全敏感的接口, 需要作出特殊的安全设计, 当然首先就是推荐使用 https</p>
 <ul>
 <li><p>token - 一般为 一个 UUID, 用于标识接口调用者的身份, 减少用户名和密码的传输次数  </p>
-<p>一般情况下客户端(接口调用方)需要先向服务器端申请一个接口调用的账号，服务器会给出一个appId和一个key, key用于参数签名使用</p>
+<p>一般情况下客户端(接口调用方)需要先向服务器端申请一个接口调用的账号，服务器会给出一个appId和多个 (appkey, appSecret)对, key用于参数签名使用 (同一个 app_id 可以对应多个 app_key+app_secret, 这样 平台就可以分配你不一样的权限, 比如 app_key1 + app_secect1 只有只读权限 但是 app_key2+app_secret2 有读写权限)</p>
 <p>server 生成 token 后, 将 token 作为 key, 将其他关联信息作为 value 存入 redis, 当一个 req 过来, 会带着 token, 到 redis 查这个 token, 如果存在, 则放行, 不存在, 则拦截</p>
 <p>细分为:</p>
 <ul>

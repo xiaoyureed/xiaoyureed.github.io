@@ -121,7 +121,7 @@
     <div class="post-toc" id="post-toc">
     <h2 class="post-toc-title">Contents</h2>
     <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#AssertJ"><span class="toc-text">AssertJ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mockito"><span class="toc-text">Mockito</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web层测试"><span class="toc-text">web层测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#压测"><span class="toc-text">压测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#性能指标"><span class="toc-text">性能指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#siege"><span class="toc-text">siege</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jmeter"><span class="toc-text">jmeter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ab"><span class="toc-text">ab</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Junit"><span class="toc-text">Junit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ab-test"><span class="toc-text">ab test</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#AssertJ"><span class="toc-text">AssertJ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mockito"><span class="toc-text">Mockito</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#powerMock"><span class="toc-text">powerMock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web层测试"><span class="toc-text">web层测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#压测"><span class="toc-text">压测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#性能指标"><span class="toc-text">性能指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#siege"><span class="toc-text">siege</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jmeter"><span class="toc-text">jmeter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ab"><span class="toc-text">ab</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Junit"><span class="toc-text">Junit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ab-test"><span class="toc-text">ab test</span></a></li></ol>
     </div>
   </div><div class="post-content"><p>相关工具和类库</p>
 <ul>
@@ -140,6 +140,7 @@
 <ul>
 <li><a href="#assertj">AssertJ</a></li>
 <li><a href="#mockito">Mockito</a></li>
+<li><a href="#powermock">powerMock</a></li>
 <li><a href="#web层测试">web层测试</a></li>
 <li><a href="#压测">压测</a><ul>
 <li><a href="#性能指标">性能指标</a></li>
@@ -164,7 +165,7 @@
 <p><a href="https://github.com/xiaoyureed/springboot-demos/blob/master/mockito-mybatis-plus-demo/src/test/java/io/github/xiaoyureed/mockitomybatisplusdemo/MockitoDemoApplicationTests_1.java" target="_blank" rel="noopener">service unit test demo</a> </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.mockito.ArgumentMatchers.any;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.mockito.Mockito.when;</span><br></pre></td></tr></table></figure>
 
-<p>powerMock 用于解决 mockito 无法覆盖的 case, </p>
+<h2 id="powerMock"><a href="#powerMock" class="headerlink" title="powerMock"></a>powerMock</h2><p>用于解决 mockito 无法覆盖的 case, </p>
 <h2 id="web层测试"><a href="#web层测试" class="headerlink" title="web层测试"></a>web层测试</h2><ul>
 <li>MockMVC 单元测试</li>
 <li><a href="https://www.baeldung.com/spring-boot-testresttemplate" target="_blank" rel="noopener">TestRestTemplate</a>, RestAssured 集成测试</li>

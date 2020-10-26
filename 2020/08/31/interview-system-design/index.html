@@ -121,7 +121,7 @@
     <div class="post-toc" id="post-toc">
     <h2 class="post-toc-title">Contents</h2>
     <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#直播弹幕系统"><span class="toc-text">直播弹幕系统</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#秒杀系统"><span class="toc-text">秒杀系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#秒杀解决方案"><span class="toc-text">秒杀解决方案</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#点赞模块设计"><span class="toc-text">点赞模块设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设计思路"><span class="toc-text">设计思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优缺点"><span class="toc-text">优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据结构设计"><span class="toc-text">数据结构设计</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#扫码登录"><span class="toc-text">扫码登录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#扫码设计思路"><span class="toc-text">扫码设计思路</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Excel-表导入优化"><span class="toc-text">Excel 表导入优化</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#直播弹幕系统"><span class="toc-text">直播弹幕系统</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#秒杀系统"><span class="toc-text">秒杀系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#秒杀解决方案"><span class="toc-text">秒杀解决方案</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#点赞模块设计"><span class="toc-text">点赞模块设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设计思路"><span class="toc-text">设计思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优缺点"><span class="toc-text">优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据结构设计"><span class="toc-text">数据结构设计</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#扫码登录"><span class="toc-text">扫码登录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#扫码设计思路"><span class="toc-text">扫码设计思路</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Excel-表导入优化"><span class="toc-text">Excel 表导入优化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#java-监控系统设计"><span class="toc-text">java 监控系统设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#检测哪些内容"><span class="toc-text">检测哪些内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何监控"><span class="toc-text">如何监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#程序内置监测"><span class="toc-text">程序内置监测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jdk-自带可视化工具"><span class="toc-text">jdk 自带可视化工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jdk-自带命令行工具"><span class="toc-text">jdk 自带命令行工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三方工具"><span class="toc-text">第三方工具</span></a></li></ol></li></ol></li></ol>
     </div>
   </div><div class="post-content"><p>收集一些经典的系统设计思路</p>
 <p><a href="https://blog.csdn.net/Brad_PiTt7/article/details/90717429" target="_blank" rel="noopener">https://blog.csdn.net/Brad_PiTt7/article/details/90717429</a><br>TODO</p>
@@ -146,6 +146,17 @@
 </ul>
 </li>
 <li><a href="#excel-表导入优化">Excel 表导入优化</a></li>
+<li><a href="#java-监控系统设计">java 监控系统设计</a><ul>
+<li><a href="#检测哪些内容">检测哪些内容</a></li>
+<li><a href="#如何监控">如何监控</a><ul>
+<li><a href="#程序内置监测">程序内置监测</a></li>
+<li><a href="#jdk-自带可视化工具">jdk 自带可视化工具</a></li>
+<li><a href="#jdk-自带命令行工具">jdk 自带命令行工具</a></li>
+<li><a href="#第三方工具">第三方工具</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <!-- /TOC -->
 
@@ -251,6 +262,41 @@
 <li>并行流, 榨干数据库的 CPU，利用网络 IO 的等待时间</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InsertConsumer</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 每个长 SQL 插入的行数，可以根据数据库性能调整</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="keyword">int</span> SIZE = <span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 如果需要调整并发数目，修改下面方法的第二个参数即可</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.setProperty(<span class="string">"java.util.concurrent.ForkJoinPool.common.parallelism"</span>, <span class="string">"4"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 插入方法</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> list     插入数据集合</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> consumer 消费型方法，直接使用 mapper::method 方法引用的方式</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;T&gt;      插入的数据类型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">insertData</span><span class="params">(List&lt;T&gt; list, Consumer&lt;List&lt;T&gt;&gt; consumer)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (list == <span class="keyword">null</span> || list.size() &lt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        List&lt;List&lt;T&gt;&gt; streamList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i += SIZE) &#123;</span><br><span class="line">            <span class="keyword">int</span> j = Math.min((i + SIZE), list.size());</span><br><span class="line">            List&lt;T&gt; subList = list.subList(i, j);</span><br><span class="line">            streamList.add(subList);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 并行流使用的并发数是 CPU 核心数，不能局部更改。全局更改影响较大，斟酌</span></span><br><span class="line">        streamList.parallelStream().forEach(consumer);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="java-监控系统设计"><a href="#java-监控系统设计" class="headerlink" title="java 监控系统设计"></a>java 监控系统设计</h1><h2 id="检测哪些内容"><a href="#检测哪些内容" class="headerlink" title="检测哪些内容"></a>检测哪些内容</h2><ul>
+<li>当 java 运行一个应用，就会生成一个 JVM 的实例，而 java 应用则运行于此 JVM 实例中，当应用退出，JVM 实例也会关闭。启动多个 java 应用，也会启动多个 JVM 实例，它们不会相互影响</li>
+<li>虚拟机主要有三大模块，<ul>
+<li>一个类加载子系统（Class Loader Subsystem,负责加载类），</li>
+<li>一个执行引擎（Execution Engine,负责执行类的方法指令和垃圾回收），</li>
+<li>一个运行时数据区（Runtime Data Areas,负责存放程序运行时的数据）<ul>
+<li>方法区（存储如类信息，方法信息，引用，常量池等），</li>
+<li>堆（存储类实例对象和数组），</li>
+<li>java 栈（以栈方式存放以帧为单位保存线程的运行状态帧），</li>
+<li>程序计数器（每一个线程都有它自己的程序计数器，表示下一条将被执行指令的“地址”）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>java 应用启动流程就是通过类加载子系统加载相关的类，然后把相关数据如类信息，方法等存到方法区中，实例化相关的类存储在堆中，程序运行位置则是每个线程使用计数器来指定。方法区和堆是线程共享的，程序计数器及 Java 栈是线程私有的。</p>
+<p>运行时数据区是 java 应用运行时的监测区域，其中各个区域的内存情况，特别是堆的内存使用情况，是重点区域。堆还会分年轻代、年老代及 Metaspace，垃圾回收器会进行分代回收。通过它的回收情况监测，可以检测到是否存在内存泄漏，而 java 栈则与线程有关，线程的运行状态又与 CPU 相关，因此 java 栈的监测可以知道 CPU 占用过大的问题，同时方法区和 java 栈的占用内存大小也是一个监测的指标</p>
+<h2 id="如何监控"><a href="#如何监控" class="headerlink" title="如何监控"></a>如何监控</h2><h3 id="程序内置监测"><a href="#程序内置监测" class="headerlink" title="程序内置监测"></a>程序内置监测</h3><p>打印日志</p>
+<p>另一方面可以输出系统属性 System.getProperties()及 System.getProperty()</p>
+<p>对于 Spring Boot 应用，还可以使用 actuator 来监测程序运行情况</p>
+<h3 id="jdk-自带可视化工具"><a href="#jdk-自带可视化工具" class="headerlink" title="jdk 自带可视化工具"></a>jdk 自带可视化工具</h3><p>在 windows 平台下，jdk 还提供了可视化监测工具，以更直观，更方便的方式对 java 应用运行状况进行监测。这两款工具分别是 jconsole 和 jvisualvm，在 jdk 下的 bin 目录下可以找到。它们均可监测本地及远程的 java 应用，包括堆使用情况，线程使用，cpu 使用，类加载情况，gc 情况，jvisualvm 还可以生成相应的堆和线程快照，同时还可以使用相应的插件，以便于进一步分析。</p>
+<h3 id="jdk-自带命令行工具"><a href="#jdk-自带命令行工具" class="headerlink" title="jdk 自带命令行工具"></a>jdk 自带命令行工具</h3><ul>
+<li>jps 查看 java 进程 ID</li>
+<li>jinfo 查看及调整虚拟机参数</li>
+<li>jmap 查看堆(heap)使用情况及生成堆快照</li>
+<li>jstack 查看线程运行状态及生成线程快照</li>
+<li>jstat 显示进程中的类装载、内存、垃圾收集等运行数据。</li>
+</ul>
+<h3 id="第三方工具"><a href="#第三方工具" class="headerlink" title="第三方工具"></a>第三方工具</h3><ul>
+<li>MAT 是 eclipse 的内存分析插件，通过 MAT 可以对 dump 出来的堆快照进行分析，并且辅助分析内存泄露原因，快速的计算出在内存中对象的占用大小，垃圾收集器的回收工作情况，并可以通过报表直观的查看到可能造成这种结果的对象。</li>
+<li>BTrace 是是 sun 推出的一款 Java 动态、安全追踪（监控）工具，可以在不停机的情况下监控系统运行情况，并且做到最少的侵入，占用最少的系统资源。特别适用在生产环境下对 java 应用进行监测，问题排查。</li>
+<li>Arthas 是阿里开源的在线 Java 诊断工具，同样可以在不停机情况监控系统，包括内存情况，线程情况，GC 情况，运行时数据，也可以监测方法参数、返回值，异常返回等数据，堪称神器，在生产环境下使用非常方便。</li>
+</ul>
 
       </div>
       <div class="post-copyright">
