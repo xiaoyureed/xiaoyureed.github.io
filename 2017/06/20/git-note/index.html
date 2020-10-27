@@ -306,6 +306,7 @@
 <p>【克隆远程仓库】 可以指定本地仓库名<br><code>git clone &lt;remote address&gt; [custom_proj_name]</code></p>
 <p>【克隆远程指定分支 】<br><code>git clone -b 分支名称 remote地址</code></p>
 <p>【只克隆最近一次 commit】<br><code>git clone --depth=1 git://someserver/somerepo</code></p>
+<p>克隆到指定目录<br><code>git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions</code></p>
 <p>【首次上传项目到远程】<br><code>git init</code>初始化成 Git 仓库&rArr;<br><code>git checkout -b branch_name</code>创建本地分支&rArr;<br><code>git add .</code>add 所有文件&rArr;<br><code>git commit -m &quot;xxxx&quot;</code>本地提交&rArr;<br><code>git remote add origin git_address</code>关联远程库&rArr;<br><code>git push -u origin branch_name</code>推送，如果 remote 不为空，推送前要拉取：<code>git pull --rebase origin branch_name</code><br>说明: <code>-u origin</code> 表示将当前分支添加为远程跟踪的分支, 之后可以直接使用 <code>git pull</code> 来推送</p>
 <h1 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h1><ul>
 <li><p>查看有哪些分支分支</p>
