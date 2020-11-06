@@ -471,8 +471,8 @@ https://blog.csdn.net/zmx729618/article/details/72930474
 
 <p>ARG 构建参数, 定义参数名称，以及定义其默认值。该默认值可以在构建命令 docker build 中用 <code>--build-arg &lt;参数名&gt;=&lt;值&gt;</code> 来覆盖。</p>
 <p>和 ENV 类似, 但是 ARG 所设置的构建环境的环境变量，<code>在将来容器运行时是不会存在这些环境变量的</code>. 但是不要因此就使用 ARG 保存密码之类的信息，因为 docker history 还是可以看到所有值的。</p>
-<h2 id="VOLUME-定义匿名数据卷"><a href="#VOLUME-定义匿名数据卷" class="headerlink" title="VOLUME 定义匿名数据卷"></a>VOLUME 定义匿名数据卷</h2><p>对于数据库类需要保存动态数据的应用，其数据库文件应该保存于卷(volume)中, 以进行持久化</p>
-<p>为了防止运行时用户忘记将动态文件所保存目录挂载为卷，在 Dockerfile 中，可以事先指定某些目录挂载为匿名卷，这样在运行时如果用户不指定挂载，其应用也可以正常持久化动态数据，不会向容器存储层写入大量数据</p>
+<h2 id="VOLUME-定义匿名数据卷"><a href="#VOLUME-定义匿名数据卷" class="headerlink" title="VOLUME 定义匿名数据卷"></a>VOLUME 定义匿名数据卷</h2><p>对于数据库类需要保存动态数据的应用，其数据库文件/动态数据应该保存于卷(volume)中, 而不要直接写入容器存储层</p>
+<p>为了防止运行时用户忘记将动态文件所保存目录挂载为卷，在 Dockerfile 中，我们可以事先指定某些目录挂载到匿名卷，这样在运行时如果用户不指定挂载,动态数据会写入匿名卷</p>
 <p>格式为：</p>
 <ul>
 <li><code>VOLUME [&quot;&lt;路径1&gt;&quot;, &quot;&lt;路径2&gt;&quot;...]</code></li>
@@ -492,7 +492,12 @@ https://blog.csdn.net/zmx729618/article/details/72930474
 <li><p>另一个用处则是在运行时使用随机端口映射时，也就是 docker run -P 时，会自动随机映射 EXPOSE 的端口</p>
 </li>
 </ul>
-<h2 id="USER-指定当前用户"><a href="#USER-指定当前用户" class="headerlink" title="USER 指定当前用户"></a>USER 指定当前用户</h2><p>USER 指令和 WORKDIR 相似，都是改变环境状态并影响以后的层。WORKDIR 是改变工作目录，USER 则是改变之后层的执行 RUN, CMD 以及 ENTRYPOINT 这类命令的身份</p>
+<h2 id="USER-指定当前用户"><a href="#USER-指定当前用户" class="headerlink" title="USER 指定当前用户"></a>USER 指定当前用户</h2><p>USER指令用于指定容器执行程序的用户身份，默认是 root用户。</p>
+<p>在docker run 中可以通过 -u 选项来覆盖USER指令的设置。</p>
+<p>举例：docker run -i -t -u mysql newmysqldb /bin/bash</p>
+<p>显示的shell提示符是： mysql@57cd57edba38:/$</p>
+<p>注意：docker容器中的root用户密码是随机分配的。</p>
+<p>USER 指令和 WORKDIR 相似，都是改变环境状态并影响以后的层。WORKDIR 是改变工作目录，USER 则是改变之后层的执行 RUN, CMD 以及 ENTRYPOINT 这类命令的身份</p>
 <p>格式：USER &lt;用户名&gt; (这个用户必须是事先建立好的，否则无法切换。)</p>
 <p>eg1:</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RUN groupadd -r redis &amp;&amp; useradd -r -g redis redis</span><br><span class="line">USER redis</span><br><span class="line">RUN [ <span class="string">"redis-server"</span> ]</span><br></pre></td></tr></table></figure>
