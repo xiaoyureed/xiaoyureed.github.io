@@ -1970,6 +1970,7 @@
 <li><p><code>chkconfig --level 345 atd on</code> ：让 atd 这个服务在 run level 为 3, 4, 5 时启动; <code>chkconfig rsync off/on</code> 一般用这种简单的设置方法</p>
 </li>
 </ul>
+<p>也可以直接使用 systemctl: <code>sudo systemctl enable docker</code></p>
 <h2 id="service-和-systemctl-和-chkconfig-区别"><a href="#service-和-systemctl-和-chkconfig-区别" class="headerlink" title="service 和 systemctl 和 chkconfig 区别"></a>service 和 systemctl 和 chkconfig 区别</h2><p>service命令：可以启动、停止、重新启动系统服务，还可以显示所有系统服务的当前状态。 会去/etc/init.d目录下寻找相应的服务，进行开启和关闭等操作.   底层也是调用的 systemctl</p>
 <p>chkconfig命令：是管理系统服务 (就是开机自启动的程序)的命令行工具, 用于维护<code>/etc/rc[0-6].d</code>目录的命令行工具。底层也是调用 systemctl</p>
 <p>systemctl命令：是一个systemd工具。相当于 service + chkconfig</p>
