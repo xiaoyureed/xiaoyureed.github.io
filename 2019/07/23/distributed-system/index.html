@@ -587,7 +587,8 @@
 <h3 id="哈希法hash"><a href="#哈希法hash" class="headerlink" title="哈希法hash"></a>哈希法hash</h3><p>根据客户端的IP，或者请求的“Key”，计算出一个hash值，然后对节点数目取模。好处就是，同一个请求能够分配到同样的服务节点，这对于“有状态”的服务很有必要</p>
 <p>只要hash结果足够分散，也是能做到绝对均衡的</p>
 <p>哈希算法的缺陷也很明显，当节点的数目发生变化的时候，请求会大概率分配到其他的节点，引发一系列问题，比如sticky session。而且在某些情况，比如分布式存储，是绝对的不允许的</p>
-<h3 id="一致性哈希hash"><a href="#一致性哈希hash" class="headerlink" title="一致性哈希hash"></a>一致性哈希hash</h3><p>为了解决取余hash伸缩性差的问题, 一致性hash则利用hash环对其进行了改进。</p>
+<h3 id="一致性哈希hash"><a href="#一致性哈希hash" class="headerlink" title="一致性哈希hash"></a>一致性哈希hash</h3><p><a href="http://www.zsythink.net/archives/1182" target="_blank" rel="noopener">http://www.zsythink.net/archives/1182</a></p>
+<p>为了解决取余hash伸缩性差的问题, 一致性hash则利用hash环对其进行了改进。</p>
 <p>每个节点 hash(ip), 按照顺序均匀分布在环形上作为虚拟节点(环形有刻度, 0 ~ 正无穷(0)), 接受到请求, hash(req_ip或者user_id)肯定会落到环形上的某个刻度, 顺时针找到最近的 node 处理这个请求</p>
 <p>调整每个物理节点对应的虚拟节点数目，也就相当于每个物理节点有不同的权重</p>
 <h3 id="最少连接算法（least-connection）"><a href="#最少连接算法（least-connection）" class="headerlink" title="最少连接算法（least connection）"></a>最少连接算法（least connection）</h3><p>一般其他算法, 要么没有考虑到节点间的差异（轮询、随机、哈希），要么节点间的权重是静态分配的（加权轮训、加权随机、一致性hash）</p>
