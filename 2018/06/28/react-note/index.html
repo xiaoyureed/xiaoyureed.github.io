@@ -1224,7 +1224,7 @@ https://reactjs.org/
 <ul>
 <li><p>React 使用 Next.js 作服务器端渲染</p>
 </li>
-<li><p>使用 Node.js 进行服务端渲染，但可能对项目改动有点大 (<a href="http://www.alloyteam.com/2015/10/8783/" target="_blank" rel="noopener">http://www.alloyteam.com/2015/10/8783/</a>)</p>
+<li><p>使用 Node.js 作为前后端的中间层进行中间层渲染，但可能对项目改动有点大 (<a href="http://www.alloyteam.com/2015/10/8783/" target="_blank" rel="noopener">http://www.alloyteam.com/2015/10/8783/</a>), 参考 <a href="https://juejin.im/post/6844903693033144333" target="_blank" rel="noopener">https://juejin.im/post/6844903693033144333</a></p>
 <p>React 提供了俩个神奇的方法，renderToString 和 renderToStaticMarkup:</p>
 <p>renderToString 方法，只应用在服务器端，把一个 React Component 渲染成 HTMl ,可以将它通过 response 发送到浏览器端，达到 SEO 的目的。</p>
 <p>renderToStaticMarkup 方法，和 renderToString 类似，但是它生成的 HTML Dom 不包含类似 data-react-id 这样的额外属性，可以用于生成简单的静态页面，节省大量字符串。</p>
