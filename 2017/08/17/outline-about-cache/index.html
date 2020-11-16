@@ -338,6 +338,8 @@ https://sourcegraph.com/github.com/qiujiayu/AutoLoadCache 缓存框架
 </ul>
 <p>怎么解决:</p>
 <ul>
+<li><p>对于恶意请求, 预先过滤 , 如限制频率</p>
+</li>
 <li><p>缓存空对象 - 当第一次穿透缓存到达数据库, 查询为空, 就将这个空对象缓存到 redis, 之后针对这条数据的访问就不会穿透缓存而是直接返回空对象</p>
 <p>  这种方法占用更多的 redis 存储空间, 需要为 null 缓存对象设置较短的过期时间</p>
 <p>  数据一致性问题, 可利用消息队列清除 null 对象</p>
@@ -349,6 +351,7 @@ https://sourcegraph.com/github.com/qiujiayu/AutoLoadCache 缓存框架
 <p>访问数据库时加锁, 大量请求只让一个去  db, 查到后存入缓存, 其他请求等待直到获取锁 先去 Redis 查, 到后直接返回, 伪代码:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">resp = queryRedis(key)</span><br><span class="line"><span class="keyword">if</span> (resp == <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123;</span><br><span class="line">        resp = queryRedis(key)</span><br><span class="line">        <span class="keyword">if</span> (resp == <span class="keyword">null</span>) &#123;</span><br><span class="line">            resp = queryDB(key)</span><br><span class="line">            setRedis(key)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> resp;</span><br></pre></td></tr></table></figure>
 
+<p>另一个思路是对即将过期的数据主动刷新，做法可以有很多，比如起一个线程轮询数据</p>
 <h2 id="缓存并发竞争问题"><a href="#缓存并发竞争问题" class="headerlink" title="缓存并发竞争问题"></a>缓存并发竞争问题</h2><p>多个 client 对某个 key 操作, 如果:</p>
 <ul>
 <li><p>对这个 key 的操作不要求顺序: 使用分布式锁, 抢到锁的client就进行操作</p>

@@ -264,6 +264,7 @@
 </ul>
 <!-- /TOC -->
 
+
 <h1 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h1><p>怎么在命令行执行sql呢</p>
 <blockquote>
 <p>如果未添加mysql的环境变量，可以切换到mysql的安装目录下的bin目录，再使用</p>
@@ -337,7 +338,8 @@
 <p>两张表合并到一张表, 引入冗余数据, 换取更少的join</p>
 <p>或者两张表中拥有相同的字段, 换取更高效的查询, 但是更新操作将比较麻烦</p>
 <h2 id="汇总表and缓存表"><a href="#汇总表and缓存表" class="headerlink" title="汇总表and缓存表"></a>汇总表and缓存表</h2><p>//todo</p>
-<h2 id="优化-好的SQL"><a href="#优化-好的SQL" class="headerlink" title="优化 好的SQL"></a>优化 好的SQL</h2><p>开发涉及 SQL 的业务都会去本地环境跑一遍 SQL，用 explain 去看一下执行计划，看看用没用到相关的索引，然后再去线上环境跑一下看看执行时间</p>
+<h2 id="优化-好的SQL"><a href="#优化-好的SQL" class="headerlink" title="优化 好的SQL"></a>优化 好的SQL</h2><p><a href="https://www.iteye.com/blog/nopainnogain-667595" target="_blank" rel="noopener">https://www.iteye.com/blog/nopainnogain-667595</a></p>
+<p>开发涉及 SQL 的业务都会去本地环境跑一遍 SQL，用 explain 去看一下执行计划，看看用没用到相关的索引，然后再去线上环境跑一下看看执行时间</p>
 <p>MySQL 最新版是有缓存的, 执行测试SQL需要 加上 SQL NoCache 去跑以排除缓存干扰</p>
 <ul>
 <li><p>分批次处理代替一次性处理</p>
