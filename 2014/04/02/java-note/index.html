@@ -669,13 +669,20 @@
 
 <h2 id="断点续传"><a href="#断点续传" class="headerlink" title="断点续传"></a>断点续传</h2><p><a href="https://github.com/ryanlijianchang/ResumeBrokenDownloads" target="_blank" rel="noopener">https://github.com/ryanlijianchang/ResumeBrokenDownloads</a></p>
 <h1 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h1><ul>
-<li><p>静态代理(代理类实现目标接口, 内部维护一个接口类型的引用)</p>
+<li><p>静态代理</p>
+<ul>
+<li><p>代理类实现目标接口, 内部维护一个接口类型的引用), jdk 原生实现</p>
+</li>
+<li><p>aspectj 框架, 在编译期增强</p>
+</li>
+</ul>
 </li>
 <li><p>动态代理:</p>
 <ul>
-<li><p>jdk 动态代理(只能针对接口进行代理)</p>
+<li><p>jdk 动态代理(只能针对接口进行代理), jdk 原生实现</p>
 </li>
-<li><p>cglib 动态代理(直接针对类代理, 生成子类), 依赖 asm; Spring 在给某个类提供动态代理时会自动在 jdk 动态代理和 cglib 动态代理中动态的选择。</p>
+<li><p>cglib 动态代理(直接针对类代理, 生成子类, 所以目标类不能是 final 的 ), 依赖 asm; </p>
+<p>Spring aop 在给某个类提供动态代理时会自动在 jdk 动态代理和 cglib 动态代理中动态的选择。</p>
 </li>
 <li><p>javaassist - javaassist 是使用最广泛的动态代理开源库, 无需类接口; javaassist 的 ProxyFactory 还提供了方法过滤器，它可以选择性地对特定方法进行增强。</p>
 </li>
