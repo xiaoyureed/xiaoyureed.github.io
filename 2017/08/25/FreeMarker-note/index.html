@@ -187,57 +187,8 @@ references: https://freemarker.apache.org/docs/dgui_quickstart_template.html
 <li>1.5及以上版本的spring boot已经不支持velocity。</li>
 </ul>
 <h1 id="quick-start"><a href="#quick-start" class="headerlink" title="quick start"></a>quick start</h1><p>完成一个简单的demo, 需要准备2部分工作要做</p>
-<ul>
-<li><p>数据模型</p>
-<pre><code>(root)
-|
-+- user = &quot;Big Joe&quot;
-|
-+- latestProduct
-    |
-    +- url = &quot;products/greenmouse.html&quot;
-    |
-    +- name = &quot;green mouse&quot;
-    |
-    +- animals
-    |   |
-    |   +- (1st)
-    |   |   |
-    |   |   +- name = &quot;mouse&quot;
-    |   |   |
-    |   |   +- size = &quot;small&quot;
-    |   |   |
-    |   |   +- price = 50
-    |   |
-    |   +- (2nd)
-    |   |   |
-    |   |   +- name = &quot;elephant&quot;
-    |   |   |
-    |   |   +- size = &quot;large&quot;
-    |   |   |
-    |   |   +- price = 5000
-    |   |
-    |   +- (3rd)
-    |       |
-    |       +- name = &quot;python&quot;
-    |       |
-    |       +- size = &quot;medium&quot;
-    |       |
-    |       +- price = 4999
-    |
-    +- misc
-        |
-        +- fruits
-            |
-            +- (1st) = &quot;orange&quot;
-            |
-            +- (2nd) = &quot;banana&quot;</code></pre><p>模型数据通常来自于java对象, 树结构中的目录类比于嵌套对象, 称为<code>hashes</code>, 叶子节点称为<code>scalars</code>, 访问语法: latestProduct.url; 另外一种很重要的变量是 <code>sequences</code>, 它们像哈希表那样存储子变量，但是子变量没有名字，它们只是列表中的项, 语法: latestProduct.animals[0].name</p>
-</li>
-<li><p>模版</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>Welcome!<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Welcome $&#123;user&#125;!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Our latest product:</span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"$&#123;latestProduct.url&#125;"</span>&gt;</span>$&#123;latestProduct.name&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span>!</span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">数据模型</span><br><span class="line"></span><br><span class="line">        (root)</span><br><span class="line">        |</span><br><span class="line">        +- user = "Big Joe"</span><br><span class="line">        |</span><br><span class="line">        +- latestProduct</span><br><span class="line">            |</span><br><span class="line">            +- url = "products/greenmouse.html"</span><br><span class="line">            |</span><br><span class="line">            +- name = "green mouse"</span><br><span class="line">            |</span><br><span class="line">            +- animals</span><br><span class="line">            |   |</span><br><span class="line">            |   +- (1st)</span><br><span class="line">            |   |   |</span><br><span class="line">            |   |   +- name = "mouse"</span><br><span class="line">            |   |   |</span><br><span class="line">            |   |   +- size = "small"</span><br><span class="line">            |   |   |</span><br><span class="line">            |   |   +- price = 50</span><br><span class="line">            |   |</span><br><span class="line">            |   +- (2nd)</span><br><span class="line">            |   |   |</span><br><span class="line">            |   |   +- name = "elephant"</span><br><span class="line">            |   |   |</span><br><span class="line">            |   |   +- size = "large"</span><br><span class="line">            |   |   |</span><br><span class="line">            |   |   +- price = 5000</span><br><span class="line">            |   |</span><br><span class="line">            |   +- (3rd)</span><br><span class="line">            |       |</span><br><span class="line">            |       +- name = "python"</span><br><span class="line">            |       |</span><br><span class="line">            |       +- size = "medium"</span><br><span class="line">            |       |</span><br><span class="line">            |       +- price = 4999</span><br><span class="line">            |</span><br><span class="line">            +- misc</span><br><span class="line">                |</span><br><span class="line">                +- fruits</span><br><span class="line">                    |</span><br><span class="line">                    +- (1st) = "orange"</span><br><span class="line">                    |</span><br><span class="line">                    +- (2nd) = "banana"</span><br><span class="line"></span><br><span class="line">    模型数据通常来自于java对象, 树结构中的目录类比于嵌套对象, 称为`hashes`, 叶子节点称为`scalars`, 访问语法: latestProduct.url; 另外一种很重要的变量是 `sequences `, 它们像哈希表那样存储子变量，但是子变量没有名字，它们只是列表中的项, 语法: latestProduct.animals[0].name</span><br><span class="line"></span><br><span class="line">*   模版</span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">title</span>&gt;</span>Welcome!<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Welcome $&#123;user&#125;!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span>Our latest product:</span><br><span class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"$&#123;latestProduct.url&#125;"</span>&gt;</span>$&#123;latestProduct.name&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span>!</span><br><span class="line">        <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-</li>
-</ul>
 <h1 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h1><ul>
 <li><p><code>${...}</code> ： FreeMarker将会输出真实的值来替换大括号内的表达式，这样的表达式被称为 interpolation(插值)</p>
 </li>
