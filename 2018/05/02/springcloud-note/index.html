@@ -754,7 +754,7 @@ https://www.youtube.com/watch?v=aO3W-lYnw-o (一个入门介绍)
 <h2 id="项目管理"><a href="#项目管理" class="headerlink" title="项目管理"></a>项目管理</h2><p>git</p>
 <p>sonarQube 代码缺陷, 规范</p>
 <p>scrum 敏捷开发, 多个工期, 层层迭代, 持续交付</p>
-<h1 id="案例-广告系统"><a href="#案例-广告系统" class="headerlink" title="案例 广告系统"></a>案例 广告系统</h1><p><a href="https://www.modb.pro/db/32755" target="_blank" rel="noopener">https://www.modb.pro/db/32755</a></p>
+<h1 id="案例-广告系统"><a href="#案例-广告系统" class="headerlink" title="案例 广告系统"></a>案例 广告系统</h1><p><a href="https://www.modb.pro/db/32755" target="_blank" rel="noopener">https://www.modb.pro/db/32755</a><br><a href="https://www.cnblogs.com/zhangpan1244/category/1522751.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhangpan1244/category/1522751.html</a></p>
 <h2 id="广告概念"><a href="#广告概念" class="headerlink" title="广告概念"></a>广告概念</h2><p>ad system: 终端根据条件数据请求广告系统, 返回合适的广告数据, 展示给浏览者</p>
 <p>角色: 平台方, 广告主, 媒体方, 广告消费者</p>
 <p>因为媒体数量会不断增长，因此广告投放系统是具有高并发、低延迟的特点</p>
@@ -797,6 +797,11 @@ https://www.youtube.com/watch?v=aO3W-lYnw-o (一个入门介绍)
 <li>检索系统, 负责承接C端的流量请求，从海量广告库中筛选出最合适的前N个广告，并在几十毫秒内返回结果，它是一个多级筛选和排序的过程。<ul>
 <li>媒体方使用, 比如 app, 地铁通道大屏, 网页边栏 </li>
 <li>关注请求响应时间</li>
+<li>倒排索引: 主要用于各个广告限制维度的检索; 如, 对于 table(unit_id, province, city), 根据地域 province/city 找到 unitID;<ul>
+<li>初期考虑存在 redis, 广告数据多了, 上 elasticsearch  </li>
+</ul>
+</li>
+<li>索引维护方式: 全量索引 + 增量索引; 检索系统启动, 加载全量索引(启动时间点前的数据全部导出到文件中成为全量索引), 之后检索系统运行过程中不断添加增量索引(各个表的写操作)</li>
 </ul>
 </li>
 <li>计费系统, 核心任务是保证广告投放在预算范围之内，尽可能地避免发生超投 强调数据实时性<ul>
