@@ -121,7 +121,7 @@
     <div class="post-toc" id="post-toc">
     <h2 class="post-toc-title">Contents</h2>
     <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#AssertJ"><span class="toc-text">AssertJ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mockito"><span class="toc-text">Mockito</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#powerMock"><span class="toc-text">powerMock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web层测试"><span class="toc-text">web层测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#压测"><span class="toc-text">压测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#性能指标"><span class="toc-text">性能指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#siege"><span class="toc-text">siege</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Gatling"><span class="toc-text">Gatling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jmeter"><span class="toc-text">jmeter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ab"><span class="toc-text">ab</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Junit"><span class="toc-text">Junit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ab-test"><span class="toc-text">ab test</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#AssertJ"><span class="toc-text">AssertJ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mockito"><span class="toc-text">Mockito</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#和-springboot-配合使用"><span class="toc-text">和 springboot 配合使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#powerMock"><span class="toc-text">powerMock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web层测试"><span class="toc-text">web层测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#压测"><span class="toc-text">压测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#性能指标"><span class="toc-text">性能指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#siege"><span class="toc-text">siege</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Gatling"><span class="toc-text">Gatling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jmeter"><span class="toc-text">jmeter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ab"><span class="toc-text">ab</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Junit"><span class="toc-text">Junit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ab-test"><span class="toc-text">ab test</span></a></li></ol>
     </div>
   </div><div class="post-content"><p>相关工具和类库</p>
 <ul>
@@ -139,7 +139,10 @@
 
 <ul>
 <li><a href="#assertj">AssertJ</a></li>
-<li><a href="#mockito">Mockito</a></li>
+<li><a href="#mockito">Mockito</a><ul>
+<li><a href="#和-springboot-配合使用">和 springboot 配合使用</a></li>
+</ul>
+</li>
 <li><a href="#powermock">powerMock</a></li>
 <li><a href="#web层测试">web层测试</a></li>
 <li><a href="#压测">压测</a><ul>
@@ -166,6 +169,8 @@
 <p><a href="http://wiki.jikexueyuan.com/project/spring-boot-cookbook-zh/test-mockito.html" target="_blank" rel="noopener">http://wiki.jikexueyuan.com/project/spring-boot-cookbook-zh/test-mockito.html</a></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.mockito.ArgumentMatchers.any;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.mockito.Mockito.when;</span><br></pre></td></tr></table></figure>
 
+<h3 id="和-springboot-配合使用"><a href="#和-springboot-配合使用" class="headerlink" title="和 springboot 配合使用"></a>和 springboot 配合使用</h3><p>scenario1: 需要 mock 的对象成员如 RedisService 使用 @mock, 不需要 mock 的成员使用 @Spy @Autowired;  填充到目标测试对象 使用 @InjectMocks 标注目标对象, 每次测试前需要初始化 <code>@BeforeEach void xxx() {MockitoAnnotations.initMocks(this);}</code></p>
+<p>scenario2: @MockBean 标注需要 mock 的成员, @Autowired 标注目标对象, 无需初始化, 但是这种方式造成 appContext 重启, 性能低</p>
 <h2 id="powerMock"><a href="#powerMock" class="headerlink" title="powerMock"></a>powerMock</h2><p>用于解决 mockito 无法覆盖的 case, </p>
 <h2 id="web层测试"><a href="#web层测试" class="headerlink" title="web层测试"></a>web层测试</h2><ul>
 <li>MockMVC 单元测试</li>
