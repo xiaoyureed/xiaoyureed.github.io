@@ -544,8 +544,28 @@
 </ol>
 </li>
 </ul>
-<h1 id="分布式-id-生成"><a href="#分布式-id-生成" class="headerlink" title="分布式 id 生成"></a>分布式 id 生成</h1><p><a href="https://github.com/didi/tinyid" target="_blank" rel="noopener">https://github.com/didi/tinyid</a></p>
-<p>snowflake (雪花) 算法: 同时使用了时间戳、机器号、进程号以及随机数来保证唯一性。</p>
+<h1 id="分布式-id-生成"><a href="#分布式-id-生成" class="headerlink" title="分布式 id 生成"></a>分布式 id 生成</h1><p>使用数据库的自增ID，虽然简单，会带来ID重复的问题，并且单机版的ID自增，并且每次生成一个ID都会访问数据库一次，DB的压力也很大</p>
+<ul>
+<li><p>基于 UUID, 不是自增, 不利于检索</p>
+</li>
+<li><p>为水平拓展的节点设置不同的起始 id 和相同的步长(步长为 节点数), 如共有三个节点, node1 的 id 会是 1, 4, 7…, node2 会是 2, 4, 8…, node3 是 3, 6, 9… </p>
+<p>  通过 sequence 设置</p>
+<p>  这种方式缺点是 不好拓展.如果确定后期会扩容, 需要将步长设置大一点, 预留一些初始值给后续扩容使用</p>
+</li>
+<li><p>批量申请自增 id: 一次性申请一批 可用 id, 快用完了再次申请, 始终保证内存中有可用的 id     <a href="https://github.com/didi/tinyid" target="_blank" rel="noopener">https://github.com/didi/tinyid</a></p>
+<p>  需要数据表配合: primary_key_table(id, biz_type, max_id, step, version), </p>
+<p>  biz_type 可选, 表示业务类型, 为不同业务做id隔离, max_id 表示当前可用 id 最大到多少,step 代表每次申请多少 id数量, 可以固定设置一个值, 一般为 1000 够了, 越大 qps 越高可根据业务类型决定大小; version 为乐观锁, 每次更新都加一, 保证并发更新的正确性</p>
+<p>  流程: 查询 max_id 信息, 计算新的最大可用 id 为 new_max_id, 更新 new_max_id 到数据库, 同时 version + 1, 若更新成功, 则获取 id 成功, 为 (max_id, new_max_id], 若更新失败, 则号段可能被其他线程获取, 重试</p>
+</li>
+<li><p>中间件: redis 方式</p>
+<p>  因为 redis 单线程的排他性, 保证的生成id 的唯一, 每次先+1再获取 (incr和increby )</p>
+<p>  改进: 每次先+1000再获取, 拿到本地后, 0<del>1000 慢慢用, 用完了再获取 1001</del>2000, 一个用户服务宕机了，也顶多一小段userId没有用到</p>
+<p>  手写工具类代码<br>  TODO</p>
+</li>
+<li><p>雪花算法</p>
+<p>  snowflake (雪花) 算法: 同时使用了时间戳、机器号、进程号以及随机数来保证唯一性。</p>
+</li>
+</ul>
 <h1 id="并发请求数据冲突-超卖问题"><a href="#并发请求数据冲突-超卖问题" class="headerlink" title="并发请求数据冲突-超卖问题"></a>并发请求数据冲突-超卖问题</h1><p>比如电商的 “超卖问题”: 并发的请求几乎同时到达, 因此页面展示可能来不及反应商品数量变化, 导致两个请求购买到了同一个商品</p>
 <p>通过redis解决: </p>
 <ul>
