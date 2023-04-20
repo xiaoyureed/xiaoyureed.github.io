@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[3546],{77:e=>{e.exports=JSON.parse('{"label":"docusaurus","permalink":"/xiaoyureed.github.io/en/blog/tags/docusaurus","allTagsPath":"/xiaoyureed.github.io/en/blog/tags","count":4}')}}]);

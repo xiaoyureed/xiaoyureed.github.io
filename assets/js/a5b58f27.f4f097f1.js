@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[8195],{2652:e=>{e.exports=JSON.parse('{"label":"facebook","permalink":"/xiaoyureed.github.io/blog/tags/facebook","allTagsPath":"/xiaoyureed.github.io/blog/tags","count":1}')}}]);
