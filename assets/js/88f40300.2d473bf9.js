@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[1124],{9970:t=>{t.exports=JSON.parse('{"label":"html","permalink":"/docs/tags/html","allTagsPath":"/docs/tags","count":1,"items":[{"id":"html-note","title":"HTML \u5907\u5fd8","description":"HTML NOte","permalink":"/docs/html-note"}]}')}}]);

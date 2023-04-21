@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[7334],{3450:t=>{t.exports=JSON.parse('{"label":"framework","permalink":"/docs/tags/framework","allTagsPath":"/docs/tags","count":1,"items":[{"id":"SpringBoot-note","title":"Spring Boot \u5907\u5fd8","description":"https://github.com/YunaiV/SpringBoot-Labs","permalink":"/docs/SpringBoot-note"}]}')}}]);

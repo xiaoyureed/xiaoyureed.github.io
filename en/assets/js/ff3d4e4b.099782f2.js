@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[8711],{9107:t=>{t.exports=JSON.parse('{"label":"chatgpt","permalink":"/en/docs/tags/chatgpt","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"chatgpt","title":"Chatgpt Usage Tips","description":"Prompt tips","permalink":"/en/docs/chatgpt"}]}')}}]);

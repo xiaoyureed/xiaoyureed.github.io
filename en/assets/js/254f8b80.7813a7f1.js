@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[2649],{7896:e=>{e.exports=JSON.parse('{"label":"spring","permalink":"/en/docs/tags/spring","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"spring-note","title":"Spring","description":"references\uff1a 1, 2, 3","permalink":"/en/docs/spring-note"}]}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[6123],{9498:e=>{e.exports=JSON.parse('{"label":"rpc","permalink":"/en/docs/tags/rpc","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"outline-about-rpc","title":"RPC Intro","description":"- 1. rpc\u662f\u4ec0\u4e48","permalink":"/en/docs/outline-about-rpc"}]}')}}]);
