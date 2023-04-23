@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[2161],{1044:e=>{e.exports=JSON.parse('{"label":"web3","permalink":"/en/docs/tags/web-3","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"blockchain","title":"blockchain\u533a\u5757\u94fe","description":"https://web3.smsunarto.com/","permalink":"/en/docs/blockchain"}]}')}}]);

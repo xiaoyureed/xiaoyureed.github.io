@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[9120],{9250:s=>{s.exports=JSON.parse('{"label":"wsl","permalink":"/docs/tags/wsl","allTagsPath":"/docs/tags","count":1,"items":[{"id":"windows-sub-system-on-linux","title":"WSL \u4f7f\u7528","description":"try Windows subsystem on Linux ---- WSL","permalink":"/docs/windows-sub-system-on-linux"}]}')}}]);

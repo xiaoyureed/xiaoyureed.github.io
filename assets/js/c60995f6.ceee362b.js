@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[6199],{2474:t=>{t.exports=JSON.parse('{"label":"nginx","permalink":"/docs/tags/nginx","allTagsPath":"/docs/tags","count":1,"items":[{"id":"tomcat-jetty-nginx","title":"Tomcat Jetty Nginx \u7b49 web \u5bb9\u5668","description":"caddy \u4ee3\u66ff NGINX","permalink":"/docs/tomcat-jetty-nginx"}]}')}}]);

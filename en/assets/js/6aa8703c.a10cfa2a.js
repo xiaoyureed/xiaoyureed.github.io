@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[9290],{4375:e=>{e.exports=JSON.parse('{"label":"ioc","permalink":"/en/blog/tags/ioc","allTagsPath":"/en/blog/tags","count":1}')}}]);

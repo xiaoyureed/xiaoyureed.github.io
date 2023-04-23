@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[8914],{920:e=>{e.exports=JSON.parse('{"label":"react","permalink":"/en/docs/tags/react","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"react-note","title":"React\ud83c\udf08","description":"Next.js 12","permalink":"/en/docs/react-note"}]}')}}]);

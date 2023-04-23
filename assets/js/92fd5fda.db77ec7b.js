@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[849],{6855:e=>{e.exports=JSON.parse('{"label":"web design","permalink":"/blog/tags/web-design","allTagsPath":"/blog/tags","count":1}')}}]);

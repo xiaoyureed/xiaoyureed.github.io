@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[2059],{819:e=>{e.exports=JSON.parse('{"label":"servlet","permalink":"/en/docs/tags/servlet","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"servlet","title":"Servlet Note","description":"Servlet note","permalink":"/en/docs/servlet"}]}')}}]);

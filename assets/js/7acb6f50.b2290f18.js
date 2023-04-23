@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[7508],{5690:s=>{s.exports=JSON.parse('{"label":"yarn","permalink":"/docs/tags/yarn","allTagsPath":"/docs/tags","count":1,"items":[{"id":"nodejs-yarn-npm","title":"Nodejs, Yarn, Npm","description":"https://github.com/ruanyf/jstraining/blob/master/docs/node.md","permalink":"/docs/nodejs-yarn-npm"}]}')}}]);

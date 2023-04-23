@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[5411],{3796:s=>{s.exports=JSON.parse('{"label":"devops","permalink":"/docs/tags/devops","allTagsPath":"/docs/tags","count":1,"items":[{"id":"devops","title":"DevOps","description":"https://docs.ansible.com/","permalink":"/docs/devops"}]}')}}]);

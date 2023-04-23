@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[649],{750:t=>{t.exports=JSON.parse('{"label":"python","permalink":"/docs/tags/python","allTagsPath":"/docs/tags","count":1,"items":[{"id":"python-note","title":"Python\ud83c\udf08","description":"https://github.com/vinta/awesome-python","permalink":"/docs/python-note"}]}')}}]);

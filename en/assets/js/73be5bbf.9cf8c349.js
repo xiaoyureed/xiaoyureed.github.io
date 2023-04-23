@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[2424],{1703:e=>{e.exports=JSON.parse('{"label":"go","permalink":"/en/docs/tags/go","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"golang-note","title":"Golang \u7b14\u8bb0","description":"- 1. \u7b80\u4ecb","permalink":"/en/docs/golang-note"}]}')}}]);

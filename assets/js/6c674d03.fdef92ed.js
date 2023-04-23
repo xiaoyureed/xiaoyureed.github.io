@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[7600],{372:t=>{t.exports=JSON.parse('{"label":"network","permalink":"/docs/tags/network","allTagsPath":"/docs/tags","count":1,"items":[{"id":"tcp-ip-note","title":"TCP IP","description":"http://c.biancheng.net/tcp_ip/","permalink":"/docs/tcp-ip-note"}]}')}}]);

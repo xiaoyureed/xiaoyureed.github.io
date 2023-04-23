@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[6091],{9483:t=>{t.exports=JSON.parse('{"label":"app","permalink":"/docs/tags/app","allTagsPath":"/docs/tags","count":1,"items":[{"id":"flutter","title":"flutter","description":"https://flutter.dev/","permalink":"/docs/flutter"}]}')}}]);
