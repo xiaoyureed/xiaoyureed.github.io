@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[1246],{4403:a=>{a.exports=JSON.parse('{"label":"mac","permalink":"/en/docs/tags/mac","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"mac","title":"Mac \u5f00\u53d1\u73af\u5883","description":"https://github.com/jaywcjlove/awesome-mac","permalink":"/en/docs/mac"}]}')}}]);

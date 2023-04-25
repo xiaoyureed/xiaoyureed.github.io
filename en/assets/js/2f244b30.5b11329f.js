@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[2059],{60819:function(e){e.exports=JSON.parse('{"label":"servlet","permalink":"/en/docs/tags/servlet","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"servlet","title":"Servlet Note","description":"Servlet note","permalink":"/en/docs/servlet"}]}')}}]);

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[1032],{1089:e=>{e.exports=JSON.parse('{"label":"money","permalink":"/docs/tags/money","allTagsPath":"/docs/tags","count":1,"items":[{"id":"money","title":"Investment Intro","description":"(Robert Kiyosaki), \u5e38\u8bc6\u6295\u8d44(John bogle)","permalink":"/docs/money"}]}')}}]);

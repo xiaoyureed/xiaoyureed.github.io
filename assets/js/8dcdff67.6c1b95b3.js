@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[3174],{4184:function(c){c.exports=JSON.parse('{"label":"block chain","permalink":"/docs/tags/block-chain","allTagsPath":"/docs/tags","count":1,"items":[{"id":"blockchain","title":"blockchain\u533a\u5757\u94fe","description":"https://web3.smsunarto.com/","permalink":"/docs/blockchain"}]}')}}]);

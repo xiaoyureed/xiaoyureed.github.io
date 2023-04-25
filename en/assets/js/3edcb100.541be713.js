@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[4053],{81031:function(a){a.exports=JSON.parse('{"label":"database","permalink":"/en/docs/tags/database","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"oracle","title":"Oracle \u5907\u5fd8","description":"- 1. basic intro","permalink":"/en/docs/oracle"}]}')}}]);

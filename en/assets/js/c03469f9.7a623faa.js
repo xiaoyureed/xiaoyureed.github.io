@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[4595],{53338:function(e){e.exports=JSON.parse('{"label":"git","permalink":"/en/docs/tags/git","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"git-note","title":"Git \u5907\u5fd8 \ud83c\udf08","description":"references: \uff0c 2\uff0c 3, git recipes","permalink":"/en/docs/git-note"}]}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[208],{94037:function(e){e.exports=JSON.parse('{"label":"web design","permalink":"/tags/web-design","allTagsPath":"/tags","count":1}')}}]);

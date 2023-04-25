@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[970],{88304:function(t){t.exports=JSON.parse('{"label":"autohotkey","permalink":"/docs/tags/autohotkey","allTagsPath":"/docs/tags","count":1,"items":[{"id":"autohotkey","title":"Autohotkey \u811a\u672c","description":"autohotkey note & \u6211\u7684\u811a\u672c\u96c6","permalink":"/docs/autohotkey"}]}')}}]);

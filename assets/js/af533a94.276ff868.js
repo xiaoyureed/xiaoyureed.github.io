@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[658],{67217:function(a){a.exports=JSON.parse('{"label":"ioc","permalink":"/tags/ioc","allTagsPath":"/tags","count":1}')}}]);

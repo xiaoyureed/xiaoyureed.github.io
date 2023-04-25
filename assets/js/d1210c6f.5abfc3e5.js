@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[7943],{1193:a=>{a.exports=JSON.parse('{"label":"github pages","permalink":"/blog/tags/github-pages","allTagsPath":"/blog/tags","count":1}')}}]);

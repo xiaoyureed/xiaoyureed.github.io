@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[5141],{7923:t=>{t.exports=JSON.parse('{"label":"test","permalink":"/en/docs/tags/test","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"how-to-test-java-app","title":"How to Test Java App","description":"\u76f8\u5173\u5de5\u5177\u548c\u7c7b\u5e93","permalink":"/en/docs/how-to-test-java-app"}]}')}}]);

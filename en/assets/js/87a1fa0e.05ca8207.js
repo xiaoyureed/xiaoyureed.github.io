@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[9267],{14566:function(e){e.exports=JSON.parse('{"label":"cache","permalink":"/en/docs/tags/cache","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"outline-about-cache","title":"Cache \u7f13\u5b58\ud83c\udf08","description":"ehchach, memcache, redis...","permalink":"/en/docs/outline-about-cache"}]}')}}]);

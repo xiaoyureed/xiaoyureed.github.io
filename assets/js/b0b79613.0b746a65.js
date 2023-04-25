@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[7237],{23224:function(e){e.exports=JSON.parse('{"label":"react","permalink":"/docs/tags/react","allTagsPath":"/docs/tags","count":1,"items":[{"id":"react-note","title":"React\ud83c\udf08","description":"Next.js 12","permalink":"/docs/react-note"}]}')}}]);

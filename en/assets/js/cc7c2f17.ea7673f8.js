@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[62],{32352:function(t){t.exports=JSON.parse('{"label":"kotlin","permalink":"/en/docs/tags/kotlin","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"kotlin","title":"kotlin","description":"- 1. what is kotlin","permalink":"/en/docs/kotlin"}]}')}}]);

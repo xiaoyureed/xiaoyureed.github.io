@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[2260],{9102:e=>{e.exports=JSON.parse('{"label":"mobile","permalink":"/en/blog/tags/mobile","allTagsPath":"/en/blog/tags","count":1}')}}]);

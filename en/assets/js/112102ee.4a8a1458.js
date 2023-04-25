@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[3448],{4402:e=>{e.exports=JSON.parse('{"label":"c","permalink":"/en/docs/tags/c","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"cpp","title":"CPP and C \u5907\u5fd8","description":"https://github.com/jobbole/awesome-c-cn \u8d44\u6e90\u96c6\u5408","permalink":"/en/docs/cpp"}]}')}}]);

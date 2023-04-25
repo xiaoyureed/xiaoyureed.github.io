@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[6492],{62659:function(e){e.exports=JSON.parse('{"label":"jquery","permalink":"/docs/tags/jquery","allTagsPath":"/docs/tags","count":1,"items":[{"id":"jquery-note","title":"JQuery notes","description":"JQuery NOte.","permalink":"/docs/jquery-note"}]}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[9293],{5874:function(t){t.exports=JSON.parse('{"label":"vertx","permalink":"/docs/tags/vertx","allTagsPath":"/docs/tags","count":1,"items":[{"id":"vertx","title":"Vertx","description":"https://zhuanlan.zhihu.com/p/33832486","permalink":"/docs/vertx"}]}')}}]);

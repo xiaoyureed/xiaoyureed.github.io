@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[8561],{87090:function(e){e.exports=JSON.parse('{"label":"mq","permalink":"/en/docs/tags/mq","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"message-queue","title":"Message Queue\ud83c\udf08","description":"https://www.zhihu.com/question/43557507","permalink":"/en/docs/message-queue"}]}')}}]);

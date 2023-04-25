@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[5648],{44830:function(s){s.exports=JSON.parse('{"label":"serverless","permalink":"/docs/tags/serverless","allTagsPath":"/docs/tags","count":1,"items":[{"id":"serverless","title":"Serverless","description":"https://www.cnblogs.com/doit8791 \u52e4\u594b\u7684\u535a\u4e3b","permalink":"/docs/serverless"}]}')}}]);

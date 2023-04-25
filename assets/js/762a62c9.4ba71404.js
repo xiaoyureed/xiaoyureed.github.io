@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[4281],{1036:a=>{a.exports=JSON.parse('{"label":"aws","permalink":"/docs/tags/aws","allTagsPath":"/docs/tags","count":1,"items":[{"id":"cloud-native-platform","title":"\u4e91\u670d\u52a1\u5e73\u53f0","description":"\u63d0\u4f9b\u7684\u670d\u52a1","permalink":"/docs/cloud-native-platform"}]}')}}]);

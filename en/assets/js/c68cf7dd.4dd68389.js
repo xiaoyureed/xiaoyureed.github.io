@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[4133],{5973:function(t){t.exports=JSON.parse('{"label":"flutter","permalink":"/en/docs/tags/flutter","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"flutter","title":"flutter","description":"https://flutter.dev/","permalink":"/en/docs/flutter"}]}')}}]);

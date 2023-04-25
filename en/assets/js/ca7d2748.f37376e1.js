@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[7615],{9157:t=>{t.exports=JSON.parse('{"label":"iot","permalink":"/en/docs/tags/iot","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"iot","title":"Iot \u7269\u8054\u7f51","description":"https://github.com/microsoft/IoT-For-Beginners","permalink":"/en/docs/iot"}]}')}}]);

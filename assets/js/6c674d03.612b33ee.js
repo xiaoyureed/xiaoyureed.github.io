@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[7600],{80372:function(t){t.exports=JSON.parse('{"label":"network","permalink":"/docs/tags/network","allTagsPath":"/docs/tags","count":1,"items":[{"id":"tcp-ip-note","title":"TCP IP","description":"http://c.biancheng.net/tcp_ip/","permalink":"/docs/tcp-ip-note"}]}')}}]);

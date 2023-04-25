@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[6123],{89498:function(e){e.exports=JSON.parse('{"label":"rpc","permalink":"/en/docs/tags/rpc","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"outline-about-rpc","title":"RPC Intro","description":"- 1. rpc\u662f\u4ec0\u4e48","permalink":"/en/docs/outline-about-rpc"}]}')}}]);

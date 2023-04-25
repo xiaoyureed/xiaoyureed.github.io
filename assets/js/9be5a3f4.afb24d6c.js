@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[866],{57471:function(t){t.exports=JSON.parse('{"label":"torrent","permalink":"/tags/torrent","allTagsPath":"/tags","count":1}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[7547],{72123:function(e){e.exports=JSON.parse('{"label":"regex","permalink":"/en/docs/tags/regex","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"regex","title":"Regular Expression \u6b63\u5219\ud83c\udf08","description":"\u6b63\u5219\u8868\u8fbe\u5f0f, js","permalink":"/en/docs/regex"}]}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[2362],{47604:function(e){e.exports=JSON.parse('{"label":"gc","permalink":"/docs/tags/gc","allTagsPath":"/docs/tags","count":1,"items":[{"id":"java-memory-model-jmm-jvm","title":"JMM and GC\ud83c\udf08","description":"Java Memory Model.","permalink":"/docs/java-memory-model-jmm-jvm"}]}')}}]);

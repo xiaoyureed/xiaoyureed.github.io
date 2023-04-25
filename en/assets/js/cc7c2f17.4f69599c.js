@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[62],{2352:i=>{i.exports=JSON.parse('{"label":"kotlin","permalink":"/en/docs/tags/kotlin","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"kotlin","title":"kotlin","description":"- 1. what is kotlin","permalink":"/en/docs/kotlin"}]}')}}]);

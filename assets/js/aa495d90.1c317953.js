@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[756],{5501:e=>{e.exports=JSON.parse('{"label":"gradle","permalink":"/docs/tags/gradle","allTagsPath":"/docs/tags","count":1,"items":[{"id":"gradle","title":"gradle","description":"https://gradle.org/","permalink":"/docs/gradle"}]}')}}]);

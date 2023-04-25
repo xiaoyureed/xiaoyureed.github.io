@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[522],{91803:function(t){t.exports=JSON.parse('{"label":"orm","permalink":"/docs/tags/orm","allTagsPath":"/docs/tags","count":1,"items":[{"id":"mybatis-note","title":"MyBatis Note","description":"https://github.com/ejlchina/bean-searcher","permalink":"/docs/mybatis-note"}]}')}}]);

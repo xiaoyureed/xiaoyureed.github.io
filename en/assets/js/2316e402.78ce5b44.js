@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[3818],{9934:function(s){s.exports=JSON.parse('{"label":"webassembly","permalink":"/en/docs/tags/webassembly","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"webassembly","title":"webassembly","description":"https://www.wasm.com.cn/","permalink":"/en/docs/webassembly"}]}')}}]);

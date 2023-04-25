@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[9904],{22946:function(t){t.exports=JSON.parse('{"label":"mock","permalink":"/docs/tags/mock","allTagsPath":"/docs/tags","count":1,"items":[{"id":"how-to-test-java-app","title":"How to Test Java App","description":"\u76f8\u5173\u5de5\u5177\u548c\u7c7b\u5e93","permalink":"/docs/how-to-test-java-app"}]}')}}]);

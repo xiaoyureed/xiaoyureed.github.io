@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[5648],{4830:s=>{s.exports=JSON.parse('{"label":"serverless","permalink":"/docs/tags/serverless","allTagsPath":"/docs/tags","count":1,"items":[{"id":"serverless","title":"Serverless","description":"https://www.cnblogs.com/doit8791 \u52e4\u594b\u7684\u535a\u4e3b","permalink":"/docs/serverless"}]}')}}]);

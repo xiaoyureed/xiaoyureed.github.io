@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[6114],{6560:s=>{s.exports=JSON.parse('{"label":"gfw","permalink":"/en/docs/tags/gfw","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"cross-gfw","title":"Cross The GFW","description":"https://stackia.notion.site/2369da8fe56d416d87569c50cd8bbb7d","permalink":"/en/docs/cross-gfw"}]}')}}]);

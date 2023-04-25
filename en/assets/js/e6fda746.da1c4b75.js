@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[205],{40981:function(e){e.exports=JSON.parse('{"permalink":"/en/tags/github-pages","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Xiaoyureed \u7684\u4e2a\u4eba\u535a\u5ba2","blogTitle":"Blog"}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[7615],{89157:function(t){t.exports=JSON.parse('{"label":"iot","permalink":"/en/docs/tags/iot","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"iot","title":"Iot \u7269\u8054\u7f51","description":"https://github.com/microsoft/IoT-For-Beginners","permalink":"/en/docs/iot"}]}')}}]);

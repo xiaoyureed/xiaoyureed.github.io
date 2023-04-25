@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[4983],{21348:function(t){t.exports=JSON.parse('{"label":"dot net","permalink":"/docs/tags/dot-net","allTagsPath":"/docs/tags","count":1,"items":[{"id":"c-sharp-and-dot-net","title":"C# & .NET","description":"https://www.cnblogs.com/1996V/p/9037603.html","permalink":"/docs/c-sharp-and-dot-net"}]}')}}]);

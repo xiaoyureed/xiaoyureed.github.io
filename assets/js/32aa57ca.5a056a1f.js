@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[389],{48490:function(e){e.exports=JSON.parse('{"label":"\u8ba1\u7b97\u673a\u79d1\u5b66","permalink":"/docs/tags/\u8ba1\u7b97\u673a\u79d1\u5b66","allTagsPath":"/docs/tags","count":1,"items":[{"id":"cs-note","title":"Computer Science Intro","description":"Computer Science","permalink":"/docs/cs-note"}]}')}}]);

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwiki_1=self.webpackChunkwiki_1||[]).push([[535],{3427:e=>{e.exports=JSON.parse('{"label":"vertx","permalink":"/en/docs/tags/vertx","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"vertx","title":"Vertx","description":"https://zhuanlan.zhihu.com/p/33832486","permalink":"/en/docs/vertx"}]}')}}]);

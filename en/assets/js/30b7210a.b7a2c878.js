@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[7821],{53565:function(e){e.exports=JSON.parse('{"label":"html","permalink":"/en/docs/tags/html","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"html-note","title":"HTML \u5907\u5fd8","description":"HTML NOte","permalink":"/en/docs/html-note"}]}')}}]);
