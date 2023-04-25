@@ -2,15 +2,15 @@
   "name": "blog",
   "version": "2.3.1",
   "author": {
-    "url": "https://github.com/kuizuo",
-    "email": "hi@kuizuo.cn",
-    "name": "Kuizuo"
+    "url": "https://github.com/xiaoyureed",
+    "email": "xiaoyureed@gmail.com",
+    "name": "Xiaoyu"
   },
   "repository": {
-    "url": "https://github.com/kuizuo/blog",
+    "url": "https://github.com/xiaoyureed/xiaoyureed.github.io",
     "type": "git"
   },
-  "homepage": "https://kuizuo.cn",
+  "homepage": "https://xiaoyureed.github.io",
   "license": "MIT",
   "scripts": {
     "docusaurus": "docusaurus",
