@@ -27,8 +27,6 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
 
 <!--more-->
 
-<!-- TOC -->
-
 - [1. 常用命令](#1-常用命令)
 - [2. 部署脚本](#2-部署脚本)
 - [3. 工具类](#3-工具类)
@@ -114,8 +112,9 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
     - [13.11.6. 自定义资源文件打包目录 and 开启占位符过滤](#13116-自定义资源文件打包目录-and-开启占位符过滤)
   - [13.12. springboot 事务](#1312-springboot-事务)
     - [13.12.1. 事务基本使用](#13121-事务基本使用)
-    - [13.12.2. spring 事务传播失效的坑](#13122-spring-事务传播失效的坑)
-    - [13.12.3. Transactional 注解](#13123-transactional-注解)
+    - [13.12.2. transaction not working](#13122-transaction-not-working)
+    - [13.12.3. spring 事务传播失效的坑](#13123-spring-事务传播失效的坑)
+    - [13.12.4. Transactional 注解](#13124-transactional-注解)
   - [13.13. 缓存](#1313-缓存)
     - [13.13.1. springboot-starter-cache](#13131-springboot-starter-cache)
     - [13.13.2. caffeine](#13132-caffeine)
@@ -219,7 +218,6 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
 - [29. 拾遗](#29-拾遗)
   - [29.1. bean 懒加载](#291-bean-懒加载)
 
-<!-- /TOC -->
 
 
 # 1. 常用命令
@@ -2293,28 +2291,42 @@ mapper.xml 和 dao interface 放在一起: (开启资源文件过滤)
 
 Spring boot是默认启动事务的，只需要在类或者方法上添加@Transactional注解即可
 
-不生效, 可能是:
+You can also use `transaction manager` manually: `transactionTemplate.execute()`
 
-1、首先要看数据库引擎是否支持注解，mysql默认引擎INNODB是支持的，但MYISAM是不支持的；
+### 13.12.2. transaction not working 
 
-2、注解只能被应用到public方法上, 其它方法上不会报错，但不生效；
+事务不生效, 可能是:
 
-3、默认情况下只会对运行期异常(java.lang.RuntimeException及其子类)和 Error 进行回滚；
+```java
+1、首先要看数据库引擎是否支持事务，mysql默认引擎INNODB是支持的，但MYISAM是不支持的；
 
-4、如果是其它异常, 手动指定`@Transactional(rollbackFor={Exception.class})`
+2、注解只能被应用到public, none final, none static 方法上, 其它方法上不会报错，但不生效；(as transaction is based on dynamic proxy, "public/final" method will defeat against proxy object generation;)
 
-如果还是不生效, 手动回滚: `TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()`
+  cglib proxy is based on "extends". jdk proxy is based on "interface", they are both need the method is not final/static
 
+3、默认情况下只会对运行期异常(即 java.lang.RuntimeException异常)和 Error 进行回滚；
 
-https://blog.csdn.net/laoxilaoxi_/article/details/99896738 使用 cglib or jdk 动态代理 `@EnableTransactionManagement(proxyTargetClass = true)// 使用cglib`
+  如果是其它异常, 需要手动指定`@Transactional(rollbackFor={Exception.class})` 回滚所有异常;
 
-### 13.12.2. spring 事务传播失效的坑
+  还可能异常被某个 aop 切面捕获了, 没法触发回滚
+
+4. 同一个类中的方法嵌套调用: 如普通方法 a() call annotatied method B(), the transaction for B() will not trigger (this is also easy to explain: the calling to B() can be refered to as this.B(), which means the calling is not from a proxy object)
+
+5. 多线程环境, 此时数据库连接都不是同一个, 肯定不在同一个事务了
+
+// https://blog.csdn.net/laoxilaoxi_/article/details/99896738 使用 cglib or jdk 动态代理 `@EnableTransactionManagement(proxyTargetClass = true)// 使用cglib`
+
+```
+### 13.12.3. spring 事务传播失效的坑
 
 同一个 service bean 中的 事务方法互相调用, 如 a() 调用 b(), 只会使用 a() 的 事务, b 的无效, 因为事务本质是基于动态代理, 在同个 bean 中的方法互调, 发生在主动调用方 a() 的代理对象中, 所以只有 a() 的事务生效
 
-如果 a(), b() 处于不同 service bean 中, 则 事务传播生效.
 
 解决:
+
+如果 a(), b() 处于不同 service bean 中, 则 事务传播生效.
+
+或者
 
 引入 starter aop, 会引入 aspectJ, @enableAspectJAutoProxy(exposeProxy=true) 开启 aspectJ 并暴露代理对象, 在互调的部分, 使用代理对象互调
 
@@ -2328,7 +2340,7 @@ public void a() {
 }
 ```
 
-### 13.12.3. Transactional 注解
+### 13.12.4. Transactional 注解
 
 事务超时
 
