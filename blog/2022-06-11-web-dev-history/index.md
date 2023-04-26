@@ -5,11 +5,15 @@ authors: [me]
 ---
 
 
-# Java web发展
-
 https://www.jianshu.com/p/bec6736dcc3d
+
 https://blog.csdn.net/JavaEETeacher/article/details/6478450
 
+https://www.bilibili.com/video/BV1qc411W78Q 架构的演进
+
+In this blog I am going to talk about the development history of Java Web 
+
+<!-- truncate -->
 
 # 前后端分离
 

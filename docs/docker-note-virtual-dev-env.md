@@ -40,74 +40,73 @@ https://github.com/docker/kitematic 可视化管理gui
 
 <!--more-->
 
-<!-- TOC -->
-
-- [1. 常用指令](#1-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4)
-- [2. 开启远程连接](#2-%E5%BC%80%E5%90%AF%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5)
-- [3. shipyard ui管理界面](#3-shipyard-ui%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2)
-- [4. 介绍](#4-%E4%BB%8B%E7%BB%8D)
-  - [4.1. 基本架构](#41-%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84)
-  - [4.2. 使用场景-得到什么好处](#42-%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF-%E5%BE%97%E5%88%B0%E4%BB%80%E4%B9%88%E5%A5%BD%E5%A4%84)
-  - [4.3. 容器实现的原理](#43-%E5%AE%B9%E5%99%A8%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8E%9F%E7%90%86)
-- [5. 安装](#5-%E5%AE%89%E8%A3%85)
-  - [5.1. 使用国内镜像](#51-%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F)
-- [6. 镜像 image](#6-%E9%95%9C%E5%83%8F-image)
-  - [6.1. 镜像实现原理](#61-%E9%95%9C%E5%83%8F%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86)
-  - [6.2. 获取镜像](#62-%E8%8E%B7%E5%8F%96%E9%95%9C%E5%83%8F)
-  - [6.3. 运行镜像](#63-%E8%BF%90%E8%A1%8C%E9%95%9C%E5%83%8F)
-  - [6.4. 列出镜像](#64-%E5%88%97%E5%87%BA%E9%95%9C%E5%83%8F)
-  - [6.5. 删除本地镜像](#65-%E5%88%A0%E9%99%A4%E6%9C%AC%E5%9C%B0%E9%95%9C%E5%83%8F)
-- [7. 制作镜像的方法](#7-%E5%88%B6%E4%BD%9C%E9%95%9C%E5%83%8F%E7%9A%84%E6%96%B9%E6%B3%95)
-  - [7.1. 最佳实践 优化体积](#71-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E4%BC%98%E5%8C%96%E4%BD%93%E7%A7%AF)
-  - [7.2. 通过 dockerfile 来 build 镜像](#72-%E9%80%9A%E8%BF%87-dockerfile-%E6%9D%A5-build-%E9%95%9C%E5%83%8F)
-  - [7.3. commit容器成为镜像-不推荐](#73-commit%E5%AE%B9%E5%99%A8%E6%88%90%E4%B8%BA%E9%95%9C%E5%83%8F-%E4%B8%8D%E6%8E%A8%E8%8D%90)
-  - [7.4. 从压缩包导入](#74-%E4%BB%8E%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%BC%E5%85%A5)
-  - [7.5. docker save 和 docker load](#75-docker-save-%E5%92%8C-docker-load)
+- [1. 常用指令](#1-常用指令)
+- [2. 开启远程连接](#2-开启远程连接)
+- [3. shipyard ui管理界面](#3-shipyard-ui管理界面)
+- [4. 介绍](#4-介绍)
+  - [4.1. 基本架构](#41-基本架构)
+  - [4.2. 使用场景-得到什么好处](#42-使用场景-得到什么好处)
+  - [4.3. 容器实现的原理](#43-容器实现的原理)
+- [5. 安装](#5-安装)
+  - [ubuntu 22 install docker](#ubuntu-22-install-docker)
+  - [5.1. 使用国内镜像](#51-使用国内镜像)
+- [6. 镜像 image](#6-镜像-image)
+  - [6.1. 镜像实现原理](#61-镜像实现原理)
+  - [6.2. 获取镜像](#62-获取镜像)
+  - [6.3. 运行镜像](#63-运行镜像)
+  - [6.4. 列出镜像](#64-列出镜像)
+  - [6.5. 删除本地镜像](#65-删除本地镜像)
+- [7. 制作镜像的方法](#7-制作镜像的方法)
+  - [7.1. 最佳实践 优化体积](#71-最佳实践-优化体积)
+  - [7.2. 通过 dockerfile 来 build 镜像](#72-通过-dockerfile-来-build-镜像)
+  - [7.3. commit容器成为镜像-不推荐](#73-commit容器成为镜像-不推荐)
+  - [7.4. 从压缩包导入](#74-从压缩包导入)
+  - [7.5. docker save 和 docker load](#75-docker-save-和-docker-load)
 - [8. Dockerfile](#8-dockerfile)
-  - [8.1. run 和 from](#81-run-%E5%92%8C-from)
-  - [8.2. 镜像的构建上下文context](#82-%E9%95%9C%E5%83%8F%E7%9A%84%E6%9E%84%E5%BB%BA%E4%B8%8A%E4%B8%8B%E6%96%87context)
-  - [8.3. COPY 和 ADD](#83-copy-%E5%92%8C-add)
-  - [8.4. WORKDIR 指定工作目录](#84-workdir-%E6%8C%87%E5%AE%9A%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95)
-  - [8.5. run cmd 和 entrypoint 容器启动命令](#85-run-cmd-%E5%92%8C-entrypoint-%E5%AE%B9%E5%99%A8%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4)
-  - [8.6. ENV 和 arg 设置环境变量](#86-env-%E5%92%8C-arg-%E8%AE%BE%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F)
-  - [8.7. VOLUME 定义匿名数据卷](#87-volume-%E5%AE%9A%E4%B9%89%E5%8C%BF%E5%90%8D%E6%95%B0%E6%8D%AE%E5%8D%B7)
-  - [8.8. EXPOSE 声明端口](#88-expose-%E5%A3%B0%E6%98%8E%E7%AB%AF%E5%8F%A3)
-  - [8.9. USER 指定当前用户](#89-user-%E6%8C%87%E5%AE%9A%E5%BD%93%E5%89%8D%E7%94%A8%E6%88%B7)
-  - [8.10. HEALTHCHECK 健康检查](#810-healthcheck-%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5)
-  - [8.11. ONBUILD 给别人用](#811-onbuild-%E7%BB%99%E5%88%AB%E4%BA%BA%E7%94%A8)
-  - [8.12. Dockerfile的多阶段构建](#812-dockerfile%E7%9A%84%E5%A4%9A%E9%98%B6%E6%AE%B5%E6%9E%84%E5%BB%BA)
-- [9. 使用容器](#9-%E4%BD%BF%E7%94%A8%E5%AE%B9%E5%99%A8)
-  - [9.1. 查看](#91-%E6%9F%A5%E7%9C%8B)
-  - [9.2. 启动](#92-%E5%90%AF%E5%8A%A8)
-    - [9.2.1. -it 维持交互终端](#921--it-%E7%BB%B4%E6%8C%81%E4%BA%A4%E4%BA%92%E7%BB%88%E7%AB%AF)
-    - [9.2.2. -d 后台运行](#922--d-%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C)
-    - [9.2.3. --privileged=true 赋予特权](#923---privilegedtrue-%E8%B5%8B%E4%BA%88%E7%89%B9%E6%9D%83)
-  - [9.3. 终止container](#93-%E7%BB%88%E6%AD%A2container)
-  - [9.4. 删除container](#94-%E5%88%A0%E9%99%A4container)
-  - [9.5. 进入容器](#95-%E8%BF%9B%E5%85%A5%E5%AE%B9%E5%99%A8)
-  - [9.6. 容器的导入和导出](#96-%E5%AE%B9%E5%99%A8%E7%9A%84%E5%AF%BC%E5%85%A5%E5%92%8C%E5%AF%BC%E5%87%BA)
-  - [9.7. 拷贝容器内文件到主机](#97-%E6%8B%B7%E8%B4%9D%E5%AE%B9%E5%99%A8%E5%86%85%E6%96%87%E4%BB%B6%E5%88%B0%E4%B8%BB%E6%9C%BA)
-- [10. 访问镜像仓库](#10-%E8%AE%BF%E9%97%AE%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93)
+  - [8.1. run 和 from](#81-run-和-from)
+  - [8.2. 镜像的构建上下文context](#82-镜像的构建上下文context)
+  - [8.3. COPY 和 ADD](#83-copy-和-add)
+  - [8.4. WORKDIR 指定工作目录](#84-workdir-指定工作目录)
+  - [8.5. run cmd 和 entrypoint 容器启动命令](#85-run-cmd-和-entrypoint-容器启动命令)
+  - [8.6. ENV 和 arg 设置环境变量](#86-env-和-arg-设置环境变量)
+  - [8.7. VOLUME 定义匿名数据卷](#87-volume-定义匿名数据卷)
+  - [8.8. EXPOSE 声明端口](#88-expose-声明端口)
+  - [8.9. USER 指定当前用户](#89-user-指定当前用户)
+  - [8.10. HEALTHCHECK 健康检查](#810-healthcheck-健康检查)
+  - [8.11. ONBUILD 给别人用](#811-onbuild-给别人用)
+  - [8.12. Dockerfile的多阶段构建](#812-dockerfile的多阶段构建)
+- [9. 使用容器](#9-使用容器)
+  - [9.1. 查看](#91-查看)
+  - [9.2. 启动](#92-启动)
+    - [9.2.1. -it 维持交互终端](#921--it-维持交互终端)
+    - [9.2.2. -d 后台运行](#922--d-后台运行)
+    - [9.2.3. --privileged=true 赋予特权](#923---privilegedtrue-赋予特权)
+  - [9.3. 终止container](#93-终止container)
+  - [9.4. 删除container](#94-删除container)
+  - [9.5. 进入容器](#95-进入容器)
+  - [9.6. 容器的导入和导出](#96-容器的导入和导出)
+  - [9.7. 拷贝容器内文件到主机](#97-拷贝容器内文件到主机)
+- [10. 访问镜像仓库](#10-访问镜像仓库)
   - [10.1. dockerhub](#101-dockerhub)
-  - [10.2. 私有仓库](#102-%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93)
-- [11. docker数据管理](#11-docker%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86)
-  - [11.1. 数据卷](#111-%E6%95%B0%E6%8D%AE%E5%8D%B7)
-  - [11.2. 挂载主机目录](#112-%E6%8C%82%E8%BD%BD%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95)
-  - [11.3. volume 的共享](#113-volume-%E7%9A%84%E5%85%B1%E4%BA%AB)
-- [12. 网络互联](#12-%E7%BD%91%E7%BB%9C%E4%BA%92%E8%81%94)
-  - [12.1. docker 默认初始创建](#121-docker-%E9%BB%98%E8%AE%A4%E5%88%9D%E5%A7%8B%E5%88%9B%E5%BB%BA)
-  - [12.2. 网卡](#122-%E7%BD%91%E5%8D%A1)
-  - [12.3. network分类](#123-network%E5%88%86%E7%B1%BB)
-    - [12.3.1. bridge 类型](#1231-bridge-%E7%B1%BB%E5%9E%8B)
-    - [12.3.2. host 类型](#1232-host-%E7%B1%BB%E5%9E%8B)
-  - [12.4. 创建固定ip](#124-%E5%88%9B%E5%BB%BA%E5%9B%BA%E5%AE%9Aip)
-  - [12.5. 查看container的ip](#125-%E6%9F%A5%E7%9C%8Bcontainer%E7%9A%84ip)
-  - [12.6. 外部访问容器](#126-%E5%A4%96%E9%83%A8%E8%AE%BF%E9%97%AE%E5%AE%B9%E5%99%A8)
-  - [12.7. 容器互联](#127-%E5%AE%B9%E5%99%A8%E4%BA%92%E8%81%94)
-  - [12.8. 配置dns 和 主机名 hostname](#128-%E9%85%8D%E7%BD%AEdns-%E5%92%8C-%E4%B8%BB%E6%9C%BA%E5%90%8D-hostname)
+  - [10.2. 私有仓库](#102-私有仓库)
+- [11. docker数据管理](#11-docker数据管理)
+  - [11.1. 数据卷](#111-数据卷)
+  - [11.2. 挂载主机目录](#112-挂载主机目录)
+  - [11.3. volume 的共享](#113-volume-的共享)
+- [12. 网络互联](#12-网络互联)
+  - [12.1. docker 默认初始创建](#121-docker-默认初始创建)
+  - [12.2. 网卡](#122-网卡)
+  - [12.3. network分类](#123-network分类)
+    - [12.3.1. bridge 类型](#1231-bridge-类型)
+    - [12.3.2. host 类型](#1232-host-类型)
+  - [12.4. 创建固定ip](#124-创建固定ip)
+  - [12.5. 查看container的ip](#125-查看container的ip)
+  - [12.6. 外部访问容器](#126-外部访问容器)
+  - [12.7. 容器互联](#127-容器互联)
+  - [12.8. 配置dns 和 主机名 hostname](#128-配置dns-和-主机名-hostname)
 - [13. docker-compose](#13-docker-compose)
-  - [13.1. compose简介](#131-compose%E7%AE%80%E4%BB%8B)
-  - [13.2. 命令使用](#132-%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8)
+  - [13.1. compose简介](#131-compose简介)
+  - [13.2. 命令使用](#132-命令使用)
     - [13.2.1. up](#1321-up)
     - [13.2.2. run](#1322-run)
     - [13.2.3. scale](#1323-scale)
@@ -133,15 +132,15 @@ https://github.com/docker/kitematic 可视化管理gui
   - [13.3. docker-compose.yml](#133-docker-composeyml)
 - [14. docker-machine](#14-docker-machine)
 - [15. docker-swarm,swarm-mode](#15-docker-swarmswarm-mode)
-- [16. docker实践](#16-docker%E5%AE%9E%E8%B7%B5)
-  - [16.1. 搭建持续集成系统](#161-%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%E7%B3%BB%E7%BB%9F)
-  - [16.2. docker和springboot](#162-docker%E5%92%8Cspringboot)
+- [16. docker实践](#16-docker实践)
+  - [16.1. 搭建持续集成系统](#161-搭建持续集成系统)
+  - [16.2. docker和springboot](#162-docker和springboot)
   - [16.3. oracle11g](#163-oracle11g)
-  - [16.4. 使用 mysql 镜像](#164-%E4%BD%BF%E7%94%A8-mysql-%E9%95%9C%E5%83%8F)
-  - [16.5. 使用postgres镜像](#165-%E4%BD%BF%E7%94%A8postgres%E9%95%9C%E5%83%8F)
-  - [16.6. 使用 rabbitmq镜像](#166-%E4%BD%BF%E7%94%A8-rabbitmq%E9%95%9C%E5%83%8F)
-  - [16.7. redis镜像](#167-redis%E9%95%9C%E5%83%8F)
-  - [16.8. ubuntu镜像](#168-ubuntu%E9%95%9C%E5%83%8F)
+  - [16.4. 使用 mysql 镜像](#164-使用-mysql-镜像)
+  - [16.5. 使用postgres镜像](#165-使用postgres镜像)
+  - [16.6. 使用 rabbitmq镜像](#166-使用-rabbitmq镜像)
+  - [16.7. redis镜像](#167-redis镜像)
+  - [16.8. ubuntu镜像](#168-ubuntu镜像)
   - [16.9. zookeeper](#169-zookeeper)
   - [16.10. kafka](#1610-kafka)
   - [16.11. rabbitmq](#1611-rabbitmq)
@@ -152,16 +151,15 @@ https://github.com/docker/kitematic 可视化管理gui
   - [16.16. etcd](#1616-etcd)
   - [16.17. influxdb](#1617-influxdb)
 - [17. vagrant](#17-vagrant)
-  - [17.1. 基本使用](#171-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8)
-  - [17.2. vagrant 设置 ip](#172-vagrant-%E8%AE%BE%E7%BD%AE-ip)
-  - [17.3. VirtualBox四种网络模式](#173-virtualbox%E5%9B%9B%E7%A7%8D%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F)
+  - [17.1. 基本使用](#171-基本使用)
+  - [17.2. vagrant 设置 ip](#172-vagrant-设置-ip)
+  - [17.3. VirtualBox四种网络模式](#173-virtualbox四种网络模式)
 - [18. kali](#18-kali)
-- [19. 虚拟网卡 macvlan](#19-%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1-macvlan)
+- [19. 虚拟网卡 macvlan](#19-虚拟网卡-macvlan)
 - [20. Multipass](#20-multipass)
 
-<!-- /TOC -->
 
-# 常用指令
+# 1. 常用指令
 
 ```sh
 docker -v # 版本
@@ -384,7 +382,7 @@ docker run -itd --name <test1> --network bridge --ip 172.17.0.10 <centos:latest>
 
 
 
-# 开启远程连接
+# 2. 开启远程连接
 
 用于开发环境, 不安全
 
@@ -392,15 +390,15 @@ docker run -itd --name <test1> --network bridge --ip 172.17.0.10 <centos:latest>
 
 wsl 下的 docker: https://www.jianshu.com/p/c7bc8fa1ee5f 修改 `/lib/systemd/system/docker.service`
 
-# shipyard ui管理界面
+# 3. shipyard ui管理界面
 
 web 管理控制台, 管理容器, 默认用户名密码 admin/shipyard
 
 同类: docker-ui
 
-# 介绍
+# 4. 介绍
 
-## 基本架构
+## 4.1. 基本架构
 
 docker client和docker server: docker是c/s架构, client和server可以在同一台机器也可以不再同一台机器
 
@@ -408,7 +406,7 @@ Repository: 具体某个镜像的仓库, 只存储某一个项目的镜像(比�
 
 Registry: 所有的镜像, 官方为Docker Hub, 也可以部署私有registry(Registry上有很多的Repository，Redis、Tomcat、MySQL等等Repository组成了Registry。)
 
-## 使用场景-得到什么好处
+## 4.2. 使用场景-得到什么好处
 
 传统虚拟机在宿主操作系统上先虚拟出一套硬件, 硬件上再运行操作系统，在该系统上再运行所需应用进程；
 
@@ -426,7 +424,7 @@ Registry: 所有的镜像, 官方为Docker Hub, 也可以部署私有registry(Re
 
     * docker 之前的部署方案: 打 war 包，上传到 ecs，重启tomcat; docker 部署方案：编译机器上编译 jar 包，打出 docker-img（把jar包放进去）, push 到 docker registry，线上机器pull docker-img, 然后 docker stop， docker run。
 
-## 容器实现的原理
+## 4.3. 容器实现的原理
 
 容器: 是一个 视图隔离, 资源可限制, 独立文件系统的进程集合
 
@@ -436,7 +434,7 @@ Linux 提供三大技术
 - cgroup 控制资源使用率, 如可控制cpu, 内存使用率
 - chroot 创建独立的文件系统 , 如吧某个目录设置为子系统的根目录
 
-# 安装
+# 5. 安装
 
 https://www.runoob.com/docker/ubuntu-docker-install.html
 
@@ -458,7 +456,25 @@ docker run hello-world
 
 ```
 
-## 使用国内镜像
+## ubuntu 22 install docker
+
+```sh
+# According to the official doc , these two comand is the easiest way 
+# but I occurred a issue : lsb_release can not be found
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh ./get-docker.sh --dry-run
+
+# after check, this can resolve the issue above
+apt-get update && apt-get install -y lsb-release && apt-get clean all
+
+# It's fucking disgusting
+# finally I find this link : https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04
+# https://cloudcone.com/docs/article/how-to-install-docker-on-ubuntu-22-04-20-04/
+# Every thing is ok!
+
+```
+
+## 5.1. 使用国内镜像
 
 ailiyun加速https://7lwsinal.mirror.aliyuncs.com
 
@@ -490,11 +506,11 @@ systemctl restart docker
 
 https://www.cnblogs.com/nihaorz/p/12131873.html
 
-# 镜像 image
+# 6. 镜像 image
 
 可以通过Dockerfile构建image，也可以将image运行，使其变成container
 
-## 镜像实现原理
+## 6.1. 镜像实现原理
 
 docker 镜像都是层层叠加，每一层都可能被不同的镜像共享 (在Dockerfile中每一步都会产生一层layer，每一步的结果产出变成文件)
 
@@ -502,7 +518,7 @@ Docker 使用 Union FS 将这些不同的层结合到一个镜像中去。
 
 通常 Union FS 有两个用途, 一方面可以实现不借助 LVM、RAID 将多个 disk 挂到同一个目录下,另一个更常用的就是将一个只读的分支和一个可写的分支联合在一起，Live CD 正是基于此方法可以允许在镜像不变的基础上允许用户在其上进行一些写操作。
 
-## 获取镜像
+## 6.2. 获取镜像
 
 通过 `docker pull --help` 查询可知格式为:
 
@@ -520,7 +536,7 @@ docker pull ubuntu:16.04
 
 从下载过程中可以看到我们之前提及的分层存储的概念，镜像是由多层存储所构成。下载也是一层层的去下载，并非单一文件。下载过程中给出了每一层的 ID 的前 12 位。并且下载结束后，给出该镜像完整的 sha256 的摘要，以确保下载一致性
 
-## 运行镜像
+## 6.3. 运行镜像
 
 ```sh
 # 以上面的 ubuntu:16.04 为例，如果我们打算启动里面的 bash 并且进行交互式操作的话，可以执行下面的命令
@@ -529,7 +545,7 @@ $ docker run -it --rm \
     bash
 ```
 
-## 列出镜像
+## 6.4. 列出镜像
 
 * `docker image ls [xxx:xxx]` 列出所有/指定下载的顶层镜像
 
@@ -537,13 +553,13 @@ $ docker run -it --rm \
 
 * `docker images` 也可查看
 
-## 删除本地镜像
+## 6.5. 删除本地镜像
 
 `docker image rm [选项] <镜像1> [<镜像2> ...]`
 
-# 制作镜像的方法
+# 7. 制作镜像的方法
 
-## 最佳实践 优化体积
+## 7.1. 最佳实践 优化体积
 
 https://www.infoq.cn/article/3-simple-tricks-for-smaller-docker-images
 https://segmentfault.com/a/1190000017858358
@@ -573,7 +589,7 @@ CMD ["nginx", "-g", "daemon off;"]
 
 ```
 
-## 通过 dockerfile 来 build 镜像
+## 7.2. 通过 dockerfile 来 build 镜像
 
 ```sh
 docker build -f MyDockerfile -t xiaoyureed/myImage:v1 .
@@ -583,7 +599,7 @@ docker build -f MyDockerfile -t xiaoyureed/myImage:v1 .
 docker build -t imgName .
 ```
 
-## commit容器成为镜像-不推荐
+## 7.3. commit容器成为镜像-不推荐
 
 将自定义的容器保存为镜像, 一般不用commit制作镜像, 因为会有大量的无关内容被添加进来，如果不小心地清理，将会导致镜像极为臃肿。)
 
@@ -624,7 +640,7 @@ docker run --name test_1 -d -p 81:80 nginx:v2
 `docker history nginx:v2` 查看某个Repository的历史提交记录
 
 
-## 从压缩包导入
+## 7.4. 从压缩包导入
 
 格式：`docker import [选项] <文件>|<URL>|- [<仓库名>[:<标签>]]`
 
@@ -637,7 +653,7 @@ $ docker import \
     openvz/ubuntu:14.04
 ```
 
-## docker save 和 docker load
+## 7.5. docker save 和 docker load
 
 Docker 还提供了 docker load 和 docker save 命令，用以将镜像保存为一个 tar 文件，然后传输到另一个位置上，再加载进来。这是在没有 Docker Registry 时的做法，现在已经不推荐，镜像迁移应该直接使用 Docker Registry，无论是直接使用 Docker Hub 还是使用内网私有 Registry 
 
@@ -647,7 +663,7 @@ Docker 还提供了 docker load 和 docker save 命令，用以将镜像保存�
 
 
 
-# Dockerfile
+# 8. Dockerfile
 
 ```dockerfile
 FROM node:latest AS builder
@@ -670,7 +686,7 @@ CMD ["nginx", "-g", "daemon off;"]
 
 Dockerfile 是一个文本文件，其内包含了一条条的指令(Instruction)，`每一条指令构建一层`，因此每一条指令的内容，就是描述该层应当如何构建。
 
-## run 和 from
+## 8.1. run 和 from
 
 
 ```sh
@@ -724,7 +740,7 @@ $ touch Dockerfile
 docker build -t nginx:v3 .
 ```
 
-## 镜像的构建上下文context
+## 8.2. 镜像的构建上下文context
 
 docker build 命令构建镜像，其实并非在本地构建，而是在服务端，也就是 Docker 引擎中构建的。那么在这种客户端/服务端的架构中，如何才能让服务端获得本地文件呢？
 
@@ -739,7 +755,7 @@ docker build还支持从git repo中拉取文件构建`docker build https://githu
 还支持`docker build http://server/context.tar.gz`从压缩包构建
 
 
-## COPY 和 ADD 
+## 8.3. COPY 和 ADD 
 
 复制文件
 
@@ -761,7 +777,7 @@ eg:
 
 ADD 更高级的复制文件, 和copy类似-------但是, 可以自动解压缩
 
-## WORKDIR 指定工作目录
+## 8.4. WORKDIR 指定工作目录
 
 使用 WORKDIR 指令可以来指定工作目录（或者称为当前目录），就是将当前执行命令的目录定义为确定值, 以后各层的当前目录就被改为指定的目录
 
@@ -783,7 +799,7 @@ RUN echo "hello" > world.txt
 ```
 
 
-## run cmd 和 entrypoint 容器启动命令
+## 8.5. run cmd 和 entrypoint 容器启动命令
 
 https://juejin.cn/post/6844903902807080973
 
@@ -872,7 +888,7 @@ fi
 exec "$@"
 ```
 
-## ENV 和 arg 设置环境变量
+## 8.6. ENV 和 arg 设置环境变量
 
 env 在container的生命周期内始终有效
 
@@ -908,7 +924,7 @@ ARG 构建参数, 定义参数名称，以及定义其默认值。该默认值�
 和 ENV 类似, 但是 ARG 所设置的构建环境的环境变量，`在将来容器运行时是不会存在这些环境变量的`. 但是不要因此就使用 ARG 保存密码之类的信息，因为 docker history 还是可以看到所有值的。
 
 
-## VOLUME 定义匿名数据卷
+## 8.7. VOLUME 定义匿名数据卷
 
 对于数据库类需要保存动态数据的应用，其数据库文件/动态数据应该保存于卷(volume)中, 而不要直接写入容器存储层
 
@@ -927,7 +943,7 @@ ARG 构建参数, 定义参数名称，以及定义其默认值。该默认值�
 
 匿名数据卷的数据在宿主机哪里呢? `docker inspect <container>` 可以在json的 volumes 值看到
 
-## EXPOSE 声明端口
+## 8.8. EXPOSE 声明端口
 
 格式为` EXPOSE <端口1> [<端口2>...]`。
 
@@ -944,7 +960,7 @@ EXPOSE 指令是声明运行时容器提供服务的端口, 这只是一个声�
 * 另一个用处则是在运行时使用随机端口映射时，也就是 docker run -P 时，会自动随机映射 EXPOSE 的端口
 
 
-## USER 指定当前用户
+## 8.9. USER 指定当前用户
 
 USER指令用于指定容器执行程序的用户身份，默认是 root用户。
 
@@ -984,7 +1000,7 @@ RUN wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/downloa
 CMD [ "exec", "gosu", "redis", "redis-server" ]
 ```
 
-## HEALTHCHECK 健康检查
+## 8.10. HEALTHCHECK 健康检查
 
 HEALTHCHECK 指令是告诉 Docker 应该如何进行判断容器的状态是否正常(来自 1.12 之后，Docker 提供了 HEALTHCHECK 指令，通过该指令指定一行命令，用这行命令来判断容器主进程的服务状态是否还正常，从而比较真实的反应容器实际状态。)
 
@@ -1038,7 +1054,7 @@ $ docker inspect --format '{{json .State.Health}}' web | python -m json.tool
 
 
 
-## ONBUILD 给别人用
+## 8.11. ONBUILD 给别人用
 
 
 格式：`ONBUILD <其它指令>`
@@ -1109,7 +1125,7 @@ CMD [ "npm", "start" ]
 FROM my-node
 ```
 
-## Dockerfile的多阶段构建
+## 8.12. Dockerfile的多阶段构建
 
 一种方式是将所有的构建过程包含在一个 Dockerfile 中，包括项目及其依赖库的编译、测试、打包等流程，这里可能会带来的一些问题：
 
@@ -1120,16 +1136,16 @@ Dockerfile 特别长，可维护性降低
 源代码存在泄露的风险
 
 
-# 使用容器
+# 9. 使用容器
 
 容器是独立运行的一个或一组应用，以及它们的运行态环境
 
-## 查看
+## 9.1. 查看
 
 * `docker container ls -a`or`docker ps -a` 查看所有, 包括处于终止状态的容器
 * `docker container ls`or`docker ps` 仅查看运行状态的容器
 
-## 启动
+## 9.2. 启动
 
 启动容器有两种方式，一种是基于镜像新建一个容器并启动(常用)，另外一个是将在终止状态（stopped）的容器重新启动。
 
@@ -1147,7 +1163,7 @@ Dockerfile 特别长，可维护性降低
 * 执行用户指定的应用程序 (如果有的话)
 * 执行完毕后容器被终止
 
-### -it 维持交互终端
+### 9.2.1. -it 维持交互终端
 
 eg:
 
@@ -1162,7 +1178,7 @@ $ docker run -t -i ubuntu:14.04 /bin/bash
 root@af8bae53bdd3:/#
 ```
 
-### -d 后台运行
+### 9.2.2. -d 后台运行
 
 前面都是在前台运行的, 如何以守护状态运行? 通过 `docker run -d`
 
@@ -1187,7 +1203,7 @@ docker container logs <container ID or NAMES>
 docker logs <container id or name>
 ```
 
-### --privileged=true 赋予特权
+### 9.2.3. --privileged=true 赋予特权
 
 是否让docker 应用容器 获取宿主机root权限
 
@@ -1197,7 +1213,7 @@ privileged启动的容器，可以看到很多host上的设备，并且可以执
 甚至允许你在docker容器中启动docker容器。
 
 
-## 终止container
+## 9.3. 终止container
 
 `docker container stop <xxx>`
 
@@ -1206,7 +1222,7 @@ privileged启动的容器，可以看到很多host上的设备，并且可以执
 `docker container ls -a` 查看所有的container, 包括停止的container
 
 
-## 删除container
+## 9.4. 删除container
 
 container终止后, 不会删除, 需要手动删除
 
@@ -1214,7 +1230,7 @@ container终止后, 不会删除, 需要手动删除
 * `docker container rm -f <xxx>`如果要删除一个运行中的容器，可以添加 -f 参数。Docker 会发送 SIGKILL 信号给容器
 * `docker container prune` 删除所有终止的容器
 
-## 进入容器
+## 9.5. 进入容器
 
 在使用 -d 参数时，容器启动后会进入后台, 某些时候需要进入容器进行操作，包括使用 docker attach 命令或 docker exec 命令(推荐后者, 因为后者exit时不会导致容器退出)
 
@@ -1222,7 +1238,7 @@ container终止后, 不会删除, 需要手动删除
 
 * `docker exec -it <xxx> bash` 进入container, 退出时容器不会终止(注意, 后面要跟一个命令bash)
 
-## 容器的导入和导出
+## 9.6. 容器的导入和导出
 
 导出
 
@@ -1249,14 +1265,14 @@ $ docker import http://example.com/exampleimage.tgz example/imagerepo
 
 docker import和docker load比较: 容器快照文件(docker import)将丢弃所有的历史记录和元数据信息（即仅保存容器当时的快照状态），而镜像存储文件(docker load)将保存完整记录，体积也要大。此外，从容器快照文件导入时可以重新指定标签等元数据信息。
 
-## 拷贝容器内文件到主机
+## 9.7. 拷贝容器内文件到主机
 
 `docker cp <container_name>:/path <host_path>`
 
-# 访问镜像仓库
+# 10. 访问镜像仓库
 
 
-## dockerhub
+## 10.1. dockerhub
 
 `docker login`登录
 `docker logout` 退出
@@ -1289,7 +1305,7 @@ xiaoyureed/ubuntu
 此外, docker hub 支持 自动创建(Automated Builds), 对于需要经常升级镜像内程序来说，十分方便 
 
 
-## 私有仓库
+## 10.2. 私有仓库
 
 
 https://github.com/goharbor/harbor Harbor
@@ -1310,7 +1326,7 @@ $ docker run -d \
 
 想让本网段的其他主机也能把镜像推送到私有仓库。你就得把例如 192.168.199.100:5000 这样的内网地址作为私有仓库地址，这时你会发现无法成功推送镜像。这是因为 Docker 默认不允许非 HTTPS 方式推送镜像。我们可以通过 Docker 的配置选项来取消这个限制:
 
-# docker数据管理
+# 11. docker数据管理
 
 Docker container 产生的数据在 container 删除后就丢失了, 除非 commit 这个 container 生成新的 image, 那么如何保存这些数据呢:
 
@@ -1318,7 +1334,7 @@ Docker container 产生的数据在 container 删除后就丢失了, 除非 comm
 
 * 挂载主机目录 (Bind mounts)
 
-## 数据卷
+## 11.1. 数据卷
 
 docker 默认在主机上会有一个特定的区域（/var/lib/docker/volumes/ Linux），该区域用来存放 volume。volume 在生成的时候如果不指定名称，便会随机生成
 
@@ -1357,7 +1373,7 @@ $ docker run -d -P \
     python app.py
 ```
 
-## 挂载主机目录
+## 11.2. 挂载主机目录
 
 使用` --mount` 标记可以指定挂载一个本地主机的目录到容器中去 (也可以挂在数据卷到容器中去)
 
@@ -1442,15 +1458,15 @@ docker run -d \
 ```
 
 
-## volume 的共享
+## 11.3. volume 的共享
 
 `--volume-from` 为当创建的容器指定其他容器的 volume
 
 有镜像 imageA, 派生容器 container1, 挂载有匿名卷 /data, `docker run --name container2 --volume-from container1 imageA` 那么 /data 目录会被两个 容器共享
 
-# 网络互联
+# 12. 网络互联
 
-## docker 默认初始创建
+## 12.1. docker 默认初始创建
 
 docker 安装的时候，会在宿主机建立一块虚拟网卡 docker0 作为网桥， 宿主机 通过这个网卡 桥接到了docker内局域网。在docker容器内，通过 docker0 的 IP 地址就能访问宿主机的服务了。
 
@@ -1465,15 +1481,15 @@ NETWORK ID     NAME        DRIVER       SCOPE
 
 ```
 
-## 网卡
+## 12.2. 网卡
 
 容器内部如何访问宿主机器?
 
 宿主执行 ifconfig, `eth0, eth1 ...` 代表真实网卡, `docker0` 是 docker 新建的虚拟网卡, 作为容器访问宿主的网桥, `veth2ddf66cc, vethxxxxx ...` 和容器内的 eth0 绑定
 
-## network分类
+## 12.3. network分类
 
-### bridge 类型
+### 12.3.1. bridge 类型
 
 桥接网络, 重启下，Docker的IP地址就变了, 系统默认初始创建一个默认桥接网络名为 "bridge", 但是生产一般自定义一个桥接网络(因为自定义桥接网络优先级高于默认桥接网络, 不要在生产环境使用默认 bridge network)
 
@@ -1487,14 +1503,14 @@ NETWORK ID     NAME        DRIVER       SCOPE
 
 - 在容器的生命周期中，可以动态地将它与用户定义的网络连接或断开。而要从默认桥接网络中删除容器，需要停止容器并使用不同的网络选项重新创建容器。
 
-### host 类型
+### 12.3.2. host 类型
 
 host: 容器的网络栈并不是和docker宿主机隔离的
 
 容器的网络会附属在主机上，两者是互通的(在容器中运行一个Web服务，监听8080端口，则主机的8080端口就会自动映射到容器中)
 
 
-## 创建固定ip
+## 12.4. 创建固定ip
 
 自己创建一个新的bridge网络bridge1，在创建bridge1的时候同时创建子网，那么在创建容器的时候指定网络为bridge1并指定ip即可
 
@@ -1508,7 +1524,7 @@ docker run -itd --name my-container --network my-network --ip 172.18.0.10 my-ima
         * --ip 172.17.0.10指定ip
 ```
 
-## 查看container的ip
+## 12.5. 查看container的ip
 
 ```sh
 # 查看docker0的网络(宿主机上操作)
@@ -1519,7 +1535,7 @@ ip a show eth0
 docker inspect <id,container_name> | grep "IPAddress"
 ```
 
-## 外部访问容器
+## 12.6. 外部访问容器
 
 一个是通过 host 类型的 network (宿主连容器)
 
@@ -1572,7 +1588,7 @@ $ docker port <container name> [port]
 127.0.0.1:49155
 ```
 
-## 容器互联
+## 12.7. 容器互联
 
 一个是通过 docker network
 
@@ -1630,7 +1646,7 @@ ping hub # 可以 ping 通
 
 更方便的容器互联使用[ Docker Compose](#docker-compose)
 
-## 配置dns 和 主机名 hostname
+## 12.8. 配置dns 和 主机名 hostname
 
 Docker 利用虚拟文件来挂载容器的 3 个相关配置文件。
 
@@ -1666,9 +1682,9 @@ tmpfs on /etc/resolv.conf type tmpfs ...
 
 * `--dns-search=DOMAIN` 设定容器的搜索域，当设定搜索域为 .example.com 时，在搜索一个名为 host 的主机时，DNS 不仅搜索 host，还会搜索 host.example.com。
 
-# docker-compose
+# 13. docker-compose
 
-## compose简介
+## 13.1. compose简介
 
 Docker Compose 是 Docker 官方编排（Orchestration）项目之一，负责快速的部署分布式应用(实现对 Docker 容器集群的快速编排。从功能上看，跟 OpenStack 中的 Heat 十分类似; 其前身是开源项目 Fig;
 
@@ -1784,7 +1800,7 @@ services:
 
 
 
-## 命令使用
+## 13.2. 命令使用
 
 默认的命令对象是项目，这意味着项目中所有的服务都会受到命令影响
 
@@ -1806,7 +1822,7 @@ options有这些:
 -v, --version 打印版本并退出
 ```
 
-### up
+### 13.2.1. up
 
 * 格式为 docker-compose up [options] [SERVICE...]
 
@@ -1845,7 +1861,7 @@ options有这些:
 
 ```
 
-### run
+### 13.2.2. run
 
 格式为 `docker-compose run [options] [-p PORT...] [-e KEY=VAL...] SERVICE [COMMAND] [ARGS...]`。
 
@@ -1898,7 +1914,7 @@ $ docker-compose run --no-deps web python manage.py shell
 -T 不分配伪 tty，意味着依赖 tty 的指令将无法运行。
 ```
 
-### scale
+### 13.2.3. scale
 
 * 格式为 docker-compose scale [options] [SERVICE=NUM...]。
 
@@ -1919,13 +1935,13 @@ $ docker-compose run --no-deps web python manage.py shell
 
 -t, --timeout TIMEOUT 停止容器时候的超时（默认为 10 秒）。
 
-### start
+### 13.2.4. start
 
 格式为 docker-compose start [SERVICE...]。
 
 启动已经存在的服务容器
 
-### build
+### 13.2.5. build
 
 * 格式为 docker-compose build [options] [SERVICE...]
 
@@ -1946,19 +1962,19 @@ $ docker-compose run --no-deps web python manage.py shell
 
 ```
 
-### config
+### 13.2.6. config
 
 验证 Compose 文件格式是否正确，若正确则显示配置，若格式错误显示错误原因
 
-### exec
+### 13.2.7. exec
 
 进入指定的容器
 
-### images
+### 13.2.8. images
 
 列出 Compose 文件中包含的镜像。
 
-### kill
+### 13.2.9. kill
 
 格式为 docker-compose kill [options] [SERVICE...]
 
@@ -1970,23 +1986,23 @@ $ docker-compose run --no-deps web python manage.py shell
 $ docker-compose kill -s SIGINT
 ```
 
-### down
+### 13.2.10. down
 
 此命令将会停止 up 命令所启动的容器，并移除网络
 
-### pause
+### 13.2.11. pause
 
 格式为 docker-compose pause [SERVICE...]。
 
 暂停一个服务容器。
 
-### unpause
+### 13.2.12. unpause
 
 格式为 docker-compose unpause [SERVICE...]。
 
 恢复处于暂停状态中的服务。
 
-### restart
+### 13.2.13. restart
 
 格式为 docker-compose restart [options] [SERVICE...]。
 
@@ -1996,7 +2012,7 @@ $ docker-compose kill -s SIGINT
 
 -t, --timeout TIMEOUT 指定重启前停止容器的超时（默认为 10 秒）。
 
-### stop
+### 13.2.14. stop
 
 格式为 docker-compose stop [options] [SERVICE...]。
 
@@ -2006,7 +2022,7 @@ $ docker-compose kill -s SIGINT
 
 -t, --timeout TIMEOUT 停止容器时候的超时（默认为 10 秒）。
 
-### rm
+### 13.2.15. rm
 
 格式为 docker-compose rm [options] [SERVICE...]。
 
@@ -2018,7 +2034,7 @@ $ docker-compose kill -s SIGINT
 
 -v 删除容器所挂载的数据卷。
 
-### logs
+### 13.2.16. logs
 
 格式为 docker-compose logs [options] [SERVICE...]。
 
@@ -2026,17 +2042,17 @@ $ docker-compose kill -s SIGINT
 
 该命令在调试问题的时候十分有用。
 
-### top
+### 13.2.17. top
 
 查看各个服务容器内运行的进程
 
-### version
+### 13.2.18. version
 
 格式为 docker-compose version。
 
 打印版本信息。
 
-### port
+### 13.2.19. port
 
 格式为 docker-compose port [options] SERVICE PRIVATE_PORT。
 
@@ -2049,7 +2065,7 @@ $ docker-compose kill -s SIGINT
 --index=index 如果同一服务存在多个容器，指定命令对象容器的序号（默认为 1）。
 ```
 
-### ps
+### 13.2.20. ps
 
 格式为 docker-compose ps [options] [SERVICE...]。
 
@@ -2059,7 +2075,7 @@ $ docker-compose kill -s SIGINT
 
 -q 只打印容器的 ID 信息。
 
-### pull
+### 13.2.21. pull
 
 格式为 docker-compose pull [options] [SERVICE...]。
 
@@ -2069,11 +2085,11 @@ $ docker-compose kill -s SIGINT
 
 --ignore-pull-failures 忽略拉取镜像过程中的错误。
 
-### push
+### 13.2.22. push
 
 推送服务依赖的镜像到 Docker 镜像仓库。
 
-## docker-compose.yml
+## 13.3. docker-compose.yml
 
 https://docs.docker.com/compose/compose-file/ 
 
@@ -2323,7 +2339,7 @@ stdin_open: true
 tty: true
 ```
 
-# docker-machine
+# 14. docker-machine
 
 Docker Machine 是 Docker 官方编排（Orchestration）项目之一，负责在多种平台上快速安装 Docker 环境, 包括虚拟机、本地主机和云平台
 
@@ -2340,15 +2356,15 @@ $ sudo chmod +x /usr/local/bin/docker-machine
 `docker-machine create -d virtualbox test`
 
 
-# docker-swarm,swarm-mode
+# 15. docker-swarm,swarm-mode
 
 Docker Swarm 是 Docker 官方三剑客项目之一，提供 Docker 容器集群服务，是 Docker 官方对容器云生态进行支持的核心方案; 使用它，用户可以将多个 Docker 主机封装为单个大型的虚拟 Docker 主机，快速打造一套容器云平台;Docker 1.12.0+ Swarm mode 已经内嵌入 Docker 引擎，成为了 docker 子命令 docker swarm, 因此一般使用docker的swarm mode
 
-# docker实践
+# 16. docker实践
 
 https://github.com/wenshunbiao/docker
 
-## 搭建持续集成系统
+## 16.1. 搭建持续集成系统
 
 ```sh
 # 查看端口占用
@@ -2411,19 +2427,19 @@ networks:
 自动部署需要jenkins的插件 Publish over SSH;
 
 
-## docker和springboot
+## 16.2. docker和springboot
 
 老外的一篇博文: https://www.callicoder.com/spring-boot-docker-example/, 先没有使用maven工具, 然后引入maven插件, 两种实现
 
 使用了 maven 插件: http://www.ityouknow.com/springboot/2018/03/19/spring-boot-docker.html
 
 
-## oracle11g
+## 16.3. oracle11g
 
 https://blog.csdn.net/qq_33982232/article/details/83133870
 https://www.35youth.cn/685.html (https://registry.hub.docker.com/r/jaspeen/oracle-11g)
 
-## 使用 mysql 镜像
+## 16.4. 使用 mysql 镜像
 
 ```sh
 docker pull mysql
@@ -2482,7 +2498,7 @@ services:
 
 root, root 登陆
 
-## 使用postgres镜像
+## 16.5. 使用postgres镜像
 
 `docker run -d --name Postgres -p 5432:5432 -e POSTGRES_USER=dev -e POSTGRES_PASSWORD=dev123 postgres`
 
@@ -2510,7 +2526,7 @@ volumes:
 
 ref: https://stackoverflow.com/questions/49148754/docker-container-shuts-down-giving-data-directory-has-wrong-ownership-error-wh
 
-## 使用 rabbitmq镜像
+## 16.6. 使用 rabbitmq镜像
 
 ```yml
 version: "3"
@@ -2523,7 +2539,7 @@ services:
     
 ```
 
-## redis镜像
+## 16.7. redis镜像
 
 ```yml
 redis:
@@ -2581,7 +2597,7 @@ redis-commander: 提供 redis web 管理界面
 
 `docker run --rm -d --name redis-cmder -p 8081:8081 --link redis:re -e REDIS_HOSTS=re:6379 rediscommander/redis-commander`
 
-## ubuntu镜像
+## 16.8. ubuntu镜像
 
 ```sh
 docker pull ubuntu
@@ -2597,7 +2613,7 @@ apt install git
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ```
 
-## zookeeper
+## 16.9. zookeeper
 
 ```sh
 docker run --name some-zookeeper -d -p 2181:2181 zookeeper
@@ -2613,7 +2629,7 @@ get /zookeeper
 
 ```
 
-## kafka
+## 16.10. kafka
 
 if error ` dial tcp: lookup cbacb08a78fe: no such host` occured, maybe it is because the domain name `cbacb08a78fe` is not defined in host file, add `127.0.0.1 cbacb08a78fe` in host file (https://www.cnblogs.com/xwxz/p/13565422.html)
 
@@ -2670,7 +2686,7 @@ cd /opt/bitnami/kafka/bin
 
 https://github.com/wurstmeister/kafka-docker 推荐
 
-## rabbitmq
+## 16.11. rabbitmq
 
 ```sh
 # 带 management 的版本有 web 界面
@@ -2682,7 +2698,7 @@ docker run -d --name rabbitmq3.7.7 -p 5672:5672 -p 15672:15672 -v `pwd`/data:/va
 
 ```
 
-## zipkin
+## 16.12. zipkin
 
 https://zipkin.io/pages/quickstart.html
 
@@ -2693,7 +2709,7 @@ docker run --name zipkin-x -d -p 9411:9411 openzipkin/zipkin
 http://localhost:9411/zipkin/
 
 
-## nginx
+## 16.13. nginx
 
 https://github.com/nginx-proxy/nginx-proxy 容器里的 nginx 反向代理
 
@@ -2703,7 +2719,7 @@ docker run -d --name nginx -p 80:80 -v ~/docker_data/nginx/html:/usr/share/nginx
 
 ```
 
-## mongodb
+## 16.14. mongodb
 
 ```sh
 # --auth：需要密码才能访问容器服务。(默认没有账户密码)
@@ -2725,7 +2741,7 @@ docker run -it --rm mongo mongo --host 192.168.10.130 --port 27017
 
 ```
 
-## gitlab
+## 16.15. gitlab
 
 ```sh
 # 拉取gitlab镜像
@@ -2758,7 +2774,7 @@ docker run -d --name gitlab -p 8443:443 -p 80:80 --restart unless-stopped -v /ro
 docker run -d --name gitlab -p 8443:443 -p 8090:8090 --privileged=true --restart unless-stopped -v /root/gitlab/etc:/etc/gitlab -v /root/gitlab/log:/var/log/gitlab -v /root/gitlab/data:/var/opt/gitlab beginor/gitlab-ce:11.0.1-ce.0
 ```
 
-## etcd
+## 16.16. etcd
 
 ```sh
 docker pull bitnami/etcd:latest
@@ -2768,7 +2784,7 @@ $ docker run -p 2379:2379 -e ALLOW_NO_AUTH=yes --name Etcd bitnami/etcd
 
 ```
 
-## influxdb
+## 16.17. influxdb
 
 ```sh
 docker run -d \
@@ -2780,7 +2796,7 @@ docker run -d \
 ```
 
 
-# vagrant
+# 17. vagrant
 
 
 https://github.com/hashicorp/vagrant
@@ -2790,7 +2806,7 @@ https://github.com/utmapp/UTM ios 平台, mac 平台
  firecracker, kata 之类新轻量虚拟机
 
 
-## 基本使用
+## 17.1. 基本使用
 
 https://www.vagrantup.com/downloads.html 下载
 https://www.virtualbox.org/wiki/Downloads virtualbox 下载
@@ -2837,7 +2853,7 @@ vagrant package
 vagrant upload xxx_file [dest_path]
 ```
 
-## vagrant 设置 ip
+## 17.2. vagrant 设置 ip
 
 配置虚拟机为固定 ip: 修改 vagrantfile , 配置为私有网络 (需要先使用 virtualbox 的主机网络管理器配置新增 hostonly 网络)
 
@@ -2900,14 +2916,14 @@ config.vm.network "public_network", :bridge => 'en1: Wi-Fi (AirPort)'
 
 ```
 
-## VirtualBox四种网络模式
+## 17.3. VirtualBox四种网络模式
 
 https://blog.csdn.net/qq_28513801/article/details/90138491
 
 
 
 
-# kali
+# 18. kali
 
 http://uni.mirrors.163.com/kali-images/kali-2020.4/
 http://mirrors.ustc.edu.cn/kali-images/
@@ -2920,12 +2936,12 @@ https://www.kali.org/docs/virtualization/install-virtualbox-guest-vm/
 kali/kali
 
 
-# 虚拟网卡 macvlan
+# 19. 虚拟网卡 macvlan
 
 https://fuckcloudnative.io/posts/netwnetwork-virtualization-macvlan/
 
 
-# Multipass
+# 20. Multipass
 
 类似 vagrant, 快速获取 Linux 环境
 
