@@ -65,6 +65,21 @@
         <category label="download" term="download"/>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Package Spring Boot & React App Together]]></title>
+        <id>https://xiaoyureed.github.io/spring-boot-react-package-together</id>
+        <link href="https://xiaoyureed.github.io/spring-boot-react-package-together"/>
+        <updated>2022-07-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article I will try to package a react app into Spring boot app, so that they can share the same port, and make sure that they can communicate with each other.]]></summary>
+        <content type="html"><![CDATA[<p>This article I will try to package a react app into Spring boot app, so that they can share the same port, and make sure that they can communicate with each other.</p><p>First of all, we have to create a spring boot app and a react app, </p><p><a href="https://www.tisonkun.org/2022/10/22/springboot-nextjs/" target="_blank" rel="noopener noreferrer">https://www.tisonkun.org/2022/10/22/springboot-nextjs/</a>
+<a href="https://zhuanlan.zhihu.com/p/576234428" target="_blank" rel="noopener noreferrer">https://zhuanlan.zhihu.com/p/576234428</a></p><p><a href="https://www.infoq.cn/article/pqahoudgplvp3re73ipt" target="_blank" rel="noopener noreferrer">https://www.infoq.cn/article/pqahoudgplvp3re73ipt</a></p><p><a href="https://juejin.cn/post/7148737053927145502" target="_blank" rel="noopener noreferrer">https://juejin.cn/post/7148737053927145502</a></p><p><a href="https://developer.aliyun.com/article/752405" target="_blank" rel="noopener noreferrer">https://developer.aliyun.com/article/752405</a></p><p><a href="https://www.google.com/search?q=springboot+react+%E5%85%B1%E7%94%A8%E7%AB%AF%E5%8F%A3&amp;oq=springboot+react+%E5%85%B1%E7%94%A8%E7%AB%AF%E5%8F%A3&amp;aqs=chrome..69i57j69i64.10285j0j7&amp;sourceid=chrome&amp;ie=UTF-8" target="_blank" rel="noopener noreferrer">https://www.google.com/search?q=springboot+react+%E5%85%B1%E7%94%A8%E7%AB%AF%E5%8F%A3&amp;oq=springboot+react+%E5%85%B1%E7%94%A8%E7%AB%AF%E5%8F%A3&amp;aqs=chrome..69i57j69i64.10285j0j7&amp;sourceid=chrome&amp;ie=UTF-8</a></p><p><a href="https://www.google.com/search?q=springboot+react+%E7%AB%AF%E5%8F%A3%E5%94%AF%E4%B8%80&amp;newwindow=1&amp;sxsrf=APwXEddFQUTH93KDHzgoK8gq1hoebWCR9Q%3A1682523015864&amp;ei=h0NJZMK_NMDmkPIPq5OL-AQ&amp;ved=0ahUKEwiCn7_V7sf-AhVAM0QIHavJAk8Q4dUDCA8&amp;uact=5&amp;oq=springboot+react+%E7%AB%AF%E5%8F%A3%E5%94%AF%E4%B8%80&amp;gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIFCAAQogQyBQgAEKIEOggIABCiBBCwAzoECAAQHjoFCCEQoAFKBAhBGAFQ1AZY7D9glkJoAnAAeAKAAbUKiAGfN5IBDTItMS4wLjEuMi4zLjKYAQCgAQHIAQHAAQE&amp;sclient=gws-wiz-serp" target="_blank" rel="noopener noreferrer">https://www.google.com/search?q=springboot+react+%E7%AB%AF%E5%8F%A3%E5%94%AF%E4%B8%80&amp;newwindow=1&amp;sxsrf=APwXEddFQUTH93KDHzgoK8gq1hoebWCR9Q%3A1682523015864&amp;ei=h0NJZMK_NMDmkPIPq5OL-AQ&amp;ved=0ahUKEwiCn7_V7sf-AhVAM0QIHavJAk8Q4dUDCA8&amp;uact=5&amp;oq=springboot+react+%E7%AB%AF%E5%8F%A3%E5%94%AF%E4%B8%80&amp;gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIFCAAQogQyBQgAEKIEOggIABCiBBCwAzoECAAQHjoFCCEQoAFKBAhBGAFQ1AZY7D9glkJoAnAAeAKAAbUKiAGfN5IBDTItMS4wLjEuMi4zLjKYAQCgAQHIAQHAAQE&amp;sclient=gws-wiz-serp</a></p>]]></content>
+        <author>
+            <name>Xiao Yu</name>
+            <uri>https://github.com/xiaoyureed</uri>
+        </author>
+        <category label="spring" term="spring"/>
+        <category label="react" term="react"/>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Web 开发模式的进化]]></title>
         <id>https://xiaoyureed.github.io/2022/06/11/web-dev-history</id>
         <link href="https://xiaoyureed.github.io/2022/06/11/web-dev-history"/>
