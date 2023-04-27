@@ -9,6 +9,9 @@ toc_max_heading_level: 5
 
 <div align="center">
 
+https://github.com/techiescamp/kubernetes-learning-path
+https://github.com/guangzhengli/k8s-tutorials
+
 https://edu.aliyun.com/roadmap/cloudnative?from=timeline
 
 https://yomxxx.github.io/2020/11/20/20201120-docker-web/ 搭建前端开发环境
@@ -57,6 +60,8 @@ https://github.com/docker/kitematic 可视化管理gui
   - [6.4. 列出镜像](#64-列出镜像)
   - [6.5. 删除本地镜像](#65-删除本地镜像)
 - [7. 制作镜像的方法](#7-制作镜像的方法)
+  - [work with golang](#work-with-golang)
+  - [working with frontend](#working-with-frontend)
   - [7.1. 最佳实践 优化体积](#71-最佳实践-优化体积)
   - [7.2. 通过 dockerfile 来 build 镜像](#72-通过-dockerfile-来-build-镜像)
   - [7.3. commit容器成为镜像-不推荐](#73-commit容器成为镜像-不推荐)
@@ -65,6 +70,7 @@ https://github.com/docker/kitematic 可视化管理gui
 - [8. Dockerfile](#8-dockerfile)
   - [8.1. run 和 from](#81-run-和-from)
   - [8.2. 镜像的构建上下文context](#82-镜像的构建上下文context)
+    - [dockerignore](#dockerignore)
   - [8.3. COPY 和 ADD](#83-copy-和-add)
   - [8.4. WORKDIR 指定工作目录](#84-workdir-指定工作目录)
   - [8.5. run cmd 和 entrypoint 容器启动命令](#85-run-cmd-和-entrypoint-容器启动命令)
@@ -559,7 +565,63 @@ $ docker run -it --rm \
 
 # 7. 制作镜像的方法
 
+## work with golang
+
+create a main.go, then create dockerfile in the same directory:
+
+```yml
+FROM golang:1.16-buster AS builder
+RUN mkdir /src
+ADD . /src
+WORKDIR /src
+
+RUN go env -w GO111MODULE=auto
+RUN go build -o main .
+
+FROM gcr.io/distroless/base-debian10
+
+WORKDIR /
+
+COPY --from=builder /src/main /main
+EXPOSE 3000
+ENTRYPOINT ["/main"]
+```
+
+generate the image:
+
+```sh
+docker build . -t xiaoyureed/hellok8s:v1
+
+# when build, this error occurred:
+# 出现“failed to solve with frontend dockerfile.v0: failed to create LLB definition: failed to copy: httpReadSeeker: failed open: failed to do request:”
+# Just need to setup the docker desktop config:
+# "features": { buildkit: false}
+
+# start
+docker run -p 3000:3000 --name hellok8s -d xiaoyureed/hellok8s:v1
+```
+
+## working with frontend
+
+
+```dockerfile
+FROM node:latest AS builder
+WORKDIR /usr/src/app
+COPY package.json yarn.lock ./
+RUN yarn
+COPY . ./
+RUN yarn build
+
+FROM nginx
+COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+CMD ["nginx", "-g", "daemon off;"]
+
+```
+
 ## 7.1. 最佳实践 优化体积
+
+https://github.com/phusion/baseimage-docker 体积最小的 Linux
 
 https://www.infoq.cn/article/3-simple-tricks-for-smaller-docker-images
 https://segmentfault.com/a/1190000017858358
@@ -665,21 +727,6 @@ Docker 还提供了 docker load 和 docker save 命令，用以将镜像保存�
 
 # 8. Dockerfile
 
-```dockerfile
-FROM node:latest AS builder
-WORKDIR /usr/src/app
-COPY package.json yarn.lock ./
-RUN yarn
-COPY . ./
-RUN yarn build
-
-FROM nginx
-COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-CMD ["nginx", "-g", "daemon off;"]
-
-```
-
 通过dockerfile来build定制镜像
 
 是  一种构建image的 文件DSL
@@ -699,7 +746,7 @@ $ cd mynginx
 $ touch Dockerfile
 ```
 
-```sh
+```
 `FROM`指令: 指定基础镜像; 一个 Dockerfile 中 FROM 是必备的指令，并且必须是第一条指令。
 
     Docker 还存在一个特殊的镜像，名为 scratch。这个镜像是虚拟的概念，并不实际存在，它表示一个空白的镜像. 如果你以 scratch 为基础镜像的话，意味着你不以任何镜像为基础，接下来所写的指令将作为镜像第一层开始存在。
@@ -740,48 +787,6 @@ $ touch Dockerfile
 docker build -t nginx:v3 .
 ```
 
-## 8.2. 镜像的构建上下文context
-
-docker build 命令构建镜像，其实并非在本地构建，而是在服务端，也就是 Docker 引擎中构建的。那么在这种客户端/服务端的架构中，如何才能让服务端获得本地文件呢？
-
-`docker build -t nginx:v3 .` 这里的[.]不是命令当前所在的目录, 而是指定docker context路径, Dockerfile中的路径都是相对于这个contxt路径来说的
-
-一般应该会将 Dockerfile 置于一个空目录下，或者项目根目录下。如果该目录下没有所需文件，那么应该把所需文件复制一份过来。如果目录下有些东西确实不希望构建时传给 Docker 引擎，那么可以用 .gitignore 一样的语法写一个 `.dockerignore`，该文件是用于剔除不需要作为上下文传递给 Docker 引擎的。
-
-在默认情况下，如果不额外指定 Dockerfile 的话，会将上下文目录下的名为 Dockerfile 的文件作为 Dockerfile;实际上 Dockerfile 的文件名并不要求必须为 Dockerfile，而且并不要求必须位于上下文目录中，比如可以用 `-f ../Dockerfile.php` 参数指定某个文件作为 Dockerfile。
-
-docker build还支持从git repo中拉取文件构建`docker build https://github.com/twang2218/gitlab-ce-zh.git#:8.14`这行命令指定了构建所需的 Git repo，并且指定默认的 master 分支，构建目录为 /8.14/，然后 Docker 就会自己去 git clone 这个项目、切换到指定分支、并进入到指定目录后开始构建
-
-还支持`docker build http://server/context.tar.gz`从压缩包构建
-
-
-## 8.3. COPY 和 ADD 
-
-复制文件
-
-和 RUN 指令一样，也有两种格式，一种类似于命令行，一种类似于函数调用:
-
-COPY <源路径>... <目标路径>
-
-COPY ["<源路径1>",... "<目标路径>"]
-
-<源路径> 可以是多个，甚至可以是通配符，其通配符规则要满足 Go 的 filepath.Match 规则; 
-
-<目标路径> 可以是容器内的绝对路径，也可以是相对于工作目录的相对路径（工作目录可以用 WORKDIR 指令来指定）。目标路径不需要事先创建，如果目录不存在会在复制文件前先行创建缺失目录
-
-eg:
-`COPY package.json /usr/src/app/`
-`COPY hom* /mydir/`
-`COPY hom?.txt /mydir/`
-
-
-ADD 更高级的复制文件, 和copy类似-------但是, 可以自动解压缩
-
-## 8.4. WORKDIR 指定工作目录
-
-使用 WORKDIR 指令可以来指定工作目录（或者称为当前目录），就是将当前执行命令的目录定义为确定值, 以后各层的当前目录就被改为指定的目录
-
-格式为 `WORKDIR <工作目录路径>`。(如该目录不存在，WORKDIR 会帮你建立目录)
 
 典型错误: 如下, 是错误的, 两条run命令在内存上实际是没有联系的
 
@@ -798,6 +803,85 @@ WORKDIR /app
 RUN echo "hello" > world.txt
 ```
 
+
+## 8.2. 镜像的构建上下文context
+
+docker build 命令构建镜像，其实并非在本地构建，而是在服务端，也就是 Docker 引擎中构建的。那么在这种客户端/服务端的架构中，如何才能让服务端获得本地文件呢？
+
+`docker build -t nginx:v3 .` 这里的[.]不是命令当前所在的目录, 而是指定docker context路径, Dockerfile中的路径都是相对于这个contxt路径来说的
+
+一般应该会将 Dockerfile 置于一个空目录下，或者项目根目录下。如果该目录下没有所需文件，那么应该把所需文件复制一份过来。如果目录下有些东西确实不希望构建时传给 Docker 引擎，那么可以用 .gitignore 一样的语法写一个 `.dockerignore`，该文件是用于剔除不需要作为上下文传递给 Docker 引擎的。
+
+在默认情况下，如果不额外指定 Dockerfile 的话，会将上下文目录下的名为 Dockerfile 的文件作为 Dockerfile;实际上 Dockerfile 的文件名并不要求必须为 Dockerfile，而且并不要求必须位于上下文目录中，比如可以用 `-f ../Dockerfile.php` 参数指定某个文件作为 Dockerfile。
+
+docker build还支持从git repo中拉取文件构建`docker build https://github.com/twang2218/gitlab-ce-zh.git#:8.14`这行命令指定了构建所需的 Git repo，并且指定默认的 master 分支，构建目录为 /8.14/，然后 Docker 就会自己去 git clone 这个项目、切换到指定分支、并进入到指定目录后开始构建
+
+还支持`docker build http://server/context.tar.gz`从压缩包构建
+
+### dockerignore
+
+```
+similar To gitignore
+```
+
+
+## 8.3. COPY 和 ADD 
+
+复制文件
+
+和 RUN 指令一样，也有两种格式，一种类似于命令行，一种类似于函数调用:
+
+```
+COPY <source1>[source2]... <target>
+
+  <源路径> 可以是多个，甚至可以是通配符，其通配符规则要满足 Go 的 filepath.Match 规则; 
+
+  <目标路径> 可以是容器内的绝对路径，也可以是相对于工作目录的相对路径（工作目录可以用 WORKDIR 指令来指定）, 如果不是一个文件，则必须使用/结束
+
+  若 source 是文件, target 是 / 结尾, 则 docker 会把 target 视为目录, source will be copied to the dir, if target dir missing, will auto create
+  若 source 是文件, target 不是 / 结尾,则 docker 会把 target 视为文件, 
+    if the target missing, it will be auto created (equal to source file)
+    if the target exist, it will be override with the source file content, 
+  if the source is a folder and the sources only contains one folder(文件夹本身会被复制, 内部的文件也会被复制), and the target missing(无论是不是 / 结尾都会视为文件夹), the target will be auto created
+  if the source is a folder and the sources contains more than one folder (文件夹本身不会被复制, 仅仅内部文件复制)
+
+
+
+eg:
+COPY package.json /usr/src/app/
+COPY hom* /mydir/
+COPY hom?.txt /mydir/
+
+
+
+
+```
+
+add命令: 更高级的复制命令, 类似 copy, 还支持从 URL 复制文件, 还支持复制本地tar文件并自动解压缩
+
+
+## 8.4. WORKDIR 指定工作目录
+
+使用 WORKDIR 指令可以来指定工作目录（或者称为当前目录），就是将当前执行命令的目录定义为确定值, 以后各层的当前目录就被改为指定的目录
+
+格式为 `WORKDIR <absolutePath/relativePath>`。(如该目录不存在，WORKDIR 会帮你建立目录, relative path: 它将相对于前一个 WORKDIR 指令的路径, 为了避免出错，推荐WORKDIR指令中只使用绝对路径)
+
+```yml
+WORKDIR /a
+WORKDIR b
+WORKDIR c
+RUN pwd
+# 输出将会是 /a/b/c
+```
+
+WORKDIR 指令可以使用前面 ENV 设置的环境变量
+
+```yml
+ENV DIRPATH=/path
+WORKDIR $DIRPATH/$DIRNAME
+RUN pwd    # /path/$DIRNAME
+
+```
 
 ## 8.5. run cmd 和 entrypoint 容器启动命令
 

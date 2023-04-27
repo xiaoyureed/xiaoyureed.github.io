@@ -18,120 +18,37 @@ Maven Note | [替换pom.xml为其他格式的文件](https://github.com/takari/p
 jetbrains package search : https://pkg.biuaxia.cn/
 </div>
 
-<!-- TOC -->
 
-- [1. 命令行](#1-%E5%91%BD%E4%BB%A4%E8%A1%8C)
-- [2. spring-io-platform](#2-spring-io-platform)
-- [3. why maven](#3-why-maven)
-- [4. Maven是什么](#4-maven%E6%98%AF%E4%BB%80%E4%B9%88)
-- [5. 安装](#5-%E5%AE%89%E8%A3%85)
-    - [5.1. aliyun 阿里云仓库](#51-aliyun-%E9%98%BF%E9%87%8C%E4%BA%91%E4%BB%93%E5%BA%93)
-    - [5.2. spring 仓库](#52-spring-%E4%BB%93%E5%BA%93)
-    - [5.3. 配置本地仓库地址](#53-%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%9C%B0%E5%9D%80)
-    - [5.4. 配置远程仓库](#54-%E9%85%8D%E7%BD%AE%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93)
-    - [5.5. 配置远程仓库认证非必须](#55-%E9%85%8D%E7%BD%AE%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E8%AE%A4%E8%AF%81%E9%9D%9E%E5%BF%85%E9%A1%BB)
-    - [5.6. 部署到远程仓库](#56-%E9%83%A8%E7%BD%B2%E5%88%B0%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93)
-    - [5.7. 阿里云 aliyun 镜像](#57-%E9%98%BF%E9%87%8C%E4%BA%91-aliyun-%E9%95%9C%E5%83%8F)
-- [6. Maven项目目录规范](#6-maven%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E8%A7%84%E8%8C%83)
-- [7. demo](#7-demo)
-- [8. 生命周期命令 and 包含效果](#8-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%91%BD%E4%BB%A4-and-%E5%8C%85%E5%90%AB%E6%95%88%E6%9E%9C)
-- [9. 安装卸载本地包](#9-%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BD%E6%9C%AC%E5%9C%B0%E5%8C%85)
-- [10. 打包成可执行jar](#10-%E6%89%93%E5%8C%85%E6%88%90%E5%8F%AF%E6%89%A7%E8%A1%8Cjar)
-- [11. 使用archetype生成项目骨架](#11-%E4%BD%BF%E7%94%A8archetype%E7%94%9F%E6%88%90%E9%A1%B9%E7%9B%AE%E9%AA%A8%E6%9E%B6)
-- [12. 坐标](#12-%E5%9D%90%E6%A0%87)
-- [13. 快照版本和发布版本](#13-%E5%BF%AB%E7%85%A7%E7%89%88%E6%9C%AC%E5%92%8C%E5%8F%91%E5%B8%83%E7%89%88%E6%9C%AC)
-- [14. 依赖的配置](#14-%E4%BE%9D%E8%B5%96%E7%9A%84%E9%85%8D%E7%BD%AE)
-    - [14.1. 基本元素](#141-%E5%9F%BA%E6%9C%AC%E5%85%83%E7%B4%A0)
-    - [14.2. scope](#142-scope)
-    - [14.3. 传递性依赖](#143-%E4%BC%A0%E9%80%92%E6%80%A7%E4%BE%9D%E8%B5%96)
-    - [14.4. Maven的依赖调解特性](#144-maven%E7%9A%84%E4%BE%9D%E8%B5%96%E8%B0%83%E8%A7%A3%E7%89%B9%E6%80%A7)
-    - [14.5. 可选依赖](#145-%E5%8F%AF%E9%80%89%E4%BE%9D%E8%B5%96)
-    - [14.6. 排除依赖](#146-%E6%8E%92%E9%99%A4%E4%BE%9D%E8%B5%96)
-    - [14.7. 依赖的优化](#147-%E4%BE%9D%E8%B5%96%E7%9A%84%E4%BC%98%E5%8C%96)
-    - [14.8. 引入外部依赖](#148-%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E4%BE%9D%E8%B5%96)
-- [15. 案例:账户注册服务](#15-%E6%A1%88%E4%BE%8B%E8%B4%A6%E6%88%B7%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1)
-    - [15.1. 需求](#151-%E9%9C%80%E6%B1%82)
-    - [15.2. 简单的设计](#152-%E7%AE%80%E5%8D%95%E7%9A%84%E8%AE%BE%E8%AE%A1)
-    - [15.3. account-email模块](#153-account-email%E6%A8%A1%E5%9D%97)
-        - [15.3.1. parent-pom](#1531-parent-pom)
-        - [15.3.2. email-pom](#1532-email-pom)
-        - [15.3.3. 主代码&测试](#1533-%E4%B8%BB%E4%BB%A3%E7%A0%81%E6%B5%8B%E8%AF%95)
-        - [15.3.4. 测试资源-主资源读取顺序](#1534-%E6%B5%8B%E8%AF%95%E8%B5%84%E6%BA%90-%E4%B8%BB%E8%B5%84%E6%BA%90%E8%AF%BB%E5%8F%96%E9%A1%BA%E5%BA%8F)
-        - [15.3.5. spring注入配置](#1535-spring%E6%B3%A8%E5%85%A5%E9%85%8D%E7%BD%AE)
-    - [15.4. account-persist模块](#154-account-persist%E6%A8%A1%E5%9D%97)
-        - [15.4.1. account-persist的pom](#1541-account-persist%E7%9A%84pom)
-        - [15.4.2. 主代码&测试](#1542-%E4%B8%BB%E4%BB%A3%E7%A0%81%E6%B5%8B%E8%AF%95)
-        - [15.4.3. 注入配置](#1543-%E6%B3%A8%E5%85%A5%E9%85%8D%E7%BD%AE)
-    - [15.5. account-captcha模块](#155-account-captcha%E6%A8%A1%E5%9D%97)
-        - [15.5.1. captcha模块的pom](#1551-captcha%E6%A8%A1%E5%9D%97%E7%9A%84pom)
-        - [15.5.2. 主代码&测试](#1552-%E4%B8%BB%E4%BB%A3%E7%A0%81%E6%B5%8B%E8%AF%95)
-        - [15.5.3. 注入配置文件](#1553-%E6%B3%A8%E5%85%A5%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6)
-    - [15.6. account-service模块](#156-account-service%E6%A8%A1%E5%9D%97)
-        - [15.6.1. service-pom配置](#1561-service-pom%E9%85%8D%E7%BD%AE)
-        - [15.6.2. 主代码](#1562-%E4%B8%BB%E4%BB%A3%E7%A0%81)
-        - [15.6.3. spring配置文件](#1563-spring%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6)
-        - [15.6.4. 安装account-service模块注意](#1564-%E5%AE%89%E8%A3%85account-service%E6%A8%A1%E5%9D%97%E6%B3%A8%E6%84%8F)
-    - [15.7. account-web模块](#157-account-web%E6%A8%A1%E5%9D%97)
-        - [15.7.1. web.xml](#1571-webxml)
-        - [15.7.2. pom.xml](#1572-pomxml)
-- [16. Maven中的测试](#16-maven%E4%B8%AD%E7%9A%84%E6%B5%8B%E8%AF%95)
-    - [16.1. maven-surefire-plugin](#161-maven-surefire-plugin)
-    - [16.2. 如何跳过测试](#162-%E5%A6%82%E4%BD%95%E8%B7%B3%E8%BF%87%E6%B5%8B%E8%AF%95)
-    - [16.3. 动态指定运行的测试类](#163-%E5%8A%A8%E6%80%81%E6%8C%87%E5%AE%9A%E8%BF%90%E8%A1%8C%E7%9A%84%E6%B5%8B%E8%AF%95%E7%B1%BB)
-    - [16.4. 包含&排除测试用例](#164-%E5%8C%85%E5%90%AB%E6%8E%92%E9%99%A4%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B)
-    - [16.5. 测试报告&测试覆盖率报告](#165-%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A%E6%B5%8B%E8%AF%95%E8%A6%86%E7%9B%96%E7%8E%87%E6%8A%A5%E5%91%8A)
-    - [16.6. 改用TestNG代替Junit](#166-%E6%94%B9%E7%94%A8testng%E4%BB%A3%E6%9B%BFjunit)
-    - [16.7. 打包测试代码](#167-%E6%89%93%E5%8C%85%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81)
-- [17. 生命周期](#17-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
-- [18. 插件](#18-%E6%8F%92%E4%BB%B6)
-    - [18.1. 查看插件帮助文档](#181-%E6%9F%A5%E7%9C%8B%E6%8F%92%E4%BB%B6%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3)
-    - [18.2. 插件绑定](#182-%E6%8F%92%E4%BB%B6%E7%BB%91%E5%AE%9A)
-    - [18.3. 插件的自定义绑定](#183-%E6%8F%92%E4%BB%B6%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%91%E5%AE%9A)
-    - [18.4. 在命令行给插件设置参数](#184-%E5%9C%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%99%E6%8F%92%E4%BB%B6%E8%AE%BE%E7%BD%AE%E5%8F%82%E6%95%B0)
-    - [18.5. 在pom中设置插件的全局参数](#185-%E5%9C%A8pom%E4%B8%AD%E8%AE%BE%E7%BD%AE%E6%8F%92%E4%BB%B6%E7%9A%84%E5%85%A8%E5%B1%80%E5%8F%82%E6%95%B0)
-    - [18.6. 在pom中给插件任务配置个性化参数](#186-%E5%9C%A8pom%E4%B8%AD%E7%BB%99%E6%8F%92%E4%BB%B6%E4%BB%BB%E5%8A%A1%E9%85%8D%E7%BD%AE%E4%B8%AA%E6%80%A7%E5%8C%96%E5%8F%82%E6%95%B0)
-    - [18.7. 常用的插件](#187-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%8F%92%E4%BB%B6)
-        - [18.7.1. 打可执行包插件](#1871-%E6%89%93%E5%8F%AF%E6%89%A7%E8%A1%8C%E5%8C%85%E6%8F%92%E4%BB%B6)
-        - [18.7.2. maven-war-plugin](#1872-maven-war-plugin)
-        - [18.7.3. maven-eclipse-plugin](#1873-maven-eclipse-plugin)
-        - [18.7.4. exec-maven-plugin](#1874-exec-maven-plugin)
-        - [18.7.5. bash-maven-plugin](#1875-bash-maven-plugin)
-        - [18.7.6. maven-antrun-plugin](#1876-maven-antrun-plugin)
-        - [18.7.7. versions-maven-plugin](#1877-versions-maven-plugin)
-        - [18.7.8. build-helper-maven-plugin](#1878-build-helper-maven-plugin)
-        - [18.7.9. maven-dependency-plugin](#1879-maven-dependency-plugin)
-        - [18.7.10. jetty和tomcat](#18710-jetty%E5%92%8Ctomcat)
-        - [18.7.11. maven-source-plugin](#18711-maven-source-plugin)
-        - [18.7.12. maven-resources-plugins](#18712-maven-resources-plugins)
-        - [18.7.13. maven-assembly-plugin](#18713-maven-assembly-plugin)
-        - [18.7.14. maven-compiler-plugin](#18714-maven-compiler-plugin)
-        - [18.7.15. spring-boot-maven-plugin](#18715-spring-boot-maven-plugin)
-        - [18.7.16. maven-install-plugin](#18716-maven-install-plugin)
-    - [18.8. 编写maven插件](#188-%E7%BC%96%E5%86%99maven%E6%8F%92%E4%BB%B6)
-- [19. maven属性](#19-maven%E5%B1%9E%E6%80%A7)
-- [20. 开启资源文件过滤](#20-%E5%BC%80%E5%90%AF%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E8%BF%87%E6%BB%A4)
-- [21. 开启web资源过滤](#21-%E5%BC%80%E5%90%AFweb%E8%B5%84%E6%BA%90%E8%BF%87%E6%BB%A4)
-- [22. maven profile 多环境配置](#22-maven-profile-%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE)
-    - [22.1. profile 基本使用](#221-profile-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8)
-    - [22.2. profile build](#222-profile-build)
-    - [22.3. 配置默认 jdk 编译版本](#223-%E9%85%8D%E7%BD%AE%E9%BB%98%E8%AE%A4-jdk-%E7%BC%96%E8%AF%91%E7%89%88%E6%9C%AC)
-- [23. 模块的聚合&继承](#23-%E6%A8%A1%E5%9D%97%E7%9A%84%E8%81%9A%E5%90%88%E7%BB%A7%E6%89%BF)
-- [24. dependencyMangement元素](#24-dependencymangement%E5%85%83%E7%B4%A0)
-- [25. pluginManagement元素](#25-pluginmanagement%E5%85%83%E7%B4%A0)
-- [26. 反应堆](#26-%E5%8F%8D%E5%BA%94%E5%A0%86)
-- [27. 历史项目改造为maven项目](#27-%E5%8E%86%E5%8F%B2%E9%A1%B9%E7%9B%AE%E6%94%B9%E9%80%A0%E4%B8%BAmaven%E9%A1%B9%E7%9B%AE)
-- [28. 检查依赖冲突](#28-%E6%A3%80%E6%9F%A5%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81)
-- [29. Maven项目的持续集成](#29-maven%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90)
-- [30. 编写Maven模板archetype](#30-%E7%BC%96%E5%86%99maven%E6%A8%A1%E6%9D%BFarchetype)
-    - [30.1. archetype组成元素](#301-archetype%E7%BB%84%E6%88%90%E5%85%83%E7%B4%A0)
-    - [30.2. archetype-demo](#302-archetype-demo)
-        - [30.2.1. archetype自身pom](#3021-archetype%E8%87%AA%E8%BA%ABpom)
-        - [30.2.2. 模版数据](#3022-%E6%A8%A1%E7%89%88%E6%95%B0%E6%8D%AE)
-        - [30.2.3. 描述符文件](#3023-%E6%8F%8F%E8%BF%B0%E7%AC%A6%E6%96%87%E4%BB%B6)
-        - [30.2.4. 使用](#3024-%E4%BD%BF%E7%94%A8)
-    - [30.3. archetype-catalog](#303-archetype-catalog)
+# error solutions
 
-<!-- /TOC -->
+```
+error:
+maven blocked mirror for repositories
+
+solutions:
+https://stackoverflow.com/questions/67833372/getting-blocked-mirror-for-repositories-maven-error-even-after-adding-mirrors
+https://gist.github.com/vegaasen/1d545aafeda867fcb48ae3f6cd8fd7c7
+
+Put this section in your ~/.m2/settings.xml-file, and rerun mvn with -U option. U're done ✅.
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 http://maven.apache.org/xsd/settings-1.2.0.xsd">
+  ...
+    <mirrors>
+        <mirror>
+            <id>maven-default-http-blocker</id>
+            <mirrorOf>external:dont-match-anything-mate:*</mirrorOf>
+            <name>Pseudo repository to mirror external repositories initially using HTTP.</name>
+            <url>http://0.0.0.0/</url>
+            <blocked>false</blocked>
+        </mirror>
+    </mirrors>
+  ...
+</settings>
+
+```
+
 
 # 命令行
 

@@ -24,23 +24,23 @@ https://github.com/Terminus2049/Awesome-Social-Impact 社会议题
 <!-- TOC -->
 
 - [1. 博客](#1-%E5%8D%9A%E5%AE%A2)
-- [2. 检索搜索技巧](#2-%E6%A3%80%E7%B4%A2%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7)
+- [2. 检索搜索技巧 github tips](#2-%E6%A3%80%E7%B4%A2%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7-github-tips)
 - [3. 文档&资源](#3-%E6%96%87%E6%A1%A3%E8%B5%84%E6%BA%90)
-    - [3.1. 语言](#31-%E8%AF%AD%E8%A8%80)
-        - [3.1.1. go](#311-go)
-        - [3.1.2. node](#312-node)
-        - [3.1.3. java](#313-java)
-        - [3.1.4. rust](#314-rust)
-        - [3.1.5. objectc](#315-objectc)
-    - [3.2. 分布式](#32-%E5%88%86%E5%B8%83%E5%BC%8F)
-        - [3.2.1. rpc](#321-rpc)
-        - [3.2.2. ELK日志分析](#322-elk%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90)
-    - [3.3. CS基础](#33-cs%E5%9F%BA%E7%A1%80)
+  - [3.1. 语言](#31-%E8%AF%AD%E8%A8%80)
+    - [3.1.1. go](#311-go)
+    - [3.1.2. node](#312-node)
+    - [3.1.3. java](#313-java)
+    - [3.1.4. rust](#314-rust)
+    - [3.1.5. objectc](#315-objectc)
+  - [3.2. 分布式](#32-%E5%88%86%E5%B8%83%E5%BC%8F)
+    - [3.2.1. rpc](#321-rpc)
+    - [3.2.2. ELK日志分析](#322-elk%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90)
+  - [3.3. CS基础](#33-cs%E5%9F%BA%E7%A1%80)
 - [4. 动画库](#4-%E5%8A%A8%E7%94%BB%E5%BA%93)
 - [5. 工具](#5-%E5%B7%A5%E5%85%B7)
-    - [5.1. 爬虫](#51-%E7%88%AC%E8%99%AB)
-    - [5.2. 生成文档](#52-%E7%94%9F%E6%88%90%E6%96%87%E6%A1%A3)
-    - [5.3. 生成简历](#53-%E7%94%9F%E6%88%90%E7%AE%80%E5%8E%86)
+  - [5.1. 爬虫](#51-%E7%88%AC%E8%99%AB)
+  - [5.2. 生成文档](#52-%E7%94%9F%E6%88%90%E6%96%87%E6%A1%A3)
+  - [5.3. 生成简历](#53-%E7%94%9F%E6%88%90%E7%AE%80%E5%8E%86)
 - [6. demo](#6-demo)
 - [7. follow](#7-follow)
 
@@ -66,21 +66,52 @@ https://github.com/Terminus2049/Awesome-Social-Impact 社会议题
 - https://github.com/esofar/cnblogs-theme-silence 博客主题
 
 
-# 检索搜索技巧
+# 检索搜索技巧 github tips
 
 ```
-# 项目名称中包含 xxx
-in:name xxx
+The new github ui support this shortcut: 
+  press "/" enter search bar
+  press "t" to search within the project
+  "l" to pop up a goto diag window
+  "." to enter github.dev
 
-# start 数必须大于 1500, fork数必须大于 100, 语言必须为 java, 最后更新时间必须大于 九月三号
-in:name xxx starts:>1500 forks:>100 language:java pushed:>2019-09-03
 
-# 在 readme 中搜索
-in:readme xxx
+syntax 
 
-# 在 描述中搜索 (试用于用中文搜索)
-in:description xxx
+  # 项目名称中包含 xxx
+  xxx in:name
 
+  # 在 描述中搜索 (试用于用中文搜索)
+  xx in:description
+
+  in:readme xxx
+
+  star:500 
+  star:10...20 
+
+  followers:>=1000
+
+  location:beijing
+
+  # 包括分叉的库
+  fork:true
+  fork:>100
+
+  #search by topic
+  topic:java  
+
+  # email earch
+  xxx in:email
+
+  # start 数必须大于 1500, fork数必须大于 100, 语言必须为 java, 最后更新时间必须大于 九月三号
+  xxx in:name xxx starts:>1500 forks:>100 language:java pushed:>2019-09-03
+
+  awesome
+  awesome系列：一般用来学习的项目
+
+
+在项目地址前加上gitpod.io/#/前缀
+https://gitpod.io/#/github.com/…
 
 ```
 
