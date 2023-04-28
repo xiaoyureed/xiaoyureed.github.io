@@ -7,78 +7,83 @@ toc_max_heading_level: 5
 ---
 
 
-https://dockone.io/article/2434304
 
-熟练掌握 k8s ，自己搭个集群，之后学习 Kubernetes 的二次开发，CRD 与 operator 
-
-https://github.com/fanux/sealos 一键安装
-
-https://github.com/eip-work/kuboard-press 面板, 教程
-
-
-https://github.com/derailed/k9s 管理 k8s 的命令行工具
-
-https://github.com/caicloud/kube-ladder 入门指南
-https://github.com/jpetazzo/container.training
-
-https://github.com/kubernetes/kubernetes
-https://juejin.im/post/5db8c2b46fb9a020256692dc
-
-https://www.katacoda.com/courses/kubernetes/playground k8s web playground
-https://www.katacoda.com/courses/kubernetes
-
-https://blog.csdn.net/qq_19734597/article/details/108337499 命令行简写
-
-
-<!--more-->
-
+- [reference materials](#reference-materials)
 - [1. 面试问题](#1-面试问题)
 - [2. what and why](#2-what-and-why)
   - [2.1. k8s 是做什么的](#21-k8s-是做什么的)
   - [2.2. 为什么使用:](#22-为什么使用)
-- [3. Quickstart](#3-quickstart)
-- [4. 集群结构 underlying infrastructure基础设施](#4-集群结构-underlying-infrastructure基础设施)
-  - [4.1. control plane 控制平面](#41-control-plane-控制平面)
-  - [4.2. computer machines (计算节点 Node)](#42-computer-machines-计算节点-node)
-- [5. 通过 api 管理的各种资源](#5-通过-api-管理的各种资源)
-  - [5.1. 3 common properties](#51-3-common-properties)
-    - [5.1.1. metadata](#511-metadata)
-    - [5.1.2. spec](#512-spec)
-    - [5.1.3. status](#513-status)
-  - [5.2. node](#52-node)
-  - [5.3. pod](#53-pod)
-  - [5.4. label](#54-label)
-    - [5.4.1. Label selector 使用](#541-label-selector-使用)
-  - [5.5. Taint（污点）和 Toleration（容忍）](#55-taint污点和-toleration容忍)
-    - [5.5.1. taint](#551-taint)
-    - [5.5.2. toleration](#552-toleration)
-  - [5.6. controllers(各种控制器)](#56-controllers各种控制器)
-    - [5.6.1. ~~RC (replica controller 副本控制器)~~](#561-rc-replica-controller-副本控制器)
-    - [5.6.2. RS (replica set, 代替 RC)](#562-rs-replica-set-代替-rc)
-    - [5.6.3. Deployment (管理 RS)](#563-deployment-管理-rs)
-    - [5.6.4. SC (stateful set)](#564-sc-stateful-set)
-    - [5.6.5. DS (daemon set 后台支撑服务集)](#565-ds-daemon-set-后台支撑服务集)
-    - [5.6.6. job (一次性任务)](#566-job-一次性任务)
-    - [5.6.7. cronjob (定时任务)](#567-cronjob-定时任务)
-  - [5.7. service](#57-service)
-    - [5.7.1. 手动端口转发](#571-手动端口转发)
-    - [5.7.2. service 如何工作](#572-service-如何工作)
-  - [5.8. ingress](#58-ingress)
-  - [5.9. volume](#59-volume)
-  - [5.10. secret](#510-secret)
-  - [5.11. config map](#511-config-map)
-  - [5.12. flannel](#512-flannel)
-  - [5.13. name](#513-name)
-  - [5.14. name namespace](#514-name-namespace)
-- [6. 垃圾回收](#6-垃圾回收)
-  - [6.1. 级联删除](#61-级联删除)
-  - [6.2. 孤儿删除orphan](#62-孤儿删除orphan)
-- [7. 资源描述文件](#7-资源描述文件)
-  - [7.1. 通过命令生成 yml](#71-通过命令生成-yml)
-  - [7.2. pod 的  yaml 描述文件](#72-pod-的--yaml-描述文件)
-  - [7.3. deployment 的描述文件](#73-deployment-的描述文件)
-  - [7.4. service](#74-service)
-- [8. 标签](#8-标签)
+- [3. 搭建环境](#3-搭建环境)
+  - [3.1. 生产服务器上安装](#31-生产服务器上安装)
+  - [3.2. vagrant 搭建 k8s 环境](#32-vagrant-搭建-k8s-环境)
+  - [3.3. 众多的发行版](#33-众多的发行版)
+    - [3.3.1. k3s](#331-k3s)
+    - [3.3.2. k0s](#332-k0s)
+    - [3.3.3. docker desktop](#333-docker-desktop)
+    - [3.3.4. kind](#334-kind)
+    - [3.3.5. minikube](#335-minikube)
+- [4. Quickstart](#4-quickstart)
+  - [以Java 为例](#以java-为例)
+  - [4.1. 以 go 为例](#41-以-go-为例)
+    - [4.1.1. using pod directly](#411-using-pod-directly)
+    - [4.1.2. using deployment](#412-using-deployment)
+- [5. 集群结构 underlying infrastructure 基础设施](#5-集群结构-underlying-infrastructure-基础设施)
+  - [5.1. control plane 控制平面](#51-control-plane-控制平面)
+  - [5.2. computer machines (计算节点 Node)](#52-computer-machines-计算节点-node)
+- [6. 通过 api 管理的各种资源](#6-通过-api-管理的各种资源)
+  - [6.1. 各种资源的关系](#61-各种资源的关系)
+  - [6.2. 3 common properties](#62-3-common-properties)
+    - [6.2.1. metadata](#621-metadata)
+    - [6.2.2. spec](#622-spec)
+    - [6.2.3. status](#623-status)
+  - [6.3. node](#63-node)
+  - [6.4. pod](#64-pod)
+  - [6.5. label](#65-label)
+    - [6.5.1. Label selector 使用](#651-label-selector-使用)
+  - [6.6. Taint（污点）和 Toleration（容忍）](#66-taint污点和-toleration容忍)
+    - [6.6.1. taint](#661-taint)
+    - [6.6.2. toleration](#662-toleration)
+  - [6.7. controllers(各种控制器)](#67-controllers各种控制器)
+    - [6.7.1. ~~RC (replica controller 副本控制器)~~](#671-rc-replica-controller-副本控制器)
+    - [6.7.2. RS (replica set, 代替 RC)](#672-rs-replica-set-代替-rc)
+    - [6.7.3. Deployment (管理 RS)](#673-deployment-管理-rs)
+      - [6.7.3.1. scale up/back (扩容缩容)](#6731-scale-upback-扩容缩容)
+      - [6.7.3.2. version upgrade (版本升级)](#6732-version-upgrade-版本升级)
+      - [6.7.3.3. rolling update (滚动升级)](#6733-rolling-update-滚动升级)
+      - [6.7.3.4. 回滚 版本回退 查看历史](#6734-回滚-版本回退-查看历史)
+      - [6.7.3.5. livenessProbe (存活探针)](#6735-livenessprobe-存活探针)
+      - [6.7.3.6. readinessProbe (就绪探针)](#6736-readinessprobe-就绪探针)
+    - [6.7.4. SC (stateful set)](#674-sc-stateful-set)
+      - [数据持久化](#数据持久化)
+    - [6.7.5. DS (daemon set 后台支撑服务集)](#675-ds-daemon-set-后台支撑服务集)
+    - [6.7.6. job (一次性任务)](#676-job-一次性任务)
+    - [6.7.7. cronjob (定时任务)](#677-cronjob-定时任务)
+  - [6.8. service](#68-service)
+    - [6.8.1. Endpoint](#681-endpoint)
+    - [多端口](#多端口)
+    - [6.8.2. 各种 service port 类型](#682-各种-service-port-类型)
+    - [6.8.3. ClusterIP (默认使用的类型)](#683-clusterip-默认使用的类型)
+      - [Headless](#headless)
+    - [6.8.4. NodePort](#684-nodeport)
+    - [6.8.5. LoadBalancer](#685-loadbalancer)
+    - [6.8.6. ExternalName](#686-externalname)
+    - [6.8.7. 手动端口转发](#687-手动端口转发)
+    - [6.8.8. service 如何工作](#688-service-如何工作)
+  - [6.9. ingress](#69-ingress)
+  - [6.10. volume](#610-volume)
+  - [6.11. secret](#611-secret)
+  - [6.12. config map](#612-config-map)
+  - [6.13. flannel](#613-flannel)
+  - [6.14. name](#614-name)
+  - [6.15. name namespace (用来划分多环境)](#615-name-namespace-用来划分多环境)
+- [7. 垃圾回收](#7-垃圾回收)
+  - [7.1. 级联删除](#71-级联删除)
+  - [7.2. 孤儿删除 orphan](#72-孤儿删除-orphan)
+- [8. 资源描述文件](#8-资源描述文件)
+  - [8.1. 通过命令生成 yml](#81-通过命令生成-yml)
+  - [8.2. pod 的 yaml 描述文件](#82-pod-的-yaml-描述文件)
+  - [8.3. deployment 的描述文件](#83-deployment-的描述文件)
+  - [8.4. service](#84-service)
 - [9. 注解](#9-注解)
 - [10. 命名空间](#10-命名空间)
 - [11. pod 管理](#11-pod-管理)
@@ -95,32 +100,47 @@ https://blog.csdn.net/qq_19734597/article/details/108337499 命令行简写
     - [12.4.2. 通过 externalName 类型的 Service](#1242-通过-externalname-类型的-service)
   - [12.5. 将服务暴露给外部](#125-将服务暴露给外部)
     - [12.5.1. 将服务的类型设置成 NodePort](#1251-将服务的类型设置成-nodeport)
-    - [12.5.2. 将服务的类型设置成LoadBalance](#1252-将服务的类型设置成loadbalance)
-    - [12.5.3. 创建一 个Ingress资源](#1253-创建一-个ingress资源)
+    - [12.5.2. 将服务的类型设置成 LoadBalance](#1252-将服务的类型设置成-loadbalance)
+    - [12.5.3. 创建一 个 Ingress 资源](#1253-创建一-个-ingress-资源)
 - [13. 命令](#13-命令)
-  - [13.1. 安装](#131-安装)
-  - [13.2. docker desktop](#132-docker-desktop)
-  - [13.3. kind](#133-kind)
-  - [13.4. minikube](#134-minikube)
-  - [13.5. web manager dashboard ui](#135-web-manager-dashboard-ui)
-  - [13.6. 使用 kubectl](#136-使用-kubectl)
-    - [13.6.1. 基本信息](#1361-基本信息)
-    - [13.6.2. 创建 create expose](#1362-创建-create-expose)
-    - [13.6.3. 执行命令到容器 exec](#1363-执行命令到容器-exec)
-    - [13.6.4. 修改](#1364-修改)
-    - [13.6.5. 资源列表 get](#1365-资源列表-get)
-    - [13.6.6. 查询详细描述 describe](#1366-查询详细描述-describe)
-    - [13.6.7. 查询日志 logs](#1367-查询日志-logs)
-    - [13.6.8. 删除 delete](#1368-删除-delete)
-  - [13.7. kubeadmin](#137-kubeadmin)
-- [14. 可视化界面](#14-可视化界面)
-- [15. vagrant 搭建 k8s 环境](#15-vagrant-搭建-k8s-环境)
-- [16. cka ckad 证书考试](#16-cka-ckad-证书考试)
-- [17. k3s](#17-k3s)
-- [18. k0s](#18-k0s)
-- [19. rancher](#19-rancher)
-- [20. Harbor](#20-harbor)
-- [21. helm chart](#21-helm-chart)
+  - [13.1. kubectl](#131-kubectl)
+    - [13.1.1. 基本信息](#1311-基本信息)
+    - [13.1.2. 创建 create expose](#1312-创建-create-expose)
+    - [13.1.3. 执行命令到容器 exec](#1313-执行命令到容器-exec)
+    - [13.1.4. 修改](#1314-修改)
+    - [13.1.5. 资源列表 get](#1315-资源列表-get)
+    - [13.1.6. 查询详细描述 describe](#1316-查询详细描述-describe)
+    - [13.1.7. 查询日志 logs](#1317-查询日志-logs)
+    - [13.1.8. 删除 delete](#1318-删除-delete)
+  - [13.2. kubeadmin](#132-kubeadmin)
+- [14. cka ckad 证书考试](#14-cka-ckad-证书考试)
+- [15. dashboard](#15-dashboard)
+  - [15.1. k9s](#151-k9s)
+  - [kuboard](#kuboard)
+  - [15.2. kubernetes-dashboard](#152-kubernetes-dashboard)
+  - [15.3. kubesphere (推荐)](#153-kubesphere-推荐)
+  - [15.4. rancher](#154-rancher)
+- [16. Harbor](#16-harbor)
+- [17. Helm](#17-helm)
+  - [17.1. How to create helm chart](#171-how-to-create-helm-chart)
+  - [17.2. helm chart 的打包发布](#172-helm-chart-的打包发布)
+    - [17.2.1. 手动打包发布](#1721-手动打包发布)
+    - [17.2.2. 利用 github action 自动打包发布](#1722-利用-github-action-自动打包发布)
+  - [17.3. 基本使用](#173-基本使用)
+  - [17.4. rollback](#174-rollback)
+  - [17.5. 多环境](#175-多环境)
+
+## reference materials
+
+
+https://www.bilibili.com/video/BV1Ja4y1x748 视频教程
+
+
+
+https://github.com/caicloud/kube-ladder
+
+https://github.com/jpetazzo/container.training
+
 
 
 ## 1. 面试问题
@@ -129,30 +149,18 @@ https://blog.csdn.net/qq_19734597/article/details/108337499 命令行简写
 
 - 如果在单个容器中运行多个不相关的进程， 那么保持所有进程运行(如失败重启)、 管理它们的日志会困难(日志会混在一起)。
 
-
-
-
 为什么要将一个 app 的 前端服务器 和 后端服务器 分为 两个 pod 部署?
 
 - 造成计算资源浪费: 如果部署到同一个 pod, 那么对于 双节点 k8s, 将总是只能利用一个节点
 
 - 扩缩容不便: k8s 扩容基本单位就是 pod, 前后端若部署到同个 pod, 会造成扩缩容粒度太大. 而且对于 数据库服务器, 扩缩容无法这样简单处理
 
-
-
-
 如何决定是否将多个 container 划分到一个 pod?
 
 - 扩缩容是否能够一起进行
 - 是否可以在同个主机运行
 
-11年运维工作经验，现从事腾讯工业互联网运维工作；
-DevOps运维工程师，开源爱好者；
-3年+Kubernetes平台经验，对Kubernetes生态有自己的认识；
-掌握Jenkins+Gitlab+Helm持续集成/持续交付工具链；
-对消息队列，缓存等中间件，软件架构体系有一定的了解；
-熟练掌握shell编程，熟悉Python,Go语言；
-TODO
+11 年运维工作经验，现从事腾讯工业互联网运维工作； DevOps 运维工程师，开源爱好者； 3 年+Kubernetes 平台经验，对 Kubernetes 生态有自己的认识；掌握 Jenkins+Gitlab+Helm 持续集成/持续交付工具链；对消息队列，缓存等中间件，软件架构体系有一定的了解；熟练掌握 shell 编程，熟悉 Python,Go 语言； TODO
 
 ## 2. what and why
 
@@ -160,1476 +168,39 @@ TODO
 
 抽象了数据中心的硬件基础设施，对外暴露统一的接口，具体包括
 
-- 调度:  k8s 自动决定组件部署到具体的哪一台 服务器节点。
+- 调度: k8s 自动决定组件部署到具体的哪一台 服务器节点。
 - 自动修复: 自动检查节点的健康状态, 吧程序迁移到健康的节点上
-- 水平伸缩:  自动检测业务的负载情况, 如果 CPU 负载太高, 或者相应时间太长, 会自动进行扩容
+- 水平伸缩: 自动检测业务的负载情况, 如果 CPU 负载太高, 或者相应时间太长, 会自动进行扩容
 
 只需要告诉 k8s 要做什么 (比如保持某个 pod 有三个副本), 而不必告诉它怎么做, 就像 sql 只告诉 数据库要查询那些数据, 而没有告诉数据库怎么查数据
 
+### 2.2. 为什么使用:
 
-
-### 2.2. 为什么使用: 
-
-当 container 太多, 需要管理, 单机情况下, 还能依靠 docker-compose 这些工具, 当有很多机器时, 就必须通过 k8s 来将 容器合理地分配到这些机器中去 
+当 container 太多, 需要管理, 单机情况下, 还能依靠 docker-compose 这些工具, 当有很多机器时, 就必须通过 k8s 来将 容器合理地分配到这些机器中去
 
 - 服务发现和负载均衡
 - 自动部署 and 回滚
 - 替换失败容器 (自我修复)
 
-## 3. Quickstart
+## 3. 搭建环境
 
-```yml
-# nginx.yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: nginx-pod
-spec:
-  containers:
-    - name: nginx-container
-      image: nginx
+### 3.1. 生产服务器上安装
 
-```
+https://github.com/fanux/sealos 一键安装
 
-apply the yml to create nginx pod
 
-```sh
-kubectl apply -f nginx.yaml
+### 3.2. vagrant 搭建 k8s 环境
 
-# Wait for about 1min, 
-# so that the resources can be created
-
-# check
-kubectl get pods
-
-# post forwarding
-kubectl port-forward nginx-pod 4000:80
-
-# enter the container in the pod
-kubectl exec -it nginx-pod -- /bin/bash
-
-echo "hello kubernetes by nginx!" > /usr/share/nginx/html/index.html
-
-# visit localhost:4000
-
-```
-
-## 4. 集群结构 underlying infrastructure基础设施
-
-![k8s design](/img/k8s_design.png)
-
-![k8s design1](/img/k8s_design1.png)
-
-### 4.1. control plane 控制平面
-
-Also known as "master" node, designed to manage the hole cluster to make it work properly
-
-Consists of these part:
-
-- api server
-  - Provide the api interface to interactive with the developer. 
-  - Also, offer the authentication, authorization
-
-- etcd
-  - distributed data storage; used to store the cluster status
-
-- scheduler
-  - 调度， 决定哪个 pod 部署到哪个节点;
-  - 监视那些新创建的未指定运行节点的 Pod，并选择节点让 Pod 在上面运行
-
-- controller manager
-  - 整个集群的管家，用来管理资源对象: 如 复制节点， 持续跟踪工作节点
-
-    - node controller 在节点出现故障时进行通知和响应
-    - Replication Controller 维护正确数量的 Pod
-    - Endpoints Controller填充端点(Endpoints)对象(即加入 Service 与 Pod)
-
-Minikube 管理的是单节点 k8s， master node， 和 worker node 都在一台物理主机上
-
-
-### 4.2. computer machines (计算节点 Node)
-
-Also known as Node, designed to run the real application
-
-是所有 Pod 运行所在的工作主机，可以是物理机也可以是虚拟机
-
-包含这些组件    
-
-- kubelet: 和 master 节点的 api server 通信, 以管理所在的 节点/机器上的 pod (创建、修改、监控、删除)
-
-    相当于节点的代理, 和 master 节点交互
-
-- kube-proxy: 负责一组 pods 的负载均衡
-  
-    是 K8s 集群内部的负载均衡器。它是一个分布式代理服务器, 在 K8s 的每个节点上都有一个；这一设计体现了它的伸缩性优势，需要访问服务的节点越多，提供负载均衡能力的 Kube-proxy 就越多，高可用节点也随之增多。与之相比，我们平时在服务器端做个反向代理做负载均衡，还要进一步解决反向代理的负载均衡和高可用问题。
-
-- Fluentd，主要负责日志收集、存储与查询
-
-- container runtime engine (需要符合oci标准的运行时, 如docker, rkt, CRI-O):  负责创建容器
-
-## 5. 通过 api 管理的各种资源
-
-即各种 api object, 
-
-像 pod, rc, rs, deployment 都属于 api object
-
-### 5.1. 3 common properties
-
-#### 5.1.1. metadata
-
-metadata (contains 3 factors at least):
-
-- namespace 命名空间为 Kubernetes 集群提供虚拟的隔离作用
-
-  Kubernetes 集群初始有两个命名空间，分别是默认命名空间 default 和系统命名空间 kube-system
-
-- name
-
-- uid
-
-used to identify api obj
-
-#### 5.1.2. spec
-
-used to declare the configuration that we want
-  
-#### 5.1.3. status
-
-
-### 5.2. node
-
-是K8S的集群工作节点，可以是物理机也可以是虚拟机；
-
-```sh
-# check node info
-kubectl describe node <NODENAME>
-
-# 禁止Pod调度到该节点上
-kubectl corndon NODENAME
-
-# 驱逐该节点上的所有 Pod
-kubectl drain NODENAME
-
-```
-
-### 5.3. pod
-
-由 一个或多个相互关联的 container 组成, 这些 container 共享网络地址和文件系统, 是 k8s 管理的基本单位, 代表着集群中的一个虚拟主机
-
-一个pod 只可能存在于一个 worker node 机器上, 不可跨节点
-
-一个 pod 内的所有容器共享相同的 Linux network 命名空间. 这样每个 pod 就像一台独立的 主机, 有自己的 ip (集群内部地址), 主机名, 端口 (pod 中的 containers 共享 该 ip 以及 端口空间, 具有相同的 loopback 网络接口,可使用 localhost相互通信). 
-
-(可以和 docker-compose 启动的多个 container 类比)
-
-### 5.4. label
-
-label是资源上的标识，用来对它们进行区分和选择, 
-
-通常在资源对象确定时定义，也可以在资源创建后动态添加或删除；
-
-一个label会以kv形式附加到各种对象上(node, pod, service ...)
-
-常用label:
-
-```
-版本标签：“version”:“release”,
-环境标签："environment": "dev", "environment": "qa", "environment": "production"
-架构标签："tier": "frontend" ,"tier": "backend","tier": "cache"
-```
-
-#### 5.4.1. Label selector 使用
-
-
-
-### 5.5. Taint（污点）和 Toleration（容忍）
-
-可以作用于 node 和 pod 上, 用于控制和优化pod 在 node上的调度
-
-具有 taint 的 node 和 pod 是互斥关系，而具有节点亲和性 (toleration) 关系的 node 和 pod 是相吸的
-
-> Taint 和 toleration 相互配合，可以用来避免 pod 被分配到不合适的节点上。每个节点上都可以应用一个或多个 taint ，这表示对于那些不能容忍这些 taint 的 pod，是不会被该节点接受的。如果将 toleration 应用于 pod 上，则表示这些 pod 可以（但不要求）被调度到具有相应 taint 的节点上。
->
-> 另外还有可以给 node 设置 label，通过给 pod 设置 nodeSelector 将 pod 调度到具有匹配标签的节点上。
-
-#### 5.5.1. taint
-
-作用在 node 上.
-
-Node被设置上污点之后，就和Pod之间存在了一种相斥的关系，进而拒绝Pod调度过来，甚至可以将已存在的Pod驱逐出去；
-
-```
-
-污点格式：key=value:effect，key和value是污点的标签，effect描述污点的作用，支持如下三个选项：
-
-- PreferNoSchedule: k8s尽量不把pod调度到该污点Node上，除非没有其他节点可调度；
-
-- NoSchedule: k8s将不会把Pod调度到该污点Node上，已存在的Pod将继续运行；
-
-- NoExecute：k8s将不会把Pod调度到具有该污点的Node上，同时也会将Node上已存在的Pod驱逐；
-```
-
-使用语法:
-
-```sh
-# 设置污点
-kubectl taint nodes <node name> <key>=<value>:<effect>
-# 去除污点
-kubectl taint nodes node1 <key>:<effect>-
-# 去除所有污点
-kubectl taint nodes node1 <key>-
-
-# 例如：
-# 为node1设置污点
-kubectl taint nodes node1 tag=test:PreferNoSchedule
-# 为node1取消污点
-kubectl taint nodes node1 tag:PreferNoSchedule-
-# 为node1删除去除污点
-kubectl taint nodes node1 tag-
-# 查看node1 污点
-kubectl describe node node1
-```
-
-#### 5.5.2. toleration
-
-作用在 pod 上
-
-若将pod调度到一个有污点的node上去，需要用到容忍; Node通过污点拒绝pod调度上去，pod通过容忍忽略拒绝；
-
-
-
-### 5.6. controllers(各种控制器) 
-
-pod 控制器, 部署/管理 pods
-
-
-
-#### 5.6.1. ~~RC (replica controller 副本控制器)~~
-
-**outdated**
-
-保证 Pod 高可用的 API 对象； 创建/复制  pod 实例, 确保 pod 副本数量 (it kill the pod or start pod to ensure that the pod number consit with the configuration)
-
-Best practice: remember that always start pod by using RC
-
-`kubectl run ...` 会创建一个 rc， 然后 rc 创建 pod （所以删除这样的 pod， 需要先删除 rc）
-
-工作流程：寻找 符合 label selector 的pod， 比较找到的 pod 和期望数量， 少了就从当前模板创建新的 pod 副本 ， 多了， 就删除多的 pod
-
-三个部分：
-
-- label selector： 用于确定ReplicationController作用域中有哪些 pod
-
-- replica count (副本个数）， 指定应运行的pod 数量
-
-- pod template (pod模板）， 用于创建新的pod 副本
-
-
-在新版的 K8s 中，建议使用 ReplicaSet 作为副本控制器，ReplicationController 不再使用了
-
-
-#### 5.6.2. RS (replica set, 代替 RC)
-
-副本集
-
-副本集对象一般不单独使用，而是用 Deployment 来管理。
-
-> RC 和 RS 主要是控制提供无状态服务的，其所控制的 Pod 的名字是随机设置的，一个 Pod 出故障了就被丢弃掉，在另一个地方重启一个新的 Pod，名字变了。名字和启动在哪儿都不重要，重要的只是 Pod 总数；
-> 
-> 对于 RC 和 RS 中的 Pod，一般不挂载存储或者挂载共享存储，保存的是所有 Pod 共享的状态
-
-#### 5.6.3. Deployment (管理 RS)
-
-表示用户对 Kubernetes 集群的一次更新操作。可以是创建一个新的服务，更新一个新的服务，也可以是滚动升级一个服务
-
-> 滚动升级一个服务，实际是创建一个新的 RS，然后逐渐将新 RS 中副本数增加到理想状态，将旧 RS 中的副本数减小到 0 的复合操作
-
-比 replica set 使用范围更广, 一般使用 deployment 来管理 replica set
-
-#### 5.6.4. SC (stateful set)
-
-有状态应用部署 (如 MySQL, ZooKeeper、etcd )
-
-StatefulSet 中的每个 Pod 的名字都是事先确定的，不能更改
-
-StatefulSet 中的 Pod，每个 Pod 挂载自己独立指定的存储，
-
-> 如果一个 Pod 出现故障，从其他节点启动一个同样名字的 Pod，要挂载上原来 Pod 的存储继续以它的状态提供服务
->
-> 使用 StatefulSet，Pod 仍然可以通过漂移到不同节点提供高可用，而存储也可以通过外挂的存储来提供高可靠性，StatefulSet 做的只是将确定的 Pod 与确定的存储关联起来保证状态的连续性。
-
-#### 5.6.5. DS (daemon set 后台支撑服务集)
-
-确保每个 working node 都运行一个指定 pod (working node 可能是所有集群节点也可能是通过 nodeSelector 选定的一些特定节点)
-
-> 这个 pod 可能是用来专门支撑业务系统运行的基础服务, 如日志, 监控
-
-#### 5.6.6. job (一次性任务)
-
-Job 管理的 Pod 根据用户的设置把任务成功完成就自动退出了
-
-> 成功完成的标志根据不同的 spec.completions 策略而不同：
->   - 单 Pod 型任务有一个 Pod 成功就标志完成；
->   - 定数成功型任务保证有 N 个任务全部成功；
->   - 工作队列型任务根据应用确认的全局成功而标志成功。
-
-#### 5.6.7. cronjob (定时任务)
-
-
-
-
-### 5.7. service
-
-暴露集群内部的一组 pods 的外部访问接口的固定地址(服务发现, 负载均衡).
-
-每个 Service 会对应一个集群内部有效的虚拟 IP，集群内部通过虚拟 IP 访问一个服务
-
-> RC、RS 和 Deployment 只是保证了支撑服务的微服务 Pod 的数量，但是没有解决如何访问这些服务的问题。一个 Pod 只是一个运行服务的实例，随时可能在一个节点上停止，在另一个节点以一个新的 IP 启动一个新的 Pod，因此不能以确定的 IP 和端口号提供服务。要稳定地提供服务需要服务发现和负载均衡能力。
->
-> 在 K8 集群中，客户端需要访问的服务就是 Service 对象, 类似 网关的角色, 通过某个 service, 可访问一组提供相同服务的 pods
-
-#### 5.7.1. 手动端口转发
-
-另一个方法是： 端口转发 `kubectl port-forward`, 用于临时调试
-
-#### 5.7.2. service 如何工作
-
-Pod通过 label 键值对与Service 上的 label selector相关联。Service会自动发现带有与选择器匹配的标签的新Pod。
-
-### 5.8. ingress
-
-https://mritd.com/2017/03/04/how-to-use-nginx-ingress/
-
-用来路由多个 service, 相当于 nginx, 常用的实现是 ingress-nginx
-
-原理: Ingress Contronler 通过与 Kubernetes API 交互，动态的去感知集群中 Ingress 规则变化，然后读取它，按照自定义的规则，规则就是写明了哪个域名对应哪个service，生成一段 Nginx 配置，再写到 Nginx-ingress-control的 Pod 里，这个 Ingress Contronler 的pod里面运行着一个nginx服务，控制器会把生成的nginx配置写入/etc/nginx.conf文件中，然后 reload 一下 使用配置生效。以此来达到域名分配置及动态更新的问题。
-
-### 5.9. volume
-
-即在 pod 中可访问的文件目录
-
-每个 Pod 中声明的存储卷由 Pod 中的所有容器共享
-
-> 可被挂载到 pod 中的一个/多个 container 的指定路径 下
-
-
-
-### 5.10. secret
-
-Secret 是用来保存和传递密码
-
-> 好处是可以避免把敏感信息明文写在配置文件里
-
-### 5.11. config map
-
-
-
-### 5.12. flannel
-
-是CoreOS团队针对Kubernetes设计的一个网络规划服务, 简单来说, 它的功能是让集群中的不同节点主机创建的Docker容器都具有全集群唯一的虚拟IP地址, 让属于不同节点上的容器能够直接通过内网IP通信
-
-
-### 5.13. name
-
-由于K8S内部,使用“资源”来定义每一种逻辑概念(功能)故每种"资源”, 都应该有自己的"名称”
-
-"资源”有api版本( apiVersion )类别( kind )、元数据( metadata)、定义清单( spec)、状态( status )等配置信息
-
-"名称”通常定义在"资源”的"元数据”信息里
-
-
-### 5.14. name namespace
-
-可以使用namespace划分出多个“虚拟集群”，这些ns之间可以完全隔离，也可以跨ns，让一个ns中的service访问到其他ns的服务
-
-namespace: isolate all all kinds of resources. resources of the same kind cannot have the same name in the same namespace
-
-default init namespece: default, kube-system, kube-public
-
-## 6. 垃圾回收
-
-### 6.1. 级联删除
-
-所有者删除，从属对象也被删除；
-
-分为前台级联删除Foreground和后台级联删除Background模式；
-
-- Foreground前台级联删除：所有从属对象删除完毕后删除所有者对象；当所有者删除时会进入“正在删除”状态，仍可以通过RestApi查询到当前对象；
-
-- Background后台级联删除： 立即删除所有者的对象，并由垃圾回收器在后台删除其从属对象 ； 不用等待删除从属对象的时间；
-
-### 6.2. 孤儿删除orphan
-
-所有者删除，从属对象变成孤儿
-
-> 直接删除所有者对象，并将从属对象中的 ownerReference 元数据设置为默认值。之后垃圾回收器会确定孤儿对象并将其删除；
-
-## 7. 资源描述文件
-
-### 7.1. 通过命令生成 yml
-
-```sh
-kubectl create deployment tomcat6 --image=tomcat:6.0.53-jre8 --dry-run -o yaml > tomcat6.yml
-
-kubectl apply -f xxx.yaml
-
-
-```
-
-### 7.2. pod 的  yaml 描述文件
-
-```yml
-apiVersion : v1 #(k8s api server version)
-# Deployment、Job、Ingress、Service
-kind: Pod #(对象类型)
-metadata: #包括名称、命名空间、标签和关于该容器的其他信息
-    name: kubia-manual
-    # optional, default ns: default
-    namespace: xxx
-    # optional
-    labels:
-        xxx_key: xxx
-        yyy_key: yyy
-# 包括一些container，storage，volume, 探针...
-spec: 
-    containers:
-    - image: xxx
-      name: xxx
-      ports:
-      - containerPost: 8080 # 容器会监听的端口, 仅仅是展示, 没有 指定作用
-        protocal: TCP
-    resources:
-        requests:
-            cpu: 100m
-            memory: 100Mi
-    # 存活探针， 用于 pod
-    # 在生产中 运行的pod, 一定 要定义 一 个存 活探针
-#   optional
-    livenessProbe:
-    httpGet:
-        path: /
-        port: 8080
-    # 如果没有设置初始延迟，探针将在启动时立即开始探测容器， 这通常会导致探测失败， 因为应用程序还没准备好开始接收请求。 如果失败次数超过阅值，在应用程序能正确响应请求之前， 容器就会重启。
-    initialDelaySeconds: 15 # 在第一次探测前， 等待 15s
-    [delay: 0] # 示在容器启动后立即开始探测。
-    [timeout: 1] # 容器必须在1秒内进行响应， 不然这次探测记作失败
-    [period: 10] # 每10秒探测一次容器
-    [failure: 3] # 探测连续三次失败(#fa辽ure= 3)后重启容器
-            
-status: #包含运行中的 po 的当前信息，例如 po 所处的条件 每个容器的描述和状态，以及内部 IP 和其他基本信息
-
-```
-
-### 7.3. deployment 的描述文件
-
-```yml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-deployment
-spec:
-  ## optional
-  nodeSelector:
-    gpu: "true" #使用 标签选择器使得 pod 只被调度到符合要求的 worker node 
-  # optional
-  # select pods that will be affected by this deployment
-  # have to match labels that specified in template.metadata.labels
-  selector:
-    matchLabels:
-      app: nginx
-  # optional
-  replicas: 2 # tells deployment to run 2 pods matching the template
-  # define pods
-  template:
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:alpine
-        ports:
-        - containerPort: 80
-
-```
-
-### 7.4. service
-
-```yml
-apiVersion: v1
-kind: Service
-metadata:
-    name: nginx-service
-spec:
-    type: LoadBalancer
-    ports:
-    - name: nginx
-      port: 80
-      targetPort: 80
-    selector:
-        app: nginx
-```
-
-## 8. 标签
-
-标签 (label)：标签是可以附加到资源 (pod, node ...) 的任意键值对. 用来对 资源进行 分类管理
-
-标签选择器：可以选出符合要求的 pod 子集
-
-- 包含/不包含 特定 key 的 资源
-- 包含特定 key， value 的 资源
-- 包含 特定 key， 且 value 和指定的不同的资源
-
-## 9. 注解
-
-注解: TODO
-
-
-## 10. 命名空间
-
-K8S namespace: 为 对象资源提供了一个作用域, 在不同的 作用域中可以使用相同的资源名， 但这相同的资源名代表了不同的资源。 类比 java package
-
-- 通过 label 对 pod 进行分组, 每个 组 可能有 pod 重叠, 通过 k8s namespace 分组可以完全避免重叠
-
-- ns 只隔离资源， 不隔离运行的对象 （资源实例）， 如 不同ns 中的 pod 仍然可通信
-
-- 适用于多用户 使用 k8s， 限制某个用户的资源使用量
-
-从 ymal 文件创建 ns：
-
-```yml
-apiVersion: vl
-kind : Namespace
-metadata:
-    name: custome-ns
-```
-
-`kubectl create -f custom-ns.yaml`
-
-通过命令创建ns： `kubectl create namespace custom-namespace`
-
-切换 ns： `kubectl config set-context $(kubectl config current-context) --namespace <other ns>`
-
-## 11. pod 管理
-
-### 11.1. 探测 pod 是否健康
-
-k8s 会保持 pod 始终正常运行， 如果容器的主进程崩溃， Kubelet 将重启容器。 当容器被强行终止时，会创建一个全新的容器—-而不是重启原来的容器
-
-但是 进程没有崩溃， 有时应用程序也会停止正常工作。 例如， 具有内存泄漏的 Java 应用程序将开始抛出 OutOfMemoryErrors, 但 JVM 进程会一直运行
-
-- 方法1: 从 app 内部自己检测, 可以在应用中捕获这类错误， 并在错误发生时退出该进程。
-
-    存在问题: 应用因为无限循环或死锁而停止响应, 这个方法就无效了
-
-- 方法2: 须从外部检查应用程序的运行状况
-
-    - 存活探针 (liveness probe) - 检查容器是否还在运行
-
-        - HTTP GET 探针, 返回 2xx, 3xx 则代表正常, 不重启
-
-        - TCP套接字探针, 和 pod 正常建立 链接, 正常, 不重启
-
-        - Exec探针 , 进入 pod 某个 container, 执行任意命令, 并检查命令的退出状态码。如果状态码是 0, 则探测成功
-
-```yml
-apiVersion: vl
-kind : Pod
-metadata:
-    name: custome-pod
-spec:
-    containers:
-        - image: xxx
-          name: xxx
-          livenessProbe:
-            httpGet:
-                path: /
-                port: 8080
-```
-
-### 11.2. pod 副本
-
-ReplicationController 是一种Kubernetes资源，负责创建和管理 pod 副本
-
-被 ReplicationController 创建的 pod 为 “托管 pod”， 直接创建的 pod 为 “非托管 pod”。托管 pod 异常退出 （如 worker node 崩溃， 或 该 pod 崩溃）后， ReplicationController 会 创建新的 pod 代替
-
-```yml
-apiVersion: vl
-kind: Replicationcontroller
-metadata:
-    name: kubia
-spec:
-    replicas: 3
-    # 定义ReplicationController时不要指定 选择器，让Kubemetes从pod模板中提取它。这样YAML更简短。
-    # rc 创建后， label selector 不会再更改
-    # 一般创建后会更改 template
-    [selector:
-        app: kubia]
-    # 创建新 pod 所用的 模板
-    template:
-        metadata:
-            # 这里的 标签必须和 前面的 标签选择器 匹配， 否则将无休止地创建新的容器
-            labels:
-                app: kubia
-            spec:
-                containers:
-                    - name: kubia
-                      image: luksa/kubia
-                      ports:
-                        - containerPort: 8080
-
-
-```
-
-kubectl create -f kubia-rc.yaml
-
-rc 创建后，由于没有任何pod有app=kubia标签， ReplicationController会根据pod模板启动三个新的pod
-
-由ReplicationController创建的pod并不是绑定到ReplicationController。 在任何时刻， ReplicationController管理与标签选择器匹配的pod。 通 过更改pod的标签， 可以将它 从ReplicationController的作用域中添加或删除 
-
-尽管一个 pod 没有绑定到一个 ReplicationController ，但 pod 在 metadata.ownerReferences 中引用它 以轻松使用它 来找到一 pod 的 Replication controller
-
-升级 pod 可以这么做：编辑 rc 的template 后， 删除 所有要升级的 pod， rc 会自动创建升级后的 pod
-
-================水平缩扩容：
-
-方法1：`kubectl scale re kubia --replicas=3 ` 
-
-方法2：`kubectl edit re kubia` 更新 `spec.replicas` 值
-
-
-======================新的替代者 ReplicaSet
-
-ReplicaSet：ReplicaSet 的行为与ReplicationController 完全相同， 但标签选择器的表达能力更强。
-
-- 单个 rc 无法将 pod 与 （ label env=prod 和 env=dev ） 同时匹配，它只能匹配带有 env=devel 标签的 pod 或带有env=dev 标签的 pod
-- rs 可以仅仅根据 是否有 label key 存在 来匹配
-
-```yml
-apiVersion: apps/v1beta2
-kind: ReplicaSet
-metadata:
-    name: kubia
-spec:
-    replicas: 3
-    selector:
-        # 指定了多个表达式，则所有这些表达式都必须为true才能使选择器与
-        # pod匹配。如果同时指定matchLabels和matchExpressions, 则所有标签都
-        # 必须匹配，并且所有表达式必须计算为true以使该pod与选择器匹配
-        [matchLabels:
-            hah: hoo]
-        matchExpressions:
-            - key: hah # 要求 pod 包含 key 为 hah 的 label
-              # 要求 label 值为 hoo
-              # operator 可选 In (label 值需要匹配 value 中的一个), NotIn （label 值需要不在 values 中），Exists （label 必须有指定 key，不指定 values）
-              # DoesNotExist （pod不得包含有指定名称的标签。values属性不得指定）
-              operator: In 
-              values: 
-                - hoo
-    # 创建新 pod 所用的 模板
-    template:
-        metadata:
-            # 这里的 标签必须和 前面的 标签选择器 匹配， 否则将无休止地创建新的容器
-            labels:
-                hah: hoo
-            spec:
-                containers:
-                    - name: kubia
-                      image: luksa/kubia
-                      ports:
-                        - containerPort: 8080
-
-
-```
-
-================ DaemonSet 在每个 worker node 上部署一个 pod 
-
-用来运行系统服务，如 kube-proxy
-
-DaemonSet 管理下的 pod 不是随机分布在 worker node 上， 而是保证 每个 node 只存在一个 pod。 
-
-若 node 下线， DaemonSet 不会在其他地方创建新的 pod， 但是当某个 node  的 pod 被意外删除，会重新创建新的 pod 代替
-
-但是 当新的 node 添加进 集群， DaemonSet 会立即部署一个新 pod 到这个 node。
-
-通过 `spec.nodeSelector` (节点选择器，原理是给 node 打标签) 只在特定 node 部署 pod
-
-======================= Deployment ======= 更加方便的管理 Replica Set
-
-Deployment 额外的特性：
-
-- 事件，状态查看：可以查看Deployment的升级详细进度和状态
-- 回滚：当升级pod镜像或者相关参数的时候发现问题，可以使用回滚操作回滚到上一个稳定的版本或者指定的版本
-- 版本记录: 每一次对Deployment的操作，都能保存下来，给予后续可能的回滚使用
-- 暂停和启动：对于每一次升级，都能够随时暂停和启动
-- 多种升级方案：
-
-    Recreate：删除所有已存在的pod,重新创建新的; 
-
-    RollingUpdate：滚动升级，逐步替换的策略，同时滚动升级时，支持更多的附加参数，例如设置最大不可用pod数量，最小升级间隔时间等等。
-
-================= HPA 弹性伸缩 根据资源的使用情况自动缩扩容
-
-### 11.3. 运行单个任务 Job
-
-到目前为止， 我们只谈论了需要持续运行的 pod， 这些 pod 由 rc， rs， ds 管理。 你会遇到只想运行完成工作后就终止任务的清况， 这种 pod 由 Job 管理
-
-该 pod 在内部进程成功结束时， 不重启容器。一旦任务完成， pod 就被认为处千完成状态
-
-```yml
-apiVersion: batch/v1
-kind: Job
-metadata:
-    name: ba七ch-job
-spec:
-    [completions: 5] # 顺序运行 5 个 pod
-    [parallelism: 2] # 最多可以 2 个 pod 并行运行
-    [activeDeadlineSeconds: 120] # job 超时时间，若 pod 超时还没结束，系统将终止 pod， 标记 job 为失败
-    [backOffLimit: 6] # job 标记为失败前的重试次数， 默认 6
-    template:
-        metadata:
-            # Job 的 pod 选择器 将自动根据这里的 labels 创建
-            labels:
-                app: batch-job
-        spec:
-            # 重启策略， 指定 容器中进程结束后， k8s 做什么
-            # 不能是 默认的 Always
-            # 这里 Never 亦可
-            restartPolicy: OnFailure
-            containers:
-                - name: main
-                  image: luksa/batch-job
-
-```
-
-### 11.4. 定时任务 CronJob
-
-TODO
-
-## 12. pod 通信 
-
-### 12.1. proxy
-
-
-### 12.2. Service 
-
-pods 有自己的内部地址, 但是无法从 cluster 外部访问, 通过 service 可以暴露到 cluster 外部
-
-service 是一个逻辑结构, 定义一系列 pods, 以及他们的访问策略(通过类型指定)
-
-- ClusterIP (default): 只能在 cluster 内部访问到 service
-- NodePort: 外部可以使用 `<NodeIP>:<NodePort>` 访问 service
-- LoadBalancer: 给 service 分配一个静态 ip, 可以负载均衡多个 pods
-- ExternalName: 通过随机名字访问 service (可通过 externalName 在配置中指定). This type requires v1.7 or higher of kube-dns.
-
-a default service named kubernetes will be created with type ClusterIP
-
-
-
-可以定义配置文件, 指定标签选择器, 选择包含哪些 pods
-
-```sh
-
-```
-
-### 12.3. pod 间通信 
-
-Service
-
-作用：
-
-- 服务的主要目标就是使集群内部的其他pod可以访问当前这组pod
-- 对外暴露服务
-
-如何创建？
-
-方式1：`kubectl expose rc kubia --type=LoadBalancer --name kubia-http`
-
-方式2：通过 `kubectl create -f xxx-service.yml`
-
-```yml
-apiVersion: vl
-kind: Service
-metadata:
-    name: kubia
-spec:
-    # 配置会话亲和性
-    # 特定客户端产生的所有请求每次都指向同 一个 pod
-    # 还可选 None， 默认值。不支持 cookie
-    [sessionAffinity: ClientIP]
-    ports:
-      - port: 80 # service 的可用端口
-        # 可以引用 Pod 中 的 port name
-        targetPort: 8080 # service将链接转发到 容器的端口
-        # 不是必须， 多端口映射必须
-        [name: xxx]
-    selector:
-        app: kubia
-```
-
-多端口映射
-
-```yml
-apiVersion: vl
-kind: Service
-metadata:
-    name: kubia
-spec:
-    # 配置会话亲和性
-    # 特定客户端产生的所有请求每次都指向同 一个 pod
-    # 还可选 None， 默认值。不支持 cookie
-    [sessionAffinity: ClientIP]
-    ports:
-      - port: 80 # service 的可用端口
-        targetPort: 8080 # service将链接转发到 容器的端口
-        name: xxx
-      - port: 443
-        targetPort: 8443
-        name: yyy
-    selector:
-        app: kubia
-```
-
-如何发现 service
-
-- 通过环境变量发现服务
-
-    每个 pod 内会有环境变量表示 Service ip （`<pod name>_SERVICE_HOST`）， port (`<pod name>_SERVICE_PORT`)
-
-- 通过  dns
-
-    kube-system ns 中有个 pod 为 kube-dns，就是 dns server。在集群 中的其他 pod 都被配置成使用其作为 dns ( Kubemetes 通过修改容器的 /etc/resolv.conf 实现）。运行在 pod 上的进程 DNS 查询都会被 Kubemetes 自身的 DNS 务器响应
-
-    pod 是否使用内部的 DNS 服务器是根据 pod 的 spec.dnsPolicy 属性来决定的
-
-- 通过 FQDN （全限定域名） 连接服务
-
-    `curl http://kubia.default.svc.cluster.local `
-
-### 12.4. 通过 Service 连接外部服务
-
-pod  如何访问 k8s 外部 服务？
-
-#### 12.4.1. 通过手动生成 endpoint
-
-Service 和 pod 中间不是直接相连， 而是插着 Endpoint，就是一个 ip:port 列表，在创建 Service 时 根据 该服务的 label selector 产生
-
-如果 Service 没有指定 pod selector， 就不会自动生成 endpoints，需要手动生成，这时可以指定地址为任意 外部的 ip：
-
-demo-service.yml:
-
-```yml
-apiVersion: vl
-kind: Service
-metadata:
-    name: demo-service
-spec:
-    # 没有配置 selector
-
-    # 将接收端口80上的传入连接
-    ports:
-      - port: 80
-```
-
-demo-service-endpoints.yml
-
-```yml
-apiVersion: vl
-kind: Endpoints
-metadata:
-    # Endpoint的名称必须和 service 的名称相同
-    name: demo-service
-subsets:
-    # Service将把请求重定向到 下面的 地址
-    - addresses:
-        - ip: 11. 11. 11. 11
-        - ip: 22.22.22.22
-      ports:
-        - port: 80
-```
-
-如果稍后决定将 外部服务迁移到Kubemetes 中运行的pod, 可以为服务添加选择器，从而对Endpoint进行自动管理
-
-#### 12.4.2. 通过 externalName 类型的 Service
-
-另外的方式来访问外部服务：创建ExtemalName类型的 Service
-
-```yml
-apiVersion: vl
-kind: Service
-metadata:
-    name: external-service
-spec:
-    # 默认为 ClusterIP，只能 pod 间通信
-    # 还有很多种 type
-    type: ExternalName
-    externalName: someapi.somecompany.com
-    ports:
-      - port: 80
-```
-
-然后在 pod 中通过 `external-service[.default.svc.cluster.local]` 访问  someapi.somecompany.com
-
-在以后如果将其指向不同的服务，只需简单地修改 externalName 属性，或者将类型重新变回 ClusterIP 并为服务创建 Endpoint
-
-### 12.5. 将服务暴露给外部
-
-#### 12.5.1. 将服务的类型设置成 NodePort
-
-每个集群节点都会在节点上打开一个端口(端口号相同)。并将传入的连接转发给 pod
-
-```yml
-apiVersion: vl
-kind: Service
-metadata:
-    name: kubia-nodeport
-spec:
-    type: NodePort
-    ports:
-      - port: 80
-        targetPort: 8080
-        # 通过 集群任意节点的 30123 端口可以访问 这个 service
-        # 如果不指定，Kubernetes将选择一个随机端口
-        nodePort: 30123
-    selector:
-        app: kubia
-```
-
-worker node ip 如何获取：`kubectl get nodes -o jsonpath='...'`
-
-#### 12.5.2. 将服务的类型设置成LoadBalance
-
-NodePort类型的一 种扩展, 在 client 和 worker node 间 放了一个 LoadBalancer， 防止节点单点故障
-
-负载均衡器拥有自己独一无二的可公开访问的 IP 地址， 并将所有连接重定向到服务。可以通过负载均衡器的 IP 地址访问服务
-
-```yml
-apiVersion: vl
-kind: Service
-me七adata:
-    name: kubia-loadbalancer
-spec:
-    type: LoadBalancer
-    # 仅将外部通信重定向到接收连接的节点上运行的pod
-    # 如果没有本地pod存在， 则连接将挂起。因此， 需要确保负载平衡器将连接转发给至少具有一个pod的节点。
-    # 可避免额外的网络跳转。但是可能会导致跨节点的 pod 的负载分布不均衡
-    [externalTrafficPolicy: Local ]
-    portS:
-        - port: 80
-          targetPort: 8080
-    selector:
-        app: kubia
-```
-
-#### 12.5.3. 创建一 个Ingress资源
-
-通过一 个IP地址公开多个服务，它运行在 HTTP 层（网络协议第7 层）上， 因此可以提供比工作在第4层的服务更多的功能
-
-为什么需要 Ingress：每个 LoadBalancer 服务都需要自己的负载均衡器，每个 loadbalancer 都需要自己的 ip， 而 Ingress 只需要一个公网 IP 就能为许多服务提供访问
-
-当客户端向 Ingress 发送 HTTP 请求时， Ingress 会根据请求的主机名和路径决定请求转发到的服务。
-
-Ingress 工作在 应用层 基于 cookie 的会话亲和性 (session affinity)
-
-已经确认集群中正在运行 Ingress 控制器， 因此现在可以创建一个 Ingress 资源：
-
-```yml
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-    name : kubia 
-spec :
-    rules:
-        # Ingress 将这个域名映射到你的 service
-      - host: kubia . example.com
-        http :
-            paths:
-              # 将请求发送到  kubia-nodeport 服务的 80 端口
-              - path: /
-                backend: 
-                    serviceName: kubia-nodeport
-                    servicePort: 80
-
-```
-
-`kubectl get ingresses ` 获取 Ingress 控制器 内网ip，配置到 dns server 
-
-为 ingress 创建 tls 认证 TODO
-
-
-## 13. 命令
-
-### 13.1. 安装
-
-### 13.2. docker desktop
-
-it's the easiest way to install k8s locally I think.
-
-### 13.3. kind
-
-https://github.com/kubernetes-sigs/kind/
-
-在 docker 中运行 k8s, 更快更方便
-
-https://www.cnblogs.com/laochiji/p/13813743.html 多节点
-
-
-```sh
-# install
-# install golang && install docker
-docker pull kindest/node:v1.19.1
-
-
-# --name: specify a name for the cluster. default name : kind
-#  --wait 30s: wait until the cluster reaches a ready status
-# --wait 5m
-# --kubeconfig: specify cluster config file; default location : ${HOME}/.kube/config
-kind create cluster [--name kind] [--wait]
-
-# 构建镜像
-docker build -t my-custom-image:unique-tag ./my-image-dir
-# 加载到 kind
-kind load docker-image my-custom-image:unique-tag
-kubectl apply -f my-manifest-using-my-image:unique-tag
-
-# context name 规则: <kind>-<cluster_name>
-# 仅仅一个 cluster 时, 可省略 context
-kubectl cluster-info [--context kind-kind]
-
-# 默认删除 kind 名字的 cluster
-kind delete cluster [--name kind]
-
-# 加载 images 到 cluster
-# 默认 将 镜像加载到 kind 名字的 cluster
-kind load docker-image <img_name> [--name cluster_name]
-
-# 进入 kind 启动的 docker 内部, 执行 crictl images, 可以看
-# 到用来模拟 k8s 的一系列镜像
-docker exec -it kind-control-plane crictl images
-```
-
-### 13.4. minikube
-
-create single node k8s cluster for dev, 原理是 创建虚拟机, 
-
-```sh
-
-minikube version
-
-minikube start
-
-
-minikube dashboard
-
-# 可用的扩展/插件
-minikube addons list
-
-# 开启插件
-minikube addons enable metrics-server
-# 关闭插件
-minikube addons disable metrics-server
-
-
-minikube stop
-
-minikube delete
-
-# 当前 node ip
-minikube ip
-
-```
-
-### 13.5. web manager dashboard ui
-
-```sh
-# install
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended.yaml
-
-# start
-kubectl proxy
-# start in background
-kubectl proxy >/dev/null &
-
-# create administrator 
-kubectl apply -f https://raw.githubusercontent.com/gotok8s/gotok8s/master/dashboard-admin.yaml
-# and token
-kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep kubernetes-dashboard-admin | awk "'{print $1}'")
-
-# visit
-http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
-```
-
-### 13.6. 使用 kubectl
-
-https://kubernetes.io/docs/tasks/tools/install-kubectl/
-
-#### 13.6.1. 基本信息
-
-```sh
-kubectl version
-kubectl cluster-info
-kubectl get nodes
-# 获取kube-scheduler和kube-controller-manager组件状态
-kubectl get cs # 健康状况
-```
-
-
-#### 13.6.2. 创建 create expose 
-
-```sh
-
-# create depend on a spec file.
-kubectl create -f xxx.yml
-
-
-
-# >>> deployment, 
-
-# dep-name 不能随便设置, 必须符合域名命名规范.
-# 自动创建的 ReplicaSet 名字为 dep_name + random uuid
-# 自动创建 pod 名字为 ReplicaSet-name + random uuid
-# 镜像地址 include the full repository url
-# 自动创建 label -> run={dep name}
-# auto  create selector -> run={dep name}
-kubectl create deployment <dep name> --image=k8s.gcr.io/echoserver:1.4
-kubectl create deployment tomcat6 --image=tomcat:6.0.53-jre8 # 不指定 url 前缀, 默认从 docker hub 拉取
-
-# >>> proxy
-
-#  pods 默认仅仅能被 同个集群的 pods, service  访问
-# 创建临时的 代理, 可以将外部命令转发到 cluster 内部的 pod
-# Ctrl +c 关闭
-kubectl proxy
-# 查 版本
-curl http://localhost:8001/version
-# 访问指定 pod 的服务
-curl http://localhost:8001/api/v1/namespaces/default/pods/$POD_NAME/proxy/
-
-
-
-# >>> pod
-
-kubectl run <pod name> --image=nginx --restart=Never --port=80
-# --generator=run/vl  表示同时创建 rc 管理 pod
-kubectl run <pod name> --image=luksa/kubia --port=8080 --generator=run/vl 
-# 从描述文件创建 资源， 可以 pod， rc。。。， 可指定 ns， 默认 default
-kubectl create -f kubia-manual.yaml [-n xxx_ns]
-
-
-
-# >>> service
-
-# 创建 service, 名字同 deployment
-# The LoadBalancer type makes the Service accessible through the minikube service command
-# Port 8080 is specified in image code, so cannot be other port here
-# --port : service 暴露在 cluster ip 下的端口, 通过这个端口,  可以在 cluster 内部访问到多个 pod. 通过这个 service 负载均衡了 多个 pod
-# --targetPort 容器的端口, 默认=== port, 与制作镜像时暴露的端口一致, 不能随便指定
-# --type: service 类型, 
-#       NodePort: 创建一个 service 并暴露到 cluster 外部, service 的端口还是 --port 指定, 同时 service 有自己的 cluster url, node 会指定一个随机端口映射到 service 的 端口, 若指定了 --nodePort, 就用指定端口映射到 service 端口; 如 type=NodePort，而且配置 nodePort=30001, 那么外部机器 可以 scheme://nodeIP:30001访问到该服务
-#       LoadBalancer: 
-kubectl expose deployment <dep name> --type=LoadBalancer --port=8080 
-
-# 查找暴露的随机端口
-kubectl describe service mywebservice | grep NodePort
-
-# service port 80 will mapping to random node port ,and this service can be visited by someone outside cluster
-# 若扩容, 则在各个有 pod 运行的节点都能通过 node 端口访问  这个 service
-kubectl expose deploy tomcat6 --port=80 --target-port=8080 --type=NodePort
-
-# 创建一个负载均衡服务 service 对象. 可以从外部访问 pod
-# rc 为 replicationController 缩写
-kubectl expose rc <po name> --type=LoadBalancer --name kubia-http
-
-
-# >>> label
-
-# 语法: kubectl label <obj_type, eg: pod, service> <obj_name> <label, eg: app=v1>
-kubectl label pod $POD_NAME app=v1
-
-
-# >>> 命名空间 
-
-# 创建
-kubectl config set-context Kubernetes --namespace=beta
-# 验证
-kubectl config view | grep namespace command
-```
-
-
-#### 13.6.3. 执行命令到容器 exec
-
-```sh
-# 仅有 一个容器在 pod, 无需指定容器
-kubectl exec [-c container_name] $POD_NAME env
-
-# 进入 容器内部
-kubectl exec -ti $POD_NAME bash
-```
-
-
-#### 13.6.4. 修改
-
-```sh
-
-# >>> 扩容
-
-# 指定 replicas 可以缩扩容
-$ kubectl scale deployments/<dep_name> --replicas=4
-kubectl scale deployment.apps/tomcat6 --replicas=2
-kubectl scale deployment tomcat6 --replicas=2
-
-
-# >>> 滚动更新
-
-# 更新 image version
-$ kubectl set image deployments/<dep_name> <dep_name>=jocatalin/kubernetes-bootcamp:v2
-# 验证更新是否成功
-$ kubectl rollout status deployments/kubernetes-bootcamp
-
-# >>> 回滚
-
-# 取消之前的部署，这将执行反向操作，将负载移动至之前版本的容器
-$ kubectl rollout undo deployments/kubernetes-bootcamp
-```
-
-
-#### 13.6.5. 资源列表 get
-
-单复数均可
-
-```sh
-
-# 所有
-kubectl get all
-
-
-# >>> deployment
-
-kubectl get deployments
-
-
-# >>> pods
-
-# --show-labels 同时显示所有标签。 
-# -A 查看所有 pods, 包括 kube-system 命名空间 下的 pods
-# --all-namespaces 所有空间的 pods
-kubectl get pods [--show-labels]
-
-# -o 输出格式; wide 表示输出文本信息, 列出 ip , 节点 name
-# -o yaml 
-kubectl get pods -o wide
-
-# 通过标签过滤
-kubectl get pods -l <label>
-
-# 获取 pod 完整 yaml/json 文件
-# 缩写 po
-kubectl get po <pod name> -o yaml
-kubectl get po <pod name> -o json
-kubectl get node
-
-# 根据模板获取 信息
-export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
-export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}')
-
-
-# >>> service
-
-
-# 查看 service  的 endpoint 列表
-kubectl get endpoints <service name>
-# 查看所有 svc
-# 缩写 svc
-kubectl get services
-
-
-# >>> ReplicaSet
-
-kubectl get rs
-
-
-
-
-# 端口转发， 将会运行一个端口转发代理
-# 将 local port 8888 转发到 pod 的 8080
-kubectl port-forward <pod name> 8888:8080
-
-# 标签
-# 列出 pods 的所有标签
-kubectl get pods --show-labels
-# 只列出感兴趣的标签， 标签按照列展示
-kubectl get po -L creation_method,env
-# 添加
-kubectl label po <pod name> creation_method=manual
-# 修改
-kubectl label po <pod name> creation_method=manual --override
-
-# 标签选择器
-kubectl get po -1 creation_method=manual
-kubectl get po -1 creation_method!=manual
-kubectl get po -1 env
-# 列出没有 env 的pod
-kubectl get po -1 '!env'
-# 选择带有env标签且值为prod或devel的pod
-kubectl get po -1 env in (prod, devel)
-kubectl get po -1 env notin (prod, devel)
-
-# 使用 label 分类 worker node
-kubectl get nodes
-kubectl label node <node name> gpu=true # 每个 node 都有一个默认 label， kubernetes.io/hostname:主机名 
-kubectl get nodes -l gpu=true
-
-# 命名空间
-# 查看所有 ns, 有 default， kube-public， kube-system，默认我们使用的是 default
-kubectl get ns 
-# 列出只属于该命名空间的 pod, 可使用 -n
-kubectl get po --namespace kube-system
-
-
-# 编辑 rc 的 yaml
-# 一般仅仅编辑 rc 的 template， 不动 label selector
-# 用来升级 pod
-kubectl edit rc kubia
-
-# 增加 副本数， 水平扩容
-kubectl scale rc kubia --replicas=3 
-# 等同 parallelism
-kubectl scale job xxx_job --replicas 3 
-
-# 远程在 pod 中某个 container 执行命令
-# “--” 表示 kubectl 命令结束， 后面的是在 pod 内执行的
-kubectl exec <pod name> -- curl -s http://10.23... 
-# 列出环境变量，如 Service 的 ip， 端口
-kubectl exec kubia-3inly env
-# 在 pod 中执行 shell
-kubectl exec -it kubi-3inly bash
-
-
-# >>> 配置文件
-
-kubectl config view
-
-
-
-# >>> 事件
-
-kubectl get events
-
-# 通过 describe 也能得到 object 相关的事件
-
-```
-
-
-#### 13.6.6. 查询详细描述 describe
-
-```sh
-# >>> pods
-
-# 查看资源描述， 附加信息， 作为 kubectl get xxx xxx 补充, 可用于排查问题
-# 如 pod 是否正在运行， 重启原因， 退出码 137，143 表示 pod 被迫终止
-kubectl describe pods [pod_name]
-
-
-# >>> service
-
-kubectl describe services/<srv name>
-
-# >>> deployment
-
-$ kubectl describe deployment
-
-
-```
-
-
-#### 13.6.7. 查询日志 logs
-
-```sh
-# 查指定 pod 下的 container 日志
-# 若pod 只有一个 container, 无需指定 container
-kubectl logs $POD_NAME
-kubectl logs -f POD-NAME
-
-
-# 需要 ssh 到 pod 所在的 worker node
-docker logs <container_id>
-# 无需 ssh, 可指定某个 container， 可指定看重启前的版本的日志
-kubectl logs <pod name> [-c container_name] [--previous]
-
-
-
-
-# 查看 k8s 资源
-kubectl explain pods
-kubectl explain pod.spec
-
-```
-
-#### 13.6.8. 删除 delete
-
-```sh
-# delete by spec file
-kubectl delete -f flask.yaml
-
-# 删除 pod
-# 无法直接删除, 只要 replicaSet 没有删除, 删了 po, 还会重现创建 po
-# 可直接 通过删除 deployment 删除
-kubectl delete po kubia-gpu [pod2 [pod3]]
-# 删除当前 ns 下 all pod， 保留 ns
-kubectl delete po --all
-# 按照标签删除
-kubectl delete po -1 creation_method=manual
-
-kubectl delete service hello-node
-kubectl delete deployment hello-node
-
-#  删除 ns, 同时会删除 ns 下的所有 pod
-kubectl delete ns custom-namespace
-# 删除所有资源， 包括 rc， pod， service
-kubectl delete all --all
-# 删除 rc， rc 管理的 pods 也会删除
-kubectl delete rc <rc name>
-# 删除 rc， 但是保留 pods
-kubectl delete rc <rc name> --cascade=false
-kubectl dele七e rs kubia 
-
-
-```
-
-### 13.7. kubeadmin
-
-```sh
-kubeadm init # create a master node
-
-kubeadm join <master_id:port> # add a node to cluster
-```
-
-## 14. 可视化界面
-
-kubernetes-dashboard
-
-更推荐 kubesphere, 打通 devops 全套流水线, 对 cluster 要求高  https://github.com/kubesphere/kubesphere
-
-
-(kuboard 也行, 对 cluster 要求不高)
-
-https://www.zhihu.com/question/348609092 rancher 和 kubesphere对比
-
-
-
-## 15. vagrant 搭建 k8s 环境
-
-一个 master node: docker, kubeadm, kubelet, kubectl
-两个 worker node: 
+一个 master node: docker, kubeadm, kubelet, kubectl 两个 worker node:
 
 Vagrantfile:
 
 ```vagrantfile
 
 Vagrant.configure("2") do |config|
-   (1..3).each do |i| 
+   (1..3).each do |i|
         config.vm.define "k8s-node#{i}" do |node|
-            # 设置虚拟机的Box 
+            # 设置虚拟机的Box
             node.vm.box = "centos7"
 
             # 设置虚拟机的主机名
@@ -1643,22 +214,21 @@ Vagrant.configure("2") do |config|
             # node.vm.synced_folder "~/Documents/vagrant/share", "/home/vagrant/share"
 
             # VirtaulBox相关配置
-            node.vm.provider "virtualbox" do |v| 
+            node.vm.provider "virtualbox" do |v|
                 # 设置虚拟机的名称
                 v.name = "k8s-node#{i}"
                 # 设置虚拟机的内存大小
                 v.memory = 4096
                 # 设置虚拟机的CPU个数
-                v.cpus = 4 
-            end 
-        end 
-   end 
+                v.cpus = 4
+            end
+        end
+   end
 end
 
 ```
 
 虚拟机准备
-
 
 ```sh
 # 登录 machine sshd, 保证可以通过账号密码登录 (默认仅仅 ssh 登录)
@@ -1673,7 +243,7 @@ service sshd restart
 
 # show default SoftEther
 # We can find that the default soft ether is eth0, the three machine have the same eth0 ip.
-# This is because eth0 default to 网络地址转发(nat) 类型. in order  to make the machines can 
+# This is because eth0 default to 网络地址转发(nat) 类型. in order  to make the machines can
 # access to each other, etho should be type: Natnetwork
 ip route show
 # 操作 virtualbox 图形界面, 全局新建 natnetwork 网络. 为每个 machine 默认网卡1 即 eth0 指定 这个类型, 刷新高级设置
@@ -1774,7 +344,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 # master 生成的 命令, 在 worker node 执行即可加入 cluster.
 # 2h 内有效
 kubeadm join 10.0.2.15:6443 --token 0tpws3.y1uhbzg0rgal4okz \
-    --discovery-token-ca-cert-hash sha256:0a25a082e0babbc18d1646ebfa9954d82838fa86ec66ee3d88c0d57fc9c0f35e 
+    --discovery-token-ca-cert-hash sha256:0a25a082e0babbc18d1646ebfa9954d82838fa86ec66ee3d88c0d57fc9c0f35e
 # 过期之后, 如下生成永久的 token
 kubeadm token create --print-join-command
 kubeadm token create --ttl 0 --print-join-command # 复制生成的 token 到上面命令即可
@@ -1793,7 +363,7 @@ kubectl get po --all-namespaces
 # 删除 , 重新创建
 kubectl delete -f flannel.yml
 
- 
+
 # 此时可以在子节点上执行添加 node 命令了   >>> 在 worker node 上
 
 
@@ -1801,7 +371,7 @@ kubectl delete -f flannel.yml
 # 等待 所有节点 上 flanel 相关的 pod 都正常启动后再在 master 上查看 nodes 状态, 保证所有 node 状态为 ready 则 cluster 搭建成功
 watch kubectl get po -n kube-system -o wide
 
-# 安装 ingress controller, 
+# 安装 ingress controller,
 # 有多重实现, 选择一种即可 https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/
 # 这里选择 ingress-nginx https://kubernetes.io/docs/concepts/services-networking/ingress/
 # ref: https://www.cnblogs.com/minseo/p/12455320.html
@@ -1810,22 +380,9 @@ watch kubectl get po -n kube-system -o wide
 ```
 
 
-## 16. cka ckad 证书考试
+### 3.3. 众多的发行版
 
-
-https://blog.csdn.net/vic_qxz/article/details/108338442
-https://zhuanlan.zhihu.com/p/139052135 备考 cka ckad
-
-
-https://training.linuxfoundation.cn/certificate/details/1 中国区
-
-https://zhuanlan.zhihu.com/p/138796893
-https://www.jianshu.com/p/629525af31c4
-https://www.kubernetes.org.cn/peixun 考试要点
-https://zhuanlan.zhihu.com/p/138796893 , https://www.zhihu.com/zvideo/1302356091591372800 真题
-
-
-## 17. k3s
+#### 3.3.1. k3s
 
 https://github.com/k3s-io/k3s
 
@@ -1839,17 +396,2518 @@ https://rancher.com/docs/k3s/latest/en/ 官网
 
 https://www.rancher.cn/k3s/ 中文官网
 
-
 https://zhuanlan.zhihu.com/p/269556628 简介
 
-## 18. k0s
+#### 3.3.2. k0s
 
-## 19. rancher
+https://github.com/k0sproject/k0s 体积下, 更精简的 k8s
 
-部署 k8s 集群 
 
-## 20. Harbor
+#### 3.3.3. docker desktop
 
-## 21. helm chart
+it's the easiest way to install k8s locally I think.
 
-使用 helm chart 一键拉起整套环境, 可以使用 helm chart 应用商店
+#### 3.3.4. kind
+
+https://github.com/kubernetes-sigs/kind/
+
+在 docker 中运行 k8s, 更快更方便
+
+https://www.cnblogs.com/laochiji/p/13813743.html 多节点
+
+```sh
+# install
+# install golang && install docker
+docker pull kindest/node:v1.19.1
+
+
+# --name: specify a name for the cluster. default name : kind
+#  --wait 30s: wait until the cluster reaches a ready status
+# --wait 5m
+# --kubeconfig: specify cluster config file; default location : ${HOME}/.kube/config
+kind create cluster [--name kind] [--wait]
+
+# 构建镜像
+docker build -t my-custom-image:unique-tag ./my-image-dir
+# 加载到 kind
+kind load docker-image my-custom-image:unique-tag
+kubectl apply -f my-manifest-using-my-image:unique-tag
+
+# context name 规则: <kind>-<cluster_name>
+# 仅仅一个 cluster 时, 可省略 context
+kubectl cluster-info [--context kind-kind]
+
+# 默认删除 kind 名字的 cluster
+kind delete cluster [--name kind]
+
+# 加载 images 到 cluster
+# 默认 将 镜像加载到 kind 名字的 cluster
+kind load docker-image <img_name> [--name cluster_name]
+
+# 进入 kind 启动的 docker 内部, 执行 crictl images, 可以看
+# 到用来模拟 k8s 的一系列镜像
+docker exec -it kind-control-plane crictl images
+```
+
+#### 3.3.5. minikube
+
+create single node k8s cluster for dev, 原理是 创建虚拟机,
+
+```sh
+
+minikube version
+
+minikube start
+
+
+minikube dashboard
+
+# 可用的扩展/插件
+minikube addons list
+
+# 开启插件
+minikube addons enable metrics-server
+# 关闭插件
+minikube addons disable metrics-server
+
+
+minikube stop
+
+minikube delete
+
+# 当前 node ip
+minikube ip
+
+```
+
+## 4. Quickstart
+
+### 以Java 为例
+
+https://mritd.com/2022/11/08/java-containerization-guide/
+
+
+
+### 4.1. 以 go 为例
+
+#### 4.1.1. using pod directly
+
+here is a piece of code in go:
+
+```go
+package main
+
+import (
+	"io"
+	"net/http"
+)
+
+func main() {
+	// Register a router
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		io.WriteString(w, "[v1] Hello, k8s!")
+	})
+	// Start the server and listening on port 80
+	http.ListenAndServe(":80", nil)
+}
+
+```
+
+now we write a dockerfile for this go app
+
+```dockerfile
+FROM golang:1.20 AS builder
+
+# create /src, then jump into it
+WORKDIR /src
+
+# pre-copy/cache go.mod for pre-downloading dependencies and only redownloading them in subsequent builds if they change
+# COPY go.mod go.sum ./
+# RUN go mod download && go mod verify
+
+# copy all host files to /src
+COPY . ./
+
+# required, if missing then go.mod is needed
+RUN go env -w GO111MODULE=auto
+
+RUN CGO_ENABLED=0 go build -a -sw -ldflags '-extldflags "-static"' -v -o main .
+
+# ---
+
+FROM scratch
+
+WORKDIR /
+
+COPY --from=builder /src/main .
+
+EXPOSE 80
+
+ENTRYPOINT ["/main"]
+
+
+```
+
+so now we can build our image and push it to docker hub:
+
+```sh
+go build . -t xiaoyureed/hellok8s:v1
+
+# check
+docker images | grep xiaoyureed
+
+# login docker hub
+docker login
+
+docker push
+
+```
+
+then write the pod resource yml:
+
+```yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-k8s-pod
+  labels:
+    name: hello-k8s
+spec:
+  containers:
+    - image: xiaoyureed/hellok8s:v1
+      name: hello-k8s-container
+      # optional
+      resources:
+        limits:
+          memory: '128Mi'
+          cpu: '500m'
+```
+
+apply the yml to create pod
+
+```sh
+kubectl apply -f xxx.yaml
+
+# Wait for about 30s,
+# so that the resources can be created
+
+# check pod list
+kubectl get pods
+
+# check pod info
+kc describe pod <pod id>
+
+# post forwarding (Temporary use only, just for debugging)
+kubectl port-forward hello-k8s-pod 4000:80
+
+# enter the container in the pod
+kubectl exec -it hello-k8s-pod -- /bin/bash
+
+# echo "hello kubernetes by nginx!" > /usr/share/nginx/html/index.html
+
+# visit localhost:4000
+
+# check log
+kubectl logs --follow hello-k8s-pod
+
+# exec cmd "ls"
+kubectl exec hello-k8s-pod -- ls
+
+# delete resources
+kubectl delete pod hello-k8s-pod
+# or
+kubectl delete -f xxx.yaml
+
+```
+
+#### 4.1.2. using deployment
+
+Let's write a yml file to define a deployment to manage the pods
+
+```yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-k8s-pod
+  labels:
+    name: hello-k8s
+spec:
+  containers:
+    - name: hello-k8s-container
+      image: xiaoyureed/hellok8s:v1
+      resources:
+        limits:
+          memory: '128Mi'
+          cpu: '500m'
+```
+
+then apply and check the results:
+
+```sh
+# create
+kc apply -f k8s_resources/deployment.yml
+
+# check deployment info
+kc get deployments
+
+# check pods info
+# Note: the pods name is generated by deployment and it's unique
+kc get pods
+
+# Try to delete a pod, and then you will find that the pod number recovers after a moment
+kc delete pod hello-k8s-deployment-6bb465758-5d8lk
+```
+
+
+## 5. 集群结构 underlying infrastructure 基础设施
+
+![k8s design](/img/k8s_design.png)
+
+![k8s design1](/img/k8s_design1.png)
+
+### 5.1. control plane 控制平面
+
+Also known as "master" node, designed to manage the hole cluster to make it work properly
+
+Consists of these part:
+
+- api server
+
+  - Provide the api interface to interactive with the developer.
+  - Also, offer the authentication, authorization
+
+- etcd
+
+  - distributed data storage; used to store the cluster status
+
+- scheduler
+
+  - 调度， 决定哪个 pod 部署到哪个节点;
+  - 监视那些新创建的未指定运行节点的 Pod，并选择节点让 Pod 在上面运行
+
+- controller manager
+
+  - 整个集群的管家，用来管理资源对象: 如 复制节点， 持续跟踪工作节点
+
+    - node controller 在节点出现故障时进行通知和响应
+    - Replication Controller 维护正确数量的 Pod
+    - Endpoints Controller 填充端点(Endpoints)对象(即加入 Service 与 Pod)
+
+Minikube 管理的是单节点 k8s， master node， 和 worker node 都在一台物理主机上
+
+### 5.2. computer machines (计算节点 Node)
+
+Also known as Node, designed to run the real application
+
+是所有 Pod 运行所在的工作主机，可以是物理机也可以是虚拟机
+
+包含这些组件
+
+- kubelet: 和 master 节点的 api server 通信, 以管理所在的 节点/机器上的 pod (创建、修改、监控、删除)
+
+  相当于节点的代理, 和 master 节点交互
+
+- kube-proxy: 负责一组 pods 的负载均衡
+
+  是 K8s 集群内部的负载均衡器。它是一个分布式代理服务器, 在 K8s 的每个节点上都有一个；这一设计体现了它的伸缩性优势，需要访问服务的节点越多，提供负载均衡能力的 Kube-proxy 就越多，高可用节点也随之增多。与之相比，我们平时在服务器端做个反向代理做负载均衡，还要进一步解决反向代理的负载均衡和高可用问题。
+
+- Fluentd，主要负责日志收集、存储与查询
+
+- container runtime engine (需要符合 oci 标准的运行时, 如 docker, rkt, CRI-O): 负责创建容器
+
+## 6. 通过 api 管理的各种资源
+
+即各种 api object,
+
+像 pod, rc, rs, deployment 都属于 api object
+
+### 6.1. 各种资源的关系
+
+在 K8S 中，应用会被封装在 Container 中暴露出来一个 Port. 一个和多个 Container 组成了一个 Pod。 Pod 是 K8S 的基本执行单元。Pod 会被分配到 Node 上运行。而多个 Node 组成了一个 K8S Cluster.
+
+### 6.2. 3 common properties
+
+#### 6.2.1. metadata
+
+metadata (contains 3 factors at least):
+
+- namespace 命名空间为 Kubernetes 集群提供虚拟的隔离作用
+
+  Kubernetes 集群初始有两个命名空间，分别是默认命名空间 default 和系统命名空间 kube-system
+
+- name
+
+- uid
+
+used to identify api obj
+
+#### 6.2.2. spec
+
+used to declare the configuration that we want
+
+#### 6.2.3. status
+
+### 6.3. node
+
+是 K8S 的集群工作节点，可以是物理机也可以是虚拟机；
+
+```sh
+# check node info
+kubectl describe node <NODENAME>
+
+# 禁止Pod调度到该节点上
+kubectl corndon NODENAME
+
+# 驱逐该节点上的所有 Pod
+kubectl drain NODENAME
+
+```
+
+### 6.4. pod
+
+由 一个或多个相互关联的 container 组成, 这些 container 共享网络地址和文件系统, 是 k8s 管理的基本单位, 代表着集群中的一个虚拟主机
+
+> 一个 pod 只可能存在于一个 worker node 上, 不可跨节点, 一组 pod 可以分布在不同 node 上
+>
+> 一个 pod 内的所有容器共享相同的 Linux network 命名空间. 这样每个 pod 就像一台独立的 主机, 有自己的 ip (集群内部地址), 主机名, 端口 (pod 中的 containers 共享 该 ip 以及 端口空间, 具有相同的 loopback 网络接口,可使用 localhost 相互通信).
+>
+> (可以和 docker-compose 启动的多个 container 类比)
+>
+> container (容器) 的本质是进程，而 pod 是管理这一组进程的资源
+
+Here is the yml spec file for pod:
+
+```yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-k8s-pod
+  # optional
+  labels:
+    name: hello-k8s
+spec:
+  containers:
+    - name: hello-k8s-container
+      image: xiaoyureed/hellok8s:v1
+      # IfNotPresent 仅本地没有镜像时才远程拉，Always 永远都是从远程拉，Never 永远只用本地镜像，本地没有则报错
+      # optional
+      imagePullPolicy: IfNotPresent
+      # optional
+      resources:
+        limits:
+          memory: '128Mi'
+          cpu: '500m'
+```
+
+use these commands to check the pods info
+
+```sh
+# check list
+kc get pod[s]
+# check list, including more info
+kubectl get pods -o wide
+
+# enter a specific pod
+kubectl exec -it <pod name> /bin/bash
+
+```
+
+### 6.5. label
+
+label 是资源上的标识，用来对它们进行区分和选择,
+
+通常在资源对象确定时定义，也可以在资源创建后动态添加或删除；
+
+一个 label 会以 kv 形式附加到各种对象上(node, pod, service ...)
+
+常用 label:
+
+```
+版本标签：“version”:“release”,
+环境标签："environment": "dev", "environment": "qa", "environment": "production"
+架构标签："tier": "frontend" ,"tier": "backend","tier": "cache"
+```
+
+#### 6.5.1. Label selector 使用
+
+
+- 包含/不包含 特定 key 的 资源
+- 包含特定 key， value 的 资源
+- 包含 特定 key， 且 value 和指定的不同的资源
+
+
+
+### 6.6. Taint（污点）和 Toleration（容忍）
+
+可以作用于 node 和 pod 上, 用于控制和优化 pod 在 node 上的调度
+
+具有 taint 的 node 和 pod 是互斥关系，而具有节点亲和性 (toleration) 关系的 node 和 pod 是相吸的
+
+> Taint 和 toleration 相互配合，可以用来避免 pod 被分配到不合适的节点上。每个节点上都可以应用一个或多个 taint ，这表示对于那些不能容忍这些 taint 的 pod，是不会被该节点接受的。如果将 toleration 应用于 pod 上，则表示这些 pod 可以（但不要求）被调度到具有相应 taint 的节点上。
+>
+> 另外还有可以给 node 设置 label，通过给 pod 设置 nodeSelector 将 pod 调度到具有匹配标签的节点上。
+
+#### 6.6.1. taint
+
+作用在 node 上.
+
+Node 被设置上污点之后，就和 Pod 之间存在了一种相斥的关系，进而拒绝 Pod 调度过来，甚至可以将已存在的 Pod 驱逐出去；
+
+```
+
+污点格式：key=value:effect，key和value是污点的标签，effect描述污点的作用，支持如下三个选项：
+
+- PreferNoSchedule: k8s尽量不把pod调度到该污点Node上，除非没有其他节点可调度；
+
+- NoSchedule: k8s将不会把Pod调度到该污点Node上，已存在的Pod将继续运行；
+
+- NoExecute：k8s将不会把Pod调度到具有该污点的Node上，同时也会将Node上已存在的Pod驱逐；
+```
+
+使用语法:
+
+```sh
+# 设置污点
+kubectl taint nodes <node name> <key>=<value>:<effect>
+# 去除污点
+kubectl taint nodes node1 <key>:<effect>-
+# 去除所有污点
+kubectl taint nodes node1 <key>-
+
+# 例如：
+# 为node1设置污点
+kubectl taint nodes node1 tag=test:PreferNoSchedule
+# 为node1取消污点
+kubectl taint nodes node1 tag:PreferNoSchedule-
+# 为node1删除去除污点
+kubectl taint nodes node1 tag-
+# 查看node1 污点
+kubectl describe node node1
+```
+
+#### 6.6.2. toleration
+
+作用在 pod 上
+
+若将 pod 调度到一个有污点的 node 上去，需要用到容忍; Node 通过污点拒绝 pod 调度上去，pod 通过容忍忽略拒绝；
+
+### 6.7. controllers(各种控制器)
+
+pod 控制器, 部署/管理 pods
+
+#### 6.7.1. ~~RC (replica controller 副本控制器)~~
+
+**outdated**
+
+保证 Pod 高可用的 API 对象； 创建/复制 pod 实例, 确保 pod 副本数量 (it kill the pod or start pod to ensure that the pod number consit with the configuration)
+
+Best practice: remember that always start pod by using RC
+
+`kubectl run ...` 会创建一个 rc， 然后 rc 创建 pod （所以删除这样的 pod， 需要先删除 rc）
+
+工作流程：寻找 符合 label selector 的 pod， 比较找到的 pod 和期望数量， 少了就从当前模板创建新的 pod 副本 ， 多了， 就删除多的 pod
+
+三个部分：
+
+- label selector： 用于确定 ReplicationController 作用域中有哪些 pod
+
+- replica count (副本个数）， 指定应运行的 pod 数量
+
+- pod template (pod 模板）， 用于创建新的 pod 副本
+
+在新版的 K8s 中，建议使用 ReplicaSet 作为副本控制器，ReplicationController 不再使用了
+
+#### 6.7.2. RS (replica set, 代替 RC)
+
+副本集
+
+副本集对象一般不单独使用，而是用 Deployment 来管理。
+
+> RC 和 RS 主要是控制提供无状态服务的，其所控制的 Pod 的名字是随机设置的，一个 Pod 出故障了就被丢弃掉，在另一个地方重启一个新的 Pod，名字变了。名字和启动在哪儿都不重要，重要的只是 Pod 总数；
+>
+> 对于 RC 和 RS 中的 Pod，一般不挂载存储或者挂载共享存储，保存的是所有 Pod 共享的状态
+
+#### 6.7.3. Deployment (管理 RS)
+
+表示用户对 Kubernetes 集群的一次更新操作。可以是创建/更新一个新的服务，也可以是滚动升级一个服务
+
+> 滚动升级一个服务，实际是创建一个新的 RS，然后逐渐将新 RS 中副本数增加到理想状态，将旧 RS 中的副本数减小到 0 的复合操作
+
+比 replica set 使用范围更广, 一般使用 deployment 来管理 replica set
+
+Here is the yml spec file:
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-k8s-deployment
+spec:
+  # Control the scale up/back through this filed
+  replicas: 1
+  # required, used to select pods which can be managed by this deployment
+  selector:
+    matchLabels:
+      app: hello-k8s
+  template:
+    # Note: no need to specify "name" in metadata since the deployment will create the unique pod name automatically
+    metadata:
+      # required, used to be selected by deployment's selector
+      labels:
+        app: hello-k8s
+    spec:
+      containers:
+        # required, the final container name contains this field
+        - name: hello-k8s-container
+          image: xiaoyureed/hellok8s:v1
+          # optional
+          resources:
+            limits:
+              memory: '128Mi'
+              cpu: '500m'
+          # optional
+          ports:
+            - containerPort: 80  # 指定 container 中应用暴露的端口, 应该保持和 dockerfile 中的 expose 一样
+```
+
+##### 6.7.3.1. scale up/back (扩容缩容)
+
+With regards to Scale up/back, we just need update the "spec.replicas" field, then rerun `kubectl apply -f xxx.yml`
+
+> We can use `kc get pods --watch` to monitor the pod list
+
+or we can use this cmd `kubectl scale deployment test-k8s --replicas=5`
+
+##### 6.7.3.2. version upgrade (版本升级)
+
+When talking about the app Version Upgrade, after make the code change, just need rebuild the image (note version number should change from v1 to v2) and push to docker hub, then update the yml `image` field, finally exec `kc apply ...`
+
+> Use `kubectl describe pod xxx` to check the pod details info, so that you can see the version info
+
+##### 6.7.3.3. rolling update (滚动升级)
+
+> 像上面那样的部署方式是可以的，但是也会带来一个问题，就是所有的副本在同一时间更新，这会导致我们 hellok8s 服务在短时间内是不可用的，因为所有 pod 都在升级到 v2 版本的过程中，需要等待某个 pod 升级完成后才能提供服务
+>
+> 这个时候我们就需要滚动更新，在保证新版本 v2 的 pod 还没有 ready 之前，先不删除 v1 版本的 pod。
+
+`spec.strategy.type` 's possible values include:
+
+- RollingUpdate: 逐渐增加新版本的 pod，逐渐减少旧版本的 pod。
+
+  (可以通过 maxSurge 和 maxUnavailable 字段来控制升级 pod 的速率)
+
+  - maxSurge: 最大峰值，用来指定可以创建的超出期望 Pod 个数的 Pod 数量。
+  - maxUnavailable: 最大不可用，用来指定更新过程中不可用的 Pod 的个数上限。
+
+- Recreate: 在新版本的 pod 增加前，先将所有旧版本 pod 删除。
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hellok8s-deployment
+spec:
+  strategy:
+    # specify the upgrade type
+    rollingUpdate:
+      # 指定 pod 的最大超出个数
+      # 最大可能会创建 4 个 hellok8s pod (replicas + maxSurge)
+      maxSurge: 1
+      # 指定 pod 的最大不可用个数
+      # 最小会有 2 个 hellok8s pod 存活 (replicas - maxUnavailable)。
+      maxUnavailable: 1
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hellok8s
+  template:
+    metadata:
+      labels:
+        app: hellok8s
+    spec:
+      containers:
+        - image: guangzhengli/hellok8s:v2
+          name: hellok8s-container
+```
+
+##### 6.7.3.4. 回滚 版本回退 查看历史
+
+```sh
+# roll back to last deployment version
+kubectl rollout undo deployment hellok8s-deployment
+
+# check the history version
+kubectl rollout history deployment hellok8s-deployment
+
+# roll back to the specified version
+kubectl rollout undo deployment/hellok8s-deployment --to-revision=2
+```
+
+##### 6.7.3.5. livenessProbe (存活探针)
+
+> 在生产中，有时候因为某些 bug 导致应用死锁或者线程耗尽了，最终会导致应用无法继续提供服务，这个时候如果没有手段来自动监控和处理这一问题的话，可能会导致很长一段时间无人发现
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hellok8s-deployment
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hellok8s
+  template:
+    metadata:
+      labels:
+        app: hellok8s
+    spec:
+      containers:
+        - image: guangzhengli/hellok8s:liveness
+          name: hellok8s-container
+          # 如果服务器上 /healthz 路径下的处理程序返回成功代码，则 kubelet 认为容器是健康存活的。 如果处理程序返回失败代码，则 kubelet 会杀死这个容器并将其重启
+          livenessProbe:
+            # 使用 HTTP GET 请求的方式探活
+            httpGet:
+              # Specify the application route (api path)
+              path: /healthz
+              # specify the application port
+              port: 3000
+            # 告诉 kubelet 在执行第一次探测前应该等待 3 秒
+            # 即容器启动后要等待多少秒后才启动存活和就绪探测器
+            initialDelaySeconds: 3
+            # 执行探测的时间间隔（单位是秒）。默认是 10 秒。最小值是 1。
+            periodSeconds: 3
+
+            # timeoutSeconds：探测的超时后等待多少秒。默认值是 1 秒。最小值是 1。
+            # failureThreshold：当探测失败时，Kubernetes 的重试次数。 对存活探测而言，放弃就意味着重新启动容器。 对就绪探测而言，放弃意味着 Pod 会被打上未就绪的标签。默认值是 3。最小值是 1。
+```
+
+通过 `kubectl get pods` 查看状态 or `kubectl describe pod hellok8s-68f47f657c-zwn6g` 查看原因,
+
+##### 6.7.3.6. readinessProbe (就绪探针)
+
+> 在生产环境中，升级服务的版本是日常的需求，这时我们需要考虑一种场景，即当发布的版本存在问题，就不应该让它升级成功。kubelet 使用就绪探测器可以知道容器何时准备好接受请求流量，当一个 pod 升级后不能就绪，即不应该让流量进入该 pod，在配合 rollingUpate 的功能下，也不能允许升级版本继续下去，否则服务会出现全部升级完成，导致所有服务均不可用的情况。
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hellok8s-deployment
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hellok8s
+  template:
+    metadata:
+      labels:
+        app: hellok8s
+    spec:
+      containers:
+        - image: guangzhengli/hellok8s:bad
+          name: hellok8s-container
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            # 初次探测前等待时间, 默认是 0 秒，最小值是 0
+            initialDelaySeconds: 1
+            # 被视为成功的最小连续成功数。默认值是 1。 存活和启动探测的这个值必须是 1。最小值是 1。
+            successThreshold: 5
+```
+
+#### 6.7.4. SC (stateful set)
+
+有状态应用部署 (如 MySQL, ZooKeeper、etcd )
+
+StatefulSet 中的每个 Pod 的名字都是事先确定的，会被固定住
+
+StatefulSet 中的 Pod，每个 Pod 挂载自己独立指定的存储，
+
+> 如果一个 Pod 出现故障，从其他节点启动一个同样名字的 Pod，要挂载上原来 Pod 的存储继续以它的状态提供服务
+>
+> 使用 StatefulSet，Pod 仍然可以通过漂移到不同节点提供高可用，而存储也可以通过外挂的存储来提供高可靠性，StatefulSet 做的只是将确定的 Pod 与确定的存储关联起来保证状态的连续性。
+
+Service 的 CLUSTER-IP 是空的
+
+Pod 创建和销毁是有序的，创建是顺序的，销毁是逆序的
+
+如下部署 MongoDB:
+
+```yml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  serviceName: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:4.4
+          # IfNotPresent 仅本地没有镜像时才远程拉，Always 永远都是从远程拉，Never 永远只用本地镜像，本地没有则报错
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - mountPath: /data/db # 容器里面的挂载路径
+              name: mongo-data    # 卷名字，必须跟下面定义的名字一致
+      volumes:
+        - name: mongo-data              # 卷名字
+          hostPath:
+            # 把节点上的一个目录挂载到 Pod，但是已经不推荐使用了
+            path: /data/mongo-data      # 节点上的路径
+            type: DirectoryOrCreate     # 指向一个目录，不存在时自动创建
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb # 固定的
+spec:
+  selector:
+    app: mongodb
+  type: ClusterIP
+  # HeadLess
+  clusterIP: None
+  ports:
+    - port: 27017
+      targetPort: 27017
+
+```
+
+##### 数据持久化
+
+Storage Class (SC) : 将存储卷划分为不同的种类，例如：SSD，普通磁盘，本地磁盘
+
+Persistent Volume (PV) : 描述卷的具体信息，例如磁盘大小，访问模式
+
+Persistent Volume Claim (PVC): 对存储需求的一个申明，可以理解为一个申请单，系统根据这个申请单去找一个合适的 PV
+
+> 还可以根据 PVC 自动创建 PV。
+
+![xx](/img/k8s_storage.png)
+
+
+#### 6.7.5. DS (daemon set 后台支撑服务集)
+
+确保每个 working node 都运行一个指定 pod (working node 可能是所有集群节点也可能是通过 nodeSelector 选定的一些特定节点)
+
+> 这个 pod 可能是用来专门支撑业务系统运行的基础服务, 如日志, 监控
+
+#### 6.7.6. job (一次性任务)
+
+Job 管理的 Pod 根据用户的设置把任务成功完成就自动退出了
+
+> 成功完成的标志根据不同的 spec.completions 策略而不同：
+>
+> - 单 Pod 型任务有一个 Pod 成功就标志完成；
+> - 定数成功型任务保证有 N 个任务全部成功；
+> - 工作队列型任务根据应用确认的全局成功而标志成功。
+
+Job 完成时不会再创建新的 Pod，不过已有的 Pod 通常也不会被删除
+
+> 保留这些 Pod 使得你可以查看已完成的 Pod 的日志输出，以便检查错误、警告或者其它诊断性输出。 可以使用 kubectl 来删除 Job（例如 kubectl delete -f hello-job.yaml)。当使用 kubectl 来删除 Job 时，该 Job 所创建的 Pod 也会被删除
+
+```yml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello-job
+# 例如下面就会先创建 3 个 pod 并发执行任务，
+# 一旦某个 pod 执行完成，就会再创建新的 pod 来执行，直到 5 个 pod 执行完成，Job 才会被标记为完成。
+spec:
+  # 并发执行的 pod 的数量
+  parallelism: 3
+  # 创建 Pod 的数量
+  completions: 5
+  template:
+    spec:
+      # pod 内的 container 异常而结束时, Pod 会继续保留在当前 node, 但是重启内部 container
+      # 可选值: Never, ...
+      restartPolicy: OnFailure
+      containers:
+        - name: echo
+          image: busybox
+          command:
+            - "/bin/sh"
+          args:
+            - "-c"
+            - "for i in 9 8 7 6 5 4 3 2 1 ; do echo $i ; done"
+```
+
+```sh
+kubectl apply -f hello-job.yaml
+
+
+kubectl get jobs      
+kubectl get cronjob[s]            
+
+kubectl get pods -w
+
+kubectl logs -f xxx_pod
+```
+
+#### 6.7.7. cronjob (定时任务)
+
+用法除了需要加上 cron 表达式之外，其余基本和 Job 保持一致。
+
+```
+# ┌───────────── 分钟 (0 - 59)
+# │ ┌───────────── 小时 (0 - 23)
+# │ │ ┌───────────── 月的某天 (1 - 31)
+# │ │ │ ┌───────────── 月份 (1 - 12)
+# │ │ │ │ ┌───────────── 周的某天 (0 - 6)（周日到周一；在某些系统上，7 也是星期日）
+# │ │ │ │ │                          或者是 sun，mon，tue，web，thu，fri，sat
+# │ │ │ │ │
+# │ │ │ │ │
+# * * * * *
+```
+
+```yml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello-cronjob
+spec:
+  schedule: "* * * * *" # Every minute
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: echo
+              image: busybox
+              command:
+                - "/bin/sh"
+              args:
+                - "-c"
+                - "for i in 9 8 7 6 5 4 3 2 1 ; do echo $i ; done"
+```
+
+### 6.8. service
+
+暴露集群内部的一组 pods 的外部访问接口的固定地址(服务发现, 负载均衡).
+
+每个 Service 会对应一个集群内部有效的虚拟 IP，集群内部通过虚拟 IP (or service name) 访问一个服务
+
+> RC、RS 和 Deployment 只是保证了支撑服务的微服务 Pod 的数量，但是没有解决如何访问这些服务的问题。一个 Pod 只是一个运行服务的实例，随时可能在一个节点上停止，在另一个节点以一个新的 IP 启动一个新的 Pod，因此不能以确定的 IP 和端口号提供服务。要稳定地提供服务需要服务发现和负载均衡能力。
+>
+> 在 K8 集群中，客户端需要访问的服务就是 Service 对象, 类似 网关的角色, 通过某个 service, 可访问一组提供相同服务的 pods
+
+```sh
+
+kubectl get service[s]
+
+
+```
+
+#### 6.8.1. Endpoint
+
+被 selector 选中的 Pod，就称为 Service 的 Endpoints
+
+> 它维护着 Pod 的 IP 地址，只要服务中的 Pod 集合发生更改，Endpoints 就会被更新
+
+```sh
+# check list
+kubectl get endpoints
+```
+
+#### 多端口
+
+```yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-k8s
+spec:
+  selector:
+    app: test-k8s
+  type: NodePort
+  ports:
+    - port: 8080        # 本 Service 的端口
+      name: test-k8s    # 多端口时必须配置 name
+      targetPort: 8080  # 容器端口
+      nodePort: 31000   # 节点端口，范围固定 30000 ~ 32767
+    - port: 8090
+      name: test-other
+      targetPort: 8090
+      nodePort: 32000
+
+
+```
+
+#### 6.8.2. 各种 service port 类型
+
+K8S 的结构可以大致分为 3 层，Node, Pod, Container, 为了保护 Container 里面的应用，各层都进行了隔离。
+
+为了能够访问到 Pod 里面的 Container, Service 定义了几种 Port 类型：
+
+- Port - exposes the Kubernetes service on the specified port within the cluster. Other pods within the cluster can communicate with this server on the specified port.
+
+  是暴露在集群内部 Ip 上的端口, 提供集群内部访问 service 的入口, 即 `clusterIP:port`
+
+  这时的 service 类型即 clusterIp 类型 (k8s 默认的 service type), 仅仅能在内部互相访问
+
+- TargetPort - is the port on which the service will send requests to, that your pod will be listening on. Your application in the container will need to be listening on this port also.
+
+  Pod 和 Container 监听的 Port.
+
+- NodePort - exposes a service externally to the cluster by means of the target nodes IP address and the NodePort. NodePort is the default setting if the port field is not specified.
+
+  暴露端口到节点，可以让外网能够访问到 Pod/Container.
+
+  范围固定 30000 ~ 32767
+
+#### 6.8.3. ClusterIP (默认使用的类型)
+
+通过 kubernetes 集群的内部 IP 暴露服务
+
+仅供集群内部互相访问
+
+> 当我们只需要让集群中运行的其他应用程序访问我们的 pod 时，就可以使用这种类型的 Service
+
+```yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-hellok8s-clusterip
+spec:
+  # optional, 默认就是这样
+  type: ClusterIP
+  # associate with pods by using the label selector
+  selector:
+    app: hellok8s
+  ports:
+    # 当前 service 在集群内部暴露的端口, 即集群内部其他client通过这个端口访问当前 service
+    - port: 3000
+      #  指定当前 service 管理的 pod 上的端口(与制作容器时暴露的端口一致（即DockerFile中的EXPOSE）)
+      # 从port/nodePort上来的数据，经过kube-proxy流入到后端pod的targetPort上，最后进入容器。
+      targetPort: 3000
+```
+
+##### Headless
+
+service type 还是 clusterIP, 但是 clusterIp 设置为 None 就变成 Headless 了，不会再分配 IP 
+
+> 适合数据库
+
+#### 6.8.4. NodePort
+
+通过每个节点上的 IP 和静态端口暴露服务给集群外部调用。 NodePort 服务会路由到自动创建的 ClusterIP 服务。
+
+通过请求 `<nodeIP>:<nodePort>`，你可以从集群的外部访问一个 NodePort 服务
+
+> 比如外部用户要访问 k8s 集群中的一个 Web 应用，那么我们可以配置对应 service 的 type=NodePort，nodePort=30001。其他用户就可以通过浏览器 http://node:30001 访问到该 web 服务。
+>
+> 而数据库等服务可能不需要被外界访问，只需被内部服务访问即可，那么我们就不必设置 service 的 NodePort。
+
+```yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  type: NodePort            // 配置NodePort，外部流量可访问k8s中的服务
+  ports:
+  - port: 30080             // 服务访问端口，集群内部访问的端口
+    targetPort: 80          // pod控制器中定义的端口（即 container 定义中的端口）
+    nodePort: 30001         // NodePort，外部客户端访问的端口, 范围固定 30000 ~ 32767
+  selector:
+    name: nginx-pod
+
+```
+
+#### 6.8.5. LoadBalancer
+
+是使用云提供商的负载均衡器向外部暴露服务。 这个外部负载均衡器可以将流量路由到自动创建的 NodePort 服务和 ClusterIP 服务上.
+
+#### 6.8.6. ExternalName
+
+通过返回 CNAME 和对应值，可以将服务映射到 externalName 字段的内容（例如，foo.bar.example.com）。 无需创建任何类型代理。
+
+
+#### 6.8.7. 手动端口转发
+
+`kubectl port-forward`, 用于临时调试
+
+#### 6.8.8. service 如何工作
+
+Pod 通过 label 键值对与 Service 上的 label selector 相关联。Service 会自动发现带有与选择器匹配的标签的新 Pod。
+
+### 6.9. ingress
+
+可为 Service 提供外部可访问的 URL、负载均衡流量、 SSL/TLS，以及基于名称的虚拟托管 (service 毕竟只是内部使用的负载均衡)
+
+避免了对外暴露集群端口
+
+> 可以根据域名、路径把请求转发到不同的 Service, 相当于 nginx, 常用的实现是 nginx-ingress, kong-ingress, 仅创建 Ingress 资源本身没有任何效果, 需要和某个具体实现一起使用
+>
+> 原理: Ingress Contronler 通过与 Kubernetes API 交互，动态的去感知集群中 Ingress 规则变化，然后读取它，按照自定义的规则，规则就是写明了哪个域名对应哪个 service，生成一段 Nginx 配置，再写到 Nginx-ingress-control 的 Pod 里，这个 Ingress Contronler 的 pod 里面运行着一个 nginx 服务，控制器会把生成的 nginx 配置写入/etc/nginx.conf 文件中，然后 reload 一下 使用配置生效。以此来达到域名分配置及动态更新的问题。
+
+```yml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-ingress
+  annotations:
+    # We are defining this annotation to prevent nginx
+    # from redirecting requests to `https` for now 关闭 https 连接
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /hello
+            pathType: Prefix
+            backend:
+              service:
+                name: service-hellok8s-clusterip
+                port:
+                  number: 3000
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service-nginx-clusterip
+                port:
+                  number: 4000
+
+```
+
+支持这些命令
+
+```sh
+# create
+kubectl apply -f ingress.yaml
+
+# check list
+kubectl get ingress 
+
+```
+
+### 6.10. volume
+
+即在 pod 中可访问的文件目录, 用来存储大数据量的内容
+
+每个 Pod 中声明的存储卷由 Pod 中的所有容器共享
+
+> 可被挂载到 pod 中的一个/多个 container 的指定路径 下
+
+### 6.11. secret
+
+Secret 是用来保存和传递密码
+
+> 好处是可以避免把敏感信息明文写在配置文件里
+
+Secret 的资源定义和 ConfigMap 结构基本一致，唯一区别在于 kind 是 Secret，还有 Value 需要 Base64 编码
+
+```sh
+echo "db_password" | base64
+# ZGJfcGFzc3dvcmQK
+
+echo "ZGJfcGFzc3dvcmQK" | base64 -d
+# db_password
+```
+
+for example:
+
+```yml
+# hellok8s-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: hellok8s-secret
+data:
+  DB_PASSWORD: "ZGJfcGFzc3dvcmQK"
+```
+
+从中查询信息:
+
+```sh
+kubectl get secret my-mongo-mongodb -o json
+kubectl get secret my-mongo-mongodb -o yaml > secret.yaml
+```
+
+### 6.12. config map
+
+将非机密性的数据保存到键值对中
+
+ConfigMap 在设计上不是用来保存大量数据的。在 ConfigMap 中保存的数据不可超过 1 MiB。如果你需要保存超出此尺寸限制的数据，你可能考虑挂载存储卷。
+
+```yml
+# hellok8s-config-dev.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hellok8s-config
+data:
+  DB_URL: "http://DB_ADDRESS_DEV"
+
+```
+
+```yml
+# hellok8s-config-test.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hellok8s-config
+data:
+  DB_URL: "http://DB_ADDRESS_TEST"
+```
+
+
+分别在 dev test 两个 namespace 下创建相同的 ConfigMap，名字都叫 hellok8s-config，但是存放的 Pair 对中 Value 值不一样
+
+```sh
+kubectl apply -f hellok8s-config-dev.yaml -n dev
+kubectl apply -f hellok8s-config-test.yaml -n test 
+
+# check list in all ns
+kubectl get configmap --all-namespaces
+
+```
+
+在 pod 部署中使用 configMap
+
+```yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hellok8s-pod
+spec:
+  containers:
+    - name: hellok8s-container
+      image: guangzhengli/hellok8s:v4
+      # used to declare an env var
+      env:
+        - name: DB_URL   # the value have to consist with code
+          # specify that getting db_url from the specified config map
+          valueFrom:
+            configMapKeyRef:
+              name: hellok8s-config
+              key: DB_URL
+```
+
+### 6.13. flannel
+
+是 CoreOS 团队针对 Kubernetes 设计的一个网络规划服务, 简单来说, 它的功能是让集群中的不同节点主机创建的 Docker 容器都具有全集群唯一的虚拟 IP 地址, 让属于不同节点上的容器能够直接通过内网 IP 通信
+
+### 6.14. name
+
+由于 K8S 内部,使用“资源”来定义每一种逻辑概念(功能)故每种"资源”, 都应该有自己的"名称”
+
+"资源”有 api 版本( apiVersion )类别( kind )、元数据( metadata)、定义清单( spec)、状态( status )等配置信息
+
+"名称”通常定义在"资源”的"元数据”信息里
+
+### 6.15. name namespace (用来划分多环境)
+
+可以使用 namespace 划分出多个“虚拟集群”，这些 ns 之间可以完全隔离, 例如 dev 环境给开发使用，test 环境给 QA 使用
+
+> 也可以跨 ns，让一个 ns 中的 service 访问到其他 ns 的服务
+>
+>  名字空间作用域仅针对带有名字空间的对象，例如 Deployment、Service 等。
+
+namespace: isolate all all kinds of resources. resources of the same kind cannot have the same name in the same namespace
+
+default initialized namespaces: default, kube-system, kube-public
+
+```yml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+  
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test
+
+```
+
+```sh
+# create
+kubectl apply -f namespaces.yaml
+
+# check list
+kubectl get namespaces          
+
+
+
+# specify the namespace when creating resources
+kubectl apply -f deployment.yaml -n dev
+
+# check pods in specified ns
+kubectl get pods -n dev
+
+
+
+
+
+# 创建命名空间
+kubectl create namespace testapp
+
+
+# 切换命名空间
+kubens kube-system
+# 回到上个命名空间
+kubens -
+# 切换集群
+kubectx minikube
+
+
+```
+
+## 7. 垃圾回收
+
+### 7.1. 级联删除
+
+所有者删除，从属对象也被删除；
+
+分为前台级联删除 Foreground 和后台级联删除 Background 模式；
+
+- Foreground 前台级联删除：所有从属对象删除完毕后删除所有者对象；当所有者删除时会进入“正在删除”状态，仍可以通过 RestApi 查询到当前对象；
+
+- Background 后台级联删除： 立即删除所有者的对象，并由垃圾回收器在后台删除其从属对象 ； 不用等待删除从属对象的时间；
+
+### 7.2. 孤儿删除 orphan
+
+所有者删除，从属对象变成孤儿
+
+> 直接删除所有者对象，并将从属对象中的 ownerReference 元数据设置为默认值。之后垃圾回收器会确定孤儿对象并将其删除；
+
+## 8. 资源描述文件
+
+### 8.1. 通过命令生成 yml
+
+```sh
+kubectl create deployment tomcat6 --image=tomcat:6.0.53-jre8 --dry-run -o yaml > tomcat6.yml
+
+kubectl apply -f xxx.yaml
+
+
+```
+
+### 8.2. pod 的 yaml 描述文件
+
+```yml
+apiVersion : v1 #(k8s api server version)
+# Deployment、Job、Ingress、Service
+kind: Pod #(对象类型)
+metadata: #包括名称、命名空间、标签和关于该容器的其他信息
+    name: kubia-manual
+    # optional, default ns: default
+    namespace: xxx
+    # optional
+    labels:
+        xxx_key: xxx
+        yyy_key: yyy
+# 包括一些container，storage，volume, 探针...
+spec:
+    containers:
+    - image: xxx
+      name: xxx
+      ports:
+      - containerPost: 8080 # 容器会监听的端口, 仅仅是展示, 没有 指定作用
+        protocal: TCP
+    resources:
+        requests:
+            cpu: 100m
+            memory: 100Mi
+    # 存活探针， 用于 pod
+    # 在生产中 运行的pod, 一定 要定义 一 个存 活探针
+#   optional
+    livenessProbe:
+    httpGet:
+        path: /
+        port: 8080
+    # 如果没有设置初始延迟，探针将在启动时立即开始探测容器， 这通常会导致探测失败， 因为应用程序还没准备好开始接收请求。 如果失败次数超过阅值，在应用程序能正确响应请求之前， 容器就会重启。
+    initialDelaySeconds: 15 # 在第一次探测前， 等待 15s
+    [delay: 0] # 示在容器启动后立即开始探测。
+    [timeout: 1] # 容器必须在1秒内进行响应， 不然这次探测记作失败
+    [period: 10] # 每10秒探测一次容器
+    [failure: 3] # 探测连续三次失败(#fa辽ure= 3)后重启容器
+
+status: #包含运行中的 po 的当前信息，例如 po 所处的条件 每个容器的描述和状态，以及内部 IP 和其他基本信息
+
+```
+
+### 8.3. deployment 的描述文件
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  ## optional
+  nodeSelector:
+    gpu: 'true' #使用 标签选择器使得 pod 只被调度到符合要求的 worker node
+  # optional
+  # select pods that will be affected by this deployment
+  # have to match labels that specified in template.metadata.labels
+  selector:
+    matchLabels:
+      app: nginx
+  # optional
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  # define pods
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+```
+
+### 8.4. service
+
+```yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  type: LoadBalancer
+  ports:
+    - name: nginx
+      port: 80
+      targetPort: 80
+  selector:
+    app: nginx
+```
+
+## 9. 注解
+
+注解: TODO
+
+## 10. 命名空间
+
+K8S namespace: 为 对象资源提供了一个作用域, 在不同的 作用域中可以使用相同的资源名， 但这相同的资源名代表了不同的资源。 类比 java package
+
+- 通过 label 对 pod 进行分组, 每个 组 可能有 pod 重叠, 通过 k8s namespace 分组可以完全避免重叠
+
+- ns 只隔离资源， 不隔离运行的对象 （资源实例）， 如 不同 ns 中的 pod 仍然可通信
+
+- 适用于多用户 使用 k8s， 限制某个用户的资源使用量
+
+从 ymal 文件创建 ns：
+
+```yml
+apiVersion: vl
+kind: Namespace
+metadata:
+  name: custome-ns
+```
+
+`kubectl create -f custom-ns.yaml`
+
+通过命令创建 ns： `kubectl create namespace custom-namespace`
+
+切换 ns： `kubectl config set-context $(kubectl config current-context) --namespace <other ns>`
+
+## 11. pod 管理
+
+### 11.1. 探测 pod 是否健康
+
+k8s 会保持 pod 始终正常运行， 如果容器的主进程崩溃， Kubelet 将重启容器。 当容器被强行终止时，会创建一个全新的容器—-而不是重启原来的容器
+
+但是 进程没有崩溃， 有时应用程序也会停止正常工作。 例如， 具有内存泄漏的 Java 应用程序将开始抛出 OutOfMemoryErrors, 但 JVM 进程会一直运行
+
+- 方法 1: 从 app 内部自己检测, 可以在应用中捕获这类错误， 并在错误发生时退出该进程。
+
+  存在问题: 应用因为无限循环或死锁而停止响应, 这个方法就无效了
+
+- 方法 2: 须从外部检查应用程序的运行状况
+
+  - 存活探针 (liveness probe) - 检查容器是否还在运行
+
+    - HTTP GET 探针, 返回 2xx, 3xx 则代表正常, 不重启
+
+    - TCP 套接字探针, 和 pod 正常建立 链接, 正常, 不重启
+
+    - Exec 探针 , 进入 pod 某个 container, 执行任意命令, 并检查命令的退出状态码。如果状态码是 0, 则探测成功
+
+```yml
+apiVersion: vl
+kind: Pod
+metadata:
+  name: custome-pod
+spec:
+  containers:
+    - image: xxx
+      name: xxx
+      livenessProbe:
+        httpGet:
+          path: /
+          port: 8080
+```
+
+### 11.2. pod 副本
+
+ReplicationController 是一种 Kubernetes 资源，负责创建和管理 pod 副本
+
+被 ReplicationController 创建的 pod 为 “托管 pod”， 直接创建的 pod 为 “非托管 pod”。托管 pod 异常退出 （如 worker node 崩溃， 或 该 pod 崩溃）后， ReplicationController 会 创建新的 pod 代替
+
+```yml
+apiVersion: vl
+kind: Replicationcontroller
+metadata:
+    name: kubia
+spec:
+    replicas: 3
+    # 定义ReplicationController时不要指定 选择器，让Kubemetes从pod模板中提取它。这样YAML更简短。
+    # rc 创建后， label selector 不会再更改
+    # 一般创建后会更改 template
+    [selector:
+        app: kubia]
+    # 创建新 pod 所用的 模板
+    template:
+        metadata:
+            # 这里的 标签必须和 前面的 标签选择器 匹配， 否则将无休止地创建新的容器
+            labels:
+                app: kubia
+            spec:
+                containers:
+                    - name: kubia
+                      image: luksa/kubia
+                      ports:
+                        - containerPort: 8080
+
+
+```
+
+kubectl create -f kubia-rc.yaml
+
+rc 创建后，由于没有任何 pod 有 app=kubia 标签， ReplicationController 会根据 pod 模板启动三个新的 pod
+
+由 ReplicationController 创建的 pod 并不是绑定到 ReplicationController。 在任何时刻， ReplicationController 管理与标签选择器匹配的 pod。 通 过更改 pod 的标签， 可以将它 从 ReplicationController 的作用域中添加或删除
+
+尽管一个 pod 没有绑定到一个 ReplicationController ，但 pod 在 metadata.ownerReferences 中引用它 以轻松使用它 来找到一 pod 的 Replication controller
+
+升级 pod 可以这么做：编辑 rc 的 template 后， 删除 所有要升级的 pod， rc 会自动创建升级后的 pod
+
+================水平缩扩容：
+
+方法 1：`kubectl scale re kubia --replicas=3 `
+
+方法 2：`kubectl edit re kubia` 更新 `spec.replicas` 值
+
+======================新的替代者 ReplicaSet
+
+ReplicaSet：ReplicaSet 的行为与 ReplicationController 完全相同， 但标签选择器的表达能力更强。
+
+- 单个 rc 无法将 pod 与 （ label env=prod 和 env=dev ） 同时匹配，它只能匹配带有 env=devel 标签的 pod 或带有 env=dev 标签的 pod
+- rs 可以仅仅根据 是否有 label key 存在 来匹配
+
+```yml
+apiVersion: apps/v1beta2
+kind: ReplicaSet
+metadata:
+    name: kubia
+spec:
+    replicas: 3
+    selector:
+        # 指定了多个表达式，则所有这些表达式都必须为true才能使选择器与
+        # pod匹配。如果同时指定matchLabels和matchExpressions, 则所有标签都
+        # 必须匹配，并且所有表达式必须计算为true以使该pod与选择器匹配
+        [matchLabels:
+            hah: hoo]
+        matchExpressions:
+            - key: hah # 要求 pod 包含 key 为 hah 的 label
+              # 要求 label 值为 hoo
+              # operator 可选 In (label 值需要匹配 value 中的一个), NotIn （label 值需要不在 values 中），Exists （label 必须有指定 key，不指定 values）
+              # DoesNotExist （pod不得包含有指定名称的标签。values属性不得指定）
+              operator: In
+              values:
+                - hoo
+    # 创建新 pod 所用的 模板
+    template:
+        metadata:
+            # 这里的 标签必须和 前面的 标签选择器 匹配， 否则将无休止地创建新的容器
+            labels:
+                hah: hoo
+            spec:
+                containers:
+                    - name: kubia
+                      image: luksa/kubia
+                      ports:
+                        - containerPort: 8080
+
+
+```
+
+================ DaemonSet 在每个 worker node 上部署一个 pod
+
+用来运行系统服务，如 kube-proxy
+
+DaemonSet 管理下的 pod 不是随机分布在 worker node 上， 而是保证 每个 node 只存在一个 pod。
+
+若 node 下线， DaemonSet 不会在其他地方创建新的 pod， 但是当某个 node 的 pod 被意外删除，会重新创建新的 pod 代替
+
+但是 当新的 node 添加进 集群， DaemonSet 会立即部署一个新 pod 到这个 node。
+
+通过 `spec.nodeSelector` (节点选择器，原理是给 node 打标签) 只在特定 node 部署 pod
+
+======================= Deployment ======= 更加方便的管理 Replica Set
+
+Deployment 额外的特性：
+
+- 事件，状态查看：可以查看 Deployment 的升级详细进度和状态
+- 回滚：当升级 pod 镜像或者相关参数的时候发现问题，可以使用回滚操作回滚到上一个稳定的版本或者指定的版本
+- 版本记录: 每一次对 Deployment 的操作，都能保存下来，给予后续可能的回滚使用
+- 暂停和启动：对于每一次升级，都能够随时暂停和启动
+- 多种升级方案：
+
+  Recreate：删除所有已存在的 pod,重新创建新的;
+
+  RollingUpdate：滚动升级，逐步替换的策略，同时滚动升级时，支持更多的附加参数，例如设置最大不可用 pod 数量，最小升级间隔时间等等。
+
+================= HPA 弹性伸缩 根据资源的使用情况自动缩扩容
+
+### 11.3. 运行单个任务 Job
+
+到目前为止， 我们只谈论了需要持续运行的 pod， 这些 pod 由 rc， rs， ds 管理。 你会遇到只想运行完成工作后就终止任务的清况， 这种 pod 由 Job 管理
+
+该 pod 在内部进程成功结束时， 不重启容器。一旦任务完成， pod 就被认为处千完成状态
+
+```yml
+apiVersion: batch/v1
+kind: Job
+metadata:
+    name: ba七ch-job
+spec:
+    [completions: 5] # 顺序运行 5 个 pod
+    [parallelism: 2] # 最多可以 2 个 pod 并行运行
+    [activeDeadlineSeconds: 120] # job 超时时间，若 pod 超时还没结束，系统将终止 pod， 标记 job 为失败
+    [backOffLimit: 6] # job 标记为失败前的重试次数， 默认 6
+    template:
+        metadata:
+            # Job 的 pod 选择器 将自动根据这里的 labels 创建
+            labels:
+                app: batch-job
+        spec:
+            # 重启策略， 指定 容器中进程结束后， k8s 做什么
+            # 不能是 默认的 Always
+            # 这里 Never 亦可
+            restartPolicy: OnFailure
+            containers:
+                - name: main
+                  image: luksa/batch-job
+
+```
+
+### 11.4. 定时任务 CronJob
+
+TODO
+
+## 12. pod 通信
+
+### 12.1. proxy
+
+### 12.2. Service
+
+pods 有自己的内部地址, 但是无法从 cluster 外部访问, 通过 service 可以暴露到 cluster 外部
+
+service 是一个逻辑结构, 定义一系列 pods, 以及他们的访问策略(通过类型指定)
+
+- ClusterIP (default): 只能在 cluster 内部访问到 service
+- NodePort: 外部可以使用 `<NodeIP>:<NodePort>` 访问 service
+- LoadBalancer: 给 service 分配一个静态 ip, 可以负载均衡多个 pods
+- ExternalName: 通过随机名字访问 service (可通过 externalName 在配置中指定). This type requires v1.7 or higher of kube-dns.
+
+a default service named kubernetes will be created with type ClusterIP
+
+可以定义配置文件, 指定标签选择器, 选择包含哪些 pods
+
+```sh
+
+```
+
+### 12.3. pod 间通信
+
+Service
+
+作用：
+
+- 服务的主要目标就是使集群内部的其他 pod 可以访问当前这组 pod
+- 对外暴露服务
+
+如何创建？
+
+方式 1：`kubectl expose rc kubia --type=LoadBalancer --name kubia-http`
+
+方式 2：通过 `kubectl create -f xxx-service.yml`
+
+```yml
+apiVersion: vl
+kind: Service
+metadata:
+    name: kubia
+spec:
+    # 配置会话亲和性
+    # 特定客户端产生的所有请求每次都指向同 一个 pod
+    # 还可选 None， 默认值。不支持 cookie
+    [sessionAffinity: ClientIP]
+    ports:
+      - port: 80 # service 的可用端口
+        # 可以引用 Pod 中 的 port name
+        targetPort: 8080 # service将链接转发到 容器的端口
+        # 不是必须， 多端口映射必须
+        [name: xxx]
+    selector:
+        app: kubia
+```
+
+多端口映射
+
+```yml
+apiVersion: vl
+kind: Service
+metadata:
+    name: kubia
+spec:
+    # 配置会话亲和性
+    # 特定客户端产生的所有请求每次都指向同 一个 pod
+    # 还可选 None， 默认值。不支持 cookie
+    [sessionAffinity: ClientIP]
+    ports:
+      - port: 80 # service 的可用端口
+        targetPort: 8080 # service将链接转发到 容器的端口
+        name: xxx
+      - port: 443
+        targetPort: 8443
+        name: yyy
+    selector:
+        app: kubia
+```
+
+如何发现 service
+
+- 通过环境变量发现服务
+
+  每个 pod 内会有环境变量表示 Service ip （`<pod name>_SERVICE_HOST`）， port (`<pod name>_SERVICE_PORT`)
+
+- 通过 dns
+
+  kube-system ns 中有个 pod 为 kube-dns，就是 dns server。在集群 中的其他 pod 都被配置成使用其作为 dns ( Kubemetes 通过修改容器的 /etc/resolv.conf 实现）。运行在 pod 上的进程 DNS 查询都会被 Kubemetes 自身的 DNS 务器响应
+
+  pod 是否使用内部的 DNS 服务器是根据 pod 的 spec.dnsPolicy 属性来决定的
+
+- 通过 FQDN （全限定域名） 连接服务
+
+  `curl http://kubia.default.svc.cluster.local `
+
+### 12.4. 通过 Service 连接外部服务
+
+pod 如何访问 k8s 外部 服务？
+
+#### 12.4.1. 通过手动生成 endpoint
+
+Service 和 pod 中间不是直接相连， 而是插着 Endpoint，就是一个 ip:port 列表，在创建 Service 时 根据 该服务的 label selector 产生
+
+如果 Service 没有指定 pod selector， 就不会自动生成 endpoints，需要手动生成，这时可以指定地址为任意 外部的 ip：
+
+demo-service.yml:
+
+```yml
+apiVersion: vl
+kind: Service
+metadata:
+  name: demo-service
+spec:
+  # 没有配置 selector
+
+  # 将接收端口80上的传入连接
+  ports:
+    - port: 80
+```
+
+demo-service-endpoints.yml
+
+```yml
+apiVersion: vl
+kind: Endpoints
+metadata:
+  # Endpoint的名称必须和 service 的名称相同
+  name: demo-service
+subsets:
+  # Service将把请求重定向到 下面的 地址
+  - addresses:
+      - ip: 11. 11. 11. 11
+      - ip: 22.22.22.22
+    ports:
+      - port: 80
+```
+
+如果稍后决定将 外部服务迁移到 Kubemetes 中运行的 pod, 可以为服务添加选择器，从而对 Endpoint 进行自动管理
+
+#### 12.4.2. 通过 externalName 类型的 Service
+
+另外的方式来访问外部服务：创建 ExtemalName 类型的 Service
+
+```yml
+apiVersion: vl
+kind: Service
+metadata:
+  name: external-service
+spec:
+  # 默认为 ClusterIP，只能 pod 间通信
+  # 还有很多种 type
+  type: ExternalName
+  externalName: someapi.somecompany.com
+  ports:
+    - port: 80
+```
+
+然后在 pod 中通过 `external-service[.default.svc.cluster.local]` 访问 someapi.somecompany.com
+
+在以后如果将其指向不同的服务，只需简单地修改 externalName 属性，或者将类型重新变回 ClusterIP 并为服务创建 Endpoint
+
+### 12.5. 将服务暴露给外部
+
+#### 12.5.1. 将服务的类型设置成 NodePort
+
+每个集群节点都会在节点上打开一个端口(端口号相同)。并将传入的连接转发给 pod
+
+```yml
+apiVersion: vl
+kind: Service
+metadata:
+  name: kubia-nodeport
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 8080
+      # 通过 集群任意节点的 30123 端口可以访问 这个 service
+      # 如果不指定，Kubernetes将选择一个随机端口
+      nodePort: 30123
+  selector:
+    app: kubia
+```
+
+worker node ip 如何获取：`kubectl get nodes -o jsonpath='...'`
+
+#### 12.5.2. 将服务的类型设置成 LoadBalance
+
+NodePort 类型的一 种扩展, 在 client 和 worker node 间 放了一个 LoadBalancer， 防止节点单点故障
+
+负载均衡器拥有自己独一无二的可公开访问的 IP 地址， 并将所有连接重定向到服务。可以通过负载均衡器的 IP 地址访问服务
+
+```yml
+apiVersion: vl
+kind: Service
+me七adata:
+    name: kubia-loadbalancer
+spec:
+    type: LoadBalancer
+    # 仅将外部通信重定向到接收连接的节点上运行的pod
+    # 如果没有本地pod存在， 则连接将挂起。因此， 需要确保负载平衡器将连接转发给至少具有一个pod的节点。
+    # 可避免额外的网络跳转。但是可能会导致跨节点的 pod 的负载分布不均衡
+    [externalTrafficPolicy: Local ]
+    portS:
+        - port: 80
+          targetPort: 8080
+    selector:
+        app: kubia
+```
+
+#### 12.5.3. 创建一 个 Ingress 资源
+
+通过一 个 IP 地址公开多个服务，它运行在 HTTP 层（网络协议第 7 层）上， 因此可以提供比工作在第 4 层的服务更多的功能
+
+为什么需要 Ingress：每个 LoadBalancer 服务都需要自己的负载均衡器，每个 loadbalancer 都需要自己的 ip， 而 Ingress 只需要一个公网 IP 就能为许多服务提供访问
+
+当客户端向 Ingress 发送 HTTP 请求时， Ingress 会根据请求的主机名和路径决定请求转发到的服务。
+
+Ingress 工作在 应用层 基于 cookie 的会话亲和性 (session affinity)
+
+已经确认集群中正在运行 Ingress 控制器， 因此现在可以创建一个 Ingress 资源：
+
+```yml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubia
+spec:
+  rules:
+    # Ingress 将这个域名映射到你的 service
+    - host: kubia . example.com
+      http:
+        paths:
+          # 将请求发送到  kubia-nodeport 服务的 80 端口
+          - path: /
+            backend:
+              serviceName: kubia-nodeport
+              servicePort: 80
+```
+
+`kubectl get ingresses ` 获取 Ingress 控制器 内网 ip，配置到 dns server
+
+为 ingress 创建 tls 认证 TODO
+
+## 13. 命令
+
+### 13.1. kubectl
+
+#### 13.1.1. 基本信息
+
+```sh
+kubectl version
+kubectl cluster-info
+kubectl get nodes
+# 获取kube-scheduler和kube-controller-manager组件状态
+kubectl get cs # 健康状况
+```
+
+#### 13.1.2. 创建 create expose
+
+```sh
+
+# create depend on a spec file.
+kubectl create -f xxx.yml
+
+
+
+# >>> deployment,
+
+# dep-name 不能随便设置, 必须符合域名命名规范.
+# 自动创建的 ReplicaSet 名字为 dep_name + random uuid
+# 自动创建 pod 名字为 ReplicaSet-name + random uuid
+# 镜像地址 include the full repository url
+# 自动创建 label -> run={dep name}
+# auto  create selector -> run={dep name}
+kubectl create deployment <dep name> --image=k8s.gcr.io/echoserver:1.4
+kubectl create deployment tomcat6 --image=tomcat:6.0.53-jre8 # 不指定 url 前缀, 默认从 docker hub 拉取
+
+# >>> proxy
+
+#  pods 默认仅仅能被 同个集群的 pods, service  访问
+# 创建临时的 代理, 可以将外部命令转发到 cluster 内部的 pod
+# Ctrl +c 关闭
+kubectl proxy
+# 查 版本
+curl http://localhost:8001/version
+# 访问指定 pod 的服务
+curl http://localhost:8001/api/v1/namespaces/default/pods/$POD_NAME/proxy/
+
+
+
+# >>> pod
+
+kubectl run <pod name> --image=nginx --restart=Never --port=80
+# --generator=run/vl  表示同时创建 rc 管理 pod
+kubectl run <pod name> --image=luksa/kubia --port=8080 --generator=run/vl
+# 从描述文件创建 资源， 可以 pod， rc。。。， 可指定 ns， 默认 default
+kubectl create -f kubia-manual.yaml [-n xxx_ns]
+
+
+
+# >>> service
+
+# 创建 service, 名字同 deployment
+# The LoadBalancer type makes the Service accessible through the minikube service command
+# Port 8080 is specified in image code, so cannot be other port here
+# --port : service 暴露在 cluster ip 下的端口, 通过这个端口,  可以在 cluster 内部访问到多个 pod. 通过这个 service 负载均衡了 多个 pod
+# --targetPort 容器的端口, 默认=== port, 与制作镜像时暴露的端口一致, 不能随便指定
+# --type: service 类型,
+#       NodePort: 创建一个 service 并暴露到 cluster 外部, service 的端口还是 --port 指定, 同时 service 有自己的 cluster url, node 会指定一个随机端口映射到 service 的 端口, 若指定了 --nodePort, 就用指定端口映射到 service 端口; 如 type=NodePort，而且配置 nodePort=30001, 那么外部机器 可以 scheme://nodeIP:30001访问到该服务
+#       LoadBalancer:
+kubectl expose deployment <dep name> --type=LoadBalancer --port=8080
+
+# 查找暴露的随机端口
+kubectl describe service mywebservice | grep NodePort
+
+# service port 80 will mapping to random node port ,and this service can be visited by someone outside cluster
+# 若扩容, 则在各个有 pod 运行的节点都能通过 node 端口访问  这个 service
+kubectl expose deploy tomcat6 --port=80 --target-port=8080 --type=NodePort
+
+# 创建一个负载均衡服务 service 对象. 可以从外部访问 pod
+# rc 为 replicationController 缩写
+kubectl expose rc <po name> --type=LoadBalancer --name kubia-http
+
+
+# >>> label
+
+# 语法: kubectl label <obj_type, eg: pod, service> <obj_name> <label, eg: app=v1>
+kubectl label pod $POD_NAME app=v1
+
+
+# >>> 命名空间
+
+# 创建
+kubectl config set-context Kubernetes --namespace=beta
+# 验证
+kubectl config view | grep namespace command
+```
+
+#### 13.1.3. 执行命令到容器 exec
+
+```sh
+# 仅有 一个容器在 pod, 无需指定容器
+kubectl exec [-c container_name] $POD_NAME -- env
+
+# 进入 pod 内部随机一个容器 
+kubectl exec -ti $POD_NAME -- bash
+```
+
+#### 13.1.4. 修改
+
+```sh
+
+# >>> 扩容
+
+# 指定 replicas 可以缩扩容
+$ kubectl scale deployments/<dep_name> --replicas=4
+kubectl scale deployment.apps/tomcat6 --replicas=2
+kubectl scale deployment tomcat6 --replicas=2
+
+
+# >>> 滚动更新
+
+# 更新 image version
+$ kubectl set image deployments/<dep_name> <dep_name>=jocatalin/kubernetes-bootcamp:v2
+# 验证更新是否成功
+$ kubectl rollout status deployments/kubernetes-bootcamp
+
+# >>> 回滚
+
+# 取消之前的部署，这将执行反向操作，将负载移动至之前版本的容器
+$ kubectl rollout undo deployments/kubernetes-bootcamp
+```
+
+#### 13.1.5. 资源列表 get
+
+单复数均可
+
+```sh
+
+# 所有
+kubectl get all
+
+
+# >>> deployment
+
+kubectl get deployments
+
+
+# >>> pods
+
+# --show-labels 同时显示所有标签。
+# -A 查看所有 pods, 包括 kube-system 命名空间 下的 pods
+# --all-namespaces 所有空间的 pods
+kubectl get pods [--show-labels]
+
+# -o 输出格式; wide 表示输出文本信息, 列出 ip , 节点 name
+# -o yaml
+kubectl get pods -o wide
+
+# 通过标签过滤
+kubectl get pods -l <label>
+
+# 获取 pod 完整 yaml/json 文件
+# 缩写 po
+kubectl get po <pod name> -o yaml
+kubectl get po <pod name> -o json
+kubectl get node
+
+# 根据模板获取 信息
+export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
+export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}')
+
+
+# >>> service
+
+
+# 查看 service  的 endpoint 列表
+kubectl get endpoints <service name>
+# 查看所有 svc
+# 缩写 svc
+kubectl get services
+
+
+# >>> ReplicaSet
+
+kubectl get rs
+
+
+
+
+# 端口转发， 将会运行一个端口转发代理
+# 将 local port 8888 转发到 pod 的 8080
+kubectl port-forward <pod name> 8888:8080
+
+# 标签
+# 列出 pods 的所有标签
+kubectl get pods --show-labels
+# 只列出感兴趣的标签， 标签按照列展示
+kubectl get po -L creation_method,env
+# 添加
+kubectl label po <pod name> creation_method=manual
+# 修改
+kubectl label po <pod name> creation_method=manual --override
+
+# 标签选择器
+kubectl get po -1 creation_method=manual
+kubectl get po -1 creation_method!=manual
+kubectl get po -1 env
+# 列出没有 env 的pod
+kubectl get po -1 '!env'
+# 选择带有env标签且值为prod或devel的pod
+kubectl get po -1 env in (prod, devel)
+kubectl get po -1 env notin (prod, devel)
+
+# 使用 label 分类 worker node
+kubectl get nodes
+kubectl label node <node name> gpu=true # 每个 node 都有一个默认 label， kubernetes.io/hostname:主机名
+kubectl get nodes -l gpu=true
+
+# 命名空间
+# 查看所有 ns, 有 default， kube-public， kube-system，默认我们使用的是 default
+kubectl get ns
+# 列出只属于该命名空间的 pod, 可使用 -n
+kubectl get po --namespace kube-system
+
+
+# 编辑 rc 的 yaml
+# 一般仅仅编辑 rc 的 template， 不动 label selector
+# 用来升级 pod
+kubectl edit rc kubia
+
+# 增加 副本数， 水平扩容
+kubectl scale rc kubia --replicas=3
+# 等同 parallelism
+kubectl scale job xxx_job --replicas 3
+
+# 远程在 pod 中某个 container 执行命令
+# “--” 表示 kubectl 命令结束， 后面的是在 pod 内执行的
+kubectl exec <pod name> -- curl -s http://10.23...
+# 列出环境变量，如 Service 的 ip， 端口
+kubectl exec kubia-3inly env
+# 在 pod 中执行 shell
+kubectl exec -it kubi-3inly bash
+
+
+# >>> 配置文件
+
+kubectl config view
+
+
+
+# >>> 事件
+
+kubectl get events
+
+# 通过 describe 也能得到 object 相关的事件
+
+```
+
+#### 13.1.6. 查询详细描述 describe
+
+```sh
+# >>> pods
+
+# 查看资源描述， 附加信息， 作为 kubectl get xxx xxx 补充, 可用于排查问题
+# 如 pod 是否正在运行， 重启原因， 退出码 137，143 表示 pod 被迫终止
+kubectl describe pods [pod_name]
+
+
+# >>> service
+
+kubectl describe services/<srv name>
+
+# >>> deployment
+
+$ kubectl describe deployment
+
+
+```
+
+#### 13.1.7. 查询日志 logs
+
+```sh
+# 查指定 pod 下的 container 日志
+# 若pod 只有一个 container, 无需指定 container
+kubectl logs $POD_NAME
+kubectl logs -f POD-NAME
+
+
+# 需要 ssh 到 pod 所在的 worker node
+docker logs <container_id>
+# 无需 ssh, 可指定某个 container， 可指定看重启前的版本的日志
+kubectl logs <pod name> [-c container_name] [--previous]
+
+
+
+
+# 查看 k8s 资源
+kubectl explain pods
+kubectl explain pod.spec
+
+```
+
+#### 13.1.8. 删除 delete
+
+```sh
+# delete by spec file
+kubectl delete -f flask.yaml
+
+# 删除 pod
+# 无法直接删除, 只要 replicaSet 没有删除, 删了 po, 还会重现创建 po
+# 可直接 通过删除 deployment 删除
+kubectl delete po kubia-gpu [pod2 [pod3]]
+# 删除当前 ns 下 all pod， 保留 ns
+kubectl delete po --all
+# 按照标签删除
+kubectl delete po -1 creation_method=manual
+
+kubectl delete service hello-node
+kubectl delete deployment hello-node
+
+#  删除 ns, 同时会删除 ns 下的所有 pod
+kubectl delete ns custom-namespace
+# 删除所有资源， 包括 rc， pod， service
+kubectl delete all --all
+# 删除 rc， rc 管理的 pods 也会删除
+kubectl delete rc <rc name>
+# 删除 rc， 但是保留 pods
+kubectl delete rc <rc name> --cascade=false
+kubectl delete rs kubia
+
+
+# 删除所有 pod, deployment, service 资源
+kubectl delete deployment,service --all
+
+```
+
+### 13.2. kubeadmin
+
+```sh
+kubeadm init # create a master node
+
+kubeadm join <master_id:port> # add a node to cluster
+```
+
+
+## 14. cka ckad 证书考试
+
+https://blog.csdn.net/vic_qxz/article/details/108338442 https://zhuanlan.zhihu.com/p/139052135 备考 cka ckad
+
+https://training.linuxfoundation.cn/certificate/details/1 中国区
+
+https://zhuanlan.zhihu.com/p/138796893 https://www.jianshu.com/p/629525af31c4 https://www.kubernetes.org.cn/peixun 考试要点 https://zhuanlan.zhihu.com/p/138796893 , https://www.zhihu.com/zvideo/1302356091591372800 真题
+
+
+
+## 15. dashboard
+
+### 15.1. k9s
+
+https://k9scli.io/, 基于 Terminal 的轻量级 UI
+
+### kuboard
+
+https://github.com/eip-work/kuboard-press 面板
+
+
+### 15.2. kubernetes-dashboard
+
+
+```sh
+# install
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended.yaml
+
+# start
+kubectl proxy
+# start in background
+kubectl proxy >/dev/null &
+
+# create administrator
+kubectl apply -f https://raw.githubusercontent.com/gotok8s/gotok8s/master/dashboard-admin.yaml
+# and token
+kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep kubernetes-dashboard-admin | awk "'{print $1}'")
+
+# visit
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+```
+
+
+
+### 15.3. kubesphere (推荐)
+
+打通 devops 全套流水线, 对 cluster 要求高 https://github.com/kubesphere/kubesphere
+
+(kuboard 也行, 对 cluster 要求不高)
+
+https://www.zhihu.com/question/348609092 rancher 和 kubesphere 对比
+
+https://www.bilibili.com/video/BV1cL4y167GV 视频教程
+
+
+### 15.4. rancher
+
+部署 k8s 集群
+
+## 16. Harbor
+
+## 17. Helm
+
+来自 CNCF, 使用 helm chart 一键拉起整套环境. 也可以使用其应用商店, 一键部署别人写好的软件集群
+
+> Helm 的使用方式可以解释为：Helm 安装 charts 到 Kubernetes 集群中，每次安装都会创建一个新的 release。你可以在 Helm 的 chart repositories 中寻找新的 chart。
+
+
+### 17.1. How to create helm chart
+
+We can use `helm create <chart-name>` to create a default chart template, 该命令默认会创建一些 k8s 资源定义的初始文件，并且会生成官网推荐的目录结构
+
+```sh
+helm create hello-helm
+
+.
+├── Chart.yaml
+├── charts
+├── templates     // we can put our resource yml files into this folder, then our code can be put into the root path
+│   ├── NOTES.txt
+│   ├── _helpers.tpl
+│   ├── deployment.yaml
+│   ├── hpa.yaml
+│   ├── ingress.yaml
+│   ├── service.yaml
+│   ├── serviceaccount.yaml
+│   └── tests
+│       └── test-connection.yaml
+└── values.yaml
+
+```
+
+values.yml is used to define the env vars, we can extract the vars from cofigMap and then put the vars into this file.
+
+> 好处是可以将所有可变的参数定义在 values.yaml 文件中，使用该 helm charts 的人无需了解具体 k8s 的定义，只需改变成自己想要的参数，即可创建自定义的资源！
+
+for example:
+
+```yml
+# values.yml
+application:
+  name: hellok8s
+  hellok8s:
+    image: guangzhengli/hellok8s:v6
+    replicas: 3
+    message: "It works with Helm Values[v2]!"
+    database:
+      url: "http://DB_ADDRESS_DEFAULT"
+      password: "db_password"
+  nginx:
+    image: nginx
+    replicas: 2
+```
+
+we can change the configMap like this:
+
+```yml
+# hello-k8s-configmap.yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  # 意思是从 values.yaml 文件中获取 application.name 的值 hellok8s，拼接 -config 字符串，
+  # 这样创建出来的 configmaps 资源名称就是 hellok8s-config。
+  name: {{ .Values.application.name }}-config
+data:
+  DB_URL: {{ .Values.application.hellok8s.database.url }}
+```
+
+change secret yml like this:
+
+```yml
+# hellok8s-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.application.name }}-secret
+data:
+  # 通过 b64enc 方法将值 Base64 编码
+  DB_PASSWORD: {{ .Values.application.hellok8s.database.password | b64enc }}
+```
+
+and change deployment like this:
+
+```yml
+# hello-k8s-deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.application.name }}-deployment
+spec:
+  replicas: {{ .Values.application.hellok8s.replicas }}
+  selector:
+    matchLabels:
+      app: hellok8s
+  template:
+    metadata:
+      labels:
+        app: hellok8s
+    spec:
+      containers:
+        - image: {{ .Values.application.hellok8s.image }}
+          name: hellok8s-container
+          env:
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.application.name }}-config
+                  key: DB_URL
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.application.name }}-secret
+                  key: DB_PASSWORD
+            - name: NAMESPACE
+              # Helm 的内置对象
+              value: {{ .Release.Namespace }}
+            - name: MESSAGE
+              value: {{ .Values.application.hellok8s.message }}
+```
+
+### 17.2. helm chart 的打包发布
+
+这里一 使用 github pages 存储为例
+
+打包发布到 https://artifacthub.io/  (类似 dockerhub)
+
+#### 17.2.1. 手动打包发布
+
+```sh
+helm package <char name> # 将chart目录打包到chart归档中。
+
+helm repo index . # 命令可以基于包含打包chart的目录，生成仓库的索引文件 index.yaml。
+
+# 指定包进行安装使用
+helm upgrade --install *.tgz
+# or
+helm upgrade --install hello-helm hello-helm-0.1.0.tgz
+```
+
+#### 17.2.2. 利用 github action 自动打包发布
+
+使用 [char-release-action]([https://](https://github.com/helm/chart-releaser-action)) 自动发布 (该 action 会默认生成 helm chart 发布到 gh-pages 分支上)
+
+ci.yml
+
+```yml
+name: Release Charts
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
+    # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.8.1
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.4.0
+        with: 
+          charts_dir: helm-charts
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+```
+
+
+
+### 17.3. 基本使用
+
+```sh
+# 使用别人制作好的 chart
+# Add the remote git repository to local helm repo
+# The git repo include a chart yml file, with which we can used to create all of the resources
+helm repo add <chart name> <git url>
+helm install my-hello-helm hellok8s/hello-helm [--version 0.1.0]
+
+
+# or
+#  自己制作好 chart 后, 在 helm chart 目录下执行安装, 会创建好 resources
+helm upgrade --install hello-helm --values values.yaml .
+
+
+
+# 查看 charts list
+helm ls
+
+# 删除
+helm delete my-mongo
+```
+
+### 17.4. rollback
+
+```sh
+# 比如, 我们对 values.yml 做了修改
+
+# 更新 k8s 资源
+helm upgrade --install hello-helm --values values.yaml .
+
+# 发现更新有问题, 回滚 (回滚后 REVISION 版本都会增大到 3 而不是回滚到 1)
+helm rollback hello-helm 1
+
+```
+
+
+### 17.5. 多环境
+
+create `values-dev.yaml`
+
+```sh
+# 可以多次指定'--values 或者 -f'参数，最后（最右边）指定的文件优先级最高
+# 这里最右边的是 values-dev.yaml 文件，所以 values-dev.yaml 文件中的值会覆盖 values.yaml 中相同的值
+# -n dev 表示在名字为 dev 的 namespace 中创建 k8s 资源
+helm upgrade --install hello-helm -f values.yaml -f values-dev.yaml -n dev .
+
+# 还可以再 cmd 中临时设置 values (此方法在 CICD 中经常用到。)
+helm upgrade --install hello-helm -f values.yaml -f values-dev.yaml \
+  --set application.hellok8s.message="It works with set helm values" \
+  -n dev .
+```

@@ -51,8 +51,8 @@ https://github.com/docker/kitematic 可视化管理gui
   - [4.2. 使用场景-得到什么好处](#42-使用场景-得到什么好处)
   - [4.3. 容器实现的原理](#43-容器实现的原理)
 - [5. 安装](#5-安装)
-  - [ubuntu 22 install docker](#ubuntu-22-install-docker)
-  - [5.1. 使用国内镜像](#51-使用国内镜像)
+  - [5.1. ubuntu 22 install docker](#51-ubuntu-22-install-docker)
+  - [5.2. 使用国内镜像](#52-使用国内镜像)
 - [6. 镜像 image](#6-镜像-image)
   - [6.1. 镜像实现原理](#61-镜像实现原理)
   - [6.2. 获取镜像](#62-获取镜像)
@@ -60,20 +60,26 @@ https://github.com/docker/kitematic 可视化管理gui
   - [6.4. 列出镜像](#64-列出镜像)
   - [6.5. 删除本地镜像](#65-删除本地镜像)
 - [7. 制作镜像的方法](#7-制作镜像的方法)
-  - [work with golang](#work-with-golang)
-  - [working with frontend](#working-with-frontend)
-  - [7.1. 最佳实践 优化体积](#71-最佳实践-优化体积)
-  - [7.2. 通过 dockerfile 来 build 镜像](#72-通过-dockerfile-来-build-镜像)
-  - [7.3. commit容器成为镜像-不推荐](#73-commit容器成为镜像-不推荐)
-  - [7.4. 从压缩包导入](#74-从压缩包导入)
-  - [7.5. docker save 和 docker load](#75-docker-save-和-docker-load)
+  - [7.1. work with golang](#71-work-with-golang)
+  - [7.2. working with frontend](#72-working-with-frontend)
+  - [7.3. 最佳实践 优化体积](#73-最佳实践-优化体积)
+  - [7.4. 通过 dockerfile 来 build 镜像](#74-通过-dockerfile-来-build-镜像)
+  - [7.5. commit容器成为镜像-不推荐](#75-commit容器成为镜像-不推荐)
+  - [7.6. 从压缩包导入](#76-从压缩包导入)
+  - [7.7. docker save 和 docker load](#77-docker-save-和-docker-load)
 - [8. Dockerfile](#8-dockerfile)
-  - [8.1. run 和 from](#81-run-和-from)
+  - [8.1. from](#81-from)
   - [8.2. 镜像的构建上下文context](#82-镜像的构建上下文context)
-    - [dockerignore](#dockerignore)
+    - [8.2.1. dockerignore](#821-dockerignore)
   - [8.3. COPY 和 ADD](#83-copy-和-add)
   - [8.4. WORKDIR 指定工作目录](#84-workdir-指定工作目录)
   - [8.5. run cmd 和 entrypoint 容器启动命令](#85-run-cmd-和-entrypoint-容器启动命令)
+    - [都支持两种格式 shell 和 exec](#都支持两种格式-shell-和-exec)
+    - [8.5.1. 区别](#851-区别)
+    - [run](#run)
+      - [典型错误](#典型错误)
+    - [8.5.2. cmd指令](#852-cmd指令)
+    - [8.5.3. ENTRYPOINT 入口点](#853-entrypoint-入口点)
   - [8.6. ENV 和 arg 设置环境变量](#86-env-和-arg-设置环境变量)
   - [8.7. VOLUME 定义匿名数据卷](#87-volume-定义匿名数据卷)
   - [8.8. EXPOSE 声明端口](#88-expose-声明端口)
@@ -462,7 +468,7 @@ docker run hello-world
 
 ```
 
-## ubuntu 22 install docker
+## 5.1. ubuntu 22 install docker
 
 ```sh
 # According to the official doc , these two comand is the easiest way 
@@ -480,7 +486,7 @@ apt-get update && apt-get install -y lsb-release && apt-get clean all
 
 ```
 
-## 5.1. 使用国内镜像
+## 5.2. 使用国内镜像
 
 ailiyun加速https://7lwsinal.mirror.aliyuncs.com
 
@@ -565,7 +571,7 @@ $ docker run -it --rm \
 
 # 7. 制作镜像的方法
 
-## work with golang
+## 7.1. work with golang
 
 create a main.go, then create dockerfile in the same directory:
 
@@ -601,7 +607,7 @@ docker build . -t xiaoyureed/hellok8s:v1
 docker run -p 3000:3000 --name hellok8s -d xiaoyureed/hellok8s:v1
 ```
 
-## working with frontend
+## 7.2. working with frontend
 
 
 ```dockerfile
@@ -619,7 +625,7 @@ CMD ["nginx", "-g", "daemon off;"]
 
 ```
 
-## 7.1. 最佳实践 优化体积
+## 7.3. 最佳实践 优化体积
 
 https://github.com/phusion/baseimage-docker 体积最小的 Linux
 
@@ -651,7 +657,7 @@ CMD ["nginx", "-g", "daemon off;"]
 
 ```
 
-## 7.2. 通过 dockerfile 来 build 镜像
+## 7.4. 通过 dockerfile 来 build 镜像
 
 ```sh
 docker build -f MyDockerfile -t xiaoyureed/myImage:v1 .
@@ -661,7 +667,7 @@ docker build -f MyDockerfile -t xiaoyureed/myImage:v1 .
 docker build -t imgName .
 ```
 
-## 7.3. commit容器成为镜像-不推荐
+## 7.5. commit容器成为镜像-不推荐
 
 将自定义的容器保存为镜像, 一般不用commit制作镜像, 因为会有大量的无关内容被添加进来，如果不小心地清理，将会导致镜像极为臃肿。)
 
@@ -702,7 +708,7 @@ docker run --name test_1 -d -p 81:80 nginx:v2
 `docker history nginx:v2` 查看某个Repository的历史提交记录
 
 
-## 7.4. 从压缩包导入
+## 7.6. 从压缩包导入
 
 格式：`docker import [选项] <文件>|<URL>|- [<仓库名>[:<标签>]]`
 
@@ -715,7 +721,7 @@ $ docker import \
     openvz/ubuntu:14.04
 ```
 
-## 7.5. docker save 和 docker load
+## 7.7. docker save 和 docker load
 
 Docker 还提供了 docker load 和 docker save 命令，用以将镜像保存为一个 tar 文件，然后传输到另一个位置上，再加载进来。这是在没有 Docker Registry 时的做法，现在已经不推荐，镜像迁移应该直接使用 Docker Registry，无论是直接使用 Docker Hub 还是使用内网私有 Registry 
 
@@ -733,50 +739,14 @@ Docker 还提供了 docker load 和 docker save 命令，用以将镜像保存�
 
 Dockerfile 是一个文本文件，其内包含了一条条的指令(Instruction)，`每一条指令构建一层`，因此每一条指令的内容，就是描述该层应当如何构建。
 
-## 8.1. run 和 from
-
-
-```sh
-$ mkdir mynginx
-$ cd mynginx
-
-# Dockerfile的内容如下:
-# FROM nginx
-# RUN echo '<h1>Hello, Docker!</h1>' > /usr/share/nginx/html/index.html
-$ touch Dockerfile
-```
+## 8.1. from
 
 ```
 `FROM`指令: 指定基础镜像; 一个 Dockerfile 中 FROM 是必备的指令，并且必须是第一条指令。
 
     Docker 还存在一个特殊的镜像，名为 scratch。这个镜像是虚拟的概念，并不实际存在，它表示一个空白的镜像. 如果你以 scratch 为基础镜像的话，意味着你不以任何镜像为基础，接下来所写的指令将作为镜像第一层开始存在。
 
-    可以 from xxx as bbb, 后面可以引用 ${bbb}
-
-`RUN`指令: 执行命令 (每一个 RUN 都是启动一个容器 -> 执行命令 -> 然后提交存储层文件变更)
-
-    两种格式 , shell 格式：RUN <命令>; 就像直接在命令行中输入的命令一样
-
-    # 所有的命令只有一个目的，就是编译、安装 redis 可执行文件。
-    FROM debian:jessie
-
-    RUN buildDeps='gcc libc6-dev make' \
-    && apt-get update \
-    && apt-get install -y $buildDeps \
-    && wget -O redis.tar.gz "http://download.redis.io/releases/redis-3.2.5.tar.gz" \
-    && mkdir -p /usr/src/redis \
-    && tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1 \
-    && make -C /usr/src/redis \
-    && make -C /usr/src/redis install \
-    # 必要的清理工作, 保证每一层没有垃圾
-    && rm -rf /var/lib/apt/lists/* \
-    && rm redis.tar.gz \
-    && rm -r /usr/src/redis \
-    && apt-get purge -y --auto-remove $buildDeps
-
-    还有一种 exec 格式：RUN ["可执行文件", "参数1", "参数2"]，这更像是函数调用中的格式
-
-
+    可以 from xxx as builder, 后面可以在 scratch 中引用 ${builder} 以缩小 image 体积
 ```
 
 
@@ -785,22 +755,6 @@ $ touch Dockerfile
 ```sh
 # 在dockerfile所在的目录运行, -t表示指定最终镜像名称, 这里的[.]表示上下文路径
 docker build -t nginx:v3 .
-```
-
-
-典型错误: 如下, 是错误的, 两条run命令在内存上实际是没有联系的
-
-```sh
-# 希望在 /app 下创建文件
-RUN cd /app
-RUN echo "hello" > world.txt
-```
-
-修改:
-
-```sh
-WORKDIR /app
-RUN echo "hello" > world.txt
 ```
 
 
@@ -818,7 +772,7 @@ docker build还支持从git repo中拉取文件构建`docker build https://githu
 
 还支持`docker build http://server/context.tar.gz`从压缩包构建
 
-### dockerignore
+### 8.2.1. dockerignore
 
 ```
 similar To gitignore
@@ -885,38 +839,115 @@ RUN pwd    # /path/$DIRNAME
 
 ## 8.5. run cmd 和 entrypoint 容器启动命令
 
-https://juejin.cn/post/6844903902807080973
+### 都支持两种格式 shell 和 exec
 
-先看cmd指令
+当以shell形式执行指令时，它会调用 `/bin/sh -c` 并进行正常的shell处理, 会发生变量替换
 
-Docker 不是虚拟机，容器就是进程。既然是进程，那么在启动容器的时候，需要指定所运行的程序及参数。CMD 指令就是用于指定默认的容器主进程的启动命令
+```dockerfile
+ENV name John Dow
+ENTRYPOINT echo "Hello, $name"      # will replace
+```
 
-CMD 指令的格式和 RUN 相似，：
+exec 格式 这是CMD和ENTRYPOINT指令的首选形式。它直接调用可执行文件，并且不会发生shell处理, 不会发生变量替换
 
-* shell 格式：CMD <命令>
+> shell 格式还是会被docker 转换为第二种方式, 如 CMD echo $HOME 会转为 CMD [ "sh", "-c", "echo $HOME" ]
 
-* exec 格式：CMD ["可执行文件", "参数1", "参数2"...]-------推荐这种
-
-    * 可执行文件为容器的主进程, 它结束了, 容器也就退出了
-    
-    * 第一种会被docker转换为这种方式. 如 CMD echo $HOME 会转为 CMD [ "sh", "-c", "echo $HOME" ]
-
-* 参数列表格式：CMD ["参数1", "参数2"...]。在使用 ENTRYPOINT 指定了起使命令后，用 CMD 指定具体的参数。
+### 8.5.1. 区别
 
 
-在运行时可以指定新的命令来替代镜像设置中的这个默认命令，比如，ubuntu 镜像默认的 CMD 是 /bin/bash，如果我们直接` docker run -it ubuntu` 的话，会直接进入 bash。我们也可以在运行时指定运行别的命令，如 `docker run -it ubuntu cat /etc/os-release`。这就是用 cat /etc/os-release 命令替换了默认的 /bin/bash 命令了，输出了系统版本信息。
-
-eg:
-`CMD ["nginx", "-g", "daemon off;"]` 直接执行 nginx 可执行文件，并且要求以前台形式运行(CMD service nginx start是错的, 此时是"sh"这只程序作为主程序, 它运行结束, 容器就退出了)
+### run
 
 
+`RUN`指令: 执行命令 (每一个 RUN 都是启动一个容器 -> 执行命令 -> 然后提交存储层文件变更), 用于在新图层中执行命令并创建新图像
+
+```sh
+    两种格式 , shell 格式：RUN <命令>; 就像直接在命令行中输入的命令一样
+
+    # 所有的命令只有一个目的，就是编译、安装 redis 可执行文件。
+    FROM debian:jessie
+
+    RUN buildDeps='gcc libc6-dev make' \
+    && apt-get update \
+    && apt-get install -y $buildDeps \
+    && wget -O redis.tar.gz "http://download.redis.io/releases/redis-3.2.5.tar.gz" \
+    && mkdir -p /usr/src/redis \
+    && tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1 \
+    && make -C /usr/src/redis \
+    && make -C /usr/src/redis install \
+    # 必要的清理工作, 保证每一层没有垃圾
+    && rm -rf /var/lib/apt/lists/* \
+    && rm redis.tar.gz \
+    && rm -r /usr/src/redis \
+    && apt-get purge -y --auto-remove $buildDeps
+
+    还有一种 exec 格式：RUN ["可执行文件", "参数1", "参数2"]，这更像是函数调用中的格式
+```
 
 
-再看看ENTRYPOINT 入口点
+#### 典型错误
 
-和CMD效果类似, 只是可以将命令行中镜像名后接的cmd当作参数传给Dockerfile中的enterpoint
+如下, 是错误的, 两条run命令在内存上实际是没有联系的
 
-eg1: 让镜像变成像命令一样使用
+```sh
+# 希望在 /app 下创建文件
+RUN cd /app
+RUN echo "hello" > world.txt
+```
+
+修改:
+
+```sh
+WORKDIR /app
+RUN echo "hello" > world.txt
+```
+
+
+### 8.5.2. cmd指令
+
+CMD 指令就是用于指定默认的容器主进程的启动命令, 它结束了, 容器也就退出了
+
+> eg: `CMD ["nginx", "-g", "daemon off;"]` 直接执行 nginx 可执行文件，并且要求以前台形式运行(CMD service nginx start是错的, 此时是"sh"这只程序作为主程序, 它运行结束, 容器就退出了)
+
+
+```
+- CMD ["可执行文件", "参数1", "参数2"...]
+
+- 在运行时可以指定新的命令来替代镜像设置中的这个默认命令
+
+  比如，ubuntu 镜像默认的 CMD 是 /bin/bash，如果我们直接` docker run -it ubuntu` 的话，会直接进入 bash。 
+  `docker run -it ubuntu cat /etc/os-release`。这就是用 cat /etc/os-release 命令替换了默认的 /bin/bash 命令了，输出了系统版本信息。
+
+```
+
+`CMD ["param1","param2"] ` 在使用 ENTRYPOINT 指定了起始命令后，cmd 语法就变了, 参数会传递给 entrypoint
+
+
+
+### 8.5.3. ENTRYPOINT 入口点
+
+和CMD效果类似, 
+
+只是可以将命令行中镜像名后接的cmd当作参数传给Dockerfile中的enterpoint (利用这点可以制作这种镜像: 可以当做可执行文件运行的镜像, 即能够在镜像名后面直接跟参数)
+
+但是 shell & exec 格式区别很大:
+
+```
+ENTRYPOINT的Exec形式允许您设置命令和参数，然后使用CMD来设置更可能更改的其他参数
+
+如:
+
+ENTRYPOINT ["/bin/echo", "Hello"]
+CMD ["world"]     # 这里的命令可以被命令行覆盖
+
+# 若命令行直接运行, 会正常打印 Hello world, 若命令行后跟 xxx, 会打印 Hello xxx 
+```
+
+Shell形式的ENTRYPOINT忽略任何CMD或运行命令行参数。
+
+
+
+> eg1: 让镜像变成像命令一样使用
+>
 
 ```sh
 # 获取自己的公网ip, Dockerfile如下:
@@ -932,8 +963,12 @@ $ docker build -t myip .
 # 测试:查询ip
 $ docker run myip
 
-# 但是上面的命令无法在后面接curl的参数, 比如直接在后面加"-i", 会把默认的cmd整个替换而出错, 不完美的解决方法如下:
+# 但是上面的命令无法在后面接curl的参数, 比如直接在后面加"-i", 会把默认的cmd整个替换而出错,
+
+#  不完美的解决方法如下:
 $ docker run myip curl -s http://ip.cn -i
+
+
 
 ## 上面的命令太啰嗦了, 正确的方法是修改Dockerfile, 用ENTERYPOINT代替CMD
 FROM ubuntu:16.04
@@ -942,11 +977,15 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 ENTRYPOINT [ "curl", "-s", "http://ip.cn" ]
 
-# 现在可以正常使用"-i"参数了
+# 现在可以正常使用"-i"参数了, 命令行的参数会直接跟在entrypoint 后面
 $ docker run myip -i
 ```
 
-eg2: 应用运行前的准备工作(这些准备工作是和容器 CMD 无关的，无论 CMD 为什么，都需要事先进行一个预处理的工作。这种情况下，可以写一个脚本，然后放入 ENTRYPOINT 中去执行，而这个脚本会将接到的参数（也就是 `<CMD>`）作为命令，在脚本最后执行)
+
+
+eg2: 应用运行前的准备工作(这些准备工作是和容器 CMD 无关的，无论 CMD 为什么，都需要事先进行一个预处理的工作。
+
+这种情况下，可以写一个脚本，然后放入 ENTRYPOINT 中去执行，而这个脚本会将接到的参数（也就是 `<CMD>`）作为命令，在脚本最后执行)
 
 ```sh
 # 可以看到其中为了 redis 服务创建了 redis 用户，并在最后指定了 ENTRYPOINT 为 docker-entrypoint.sh 脚本。
@@ -957,9 +996,10 @@ RUN addgroup -S redis && adduser -S -G redis redis
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 6379
-CMD [ "redis-server" ]
+CMD [ "redis-server" ]  # 这里会作为参数传递给 Entrypoint
 
-# docker-entrypoint.sh ,该脚本的内容就是根据 CMD 的内容来判断，如果是 redis-server 的话，则切换到 redis 用户身份启动服务器，否则依旧使用 root 身份执行
+# docker-entrypoint.sh ,该脚本的内容就是根据 CMD 的内容来判断，
+# 如果是 redis-server 的话，则切换到 redis 用户身份启动服务器，否则依旧使用 root 身份执行
 
 #!/bin/sh
 ...
@@ -971,6 +1011,7 @@ fi
 
 exec "$@"
 ```
+
 
 ## 8.6. ENV 和 arg 设置环境变量
 
@@ -1368,7 +1409,8 @@ docker import和docker load比较: 容器快照文件(docker import)将丢弃所
 
 ```sh
 # 标记新的tag用于推送到远程
-$ docker tag ubuntu:17.10 xiaoyureed/ubuntu:17.10
+# 即修改镜像名字
+$ docker tag <image_old_name/old_id> xiaoyureed/ubuntu:17.10
 
 $ docker image ls
 
