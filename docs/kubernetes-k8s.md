@@ -70,6 +70,7 @@ toc_max_heading_level: 5
     - [6.8.7. 手动端口转发](#687-手动端口转发)
     - [6.8.8. service 如何工作](#688-service-如何工作)
   - [6.9. ingress](#69-ingress)
+    - [Traefik](#traefik)
   - [6.10. volume](#610-volume)
   - [6.11. secret](#611-secret)
   - [6.12. config map](#612-config-map)
@@ -187,6 +188,8 @@ https://github.com/jpetazzo/container.training
 ### 3.1. 生产服务器上安装
 
 https://github.com/fanux/sealos 一键安装
+
+https://github.com/lework/kainstall
 
 
 ### 3.2. vagrant 搭建 k8s 环境
@@ -1502,6 +1505,10 @@ kubectl get ingress
 
 ```
 
+#### Traefik
+
+todo Traefik
+
 ### 6.10. volume
 
 即在 pod 中可访问的文件目录, 用来存储大数据量的内容
@@ -2814,7 +2821,7 @@ helm upgrade --install hello-helm hello-helm-0.1.0.tgz
 
 #### 17.2.2. 利用 github action 自动打包发布
 
-使用 [char-release-action]([https://](https://github.com/helm/chart-releaser-action)) 自动发布 (该 action 会默认生成 helm chart 发布到 gh-pages 分支上)
+使用 [char-release-action](https://github.com/helm/chart-releaser-action) 自动发布 (该 action 会默认生成 helm chart 发布到 gh-pages 分支上)
 
 ci.yml
 

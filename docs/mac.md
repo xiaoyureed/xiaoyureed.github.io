@@ -865,6 +865,8 @@ aria2c --conf-path /xxx/aria2.conf" [-D]
 
 ## 12.23. docker 安装
 
+https://mritd.com/2022/06/08/happy-using-docker-on-macos/ ToDo 推荐更好的工具 lima
+
 ```sh
 # docker
 
