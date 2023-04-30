@@ -133,6 +133,20 @@
         <category label="face recognition" term="face recognition"/>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Best Practice for Spring Boot Working with Docker]]></title>
+        <id>https://xiaoyureed.github.io/spring-boot-with-docker</id>
+        <link href="https://xiaoyureed.github.io/spring-boot-with-docker"/>
+        <updated>2021-01-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article I will talking about How to package spring boot app into a docker image , and how to optimize the size of the image.]]></summary>
+        <content type="html"><![CDATA[<p>This article I will talking about How to package spring boot app into a docker image , and how to optimize the size of the image.</p><h2 class="anchor anchorWithHideOnScrollNavbar_WYt5" id="try-to-make-the-native-image">try to make the native image<a href="#try-to-make-the-native-image" class="hash-link" aria-label="try to make the native image的直接链接" title="try to make the native image的直接链接">​</a></h2><p>The image size can reduce greatly by using native image, and the other aspects such as the time taken to start, the memory occupied.... Generally speaking, there are so many benefits.</p><h2 class="anchor anchorWithHideOnScrollNavbar_WYt5" id="reference-materials">reference materials<a href="#reference-materials" class="hash-link" aria-label="reference materials的直接链接" title="reference materials的直接链接">​</a></h2><p><a href="https://mritd.com/2022/11/08/java-containerization-guide/" target="_blank" rel="noopener noreferrer">https://mritd.com/2022/11/08/java-containerization-guide/</a></p>]]></content>
+        <author>
+            <name>Xiao Yu</name>
+            <uri>https://github.com/xiaoyureed</uri>
+        </author>
+        <category label="spring" term="spring"/>
+        <category label="docker" term="docker"/>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[web 开发框架设计构思]]></title>
         <id>https://xiaoyureed.github.io/2019/09/27/web-framework-design</id>
         <link href="https://xiaoyureed.github.io/2019/09/27/web-framework-design"/>

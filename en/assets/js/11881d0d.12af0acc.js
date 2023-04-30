@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[2283],{45215:function(e){e.exports=JSON.parse('{"label":"k8s","permalink":"/en/docs/tags/k-8-s","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"kubernetes-k8s","title":"kubernetes-k8s \u2601\ufe0f","description":"- reference materials","permalink":"/en/docs/kubernetes-k8s"}]}')}}]);
