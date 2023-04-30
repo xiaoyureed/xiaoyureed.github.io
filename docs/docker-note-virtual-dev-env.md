@@ -64,7 +64,7 @@ https://github.com/docker/kitematic 可视化管理gui
   - [7.2. working with frontend](#72-working-with-frontend)
   - [7.3. 最佳实践 优化体积](#73-最佳实践-优化体积)
   - [7.4. 通过 dockerfile 来 build 镜像](#74-通过-dockerfile-来-build-镜像)
-  - [7.5. commit容器成为镜像-不推荐](#75-commit容器成为镜像-不推荐)
+  - [7.5. commit容器成为镜像(不推荐)](#75-commit容器成为镜像不推荐)
   - [7.6. 从压缩包导入](#76-从压缩包导入)
   - [7.7. docker save 和 docker load](#77-docker-save-和-docker-load)
 - [8. Dockerfile](#8-dockerfile)
@@ -74,13 +74,15 @@ https://github.com/docker/kitematic 可视化管理gui
   - [8.3. COPY 和 ADD](#83-copy-和-add)
   - [8.4. WORKDIR 指定工作目录](#84-workdir-指定工作目录)
   - [8.5. run cmd 和 entrypoint 容器启动命令](#85-run-cmd-和-entrypoint-容器启动命令)
-    - [都支持两种格式 shell 和 exec](#都支持两种格式-shell-和-exec)
-    - [8.5.1. 区别](#851-区别)
-    - [run](#run)
-      - [典型错误](#典型错误)
-    - [8.5.2. cmd指令](#852-cmd指令)
-    - [8.5.3. ENTRYPOINT 入口点](#853-entrypoint-入口点)
-  - [8.6. ENV 和 arg 设置环境变量](#86-env-和-arg-设置环境变量)
+    - [8.5.1. 常见的错误用法](#851-常见的错误用法)
+    - [8.5.2. 都支持两种格式 shell 和 exec 的区别](#852-都支持两种格式-shell-和-exec-的区别)
+    - [8.5.3. run](#853-run)
+      - [8.5.3.1. 典型错误](#8531-典型错误)
+    - [8.5.4. cmd指令](#854-cmd指令)
+    - [8.5.5. ENTRYPOINT 入口点](#855-entrypoint-入口点)
+      - [8.5.5.1. eg: 让镜像变成像命令一样使用](#8551-eg-让镜像变成像命令一样使用)
+      - [8.5.5.2. eg: 应用运行前的准备工作](#8552-eg-应用运行前的准备工作)
+  - [8.6. ENV 和 arg 设置变量](#86-env-和-arg-设置变量)
   - [8.7. VOLUME 定义匿名数据卷](#87-volume-定义匿名数据卷)
   - [8.8. EXPOSE 声明端口](#88-expose-声明端口)
   - [8.9. USER 指定当前用户](#89-user-指定当前用户)
@@ -660,14 +662,10 @@ CMD ["nginx", "-g", "daemon off;"]
 ## 7.4. 通过 dockerfile 来 build 镜像
 
 ```sh
-docker build -f MyDockerfile -t xiaoyureed/myImage:v1 .
-
-# 简写
-# 加入当前就在 dockerfile 所在目录
-docker build -t imgName .
+docker build [-f MyDockerfile] -t xiaoyureed/myImage:v1 .
 ```
 
-## 7.5. commit容器成为镜像-不推荐
+## 7.5. commit容器成为镜像(不推荐)
 
 将自定义的容器保存为镜像, 一般不用commit制作镜像, 因为会有大量的无关内容被添加进来，如果不小心地清理，将会导致镜像极为臃肿。)
 
@@ -839,23 +837,70 @@ RUN pwd    # /path/$DIRNAME
 
 ## 8.5. run cmd 和 entrypoint 容器启动命令
 
-### 都支持两种格式 shell 和 exec
+### 8.5.1. 常见的错误用法
 
-当以shell形式执行指令时，它会调用 `/bin/sh -c` 并进行正常的shell处理, 会发生变量替换
+```dockerfile
+# case1: pid 的问题
+
+# shell 格式底层使用 /bin/sh -c 来执行, 这会导致容器中 PID 为 1 的进程是 /bin/sh 而不是 ENTRYPOINT 中指定的 Java
+# 所以当我们使用 docker stop 停止容器时，接收到 SIGTERM 信号的是 /bin/sh 而不是 Java，我们的 Java 进程就不能优雅退出了
+ENTRYPOINT java -jar /app.java
+
+# 解决:
+
+# 如果一定要用 shell 格式, 可以使用 exec
+ENTRYPOINT exec java -jar /app.java
+
+# or (推荐)
+# exec 格式 就是使用 exec 来执行的，可以确保容器中 PID 为 1 的进程是 ENTRYPOINT 中指定的进程
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+# or Shell 脚本
+COPY run.sh run.sh
+RUN chmod +x run.sh
+ENTRYPOINT ["./run.sh"]
+# 
+#!/bin/sh
+exec java -jar /app.jar
+# 
+
+
+# case2: 变量替换的问题
+
+# 直接使用 exec 执行，并没有使用 Shell, 不支持变量替换
+ENTRYPOINT ["java", "${JAVA_OPTS}", "-jar", "/app.jar"]
+
+# 解决:
+# 通过 shell 脚本 (推荐)
+# 
+#!/bin/sh
+exec java ${JAVA_OPTS} -jar /app.jar ${@}
+
+# or
+ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar /app.jar"]
+```
+
+### 8.5.2. 都支持两种格式 shell 和 exec 的区别
+
+shell 格式 在启动时是使用 /bin/sh -c 来执行的，这会导致容器中 PID 为 1 的进程是 /bin/sh 而不是 ENTRYPOINT 中指定的 Java，所以当我们使用 docker stop 停止容器时，接收到 SIGTERM 信号的是 /bin/sh 而不是 Java，我们的 Java 进程就不能优雅退出了
+
+> 为了解决这个问题，在使用 shell 格式时, 一般在执行的命令前加上 exec: `ENTRYPOINT exec java -jar /app.java`
+
+而 exec 格式 就是使用 exec 来执行的，可以确保容器中 PID 为 1 的进程是 ENTRYPOINT 中指定的进程，
+
+> 一般推荐使用这种格式，而且还可以配合 CMD 指令内置程序的命令行参数，shell 格式 下 CMD 是无效的。
+
+
+
+> 当以shell形式执行指令时，由于它会调用 `/bin/sh -c` 并进行正常的shell处理, 会发生变量替换, 而 exec 格式就不会有变量替换
 
 ```dockerfile
 ENV name John Dow
 ENTRYPOINT echo "Hello, $name"      # will replace
 ```
 
-exec 格式 这是CMD和ENTRYPOINT指令的首选形式。它直接调用可执行文件，并且不会发生shell处理, 不会发生变量替换
 
-> shell 格式还是会被docker 转换为第二种方式, 如 CMD echo $HOME 会转为 CMD [ "sh", "-c", "echo $HOME" ]
-
-### 8.5.1. 区别
-
-
-### run
+### 8.5.3. run
 
 
 `RUN`指令: 执行命令 (每一个 RUN 都是启动一个容器 -> 执行命令 -> 然后提交存储层文件变更), 用于在新图层中执行命令并创建新图像
@@ -884,7 +929,7 @@ exec 格式 这是CMD和ENTRYPOINT指令的首选形式。它直接调用可执�
 ```
 
 
-#### 典型错误
+#### 8.5.3.1. 典型错误
 
 如下, 是错误的, 两条run命令在内存上实际是没有联系的
 
@@ -902,32 +947,33 @@ RUN echo "hello" > world.txt
 ```
 
 
-### 8.5.2. cmd指令
+### 8.5.4. cmd指令
 
-CMD 指令就是用于指定默认的容器主进程的启动命令, 它结束了, 容器也就退出了
+CMD 指令就是用于指定默认的容器主进程的启动命令, 等效于 命令行中 image 后跟的命令
+
+> 若命令行 image 后没有跟命令, 则执行 dockerfile 中的 cmd, 若 image 后有命令, 则覆盖 dockerfile 中的 cmd
+>
+> 比如，ubuntu 镜像默认的 CMD 是 /bin/bash，如果我们直接` docker run -it ubuntu` 的话，会直接进入 bash。 
+  `docker run -it ubuntu cat /etc/os-release`。这就是用 cat /etc/os-release 命令替换了默认的 /bin/bash 命令了，输出了系统版本信息。
+
+cmd 结束了, 容器也就退出了
 
 > eg: `CMD ["nginx", "-g", "daemon off;"]` 直接执行 nginx 可执行文件，并且要求以前台形式运行(CMD service nginx start是错的, 此时是"sh"这只程序作为主程序, 它运行结束, 容器就退出了)
 
+格式: 
 
-```
-- CMD ["可执行文件", "参数1", "参数2"...]
-
-- 在运行时可以指定新的命令来替代镜像设置中的这个默认命令
-
-  比如，ubuntu 镜像默认的 CMD 是 /bin/bash，如果我们直接` docker run -it ubuntu` 的话，会直接进入 bash。 
-  `docker run -it ubuntu cat /etc/os-release`。这就是用 cat /etc/os-release 命令替换了默认的 /bin/bash 命令了，输出了系统版本信息。
-
-```
+`CMD ["可执行文件", "参数1", "参数2"...]`
 
 `CMD ["param1","param2"] ` 在使用 ENTRYPOINT 指定了起始命令后，cmd 语法就变了, 参数会传递给 entrypoint
 
 
 
-### 8.5.3. ENTRYPOINT 入口点
+### 8.5.5. ENTRYPOINT 入口点
 
-和CMD效果类似, 
+指定容器启动后执行的命令
 
-只是可以将命令行中镜像名后接的cmd当作参数传给Dockerfile中的enterpoint (利用这点可以制作这种镜像: 可以当做可执行文件运行的镜像, 即能够在镜像名后面直接跟参数)
+> 类似 cmd, 只是一旦和 cmd 一起使用, 可以将cmd当作参数传给 enterpoint 
+> (利用这点可以制作这种镜像: 可以当做可执行文件运行的镜像, 即能够在镜像名后面直接跟参数)
 
 但是 shell & exec 格式区别很大:
 
@@ -940,17 +986,20 @@ ENTRYPOINT ["/bin/echo", "Hello"]
 CMD ["world"]     # 这里的命令可以被命令行覆盖
 
 # 若命令行直接运行, 会正常打印 Hello world, 若命令行后跟 xxx, 会打印 Hello xxx 
+
+# Shell形式的ENTRYPOINT忽略任何CMD或运行命令行参数。
+
 ```
 
-Shell形式的ENTRYPOINT忽略任何CMD或运行命令行参数。
 
 
 
-> eg1: 让镜像变成像命令一样使用
->
+#### 8.5.5.1. eg: 让镜像变成像命令一样使用
+
 
 ```sh
 # 获取自己的公网ip, Dockerfile如下:
+# 命令无法在后面接curl的参数, 比如直接在后面加"-i", 会把默认的cmd整个替换而出错,
 FROM ubuntu:16.04
 RUN apt-get update \
     && apt-get install -y curl \
@@ -959,16 +1008,11 @@ CMD [ "curl", "-s", "http://ip.cn" ]
 
 # 构建镜像 
 $ docker build -t myip .
-
 # 测试:查询ip
 $ docker run myip
 
-# 但是上面的命令无法在后面接curl的参数, 比如直接在后面加"-i", 会把默认的cmd整个替换而出错,
-
-#  不完美的解决方法如下:
+#  不完美的解决方法如下: 通过 curl -s http://ip.cn -i 覆盖镜像内的 curl -s http://ip.cn
 $ docker run myip curl -s http://ip.cn -i
-
-
 
 ## 上面的命令太啰嗦了, 正确的方法是修改Dockerfile, 用ENTERYPOINT代替CMD
 FROM ubuntu:16.04
@@ -983,7 +1027,9 @@ $ docker run myip -i
 
 
 
-eg2: 应用运行前的准备工作(这些准备工作是和容器 CMD 无关的，无论 CMD 为什么，都需要事先进行一个预处理的工作。
+#### 8.5.5.2. eg: 应用运行前的准备工作
+
+(这些准备工作是和容器 CMD 无关的，无论 CMD 为什么，都需要事先进行一个预处理的工作。
 
 这种情况下，可以写一个脚本，然后放入 ENTRYPOINT 中去执行，而这个脚本会将接到的参数（也就是 `<CMD>`）作为命令，在脚本最后执行)
 
@@ -1013,11 +1059,9 @@ exec "$@"
 ```
 
 
-## 8.6. ENV 和 arg 设置环境变量
+## 8.6. ENV 和 arg 设置变量
 
-env 在container的生命周期内始终有效
-
-在 dockerfile 声明后, 后面的指令中可以使用
+env 是设置环境变量, 定义后, 可以在 dockerfile/命令行 中使用, 也可以在 container 内部供程序使用
 
 格式有两种：
 
@@ -1026,11 +1070,9 @@ env 在container的生命周期内始终有效
 
 eg:
 ```sh
-# 简单使用
 ENV VERSION=1.0 DEBUG=on \
     NAME="Happy Feet"
 
-# 官方node镜像
 ENV NODE_VERSION 7.2.0
 
 RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
@@ -1044,9 +1086,17 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
 
 
 
-ARG 构建参数, 定义参数名称，以及定义其默认值。该默认值可以在构建命令 docker build 中用 `--build-arg <参数名>=<值>` 来覆盖。
+ARG 是设置构建参数, 仅仅用于 dockerfile/命令行 中使用, 在将来容器运行时是不会存在这些环境变量的 
 
-和 ENV 类似, 但是 ARG 所设置的构建环境的环境变量，`在将来容器运行时是不会存在这些环境变量的`. 但是不要因此就使用 ARG 保存密码之类的信息，因为 docker history 还是可以看到所有值的。
+> 但是不要因此就使用 ARG 保存密码之类的信息，因为 docker history 还是可以看到所有值的
+
+可以在构建命令 docker build 中用 `--build-arg <参数名>=<值>` 来覆盖。
+
+> Define a variable that users can pass a value to at build-time with `docker build`
+
+```dockerfile
+ARG JAR_FILE=target/*.jar
+```
 
 
 ## 8.7. VOLUME 定义匿名数据卷
@@ -1072,9 +1122,9 @@ ARG 构建参数, 定义参数名称，以及定义其默认值。该默认值�
 
 格式为` EXPOSE <端口1> [<端口2>...]`。
 
-EXPOSE 指令是声明运行时容器提供服务的端口, 这只是一个声明，在运行时并不会因为这个声明应用就会开启这个端口的服务
+EXPOSE 指令是声明运行时容器提供服务的端口, 这只是一个声明，在运行时并不会因为这个声明应用就会开启这个端口的服务 (必须程序开通端口, 这里的声明才有效)
 
-要将 EXPOSE 和在运行时使用` -p <宿主端口>:<容器端口>` 区分开来。-p，是映射宿主端口和容器端口，换句话说，就是将容器的对应端口服务公开给外界访问，而 EXPOSE 仅仅是声明容器打算使用什么端口而已，并不会自动在宿主进行端口映射
+> 要将 EXPOSE 和在运行时使用` -p <宿主端口>:<容器端口>` 区分开来。-p，是映射宿主端口和容器端口，换句话说，就是将容器的对应端口服务公开给外界访问，而 EXPOSE 仅仅是声明容器打算使用什么端口而已，并不会自动在宿主进行端口映射
 
 
 
@@ -1091,22 +1141,18 @@ USER指令用于指定容器执行程序的用户身份，默认是 root用户�
 
 在docker run 中可以通过 -u 选项来覆盖USER指令的设置。
 
-举例：docker run -i -t -u mysql newmysqldb /bin/bash
+> eg: docker run -i -t -u mysql newmysqldb /bin/bash, 可以发现显示的shell提示符是： mysql@57cd57edba38:/$
+>
+> docker容器中的root用户密码是随机分配的
 
-显示的shell提示符是： mysql@57cd57edba38:/$
+> USER 指令和 WORKDIR 相似，都是改变环境状态并影响以后的层。WORKDIR 是改变工作目录，USER 则是改变之后层执行 RUN, CMD 以及 ENTRYPOINT 这类命令的身份
 
-注意：docker容器中的root用户密码是随机分配的。
+格式：`USER <用户名>` 
+
+> 这个用户必须是事先建立好的，否则无法切换。
 
 
-
-
-USER 指令和 WORKDIR 相似，都是改变环境状态并影响以后的层。WORKDIR 是改变工作目录，USER 则是改变之后层的执行 RUN, CMD 以及 ENTRYPOINT 这类命令的身份
-
-格式：USER <用户名> (这个用户必须是事先建立好的，否则无法切换。)
-
-eg1:
-
-```sh
+```dockerfile
 RUN groupadd -r redis && useradd -r -g redis redis
 USER redis
 RUN [ "redis-server" ]

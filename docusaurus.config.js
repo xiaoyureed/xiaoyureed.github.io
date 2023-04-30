@@ -1,7 +1,7 @@
 const path = require('path')
 const beian = '闽ICP备2020017848号-2'
 
-const announcementBarContent = `<a href="/docs/rust-note" target="_blank">最近正在折腾的 Rust, 欢迎查看...</a>`
+const announcementBarContent = `<a href="/docs/rust-note" target="_blank">Rust 指北, 欢迎查看...</a>`
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
