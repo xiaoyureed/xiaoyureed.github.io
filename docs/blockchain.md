@@ -17,7 +17,7 @@ https://academy.binance.com/zh
 
 https://www.youtube.com/channel/UCRCJkQttdjzJYpbur5Qut6A
 
-https://github.com/yeasy/blockchain_guide
+https://github.com/yeasy/blockchain_guide 教程
 
 https://learnblockchain.cn/ blockchain learning community   
 https://learnblockchain.cn/article/3451
@@ -149,18 +149,18 @@ Substrate runtime 开发
 
 - [1. 语言](#1-%E8%AF%AD%E8%A8%80)
 - [2. 区块链简介](#2-%E5%8C%BA%E5%9D%97%E9%93%BE%E7%AE%80%E4%BB%8B)
-    - [2.1. 三元悖论](#21-%E4%B8%89%E5%85%83%E6%82%96%E8%AE%BA)
-    - [2.2. 开源库](#22-%E5%BC%80%E6%BA%90%E5%BA%93)
+  - [2.1. 三元悖论](#21-%E4%B8%89%E5%85%83%E6%82%96%E8%AE%BA)
+  - [2.2. 开源库](#22-%E5%BC%80%E6%BA%90%E5%BA%93)
 - [3. 密码学](#3-%E5%AF%86%E7%A0%81%E5%AD%A6)
 - [4. p2p 网络](#4-p2p-%E7%BD%91%E7%BB%9C)
 - [5. 高可用](#5-%E9%AB%98%E5%8F%AF%E7%94%A8)
 - [6. 高性能](#6-%E9%AB%98%E6%80%A7%E8%83%BD)
 - [7. 加密货币 crypto concurrency](#7-%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81-crypto-concurrency)
-    - [7.1. 比特币](#71-%E6%AF%94%E7%89%B9%E5%B8%81)
-        - [7.1.1. 简介](#711-%E7%AE%80%E4%BB%8B)
-        - [7.1.2. 数据结构](#712-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)
-        - [7.1.3. 共识协议](#713-%E5%85%B1%E8%AF%86%E5%8D%8F%E8%AE%AE)
-    - [7.2. 以太坊](#72-%E4%BB%A5%E5%A4%AA%E5%9D%8A)
+  - [7.1. 比特币](#71-%E6%AF%94%E7%89%B9%E5%B8%81)
+    - [7.1.1. 简介](#711-%E7%AE%80%E4%BB%8B)
+    - [7.1.2. 数据结构](#712-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)
+    - [7.1.3. 共识协议](#713-%E5%85%B1%E8%AF%86%E5%8D%8F%E8%AE%AE)
+  - [7.2. 以太坊](#72-%E4%BB%A5%E5%A4%AA%E5%9D%8A)
 
 <!-- /TOC -->
 

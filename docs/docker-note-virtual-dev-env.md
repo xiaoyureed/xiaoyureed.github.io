@@ -90,6 +90,7 @@ https://github.com/docker/kitematic 可视化管理gui
   - [8.11. ONBUILD 给别人用](#811-onbuild-给别人用)
   - [8.12. Dockerfile的多阶段构建](#812-dockerfile的多阶段构建)
 - [9. 使用容器](#9-使用容器)
+  - [use docker in github action](#use-docker-in-github-action)
   - [9.1. 查看](#91-查看)
   - [9.2. 启动](#92-启动)
     - [9.2.1. -it 维持交互终端](#921--it-维持交互终端)
@@ -102,6 +103,7 @@ https://github.com/docker/kitematic 可视化管理gui
   - [9.7. 拷贝容器内文件到主机](#97-拷贝容器内文件到主机)
 - [10. 访问镜像仓库](#10-访问镜像仓库)
   - [10.1. dockerhub](#101-dockerhub)
+    - [publish by using github action](#publish-by-using-github-action)
   - [10.2. 私有仓库](#102-私有仓库)
 - [11. docker数据管理](#11-docker数据管理)
   - [11.1. 数据卷](#111-数据卷)
@@ -119,6 +121,7 @@ https://github.com/docker/kitematic 可视化管理gui
   - [12.7. 容器互联](#127-容器互联)
   - [12.8. 配置dns 和 主机名 hostname](#128-配置dns-和-主机名-hostname)
 - [13. docker-compose](#13-docker-compose)
+  - [some significant materials](#some-significant-materials)
   - [13.1. compose简介](#131-compose简介)
   - [13.2. 命令使用](#132-命令使用)
     - [13.2.1. up](#1321-up)
@@ -1311,6 +1314,12 @@ Dockerfile 特别长，可维护性降低
 
 容器是独立运行的一个或一组应用，以及它们的运行态环境
 
+## use docker in github action
+
+https://dev.to/mihinduranasinghe/using-docker-containers-in-jobs-github-actions-3eof
+
+https://yonatankra.com/2-ways-to-use-your-docker-image-in-github-actions/
+
 ## 9.1. 查看
 
 * `docker container ls -a`or`docker ps -a` 查看所有, 包括处于终止状态的容器
@@ -1475,6 +1484,11 @@ xiaoyureed/ubuntu
 ```
 
 此外, docker hub 支持 自动创建(Automated Builds), 对于需要经常升级镜像内程序来说，十分方便 
+
+### publish by using github action
+
+https://twbhub.com/post/github-actions_publish_images/
+todo
 
 
 ## 10.2. 私有仓库
@@ -1856,23 +1870,29 @@ tmpfs on /etc/resolv.conf type tmpfs ...
 
 # 13. docker-compose
 
+## some significant materials
+
+https://www.composerize.com/ convert docker command into docker-compose file
+
+https://github.com/docker/awesome-compose
+
 ## 13.1. compose简介
 
-Docker Compose 是 Docker 官方编排（Orchestration）项目之一，负责快速的部署分布式应用(实现对 Docker 容器集群的快速编排。从功能上看，跟 OpenStack 中的 Heat 十分类似; 其前身是开源项目 Fig;
+通俗的理解: 可以同时定义和运行多个 Docker 容器. 用户通过一个单独的 docker-compose.yml 模板文件（YAML 格式）来定义一组相关联的应用容器为一个项目（project）
 
-Compose 项目由 Python 编写，实现上调用了 Docker 服务提供的 API 来对容器进行管理
+> Docker Compose 是 Docker 官方编排（Orchestration）项目之一，负责快速的部署分布式应用
+>
+> Compose 项目由 Python 编写，调用了 Docker 服务提供的 API 来对容器进行管理
 
-通俗的理解: 可以同时定义和运行多个 Docker 容器.
-
-用户通过一个单独的 docker-compose.yml 模板文件（YAML 格式）来定义一组相关联的应用容器为一个项目（project）
 
 Compose 中有两个重要的概念：
 
 * 服务 (service)：一个应用的容器，实际上可以包括若干运行相同镜像的容器实例。
 
+  Compose 的默认管理对象是项目，通过子命令对项目中的一组容器进行便捷地生命周期管理
+
 * 项目 (project)：由一组关联的应用容器组成的一个完整业务单元，在 docker-compose.yml 文件中定义。
 
-Compose 的默认管理对象是项目，通过子命令对项目中的一组容器进行便捷地生命周期管理
 
 
 安装卸载
@@ -1883,13 +1903,10 @@ https://docs.docker.com/compose/install/
 2. 也可以直接下载编译好的二进制文件使用 
 3. 能够直接在 Docker 容器中运行
 
-前两种方式是传统方式，适合本地环境下安装使用；最后一种方式则不破坏系统环境，更适合云计算场景; 
+> 前两种方式是传统方式，适合本地环境下安装使用；最后一种方式则不破坏系统环境，更适合云计算场景; 
 
 Docker for Windows 自带 docker-compose 二进制文件，安装 Docker 之后可以直接使用。
 
-`docker-compose --version` 查看版本
-
-如果实在linux中:
 
 ```sh
 # 直接下载对应的二进制包(推荐)
@@ -2672,7 +2689,9 @@ root, root 登陆
 
 ## 16.5. 使用postgres镜像
 
-`docker run -d --name Postgres -p 5432:5432 -e POSTGRES_USER=dev -e POSTGRES_PASSWORD=dev123 postgres`
+`docker run -d --name Postgres -p 5432:5432 [-e POSTGRES_USER=dev] -e POSTGRES_PASSWORD=dev123 postgres:alpine`
+
+> If the db use is not been specified, the password will be setup on "postgres" (the db user which has a root access)
 
 or
 

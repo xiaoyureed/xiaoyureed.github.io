@@ -408,6 +408,8 @@ https://github.com/0voice/from_coder_to_expert
 云计算: 《计算机组成原理》《深度时间KVM》《云计算架构技术与实践》《让云落地 云计算服务模式》
 
 数据密集型应用系统设计
+凤凰架构： http://icyfenix.cn/
+领域驱动设计
 
 the little schemer
 

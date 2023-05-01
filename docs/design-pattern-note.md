@@ -17,57 +17,55 @@ https://www.zhihu.com/question/39972591
 
 <!--more-->
 
-<!-- TOC -->
-
-- [1. 实践 案例](#1-%E5%AE%9E%E8%B7%B5-%E6%A1%88%E4%BE%8B)
-- [2. uml 类图](#2-uml-%E7%B1%BB%E5%9B%BE)
-- [3. 程序 6 大设计原则](#3-%E7%A8%8B%E5%BA%8F-6-%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99)
+- [1. 实践 案例](#1-实践-案例)
+- [2. uml 类图](#2-uml-类图)
+- [3. 程序 6 大设计原则](#3-程序-6-大设计原则)
   - [3.1. open close principle](#31-open-close-principle)
   - [3.2. single responsibility principle](#32-single-responsibility-principle)
   - [3.3. interface separation principle](#33-interface-separation-principle)
-  - [3.4. 里氏替换原则](#34-%E9%87%8C%E6%B0%8F%E6%9B%BF%E6%8D%A2%E5%8E%9F%E5%88%99)
+  - [3.4. 里氏替换原则](#34-里氏替换原则)
   - [3.5. dependence inversion principle](#35-dependence-inversion-principle)
   - [3.6. Least Knowledge Principle](#36-least-knowledge-principle)
-- [4. 设计模式概要](#4-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E8%A6%81)
-  - [4.1. 设计模式总结](#41-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93)
-  - [4.2. spring 中的设计模式](#42-spring-%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F)
-  - [4.3. 不要过度使用设计模式](#43-%E4%B8%8D%E8%A6%81%E8%BF%87%E5%BA%A6%E4%BD%BF%E7%94%A8%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F)
-- [5. 工厂模式](#5-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F)
-  - [5.1. 工厂方法](#51-%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95)
-  - [5.2. 抽象工厂](#52-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82)
-- [6. 模板模式](#6-%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F)
-- [7. 策略模式](#7-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F)
-- [8. 观察者模式](#8-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F)
-  - [8.1. 观察者模式定义](#81-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E5%AE%9A%E4%B9%89)
-  - [8.2. jdk 中的观察者模式](#82-jdk-%E4%B8%AD%E7%9A%84%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F)
-    - [8.2.1. jdk 中的 api](#821-jdk-%E4%B8%AD%E7%9A%84-api)
-    - [8.2.2. jdk 观察者模式使用示例](#822-jdk-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B)
-  - [8.3. 事件驱动模型](#83-%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B)
-- [9. 代理模式](#9-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F)
-  - [9.1. 静态代理](#91-%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86)
-  - [9.2. 动态代理](#92-%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86)
-    - [9.2.1. 看一个使用示例](#921-%E7%9C%8B%E4%B8%80%E4%B8%AA%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B)
-    - [9.2.2. 自定义数据库连接池](#922-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0)
-- [10. 装饰器模式](#10-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F)
-- [11. 适配器模式](#11-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F)
-- [12. 责任链模式](#12-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F)
-- [13. 单例模式](#13-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F)
-- [14. 命令模式](#14-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F)
-- [15. 门面模式](#15-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F)
-- [16. 建造者模式](#16-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F)
-- [17. 流水线模式](#17-%E6%B5%81%E6%B0%B4%E7%BA%BF%E6%A8%A1%E5%BC%8F)
-- [18. 状态模式 state machine](#18-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F-state-machine)
+- [4. 设计模式概要](#4-设计模式概要)
+  - [4.1. 设计模式总结](#41-设计模式总结)
+  - [4.2. spring 中的设计模式](#42-spring-中的设计模式)
+  - [4.3. 不要过度使用设计模式](#43-不要过度使用设计模式)
+- [5. 工厂模式 (commonly used)](#5-工厂模式-commonly-used)
+  - [5.1. 工厂方法](#51-工厂方法)
+  - [5.2. 抽象工厂](#52-抽象工厂)
+- [6. 模板模式](#6-模板模式)
+- [7. 策略模式](#7-策略模式)
+- [8. 观察者模式](#8-观察者模式)
+  - [8.1. 观察者模式定义](#81-观察者模式定义)
+  - [8.2. jdk 中的观察者模式](#82-jdk-中的观察者模式)
+    - [8.2.1. jdk 中的 api](#821-jdk-中的-api)
+    - [8.2.2. jdk 观察者模式使用示例](#822-jdk-观察者模式使用示例)
+  - [8.3. 事件驱动模型](#83-事件驱动模型)
+- [9. 代理模式](#9-代理模式)
+  - [9.1. 静态代理](#91-静态代理)
+  - [9.2. 动态代理](#92-动态代理)
+    - [9.2.1. 看一个使用示例](#921-看一个使用示例)
+    - [9.2.2. 自定义数据库连接池](#922-自定义数据库连接池)
+- [10. 装饰器模式](#10-装饰器模式)
+- [11. 适配器模式](#11-适配器模式)
+- [12. 责任链模式](#12-责任链模式)
+- [13. 单例模式 (commonly used)](#13-单例模式-commonly-used)
+- [14. 享元模式 (commonly used)](#14-享元模式-commonly-used)
+- [15. 命令模式](#15-命令模式)
+- [16. 门面模式](#16-门面模式)
+- [17. 建造者模式](#17-建造者模式)
+- [18. 流水线模式](#18-流水线模式)
+- [19. 状态模式 state machine](#19-状态模式-state-machine)
 
-<!-- /TOC -->
 
-# 实践 案例
+# 1. 实践 案例
 
 https://mp.weixin.qq.com/s/3wHFNFQPtj86AocLhUQahw
 TODO
 
 
 
-# uml 类图
+# 2. uml 类图
 
 - 三角空心箭头, 虚线 - 实现关系, 代码中为`继承抽象类or接口`
 
@@ -75,7 +73,7 @@ TODO
 
 - 普通箭头, 虚线 - 依赖关系, 代码中为 `类方法中的传入参数`
 
-# 程序 6 大设计原则
+# 3. 程序 6 大设计原则
 
 ref: <<设计模式之禅>>
 
@@ -123,7 +121,7 @@ ref: <<设计模式之禅>>
     - 暴露尽量少的方法给外界 (能 private 就不要 public).
 
 
-## open close principle
+## 3.1. open close principle
 
 ```java
 // bad demo
@@ -290,7 +288,7 @@ public class MessageClient {
 // 对于MessageService服务类来说，不用做任何修改，只需要扩展新的推送消息的工具类即可, 这就是遵循开闭原则的好处
 ```
 
-## single responsibility principle
+## 3.2. single responsibility principle
 
 ```java
 // bad demo
@@ -341,7 +339,7 @@ public class Calculator {
 }
 ```
 
-## interface separation principle
+## 3.3. interface separation principle
 
 ```java
 //这是错误示例，当实现此接口 时，必须实现不必要的方法 other()
@@ -356,7 +354,7 @@ public interface SmartPhone extends Mobile{
 }
 ```
 
-## 里氏替换原则
+## 3.4. 里氏替换原则
 
 基类子类可替换
 
@@ -395,9 +393,9 @@ public class Client {
 }
 ```
 
-## dependence inversion principle
+## 3.5. dependence inversion principle
 
-## Least Knowledge Principle
+## 3.6. Least Knowledge Principle
 
 类间解耦
 
@@ -426,10 +424,10 @@ class demo {
 }
 ```
 
-# 设计模式概要
+# 4. 设计模式概要
 
 
-## 设计模式总结
+## 4.1. 设计模式总结
 
 常见的:
 
@@ -467,7 +465,7 @@ class demo {
 
 - 组合模式
 
-## spring 中的设计模式
+## 4.2. spring 中的设计模式
 
 - 简单工厂
 
@@ -504,7 +502,7 @@ class demo {
     - spring 中 类名中含有Wrapper, 都是, 如: httpServletRquestWrapper...
 
 
-## 不要过度使用设计模式
+## 4.3. 不要过度使用设计模式
 
 https://www.zhihu.com/question/23757906/answer/25567356
 
@@ -515,7 +513,7 @@ https://www.zhihu.com/question/23757906/answer/25567356
 - 如果你用的语言 style 反对叠床架屋的 class hierarchy，很多结构模式就没用了。
 
 
-# 工厂模式
+# 5. 工厂模式 (commonly used)
 
 优点:
 
@@ -568,7 +566,7 @@ https://www.zhihu.com/question/23757906/answer/25567356
 
 
 
-## 工厂方法
+## 5.1. 工厂方法
 
 
 
@@ -628,7 +626,7 @@ public class User {
 ```
 
 
-## 抽象工厂
+## 5.2. 抽象工厂
 
 ```java
 public interface IFactory {
@@ -662,7 +660,7 @@ public class User {
 
 ```
 
-# 模板模式
+# 6. 模板模式
 
 定义: 定义一个操作中的算法的骨架，而将一些步骤延迟到子类中
 
@@ -729,7 +727,7 @@ public class Client {
 }
 ```
 
-# 策略模式
+# 7. 策略模式
 
 定义了一组算法，将每个算法都封装起来，并且使它们之间可以互换. 
 
@@ -789,9 +787,9 @@ class Main {
 
 
 
-# 观察者模式
+# 8. 观察者模式
 
-## 观察者模式定义
+## 8.1. 观察者模式定义
 
 别名 发布订阅模式
 
@@ -933,9 +931,9 @@ public class MyTarget extends Target {
 }
 ```
 
-## jdk 中的观察者模式
+## 8.2. jdk 中的观察者模式
 
-### jdk 中的 api
+### 8.2.1. jdk 中的 api
 
 ```java
 //观察者接口，每一个观察者都必须实现这个接口
@@ -1012,7 +1010,7 @@ public class Observable {
 }
 ```
 
-### jdk 观察者模式使用示例
+### 8.2.2. jdk 观察者模式使用示例
 
 ```java
 //读者类，要实现观察者接口
@@ -1115,7 +1113,7 @@ public class Client {
 }
 ```
 
-## 事件驱动模型
+## 8.3. 事件驱动模型
 
 观察者模式的另一种形态, 例如Tomcat中的监听器listener
 
@@ -1209,9 +1207,9 @@ public class Reader implements WriterListener{
 }
 ```
 
-# 代理模式
+# 9. 代理模式
 
-## 静态代理
+## 9.1. 静态代理
 
 代理对象和被代理对象实现相同的接口
 
@@ -1317,7 +1315,7 @@ public class Client {
 }
 ```
 
-## 动态代理
+## 9.2. 动态代理
 
 如果需要代理的类只有一个，那么静态代理没什么问题，如果有很多类需要代理呢，用静态代理的话就需要为每一个类创建一个代理类，显然这么做太过繁琐也容易出错。
 
@@ -1329,7 +1327,7 @@ JDK 5引入的动态代理机制，允许开发人员在运行时刻动态的创
 
 场景: 比如Spring的aop
 
-### 看一个使用示例
+### 9.2.1. 看一个使用示例
 
 ```java
 public class Client {
@@ -1364,7 +1362,7 @@ public class Client {
 
 ```
 
-### 自定义数据库连接池
+### 9.2.2. 自定义数据库连接池
 
 ```java
 // 数据库连接池
@@ -1599,7 +1597,7 @@ public class MyPool {
 
 ```
 
-# 装饰器模式
+# 10. 装饰器模式
 
 希望给一个对象添加行为, 但是又希望这个改动对调用者透明
 
@@ -1666,7 +1664,7 @@ public class ConcreteDecoratorB extends Decorator{
 }
 ```
 
-# 适配器模式
+# 11. 适配器模式
 
 将一个接口转换成客户希望的另一个接口，适配器模式使接口不兼容的那些类可以一起工作
 
@@ -1747,7 +1745,7 @@ public class Client {
 }
 ```
 
-# 责任链模式
+# 12. 责任链模式
 
 责任链通常需要先建立一个单向链表，然后调用方只需要调用头部节点就可以了，后面会自动流转下去。
 
@@ -2028,7 +2026,7 @@ public class Client {
 }
 ```
 
-# 单例模式
+# 13. 单例模式 (commonly used)
 
 某个对象全局只需要一个实例时，就可以使用单例模式。它的优点也显而易见：
 
@@ -2092,14 +2090,17 @@ public class Singleton {
 }
 ```
 
+# 14. 享元模式 (commonly used)
 
-# 命令模式
 
-# 门面模式
 
-# 建造者模式
+# 15. 命令模式
 
-# 流水线模式
+# 16. 门面模式
+
+# 17. 建造者模式
+
+# 18. 流水线模式
 
 https://juejin.cn/post/7070338942184194084
 
@@ -2111,7 +2112,7 @@ https://blog.csdn.net/huzhiqiangCSDN/article/details/56846268
 
 
 
-# 状态模式 state machine
+# 19. 状态模式 state machine
 
 
 

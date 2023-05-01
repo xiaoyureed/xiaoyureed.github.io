@@ -92,6 +92,7 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
       - [13.7.3.3. jpa 支持 java8 time](#13733-jpa-支持-java8-time)
     - [13.7.4. DataSourceInitializer](#1374-datasourceinitializer)
     - [13.7.5. maven-antrun-pluginn](#1375-maven-antrun-pluginn)
+    - [construct a script execution service manually](#construct-a-script-execution-service-manually)
   - [13.8. 整合 spring jdbc](#138-整合-spring-jdbc)
   - [13.9. 整合 hibernate](#139-整合-hibernate)
     - [13.9.1. jpa注解总结](#1391-jpa注解总结)
@@ -1650,6 +1651,8 @@ spring:
 
 这两个脚本是否执行的开关由spring.datasource.initialization-mode决定：always-一定执行，embedded-只对内存数据库执行(默认)，never-不执行。
 
+spring.jpa.defer-datasource-initialization setup to true will enable insert sql execution, no other configuraton setup.
+
 2、JPA根据类结构初始化
 
 　　@Entity注解的类将会被初始化一张数据库表。
@@ -1668,11 +1671,8 @@ spring:
 
 5 spring.jpa.database-platform=org.hibernate.dialect.MySQL5InnoDBDialect 虽然 不同的数据库方言会自动选择, 但是若想使用特定引擎类型需要指定方言, 不加这句则不会默认创建MyISAM引擎的数据库
 
+
 ```yml
-
-```
-
-```
 jpa:hibernate:ddl-auto: update是hibernate的配置属性，其主要作用是：自动创建、更新、验证数据库表结构。该参数的几种配置如下：
 1.·create：每次加载hibernate时都会删除上一次的生成的表，然后根据你的model类再重新来生成新表，哪怕两次没有任何改变也要这样执行，这就是导致数据库表数据丢失的一个重要原因。
 2.·create-drop：每次加载hibernate时根据model类生成表，但是sessionFactory一关闭,表就自动删除。
@@ -1759,6 +1759,11 @@ public class CustomizeDataSourceInitializer {
     </build> 
 </profile>
 ```
+
+### construct a script execution service manually
+
+https://mubasil-bokhari.medium.com/execute-sql-script-in-spring-boot-30636884a932
+todo
 
 ## 13.8. 整合 spring jdbc
 
