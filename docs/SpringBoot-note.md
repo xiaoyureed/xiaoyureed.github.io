@@ -1645,13 +1645,17 @@ spring:
 
 #### 13.7.3.1. springboot 接入 jpa
 
+https://github.com/AnghelLeonard/Hibernate-SpringBoot github demos
+
+https://github.com/tomoyane/springboot-bestpractice working with spring security
+
 1、SpringBoot根据脚本初始化
 
 结构初始化脚本文件由spring.datasource.schema属性指定，数据初始化脚本由文件spring.datasource.data属性指定。
 
 这两个脚本是否执行的开关由spring.datasource.initialization-mode决定：always-一定执行，embedded-只对内存数据库执行(默认)，never-不执行。
 
-spring.jpa.defer-datasource-initialization setup to true will enable insert sql execution, no other configuraton setup.
+spring.jpa.defer-datasource-initialization setup to true will enable the insertting sql execution, no other configuraton setup. Just need a new sql file named with "data.sql" in resources folder.
 
 2、JPA根据类结构初始化
 
@@ -1666,6 +1670,8 @@ spring.jpa.defer-datasource-initialization setup to true will enable insert sql 
 　　实践也验证了文章里所说的，spring.jpa.generate-dll比spring.jpa.hibernate.ddl-auto有更强的控制力度，即使spring.jpa.hibernate.ddl-auto为none，只要spring.jpa.generate-dll为true，也会根据@Entity注解的实体类生成对应数据表。
 
 　　按照文章的建议，为了避免混淆和不好理解，这两者最好不要混用，只对JPA实现层面的控制属性spring.jpa.hibernate.ddl-auto进行设置即可。
+
+   最保险的做法: 若想自动生成表, setup `spring.jpa.generate-dll=true`, `spring.jpa.hibernate.ddl-auto` 则设置为需要的策略; 若不想自动生成表, 设置 `generate-ddl=false (默认)` 即可
 
 4、让SpringBoot根据脚本和让JPA根据实体类进行初始化，两者之中选择一个即可。
 

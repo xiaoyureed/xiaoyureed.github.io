@@ -79,8 +79,182 @@ https://github.com/qiu-deqing/FE-interview , https://github.com/markyun/My-blog/
 
 <!--more-->
 
+- [1. 面试题](#1-面试题)
+- [2. 搭建内部的组件库](#2-搭建内部的组件库)
+- [3. 开发 Chrome 插件](#3-开发-chrome-插件)
+- [4. why react](#4-why-react)
+- [5. jsx](#5-jsx)
+  - [5.1. 基本语法](#51-基本语法)
+  - [5.2. 使用 jsx 需要的环境配置](#52-使用-jsx-需要的环境配置)
+- [6. 开发环境搭建](#6-开发环境搭建)
+  - [6.1. 老项目接入](#61-老项目接入)
+  - [6.2. create-react-app 使用](#62-create-react-app-使用)
+  - [6.3. vscode 环境](#63-vscode-环境)
+  - [6.4. webpack 环境搭建](#64-webpack-环境搭建)
+- [7. airbnb 推荐的规范](#7-airbnb-推荐的规范)
+- [8. 组件化](#8-组件化)
+  - [8.1. 社区开源组件](#81-社区开源组件)
+  - [8.2. Web Components](#82-web-components)
+  - [8.3. 组件设计原则](#83-组件设计原则)
+  - [8.4. 带状态组件 纯函数组件](#84-带状态组件-纯函数组件)
+  - [8.5. 函数绑定方式](#85-函数绑定方式)
+  - [8.6. hooks](#86-hooks)
+    - [8.6.1. create react app 配合 eslint-plugin-react-hooks](#861-create-react-app-配合-eslint-plugin-react-hooks)
+    - [8.6.2. hooks 原理](#862-hooks-原理)
+    - [8.6.3. 最佳实践](#863-最佳实践)
+    - [8.6.4. 为什么需要 hooks](#864-为什么需要-hooks)
+    - [8.6.5. useRef](#865-useref)
+    - [8.6.6. useMemo and memo and useCallback](#866-usememo-and-memo-and-usecallback)
+    - [8.6.7. useState](#867-usestate)
+      - [8.6.7.1. state 特性](#8671-state-特性)
+      - [8.6.7.2. 传统写法](#8672-传统写法)
+      - [8.6.7.3. 使用 functional 组件的写法](#8673-使用-functional-组件的写法)
+      - [8.6.7.4. 延迟初始化](#8674-延迟初始化)
+      - [8.6.7.5. 新旧 state 有关联](#8675-新旧-state-有关联)
+    - [8.6.8. useContext](#868-usecontext)
+    - [8.6.9. useReducer](#869-usereducer)
+    - [8.6.10. useEffect](#8610-useeffect)
+      - [8.6.10.1. effect 理解](#86101-effect-理解)
+      - [8.6.10.2. effect 基本使用](#86102-effect-基本使用)
+      - [8.6.10.3. 缓存上次值](#86103-缓存上次值)
+      - [8.6.10.4. 设置销毁回调函数例子](#86104-设置销毁回调函数例子)
+      - [8.6.10.5. 发送异步请求](#86105-发送异步请求)
+      - [8.6.10.6. 使用 fetch api](#86106-使用-fetch-api)
+    - [8.6.11. 自定义 hook](#8611-自定义-hook)
+      - [8.6.11.1. 带有自增效果的 state hook](#86111-带有自增效果的-state-hook)
+      - [8.6.11.2. 从 usehooks 改造 responseComponent](#86112-从-usehooks-改造-responsecomponent)
+      - [8.6.11.3. 定时器 and 自动销毁](#86113-定时器-and-自动销毁)
+    - [8.6.12. 综合例子](#8612-综合例子)
+      - [8.6.12.1. 点赞按钮](#86121-点赞按钮)
+  - [8.7. 高阶组件 and 函数作为子组件](#87-高阶组件-and-函数作为子组件)
+  - [8.8. Fragment](#88-fragment)
+  - [8.9. StrictMode](#89-strictmode)
+  - [8.10. 示例](#810-示例)
+    - [8.10.1. 使用 props](#8101-使用-props)
+    - [8.10.2. 遍历子元素](#8102-遍历子元素)
+    - [8.10.3. 找到真实的 dom(this.ref.xxx)](#8103-找到真实的-domthisrefxxx)
+    - [8.10.4. 使用 state(this.state)](#8104-使用-statethisstate)
+    - [8.10.5. 一个表单示例](#8105-一个表单示例)
+    - [8.10.6. 登录界面](#8106-登录界面)
+    - [8.10.7. todo list app](#8107-todo-list-app)
+- [9. 组件的生命周期](#9-组件的生命周期)
+  - [9.1. 生命周期介绍](#91-生命周期介绍)
+  - [9.2. 组件被挂载](#92-组件被挂载)
+  - [9.3. 组件被卸载](#93-组件被卸载)
+  - [9.4. 组件被更新](#94-组件被更新)
+  - [9.5. 生命周期函数 demo](#95-生命周期函数-demo)
+- [10. virtual dom 和 diff 算法](#10-virtual-dom-和-diff-算法)
+  - [10.1. virtual dom](#101-virtual-dom)
+  - [10.2. react 的 diff 算法法](#102-react-的-diff-算法法)
+  - [10.3. key 属性有什么作用](#103-key-属性有什么作用)
+  - [10.4. 设置组件时怎么提高性能](#104-设置组件时怎么提高性能)
+- [11. context-api 使用](#11-context-api-使用)
+- [12. state 状态](#12-state-状态)
+  - [12.1. state 介绍](#121-state-介绍)
+  - [12.2. state 和组件的普通属性区别](#122-state-和组件的普通属性区别)
+  - [12.3. 如何更新 state](#123-如何更新-state)
+  - [12.4. setState 是不是异步的](#124-setstate-是不是异步的)
+  - [12.5. setState 更新是一个合并过程](#125-setstate-更新是一个合并过程)
+  - [12.6. replaceState 更新是一个替换过程](#126-replacestate-更新是一个替换过程)
+- [13. props 属性](#13-props-属性)
+  - [13.1. 在 jsx 中遍历 props](#131-在-jsx-中遍历-props)
+  - [13.2. PropTypes 类型检查](#132-proptypes-类型检查)
+  - [13.3. 引入类型检查的其他方法](#133-引入类型检查的其他方法)
+    - [13.3.1. 引入 TypeScript](#1331-引入-typescript)
+    - [13.3.2. flow 类型检查](#1332-flow-类型检查)
+  - [13.4. 设定 props 的默认值](#134-设定-props-的默认值)
+  - [13.5. 有哪些属性](#135-有哪些属性)
+- [14. refs](#14-refs)
+- [15. 合成事件](#15-合成事件)
+- [16. 状态管理](#16-状态管理)
+  - [16.1. flux 架构的思想](#161-flux-架构的思想)
+  - [16.2. Flux 官方实现](#162-flux-官方实现)
+  - [16.3. Redux](#163-redux)
+    - [16.3.1. 为什么要使用 redux](#1631-为什么要使用-redux)
+    - [16.3.2. 基本概念](#1632-基本概念)
+    - [16.3.3. 基本 api](#1633-基本-api)
+      - [16.3.3.1. store](#16331-store)
+      - [16.3.3.2. reducer](#16332-reducer)
+      - [16.3.3.3. applyMiddleware](#16333-applymiddleware)
+      - [16.3.3.4. bindActionCreators](#16334-bindactioncreators)
+    - [16.3.4. 纯 redux 的 api 示例(同步版本的 api)](#1634-纯-redux-的-api-示例同步版本的-api)
+    - [16.3.5. react-redux](#1635-react-redux)
+    - [16.3.6. 异步 Action](#1636-异步-action)
+    - [16.3.7. thunk, saga](#1637-thunk-saga)
+    - [16.3.8. 调试工具](#1638-调试工具)
+    - [16.3.9. demo(一个 todo-app)](#1639-demo一个-todo-app)
+  - [16.4. Redux 和 Flux 的一些差异](#164-redux-和-flux-的一些差异)
+  - [16.5. ImmutableJS](#165-immutablejs)
+- [17. 路由 react-router](#17-路由-react-router)
+  - [17.1. 路由标签的使用](#171-路由标签的使用)
+    - [17.1.1. Router-路由容器](#1711-router-路由容器)
+    - [17.1.2. Route-路由组件映射](#1712-route-路由组件映射)
+      - [17.1.2.1. 属性](#17121-属性)
+      - [17.1.2.2. 通过 url 传递参数给 Route](#17122-通过-url-传递参数给-route)
+      - [17.1.2.3. 嵌套路由](#17123-嵌套路由)
+      - [17.1.2.4. Route 三种渲染方式](#17124-route-三种渲染方式)
+    - [17.1.3. Switch-解决多匹配问题](#1713-switch-解决多匹配问题)
+    - [17.1.4. Redirect-重定向当前页面](#1714-redirect-重定向当前页面)
+    - [17.1.5. Link-超链接](#1715-link-超链接)
+    - [17.1.6. NavLink: 带样式的 Link](#1716-navlink-带样式的-link)
+    - [17.1.7. Prompt-提示](#1717-prompt-提示)
+  - [17.2. history](#172-history)
+  - [17.3. location](#173-location)
+  - [17.4. match](#174-match)
+- [18. 调试和测试](#18-调试和测试)
+- [19. GraphQL 和 Relay](#19-graphql-和-relay)
+- [20. CSS-Module 模块化](#20-css-module-模块化)
+- [21. css-in-js](#21-css-in-js)
+- [22. 最佳实践 best practice](#22-最佳实践-best-practice)
+- [23. 服务端渲染](#23-服务端渲染)
+  - [23.1. 什么是 ssr](#231-什么是-ssr)
+  - [23.2. ssr 的好处](#232-ssr-的好处)
+  - [23.3. 解决方案](#233-解决方案)
+    - [23.3.1. 拖过 vite](#2331-拖过-vite)
+    - [23.3.2. 配合 koa2 实现 ssr](#2332-配合-koa2-实现-ssr)
+    - [23.3.3. egg 实现 ssr](#2333-egg-实现-ssr)
+- [24. 性能优化](#24-性能优化)
+  - [24.1. 常见的性能问题场景](#241-常见的性能问题场景)
+  - [24.2. 使用工具定位性能问题](#242-使用工具定位性能问题)
+  - [24.3. 网络性能优化-自动按需加载](#243-网络性能优化-自动按需加载)
+  - [24.4. 使用 Reselect 避免重复计算](#244-使用-reselect-避免重复计算)
+- [25. react 动画](#25-react-动画)
+- [26. react native](#26-react-native)
+- [27. 开发小程序](#27-开发小程序)
+- [28. 小项目](#28-小项目)
+  - [28.1. 实现 route](#281-实现-route)
+  - [28.2. 表单设计器](#282-表单设计器)
+  - [28.3. cms 系统](#283-cms-系统)
+- [29. 部署到 github 上](#29-部署到-github-上)
+- [30. 和 springboot 打包单体应用](#30-和-springboot-打包单体应用)
+- [31. 和 typescript 一起使用](#31-和-typescript-一起使用)
+  - [31.1. 集成 ts 环境](#311-集成-ts-环境)
+  - [31.2. ts 基本使用](#312-ts-基本使用)
+    - [31.2.1. 基本数据类型](#3121-基本数据类型)
+    - [31.2.2. interface](#3122-interface)
+      - [31.2.2.1. 使用 interface 定义对象类型](#31221-使用-interface-定义对象类型)
+      - [31.2.2.2. interface 定义函数类型](#31222-interface-定义函数类型)
+      - [31.2.2.3. interface 定义可索引类型](#31223-interface-定义可索引类型)
+      - [31.2.2.4. interface 定义 class 类](#31224-interface-定义-class-类)
+      - [31.2.2.5. interface 继承](#31225-interface-继承)
+    - [31.2.3. interface 和 type 区别](#3123-interface-和-type-区别)
+    - [31.2.4. class 使用](#3124-class-使用)
+    - [31.2.5. 泛型使用](#3125-泛型使用)
+    - [31.2.6. 交叉类型](#3126-交叉类型)
+    - [31.2.7. 联合类型](#3127-联合类型)
+    - [31.2.8. 类型保护](#3128-类型保护)
+    - [31.2.9. 类型别名](#3129-类型别名)
+    - [31.2.10. 空类型](#31210-空类型)
+  - [31.3. 为样式文件编写 types](#313-为样式文件编写-types)
+  - [31.4. 配置 css 跳转](#314-配置-css-跳转)
+- [32. 开源库](#32-开源库)
+  - [32.1. 组件库](#321-组件库)
+  - [32.2. 动画](#322-动画)
+  - [32.3. css 框架](#323-css-框架)
+- [33. ionic 异常 质量App](#33-ionic-异常-质量app)
 
-# 面试题
+
+# 1. 面试题
 
 ```
 
@@ -128,7 +302,7 @@ https://github.com/qiu-deqing/FE-interview , https://github.com/markyun/My-blog/
 
 ```
 
-# 搭建内部的组件库
+# 2. 搭建内部的组件库
 
 基于 Markdown 的方式比较简单
 
@@ -136,11 +310,11 @@ React https://mdxjs.com/ https://www.docz.site/
 Vue https://vuepress.vuejs.org/
 通用 https://storybook.js.org/
 
-# 开发 Chrome 插件
+# 3. 开发 Chrome 插件
 
 https://github.com/lxieyang/chrome-extension-boilerplate-react
 
-# why react
+# 4. why react
 
 ReactJS: ui 展示框架, 只负责 view 渲染的部分, 包括 npm 库 `react`(核心), `react-dom`(专门处理 dom)
 
@@ -159,9 +333,9 @@ so why react?
 前端工程 and 模块化 -> js-proj-history.md
 
 
-# jsx 
+# 5. jsx 
 
-## 基本语法
+## 5.1. 基本语法
 
 JSX: 语法糖, 类似 xml, 但是进行了拓展, 加入 js 语法, 将 HTML 直接嵌入了 JS 代码里面, 最终需要“编译”输出 JS 代码才能使用;
 
@@ -287,7 +461,7 @@ ReactDOM.render(
 
 ```
 
-## 使用 jsx 需要的环境配置
+## 5.2. 使用 jsx 需要的环境配置
 
 jsx 被浏览器识别需要先编译, 这里有 2 个方法:
 
@@ -325,13 +499,13 @@ jsx 被浏览器识别需要先编译, 这里有 2 个方法:
 
 
 
-# 开发环境搭建
+# 6. 开发环境搭建
 
-## 老项目接入
+## 6.1. 老项目接入
 
 CDN-based(直接引入 script 的方式, 适合老项目, 见下节 demo)、 webpack([ref](https://github.com/carlleton/reactjs101/blob/zh-CN/Ch02/webpack-dev-enviroment.md)), TypeScript 的开发方式, browserify 搭配 Gulp 的方法([ref](https://github.com/carlleton/reactjs101/blob/zh-CN/Ch02/browserify-gulp-dev-enviroment.md))
 
-## create-react-app 使用
+## 6.2. create-react-app 使用
 
 也可以直接使用 create-react-app 官方脚手架
 
@@ -353,7 +527,7 @@ npx create-react-app demo-app
 
 推荐先 `npm start` 启动 app, 然后 F5 启动调试服务器, 此时会新开一个 chrome, 访问配置的 url
 
-## vscode 环境
+## 6.3. vscode 环境
 
 eslint, prettier 插件, 和对应的 module
 
@@ -367,7 +541,7 @@ eslint, prettier 插件, 和对应的 module
 
 [eslint + prettier 配合使用, 冲突解决, 使用 git hooks 在每次提交 commit 时 (pre-commit)格式化](https://thomlom.dev/setup-eslint-prettier-react/)
 
-## webpack 环境搭建
+## 6.4. webpack 环境搭建
 
 ```sh
 yarn add webpack webpack-cli webpack-dev-server
@@ -393,26 +567,26 @@ https://juejin.im/post/5d7a7e7e518825345a05c518
 https://juejin.im/post/5cfb8c0051882541b24c3ed3 //todo
 
 
-# airbnb 推荐的规范
+# 7. airbnb 推荐的规范
 
 https://github.com/airbnb/javascript
 
-# 组件化
+# 8. 组件化
 
-## 社区开源组件
+## 8.1. 社区开源组件
 
 - react-hook-form 表单 - https://github.com/react-hook-form/react-hook-form
 - react-beautiful-dnd 拖拽
 - https://github.com/vercel/swr 远程数据获取 remote data fetching
 
-## Web Components
+## 8.2. Web Components
 
 http://www.ruanyifeng.com/blog/2019/08/web_components.html
 
 TODO
 
 
-## 组件设计原则
+## 8.3. 组件设计原则
 
 props (外部传入) + state (内部维护) = View
 
@@ -432,7 +606,7 @@ Ract 组件一般不提供方法, 不同的 props 和 state 会产生 不同的 
 
 -   state 能不要就不要, 能通过计算得到的状态就不要特地存储到 state, 尽量所有数据都通过 props 获取, 也就是 functional component 优于 state component (性能好, 易于重用)
 
-## 带状态组件 纯函数组件 
+## 8.4. 带状态组件 纯函数组件 
 
 两种写法 ✍:
 
@@ -462,7 +636,7 @@ const MyComponent = props => <div>Hello, World!</div>;
 ReactDOM.render(<MyComponent />, document.getElementById("app"));
 ```
 
-## 函数绑定方式
+## 8.5. 函数绑定方式
 
 react 中由于类的方法默认不会绑定this，因此在调用的时候如果忘记绑定，this的值将会是undefined
 
@@ -529,7 +703,7 @@ class App extends Component {
 }
 ```
 
-## hooks
+## 8.6. hooks
 
 https://reactjs.org/docs/hooks-reference.html
 
@@ -537,21 +711,21 @@ https://www.ruanyifeng.com/blog/2019/09/react-hooks.html
 
 https://juejin.cn/post/6844903854174109703 循序渐进介绍 hooks, 解决什么问题
 
-### create react app 配合 eslint-plugin-react-hooks
+### 8.6.1. create react app 配合 eslint-plugin-react-hooks
 
 https://blog.csdn.net/zqd666/article/details/102961701
 https://www.npmjs.com/package/eslint-plugin-react-hooks?ref=hackernoon.com
 
-### hooks 原理
+### 8.6.2. hooks 原理
 
 https://github.com/brickspert/blog/issues/26
 
-### 最佳实践
+### 8.6.3. 最佳实践
 
 https://zhuanlan.zhihu.com/p/98554943
 https://www.zhihu.com/search?type=content&q=react%20hooks%20%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5
 
-### 为什么需要 hooks
+### 8.6.4. 为什么需要 hooks
 
 https://www.javascriptc.com/2530.html
 
@@ -591,7 +765,7 @@ useImperativeHandle() 组件可以获得子组件的 input 的 DOM 节点
 
 由于 Hooks 可以提供共享状态和 Reducer 函数，所以它在这些方面可以取代 Redux。但是，它没法提供中间件（middleware）和时间旅行（time travel），如果你需要这两个功能，还是要用 Redux
 
-### useRef
+### 8.6.5. useRef
 
 use to create a reference to refer to some object else;
 
@@ -652,7 +826,7 @@ export default () => {
 ```
 
 
-### useMemo and memo and useCallback
+### 8.6.6. useMemo and memo and useCallback
 
 https://github.com/puxiao/react-hook-tutorial
 
@@ -754,9 +928,9 @@ export default () => {
 ```
 
 
-### useState
+### 8.6.7. useState
 
-#### state 特性
+#### 8.6.7.1. state 特性
 
 每一次渲染都有它自己的 Props 和 State
 每一次渲染都有它自己的事件处理函数
@@ -766,7 +940,7 @@ Hook 内部使用 Object.is 来比较新旧 state 是否相等
 与 class 组件中的 setState 方法不同，如果你修改状态的时候，传的状态值没有变化，则不重新渲染;
 useState 不会自动合并更新对象, 二是替换
 
-#### 传统写法
+#### 8.6.7.2. 传统写法
 
 (由于带有 状态, 所以必须使用 类 的写法)
 
@@ -793,7 +967,7 @@ class Button extends React.Component {
 }
 ```
 
-#### 使用 functional 组件的写法
+#### 8.6.7.3. 使用 functional 组件的写法
 
 ```js
 import React, { useState } from "react";
@@ -817,7 +991,7 @@ export default ButtonHooks;
 
 ```
 
-#### 延迟初始化
+#### 8.6.7.4. 延迟初始化
 
 initialState 参数只会在组件的初始化渲染中起作用，后续渲染时会被忽略, 传入有个函数, 只会在初始渲染时执行一次, 后续不再执行
 
@@ -841,12 +1015,12 @@ export default (props) => {
 
 ```
 
-#### 新旧 state 有关联
+#### 8.6.7.5. 新旧 state 有关联
 
 如果新的 state 需要通过使用先前的 state 计算得出，那么可以将回调函数当做参数传递给 setState。该回调函数将接收先前的 state，并返回一个更新后的值
 
 
-### useContext
+### 8.6.8. useContext
 
 类似 redux 作用, 但是 redux 更强大, 
 
@@ -972,7 +1146,7 @@ const ThemedButton = () => {
 };
 ```
 
-### useReducer
+### 8.6.9. useReducer
 
 用于管理复杂的 state 变化, 当 state 多到 useState 难以应付, 就可以使用 useReducer
 
@@ -1036,9 +1210,9 @@ export default ActionDemo;
 
 ```
 
-### useEffect
+### 8.6.10. useEffect
 
-#### effect 理解
+#### 8.6.10.1. effect 理解
 
 effect（副作用）：指那些没有发生在数据向视图转换过程中的逻辑，如 ajax 请求、访问原生dom 元素、本地持久化缓存、绑定/解绑事件、添加订阅、设置定时器、记录日志等。
 
@@ -1049,7 +1223,7 @@ useEffect 接收一个函数，该函数会在组件渲染到屏幕之后才执�
 与 componentDidMount 或 componentDidUpdate 不同，使用 useEffect 调度的 effect 不会阻塞浏览器更新屏幕，这让你的应用看起来响应更快。大多数情况下，effect 不需要同步地执行。在个别情况下（例如测量布局），有单独的 useLayoutEffect Hook 供你使用，其 API 与 useEffect 相同
   
 
-#### effect 基本使用
+#### 8.6.10.2. effect 基本使用
 
 ```js
 export default function App() {
@@ -1068,7 +1242,7 @@ export default function App() {
 }
 ```
 
-#### 缓存上次值
+#### 8.6.10.3. 缓存上次值
 
 useEffect 在 Render 完毕后才执行
 
@@ -1085,7 +1259,7 @@ function usePrevious(value) {
 
 ```
 
-#### 设置销毁回调函数例子
+#### 8.6.10.4. 设置销毁回调函数例子
 
 只有一个参数的例子:
 
@@ -1121,7 +1295,7 @@ function App() {
 
 ```
 
-#### 发送异步请求
+#### 8.6.10.5. 发送异步请求
 
 ```js
 export default () => {
@@ -1163,7 +1337,7 @@ const usePerson = () => {
 
 ```
 
-#### 使用 fetch api
+#### 8.6.10.6. 使用 fetch api
 
 ```js
 如何在 Hooks 中优雅的 Fetch Data
@@ -1193,11 +1367,11 @@ function App() {
 
 ```
 
-### 自定义 hook
+### 8.6.11. 自定义 hook
 
 自定义 Hook，只要函数名遵循以 use 开头，且返回非 JSX 元素，就是自定义 Hooks 
 
-#### 带有自增效果的 state hook
+#### 8.6.11.1. 带有自增效果的 state hook
 
 ```js
 export default () => {
@@ -1222,7 +1396,7 @@ const useCountAdd = (init) => {
 };
 ```
 
-#### 从 usehooks 改造 responseComponent
+#### 8.6.11.2. 从 usehooks 改造 responseComponent
 
 实时更新的 response component:
 
@@ -1321,7 +1495,7 @@ const Response = ({param}) => {
 
 ```
 
-#### 定时器 and 自动销毁
+#### 8.6.11.3. 定时器 and 自动销毁
 
 定时器 (需要设置销毁函数)
 
@@ -1392,9 +1566,9 @@ export default () => {
 };
 ```
 
-### 综合例子
+### 8.6.12. 综合例子
 
-#### 点赞按钮
+#### 8.6.12.1. 点赞按钮
 
 ```js
 import React, { useReducer, useState } from "react";
@@ -1532,7 +1706,7 @@ span {
 }
 ```
 
-## 高阶组件 and 函数作为子组件
+## 8.7. 高阶组件 and 函数作为子组件
 
 高阶组件 (HOC) 接受组件作为参数, 返回新的组件, 一般以函数的形式呈现
 
@@ -1607,7 +1781,7 @@ const MyComponent = props => {
 };
 ```
 
-## Fragment
+## 8.8. Fragment
 
 Fragments 看起来像空的 JSX 标签, 可以将多个元素作为返回值
 
@@ -1662,7 +1836,7 @@ function Glossary(props) {
 
 
 
-## StrictMode
+## 8.9. StrictMode
 
 与 Fragment 类似，StrictMode 不呈现任何可见 UI。它为它的后代启动额外的检查和警告。(严格模式检查仅在开发模式下运行；它们不会影响生产构建。
 
@@ -1688,11 +1862,11 @@ function ExampleApplication() {
 
 ```
 
-## 示例 
+## 8.10. 示例 
 
 每个 demo 都提供 3 种写法, 供对比.
 
-### 使用 props
+### 8.10.1. 使用 props
 
 ```js
 // 组件类的第一个字母必须大写，否则会报错，比如HelloMessage不能写成helloMessage。另外，组件类只能包含一个顶层标签，否则也会报错。
@@ -1734,7 +1908,7 @@ ReactDOM.render(
 );
 ```
 
-### 遍历子元素
+### 8.10.2. 遍历子元素
 
 ```js
 // ------------------------------------------------------
@@ -1794,7 +1968,7 @@ ReactDOM.render(
 // ---------------------------------------------------------
 ```
 
-### 找到真实的 dom(this.ref.xxx)
+### 8.10.3. 找到真实的 dom(this.ref.xxx)
 
 ```js
 /**********************************
@@ -1850,7 +2024,7 @@ ReactDOM.render(<TrueDom></TrueDom>, document.getElementById("trueDom"));
 // -------------------------------------------------------------------
 ```
 
-### 使用 state(this.state)
+### 8.10.4. 使用 state(this.state)
 
 ```js
 /*************************************
@@ -1909,7 +2083,7 @@ class MyState extends React.Component {
 ReactDOM.render(<MyState></MyState>, document.getElementById("myState"));
 ```
 
-### 一个表单示例
+### 8.10.5. 一个表单示例
 
 ```js
 /* 表单 */
@@ -1966,17 +2140,17 @@ class Form extends React.Component {
 ReactDOM.render(<Form></Form>, document.getElementById("form"));
 ```
 
-### 登录界面
+### 8.10.6. 登录界面
 
 https://www.jianshu.com/p/efc080e6ecd9 //todo
 
-### todo list app
+### 8.10.7. todo list app
 
 https://www.jianshu.com/p/523eb1fc1504 //todo
 
-# 组件的生命周期
+# 9. 组件的生命周期
 
-## 生命周期介绍
+## 9.1. 生命周期介绍
 
 http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/ ----- 交互式的演示
 
@@ -2004,7 +2178,7 @@ Component 就像个状态机（State Machine），根据不同的 state（可通
 
 
 
-## 组件被挂载
+## 9.2. 组件被挂载
 
 依次执行这些方法
 
@@ -2067,7 +2241,7 @@ constructor(props) {
 
 
 
-## 组件被卸载
+## 9.3. 组件被卸载
 
 1. componentWillUnMount() 会在组件卸载之前调用; 可以 此方法中执行必要的清理操作, 用于资源释放
 
@@ -2076,7 +2250,7 @@ constructor(props) {
     - 不应调用 setState()，因为该组件即将被卸载, 将永远不会重新渲染
 
 
-## 组件被更新
+## 9.4. 组件被更新
 
 1. static getDerivedStateFromProps(props, state)
 
@@ -2162,7 +2336,7 @@ class ScrollingList extends React.Component {
 
 
 
-## 生命周期函数 demo
+## 9.5. 生命周期函数 demo
 
 demo1: 一个定时浮现隐藏的图标
 
@@ -2238,9 +2412,9 @@ class Hello extends React.Component {
 ReactDOM.render(<Hello name="world" />, document.getElementById("lifeCycle"));
 ```
 
-# virtual dom 和 diff 算法
+# 10. virtual dom 和 diff 算法
 
-## virtual dom
+## 10.1. virtual dom
 
 如果有大面积的操作 DOM，性能会是一个很大的问题，所以 React 实现了一个*Virtual DOM*，充当浏览器真实 dom 和 react 之间的中间层
 
@@ -2248,7 +2422,7 @@ ReactDOM.render(<Hello name="world" />, document.getElementById("lifeCycle"));
 
 
 
-## react 的 diff 算法法
+## 10.2. react 的 diff 算法法
  
 复杂度 O(n)
 
@@ -2277,7 +2451,7 @@ react 根本不会走到 diff 比较 virtual dom 这一步:
 
 
 
-## key 属性有什么作用
+## 10.3. key 属性有什么作用
 
 key属性 用来唯一标识一个组件, 若渲染前后组件具有相同的key 则 react认为是同一个组件
 
@@ -2291,7 +2465,7 @@ key属性 用来唯一标识一个组件, 若渲染前后组件具有相同的ke
 
 不推荐使用 随机生成值 来做 key
 
-## 设置组件时怎么提高性能
+## 10.4. 设置组件时怎么提高性能
 
 
 因此 diff 算法高效 有两个前提:
@@ -2310,12 +2484,12 @@ key属性 用来唯一标识一个组件, 若渲染前后组件具有相同的ke
 
     如: 对于两个组件具有相似的 dom 结构, 应该设计为同一个 组件类
 
-# context-api 使用
+# 11. context-api 使用
 
 
-# state 状态
+# 12. state 状态
 
-## state 介绍
+## 12.1. state 介绍
 
 state 是组件内部维护的状态, props 是外部传入的属性; state 一般是真正的业务数据, props 一般是组件的配置, 从父组件传入, 定义后一般不变化
 
@@ -2355,7 +2529,7 @@ class Timer extends React.Component {
 ReactDOM.render(<Timer />, document.getElementById("app"));
 ```
 
-## state 和组件的普通属性区别
+## 12.2. state 和组件的普通属性区别
 
 在 state 中的变量是和 ui 渲染相关的, 总是会在 render() 中使用到
 
@@ -2370,7 +2544,7 @@ ReactDOM.render(<Timer />, document.getElementById("app"));
   }
 ```
 
-## 如何更新 state 
+## 12.3. 如何更新 state 
 
 通过 setState 方法, 有两种使用方法
 
@@ -2497,7 +2671,7 @@ this.setState(preState => ({
 ```
 
 
-## setState 是不是异步的
+## 12.4. setState 是不是异步的
 
 
 经典例子:
@@ -2575,7 +2749,7 @@ setState本身的执行过程是同步的
 - 生命周期函数和合成函数中都是异步更新
 
 
-## setState 更新是一个合并过程
+## 12.5. setState 更新是一个合并过程
 
 State 的更新是一个浅合并（Shallow Merge）的过程, 所以 当调用setState修改组件状态时，只需要传入发生改变的State，而不是组件完整的State
 
@@ -2602,7 +2776,7 @@ this.setState({title: 'Reactjs'});
 
 ```
 
-## replaceState 更新是一个替换过程
+## 12.6. replaceState 更新是一个替换过程
 
 replaceState()方法与setState()类似，但是方法只会保留nextState中状态，原state不在nextState中的状态都会被删除
 
@@ -2615,9 +2789,9 @@ replaceState(object nextState[, function callback])
 ```
 
 
-# props 属性
+# 13. props 属性
 
-## 在 jsx 中遍历 props
+## 13.1. 在 jsx 中遍历 props
 
 使用 "..." 遍历 props
 
@@ -2634,7 +2808,7 @@ var props = {
 React.createElement("h1", React._spread({}, props, {value: "yo"}), "Hello React!");
 ```
 
-## PropTypes 类型检查
+## 13.2. PropTypes 类型检查
 
 ```js
 import PropTypes from 'prop-types';
@@ -2737,9 +2911,9 @@ MyComponent.defaultProps = {
 };
 ```
 
-## 引入类型检查的其他方法
+## 13.3. 引入类型检查的其他方法
 
-### 引入 TypeScript
+### 13.3.1. 引入 TypeScript
 
 JavaScript 的超集
 
@@ -2752,11 +2926,11 @@ npx create-react-app hook-ts-demo --template typescript
 ```
 
 
-### flow 类型检查
+### 13.3.2. flow 类型检查
 
 Facebook 自己的工具
 
-## 设定 props 的默认值
+## 13.4. 设定 props 的默认值
 
 ```js
 class Greeting extends React.Component {
@@ -2785,13 +2959,13 @@ class Greeting extends React.Component {
 }
 ```
 
-## 有哪些属性
+## 13.5. 有哪些属性
 
 和 react-router 合作时候, 将 react-router 的 history,location,match 三个对象绑定到 props, 打印 props :
 
 
 
-# refs 
+# 14. refs 
 
 表单处理与第三方 lib 集成
 
@@ -2844,7 +3018,7 @@ ReactDOM.render(<MarkdownEditor />, document.getElementById("app"));
 ```
 
 
-# 合成事件
+# 15. 合成事件
 
 react为了解决跨平台，兼容性问题，自己封装了一套事件机制，代理了原生的事件，像在jsx中常见的onClick、onChange这些都是合成事件
 
@@ -2957,7 +3131,7 @@ ReactDOM.render(<TodoApp />, document.getElementById("app"));
 ```
 
 
-# 状态管理
+# 16. 状态管理
 
 Data Flow 和 Flux/Redux
 
@@ -2971,7 +3145,7 @@ Redux: 是 flux 架构的一个具体实现， 将 Flux 架构 与函数式编�
 
 同时, 如果 app 比较简单, 是不需要的 redux 来管理 state 的, redux 只适用于"多交互、多数据源"的情况
 
-## flux 架构的思想
+## 16.1. flux 架构的思想
 
 https://www.zhihu.com/question/33864532/answer/57667838
 
@@ -2989,7 +3163,7 @@ View 层不能直接对 state 进行操作，而需要依赖 Actions 派发指�
 
 举个例子：A 组件要使 B 组件发生变化。首先，A 组件需要将这个意图封装为一个 action 执行，告知绑定 B 组件的 Store 发生变化，Store 接收到派发的指令后改变，那相应的 B 组件的视图也就发生了改变。假如 C，D，E，F 组件绑定了和 B 组件相同的 Store，那么 C，D，E，F 也会跟着变化。
 
-## Flux 官方实现
+## 16.2. Flux 官方实现
 
 Advantages:
 
@@ -3019,9 +3193,9 @@ Disadvantages:
 
 -   View: 这部份是 React 负责的范畴，负责提供监听事件的 callback function，当事件发生时重新取得数据并重绘 View
 
-## Redux
+## 16.3. Redux
 
-### 为什么要使用 redux
+### 16.3.1. 为什么要使用 redux
 
 下图展示了使用 redux 和不使用 redux 时, state 和组件间的交互关系:
 
@@ -3030,7 +3204,7 @@ Disadvantages:
 -   整合了 react-redux 后，我们的 React App 就可以解决传统跨 Component 之间传递 state 的问题和困难。只要通过 Provider 就可以让每个 React App 中的 Component 取用 store 中的 state，非常方便
 -   数据和业务逻辑放到了一个地方, 一目了然
 
-### 基本概念
+### 16.3.2. 基本概念
 
 http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_three_react-redux.html
 
@@ -3134,11 +3308,11 @@ http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_three_react-redux.htm
 -   所有的状态，保存在一个对象里面 (Store)。
 -   此外, redux 有 synchronous（同步）的情形，asynchronous（非同步）情形
 
-### 基本 api
+### 16.3.3. 基本 api
 
 https://github.com/kenberkeley/redux-simple-tutorial/blob/master/redux-advanced-tutorial.md
 
-#### store
+#### 16.3.3.1. store
 
 `const store = createStore(reducer)`
 
@@ -3184,7 +3358,7 @@ const store = createStore(reducer, initialState) // initialState 主要用于前
 
 -   replaceReducer(nextReducer) 一般在 Webpack Code-Splitting 按需加载的时候用
 
-#### reducer
+#### 16.3.3.2. reducer
 
 reducer 就是一个函数, 接收 old state 和 action, 生成 new state;
 
@@ -3219,13 +3393,13 @@ function reducer(state = {}, action) {
 export default todoApp;
 ```
 
-#### applyMiddleware
+#### 16.3.3.3. applyMiddleware
 
 redux 提供的工具函数
 
 applyMiddleware(...middlewares) 让开发者可以在 req 和 res 之间进行一些操作。在 Redux 中 Middleware 则是扮演 action 到达 reducer 前的第三方扩充。而 applyMiddleware 可以将多个 middlewares 整合并回传一个 Function，便于使用。
 
-#### bindActionCreators
+#### 16.3.3.4. bindActionCreators
 
 工具函数
 
@@ -3240,7 +3414,7 @@ bindActionCreators(actionCreators, dispatch) bindActionCreators 可以将 action
     );
     ```
 
-### 纯 redux 的 api 示例(同步版本的 api)
+### 16.3.4. 纯 redux 的 api 示例(同步版本的 api)
 
 ```js
 import React from "react";
@@ -3312,7 +3486,7 @@ export default () => (
 );
 ```
 
-### react-redux
+### 16.3.5. react-redux
 
 react-redux 提供 一个函数 `connect`, 通过高阶组件的方式, 将 redux 中的 store 和 react 中的 component 链接起来
 
@@ -3402,7 +3576,7 @@ export default class CounterSample extends React.Component {
 }
 ```
 
-### 异步 Action
+### 16.3.6. 异步 Action
 
 要使用 asynchronous（非同步）的行为的话需要使用其中一种 middleware： redux-thunk、redux-promise 或 redux-promise-middleware ，这样可以让你在 actions 中 dispatch Promises 而非 function。
 
@@ -3414,16 +3588,16 @@ export default class CounterSample extends React.Component {
 
 Middleware 在 dispatcher 中对 action 进行拦截进行特殊处理
 
-### thunk, saga
+### 16.3.7. thunk, saga
 
 todo
 
-### 调试工具
+### 16.3.8. 调试工具
 
 Redux 开发调试工具：redux-devtools
 React 应用无刷新保存工具：react-transform
 
-### demo(一个 todo-app)
+### 16.3.9. demo(一个 todo-app)
 
 
 
@@ -3433,7 +3607,7 @@ react-redux 整合 react 和 redux,
 
 
 
-## Redux 和 Flux 的一些差异
+## 16.4. Redux 和 Flux 的一些差异
 
 
 
@@ -3463,7 +3637,7 @@ react-redux 整合 react 和 redux,
 
 -   Redux 拥有许多方便好用的辅助测试工具（例如：redux-devtools、react-transform-boilerplate），方便测试和使用 Hot Module Reload。
 
-## ImmutableJS
+## 16.5. ImmutableJS
 
 https://www.youtube.com/watch?v=I7IdS-PbEgI
 http://react-immutable-proptypes/ (适用于 imutable 的 proptypes 验证)
@@ -3614,7 +3788,7 @@ set1.subtract(set4);
 // => Set { 1 }
 ```
 
-# 路由 react-router
+# 17. 路由 react-router
 
 路由(routing)库, 通过 URL 的变化来管理对应的状态和组件.
 
@@ -3624,9 +3798,9 @@ set1.subtract(set4);
 
 React Router 被拆分成三个包：react-router(最小核心, 包含进后面两个了),react-router-dom(web)和 react-router-native(app)。react-router 提供核心的路由组件与函数。其余两个则提供运行环境（即浏览器与 react-native）所需的特定组件
 
-## 路由标签的使用
+## 17.1. 路由标签的使用
 
-### Router-路由容器
+### 17.1.1. Router-路由容器
 
 有几个实现:
 
@@ -3643,11 +3817,11 @@ React Router 被拆分成三个包：react-router(最小核心, 包含进后面�
 -   <StaticRouter>：从不会改变地址；
 ```
 
-### Route-路由组件映射
+### 17.1.2. Route-路由组件映射
 
 负责 URL 和对应的组件映射，可以有多个 Route 规则也可以有嵌套（nested）Routing
 
-#### 属性
+#### 17.1.2.1. 属性
 
 -   path（string）: 路由匹配路径, 支持 regex(path="/order/:direction(asc|desc)")。
 
@@ -3669,7 +3843,7 @@ React Router 被拆分成三个包：react-router(最小核心, 包含进后面�
 
 -   sensitive: bool 路径大小写敏感
 
-#### 通过 url 传递参数给 Route
+#### 17.1.2.2. 通过 url 传递参数给 Route
 
 传递: `<Route path="/topic/:id"></Route>`
 
@@ -3710,7 +3884,7 @@ export default class RouterParams extends React.PureComponent {
 }
 ```
 
-#### 嵌套路由
+#### 17.1.2.3. 嵌套路由
 
 ```js
 import React from "react";
@@ -3772,7 +3946,7 @@ export default class NestedRoute extends React.PureComponent {
 }
 ```
 
-#### Route 三种渲染方式
+#### 17.1.2.4. Route 三种渲染方式
 
 Route 三种渲染内容的方法, 不可同时使用, 均会设置 match, location, history 在 props 中
 
@@ -3788,7 +3962,7 @@ Route 三种渲染内容的方法, 不可同时使用, 均会设置 match, locat
 
     当没有匹配上, match 为 null, 可以借助这一特性, 更具是否匹配上了设置动态的样式
 
-### Switch-解决多匹配问题
+### 17.1.3. Switch-解决多匹配问题
 
 内部包含的 Router/Redirect 匹配第一个就不再继续往下匹配了
 
@@ -3796,13 +3970,13 @@ Route 三种渲染内容的方法, 不可同时使用, 均会设置 match, locat
 
     > 这里的 location 会覆盖 Route 中的 location
 
-### Redirect-重定向当前页面
+### 17.1.4. Redirect-重定向当前页面
 
 典型场景: 登陆判断
 
 -   to 重定向路径
 
-### Link-超链接
+### 17.1.5. Link-超链接
 
 不会触浏览器刷新
 
@@ -3810,7 +3984,7 @@ Route 三种渲染内容的方法, 不可同时使用, 均会设置 match, locat
 
 -   replace（bool）：为 true 时，点击链接后将使用新地址替换掉访问历史记录里面的原地址；为 false(默认) 时，点击链接后将在原有访问历史记录的基础上添加一个新的纪录
 
-### NavLink: 带样式的 Link
+### 17.1.6. NavLink: 带样式的 Link
 
 会添加选中状态的样式
 
@@ -3824,14 +3998,14 @@ Route 三种渲染内容的方法, 不可同时使用, 均会设置 match, locat
 
 -   location: object 可以设定一个 location 对象
 
-### Prompt-提示
+### 17.1.7. Prompt-提示
 
 满足条件时会提示用户是否离开当前页面
 
 -   when 条件逻辑
 -   message 提示信息
 
-## history
+## 17.2. history
 
 history is mutable， 因此推荐这样获取 location: this.props.location
 
@@ -3848,7 +4022,7 @@ class Comp extends React.Component {
 }
 ```
 
-## location
+## 17.3. location
 
 location 长这样
 
@@ -3899,9 +4073,9 @@ const location = {
 };
 ```
 
-## match
+## 17.4. match
 
-# 调试和测试
+# 18. 调试和测试
 
 chrome 调试插件: React DevTool, Redux DevTool
 
@@ -3913,7 +4087,7 @@ chrome 调试插件: React DevTool, Redux DevTool
 
 mock 假数据, 模拟假的 api: json-server配合faker.js
 
-# GraphQL 和 Relay
+# 19. GraphQL 和 Relay
 
 GraphQL 是一种数据查询语言（Data Query Language）, 主要是想解决传统 RESTful API 所遇到的一些问题
 
@@ -3922,7 +4096,7 @@ Relay 是搭配 GraphQL 用于 React 的一个宣告式数据框架，可以降�
 好处主要是可以省流量，省 http 请求次数，坏处其实挺多的，比如鉴权，限流，缓存，性能浪费 (https://www.pupboss.com/post/2021/experience-sharing-of-graphql-backend/)
 
 
-# CSS-Module 模块化
+# 20. CSS-Module 模块化
 
 解决了 css 类名的冲突问题, https://zhuanlan.zhihu.com/p/20495964
 
@@ -3940,7 +4114,7 @@ css 模块化进化：【搜索 “css modules styled-components 区别”】 [1
 
 在 create-react-app 中如何使用? -- css 文件命名为 `<componentName>.module.css` 即可使用 css modules 特性
 
-# css-in-js
+# 21. css-in-js
 
 [emotion 和 styled-components 两种解决方案](https://zhuanlan.zhihu.com/p/91498498)
 
@@ -3954,7 +4128,7 @@ css 模块化进化：【搜索 “css modules styled-components 区别”】 [1
 
 [react + emotion 的 styled 写法](https://codedaily.io/tutorials/62/Create-a-Hoverable-Display-Card-with-React-and-Emotion)
 
-# 最佳实践 best practice
+# 22. 最佳实践 best practice
 
 https://github.com/camsong/blog
 https://github.com/camsong/blog/issues/6
@@ -3976,9 +4150,9 @@ ImmutableJS 带来了大量的好处，所有组件都使用了 ShouldComponentU
 实现了 I18N 的动态加载
 使用了 Url 来保存 Router 信息，没有使用 Hash，感觉很简洁
 
-# 服务端渲染
+# 23. 服务端渲染
 
-## 什么是 ssr
+## 23.1. 什么是 ssr
 
 以前的多页面站点是在服务端渲染的，输出到浏览器时已经有了完整的骨架（ html ），这样爬虫抓到时可以分析页面标题，内容等等，做 seo 容易，那时的技术栈是 jsp，php 等等。
 
@@ -3986,13 +4160,13 @@ ImmutableJS 带来了大量的好处，所有组件都使用了 ShouldComponentU
 
 Isomorphic JavaScript : 指前后端（Client/Server）共用相同部分的 js 代码, 让 JavaScript 应用可以同时执行在浏览器端和 server 端，在 React 中可以使用 server 端渲染（server side rendering）静态 HTML 的方式达到 Isomorphic JavaScript 效果，让 SEO 和执行效率更加提升并让前后端共用代码
 
-## ssr 的好处
+## 23.2. ssr 的好处
 
 - seo 友好
 - 同时有助于改善首屏加载体验
 
 
-## 解决方案
+## 23.3. 解决方案
 
 最新的方案: https://github.com/rendora/rendora    (https://segmentfault.com/a/1190000017361781?utm_source=tag-newest)
 
@@ -4021,26 +4195,26 @@ https://www.jianshu.com/p/56ca46c90ee2 使用类库
 
 - https://github.com/jaredpalmer/razzle
 
-### 拖过 vite
+### 23.3.1. 拖过 vite
 
 https://cn.vitejs.dev/guide/ssr.html
 
-### 配合 koa2 实现 ssr
+### 23.3.2. 配合 koa2 实现 ssr
 
 https://github.com/yangfan0095/react-koa2-ssr
 
 
-### egg 实现 ssr 
+### 23.3.3. egg 实现 ssr 
 
 https://github.com/zhangyuang/ssr
 https://github.com/zhangyuang/egg-react-ssr
 
 
-# 性能优化
+# 24. 性能优化
 
 https://zhuanlan.zhihu.com/p/37148975
 
-## 常见的性能问题场景
+## 24.1. 常见的性能问题场景
 
 键盘输入卡顿
 
@@ -4048,12 +4222,12 @@ https://zhuanlan.zhihu.com/p/37148975
 
 组件拆分的要足够小, 减少 virtual dom 的 diff 操作负担
 
-## 使用工具定位性能问题
+## 24.2. 使用工具定位性能问题
 
 react devtools (highlight update 功能)
 chrome devtools
 
-## 网络性能优化-自动按需加载
+## 24.3. 网络性能优化-自动按需加载
 
 可以通过 react-loadable 组件 + webpack import api 来实现 react 异步加载
 
@@ -4067,11 +4241,11 @@ const TargetComponent = loadable({
 });
 ```
 
-## 使用 Reselect 避免重复计算
+## 24.4. 使用 Reselect 避免重复计算
 
 reselect 库用来创建自动缓存的数据的处理函数
 
-# react 动画
+# 25. react 动画
 
 https://mp.weixin.qq.com/s/Ey24FrWN2SiLK2LAmPv7hA
 
@@ -4080,7 +4254,7 @@ https://github.com/chenglou/react-motion
 
 TODO
 
-# react native
+# 26. react native
 
 https://reactnative.dev/docs/getting-started 官网
 https://github.com/reactnativecn/react-native-guide 中文资源
@@ -4104,7 +4278,7 @@ https://github.com/soliury/noder-react-native
 https://segmentfault.com/a/1190000040047178 对比 flutter
 https://www.infoq.cn/article/8zslqg9iys5wyrezgrxr
 
-# 开发小程序
+# 27. 开发小程序
 
 remax, taro, anujs, 推荐 Taro + typescript
 
@@ -4114,21 +4288,21 @@ https://zhuanlan.zhihu.com/p/24946190 申请步骤
 https://github.com/didi/chameleon
 
 
-# 小项目
+# 28. 小项目
 
-## 实现 route
+## 28.1. 实现 route
 
 https://www.cnblogs.com/huyue/p/9463328.html
 https://www.jianshu.com/p/014fd226352b
 
 
-## 表单设计器
+## 28.2. 表单设计器
 
 
 https://github.com/alibaba/form-render
 https://github.com/rjsf-team/react-jsonschema-form json 渲染表单
 
-## cms 系统 
+## 28.3. cms 系统 
 
 (配合 antd)
 
@@ -4149,7 +4323,7 @@ npm i -S axios
 npm i -S redux react-redux
 ```
 
-# 部署到 github 上
+# 29. 部署到 github 上
 
 ```sh
 # 在package.json配置文件中加一句, 处理跨域问题
@@ -4177,7 +4351,7 @@ git subtree push --prefix=build origin gh-pages
 
 ```
 
-# 和 springboot 打包单体应用
+# 30. 和 springboot 打包单体应用
 
 https://cloud.tencent.com/developer/news/603125
 
@@ -4186,9 +4360,9 @@ frontend-maven-plugin
 
 https://blog.csdn.net/andy_zhang2007/article/details/89393005 和 webjars
 
-# 和 typescript 一起使用
+# 31. 和 typescript 一起使用
 
-## 集成 ts 环境
+## 31.1. 集成 ts 环境
 
 https://create-react-app.dev/docs/adding-typescript/
 
@@ -4203,7 +4377,7 @@ npx create-react-app my-app --use-npm
 
 全局声明文件  `react-app-env.d.ts`, ts 配置 `tsconfig.js` 见 https://blog.csdn.net/qq_41831345/article/details/106843875
 
-## ts 基本使用
+## 31.2. ts 基本使用
 
 https://github.com/xcatliu/typescript-tutorial
 https://rmolinamir.github.io/typescript-cheatsheet/
@@ -4211,7 +4385,7 @@ https://typescript.bootcss.com/
 
 `npm install -g typescript` , https://www.typescriptlang.org/play/
 
-### 基本数据类型
+### 31.2.1. 基本数据类型
 
 ```ts
 // any & unknown
@@ -4248,9 +4422,9 @@ let c: Circle = {
 
 ```
 
-### interface
+### 31.2.2. interface
 
-#### 使用 interface 定义对象类型
+#### 31.2.2.1. 使用 interface 定义对象类型
 
 ```js
 
@@ -4295,7 +4469,7 @@ let mySquare = createSquare(squareOptions);
 
 ```
 
-#### interface 定义函数类型
+#### 31.2.2.2. interface 定义函数类型
 
 ```js
 interface SearchFunc {
@@ -4329,7 +4503,7 @@ c.reset();
 c.interval = 5.0;
 ```
 
-#### interface 定义可索引类型
+#### 31.2.2.3. interface 定义可索引类型
 
 类似数组, map...
 
@@ -4369,7 +4543,7 @@ let myArray: ReadonlyStringArray = ["Alice", "Bob"];
 myArray[2] = "Mallory"; // error! 不能设置myArray[2]，因为索引签名是只读的
 ```
 
-#### interface 定义 class 类
+#### 31.2.2.4. interface 定义 class 类
 
 ```js
 interface ClockInterface {
@@ -4386,7 +4560,7 @@ class Clock implements ClockInterface {
 }
 ```
 
-#### interface 继承
+#### 31.2.2.5. interface 继承
 
 interface 可以继承 多个其他 interface, 逗号分离
 
@@ -4418,11 +4592,11 @@ class Image implements SelectableControl {
 
 ```
 
-### interface 和 type 区别
+### 31.2.3. interface 和 type 区别
 
 https://www.jb51.net/article/163299.htm
 
-### class 使用
+### 31.2.4. class 使用
 
 ```js
 class Greeter {
@@ -4471,7 +4645,7 @@ if (employee.fullName) {//getter
 }
 ```
 
-### 泛型使用
+### 31.2.5. 泛型使用
 
 ```js
 function identity<T>(arg: T): T {
@@ -4494,7 +4668,7 @@ function createInstance<A extends Animal>(c: new () => A): A {
 }
 ```
 
-### 交叉类型
+### 31.2.6. 交叉类型
 
 ```js
 // 通过泛型定义混合额类型
@@ -4527,7 +4701,7 @@ var n = jim.name;
 jim.log();
 ```
 
-### 联合类型
+### 31.2.7. 联合类型
 
 ```ts
 function padLeft(value: string, padding: string | number) {// padding can be string | number type
@@ -4608,7 +4782,7 @@ function area(s: Shape) {
 }
 ```
 
-### 类型保护
+### 31.2.8. 类型保护
 
 ```js
 // 对于类型
@@ -4633,7 +4807,7 @@ if (padder instanceof StringPadder) {
 }
 ```
 
-### 类型别名
+### 31.2.9. 类型别名
 
 ```ts
 type Name = string;
@@ -4667,7 +4841,7 @@ declare function interfaced(arg: Interface): Interface;
 //类型别名不能被 extends和 implements
 ```
 
-### 空类型
+### 31.2.10. 空类型
 
 --strictNullChecks标记 效果:
 
@@ -4693,7 +4867,7 @@ f(1, undefined);
 f(1, null); // error, 'null' is not assignable to 'number | undefined'
 ```
 
-## 为样式文件编写 types
+## 31.3. 为样式文件编写 types
 
 https://blog.csdn.net/Dilomen/article/details/100837293
 https://segmentfault.com/q/1010000017979602/a-1020000017980147
@@ -4706,20 +4880,20 @@ types 和 typeRoots 一样也是 compilerOptions 的配置，指定 types 后，
 
 https://www.zhihu.com/question/350961609 声明全局类型 无需导入
 
-## 配置 css 跳转
+## 31.4. 配置 css 跳转
 
 https://www.jianshu.com/p/641bcac7754b
 
 
-# 开源库
+# 32. 开源库
 
-## 组件库
+## 32.1. 组件库
 
 https://github.com/palantir/blueprint
 
 https://github.com/ant-design/ant-design/
 
-## 动画
+## 32.2. 动画
 
 ```
 react framer motion
@@ -4728,7 +4902,7 @@ react framer motion
 
 ```
 
-## css 框架
+## 32.3. css 框架
 
 ```
 
@@ -4748,7 +4922,7 @@ Paper Css 手写风格
 
 ```
 
-# ionic 异常 质量App
+# 33. ionic 异常 质量App
 
 https://www.jianshu.com/p/9c00358bcc44
 https://www.jianshu.com/p/433be4cd3d66/
