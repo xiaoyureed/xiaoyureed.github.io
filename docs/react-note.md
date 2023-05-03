@@ -206,6 +206,7 @@ https://github.com/qiu-deqing/FE-interview , https://github.com/markyun/My-blog/
 - [20. CSS-Module 模块化](#20-css-module-模块化)
 - [21. css-in-js](#21-css-in-js)
 - [22. 最佳实践 best practice](#22-最佳实践-best-practice)
+  - [22.1. fetch data](#221-fetch-data)
 - [23. 服务端渲染](#23-服务端渲染)
   - [23.1. 什么是 ssr](#231-什么是-ssr)
   - [23.2. ssr 的好处](#232-ssr-的好处)
@@ -4149,6 +4150,14 @@ https://github.com/camsong/blog/issues/6
 ImmutableJS 带来了大量的好处，所有组件都使用了 ShouldComponentUpdate 来优化
 实现了 I18N 的动态加载
 使用了 Url 来保存 Router 信息，没有使用 Hash，感觉很简洁
+
+## 22.1. fetch data
+
+https://github.com/juliencrn/usehooks-ts
+
+https://github.com/vercel/swr
+
+https://github.com/data-client/rest-hooks
 
 # 23. 服务端渲染
 

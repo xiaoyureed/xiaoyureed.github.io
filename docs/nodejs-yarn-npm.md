@@ -80,22 +80,34 @@ n 15.0.0
 ## 1.2. 国内源 国内镜像
 
 ```sh
+# // 查询源
+npm config get registry
+
+// 更换国内源
+npm config set registry https://registry.npmmirror.com
+
+// 恢复官方源
+npm config set registry https://registry.npmjs.org
 
 #
 # 临时使用
 npm install koa --registry=https://registry.npm.taobao.org
 
-# 持久使用
-npm config set registry="https://registry.npm.taobao.org"
 # 看看是否配置成功
 npm config get registry
-# 回复原样
-npm config set registry https://registry.npmjs.org
+
 
 # 持久使用也可以这样
 # 编辑 ~/.npmrc
 registry=https://registry.npm.taobao.org
 
+
+# Just for yarn
+yarn config set registry https://registry.npm.taobao.org/
+# 恢复官方源
+yarn config set registry https://registry.yarnpkg.com
+# // 删除注册表
+yarn config delete registry
 
 
 

@@ -12,11 +12,55 @@ Here I'm gonna take a next.js app for example.
 
 <!-- truncate -->
 
+- [create the basic structure](#create-the-basic-structure)
+- [perform the integration process manually](#perform-the-integration-process-manually)
+- [integrate with maven plugins](#integrate-with-maven-plugins)
+- [How to develop and debug](#how-to-develop-and-debug)
+- [reference materials](#reference-materials)
+
+
 ## create the basic structure
 
-As regards of spring boot app, please refer to https://start.spring.io
+First of all, we have to create a spring boot app and a react app, As regards of spring boot app, please refer to https://start.spring.io. Then configurations about the static content route need set up:
 
-For next.js app, check the steps below:
+```java
+
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    /**
+     * To serve the nextjs static resources directly
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+    }
+
+/**
+     * 为静态页面的路由自动补全 .html 然后重定向 (nextjs在打包进 springboot 后, 作为springboot 里的静态资源, 整个应用只认识 xxx.html. 当然如果前后分离开发时, nextjs 的服务器是认识 xxx的)
+     * 
+     * 开发阶段可以没有, 但是打包时要加上
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new HandlerInterceptor() {
+            @Override
+            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+                boolean isApiHandle = handler instanceof HandlerMethod;
+                String servletPath = request.getServletPath();
+
+                if (!isApiHandle && !"/".contentEquals(servletPath) && FilenameUtils.getExtension(servletPath).isEmpty()) {
+                    request.getRequestDispatcher(servletPath + ".html").forward(request, response);
+                    return false;
+                }
+
+                return true;
+            }
+        });
+    }
+
+```
+
+For next.js app, check the steps below: (Execute the following command in the root path of the java project)
 
 > Usually I name the next.js app with "frontend"
 
@@ -25,30 +69,49 @@ npx create-next-app@latest --ts
 # or
 yarn create next-app --ts
 # or
-pnpm create next-app
+pnpm create next-app --typescript
 
-# the static content will be generated in /out folder
-yarn build
 ```
 
 change the next.config.js
 
 ```js
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    unoptimized: true,
+  //https://stackoverflow.com/questions/65058598/nextjs-cors-issue
+  async rewrites() {
+    return {
+      fallback: [
+        {
+          source: '/api/:path*',
+          destination: 'http://localhost:8080/api/:path*'
+        }
+      ]
+    }
   },
-  output: 'export',
   reactStrictMode: true,
+  images: {
+    unoptimized: true
+  },
+  swcMinify: true
 }
 
 module.exports = nextConfig
+
 ```
+
+change the package.json (Just insert the following line into "scripts" section)
+
+```json
+"export": "next build && next export"
+```
+
+
 
 ## perform the integration process manually
 
 ```
-Step -1 : Edit package.json -> add "export":" next export" in the scripts property
+Step -1 : Edit package.json -> add "export":"next export" in the scripts property
 
     This measure is just form normal react app, if come up with next.js app, please refer to above
 
@@ -62,6 +125,7 @@ Step -3: Now build the spring boot jar/war, then run it. It will serve the conte
 By using plugin `frontend-maven-plugin` and `maven-resources-plugin`
 
 ```xml
+<!-- just for using npm -->
 <plugin>
     <groupId>com.github.eirslett</groupId>
     <artifactId>frontend-maven-plugin</artifactId>
@@ -99,13 +163,13 @@ By using plugin `frontend-maven-plugin` and `maven-resources-plugin`
             </configuration>
         </execution>
         <execution>
-            <id>npm run build</id>
+            <id>npm run build and export</id>
             <goals>
                 <goal>npm</goal>
             </goals>
             <phase>generate-resources</phase>
             <configuration>
-                <arguments>run build</arguments>
+                <arguments>run export</arguments>
             </configuration>
         </execution>
     </executions>
@@ -117,6 +181,55 @@ By using plugin `frontend-maven-plugin` and `maven-resources-plugin`
         <!-- <downloadRoot>http://npm.taobao.org/mirrors/node/</downloadRoot> -->
     </configuration>
 </plugin>
+
+<!-- just for using yarn -->
+<plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.11.3</version>
+                <executions>
+                    <!-- check if nodejs/npm installed -->
+                    <execution>
+                        <id>install-frontend-tools</id>
+                        <goals>
+                            <goal>install-node-and-yarn</goal>
+                        </goals>
+                        <!-- optional, the default value is like this -->
+                        <phase>generate-resources</phase>
+                    </execution>
+
+                    <!-- install dependencies -->
+                    <execution>
+                        <id>yarn-install</id>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install --registry=https://registry.npm.taobao.org</arguments>
+<!--                            <arguments>install</arguments>-->
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>yarn-build-and-export</id>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>export</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <workingDirectory>${frontend.dir}</workingDirectory>
+                    <installDirectory>${project.build.directory}</installDirectory>
+                    <nodeVersion>v18.14.0</nodeVersion>
+                    <yarnVersion>v1.22.19</yarnVersion>
+                    <!-- optional, just for projects in China main land -->
+                    <!-- <downloadRoot>http://npm.taobao.org/mirrors/node/</downloadRoot> -->
+                </configuration>
+            </plugin>
 
 <plugin>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -144,18 +257,92 @@ By using plugin `frontend-maven-plugin` and `maven-resources-plugin`
 			</plugin>
 ```
 
+Then we can issue command `mvn spring-boot:run` and visit http://localhost:8080 to check the effect
+
+Using `mvn package -D maven.test.skip=true` to package jar file.
+
+## How to develop and debug
+
+So far, we can only package the final jar file with the above setup, but how to develop and debug with enjoying the benefits of hot reload?
+
+We should follow the traditional way of separating the backend and frontend to conduct the development.
+
+For example, now we have a backend service:
+
+```java
+
+@RestController
+@RequestMapping("/api/students")
+public class StudentController {
+    private StudentRepository studentRepository;
+
+    public StudentController(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
+
+    @PostMapping({ "", "/" })
+    public ResponseEntity<BaseResponse<List<Student>>> findAll() throws Exception {
+        return ResponseEntity.ok(BaseResponse.ok(studentRepository.findAll()));
+    }
+}
+
+```
+
+and a nextjs page:
+
+```ts
+import {useEffect, useState} from "react";
+
+interface Student {
+    id: string;
+    name: string;
+    age: number;
+    gender: number;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+const Students = () => {
+
+    let [students, setStudents] = useState<Student[] | null>(null);
+    let [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true)
+
+        fetch('/api/students', {
+            method: 'POST'
+        })
+            .then(resp => resp.json())
+            .then(resp => {
+                setStudents(() => resp.data)
+                setLoading(false)
+            })
+    }, [])
+
+    return (
+        <main>
+            <ul>
+                {loading ? (<div>loading</div>) : students?.map((student, i) => {
+                    return (
+                        <li key={i}>
+                            {`${student.id} | ${student.name} | ${student.age} | ${student.gender === 1 ? '男' : '女'} | ${student.createdAt} | ${student.updatedAt}`}
+                        </li>
+                    )
+                })}
+            </ul>
+        </main>
+    )
+}
+
+export default Students
+
+```
+
+Then we can start the backend with the debug/start button offered by ide or by using the main method directly, the backend service will start on port 8080, for the frontend app, enter `frontend` folder, issue `yarn dev` to start the frontend app on port 3000, now we can visit localhost:3000 to check the page
+
 ## reference materials
 
-First of all, we have to create a spring boot app and a react app,
+https://github.com/tisonkun/springboot-nextjs-demo
 
-https://www.tisonkun.org/2022/10/22/springboot-nextjs/ https://zhuanlan.zhihu.com/p/576234428
-
-https://www.infoq.cn/article/pqahoudgplvp3re73ipt
-
-https://juejin.cn/post/7148737053927145502
-
-https://developer.aliyun.com/article/752405
-
-https://www.google.com/search?q=springboot+react+%E5%85%B1%E7%94%A8%E7%AB%AF%E5%8F%A3&oq=springboot+react+%E5%85%B1%E7%94%A8%E7%AB%AF%E5%8F%A3&aqs=chrome..69i57j69i64.10285j0j7&sourceid=chrome&ie=UTF-8
-
-https://www.google.com/search?q=springboot+react+%E7%AB%AF%E5%8F%A3%E5%94%AF%E4%B8%80&newwindow=1&sxsrf=APwXEddFQUTH93KDHzgoK8gq1hoebWCR9Q%3A1682523015864&ei=h0NJZMK_NMDmkPIPq5OL-AQ&ved=0ahUKEwiCn7_V7sf-AhVAM0QIHavJAk8Q4dUDCA8&uact=5&oq=springboot+react+%E7%AB%AF%E5%8F%A3%E5%94%AF%E4%B8%80&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIFCAAQogQyBQgAEKIEOggIABCiBBCwAzoECAAQHjoFCCEQoAFKBAhBGAFQ1AZY7D9glkJoAnAAeAKAAbUKiAGfN5IBDTItMS4wLjEuMi4zLjKYAQCgAQHIAQHAAQE&sclient=gws-wiz-serp
+https://www.tisonkun.org/2022/10/22/springboot-nextjs/
