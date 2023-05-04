@@ -174,6 +174,7 @@ https://github.com/docker/kitematic 可视化管理gui
 - [18. kali](#18-kali)
 - [19. 虚拟网卡 macvlan](#19-虚拟网卡-macvlan)
 - [20. Multipass](#20-multipass)
+- [drone](#drone)
 
 
 # 1. 常用指令
@@ -3137,3 +3138,8 @@ https://fuckcloudnative.io/posts/netwnetwork-virtualization-macvlan/
 类似 vagrant, 快速获取 Linux 环境
 
 https://www.chenmo.com.cn/402492
+
+
+# drone
+
+基于 docker 的持续集成 ci/cd 工具

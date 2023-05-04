@@ -84,22 +84,20 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
   - [13.5. 数据库 url 和驱动](#135-数据库-url-和驱动)
   - [13.6. graphql集成](#136-graphql集成)
   - [13.7. 启动执行 SQL](#137-启动执行-sql)
-    - [13.7.1. SQL 分隔符的坑](#1371-sql-分隔符的坑)
-    - [13.7.2. spring datasource 自带](#1372-spring-datasource-自带)
-    - [13.7.3. 使用 jpa](#1373-使用-jpa)
-      - [13.7.3.1. springboot 接入 jpa](#13731-springboot-接入-jpa)
-      - [13.7.3.2. jpa queryDsl 多表联查](#13732-jpa-querydsl-多表联查)
-      - [13.7.3.3. jpa 支持 java8 time](#13733-jpa-支持-java8-time)
-    - [13.7.4. DataSourceInitializer](#1374-datasourceinitializer)
-    - [13.7.5. maven-antrun-pluginn](#1375-maven-antrun-pluginn)
-    - [construct a script execution service manually](#construct-a-script-execution-service-manually)
+    - [13.7.1. 利用 spring jdbc](#1371-利用-spring-jdbc)
+    - [13.7.2. 使用 jpa](#1372-使用-jpa)
+    - [13.7.3. DataSourceInitializer](#1373-datasourceinitializer)
+    - [13.7.4. maven-antrun-pluginn](#1374-maven-antrun-pluginn)
+    - [13.7.5. construct a script execution service manually](#1375-construct-a-script-execution-service-manually)
   - [13.8. 整合 spring jdbc](#138-整合-spring-jdbc)
-  - [13.9. 整合 hibernate](#139-整合-hibernate)
+  - [13.9. 整合 hibernate (即 jpa)](#139-整合-hibernate-即-jpa)
     - [13.9.1. jpa注解总结](#1391-jpa注解总结)
-    - [13.9.2. 审计 createdDate](#1392-审计-createddate)
-    - [13.9.3. 执行原生 SQL](#1393-执行原生-sql)
-    - [13.9.4. 动态 SQL](#1394-动态-sql)
-    - [13.9.5. spring-data-rest 配合 spring-data-jpa](#1395-spring-data-rest-配合-spring-data-jpa)
+    - [13.9.2. jpa queryDsl 多表联查](#1392-jpa-querydsl-多表联查)
+    - [13.9.3. jpa 支持 java8 time](#1393-jpa-支持-java8-time)
+    - [13.9.4. 审计 createdDate](#1394-审计-createddate)
+    - [13.9.5. 执行原生 SQL](#1395-执行原生-sql)
+    - [13.9.6. 动态 SQL](#1396-动态-sql)
+    - [13.9.7. spring-data-rest 配合 spring-data-jpa](#1397-spring-data-rest-配合-spring-data-jpa)
   - [13.10. 整合 mybatis-plus](#1310-整合-mybatis-plus)
   - [13.11. 整合 mybatis](#1311-整合-mybatis)
     - [13.11.1. 基本配置](#13111-基本配置)
@@ -1569,44 +1567,7 @@ https://graphql.cn/learn/queries/ 官网文档
 
 ## 13.7. 启动执行 SQL
 
-### 13.7.1. SQL 分隔符的坑
-
-默认分隔符是 分号, 若SQL 中有执行过程/函数, 需要 `spring.datasource.separator=|` 
-
-```sql
-drop function if exists `getChildrenProductName`;|
-create function `getChildrenProductName`(orgid varchar(50))
-returns varchar(4000)
-BEGIN
-DECLARE `oTemp` VARCHAR(4000);
-DECLARE `oTempChild` VARCHAR(4000);
-DECLARE `oTempName` VARCHAR(4000);
-DECLARE `oTempChildName` VARCHAR(4000);
-DECLARE i int;
-SET oTemp = CAST(orgid AS CHAR);
-SET oTempChild = CAST(orgid AS CHAR);
-set oTempName = '$';
-set oTempChildName = '';
-set i = 0;
-WHILE oTempChild IS NOT NULL
-DO
-if i>0 then
-set oTempName = concat(oTempName,",",oTempChildName);
-end if;
-SET oTemp = CONCAT(oTemp,',',oTempChild);
-set i = i +1;
-SELECT GROUP_CONCAT(p.product_name,p.partnum) into oTempChildName FROM product p
-left join bom b on b.PartID = p.PartID
- WHERE FIND_IN_SET(b.ParentPartID,oTempChild) > 0;
-SELECT GROUP_CONCAT(p.PartID) INTO oTempChild FROM product p
-left join bom b on b.PartID = p.PartID
- WHERE FIND_IN_SET(b.ParentPartID,oTempChild) > 0;
-END WHILE;
-RETURN oTempName;
-END;|
-```
-
-### 13.7.2. spring datasource 自带
+### 13.7.1. 利用 spring jdbc
 
 ```yml
 spring:
@@ -1637,17 +1598,16 @@ spring:
     schema:
         - classpath:sql/department.sql
         - classpath:sql/employee.sql
+    data: classpath:data.sql
+    sql-script-encodng: utf-8
     initialization-mode: ALWAYS
+  jpa:
+    hibernate:
+      ddl-auto: none
 
 ```
 
-### 13.7.3. 使用 jpa
-
-#### 13.7.3.1. springboot 接入 jpa
-
-https://github.com/AnghelLeonard/Hibernate-SpringBoot github demos
-
-https://github.com/tomoyane/springboot-bestpractice working with spring security
+### 13.7.2. 使用 jpa
 
 1、SpringBoot根据脚本初始化
 
@@ -1679,31 +1639,27 @@ spring.jpa.defer-datasource-initialization setup to true will enable the insertt
 
 
 ```yml
-jpa:hibernate:ddl-auto: update是hibernate的配置属性，其主要作用是：自动创建、更新、验证数据库表结构。该参数的几种配置如下：
-1.·create：每次加载hibernate时都会删除上一次的生成的表，然后根据你的model类再重新来生成新表，哪怕两次没有任何改变也要这样执行，这就是导致数据库表数据丢失的一个重要原因。
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    hibernate:
+        ddl-auto: create/create-drop/update/validate/none
+
+1.·create：每次加载hibernate时都会删除上一次的生成的表，然后根据你的model类再重新来生成新表，
 2.·create-drop：每次加载hibernate时根据model类生成表，但是sessionFactory一关闭,表就自动删除。
+
+create/create-drop 在创建表时, 默认会扫描 classpath 下面（项目中一般是 resources 目录）是否有import.sql，如果有机会执行import.sql脚本中的 insert 语句
+
 3.·update：最常用的属性，第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库），以后加载hibernate时根据model类自动更新表结构，即使表结构改变了但表中的行仍然存在不会删除以前的行。要注意的是当部署到服务器后，表结构是不会被马上建立起来的，是要等应用第一次运行起来后才会。
 4.·validate：每次加载hibernate时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。
-我在初次创建时会设为create,创建好后改为validate.
+
+推荐在初次创建时会设为create,创建好后改为validate. (进开发环境使用, 生产环境慎用)
 
 
 ```
 
-#### 13.7.3.2. jpa queryDsl 多表联查
-
-https://zhongpan.tech/2020/07/20/034-best-practice-of-multi-table-joint-query-in-spring-data-jpa/
-https://www.baeldung.com/querydsl-with-jpa-tutorial
-
-#### 13.7.3.3. jpa 支持 java8 time
-
-
-```
-https://stackoverflow.com/questions/54840769/how-to-persist-localdate-with-jpa
-
-https://www.baeldung.com/jpa-java-time
-```
-
-### 13.7.4. DataSourceInitializer
+### 13.7.3. DataSourceInitializer
 
 ```java
 
@@ -1739,7 +1695,7 @@ public class CustomizeDataSourceInitializer {
 }
 ```
 
-### 13.7.5. maven-antrun-pluginn
+### 13.7.4. maven-antrun-pluginn
 
 ```xml
 
@@ -1766,7 +1722,7 @@ public class CustomizeDataSourceInitializer {
 </profile>
 ```
 
-### construct a script execution service manually
+### 13.7.5. construct a script execution service manually
 
 https://mubasil-bokhari.medium.com/execute-sql-script-in-spring-boot-30636884a932
 todo
@@ -1775,9 +1731,7 @@ todo
 
 https://www.cnblogs.com/liyihua/p/12333967.html
 
-## 13.9. 整合 hibernate
-
-即 spring data jpa
+## 13.9. 整合 hibernate (即 jpa)
 
 ### 13.9.1. jpa注解总结
 
@@ -1798,21 +1752,90 @@ https://www.cnblogs.com/liyihua/p/12333967.html
     @Column(name = "id", length = 32)
 ```
 
-### 13.9.2. 审计 createdDate
+
+### 13.9.2. jpa queryDsl 多表联查
+
+https://github.com/querydsl/querydsl
+
+https://zhongpan.tech/2020/07/20/034-best-practice-of-multi-table-joint-query-in-spring-data-jpa/
+https://www.baeldung.com/querydsl-with-jpa-tutorial
+
+### 13.9.3. jpa 支持 java8 time
+
+
+```
+https://stackoverflow.com/questions/54840769/how-to-persist-localdate-with-jpa
+
+https://www.baeldung.com/jpa-java-time
+```
+
+
+### 13.9.4. 审计 createdDate
 
 https://blog.csdn.net/a972669015/article/details/104778172
 TODO
 
-### 13.9.3. 执行原生 SQL
+### 13.9.5. 执行原生 SQL
 
-https://github.com/cloudfavorites/favorites-web
+```java
+/*
+- 只需要在后面加一个 nativeQuery = true 就行
+- 参数用
+*/
+@Query(value = "select xx from where a = :userId", nativeQuery = true)
+List<Long> findFriendsByUserId(@param("userId)Long userId);
+```
 
-https://www.cnblogs.com/myknow/p/9559011.html
-https://segmentfault.com/a/1190000022338883
-https://liuyanzhao.com/8069.html
-TODO
+or
 
-### 13.9.4. 动态 SQL
+```java
+@PersistenceContext
+    EntityManager entityManager;
+
+
+    @Override
+    public List<Employee> getFirstNamesLikeAndBonusBigger(String firstName, Double bonusAmount) {
+        Query query = entityManager.createNativeQuery("select e.* from spring_data_jpa_example.bonus b, spring_data_jpa_example.employee e\n" +
+                "where e.id = b.employee_id " +
+                "and e.firstname LIKE ? " +
+                "and b.amount> ? ", Employee.class);
+        query.setParameter(1, firstName + "%");
+        query.setParameter(2, bonusAmount);
+        return query.getResultList();
+    }
+```
+
+or
+
+```java
+public class CustomPostRepositoryImpl implements CustomPostRepository {
+     
+    @PersistenceContext
+    private EntityManager entityManager;
+ 
+    @Override
+    public List<PostDTO> findPostDTOByTitle(
+            @Param("postTitle") String postTitle) {
+        return entityManager.createNativeQuery("""
+            SELECT p.id AS p_id,
+                   p.title AS p_title,
+                   pc.id AS pc_id,
+                   pc.review AS pc_review
+            FROM post p
+            JOIN post_comment pc ON p.id = pc.post_id
+            WHERE p.title LIKE :postTitle
+            ORDER BY pc.id
+            """)
+        .setParameter("postTitle", postTitle)
+        .unwrap(org.hibernate.query.Query.class)
+        .setResultTransformer(new PostDTOResultTransformer())
+        .getResultList();
+    }
+}
+
+```
+
+### 13.9.6. 动态 SQL
 
 https://www.cnblogs.com/kongxianghai/p/7575988.html
 
@@ -1823,7 +1846,7 @@ https://www.cnblogs.com/kongxianghai/p/7575988.html
 
 动态查询则需要用 Criteria API
 
-### 13.9.5. spring-data-rest 配合 spring-data-jpa
+### 13.9.7. spring-data-rest 配合 spring-data-jpa
 
 http://docs.jcohy.com/docs/spring-data-rest/3.2.8.RELEASE/html5/zh-cn/
 https://docs.spring.io/spring-data/rest/docs/3.4.5/reference/html/#Project
@@ -4350,11 +4373,15 @@ https://github.com/tywo45
 
 - @builder 构造对象时底层用的是全参数构造器, 需要 @AllArgsConstructor一起用, 无法单独使用, 若果一定要用, 好的组合是 @NoArgsConstructor @AllArgsConstructor @Builder @Data
 
+  - 推荐使用 @accesssor(chain=true)
+
 - 代替@AutoWired注解: @RequiredArgsConstructor(onConstructor =@__(@Autowired))标注在类上, 那么注入成员的时候, 可以省掉 @autowired 注解
 
 - 替代@tostring注解 可以使用 lang3 的 `ToStringBuilder.reflectionToString(this)`
 
+- @value, 标注为不可变类 (final class, private final fields, only getter, no setter, all args contructor)
 
+  - 使用时, 类的 field 可以不带任何修饰符, 会自动被加上 private final
 
 ## 20.2. devtools
 

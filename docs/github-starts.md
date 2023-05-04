@@ -21,32 +21,29 @@ https://github.com/Terminus2049/Awesome-Social-Impact 社会议题
 
 <!--more-->
 
-<!-- TOC -->
-
-- [1. 博客](#1-%E5%8D%9A%E5%AE%A2)
-- [2. 检索搜索技巧 github tips](#2-%E6%A3%80%E7%B4%A2%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7-github-tips)
-- [3. 文档&资源](#3-%E6%96%87%E6%A1%A3%E8%B5%84%E6%BA%90)
-  - [3.1. 语言](#31-%E8%AF%AD%E8%A8%80)
+- [1. 博客](#1-博客)
+- [2. 检索搜索技巧 github tips](#2-检索搜索技巧-github-tips)
+- [3. 文档\&资源](#3-文档资源)
+  - [3.1. 语言](#31-语言)
     - [3.1.1. go](#311-go)
     - [3.1.2. node](#312-node)
     - [3.1.3. java](#313-java)
     - [3.1.4. rust](#314-rust)
     - [3.1.5. objectc](#315-objectc)
-  - [3.2. 分布式](#32-%E5%88%86%E5%B8%83%E5%BC%8F)
+  - [3.2. 分布式](#32-分布式)
     - [3.2.1. rpc](#321-rpc)
-    - [3.2.2. ELK日志分析](#322-elk%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90)
-  - [3.3. CS基础](#33-cs%E5%9F%BA%E7%A1%80)
-- [4. 动画库](#4-%E5%8A%A8%E7%94%BB%E5%BA%93)
-- [5. 工具](#5-%E5%B7%A5%E5%85%B7)
-  - [5.1. 爬虫](#51-%E7%88%AC%E8%99%AB)
-  - [5.2. 生成文档](#52-%E7%94%9F%E6%88%90%E6%96%87%E6%A1%A3)
-  - [5.3. 生成简历](#53-%E7%94%9F%E6%88%90%E7%AE%80%E5%8E%86)
+    - [3.2.2. ELK日志分析](#322-elk日志分析)
+  - [3.3. CS基础](#33-cs基础)
+- [4. 动画库](#4-动画库)
+- [5. 工具](#5-工具)
+  - [5.1. 爬虫](#51-爬虫)
+  - [5.2. 生成文档](#52-生成文档)
+  - [5.3. 生成简历](#53-生成简历)
+  - [awesome tools](#awesome-tools)
 - [6. demo](#6-demo)
 - [7. follow](#7-follow)
 
-<!-- /TOC -->
-
-# 博客
+# 1. 博客
 
 [camsong / blog](https://github.com/camsong/blog) - 关注 Javascript, ES6, Reat全家桶, css 模块化
 [ProtoTeam/blog](https://github.com/ProtoTeam/blog) - 蚂蚁数据体验技术团队的文章仓库, 主要是 ts, 前端工程实践...
@@ -66,7 +63,7 @@ https://github.com/Terminus2049/Awesome-Social-Impact 社会议题
 - https://github.com/esofar/cnblogs-theme-silence 博客主题
 
 
-# 检索搜索技巧 github tips
+# 2. 检索搜索技巧 github tips
 
 ```
 The new github ui support this shortcut: 
@@ -109,13 +106,9 @@ syntax
   awesome
   awesome系列：一般用来学习的项目
 
-
-在项目地址前加上gitpod.io/#/前缀
-https://gitpod.io/#/github.com/…
-
 ```
 
-# 文档&资源
+# 3. 文档&资源
 
 [xiaomi pro -> 黑苹果](https://github.com/daliansky/XiaoMi-Pro/blob/master/README-CN.md)
 [vim-galore-zh_cn](https://github.com/wsdjeg/vim-galore-zh_cn) - Vim galore 中文翻译，构建 Vim 知识体系
@@ -189,9 +182,9 @@ https://gitpod.io/#/github.com/…
 [nginx指南](https://github.com/xuexb/learn-nginx)
 [Qix](https://github.com/ty4z2008/Qix) - 分布式，go，机器学习
 
-## 语言
+## 3.1. 语言
 
-### go
+### 3.1.1. go
 
 go 语言进阶教程: https://github.com/chai2010/advanced-go-programming-book ; 基础教程: https://github.com/golang-china/gopl-zh (go 语言圣经)
 go 入门指南: https://github.com/Unknwon/the-way-to-go_ZH_CN ; 
@@ -200,12 +193,12 @@ go教程(中文翻译): https://github.com/astaxie/build-web-application-with-go
 go 资源帖: https://zhuanlan.zhihu.com/p/30350493
 go实现的文档管理系统： https://github.com/lifei6671/mindoc
 
-### node
+### 3.1.2. node
 
 node调试指南: https://github.com/nswbmw/node-in-debugging
 node 最佳实践: https://github.com/i0natan/nodebestpractices
 
-### java
+### 3.1.3. java
 
 Mybatis 指南: https://github.com/mybatis-book/book
 Java 技术栈书籍: https://github.com/woooowen/iBooks
@@ -213,41 +206,41 @@ springmvc代码分析: https://github.com/fangjian0423/springmvc-source-minibook
 java面试指南：https://github.com/Snailclimb/JavaGuide
 maven插件：https://github.com/hzdavid/findConflicts 查找各种冲突，版本冲突
 
-### rust
+### 3.1.4. rust
 
 https://github.com/rust-lang/book
 
 
-### objectc 
+### 3.1.5. objectc 
 
 https://github.com/dongyuwei
 
 
-## 分布式
+## 3.2. 分布式
 
-### rpc
+### 3.2.1. rpc
 
 [lu-rpc](https://github.com/stateIs0/Lu-Rpc) - rpc demo
 
-### ELK日志分析
+### 3.2.2. ELK日志分析
 
 [搭建日志分析平台](https://github.com/ameizi/ELK)
 
 [ELK stack](https://github.com/chenryn/ELKstack-guide-cn) - ELK技术栈入门， 日志处理
 
-## CS基础
+## 3.3. CS基础
 
 tcp, udp详解: https://github.com/JerryC8080/understand-tcp-udp
 全栈: https://github.com/phodal/growth-ebook
 Java面试: https://zhuanlan.zhihu.com/p/76215980
 
 
-# 动画库
+# 4. 动画库
 
 [popmotion](https://github.com/Popmotion/popmotion) - 动画库, 支持 react
 [animate.css](https://github.com/daneden/animate.css) - A cross-browser library of CSS animations
 
-# 工具
+# 5. 工具
 
 [react-webpack-babel](https://github.com/ReactJSResources/react-webpack-babel) - Simple React Webpack Babel Starter Kit
 [Microsoft / TypeScript-React-Starter](https://github.com/Microsoft/TypeScript-React-Starter) -  TypeScript and React 模板
@@ -319,22 +312,28 @@ download
 [annie](https://github.com/iawia002/annie)
 [you2php](https://github.com/You2php/you2php) - 搭建Youtube视频镜像站, php实现, 而php空间贼便宜, 甚至有很多免费的php空间 (国内的肯定不行, 需要找国外的空间服务商); 实现了视频/频道搜索、视频在线播放 、频道/类别内容预览、视频下载等功能
 
-## 爬虫
+## 5.1. 爬虫
 
 nodejs爬虫: https://github.com/bda-research/node-crawler
 
 pornhub python: https://github.com/formateddd/pornhub
 
-## 生成文档
+## 5.2. 生成文档
 
 [Gatsby](https://www.gatsbyjs.org/) - 通过 react 生成静态网站
 [vuePress](https://vuepress.vuejs.org/) - 通过 vue 生成静态网站
 
-## 生成简历
+## 5.3. 生成简历
 
 https://github.com/DIYgod/Resume
 
-# demo
+## awesome tools
+
+https://github.com/alist-org/alist 文件列表 网盘
+
+https://github.com/veloren/veloren 开放世界游戏 像素
+
+# 6. demo
 
 [paascloud-master](https://github.com/paascloud/paascloud-master) - spring cloud + vue + oAuth2.0全家桶实战，前后端分离模拟商城，完整的购物流程、后端运营平台，可以实现快速搭建企业级微服务项目。支持微信登录等三方登录。
 [PiggyMetrics](https://github.com/sqshq/PiggyMetrics) -  Spring Boot, Spring Cloud and Docker 结合 实现微服务架构 一个记账app 英文
@@ -362,7 +361,7 @@ https://github.com/DIYgod/Resume
 [symphony](https://github.com/b3log/symphony) -  A modern community (forum/BBS/SNS/blog) platform written in Java. 一个用 Java 实现的现代化社区（论坛/BBS/社交网络/博客）平台。https://hacpai.com
 [shopping-management-system](https://github.com/zhanglei-workspace/shopping-management-system) - 网购管理系统, 多个小项目合集.
 
-# follow
+# 7. follow
 
 https://github.com/wxyyxc1992 - 前端, python, web开发, 多本 ebook作者
 https://github.com/hjzgg - Java, 有很多有用的小demo

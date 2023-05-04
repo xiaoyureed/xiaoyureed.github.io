@@ -152,6 +152,12 @@ https://repl.it/
 
 https://www.gitpod.io/
 
+  使用: 在 github 地址栏开头添加 https://gitpod.io# , 最终即 "https://gitpod.io#https://github.com/xxx/xx"
+
+  在项目地址前加上gitpod.io/#/前缀
+  https://gitpod.io/#/github.com/…
+
+
 codepen, codesandbox 只用于前端
 
 

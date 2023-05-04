@@ -26,17 +26,21 @@ twitter 标签 #langtwt  ,  #studytwt
   - [1.3. 如果没有听懂](#13-如果没有听懂)
   - [1.4. 遇到问题需要思考很久的情况](#14-遇到问题需要思考很久的情况)
   - [1.5. 面试结尾表达感谢](#15-面试结尾表达感谢)
-- [2. 工作中邮件 or 留言](#2-工作中邮件-or-留言)
+- [2. business english](#2-business-english)
+  - [small talk at the beginning of the meeting 闲聊](#small-talk-at-the-beginning-of-the-meeting-闲聊)
+  - [end the small talk and step into the business 开始正题](#end-the-small-talk-and-step-into-the-business-开始正题)
+  - [useful phrase for turn-taking  打断](#useful-phrase-for-turn-taking--打断)
+  - [跑题了拉回来](#跑题了拉回来)
+  - [留言评论](#留言评论)
   - [2.1. 入职后的 onboarding 邮件](#21-入职后的-onboarding-邮件)
 - [3. integral part 不可或缺的部分](#3-integral-part-不可或缺的部分)
-- [4. 讲一节课](#4-讲一节课)
-- [5. 听力练习](#5-听力练习)
-  - [5.1. 方法论](#51-方法论)
-  - [5.2. 播客](#52-播客)
-- [accumulation of oral materials](#accumulation-of-oral-materials)
-  - [generally used](#generally-used)
-  - [technically used](#technically-used)
-  - [courses](#courses)
+- [4. 听力练习](#4-听力练习)
+  - [4.1. 方法论](#41-方法论)
+  - [4.2. 播客](#42-播客)
+- [5. accumulation of oral materials](#5-accumulation-of-oral-materials)
+  - [5.1. generally used](#51-generally-used)
+  - [5.2. technically used](#52-technically-used)
+  - [5.3. making technical courses](#53-making-technical-courses)
 
 
 ## 1. 面试
@@ -116,18 +120,104 @@ Well..
   Thanks for taking time interviewing with me
 ```
 
-## 2. 工作中邮件 or 留言
+## 2. business english
+
+### small talk at the beginning of the meeting 闲聊
+
+meeting people for the first time
 
 ```
-If you have any concern please feel free to touch me.
+We've emailed many times / We've spoken in the phone many times, but it's so nice to finally meet you
+  通过电话/邮件很多次了, 很高兴见到你
+
+You must be xxx 
+  你一定是谁谁
+
+Did you have any trouble finding us?/ Did you have any trouble getting here?
+  你过来碰到困难了吗
+
+How was your journey ? How was your flight?
+  旅途咋样 
+
+Is this your first time to be here?
+
+Nice day/ Lovely day/ Horrible weather/ Rather hot/ A bit humid (today), isn’t it?
+  今天天气挺好的/很糟糕/相当热/有点潮湿，是吧？
+
+
+```
+
+### end the small talk and step into the business 开始正题
+
+```
+…I’d love to chat more, but we have a log to get through, so ...
+还想再聊一会，但是…
+
+      you must tell me more about that later, but
+
+      it’s been lovely to catch up, but
+
+let’s get down to business
+让我们开始商务会谈吧
+
+  I think we should make a start
+  
+  shall we get started?
+
+```
+
+### useful phrase for turn-taking  打断
+
+interrupting, etc
+
+```
+Sorry/Excuse me, if I can interrupt for a moment?
+
+  Excuse me? Can I come here (for a moment)?
+  我可以说一下吗？
+
+
+Of course / Sure, What would you like to say?/ Please have your say?
+当然, 请说
+
+Sorry, just one (more) thing before you have your say,…
+抱歉，在您发表意见之前，我再补充一句可以吗？
+
+
+
+```
+
+### 跑题了拉回来
+
+```
+Let's get the turn back
+
+  let's get the discussion back
+
+(Now) where was I? Oh yes,…
+我们说到哪里了？哦，对了,,
+
+(Anyway/ Well), as I was saying…
+无论如何）就像我说的那样…
+
+```
+
+### 留言评论
+
+```
+If you have any concern please feel free to touch/reach me.
 
 I'll let you know when I'm done.
 
 Please correct me if I'm wrong.
 
-How can you deliver this milestone according to the timing plan? 我们如何根据时间规划交付这个工作?
+That'll put us both in the picture. 这样双方都能了解全面的情况。
 
+I'm afraid that won't be possible, much as we'd like to. 尽管我们很想这样做，但恐怕不行了。
 
+Thank you for you cooperation. 感谢您的合作
+
+We are happy to be of help. 很乐意帮助
 ```
 
 ### 2.1. 入职后的 onboarding 邮件
@@ -208,16 +298,10 @@ Such entries are referred to as "stale entries" 这些条目被称为“陈旧�
 
 ```
 
-## 4. 讲一节课
 
-```
-We’re about to cover ... in the next section  将在下节介绍...
+## 4. 听力练习
 
-```
-
-## 5. 听力练习
-
-### 5.1. 方法论
+### 4.1. 方法论
 
 ```
 第一步：用qq影音打开一个视频，alt+鼠标左键选择遮挡字幕区域（用书挡也行。。。）
@@ -253,7 +337,7 @@ We’re about to cover ... in the next section  将在下节介绍...
 结束！听的长度可根据每天自身情况调整，但每天至少听1分钟！ 坚持21天以上
 ```
 
-### 5.2. 播客
+### 4.2. 播客
 
 - Naval Podcast (文字稿 https://nav.al/productize-yourself) 关于选择、方法论、人生鸡汤
 - Where should we begin , 婚姻心理
@@ -262,13 +346,20 @@ We’re about to cover ... in the next section  将在下节介绍...
 - Stuff You Should Know 主题闲聊
 
 
-## accumulation of oral materials 
+## 5. accumulation of oral materials 
 
 口语素材积累
 
-### generally used
+### 5.1. generally used
 
 ```
+
+put quality as the first consideration
+首先考虑...
+
+We've arranged our schedule without any trouble.
+顺利做了...
+
 so this used to be the case in the back years, but nowadays let's get some changes
   过去一直是这样, 现在做些改变
 
@@ -276,7 +367,7 @@ so basically, please remember , whenever you want to ..., you need ...
   无论何时
 ```
 
-### technically used
+### 5.2. technically used
 
 ```
 so if you want to get it up and running
@@ -287,9 +378,22 @@ so this is the technology that you must be aware of .
 
 ```
 
-### courses
+### 5.3. making technical courses
 
 ```
 I'm gonna show you how to ...
-  我将展示
+我将展示
+
+  so now, what I'm gonna do is actually do sth...
+
+We’re about to cover ... in the next section  将在下节介绍...
+
+
+so here comes my first tip
+
+let's think about this scenario
+想一下这个场景
+
+Finally, it was a pleasure teaching you, if you have any other idea or suggestion, feel free to join the Wechat channel 码完回家
+See you next time!
 ```
