@@ -1,5 +1,5 @@
 ---
-title: 使用 docusaurus 和 github pages 发布博客
+title: Publish Blogs by Using Docusaurus and Github Pages
 authors: me
 tags: [docusaurus, github pages]
 ---
@@ -10,7 +10,7 @@ Official website: https://docusaurus.io/
 
 <!-- truncate -->
 
-Docusaurus 是 Facebook 出品的一个文档生成工具, 基于 react, 简单好用, 功能丰富, 这里记录一下搭建本站点的过程.
+Docusaurus 是 Facebook 出品的一个文档生成工具, 基于 react, 其他更多静态站点生成器查看 https://jamstack.org/generators/
 
 # 本地初始化
 

@@ -88,7 +88,8 @@ https://github.com/docker/kitematic 可视化管理gui
   - [8.9. USER 指定当前用户](#89-user-指定当前用户)
   - [8.10. HEALTHCHECK 健康检查](#810-healthcheck-健康检查)
   - [8.11. ONBUILD 给别人用](#811-onbuild-给别人用)
-  - [8.12. Dockerfile的多阶段构建](#812-dockerfile的多阶段构建)
+  - [8.12. multi-stage 多阶段构建](#812-multi-stage-多阶段构建)
+    - [清理缓存的镜像](#清理缓存的镜像)
 - [9. 使用容器](#9-使用容器)
   - [use docker in github action](#use-docker-in-github-action)
   - [9.1. 查看](#91-查看)
@@ -1300,15 +1301,29 @@ CMD [ "npm", "start" ]
 FROM my-node
 ```
 
-## 8.12. Dockerfile的多阶段构建
+## 8.12. multi-stage 多阶段构建
 
 一种方式是将所有的构建过程包含在一个 Dockerfile 中，包括项目及其依赖库的编译、测试、打包等流程，这里可能会带来的一些问题：
 
-Dockerfile 特别长，可维护性降低
+- Dockerfile 特别长，可维护性降低
 
-镜像层次多，镜像体积较大，部署时间变长
+- 镜像层次多，镜像体积较大，部署时间变长
 
-源代码存在泄露的风险
+- 源代码存在泄露的风险
+
+好处是可以减小镜像体积
+
+### 清理缓存的镜像
+
+```
+crontab -e
+
+# 每天夜里1点钟删除2天（48h）之前的image
+0 1 * * * docker image prune -a --force --filter "until=48h"
+
+systemctl restart crond.service
+
+```
 
 
 # 9. 使用容器

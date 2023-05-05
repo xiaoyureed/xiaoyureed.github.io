@@ -385,15 +385,43 @@ I'm gonna show you how to ...
 我将展示
 
   so now, what I'm gonna do is actually do sth...
+    现在我要做的
+
+  For java version, I'm gonna pick 11, but if you choose 8, this also work as well as 11
+  对版本来说，我准备选11, 但是如果你选择8,  也是一样的
+
+  Now for dependencies, i'm gonna go ahead and add...
+
+  So for now, here are everything that we need to kick off this project, but as we move through this video, we're gonna install a bench/number of other dependencies
+  现在对启动项目来说已经万事俱备 但是随着视频的深入，我们还需要安装其他的一些
+
+
 
 We’re about to cover ... in the next section  将在下节介绍...
 
+So for now, lemme come out and continue the following work
+现在暂时先跳出
+
+and all you got to do is just make sure that you have everything set up the same way as i have
+所有你需要做的仅仅是确保所有配置和我一样
+
 
 so here comes my first tip
+接下来是我的第一个tip
 
 let's think about this scenario
 想一下这个场景
 
-Finally, it was a pleasure teaching you, if you have any other idea or suggestion, feel free to join the Wechat channel 码完回家
-See you next time!
+Finally, it was a pleasure teaching you, if you have any other idea or suggestion, feel free to join the Wechat channel 码完回家, See you next time!
+最后很高兴教你，我有其他的建议欢迎到我的公众号提问
+
+  and then if you are stuck, go ahead and lemme know
+
+
+
+and just give a second, lemme get this full screen
+
+and then we have lombok, this is mainly to remove the boilerplate code, which you will see in a second
+
+
 ```

@@ -92,6 +92,7 @@ https://github.com/qiu-deqing/FE-interview , https://github.com/markyun/My-blog/
   - [6.3. vscode 环境](#63-vscode-环境)
   - [6.4. webpack 环境搭建](#64-webpack-环境搭建)
 - [7. airbnb 推荐的规范](#7-airbnb-推荐的规范)
+- [using as a lib 作为库使用](#using-as-a-lib-作为库使用)
 - [8. 组件化](#8-组件化)
   - [8.1. 社区开源组件](#81-社区开源组件)
   - [8.2. Web Components](#82-web-components)
@@ -249,10 +250,10 @@ https://github.com/qiu-deqing/FE-interview , https://github.com/markyun/My-blog/
   - [31.3. 为样式文件编写 types](#313-为样式文件编写-types)
   - [31.4. 配置 css 跳转](#314-配置-css-跳转)
 - [32. 开源库](#32-开源库)
+  - [How to search the scaffold (boilerplate) on github 脚手架](#how-to-search-the-scaffold-boilerplate-on-github-脚手架)
   - [32.1. 组件库](#321-组件库)
   - [32.2. 动画](#322-动画)
   - [32.3. css 框架](#323-css-框架)
-- [33. ionic 异常 质量App](#33-ionic-异常-质量app)
 
 
 # 1. 面试题
@@ -571,6 +572,10 @@ https://juejin.im/post/5cfb8c0051882541b24c3ed3 //todo
 # 7. airbnb 推荐的规范
 
 https://github.com/airbnb/javascript
+
+# using as a lib 作为库使用
+
+https://react.dev/learn/add-react-to-an-existing-project
 
 # 8. 组件化
 
@@ -4896,6 +4901,18 @@ https://www.jianshu.com/p/641bcac7754b
 
 # 32. 开源库
 
+## How to search the scaffold (boilerplate) on github 脚手架
+
+keywords: react scaffold/boilerplate/template landing page
+
+```
+https://github.com/kriasoft/react-starter-kit jamstack
+
+https://github.com/chetanverma16/react-portfolio-template nextjs + tilewindcss
+```
+
+https://create-react-app.dev/ 搭建脚手架
+
 ## 32.1. 组件库
 
 https://github.com/palantir/blueprint
@@ -4928,44 +4945,5 @@ Tailwind 高度可定制
 NES.css 像素风格
 
 Paper Css 手写风格
-
-```
-
-# 33. ionic 异常 质量App
-
-https://www.jianshu.com/p/9c00358bcc44
-https://www.jianshu.com/p/433be4cd3d66/
-
-
-ionic node_modules/@types/node/assert.d.ts '{' or ';' expected.
-https://www.google.com/search?q=ionic+node_modules%2F%40types%2Fnode%2Fassert.d.ts+%27%7B%27+or+%27%3B%27+expected.&newwindow=1&biw=1440&bih=764&sxsrf=ALeKk00VqSi6Swt2f9xmCkyc_h83_6mxOw%3A1628752166911&ei=JskUYYPyNsGd-gTywZbgAg&oq=ionic+node_modules%2F%40types%2Fnode%2Fassert.d.ts+%27%7B%27+or+%27%3B%27+expected.&gs_lcp=Cgdnd3Mtd2l6EANKBAhBGAFQtyhY0TpgzUVoAXAAeAKAAekFiAGzLZIBCTMtNC4yLjUuMZgBAKABAcABAQ&sclient=gws-wiz&ved=0ahUKEwiDndfS9qryAhXBjp4KHfKgBSw4ChDh1QMIDg&uact=5
-https://forum.ionicframework.com/t/typescript-node-modules-types-node-index-d-ts-line-194/140019/5
-
-
-ionic node_modules/@ionic/app-scripts/dist/util/interfaces.d.ts Cannot find name 'Buffer'.
-https://www.google.com/search?q=ionic+node_modules%2F%40ionic%2Fapp-scripts%2Fdist%2Futil%2Finterfaces.d.ts+Cannot+find+name+%27Buffer%27.&newwindow=1&biw=1440&bih=764&sxsrf=ALeKk031J4LQAbHQXWludLzrTHuppsuyjw%3A1628781932004&ei=az0VYa_ePI_c-gT0tKLgAg&oq=ionic+node_modules%2F%40ionic%2Fapp-scripts%2Fdist%2Futil%2Finterfaces.d.ts+Cannot+find+name+%27Buffer%27.&gs_lcp=Cgdnd3Mtd2l6EAM6BwgAELADEB5KBAhBGAFQi4cfWOWJH2DFkh9oAXAAeACAAb4EiAGvC5IBBzMtMS4wLjKYAQCgAQKgAQHIAQHAAQE&sclient=gws-wiz&ved=0ahUKEwjvv-TD5avyAhUPrp4KHXSaCCwQ4dUDCA4&uact=5
-https://github.com/ionic-team/starters/issues/88
-https://stackoverflow.com/questions/38875401/getting-error-ts2304-cannot-find-name-buffer
-
-
-'Cordova/CDVUserAgentUtil.h' file not found on cordova-ios@6
-https://github.com/apache/cordova-plugin-inappbrowser/issues/709
-https://github.com/apache/cordova-plugin-inappbrowser/pull/635
-https://github.com/apache/cordova-plugin-inappbrowser/issues/818
-
-
-https://github.com/ionic-team/ionic-framework/issues?page=2&q=css+ios
-https://prabhashibuddhima.medium.com/ionic-ios-simulator-device-not-compiling-scss-but-working-in-android-and-web-a5c35f90ffe9
-https://forum.ionicframework.com/t/scss-file-is-not-working/182729
-
-```
-ionic cordova rm ios  
-ionic cordova add ios
-ionic cordova build ios
-
-open the generated proj use xcode
-
-
-
 
 ```

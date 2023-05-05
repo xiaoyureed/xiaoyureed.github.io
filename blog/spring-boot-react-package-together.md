@@ -343,6 +343,8 @@ Then we can start the backend with the debug/start button offered by ide or by u
 
 ## reference materials
 
+https://github.com/xiaoyureed/next-boot
+
 https://github.com/tisonkun/springboot-nextjs-demo
 
 https://www.tisonkun.org/2022/10/22/springboot-nextjs/

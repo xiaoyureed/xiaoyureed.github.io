@@ -92,6 +92,10 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
   - [13.8. 整合 spring jdbc](#138-整合-spring-jdbc)
   - [13.9. 整合 hibernate (即 jpa)](#139-整合-hibernate-即-jpa)
     - [13.9.1. jpa注解总结](#1391-jpa注解总结)
+    - [使用枚举](#使用枚举)
+      - [the basic usage](#the-basic-usage)
+      - [@Converter (推荐)](#converter-推荐)
+      - [@PostLoad and @PrePersist](#postload-and-prepersist)
     - [13.9.2. jpa queryDsl 多表联查](#1392-jpa-querydsl-多表联查)
     - [13.9.3. jpa 支持 java8 time](#1393-jpa-支持-java8-time)
     - [13.9.4. 审计 createdDate](#1394-审计-createddate)
@@ -1752,6 +1756,97 @@ https://www.cnblogs.com/liyihua/p/12333967.html
     @Column(name = "id", length = 32)
 ```
 
+### 使用枚举
+
+#### the basic usage
+
+```java
+public enum Rating {
+    UNRATED,
+    G,
+    PG,
+    PG13,
+    R,
+    NC17
+}
+
+@Entity
+public class Movie {
+  /**
+   *  to persist string (the field name) into db, 
+   * (and there is a another value here: ordinal, which is default, that means persist int (the ordr number) to db)
+   */
+   @Enumerated(EnumType.STRING)
+    private Rating rating;
+}
+```
+
+#### @Converter (推荐)
+
+```java
+public enum Category {
+    SPORT("S"), MUSIC("M"), TECHNOLOGY("T");
+
+
+@Entity
+public class Article {
+  @column(...)
+  private Category category;
+
+// We've set the @Converter‘s value of autoApply to true so that JPA will automatically apply the conversion logic to all mapped attributes of a Category type. Otherwise, we'd have to put the @Converter annotation directly on the entity's field.
+@Converter(autoApply = true)
+public class CategoryConverter implements AttributeConverter<Category, String> {
+ 
+    @Override
+    public String convertToDatabaseColumn(Category category) {
+        if (category == null) {
+            return null;
+        }
+        return category.getCode();
+    }
+
+    @Override
+    public Category convertToEntityAttribute(String code) {
+        if (code == null) {
+            return null;
+        }
+
+        return Stream.of(Category.values())
+          .filter(c -> c.getCode().equals(code))
+          .findFirst()
+          .orElseThrow(IllegalArgumentException::new);
+    }
+}
+```
+
+#### @PostLoad and @PrePersist
+
+```java
+@Entity
+public class Article {
+
+  // mapping to db
+  @Basic
+    private int priorityValue;
+
+  // store the enum value
+  @Transient
+    private Priority priority;
+
+      @PostLoad
+    void fillTransient() {
+        if (priorityValue > 0) {
+            this.priority = Priority.of(priorityValue);
+        }
+    }
+
+    @PrePersist
+    void fillPersistent() {
+        if (priority != null) {
+            this.priorityValue = priority.getPriority();
+        }
+    }
+```
 
 ### 13.9.2. jpa queryDsl 多表联查
 

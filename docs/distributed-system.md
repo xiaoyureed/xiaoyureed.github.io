@@ -8,7 +8,7 @@ toc_max_heading_level: 5
 ---
 
 
-https://github.com/fenixsoft/awesome-fenix
+https://github.com/fenixsoft/awesome-fenix 如何构建一套可靠的大型分布式系统
 
 [CAP是什么](https://mwhittaker.github.io/blog/an_illustrated_proof_of_the_cap_theorem/)
 
