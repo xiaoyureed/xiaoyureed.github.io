@@ -76,6 +76,15 @@ https://github.com/imarvinle/system-design-primer/blob/master/README-zh-Hans.md
 - [18. 权限系统](#18-权限系统)
 - [19. 日志采集系统](#19-日志采集系统)
 - [20. 开放 api 平台](#20-开放-api-平台)
+- [SaaS 平台](#saas-平台)
+  - [概念](#概念)
+    - [Pros and Cons](#pros-and-cons)
+    - [related roles](#related-roles)
+    - [compare with PaaS IaaS](#compare-with-paas-iaas)
+  - [如何做数据隔离](#如何做数据隔离)
+  - [租户识别 (路由)](#租户识别-路由)
+  - [租户计费](#租户计费)
+  - [灰度升级](#灰度升级)
 - [21. 优惠券系统](#21-优惠券系统)
 - [22. 撮合系统](#22-撮合系统)
   - [22.1. 撮合交易引擎](#221-撮合交易引擎)
@@ -620,6 +629,82 @@ https://antonioshen.gitbooks.io/openapi/content/
 https://segmentfault.com/a/1190000015904390
 
 https://v2ex.com/t/609802
+
+# SaaS 平台
+
+
+## 概念
+
+
+software as a service, 是一种软件交付方式
+
+> 通过 Internet 提供软件的模式，厂商将应用软件统一部署在自己的服务器上，客户可以根据自己实际需求，通过互联网向厂商定购所需的应用软件服务，按定购的服务多少和时间长短向厂商支付费用
+
+### Pros and Cons
+
+优点:
+
+- 交付方便, 租户端无需下载任何的升级包或者修复补丁
+
+- 付费机制灵活
+
+缺点:
+
+- 租户没有软件控制权
+- 数据不在租户自己手中
+
+### related roles
+
+- saas service provider
+- tenant: the company that have purchased the service, 每个租户的数据隔离, 系统独立
+- user: employee of tenant
+
+### compare with PaaS IaaS
+
+IaaS: 基础设施即服务：如CPU、Network、Disk和Memory等
+
+PaaS: 平台即服务：如阿里云服务器和云数据库等
+
+Saas: 软件即服务：阿里短信、阿里邮箱等, Office365, JaaS, slack
+
+
+## 如何做数据隔离
+
+- 共享程序实例, 但是每个 tenant 有自己的 db 实例
+  
+  安全性最好, 数据恢复最容易，但成本较高
+
+- 共享程序实例, 共享 db, 但每个 tenant 一个 schema,
+
+  数据恢复比较困难，因为恢复数据库将牵涉到其他租户的数据 如果需要跨租户统计数据，存在一定困难
+
+- 租户共享程序实例, 共享一个数据库、同一个 Schema, 只是表中增加 TenantID 多租户的数据字段;
+
+  维护和购置成本最低, 数据备份和恢复最困难，需要逐表逐条备份和还原
+
+## 租户识别 (路由)
+
+通过url识别租户
+
+> 系统是给租户生成一个三级域名, 代码里面可以根据过来的域名，判断是那个租户然后初始化TenantContext.
+
+> Nginx中rewrite实现二级域名、三级域名
+
+## 租户计费
+
+比如那个租户购买了那些模块，一个月多少钱。租户可以创建最多的用户数。计费到期邮件提醒等功能。
+
+计费方式一般有两种，周期性计费，类似月租方案，和使用量计费,用多少付多少。周期性计费比较简单
+
+## 灰度升级
+
+SAAS付费企业客户对系统问题都特别敏感。为了减少升级可能出现问题的影响范围，一般都采用灰度升级策略
+
+可以配置nginx 来根据域名做分发，
+
+> 比如租户A（http://aaa.com）到实例1（版本1.0），租户B(http://bbb.com)到实例2(版本2.0). 当需要域名配置非常多的时候，nginx配置文档会乱。这块时候可以考虑使用nignx_lua来写一些扩展模块。
+
+
 
 # 21. 优惠券系统
 

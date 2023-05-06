@@ -31,7 +31,7 @@ toc_max_heading_level: 5
 - [5. 集群结构 underlying infrastructure 基础设施](#5-集群结构-underlying-infrastructure-基础设施)
   - [5.1. control plane 控制平面](#51-control-plane-控制平面)
   - [5.2. computer machines (计算节点 Node)](#52-computer-machines-计算节点-node)
-- [6. 通过 api 管理的各种资源](#6-通过-api-管理的各种资源)
+- [6. api 管理的各种资源](#6-api-管理的各种资源)
   - [6.1. 各种资源的关系](#61-各种资源的关系)
   - [6.2. 3 common properties](#62-3-common-properties)
     - [6.2.1. metadata](#621-metadata)
@@ -724,7 +724,7 @@ Also known as Node, designed to run the real application
 
 - container runtime engine (需要符合 oci 标准的运行时, 如 docker, rkt, CRI-O): 负责创建容器
 
-## 6. 通过 api 管理的各种资源
+## 6. api 管理的各种资源
 
 即各种 api object,
 
@@ -1641,7 +1641,9 @@ spec:
 
 ### 6.13. flannel
 
-是 CoreOS 团队针对 Kubernetes 设计的一个网络规划服务, 简单来说, 它的功能是让集群中的不同节点主机创建的 Docker 容器都具有全集群唯一的虚拟 IP 地址, 让属于不同节点上的容器能够直接通过内网 IP 通信
+是 CoreOS 团队针对 Kubernetes 设计的一个网络规划服务, 简单来说, 它的功能是让集群中的不同节点主机创建的 Docker 容器都具有全集群唯一的虚拟 IP 地址, 让属于不同节点上的容器能够直接通过内网 IP 互通
+
+
 
 ### 6.14. name
 
