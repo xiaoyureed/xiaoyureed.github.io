@@ -1,7 +1,43 @@
 ---
+title: Gradle note
+date: 2019-7-12
+tag: [gradle]
+---
+
+
+- [1. 简介](#1-简介)
+  - [1.1. why gradle 以及 Java构建工具的发展](#11-why-gradle-以及-java构建工具的发展)
+  - [1.2. what is gradle](#12-what-is-gradle)
+  - [1.3. 配置国内镜像源](#13-配置国内镜像源)
+  - [1.4. 修改依赖缓存位置](#14-修改依赖缓存位置)
+  - [1.5. 守护进程](#15-守护进程)
+  - [1.6. 逻辑组成](#16-逻辑组成)
+- [2. 使用](#2-使用)
+  - [2.1. 依赖类型](#21-依赖类型)
+  - [基于 kotlin 的配置脚本](#基于-kotlin-的配置脚本)
+  - [2.2. Gradle脚本基于groovy的DSL](#22-gradle脚本基于groovy的dsl)
+    - [2.2.1. build.gradle](#221-buildgradle)
+    - [2.2.2. config.gradle](#222-configgradle)
+    - [2.2.3. settings.gradle](#223-settingsgradle)
+  - [2.3. 命令行使用](#23-命令行使用)
+  - [2.4. gradle.properties](#24-gradleproperties)
+  - [2.5. 多模块项目](#25-多模块项目)
+    - [2.5.1. 依赖顺序](#251-依赖顺序)
+- [3. 插件](#3-插件)
+  - [3.1. 基本使用 核心插件 社区插件](#31-基本使用-核心插件-社区插件)
+  - [3.2. 常用插件](#32-常用插件)
+    - [3.2.1. 二进制插件](#321-二进制插件)
+    - [3.2.2. application 插件](#322-application-插件)
+    - [3.2.3. 脚本插件](#323-脚本插件)
+    - [3.2.4. 初始化插件](#324-初始化插件)
+    - [3.2.5. 热部署](#325-热部署)
+  - [3.3. 自定义插件](#33-自定义插件)
+- [4. gradle wrapper](#4-gradle-wrapper)
+  - [To get a better experience in china](#to-get-a-better-experience-in-china)
+---
 title: gradle
 tags: [gradle]
-date: 2020-08-17
+0.1. date: 2020-08-17
 ---
 
 https://gradle.org/
@@ -14,41 +50,11 @@ https://gradle.org/releases/ install
 https://plugins.gradle.org/ 插件平台
 <!--more-->
 
-<!-- TOC -->
 
-- [1. 简介](#1-%E7%AE%80%E4%BB%8B)
-    - [1.1. why gradle 以及 Java构建工具的发展](#11-why-gradle-%E4%BB%A5%E5%8F%8A-java%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E7%9A%84%E5%8F%91%E5%B1%95)
-    - [1.2. what is gradle](#12-what-is-gradle)
-    - [1.3. 配置国内镜像源](#13-%E9%85%8D%E7%BD%AE%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90)
-    - [1.4. 修改依赖缓存位置](#14-%E4%BF%AE%E6%94%B9%E4%BE%9D%E8%B5%96%E7%BC%93%E5%AD%98%E4%BD%8D%E7%BD%AE)
-    - [1.5. 守护进程](#15-%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B)
-    - [1.6. 逻辑组成](#16-%E9%80%BB%E8%BE%91%E7%BB%84%E6%88%90)
-- [2. 使用](#2-%E4%BD%BF%E7%94%A8)
-    - [2.1. 依赖类型](#21-%E4%BE%9D%E8%B5%96%E7%B1%BB%E5%9E%8B)
-    - [2.2. 配置脚本](#22-%E9%85%8D%E7%BD%AE%E8%84%9A%E6%9C%AC)
-        - [2.2.1. build.gradle](#221-buildgradle)
-        - [2.2.2. config.gradle](#222-configgradle)
-        - [2.2.3. settings.gradle](#223-settingsgradle)
-    - [2.3. 命令行使用](#23-%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BD%BF%E7%94%A8)
-    - [2.4. gradle.properties](#24-gradleproperties)
-    - [2.5. 多模块项目](#25-%E5%A4%9A%E6%A8%A1%E5%9D%97%E9%A1%B9%E7%9B%AE)
-        - [2.5.1. 依赖顺序](#251-%E4%BE%9D%E8%B5%96%E9%A1%BA%E5%BA%8F)
-- [3. 插件](#3-%E6%8F%92%E4%BB%B6)
-    - [3.1. 基本使用 核心插件 社区插件](#31-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8-%E6%A0%B8%E5%BF%83%E6%8F%92%E4%BB%B6-%E7%A4%BE%E5%8C%BA%E6%8F%92%E4%BB%B6)
-    - [3.2. 常用插件](#32-%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6)
-        - [3.2.1. 二进制插件](#321-%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%8F%92%E4%BB%B6)
-        - [3.2.2. application 插件](#322-application-%E6%8F%92%E4%BB%B6)
-        - [3.2.3. 脚本插件](#323-%E8%84%9A%E6%9C%AC%E6%8F%92%E4%BB%B6)
-        - [3.2.4. 初始化插件](#324-%E5%88%9D%E5%A7%8B%E5%8C%96%E6%8F%92%E4%BB%B6)
-        - [3.2.5. 热部署](#325-%E7%83%AD%E9%83%A8%E7%BD%B2)
-    - [3.3. 自定义插件](#33-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8F%92%E4%BB%B6)
-    - [3.4. gradle wrapper](#34-gradle-wrapper)
 
-<!-- /TOC -->
+# 1. 简介
 
-# 简介
-
-## why gradle 以及 Java构建工具的发展
+## 1.1. why gradle 以及 Java构建工具的发展
 
 最早出现的是Ant，Ant里的每一个任务（target）都可以互相依赖，Ant的最大缺点就是依赖的外部库也要添加到版本控制系统中，因为Ant没有一个机制来把这些jar文件放在一个中央库里面，结果就是不断的拷贝和粘贴代码。
 
@@ -56,14 +62,14 @@ https://plugins.gradle.org/ 插件平台
 
 Gradle的出现满足了很多现在构建工具的需求, 通过 groovy 自定义任务, 拥有本地的依赖缓存库
 
-## what is gradle
+## 1.2. what is gradle
 
 gradle并不是另起炉灶，它充分地使用了maven的现有资源。继承了maven中仓库，坐标，依赖这些核心概念
 
 同时，它又继承了ant中target的概念，我们又可以重新定义自己的任务了。(gradle中叫做task)
 
 
-## 配置国内镜像源
+## 1.3. 配置国内镜像源
 
 ```
 
@@ -73,14 +79,35 @@ a). 配置只在当前项目生效
 repositories {
         mavenLocal()
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+    # https://maven.aliyun.com/repository/central
         mavenCentral()
 }
-或者
-
 repositories {
-    maven {
-        url "http://maven.aliyun.com/nexus/content/groups/public"
+    mavenLocal()
+    maven("https://mirrors.cloud.tencent.com/nexus/repository/maven-public/")
+    mavenCentral()
+
+}
+
+
+settings.gradle.kts
+
+pluginManagement {
+    repositories {
+        mavenLocal()
+        maven("https://mirrors.cloud.tencent.com/nexus/repository/maven-public/")
+        # https://maven.aliyun.com/repository/gradle-plugin
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+//or
+pluginManagement {
+    repositories {
+        maven { url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/' }
+        mavenCentral()
+        gradlePluginPortal()
+        mavenLocal()
     }
 }
 
@@ -142,7 +169,7 @@ repository: maven ('http://maven.aliyun.com/nexus/content/groups/public')
 
 ```
 
-## 修改依赖缓存位置
+## 1.4. 修改依赖缓存位置
 
 ```
 通过添加系统变量 GRADLE_USER_HOME
@@ -160,7 +187,7 @@ gradle --stop
 
 ```
 
-## 守护进程
+## 1.5. 守护进程
 
 ```
 Gradle运行在JVM上，它会一些额外的类库，但这些类库在初始化时会花费一些时间，这会导致在某些时候，Gradle在启动的时候有些慢。
@@ -171,7 +198,7 @@ Gradle运行在JVM上，它会一些额外的类库，但这些类库在初始�
 
 ```
 
-## 逻辑组成
+## 1.6. 逻辑组成
 
 ```groovy
 // 一个Gradle构建通常包含三个基本构建块：project，task和property。每个构建至少包含一个project，一个project可以包含一个或者多个task，project和task可以暴露属性来控制构建
@@ -179,9 +206,9 @@ Gradle运行在JVM上，它会一些额外的类库，但这些类库在初始�
 
 ```
 
-# 使用
+# 2. 使用
 
-## 依赖类型
+## 2.1. 依赖类型
 
 ```groovy
 // 目前Gradle版本支持的依赖配置有：implementation、api、compileOnly、runtimeOnly 和 annotationProcessor，已经废弃的配置有：compile、provided、apk、providedCompile。
@@ -207,12 +234,14 @@ compile // 在所有的classpath中可用，同时它们也会被打包
 providedCompile //与compile作用类似,但不会被添加到最终的war包中 (war插件提供的范围类型)
 ```
 
-## 配置脚本
-
-Gradle脚本是基于groovy的DSL
+## 基于 kotlin 的配置脚本
 
 
-### build.gradle
+
+## 2.2. Gradle脚本基于groovy的DSL
+
+
+### 2.2.1. build.gradle
 
 ```groovy
 // 必须在顶部
@@ -389,7 +418,7 @@ test {
 
 ```
 
-### config.gradle
+### 2.2.2. config.gradle
 
 统一管理项目依赖
 
@@ -403,7 +432,7 @@ apply from: "config.gradle"
 ```
 
 
-### settings.gradle
+### 2.2.3. settings.gradle
 
 Gradle 就是通过 settings.gradle 来进行多项目构建的
 
@@ -416,7 +445,7 @@ include ":app", ":library"
 
 ```
 
-## 命令行使用
+## 2.3. 命令行使用
 
 ```sh
 gradle -v # 版本
@@ -486,7 +515,7 @@ gradle -q -p [dir] helloWorld
 gradle -q projects
 ```
 
-## gradle.properties 
+## 2.4. gradle.properties 
 
 位于项目根目录
 
@@ -496,7 +525,7 @@ org.gradle.parallel=true
 
 ```
 
-## 多模块项目
+## 2.5. 多模块项目
 
 Spring官方：https://spring.io/guides/gs/multi-module/
 
@@ -504,13 +533,13 @@ Gradle官方：https://guides.gradle.org/creating-multi-project-builds/
 
 https://zhongpan.tech/2020/03/04/027-create-multi-module-spring-boot-gradle-project/
 
-### 依赖顺序
+### 2.5.1. 依赖顺序
 
 https://docs.gradle.org/current/userguide/declaring_dependencies_between_subprojects.html#declaring_dependencies_between_subprojects
 
-# 插件
+# 3. 插件
 
-## 基本使用 核心插件 社区插件
+## 3.1. 基本使用 核心插件 社区插件
 
 ```groovy
 // 新的引入方式统一了社区插件和核心插件的引入方式，对于社区插件不在需要使用buildscript，Gradle会根据插件的id，自动解析，定位
@@ -550,9 +579,9 @@ apply plugin: "com.jfrog.bintray"
 
 ```
 
-## 常用插件
+## 3.2. 常用插件
 
-### 二进制插件
+### 3.2.1. 二进制插件
 
 ```groovy
 // 二进制插件 (核心插件)
@@ -565,7 +594,7 @@ apply plugin: JavaPlugin
 
 ```
 
-### application 插件
+### 3.2.2. application 插件
 
 ```groovy
 
@@ -584,7 +613,7 @@ gradle -q :<sub module name>:run
 
 ```
 
-### 脚本插件
+### 3.2.3. 脚本插件
 
 ```groovy
 // 引入外部脚本
@@ -606,7 +635,7 @@ task taskVersion{
 
 ```
 
-### 初始化插件
+### 3.2.4. 初始化插件
 
 ```groovy
 
@@ -640,13 +669,13 @@ gradle init --type basic
 
 ```
 
-### 热部署
+### 3.2.5. 热部署
 
 ```groovy
 // Jetty插件 + Watch插件
 ```
 
-## 自定义插件
+## 3.3. 自定义插件
 
 ```groovy
 // 目前定义Gradle插件的方式有三种：gradle脚本、 buildSrc项目、Standalone项目,
@@ -656,15 +685,26 @@ gradle init --type basic
 
 ```
 
-## gradle wrapper
+# 4. gradle wrapper
 
 ```sh
 # generate Gradle Wrapper
 gradle wrapper --gradle-version <xxx version>
 
-# 使用
-./gradlew build
+# 使用 (跳过测试)
+./gradlew build [-x text]
 
 
+```
+
+## To get a better experience in china
+
+国内使用, 可能wapper 下载缓慢
+
+`gradle-wrapper.properties` have to be change like this:
+
+```
+# 腾讯云镜像
+distributionUrl=https\://mirrors.cloud.tencent.com/gradle/gradle-6.6.1-bin.zip
 
 ```

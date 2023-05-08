@@ -2707,7 +2707,7 @@ root, root 登陆
 
 `docker run -d --name Postgres -p 5432:5432 [-e POSTGRES_USER=dev] -e POSTGRES_PASSWORD=dev123 postgres:alpine`
 
-> If the db use is not been specified, the password will be setup on "postgres" (the db user which has a root access)
+> If the db use is not been specified, the password will be setup on the head of "postgres" (the db user which has a root access)
 
 or
 

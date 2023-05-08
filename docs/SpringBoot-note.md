@@ -2936,6 +2936,8 @@ https://www.youtube.com/watch?v=SqVfCyfCJqw&t=9s
 
 ## 14.1. 加解密
 
+https://github.com/Licoy/encrypt-body-spring-boot-starter web 层加密解密 加解密
+
 https://github.com/yinjihuan/monkey-api-encrypt api 加解密 
 
 

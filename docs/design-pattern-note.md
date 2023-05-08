@@ -60,9 +60,6 @@ https://www.zhihu.com/question/39972591
 
 # 1. 实践 案例
 
-https://mp.weixin.qq.com/s/3wHFNFQPtj86AocLhUQahw
-TODO
-
 
 
 # 2. uml 类图

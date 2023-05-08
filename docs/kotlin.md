@@ -6,14 +6,11 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
-<!-- TOC -->
-
 - [1. what is kotlin](#1-what-is-kotlin)
-- [2. 优缺点](#2-%E4%BC%98%E7%BC%BA%E7%82%B9)
-- [3. 作为脚本使用](#3-%E4%BD%9C%E4%B8%BA%E8%84%9A%E6%9C%AC%E4%BD%BF%E7%94%A8)
-- [4. 语法特性](#4-%E8%AF%AD%E6%B3%95%E7%89%B9%E6%80%A7)
+- [2. 优缺点](#2-优缺点)
+- [3. 作为脚本使用](#3-作为脚本使用)
+- [4. 语法特性](#4-语法特性)
 
-<!-- /TOC -->
 
 
 https://www.jianshu.com/p/841f6a6b17d8/
@@ -21,7 +18,7 @@ https://www.jianshu.com/p/841f6a6b17d8/
 <!--more-->
 
 
-# what is kotlin
+# 1. what is kotlin
 
 由JetBrains 开发的静态语言, 服务端, Android (Google官方推荐)均可
 
@@ -31,7 +28,7 @@ Kotlin可以编译成Java字节码，也可以编译成JavaScript
 
 可以编写脚本, `*.kts`文件
 
-# 优缺点
+# 2. 优缺点
 
 和 Java 对比
 
@@ -71,13 +68,22 @@ Kotlin可以编译成Java字节码，也可以编译成JavaScript
     - 伴生对象 (companion object): 静态变量/方法需要使用 伴生对象, 繁琐
     
 
-# 作为脚本使用
+# 3. 作为脚本使用
 
 全局安装 kotlin, `kotlin -version`, `Kotlinc -script xxx.kts`
 
 [使用Kotlin编写Gradle脚本](https://www.jianshu.com/p/d08b1305ea3f) -- ide 支持不好
 
-# 语法特性
+# 4. 语法特性
+
+不变性思维，虽然Java当中也存在final不变性，然而，Kotlin却将这件事做到了极致：Kotlin要求我们在定义一个变量、集合的时候，就明确规定它的不变性。Kotlin这样的设计，就是希望在软件当中尽可能地消灭可变性。如果我们脑子里没有不变性思维，我们写出来的Kotlin代码将“惨不忍睹”。
+空安全思维，Kotlin的类型系统分为可空和不可空类型，这样的设计也彻底改变了我们的编程习惯。想要处理好Kotlin的空安全问题，我们也必须完成思维的转变。
+
+表达式思维，在Kotlin当中，if、else、when之类的语句，还能作为表达式来使用，这样的语法特性往往可以帮我们简化代码逻辑。
+
+函数思维，在Kotlin当中，函数是一等公民。Kotlin也是一门积极拥抱函数式编程的语言，在Kotlin的一些语法设计上，总能看到一些函数式的影子。命令式编程与函数式编程，它们两者有各自的优缺点，也有各自擅长的领域。而Kotlin除了有命令式的一面，对应地，它还有函数式的一面。
+
+协程思维，Java开发者在学习Kotlin协程的时候尤为痛苦，因为，在Java开发者脑子里只有“线程思维”，而对协程一无所知。想要真正地理解和掌握Kotlin的协程，我们需要从根本上改变我们脑子里的思维模型。
 
 ```java
 // 没有;分号
