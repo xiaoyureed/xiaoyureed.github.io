@@ -11,6 +11,12 @@ This Article I'm gonna demo How to develop a web based scaffold by using Gradle,
 
 <!-- truncate -->
 
+- [establish the project structure](#establish-the-project-structure)
+- [try the basic smoke test](#try-the-basic-smoke-test)
+- [git hooks support](#git-hooks-support)
+- [how to reduce the duration of test execution](#how-to-reduce-the-duration-of-test-execution)
+
+
 ## establish the project structure
 
 ```sh
@@ -105,9 +111,8 @@ gradle wrapper
 ./gradlew build
 ```
 
-## try the basic test
+## try the basic smoke test
 
-smoke test
 
 ```java
 

@@ -251,6 +251,7 @@ https://github.com/qiu-deqing/FE-interview , https://github.com/markyun/My-blog/
   - [31.4. 配置 css 跳转](#314-配置-css-跳转)
 - [32. 开源库](#32-开源库)
   - [How to search the scaffold (boilerplate) on github 脚手架](#how-to-search-the-scaffold-boilerplate-on-github-脚手架)
+  - [command-line app ui](#command-line-app-ui)
   - [satori 生成 svg pdf](#satori-生成-svg-pdf)
   - [32.1. 组件库](#321-组件库)
   - [32.2. 动画](#322-动画)
@@ -4913,6 +4914,10 @@ https://github.com/chetanverma16/react-portfolio-template nextjs + tilewindcss
 ```
 
 https://create-react-app.dev/ 搭建脚手架
+
+## command-line app ui
+
+https://github.com/vadimdemedes/ink 命令行程序
 
 ## satori 生成 svg pdf
 
