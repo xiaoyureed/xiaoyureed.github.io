@@ -8,8 +8,6 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
-https://segmentfault.com/a/1190000040642766 简介
-
 https://www.zhihu.com/question/20010554
 https://juejin.cn/post/6959903781366530079
 
@@ -25,41 +23,115 @@ https://github.com/PostgREST/postgrest - postgresql to rest api
 
 <!--more-->
 
-<!-- TOC -->
-
 - [1. what is postgres](#1-what-is-postgres)
+  - [logical construction](#logical-construction)
+  - [physical structure](#physical-structure)
+  - [progress structure](#progress-structure)
+  - [memory construction](#memory-construction)
 - [2. Why Postgres](#2-why-postgres)
 - [3. how to use](#3-how-to-use)
-    - [3.1. 命令行使用](#31-%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BD%BF%E7%94%A8)
-    - [3.2. sql 示例](#32-sql-%E7%A4%BA%E4%BE%8B)
-    - [3.3. 数据类型](#33-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B)
-        - [3.3.1. 时间](#331-%E6%97%B6%E9%97%B4)
-        - [3.3.2. array类型](#332-array%E7%B1%BB%E5%9E%8B)
-        - [3.3.3. hstore 键值对类型](#333-hstore-%E9%94%AE%E5%80%BC%E5%AF%B9%E7%B1%BB%E5%9E%8B)
-        - [3.3.4. json类型](#334-json%E7%B1%BB%E5%9E%8B)
-        - [3.3.5. 数字类型](#335-%E6%95%B0%E5%AD%97%E7%B1%BB%E5%9E%8B)
-        - [3.3.6. 序号类型](#336-%E5%BA%8F%E5%8F%B7%E7%B1%BB%E5%9E%8B)
-        - [3.3.7. 字符类型](#337-%E5%AD%97%E7%AC%A6%E7%B1%BB%E5%9E%8B)
-    - [3.4. 不同于MySQL的特性](#34-%E4%B8%8D%E5%90%8C%E4%BA%8Emysql%E7%9A%84%E7%89%B9%E6%80%A7)
-        - [3.4.1. 账号系统](#341-%E8%B4%A6%E5%8F%B7%E7%B3%BB%E7%BB%9F)
-        - [3.4.2. schema](#342-schema)
-        - [3.4.3. sql查询](#343-sql%E6%9F%A5%E8%AF%A2)
-        - [3.4.4. 数据修改](#344-%E6%95%B0%E6%8D%AE%E4%BF%AE%E6%94%B9)
-        - [3.4.5. 表管理](#345-%E8%A1%A8%E7%AE%A1%E7%90%86)
-        - [3.4.6. 导入导出](#346-%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA)
-- [4. crontab 定时操作 postgresql](#4-crontab-%E5%AE%9A%E6%97%B6%E6%93%8D%E4%BD%9C-postgresql)
-- [5. docker 中启动 postgres](#5-docker-%E4%B8%AD%E5%90%AF%E5%8A%A8-postgres)
-
-<!-- /TOC -->
+  - [3.1. 命令行使用](#31-命令行使用)
+  - [3.2. sql 示例](#32-sql-示例)
+  - [3.3. 数据类型](#33-数据类型)
+    - [3.3.1. 时间](#331-时间)
+    - [3.3.2. array类型](#332-array类型)
+    - [3.3.3. hstore 键值对类型](#333-hstore-键值对类型)
+    - [3.3.4. json类型](#334-json类型)
+    - [3.3.5. 数字类型](#335-数字类型)
+    - [3.3.6. 序号类型](#336-序号类型)
+    - [3.3.7. 字符类型](#337-字符类型)
+  - [3.4. 不同于MySQL的特性](#34-不同于mysql的特性)
+    - [3.4.1. 账号系统](#341-账号系统)
+    - [3.4.2. schema](#342-schema)
+    - [3.4.3. sql查询](#343-sql查询)
+    - [3.4.4. 数据修改](#344-数据修改)
+    - [3.4.5. 表管理](#345-表管理)
+    - [3.4.6. 导入导出](#346-导入导出)
+- [4. crontab 定时操作 postgresql](#4-crontab-定时操作-postgresql)
+- [5. docker 中启动 postgres](#5-docker-中启动-postgres)
 
 
-# what is postgres
+
+# 1. what is postgres
+
 
 关系型数据库, 开源, 同类是 MySQL
 
 Greenplum: 开源分布式数据库集群技术，基于PostgreSQL
 
-# Why Postgres
+## logical construction
+
+所有数据库对象都有各自的oid(object identifiers),oid是一个无符号的四字节整数，相关对象的oid都存放在相关的system catalog表中，比如数据库的oid和表的oid分别存放在  `pg\_database,pg\_class`表中
+
+Database cluster: a collection containing a bench of db object, such as dbs, users and so on
+
+> 指有单个PostgreSQL服务器实例管理的数据库集合，组成数据库集群的这些数据库使用相同的全局配置文件和监听端口、共用进程和内存结构。一个DataBase Cluster可以包括：多个DataBase、多个User、以及Database中的所有对象。
+
+Database: to describe a database
+
+> 数据库本身也是数据库对象，并且在逻辑上彼此分离，
+
+Database object: 如：表、视图、索引、序列、函数等等
+
+tablespace: the basic store unit, our tables are stored inside of it
+
+> 存储单元，称作表空间。表空间用作把逻辑上相关的结构放在一起。数据库逻辑上是由一个或多个表空间组成。初始化的时候，会自动创建`pg\_default和pg\_global`两个表空间
+
+> `create tablespace mydemotbs location '/home/postgres/training/pgsql/data/mydemotbs'; create table testtable1(tid int primary key,tname text) tablespace mydemotbs;`
+
+> `\db` query all table spaces
+
+Schema: something like namespace, being used to prevent naming table the same name
+
+> 当创建一个数据库时，会为其创建一个名为public的默认Schema。Schema是数据库中的命名空间，在数据库中创建的所有对象都是在Schema中创建，一个用户可以从同一个客户端连接中访问不同的Schema。而不同的Schema中可以有多个同名的Table、Index、View、Sequence、Function等等数据库对象
+> `\dn` all namespaces
+
+segment
+
+> 分配给一个逻辑结构（一个表、一个索引或其他对象）的一组区，是数据库对象使用的空间的集合；段可以有表段、索引段、回滚段、临时段和高速缓存段等
+
+extent
+
+> 区是数据库存储空间分配的一个逻辑单位，它由连续数据块所组成。第一个段是由一个或多个盘区组成。当一段中间所有空间已完全使用，PostgreSQL为该段分配一个新的范围
+
+block
+
+> 数据块是PostgreSQL 管理数据文件中存储空间的单位，为数据库使用的I/O的最小单位，是最小的逻辑部件。默认值8K。
+
+## physical structure
+
+在执行initdb的时候会初始化一个目录，通常我们都会在系统配置相关的环境变量$PGDATA来表示
+
+一个Tablespace对应的都是一个目录
+
+## progress structure
+
+`ps -ef | grep postgres`
+
+> 主进程Postmaster是整个数据库实例的总控制进程，负责启动和关闭数据库实例。用户可以运行postmaster，postgres命令加上合适的参数启动数据库。实际上，postmaster命令是一个指向postgres的链接
+> 
+> 当用户与PostgreSQL数据库建立连接时，实际上是先与Postmaster进程建立连接。此时，客户端程序会发出身份证验证的消息给Postmaster进程，Postmaster主进程根据消息中的信息进行客户端身份验证。如果验证通过，它会fork一个子进程postgres为这个连接服务，fork出来的进程被称为服务进程; `查询pg\_stat\_activity表可以看到的pid，就是这些服务进程的pid。select pid from pg_stat_activity;`
+>
+> SysLogger进程, SysLogger会在日志文件达到指定的大小时关闭当前日志文件，产生新的日志文件
+>
+> BgWriter后台写进程
+>
+> WalWriter预写日志写进程
+>
+>  PgArch归档进程 该技术支持将数据库恢复到其运行历史中任意一个有记录的时间点
+>
+> AutoVacuum自动清理进程
+> 对数据进行UPDATE或者DELETE操作后，数据库不会立即删除旧版本的数据，而是标记为删除状态。这是因为PG数据库具有多版本的机制，如果这些旧版本的数据正在被另外的事务打开，那么暂时保留他们是很有必要的。当事务提交后，旧版本的数据已经没有价值了，数据库需要清理垃圾数据腾出空间，而清理工作就是AutoVacuum进程进行的。postgresql.conf文件中与AutoVacuum进程相关的参数
+
+## memory construction
+
+
+本地内存：每个后端进程(backend process)自己使用的
+
+共享内存：所有进程共同使用
+
+
+# 2. Why Postgres
 
 或者说, 比MySQL好在哪里 (https://www.zhihu.com/question/20010554/answer/62628256)
 
@@ -78,9 +150,9 @@ Greenplum: 开源分布式数据库集群技术，基于PostgreSQL
 
 
 
-# how to use
+# 3. how to use
 
-## 命令行使用
+## 3.1. 命令行使用
 
 ```sh
 
@@ -97,7 +169,7 @@ psql [-Uxx_user] db_name 连接数据库
 
 ```
 
-## sql 示例
+## 3.2. sql 示例
 
 ```sql
 create table product
@@ -122,11 +194,11 @@ comment on column product.create_date is 'create date';
 
 ```
 
-## 数据类型
+## 3.3. 数据类型
 
 http://www.postgres.cn/docs/11/datatype-numeric.html
 
-### 时间
+### 3.3.1. 时间
 
 - date 日期
 - time [without time zone] 时间
@@ -138,7 +210,7 @@ time、timestamp和interval接受一个可选的精度值 p，这个精度值声
 
 时间输入输出最好遵循 ISO 8601, ISO 8601指定使用大写字母T来分隔日期和时间。PostgreSQL在输入上接受这种格式，但是在输出时它采用一个空格而不是T
 
-### array类型
+### 3.3.2. array类型
 
 ```sql
 CREATE TABLE contacts (
@@ -184,11 +256,11 @@ WHERE
 
 ```
 
-### hstore 键值对类型
+### 3.3.3. hstore 键值对类型
 
 , ref http://www.postgresqltutorial.com/postgresql-hstore/
 
-### json类型
+### 3.3.4. json类型
 
 ```sql
 CREATE TABLE orders (
@@ -232,7 +304,7 @@ product;
 
 ```
 
-### 数字类型
+### 3.3.5. 数字类型
 
 - 整型: 常用的类型是integer/int，因为它提供了在范围、存储空间和性能之间的最佳平衡。一般只有在磁盘空间紧张的时候才使用 smallint类型。而只有在integer的范围不够的时候才使用bigint
 
@@ -242,7 +314,7 @@ product;
 
     一个numeric的precision（精度）是整个数中有效位的总数, numeric的scale（刻度）是小数部分的数字位数, `NUMERIC(precision, scale)`
 
-### 序号类型
+### 3.3.6. 序号类型
 
 smallserial、serial和bigserial类型不是真正的类型，它们只是为了创建唯一标识符列而存在的方便符号
 
@@ -262,7 +334,7 @@ ALTER SEQUENCE tablename_colname_seq OWNED BY tablename.colname;
 
 ```
 
-### 字符类型
+### 3.3.7. 字符类型
 
 - character varying(n) 变长 ,有限制 最多存储 n 个字符
 
@@ -272,9 +344,9 @@ ALTER SEQUENCE tablename_colname_seq OWNED BY tablename.colname;
 
 - text 无限变长
 
-## 不同于MySQL的特性
+## 3.4. 不同于MySQL的特性
 
-### 账号系统
+### 3.4.1. 账号系统
 
 ```bash
 # 默认提供 db account: postgres/none, Linux account: postgres
@@ -322,7 +394,7 @@ pg_restore -U tiger -d demodb <xxx.tar>
 
 ```
 
-### schema
+### 3.4.2. schema
 
 ```sql
 create schema public; -- schema 把一个数据库分为了多个区域, 各个区域中可以存在同名的表
@@ -350,7 +422,7 @@ schema的最佳实践:
 - 仅仅使用 默认的public, 相当于不使用 schema 这个特性; 适用于 "只有一个用户或者数据库里只有几个合作用户的情形"
 - 为每个用户创建一个模式，名字和用户相同
 
-### sql查询
+### 3.4.3. sql查询
 
 select distinct on (column1, ...) column1, column2 order by ...  按照 column1 分组, 返回每组的第一行, 需要和order by一起使用 
 
@@ -479,7 +551,7 @@ ROLLUP(c1,c2,c3)
 ()
 ```
 
-### 数据修改
+### 3.4.4. 数据修改
 
 update... from ... 根据其他表的条件进行更新
 
@@ -499,7 +571,7 @@ insert into ... on conflict target action 插入or更新
 
 ```
 
-### 表管理
+### 3.4.5. 表管理
 
 字段类型
 
@@ -524,12 +596,12 @@ CREATE TEMPORARY/TEMP TABLE temp_table -- 临时表, 在一次会话中有效
 
 ```
 
-### 导入导出
+### 3.4.6. 导入导出
 
 http://www.postgresqltutorial.com/#
 
 
-# crontab 定时操作 postgresql
+# 4. crontab 定时操作 postgresql
 
 ```sh
 # crontab -e
@@ -555,7 +627,7 @@ done
 exit 0
 ```
 
-# docker 中启动 postgres
+# 5. docker 中启动 postgres
 
 ```sh
 mkdir -p $HOME/docker/volumes/postgres

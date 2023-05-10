@@ -634,6 +634,7 @@ CMD ["nginx", "-g", "daemon off;"]
 
 ## 7.3. 最佳实践 优化体积
 
+
 https://github.com/phusion/baseimage-docker 体积最小的 Linux
 
 https://www.infoq.cn/article/3-simple-tricks-for-smaller-docker-images
@@ -2317,6 +2318,8 @@ services:
         # 每个服务都必须通过 image 指令指定镜像或 build 指令（需要 Dockerfile）等来自动构建生成镜像。
         # 可以不加引号
         image: "examples/web"
+        # 若果当前目录下有 dockerfile, 则是用 dockerfile 构建出的镜像作为 image
+        build: ./
         ports:
             - "80:80"
         volumes:
@@ -2441,9 +2444,10 @@ services:
                 hard: 40000
         # 数据卷所挂载路径设置。可以设置宿主机路径 （HOST:CONTAINER） 或加上访问模式 （HOST:CONTAINER:ro）。
         volumes:
-            - /var/lib/mysql
+            - /var/lib/mysql # 匿名 volume
             - cache/:/tmp/cache
             - ~/configs:/etc/configs/:ro
+            - xxName:/tmp/data  # 为容器内的匿名volume 名为为 xxName
 
     db:
         # 如果使用 build 指令，在 Dockerfile 中设置的选项(例如：CMD, EXPOSE, VOLUME, ENV 等) 将会自动被获取，无需在 docker-compose.yml 中再次设置。
@@ -2476,6 +2480,10 @@ secrets:
     file: ./my_secret.txt
   my_other_secret:
     external: true
+
+volumes:
+  # 声明一个命名的 volume
+  xxName:
 ```
 
 Compose 模板文件支持动态读取主机的系统环境变量和当前目录下的 .env 文件中的变量

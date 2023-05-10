@@ -1,6 +1,6 @@
 ---
 title: Best Practice for Spring Boot Working with Docker
-date: 2021-1-1
+date: 2023-1-2
 tags: [spring, docker]
 authors: me
 keywords: [spring, docker]
@@ -9,6 +9,14 @@ keywords: [spring, docker]
 This article I will talking about How to package spring boot app into a docker image , and how to optimize the size of the image.
 
 <!-- truncate -->
+
+- [a basic example](#a-basic-example)
+- [get a better image layer](#get-a-better-image-layer)
+- [modularize the project](#modularize-the-project)
+- [multi-stage build](#multi-stage-build)
+- [try to make the native image](#try-to-make-the-native-image)
+- [reference materials](#reference-materials)
+
 
 ## a basic example
 
@@ -108,6 +116,9 @@ The image size can reduce greatly by using native image, and the other aspects s
 ## reference materials
 
 https://github.com/halo-dev/halo  can be taken as a best practice
+
+https://snyk.io/blog/best-practices-to-build-java-containers-with-docker/
+https://blog.monosoul.dev/2022/04/25/reduce-java-docker-image-size/
 
 https://mritd.com/2022/11/08/java-containerization-guide/ tips for java docker image
 

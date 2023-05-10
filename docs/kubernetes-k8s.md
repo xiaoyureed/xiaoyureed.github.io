@@ -702,7 +702,7 @@ Consists of these part:
     - Replication Controller 维护正确数量的 Pod
     - Endpoints Controller 填充端点(Endpoints)对象(即加入 Service 与 Pod)
 
-Minikube 管理的是单节点 k8s， master node， 和 worker node 都在一台物理主机上
+> Minikube 管理的是单节点 k8s， master node， 和 worker node 都在一台物理主机上
 
 ### 5.2. computer machines (计算节点 Node)
 
