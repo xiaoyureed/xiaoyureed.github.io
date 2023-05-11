@@ -153,57 +153,59 @@ https://github.com/Snailclimb/awesome-java#%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F 
   - [12.4. jdk api enhencement](#124-jdk-api-enhencement)
   - [12.5. 改进 java 程序在 docker 中的表现](#125-改进-java-程序在-docker-中的表现)
   - [12.6. 新的垃圾回收器](#126-新的垃圾回收器)
-- [13. classloader 类加载器](#13-classloader-类加载器)
-  - [13.1. classloader 的概念](#131-classloader-的概念)
-  - [13.2. 层级结构](#132-层级结构)
-  - [13.3. 工作过程 and 双亲委派模式](#133-工作过程-and-双亲委派模式)
-  - [13.4. 线程上下文类加载器-打乱层级结构](#134-线程上下文类加载器-打乱层级结构)
-  - [13.5. 借助 classloader 实现类隔离](#135-借助-classloader-实现类隔离)
-  - [13.6. 类加载相关的异常](#136-类加载相关的异常)
-  - [13.7. 自定义 classloader(加载网络上的 class)](#137-自定义-classloader加载网络上的-class)
-- [14. 路径问题](#14-路径问题)
-  - [14.1. 获取 classpath 和 系统属性 环境变量](#141-获取-classpath-和-系统属性-环境变量)
-- [15. 数据类型](#15-数据类型)
-  - [15.1. 各个数据类型的范围](#151-各个数据类型的范围)
-  - [15.2. double 类型的加减乘除](#152-double-类型的加减乘除)
-- [16. 控制台命令](#16-控制台命令)
-  - [16.1. 打 jar 包](#161-打-jar-包)
-  - [16.2. 生成注释文档 javadoc](#162-生成注释文档-javadoc)
-  - [16.3. 编译和反编译](#163-编译和反编译)
-- [17. 重要的对象](#17-重要的对象)
-  - [17.1. Object](#171-object)
-  - [17.2. String](#172-string)
-- [18. 字节码编辑技术](#18-字节码编辑技术)
-  - [18.1. javassist](#181-javassist)
-- [19. 前沿](#19-前沿)
-  - [19.1. graalvm](#191-graalvm)
-  - [19.2. vertx](#192-vertx)
-  - [19.3. Micronaut](#193-micronaut)
-  - [19.4. Quarkus](#194-quarkus)
-- [20. 拾遗](#20-拾遗)
-  - [20.1. 正则表达式 regex](#201-正则表达式-regex)
-  - [20.2. 静态绑定和动态绑定](#202-静态绑定和动态绑定)
-  - [20.3. 重载 and 重写](#203-重载-and-重写)
-  - [20.4. java 值传递 or 引用传递](#204-java-值传递-or-引用传递)
-  - [20.5. 访问修饰符 public-protect-default-private](#205-访问修饰符-public-protect-default-private)
-  - [20.6. getcontextclassloader\&getclassloader 区别](#206-getcontextclassloadergetclassloader-区别)
-  - [20.7. getter 和 setter 存在的意义](#207-getter-和-setter-存在的意义)
-  - [20.8. 为什么 service 只有一个实现也需要一个接口](#208-为什么-service-只有一个实现也需要一个接口)
-  - [20.9. static 关键字](#209-static-关键字)
-  - [20.10. 内部类 or 静态内部类](#2010-内部类-or-静态内部类)
-    - [20.10.1. 内部类](#20101-内部类)
-    - [20.10.2. 静态内部类](#20102-静态内部类)
-  - [20.11. Java 类初始化顺序](#2011-java-类初始化顺序)
-  - [20.12. Random-随机数](#2012-random-随机数)
-  - [20.13. 位运算](#2013-位运算)
-  - [20.14. 为什么包名都小写](#2014-为什么包名都小写)
-  - [20.15. 处理 unicode 编码问题](#2015-处理-unicode-编码问题)
-  - [20.16. 为什么成员变量再次赋值给局部变量](#2016-为什么成员变量再次赋值给局部变量)
-  - [20.17. 为什么定义成员变量不用赋值而定义局部变量必须赋值](#2017-为什么定义成员变量不用赋值而定义局部变量必须赋值)
-- [21. 开源项目](#21-开源项目)
-  - [21.1. 博客 cms 系统](#211-博客-cms-系统)
-  - [21.2. 假数据 fake dummy data](#212-假数据-fake-dummy-data)
-- [22. java agent](#22-java-agent)
+- [13. java16](#13-java16)
+  - [13.1. record class](#131-record-class)
+- [14. classloader 类加载器](#14-classloader-类加载器)
+  - [14.1. classloader 的概念](#141-classloader-的概念)
+  - [14.2. 层级结构](#142-层级结构)
+  - [14.3. 工作过程 and 双亲委派模式](#143-工作过程-and-双亲委派模式)
+  - [14.4. 线程上下文类加载器-打乱层级结构](#144-线程上下文类加载器-打乱层级结构)
+  - [14.5. 借助 classloader 实现类隔离](#145-借助-classloader-实现类隔离)
+  - [14.6. 类加载相关的异常](#146-类加载相关的异常)
+  - [14.7. 自定义 classloader(加载网络上的 class)](#147-自定义-classloader加载网络上的-class)
+- [15. 路径问题](#15-路径问题)
+  - [15.1. 获取 classpath 和 系统属性 环境变量](#151-获取-classpath-和-系统属性-环境变量)
+- [16. 数据类型](#16-数据类型)
+  - [16.1. 各个数据类型的范围](#161-各个数据类型的范围)
+  - [16.2. double 类型的加减乘除](#162-double-类型的加减乘除)
+- [17. 控制台命令](#17-控制台命令)
+  - [17.1. 打 jar 包](#171-打-jar-包)
+  - [17.2. 生成注释文档 javadoc](#172-生成注释文档-javadoc)
+  - [17.3. 编译和反编译](#173-编译和反编译)
+- [18. 重要的对象](#18-重要的对象)
+  - [18.1. Object](#181-object)
+  - [18.2. String](#182-string)
+- [19. 字节码编辑技术](#19-字节码编辑技术)
+  - [19.1. javassist](#191-javassist)
+- [20. 前沿](#20-前沿)
+  - [20.1. graalvm](#201-graalvm)
+  - [20.2. vertx](#202-vertx)
+  - [20.3. Micronaut](#203-micronaut)
+  - [20.4. Quarkus](#204-quarkus)
+- [21. 拾遗](#21-拾遗)
+  - [21.1. 正则表达式 regex](#211-正则表达式-regex)
+  - [21.2. 静态绑定和动态绑定](#212-静态绑定和动态绑定)
+  - [21.3. 重载 and 重写](#213-重载-and-重写)
+  - [21.4. java 值传递 or 引用传递](#214-java-值传递-or-引用传递)
+  - [21.5. 访问修饰符 public-protect-default-private](#215-访问修饰符-public-protect-default-private)
+  - [21.6. getcontextclassloader\&getclassloader 区别](#216-getcontextclassloadergetclassloader-区别)
+  - [21.7. getter 和 setter 存在的意义](#217-getter-和-setter-存在的意义)
+  - [21.8. 为什么 service 只有一个实现也需要一个接口](#218-为什么-service-只有一个实现也需要一个接口)
+  - [21.9. static 关键字](#219-static-关键字)
+  - [21.10. 内部类 or 静态内部类](#2110-内部类-or-静态内部类)
+    - [21.10.1. 内部类](#21101-内部类)
+    - [21.10.2. 静态内部类](#21102-静态内部类)
+  - [21.11. Java 类初始化顺序](#2111-java-类初始化顺序)
+  - [21.12. Random-随机数](#2112-random-随机数)
+  - [21.13. 位运算](#2113-位运算)
+  - [21.14. 为什么包名都小写](#2114-为什么包名都小写)
+  - [21.15. 处理 unicode 编码问题](#2115-处理-unicode-编码问题)
+  - [21.16. 为什么成员变量再次赋值给局部变量](#2116-为什么成员变量再次赋值给局部变量)
+  - [21.17. 为什么定义成员变量不用赋值而定义局部变量必须赋值](#2117-为什么定义成员变量不用赋值而定义局部变量必须赋值)
+- [22. 开源项目](#22-开源项目)
+  - [22.1. 博客 cms 系统](#221-博客-cms-系统)
+  - [22.2. 假数据 fake dummy data](#222-假数据-fake-dummy-data)
+- [23. java agent](#23-java-agent)
 
 <!-- /TOC -->
 
@@ -4855,15 +4857,55 @@ JVM现在可以识别由容器控制组（cgroups）设置的约束。可以在�
 
 ## 12.6. 新的垃圾回收器
 
-# 13. classloader 类加载器
+# 13. java16
+
+## 13.1. record class
+
+Java Record 是一种不变类，类似于 String，Integer。让我们看一个简单的例子。
+
+> generate toString, hashcode quals automatically
+
+```java
+
+public final class Data {
+
+    final private int x;
+    final private int y;
+    public Data( int x, int y){
+        if (x >y) {
+            throw new IllegalArgumentException();
+        }
+        x+=100;
+        y+=100;
+        this.x = x;
+        this.y = y;
+    }
+}
+
+
+
+public record Data(int x, int y) {
+
+    public Data {
+        if (x >y) {
+            throw new IllegalArgumentException();
+        }
+        x+=100;
+        y+=100;
+    }
+}
+
+```
+
+# 14. classloader 类加载器
 
 https://www.cnblogs.com/doit8791/p/5820037.html
 
-## 13.1. classloader 的概念
+## 14.1. classloader 的概念
 
 类加载器（class loader）用来加载 Java 类到 Java 虚拟机中。除此之外，ClassLoader 还负责加载 Java 应用所需的资源，如图像文件和配置文件等
 
-## 13.2. 层级结构
+## 14.2. 层级结构
 
 树状结构:
 
@@ -4889,7 +4931,7 @@ https://www.cnblogs.com/doit8791/p/5820037.html
 
         -   defineClass() 和 loadClass() 两种加载方式的关联之处在于：一个类的定义加载器是它引用的其它类的初始加载器。如类 com.example.Outer 引用了类 com.example.Inner，则由类 com.example.Outer 的定义加载器负责启动类 com.example.Inner 的加载过程。
 
-## 13.3. 工作过程 and 双亲委派模式
+## 14.3. 工作过程 and 双亲委派模式
 
 1. Java 源程序（.java 文件）在经过 Java 编译器编译之后就被转换成 Java 字节代码（.class 文件）。
 
@@ -4901,7 +4943,7 @@ https://www.cnblogs.com/doit8791/p/5820037.html
 
 1. 类加载器在成功加载某个类之后，会把得到的 java.lang.Class 类的实例缓存起来 - 对于一个类加载器实例来说，相同全名的类只加载一次，即 loadClass 方法不会被重复调用。
 
-## 13.4. 线程上下文类加载器-打乱层级结构
+## 14.4. 线程上下文类加载器-打乱层级结构
 
 线程上下文类加载器（context class loader）只是一个概念 , 类 `java.lang.Thread`中的方法 `getContextClassLoader()`和 `setContextClassLoader(ClassLoader cl)`用来获取和设置线程的上下文类加载器
 
@@ -4909,7 +4951,7 @@ https://www.cnblogs.com/doit8791/p/5820037.html
 
 线程上下文类加载器正好解决了这个问题 [在 SPI 接口的代码中使用线程上下文类加载器，就可以成功的加载到 SPI 实现的类]
 
-## 13.5. 借助 classloader 实现类隔离
+## 14.5. 借助 classloader 实现类隔离
 
 不同的类加载器为各自加载的类创建了额外的名称空间, 即使各自加载的是相同名称的类。相同名称的类可以并存在 Java 虚拟机中，`只需要用不同的类加载器来加载它们即可`。不同类加载器加载的类之间是不兼容的，这就相当于在 Java 虚拟机内部创建了一个个`相互隔离的 Java 类空间`。这种技术在许多框架中都被用到
 
@@ -4917,7 +4959,7 @@ https://www.cnblogs.com/doit8791/p/5820037.html
 
 Java 虚拟机是如何判定两个 Java 类是相同的? ------- 📌 类的全名是否相同 📌 加载此类的类加载器(实例对象 id)是否一样
 
-## 13.6. 类加载相关的异常
+## 14.6. 类加载相关的异常
 
 -   classnotfoundException - 在当前的 classloader 中`加载 class 文件时没有找到`
 
@@ -4940,7 +4982,7 @@ Java 虚拟机是如何判定两个 Java 类是相同的? ------- 📌 类的全
 
     要注意两个同类型对象但是通过不同 class loader 加载的情况, 这种情况也会抛异常
 
-## 13.7. 自定义 classloader(加载网络上的 class)
+## 14.7. 自定义 classloader(加载网络上的 class)
 
 场景: 应用通过网络来传输 Java 类的字节代码，为了保证安全性，这些字节代码经过了加密处理。这个时候就需要自己的类加载器来从某个网络地址上读取加密后的字节代码，接着进行解密和验证，最后定义出要在 Java 虚拟机中运行的类来
 
@@ -5076,9 +5118,9 @@ public class CalculatorTest {
 
 
 
-# 14. 路径问题
+# 15. 路径问题
 
-## 14.1. 获取 classpath 和 系统属性 环境变量
+## 15.1. 获取 classpath 和 系统属性 环境变量
 
 ```java
 String str = Thread.currentThread().getContextClassLoader().getResource("").getPath();
@@ -5148,13 +5190,13 @@ user.dir
 
 ```
 
-# 15. 数据类型
+# 16. 数据类型
 
-## 15.1. 各个数据类型的范围
+## 16.1. 各个数据类型的范围
 
 https://blog.csdn.net/qfikh/article/details/52832087
 
-## 15.2. double 类型的加减乘除
+## 16.2. double 类型的加减乘除
 
 float : 单精度浮点数, 占 4 字节
 
@@ -5234,9 +5276,9 @@ public class DoubleArith {
 }
 ```
 
-# 16. 控制台命令
+# 17. 控制台命令
 
-## 16.1. 打 jar 包
+## 17.1. 打 jar 包
 
 ```sh
 jar cvf <jar文件名> <class文件或文件夹>
@@ -5247,11 +5289,11 @@ jar cvf <jar文件名> <class文件或文件夹>
 -   非图形界面要用 bat 文件
 -   如果是使用他人的 jar 包，要先设置 classpath
 
-## 16.2. 生成注释文档 javadoc
+## 17.2. 生成注释文档 javadoc
 
 `javadoc -d 存放文档的路径 java的源文件`
 
-## 16.3. 编译和反编译
+## 17.3. 编译和反编译
 
 如果 Java 文件含有包【package】，则 `javac –d . Demo.java`-----【.】表示当前路径，即 class 文件路径
 必须加【-d】，否则编译出来没有包文件夹。
@@ -5260,38 +5302,38 @@ jar cvf <jar文件名> <class文件或文件夹>
 
 反编译: `javap -verbose class文件`
 
-# 17. 重要的对象
+# 18. 重要的对象
 
-## 17.1. Object
+## 18.1. Object
 
 http://www.javacoder.cn/?p=274
 
-## 17.2. String
+## 18.2. String
 
 
-# 18. 字节码编辑技术
+# 19. 字节码编辑技术
 
-## 18.1. javassist
+## 19.1. javassist
 
 https://github.com/jboss-javassist/javassist
 https://www.cnblogs.com/rickiyang/p/11336268.html
 
 
-# 19. 前沿
+# 20. 前沿
 
-## 19.1. graalvm
+## 20.1. graalvm
 
 https://zhuanlan.zhihu.com/p/106555993
 
-## 19.2. vertx
+## 20.2. vertx
 
-## 19.3. Micronaut
+## 20.3. Micronaut
 
-## 19.4. Quarkus
+## 20.4. Quarkus
 
-# 20. 拾遗
+# 21. 拾遗
 
-## 20.1. 正则表达式 regex
+## 21.1. 正则表达式 regex
 
 ```java
 private final static Pattern VERSION_PREFIX_PATTERN = Pattern.compile("v(\\d+)/");
@@ -5306,7 +5348,7 @@ if(m.find()){
 
 ```
 
-## 20.2. 静态绑定和动态绑定
+## 21.2. 静态绑定和动态绑定
 
 https://droidyue.com/blog/2014/12/28/static-biding-and-dynamic-binding-in-java/
 
@@ -5322,20 +5364,20 @@ https://droidyue.com/blog/2014/12/28/static-biding-and-dynamic-binding-in-java/
 -   使用 private 或 static 或 final 修饰的变量或者方法，使用静态绑定。而虚方法（可以被子类重写的方法）则会根据运行时的对象进行动态绑定。
 -   重载(Overload)的方法使用静态绑定完成，而重写(Override)的方法则使用动态绑定完成。
 
-## 20.3. 重载 and 重写
+## 21.3. 重载 and 重写
 
 方法签名: 方法名称+方法参数 (不包括返回值)
 
 -   重载必须方法签名不同
 -   重写必须方法签名相同
 
-## 20.4. java 值传递 or 引用传递
+## 21.4. java 值传递 or 引用传递
 
 -   基本数据类型, 是值传递 -- 相当于将参数复制了一份, 对形参的修改不会影响实参；
 -   引用类型, 是引用传递 -- 相当于传递的是内存地址(这是为了避免复制复杂类型的内存耗费), 形参和实参指向同一个内存地址（即引用），所以对参数的修改会影响到实际的对象。
 -   String, Integer, Double 等 immutable 的类型特殊处理，可以理解为传值，最后的操作不会修改实参对象。
 
-## 20.5. 访问修饰符 public-protect-default-private
+## 21.5. 访问修饰符 public-protect-default-private
 
 https://blog.csdn.net/u012418131/article/details/52822381
 
@@ -5350,13 +5392,13 @@ https://blog.csdn.net/u012418131/article/details/52822381
 
 ```
 
-## 20.6. getcontextclassloader&getclassloader 区别
+## 21.6. getcontextclassloader&getclassloader 区别
 
 如果你使用 Test.class.getClassLoader()，可能会导致和当前线程所运行的类加载器不一致, 一般只能用在 getResource
 
 最好使用 Thread.currentThread().getContextClassLoader()
 
-## 20.7. getter 和 setter 存在的意义
+## 21.7. getter 和 setter 存在的意义
 
 https://stackoverflow.com/questions/1568091/why-use-getters-and-setters-accessors
 
@@ -5366,7 +5408,7 @@ https://stackoverflow.com/questions/1568091/why-use-getters-and-setters-accessor
 
 方便打断点 debug
 
-## 20.8. 为什么 service 只有一个实现也需要一个接口
+## 21.8. 为什么 service 只有一个实现也需要一个接口
 
 在绝大多数情况下，一个 service 接口只有一个实现类, 为什么还要单独抽出一个接口呢? 这个接口时多余的吗?
 
@@ -5374,7 +5416,7 @@ https://stackoverflow.com/questions/1568091/why-use-getters-and-setters-accessor
 
 -   面向接口开发的好处, 比如 可以把接口打进调用方开发包提供出去，而不是实现类。所以调用就是签名的调用, 接口是否实现不影响调用
 
-## 20.9. static 关键字
+## 21.9. static 关键字
 
 [四个作用](https://www.cnblogs.com/dotgua/p/6354151.html?utm_source=itdadao&utm_medium=referral)
 sos 上的一个问题: [What does the 'static' keyword do in a class?](https://stackoverflow.com/questions/413898/what-does-the-static-keyword-do-in-a-class)
@@ -5404,11 +5446,11 @@ static 关键字的作用是把类的成员变成类相关，而不是实例相�
 
 -   静态导包
 
-## 20.10. 内部类 or 静态内部类
+## 21.10. 内部类 or 静态内部类
 
 https://www.cnblogs.com/Gaojiecai/p/4041663.html
 
-### 20.10.1. 内部类
+### 21.10.1. 内部类
 
 -   内部类：定义再类内部的类
 
@@ -5422,7 +5464,7 @@ https://www.cnblogs.com/Gaojiecai/p/4041663.html
 
 > 理解: 什么是内部？内部就是我是你的一部分，我了解你，我知道你的全部，没有你就没有我。（所以内部类对象是以外部类对象存在为前提的）
 
-### 20.10.2. 静态内部类
+### 21.10.2. 静态内部类
 
 静态内部类(静态嵌套类)：使用 static 来修饰一个内部类
 
@@ -5432,7 +5474,7 @@ https://www.cnblogs.com/Gaojiecai/p/4041663.html
 
 > 理解: 比如有 A，B 两个类，B 有点特殊，虽然可以独立存在，但只被 A 使用。这时候怎么办？如果把 B 并入 A 里，复杂度提高，搞得 A 违反单一职责。如果 B 独立，又可能被其他类（比如同一个包下的 C）依赖，不符合设计的本意。所以不如将其变成 A.B，等于添加个注释，告诉其他类别使用 B 了，它只跟 A 玩。
 
-## 20.11. Java 类初始化顺序
+## 21.11. Java 类初始化顺序
 
 单独的类:
 
@@ -5455,11 +5497,11 @@ https://www.cnblogs.com/Gaojiecai/p/4041663.html
 1. 子类普通代码块
 1. 子类构造方法
 
-## 20.12. Random-随机数
+## 21.12. Random-随机数
 
 https://www.cnblogs.com/yrrAwx/p/7806444.html
 
-## 20.13. 位运算
+## 21.13. 位运算
 
 左移: 左移 n 位就是把最高位 n 位移出，低位添加 n 个 0 的操作，左移操作相当于将该数乘以 2^n 次方。
 
@@ -5467,13 +5509,13 @@ https://www.cnblogs.com/yrrAwx/p/7806444.html
 
 https://www.cnblogs.com/liaopeng/p/8436155.html
 
-## 20.14. 为什么包名都小写
+## 21.14. 为什么包名都小写
 
 实际上, java 包名是大小写敏感的, 那为什么还是要求都要小写呢
 
 是为了跨平台的考虑, Linux 中的文件名是大小写敏感的, 但是 windows 中的文件名是大小写不敏感的, 防止在 Windows 平台出错, 统一要求小写
 
-## 20.15. 处理 unicode 编码问题
+## 21.15. 处理 unicode 编码问题
 
 ```java
 // 方法1
@@ -5560,7 +5602,7 @@ public class T {
 ```
 
 
-## 20.16. 为什么成员变量再次赋值给局部变量
+## 21.16. 为什么成员变量再次赋值给局部变量
 
 https://www.oschina.net/question/2319418_2317139
 
@@ -5569,15 +5611,15 @@ https://www.oschina.net/question/2319418_2317139
 http://mail.openjdk.java.net/pipermail/core-libs-dev/2010-May/004165.html
 https://stackoverflow.com/questions/2785964/in-arrayblockingqueue-why-copy-final-member-field-into-local-final-variable
 
-## 20.17. 为什么定义成员变量不用赋值而定义局部变量必须赋值
+## 21.17. 为什么定义成员变量不用赋值而定义局部变量必须赋值
 
 任何变量在C语言中不赋值的话，会是乱码的形式，可能有安全问题。所以java修正了这点，对于局部变量强制让你赋值
 
 为什么成员变量有自己的初始值，而不需要强制赋值，那是因为new对象的时候，构造函数帮你初始化默认值了
 
-# 21. 开源项目
+# 22. 开源项目
 
-## 21.1. 博客 cms 系统
+## 22.1. 博客 cms 系统
 
 https://github.com/halo-dev/halo
 
@@ -5585,12 +5627,12 @@ https://github.com/JPressProjects/jpress 类似 WordPress
 
 https://github.com/gentics/mesh
 
-## 21.2. 假数据 fake dummy data
+## 22.2. 假数据 fake dummy data
 
 https://github.com/datafaker-net/datafaker
 
 
-# 22. java agent
+# 23. java agent
 
 
 https://mp.weixin.qq.com/s/ArP0CtVZMB2oUYSdjr7RGw

@@ -12,6 +12,8 @@ hide_table_of_contents: true
 
 👨‍💻 半路转行的编程爱好者，希望能为开源社区做出一份贡献
 
+📝 面向 markdown 编程, 都整理在了 "教程" 菜单下
+
 🚀 聚焦 Java 生态, 分布式系统, 对 Rust, Typescript, Postgres 亦有兴趣, 正在折腾中...
 
 🌱 区块链初学者, 欢迎交流

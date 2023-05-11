@@ -44,38 +44,38 @@ But there are several weaknesses:
 
 ## get a better image layer
 
-https://github.com/aneasystone/weekly-practice/blob/main/notes/week011-spring-boot-on-docker/README.md
 
-We can unzip the fat jar file, and build image by layer, to get a optimized build time
-
-```sh
-# mkdir target/dependency && cd target/dependency
-# jar -xf ../*.jar
-```
-
-then we can get:
-
-```
-example.jar
- |
- +-META-INF
- |  +-MANIFEST.MF
- +-org
- |  +-springframework
- |     +-boot
- |        +-loader
- |           +-<spring boot loader classes>       #  Spring Boot loader 用于启动 main class
- +-BOOT-INF
-    +-classes
-    |  +-com
-    |     +-example
-    |        +-YourClasses.class
-    +-lib
-       +-dependency1.jar
-       +-dependency2.jar
-```
 
 ```dockerfile
+
+FROM eclipse-temurin:17-jre-jammy as builder
+ARG JAR_FILE=target/*.jar
+WORKDIR application
+COPY ${JAR_FILE} application.jar
+RUN java -Djarmode=layertools -jar application.jar extract
+
+################
+
+FROM eclipse-temurin:17-jre-jammy
+MAINTAINER xiaoyureed <rainx000@qq.com>
+WORKDIR /application
+COPY --from=builder application/dependencies/ ./
+COPY --from=builder application/spring-boot-loader/ ./
+COPY --from=builder application/snapshot-dependencies/ ./
+COPY --from=builder application/application/ ./
+
+ENV JVM_OPTS="-Xmx256m -Xms256m" \
+    HALO_WORK_DIR="/root/.halo2" \
+    SPRING_CONFIG_LOCATION="optional:classpath:/;optional:file:/root/.halo2/" \
+    TZ=Asia/Shanghai
+
+RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone \
+
+EXPOSE 8080
+ENTRYPOINT ["sh", "-c", "java ${JVM_OPTS} -Djava.security.egd=file:/dev/./urandom org.springframework.boot.loader.JarLauncher ${0} ${@}"]
+
+
 FROM openjdk:17-jdk-slim-buster
 
 RUN addgroup -S spring && adduser -S spring -G spring
@@ -127,10 +127,3 @@ https://hub.docker.com/_/eclipse-temurin/tags?page=1&name=17 the jdk17 base imag
 https://zhuanlan.zhihu.com/p/245645260 tips, which base image we should choose
 
 https://github.com/GoogleContainerTools/jib maven plugin produced by google to generate docker image.
-
-
-```
-https://www.google.com/search?q=How+to+reduce+JVM+docker+image+size&oq=How+to+reduce+JVM+docker+image+size&aqs=chrome..69i57.680j0j7&sourceid=chrome&ie=UTF-8
-
-https://www.google.com/search?q=10+best+practices+to+build+a+Java+container+with+Docker&oq=10+best+practices+to+build+a+Java+container+with+Docker&aqs=chrome..69i57.277j0j7&sourceid=chrome&ie=UTF-8
-```
