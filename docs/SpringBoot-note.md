@@ -1539,7 +1539,7 @@ tk.mybatis
 
 https://github.com/bytebase/bytebase 新的更为全面的数据库 schema 管理工具
 
-> https://fastzhong.com/posts/db-migration/
+> https://fastzhong.com/posts/db-migration/ 对比
 
 ### 13.4.1. liquibase
 

@@ -18,6 +18,7 @@ toc_max_heading_level: 5
   - [3.2. vagrant 搭建 k8s 环境](#32-vagrant-搭建-k8s-环境)
   - [3.3. 众多的发行版](#33-众多的发行版)
     - [3.3.1. k3s](#331-k3s)
+      - [k3d](#k3d)
     - [3.3.2. k0s](#332-k0s)
     - [3.3.3. microk8s](#333-microk8s)
     - [3.3.4. docker desktop](#334-docker-desktop)
@@ -193,6 +194,8 @@ Spring Cloud 通过整合Neflix相关开源组件实现了一套完整的微服�
 https://github.com/fanux/sealos 一键安装
 
 https://github.com/lework/kainstall
+
+https://github.com/easzlab/kubeasz 使用Ansible脚本安装K8S集群
 
 
 ### 3.2. vagrant 搭建 k8s 环境
@@ -390,6 +393,7 @@ watch kubectl get po -n kube-system -o wide
 
 #### 3.3.1. k3s
 
+
 https://github.com/k3s-io/k3s
 
 https://oldj.net/article/2022/04/17/install-k3s-and-rancher/
@@ -403,6 +407,16 @@ https://rancher.com/docs/k3s/latest/en/ 官网
 https://www.rancher.cn/k3s/ 中文官网
 
 https://zhuanlan.zhihu.com/p/269556628 简介
+
+##### k3d
+
+https://github.com/k3d-io/k3d 将 k3s 跑在 docker 里
+
+```sh
+
+
+```
+
 
 #### 3.3.2. k0s
 
@@ -1459,7 +1473,9 @@ spec:
 
 #### 6.8.6. LoadBalancer
 
-是使用云提供商的负载均衡器向外部暴露服务。 这个外部负载均衡器可以将流量路由到自动创建的 NodePort 服务和 ClusterIP 服务上.
+需要第三方负载均衡服务来实现，可以是软件的也可以是硬件的。
+
+> 一般是使用云提供商的负载均衡器向外部暴露服务。 这个外部负载均衡器可以将流量路由到自动创建的 NodePort 服务和 ClusterIP 服务上.
 
 #### 6.8.7. ExternalName
 
@@ -1478,9 +1494,9 @@ Pod 通过 label 键值对与 Service 上的 label selector 相关联。Service 
 
 可为 Service 提供外部可访问的 URL、负载均衡流量、 SSL/TLS，以及基于名称的虚拟托管 (service 毕竟只是内部使用的负载均衡)
 
-> NodePort的方式有个问题，每个 working node 端口65535个，总有用完的时候，要是暴露的服务特别多，65535就不够用了，所以还是得上nginx这样的反向代理，因此K8S还有个Ingress的东西。避免了对外暴露集群节点端口
+> 为什么需要? - NodePort的方式有个问题，每个 working node 端口65535个，总有用完的时候，要是暴露的服务特别多，65535就不够用了，所以还是得上nginx这样的反向代理，因此K8S还有个Ingress的东西。避免了对外暴露集群节点端口
 
-可以根据域名、路径把请求转发到不同的 Service, 相当于 nginx, 常用的实现是 nginx-ingress, kong-ingress, 仅创建 Ingress 资源本身没有任何效果, 需要和某个具体实现一起使用
+可以根据域名、路径把请求转发到不同的 Service, 相当于 nginx, 常用的实现是 nginx-ingress, kong-ingress; k8s 也只是定义了 ingress 资源的各个属性，ingress 资源的创建需要借助 ingressController，ingressController 则需要有第三方服务来提供。
 
 > 原理: Ingress Contronler 通过与 Kubernetes API 交互，动态的去感知集群中 Ingress 规则变化，然后读取它，按照自定义的规则，规则就是写明了哪个域名对应哪个 service，生成一段 Nginx 配置，再写到 Nginx-ingress-control 的 Pod 里，这个 Ingress Contronler 的 pod 里面运行着一个 nginx 服务，控制器会把生成的 nginx 配置写入/etc/nginx.conf 文件中，然后 reload 一下 使用配置生效。以此来达到域名分配置及动态更新的问题。
 
