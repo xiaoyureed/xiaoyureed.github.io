@@ -357,6 +357,7 @@ toc_max_heading_level: 5
     - [21.30.1. rand 随机数字](#21301-rand-随机数字)
   - [21.31. 搜索引擎](#2131-搜索引擎)
   - [21.32. 开源集合容器](#2132-开源集合容器)
+  - [其他语言引擎](#其他语言引擎)
 - [22. 开源项目](#22-开源项目)
 - [23. 参考链接](#23-参考链接)
 
@@ -11879,6 +11880,10 @@ https://artem.krylysov.com/blog/2020/07/28/lets-build-a-full-text-search-engine/
 ## 21.32. 开源集合容器
 
 https://github.com/jonhoo/flurry  A port of Java's ConcurrentHashMap to Rust
+
+## 其他语言引擎
+
+https://github.com/boa-dev/boa js JavaScript 引擎
 
 # 22. 开源项目
 
