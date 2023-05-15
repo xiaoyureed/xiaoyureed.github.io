@@ -54,11 +54,13 @@ https://github.com/docker/kitematic 可视化管理gui
   - [5.1. ubuntu 22 install docker](#51-ubuntu-22-install-docker)
   - [5.2. 使用国内镜像](#52-使用国内镜像)
 - [6. 镜像 image](#6-镜像-image)
-  - [6.1. 镜像实现原理](#61-镜像实现原理)
-  - [6.2. 获取镜像](#62-获取镜像)
-  - [6.3. 运行镜像](#63-运行镜像)
-  - [6.4. 列出镜像](#64-列出镜像)
-  - [6.5. 删除本地镜像](#65-删除本地镜像)
+  - [6.1. packaging image 导入导出](#61-packaging-image-导入导出)
+  - [6.2. 版本命名意义](#62-版本命名意义)
+  - [6.3. 镜像实现原理](#63-镜像实现原理)
+  - [6.4. 获取镜像](#64-获取镜像)
+  - [6.5. 运行镜像](#65-运行镜像)
+  - [6.6. 列出镜像](#66-列出镜像)
+  - [6.7. 删除本地镜像](#67-删除本地镜像)
 - [7. 制作镜像的方法](#7-制作镜像的方法)
   - [7.1. work with golang](#71-work-with-golang)
   - [7.2. working with frontend](#72-working-with-frontend)
@@ -74,14 +76,15 @@ https://github.com/docker/kitematic 可视化管理gui
   - [8.3. COPY 和 ADD](#83-copy-和-add)
   - [8.4. WORKDIR 指定工作目录](#84-workdir-指定工作目录)
   - [8.5. run cmd 和 entrypoint 容器启动命令](#85-run-cmd-和-entrypoint-容器启动命令)
-    - [8.5.1. 常见的错误用法](#851-常见的错误用法)
-    - [8.5.2. 都支持两种格式 shell 和 exec 的区别](#852-都支持两种格式-shell-和-exec-的区别)
-    - [8.5.3. run](#853-run)
-      - [8.5.3.1. 典型错误](#8531-典型错误)
-    - [8.5.4. cmd指令](#854-cmd指令)
-    - [8.5.5. ENTRYPOINT 入口点](#855-entrypoint-入口点)
-      - [8.5.5.1. eg: 让镜像变成像命令一样使用](#8551-eg-让镜像变成像命令一样使用)
-      - [8.5.5.2. eg: 应用运行前的准备工作](#8552-eg-应用运行前的准备工作)
+    - [8.5.1. 设置时区](#851-设置时区)
+    - [8.5.2. 常见的错误用法](#852-常见的错误用法)
+    - [8.5.3. 都支持两种格式 shell 和 exec 的区别](#853-都支持两种格式-shell-和-exec-的区别)
+    - [8.5.4. run](#854-run)
+      - [8.5.4.1. 典型错误](#8541-典型错误)
+    - [8.5.5. cmd指令](#855-cmd指令)
+    - [8.5.6. ENTRYPOINT 入口点](#856-entrypoint-入口点)
+      - [8.5.6.1. eg: 让镜像变成像命令一样使用](#8561-eg-让镜像变成像命令一样使用)
+      - [8.5.6.2. eg: 应用运行前的准备工作](#8562-eg-应用运行前的准备工作)
   - [8.6. ENV 和 arg 设置变量](#86-env-和-arg-设置变量)
   - [8.7. VOLUME 定义匿名数据卷](#87-volume-定义匿名数据卷)
   - [8.8. EXPOSE 声明端口](#88-expose-声明端口)
@@ -89,22 +92,22 @@ https://github.com/docker/kitematic 可视化管理gui
   - [8.10. HEALTHCHECK 健康检查](#810-healthcheck-健康检查)
   - [8.11. ONBUILD 给别人用](#811-onbuild-给别人用)
   - [8.12. multi-stage 多阶段构建](#812-multi-stage-多阶段构建)
-    - [清理缓存的镜像](#清理缓存的镜像)
+    - [8.12.1. 清理缓存的镜像](#8121-清理缓存的镜像)
 - [9. 使用容器](#9-使用容器)
-  - [use docker in github action](#use-docker-in-github-action)
-  - [9.1. 查看](#91-查看)
-  - [9.2. 启动](#92-启动)
-    - [9.2.1. -it 维持交互终端](#921--it-维持交互终端)
-    - [9.2.2. -d 后台运行](#922--d-后台运行)
-    - [9.2.3. --privileged=true 赋予特权](#923---privilegedtrue-赋予特权)
-  - [9.3. 终止container](#93-终止container)
-  - [9.4. 删除container](#94-删除container)
-  - [9.5. 进入容器](#95-进入容器)
-  - [9.6. 容器的导入和导出](#96-容器的导入和导出)
-  - [9.7. 拷贝容器内文件到主机](#97-拷贝容器内文件到主机)
+  - [9.1. use docker in github action](#91-use-docker-in-github-action)
+  - [9.2. 查看](#92-查看)
+  - [9.3. 启动](#93-启动)
+    - [9.3.1. -it 维持交互终端](#931--it-维持交互终端)
+    - [9.3.2. -d 后台运行](#932--d-后台运行)
+    - [9.3.3. --privileged=true 赋予特权](#933---privilegedtrue-赋予特权)
+  - [9.4. 终止container](#94-终止container)
+  - [9.5. 删除container](#95-删除container)
+  - [9.6. 进入容器](#96-进入容器)
+  - [9.7. 容器的导入和导出](#97-容器的导入和导出)
+  - [9.8. 拷贝容器内文件到主机](#98-拷贝容器内文件到主机)
 - [10. 访问镜像仓库](#10-访问镜像仓库)
   - [10.1. dockerhub](#101-dockerhub)
-    - [publish by using github action](#publish-by-using-github-action)
+    - [10.1.1. publish by using github action](#1011-publish-by-using-github-action)
   - [10.2. 私有仓库](#102-私有仓库)
 - [11. docker数据管理](#11-docker数据管理)
   - [11.1. 数据卷](#111-数据卷)
@@ -122,32 +125,32 @@ https://github.com/docker/kitematic 可视化管理gui
   - [12.7. 容器互联](#127-容器互联)
   - [12.8. 配置dns 和 主机名 hostname](#128-配置dns-和-主机名-hostname)
 - [13. docker-compose](#13-docker-compose)
-  - [some significant materials](#some-significant-materials)
-  - [13.1. compose简介](#131-compose简介)
-  - [13.2. 命令使用](#132-命令使用)
-    - [13.2.1. up](#1321-up)
-    - [13.2.2. run](#1322-run)
-    - [13.2.3. scale](#1323-scale)
-    - [13.2.4. start](#1324-start)
-    - [13.2.5. build](#1325-build)
-    - [13.2.6. config](#1326-config)
-    - [13.2.7. exec](#1327-exec)
-    - [13.2.8. images](#1328-images)
-    - [13.2.9. kill](#1329-kill)
-    - [13.2.10. down](#13210-down)
-    - [13.2.11. pause](#13211-pause)
-    - [13.2.12. unpause](#13212-unpause)
-    - [13.2.13. restart](#13213-restart)
-    - [13.2.14. stop](#13214-stop)
-    - [13.2.15. rm](#13215-rm)
-    - [13.2.16. logs](#13216-logs)
-    - [13.2.17. top](#13217-top)
-    - [13.2.18. version](#13218-version)
-    - [13.2.19. port](#13219-port)
-    - [13.2.20. ps](#13220-ps)
-    - [13.2.21. pull](#13221-pull)
-    - [13.2.22. push](#13222-push)
-  - [13.3. docker-compose.yml](#133-docker-composeyml)
+  - [13.1. some significant materials](#131-some-significant-materials)
+  - [13.2. compose简介](#132-compose简介)
+  - [13.3. 命令使用](#133-命令使用)
+    - [13.3.1. up](#1331-up)
+    - [13.3.2. run](#1332-run)
+    - [13.3.3. scale](#1333-scale)
+    - [13.3.4. start](#1334-start)
+    - [13.3.5. build](#1335-build)
+    - [13.3.6. config](#1336-config)
+    - [13.3.7. exec](#1337-exec)
+    - [13.3.8. images](#1338-images)
+    - [13.3.9. kill](#1339-kill)
+    - [13.3.10. down](#13310-down)
+    - [13.3.11. pause](#13311-pause)
+    - [13.3.12. unpause](#13312-unpause)
+    - [13.3.13. restart](#13313-restart)
+    - [13.3.14. stop](#13314-stop)
+    - [13.3.15. rm](#13315-rm)
+    - [13.3.16. logs](#13316-logs)
+    - [13.3.17. top](#13317-top)
+    - [13.3.18. version](#13318-version)
+    - [13.3.19. port](#13319-port)
+    - [13.3.20. ps](#13320-ps)
+    - [13.3.21. pull](#13321-pull)
+    - [13.3.22. push](#13322-push)
+  - [13.4. docker-compose.yml](#134-docker-composeyml)
 - [14. docker-machine](#14-docker-machine)
 - [15. docker-swarm,swarm-mode](#15-docker-swarmswarm-mode)
 - [16. docker实践](#16-docker实践)
@@ -175,7 +178,7 @@ https://github.com/docker/kitematic 可视化管理gui
 - [18. kali](#18-kali)
 - [19. 虚拟网卡 macvlan](#19-虚拟网卡-macvlan)
 - [20. Multipass](#20-multipass)
-- [drone](#drone)
+- [21. drone](#21-drone)
 
 
 # 1. 常用指令
@@ -529,7 +532,51 @@ https://www.cnblogs.com/nihaorz/p/12131873.html
 
 可以通过Dockerfile构建image，也可以将image运行，使其变成container
 
-## 6.1. 镜像实现原理
+https://juejin.cn/post/6850418112237502472 奇怪异常
+
+## 6.1. packaging image 导入导出
+
+```sh
+docker save -o local-image.tar image:tag
+docker save -o local-images.tar image1:tag1 image2:tag2
+
+# save all local images
+docker save -o all-local-images-in-namespace.tar $(docker image ls --format '{{json .}}' | jq -r 'select(.Repository!="<none>") | if (.Tag=="<none>") then .Repository else (.Repository+":"+.Tag) end')
+
+docker load < local-images.tar
+```
+
+## 6.2. 版本命名意义
+
+```
+空镜像scratch
+
+工具镜像busybox 
+  本身只有 1.16M，非常便于构建小镜像
+
+slim  Represents the minimum image size
+
+  是完整镜像的配对版本。这个镜像通常只安装运行特定工具所需的最小包, 
+
+  相比于 alpine, 带有一些工具
+
+  在使用这个镜像时，一定要进行彻底的测试！如果遇到无法解释的错误，请尝试切换到完整的镜像
+
+Alphine  
+
+  高度精简又包含了基本工具的轻量级 Linux 发行版，基础镜像只有 4.41M, 但是太精简，可能出现一些奇怪的环境问题, but on the other hands it also cannot work very well if you wanna use some basic tools
+
+  using apk, /bin/sh
+
+  使用了一个更小的musl lib代替glibc。如果您的应用程序有特定的libc需求，您可能会遇到问题。
+
+buster	适用与 debian 10, apt, /bin/bash
+stretch	适用于 debian 9
+jessie	适用于 debian 8
+bullseye、bookworm	开发版本，处于未稳定状态
+```
+
+## 6.3. 镜像实现原理
 
 docker 镜像都是层层叠加，每一层都可能被不同的镜像共享 (在Dockerfile中每一步都会产生一层layer，每一步的结果产出变成文件)
 
@@ -537,7 +584,7 @@ Docker 使用 Union FS 将这些不同的层结合到一个镜像中去。
 
 通常 Union FS 有两个用途, 一方面可以实现不借助 LVM、RAID 将多个 disk 挂到同一个目录下,另一个更常用的就是将一个只读的分支和一个可写的分支联合在一起，Live CD 正是基于此方法可以允许在镜像不变的基础上允许用户在其上进行一些写操作。
 
-## 6.2. 获取镜像
+## 6.4. 获取镜像
 
 通过 `docker pull --help` 查询可知格式为:
 
@@ -555,7 +602,7 @@ docker pull ubuntu:16.04
 
 从下载过程中可以看到我们之前提及的分层存储的概念，镜像是由多层存储所构成。下载也是一层层的去下载，并非单一文件。下载过程中给出了每一层的 ID 的前 12 位。并且下载结束后，给出该镜像完整的 sha256 的摘要，以确保下载一致性
 
-## 6.3. 运行镜像
+## 6.5. 运行镜像
 
 ```sh
 # 以上面的 ubuntu:16.04 为例，如果我们打算启动里面的 bash 并且进行交互式操作的话，可以执行下面的命令
@@ -564,7 +611,7 @@ $ docker run -it --rm \
     bash
 ```
 
-## 6.4. 列出镜像
+## 6.6. 列出镜像
 
 * `docker image ls [xxx:xxx]` 列出所有/指定下载的顶层镜像
 
@@ -572,7 +619,7 @@ $ docker run -it --rm \
 
 * `docker images` 也可查看
 
-## 6.5. 删除本地镜像
+## 6.7. 删除本地镜像
 
 `docker image rm [选项] <镜像1> [<镜像2> ...]`
 
@@ -843,7 +890,30 @@ RUN pwd    # /path/$DIRNAME
 
 ## 8.5. run cmd 和 entrypoint 容器启动命令
 
-### 8.5.1. 常见的错误用法
+### 8.5.1. 设置时区
+
+```dockerfile
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo Asia/Shanghai > /etc/timezone
+
+
+# 将时区设置为东八区并安装bash
+RUN echo "https://mirrors.aliyun.com/alpine/v3.8/main/" > /etc/apk/repositories \
+    && echo "https://mirrors.aliyun.com/alpine/v3.8/community/" >> /etc/apk/repositories \
+    && apk add --no-cache tzdata \
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime  \
+    && echo Asia/Shanghai > /etc/timezone \
+    && apk del tzdata \
+    && apk update \
+    && apk upgrade \
+    && apk add --no-cache bash \
+    bash-doc \
+    bash-completion \
+    && rm -rf /var/cache/apk/*
+
+```
+
+### 8.5.2. 常见的错误用法
 
 ```dockerfile
 # case1: pid 的问题
@@ -886,7 +956,7 @@ exec java ${JAVA_OPTS} -jar /app.jar ${@}
 ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar /app.jar"]
 ```
 
-### 8.5.2. 都支持两种格式 shell 和 exec 的区别
+### 8.5.3. 都支持两种格式 shell 和 exec 的区别
 
 shell 格式 在启动时是使用 /bin/sh -c 来执行的，这会导致容器中 PID 为 1 的进程是 /bin/sh 而不是 ENTRYPOINT 中指定的 Java，所以当我们使用 docker stop 停止容器时，接收到 SIGTERM 信号的是 /bin/sh 而不是 Java，我们的 Java 进程就不能优雅退出了
 
@@ -906,7 +976,7 @@ ENTRYPOINT echo "Hello, $name"      # will replace
 ```
 
 
-### 8.5.3. run
+### 8.5.4. run
 
 
 `RUN`指令: 执行命令 (每一个 RUN 都是启动一个容器 -> 执行命令 -> 然后提交存储层文件变更), 用于在新图层中执行命令并创建新图像
@@ -935,7 +1005,7 @@ ENTRYPOINT echo "Hello, $name"      # will replace
 ```
 
 
-#### 8.5.3.1. 典型错误
+#### 8.5.4.1. 典型错误
 
 如下, 是错误的, 两条run命令在内存上实际是没有联系的
 
@@ -953,7 +1023,7 @@ RUN echo "hello" > world.txt
 ```
 
 
-### 8.5.4. cmd指令
+### 8.5.5. cmd指令
 
 CMD 指令就是用于指定默认的容器主进程的启动命令, 等效于 命令行中 image 后跟的命令
 
@@ -974,7 +1044,7 @@ cmd 结束了, 容器也就退出了
 
 
 
-### 8.5.5. ENTRYPOINT 入口点
+### 8.5.6. ENTRYPOINT 入口点
 
 指定容器启动后执行的命令
 
@@ -1000,7 +1070,7 @@ CMD ["world"]     # 这里的命令可以被命令行覆盖
 
 
 
-#### 8.5.5.1. eg: 让镜像变成像命令一样使用
+#### 8.5.6.1. eg: 让镜像变成像命令一样使用
 
 
 ```sh
@@ -1033,7 +1103,7 @@ $ docker run myip -i
 
 
 
-#### 8.5.5.2. eg: 应用运行前的准备工作
+#### 8.5.6.2. eg: 应用运行前的准备工作
 
 (这些准备工作是和容器 CMD 无关的，无论 CMD 为什么，都需要事先进行一个预处理的工作。
 
@@ -1314,7 +1384,7 @@ FROM my-node
 
 好处是可以减小镜像体积
 
-### 清理缓存的镜像
+### 8.12.1. 清理缓存的镜像
 
 ```
 crontab -e
@@ -1331,18 +1401,18 @@ systemctl restart crond.service
 
 容器是独立运行的一个或一组应用，以及它们的运行态环境
 
-## use docker in github action
+## 9.1. use docker in github action
 
 https://dev.to/mihinduranasinghe/using-docker-containers-in-jobs-github-actions-3eof
 
 https://yonatankra.com/2-ways-to-use-your-docker-image-in-github-actions/
 
-## 9.1. 查看
+## 9.2. 查看
 
 * `docker container ls -a`or`docker ps -a` 查看所有, 包括处于终止状态的容器
 * `docker container ls`or`docker ps` 仅查看运行状态的容器
 
-## 9.2. 启动
+## 9.3. 启动
 
 启动容器有两种方式，一种是基于镜像新建一个容器并启动(常用)，另外一个是将在终止状态（stopped）的容器重新启动。
 
@@ -1360,7 +1430,7 @@ https://yonatankra.com/2-ways-to-use-your-docker-image-in-github-actions/
 * 执行用户指定的应用程序 (如果有的话)
 * 执行完毕后容器被终止
 
-### 9.2.1. -it 维持交互终端
+### 9.3.1. -it 维持交互终端
 
 eg:
 
@@ -1375,7 +1445,7 @@ $ docker run -t -i ubuntu:14.04 /bin/bash
 root@af8bae53bdd3:/#
 ```
 
-### 9.2.2. -d 后台运行
+### 9.3.2. -d 后台运行
 
 前面都是在前台运行的, 如何以守护状态运行? 通过 `docker run -d`
 
@@ -1400,7 +1470,7 @@ docker container logs <container ID or NAMES>
 docker logs <container id or name>
 ```
 
-### 9.2.3. --privileged=true 赋予特权
+### 9.3.3. --privileged=true 赋予特权
 
 是否让docker 应用容器 获取宿主机root权限
 
@@ -1410,7 +1480,7 @@ privileged启动的容器，可以看到很多host上的设备，并且可以执
 甚至允许你在docker容器中启动docker容器。
 
 
-## 9.3. 终止container
+## 9.4. 终止container
 
 `docker container stop <xxx>`
 
@@ -1419,7 +1489,7 @@ privileged启动的容器，可以看到很多host上的设备，并且可以执
 `docker container ls -a` 查看所有的container, 包括停止的container
 
 
-## 9.4. 删除container
+## 9.5. 删除container
 
 container终止后, 不会删除, 需要手动删除
 
@@ -1427,7 +1497,7 @@ container终止后, 不会删除, 需要手动删除
 * `docker container rm -f <xxx>`如果要删除一个运行中的容器，可以添加 -f 参数。Docker 会发送 SIGKILL 信号给容器
 * `docker container prune` 删除所有终止的容器
 
-## 9.5. 进入容器
+## 9.6. 进入容器
 
 在使用 -d 参数时，容器启动后会进入后台, 某些时候需要进入容器进行操作，包括使用 docker attach 命令或 docker exec 命令(推荐后者, 因为后者exit时不会导致容器退出)
 
@@ -1435,7 +1505,7 @@ container终止后, 不会删除, 需要手动删除
 
 * `docker exec -it <xxx> bash` 进入container, 退出时容器不会终止(注意, 后面要跟一个命令bash)
 
-## 9.6. 容器的导入和导出
+## 9.7. 容器的导入和导出
 
 导出
 
@@ -1462,7 +1532,7 @@ $ docker import http://example.com/exampleimage.tgz example/imagerepo
 
 docker import和docker load比较: 容器快照文件(docker import)将丢弃所有的历史记录和元数据信息（即仅保存容器当时的快照状态），而镜像存储文件(docker load)将保存完整记录，体积也要大。此外，从容器快照文件导入时可以重新指定标签等元数据信息。
 
-## 9.7. 拷贝容器内文件到主机
+## 9.8. 拷贝容器内文件到主机
 
 `docker cp <container_name>:/path <host_path>`
 
@@ -1502,7 +1572,7 @@ xiaoyureed/ubuntu
 
 此外, docker hub 支持 自动创建(Automated Builds), 对于需要经常升级镜像内程序来说，十分方便 
 
-### publish by using github action
+### 10.1.1. publish by using github action
 
 https://twbhub.com/post/github-actions_publish_images/
 todo
@@ -1887,13 +1957,13 @@ tmpfs on /etc/resolv.conf type tmpfs ...
 
 # 13. docker-compose
 
-## some significant materials
+## 13.1. some significant materials
 
 https://www.composerize.com/ convert docker command into docker-compose file
 
 https://github.com/docker/awesome-compose
 
-## 13.1. compose简介
+## 13.2. compose简介
 
 通俗的理解: 可以同时定义和运行多个 Docker 容器. 用户通过一个单独的 docker-compose.yml 模板文件（YAML 格式）来定义一组相关联的应用容器为一个项目（project）
 
@@ -2006,7 +2076,7 @@ services:
 
 
 
-## 13.2. 命令使用
+## 13.3. 命令使用
 
 默认的命令对象是项目，这意味着项目中所有的服务都会受到命令影响
 
@@ -2028,7 +2098,7 @@ options有这些:
 -v, --version 打印版本并退出
 ```
 
-### 13.2.1. up
+### 13.3.1. up
 
 * 格式为 docker-compose up [options] [SERVICE...]
 
@@ -2067,7 +2137,7 @@ options有这些:
 
 ```
 
-### 13.2.2. run
+### 13.3.2. run
 
 格式为 `docker-compose run [options] [-p PORT...] [-e KEY=VAL...] SERVICE [COMMAND] [ARGS...]`。
 
@@ -2120,7 +2190,7 @@ $ docker-compose run --no-deps web python manage.py shell
 -T 不分配伪 tty，意味着依赖 tty 的指令将无法运行。
 ```
 
-### 13.2.3. scale
+### 13.3.3. scale
 
 * 格式为 docker-compose scale [options] [SERVICE=NUM...]。
 
@@ -2141,13 +2211,13 @@ $ docker-compose run --no-deps web python manage.py shell
 
 -t, --timeout TIMEOUT 停止容器时候的超时（默认为 10 秒）。
 
-### 13.2.4. start
+### 13.3.4. start
 
 格式为 docker-compose start [SERVICE...]。
 
 启动已经存在的服务容器
 
-### 13.2.5. build
+### 13.3.5. build
 
 * 格式为 docker-compose build [options] [SERVICE...]
 
@@ -2168,19 +2238,19 @@ $ docker-compose run --no-deps web python manage.py shell
 
 ```
 
-### 13.2.6. config
+### 13.3.6. config
 
 验证 Compose 文件格式是否正确，若正确则显示配置，若格式错误显示错误原因
 
-### 13.2.7. exec
+### 13.3.7. exec
 
 进入指定的容器
 
-### 13.2.8. images
+### 13.3.8. images
 
 列出 Compose 文件中包含的镜像。
 
-### 13.2.9. kill
+### 13.3.9. kill
 
 格式为 docker-compose kill [options] [SERVICE...]
 
@@ -2192,23 +2262,23 @@ $ docker-compose run --no-deps web python manage.py shell
 $ docker-compose kill -s SIGINT
 ```
 
-### 13.2.10. down
+### 13.3.10. down
 
 此命令将会停止 up 命令所启动的容器，并移除网络
 
-### 13.2.11. pause
+### 13.3.11. pause
 
 格式为 docker-compose pause [SERVICE...]。
 
 暂停一个服务容器。
 
-### 13.2.12. unpause
+### 13.3.12. unpause
 
 格式为 docker-compose unpause [SERVICE...]。
 
 恢复处于暂停状态中的服务。
 
-### 13.2.13. restart
+### 13.3.13. restart
 
 格式为 docker-compose restart [options] [SERVICE...]。
 
@@ -2218,7 +2288,7 @@ $ docker-compose kill -s SIGINT
 
 -t, --timeout TIMEOUT 指定重启前停止容器的超时（默认为 10 秒）。
 
-### 13.2.14. stop
+### 13.3.14. stop
 
 格式为 docker-compose stop [options] [SERVICE...]。
 
@@ -2228,7 +2298,7 @@ $ docker-compose kill -s SIGINT
 
 -t, --timeout TIMEOUT 停止容器时候的超时（默认为 10 秒）。
 
-### 13.2.15. rm
+### 13.3.15. rm
 
 格式为 docker-compose rm [options] [SERVICE...]。
 
@@ -2240,7 +2310,7 @@ $ docker-compose kill -s SIGINT
 
 -v 删除容器所挂载的数据卷。
 
-### 13.2.16. logs
+### 13.3.16. logs
 
 格式为 docker-compose logs [options] [SERVICE...]。
 
@@ -2248,17 +2318,17 @@ $ docker-compose kill -s SIGINT
 
 该命令在调试问题的时候十分有用。
 
-### 13.2.17. top
+### 13.3.17. top
 
 查看各个服务容器内运行的进程
 
-### 13.2.18. version
+### 13.3.18. version
 
 格式为 docker-compose version。
 
 打印版本信息。
 
-### 13.2.19. port
+### 13.3.19. port
 
 格式为 docker-compose port [options] SERVICE PRIVATE_PORT。
 
@@ -2271,7 +2341,7 @@ $ docker-compose kill -s SIGINT
 --index=index 如果同一服务存在多个容器，指定命令对象容器的序号（默认为 1）。
 ```
 
-### 13.2.20. ps
+### 13.3.20. ps
 
 格式为 docker-compose ps [options] [SERVICE...]。
 
@@ -2281,7 +2351,7 @@ $ docker-compose kill -s SIGINT
 
 -q 只打印容器的 ID 信息。
 
-### 13.2.21. pull
+### 13.3.21. pull
 
 格式为 docker-compose pull [options] [SERVICE...]。
 
@@ -2291,11 +2361,11 @@ $ docker-compose kill -s SIGINT
 
 --ignore-pull-failures 忽略拉取镜像过程中的错误。
 
-### 13.2.22. push
+### 13.3.22. push
 
 推送服务依赖的镜像到 Docker 镜像仓库。
 
-## 13.3. docker-compose.yml
+## 13.4. docker-compose.yml
 
 https://docs.docker.com/compose/compose-file/ 
 
@@ -3163,6 +3233,6 @@ https://fuckcloudnative.io/posts/netwnetwork-virtualization-macvlan/
 https://www.chenmo.com.cn/402492
 
 
-# drone
+# 21. drone
 
 基于 docker 的持续集成 ci/cd 工具

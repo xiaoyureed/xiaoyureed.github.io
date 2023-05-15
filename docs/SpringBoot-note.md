@@ -184,6 +184,7 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
 - [19. 即时通信 IM系统](#19-即时通信-im系统)
 - [20. 辅助工具](#20-辅助工具)
   - [20.1. lombok notice](#201-lombok-notice)
+    - [编译期代码生成原理](#编译期代码生成原理)
   - [20.2. devtools](#202-devtools)
   - [20.3. maven wrapper](#203-maven-wrapper)
 - [21. 校验](#21-校验)
@@ -4479,6 +4480,14 @@ https://github.com/tywo45
 - @value, 标注为不可变类 (final class, private final fields, only getter, no setter, all args contructor)
 
   - 使用时, 类的 field 可以不带任何修饰符, 会自动被加上 private final
+
+### 编译期代码生成原理
+
+https://www.cnblogs.com/exmyth/p/11396503.html
+
+https://blog.csdn.net/Chinajash/article/details/1471081
+
+https://www.baeldung.com/java-annotation-processing-builder
 
 ## 20.2. devtools
 

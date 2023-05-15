@@ -12,17 +12,24 @@ toc_max_heading_level: 5
 - [2. what and why](#2-what-and-why)
   - [2.1. k8s 是做什么的](#21-k8s-是做什么的)
   - [2.2. 为什么使用:](#22-为什么使用)
-  - [compare with spring cloud](#compare-with-spring-cloud)
+  - [2.3. compare with spring cloud](#23-compare-with-spring-cloud)
 - [3. 搭建环境](#3-搭建环境)
   - [3.1. 生产服务器上安装](#31-生产服务器上安装)
   - [3.2. vagrant 搭建 k8s 环境](#32-vagrant-搭建-k8s-环境)
   - [3.3. 众多的发行版](#33-众多的发行版)
     - [3.3.1. k3s](#331-k3s)
-      - [k3d](#k3d)
+      - [3.3.1.1. k3d](#3311-k3d)
+        - [操作 kubeconfig](#操作-kubeconfig)
+        - [3.3.1.1.1. 支持的命令](#33111-支持的命令)
+        - [3.3.1.1.2. 国内镜像](#33112-国内镜像)
+        - [导入镜像](#导入镜像)
+        - [3.3.1.1.3. k3s 包括以下一些组件](#33113-k3s-包括以下一些组件)
+        - [3.3.1.1.4. 完整的 k3d yml 配置文件](#33114-完整的-k3d-yml-配置文件)
+        - [3.3.1.1.5. 部署一个 NGINX](#33115-部署一个-nginx)
     - [3.3.2. k0s](#332-k0s)
     - [3.3.3. microk8s](#333-microk8s)
-    - [3.3.4. docker desktop](#334-docker-desktop)
-    - [3.3.5. kind](#335-kind)
+    - [3.3.4. docker desktop (推荐使用 rancher desktop 替代)](#334-docker-desktop-推荐使用-rancher-desktop-替代)
+    - [3.3.5. kind (推荐使用 k3d 代替)](#335-kind-推荐使用-k3d-代替)
     - [3.3.6. minikube](#336-minikube)
 - [4. Quickstart](#4-quickstart)
   - [4.1. 以Java 为例](#41-以java-为例)
@@ -63,16 +70,16 @@ toc_max_heading_level: 5
   - [6.8. service](#68-service)
     - [6.8.1. Endpoint](#681-endpoint)
     - [6.8.2. 多端口](#682-多端口)
-    - [6.8.3. 各种 service port 类型](#683-各种-service-port-类型)
-    - [6.8.4. ClusterIP (默认使用的类型)](#684-clusterip-默认使用的类型)
-      - [6.8.4.1. Headless](#6841-headless)
-    - [6.8.5. NodePort](#685-nodeport)
-    - [6.8.6. LoadBalancer](#686-loadbalancer)
-    - [6.8.7. ExternalName](#687-externalname)
-    - [6.8.8. 手动端口转发](#688-手动端口转发)
-    - [6.8.9. service 如何工作](#689-service-如何工作)
+    - [6.8.3. ClusterIP (默认使用的类型)](#683-clusterip-默认使用的类型)
+      - [6.8.3.1. Headless](#6831-headless)
+    - [6.8.4. NodePort](#684-nodeport)
+    - [6.8.5. LoadBalancer](#685-loadbalancer)
+    - [6.8.6. ExternalName](#686-externalname)
+    - [6.8.7. 手动端口转发](#687-手动端口转发)
+    - [6.8.8. service 如何工作](#688-service-如何工作)
   - [6.9. ingress](#69-ingress)
-    - [6.9.1. Traefik](#691-traefik)
+    - [6.9.1. install ingress-nginx](#691-install-ingress-nginx)
+    - [6.9.2. Traefik](#692-traefik)
   - [6.10. volume](#610-volume)
   - [6.11. secret](#611-secret)
   - [6.12. config map](#612-config-map)
@@ -175,7 +182,7 @@ toc_max_heading_level: 5
 - 自动部署 and 回滚
 - 替换失败容器 (自我修复)
 
-### compare with spring cloud
+### 2.3. compare with spring cloud
 
 Spring Cloud 通过整合Neflix相关开源组件实现了一套完整的微服务方案，但是必须借助于K8S这样的容器编排工具才能实现理想的效果。而K8S却可以自成体系构建微服务系统
 
@@ -395,27 +402,363 @@ watch kubectl get po -n kube-system -o wide
 
 
 https://github.com/k3s-io/k3s
+https://rancher.com/docs/k3s/latest/en/ 官网
+https://www.rancher.cn/k3s/ 中文官网
+
 
 https://oldj.net/article/2022/04/17/install-k3s-and-rancher/
 
 轻量级的 k8s, 内核机制还是和 K8s 一样，但是剔除了很多外部依赖以及 K8s 的 alpha、beta 特性
 
-将其应用于 IoT 设备（比如树莓派）
+将其应用于 IoT 设备（比如树莓派）, CI, development 是非常好的选择
 
-https://rancher.com/docs/k3s/latest/en/ 官网
-
-https://www.rancher.cn/k3s/ 中文官网
-
-https://zhuanlan.zhihu.com/p/269556628 简介
-
-##### k3d
+##### 3.3.1.1. k3d
 
 https://github.com/k3d-io/k3d 将 k3s 跑在 docker 里
 
+https://cloud.tencent.com/developer/article/1791688 原理教程
+
+For macOs, we can just download the binary file from github release page or by using `brew install k3d`
+
+###### 操作 kubeconfig
+
 ```sh
+# 获取 kubeconfig 文件 (最新版k3d 会自动更新 ~/.kube/config, 我们无需手动修改 kubectl 即可操作k3d 创建的集群)
+k3d kubeconfig get --all
 
 
 ```
+
+###### 3.3.1.1.1. 支持的命令
+
+```sh
+k3d version
+
+# 默认值创建一个单节点集群
+k3d cluster create [--servers 2 ...]
+# delete the default cluster or the specified cluster
+k3d cluster delete [mycluster]
+
+kubectl cluster-info # 检查是否启动完成
+
+kubectl get all --all-namespaces [--output wide] #  检查内部结构, 发现 K3s还部署了DNS、metrics和ingress（traefik）服务
+
+kubectl get nodes --output wide # 仅看到了一个节点, k3d node list 发现有两个节点, 有另一个“节点”作为负载均衡器
+
+# 可以看到几个比较常用见的组件
+# local-path-provisioner: 这个提供本地存储pv动态创建
+# metrics-server: 用于pod metrics的收集
+# traefik: 这个用于请求转发
+# coredns: 集群域名解析
+# (其它的如Kube-proxy, kube-scheduler是没有，这个可以理解，用k3d创建出来的集群不管多少个agent，本质上还是一台实体机)
+kubectl get pod --all-namespaces
+
+
+# 都默认创建了一个 1个负载均衡器容器
+k3d cluster create two-node-cluster --agents 2 [-image rancher/k3s:v1.19.3-k3s2]
+k3d cluster create three-node-cluster --server 3
+
+# 通过--api-port 127.0.0.1:6445，您可以使用k3d将Kubernetes API端口（6443内部）映射到127.0.0.1 / localhost的端口6445
+# --volume /home/me/mycode:/code@agent[*]绑定将你的本地目录/home/me/mycode挂载到所有（[*] agent 节点）内部的路径/code。使用索引（0或1）替换*，以便只把它挂载到其中一个节点。
+k3d cluster create mycluster --api-port 127.0.0.1:6445 --servers 3 --agents 2 --volume '/home/me/mycode:/code@agent[*/0/1/2/3....]' --port '8080:80@loadbalancer'
+
+k3d cluster create mycluster \
+--api-port 127.0.0.1:6443 \
+-p 80:80@loadbalancer \   # 在宿主机的 80, 443 端口访问 ingress 资源。
+-p 443:443@loadbalancer \
+-i rancher/k3s:v1.18.6-k3s1 \
+--volume "${HOME}/registries.yaml:/etc/rancher/k3s/registries.yaml" \  # 配置国内镜像加速
+--k3s-server-arg "--no-deploy=traefik" # 禁用默认的 Traefik
+
+# registries.yaml 内容
+mirrors:
+  "docker.io":
+    endpoint:
+      - "https://fogjl973.mirror.aliyuncs.com"
+      - "https://docker.mirrors.ustc.edu.cn"
+      - "https://registry-1.docker.io"
+
+
+
+
+# 切换集群
+kubectl config use-context k3d-two-node-cluster
+
+# crate node and insert into current cluster
+k3d node create <prefix name> --role server [--image ...]
+
+k3d node list
+
+k3d registry list
+```
+
+###### 3.3.1.1.2. 国内镜像
+
+```sh
+
+k3d cluster create mycluster \
+--api-port 127.0.0.1:6443 \
+-p 80:80@loadbalancer \   # 在宿主机的 80, 443 端口访问 ingress 资源。
+-p 443:443@loadbalancer \
+-i rancher/k3s:v1.18.6-k3s1 \
+--volume "${HOME}/registries.yaml:/etc/rancher/k3s/registries.yaml" \  # 配置国内镜像加速
+--k3s-server-arg "--no-deploy=traefik" # 禁用默认的 Traefik
+
+# registries.yaml 内容
+mirrors:
+  "docker.io":
+    endpoint:
+      - "https://fogjl973.mirror.aliyuncs.com"
+      - "https://docker.mirrors.ustc.edu.cn"
+      - "https://registry-1.docker.io"
+
+
+```
+
+###### 导入镜像
+
+```sh
+# k3d 中的镜像和 docker 不通, 需要手动导入
+# 编写 deployment 时注明 imagePullPolicy: Never 从不拉取
+k3d image import <customized image name>
+```
+
+或者自己搭建 image registry
+
+###### 3.3.1.1.3. k3s 包括以下一些组件
+
+```
+Containerd：一个类似 Docker 的运行时容器，但是它不支持构建镜像；
+Flannel：基于 CNI 实现的网络模型，默认使用的是 Flannel，也可以使用 Calico 等其他实现替换；
+CoreDNS：集群内部 DNS 组件；
+SQLite3：默认使用 SQLite3 进行存储，同样也支持 etcd3, MySQL, Postgres；
+Traefik：默认安装 Ingress controller 是 traefik 1.x 的版本；
+Embedded service loadbalancer：内嵌的一个服务负载均衡组件。
+```
+
+###### 3.3.1.1.4. 完整的 k3d yml 配置文件
+
+or taking a yaml file to create cluster:
+
+```yml
+apiVersion: k3d.io/v1alpha2
+kind: Simple
+name: mycluster
+servers: 1
+agents: 2
+kubeAPI:
+  # 可通过 localhost:6443 访问 控制平面的 api
+  hostPort: "6443" # same as `--api-port '6443'`
+# 向主机暴露的端口
+ports:
+  # 将本地主机的端口8080映射到负载均衡器（serverlb）上的端口80
+  # 即: 可通过 8080 访问集群内部 80
+  - port: 8080:80  # same as `--port '8080:80@loadbalancer'`
+    # 指定应用的哪些节点, loadbalancer 是节点角色名称
+    # 如果内部Service 是 NodePort 类型 (通过节点暴露出去), 那这里的端口映射应该限制只作用于 loadbalancer 节点
+    #  如果内部Service 通过 ingress 暴露, 那这里无需指定 nodeFilter
+    nodeFilters:
+      - loadbalancer
+  - port: 8443:443 # same as `--port '8443:443@loadbalancer'`
+    nodeFilters:
+      - loadbalancer
+
+=================
+
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+metadata:
+  name: k3s-default
+servers: 1 # same as `--servers 1`
+agents: 2 # same as `--agents 2`
+image: docker.io/rancher/k3s:v1.25.6-k3s1
+kubeAPI: # same as `--api-port myhost.my.domain:6445` (where the name would resolve to 127.0.0.1)
+  host: '127.0.0.1' # important for the `server` setting in the kubeconfig
+  # hostIP: "192.168.1.200" # where the Kubernetes API will be listening on
+  hostPort: '6445' # where the Kubernetes API listening port will be mapped to on your host system
+ports:
+  - port: 80:80 # same as `--port '8080:80@loadbalancer'`
+    nodeFilters:
+      - loadbalancer
+options:
+  k3d: # k3d runtime settings
+    wait: true # wait for cluster to be usable before returining; same as `--wait` (default: true)
+    timeout: '60s' # wait timeout before aborting; same as `--timeout 60s`
+    disableLoadbalancer: false # same as `--no-lb`
+    disableImageVolume: false # same as `--no-image-volume`
+    disableRollback: false # same as `--no-Rollback`
+    loadbalancer:
+      configOverrides:
+        - settings.workerConnections=2048
+  k3s: # options passed on to K3s itself
+    extraArgs: # additional arguments passed to the `k3s server|agent` command; same as `--k3s-arg`
+      - arg: '--tls-san=127.0.0.1 --tls-san=ks.newbe.io'
+        nodeFilters:
+          - server:*
+  kubeconfig:
+    updateDefaultKubeconfig: true # add new cluster to your default Kubeconfig; same as `--kubeconfig-update-default` (default: true)
+    switchCurrentContext: true # also set current-context to the new cluster's context; same as `--kubeconfig-switch-context` (default: true)
+registries: # define how registries should be created or used
+  config:
+    | # define contents of the `registries.yaml` file (or reference a file); same as `--registry-config /path/to/config.yaml`
+    mirrors:
+      "docker.io":
+        endpoint:
+          - "https://mirror.ccs.tencentyun.com"
+
+```
+
+`k3d cluster create --config /path/to/mycluster.yaml`
+
+
+###### 3.3.1.1.5. 部署一个 NGINX 
+
+https://blog.bwcxtech.com/posts/ea0ef82f/ 使用 Traefik2 代替 1
+
+
+now write a k3d-cluster.yml
+
+```yml
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+metadata:
+  name: cluster-3
+servers: 1
+agents: 2
+kubeAPI:
+  hostPort: "6443"
+ports:
+  - port: 8087:30080
+    nodeFilters:
+      - loadbalancer
+  - port: 8443:443
+    nodeFilters:
+      - loadbalancer
+
+
+```
+
+`k3d cluster create --config /path/to/cluster.yml`
+
+now let's create the simplest nginx deployment and service:
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+  labels:
+    app: web-deployment
+spec:
+  selector:
+    matchLabels:
+      app: web-pod
+  template:
+    metadata:
+      labels:
+        app: web-pod
+    spec:
+      containers:
+      - name: web-container
+        image: nginx
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+  labels:
+    app: web-service
+spec:
+  selector:
+    app: web-pod
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+
+```
+
+check the following picture to get a further understanding
+
+![](/img/k3d.png)
+
+`kc get pods,services -o wide` to check if the resources ready, and we can check `http://localhost:8087/` for the nginx welcome page
+
+now try to bring in the Ingress resource: `k3d cluster delete cluster-3`, and update the service section in the yml:
+
+```yml
+# Service type is set up to clusterIP (default)
+# we can expose this service by using ingress
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+  labels:
+    app: web-service
+spec:
+  selector:
+    app: web-pod
+  ports:
+  - port: 80
+    targetPort: 80
+
+```
+
+ingress:
+
+```yml
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ingress
+  labels:
+    name: web-ingress
+spec:
+  rules:
+    # 即使用哪一个域名来访问service
+  - host: localhost
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: web-service
+            port: 
+              number: 80
+
+```
+
+the cluster yml file also need some updates:
+
+```yml
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+metadata:
+  name: cluster-3
+servers: 1
+agents: 2
+kubeAPI:
+  hostPort: "6443"
+ports:
+  #  ingress默认端口是80, 将其映射到宿主机的 9001
+  # 不要添加 nodeFilters:
+  #           - loadbalancer
+  - port: 9001:80
+
+
+```
+
+`http://localhost:9001/` To check the nginx welcome page
 
 
 #### 3.3.2. k0s
@@ -426,11 +769,13 @@ https://github.com/k0sproject/k0s 体积下, 更精简的 k8s
 
 https://github.com/canonical/microk8s
 
-#### 3.3.4. docker desktop
+#### 3.3.4. docker desktop (推荐使用 rancher desktop 替代)
 
 it's the easiest way to install k8s locally I think.
 
-#### 3.3.5. kind
+#### 3.3.5. kind (推荐使用 k3d 代替)
+
+https://guoxudong.io/post/k3d-vs-kind/ 对比
 
 https://github.com/kubernetes-sigs/kind/
 
@@ -1374,7 +1719,7 @@ spec:
   ports:
     - port: 8080        # 本 Service 的端口
       name: test-k8s    # 多端口时必须配置 name
-      targetPort: 8080  # 容器端口
+      targetPort: 8080  # (被 Service 代理的)容器端口
       nodePort: 31000   # 节点端口，范围固定 30000 ~ 32767
     - port: 8090
       name: test-other
@@ -1384,11 +1729,7 @@ spec:
 
 ```
 
-#### 6.8.3. 各种 service port 类型
-
-K8S 的结构可以大致分为 3 层，Node, Pod, Container, 为了保护 Container 里面的应用，各层都进行了隔离。
-
-为了能够访问到 Pod 里面的 Container, Service 定义了几种 Port 类型：
+K8S 的结构可以大致分为 3 层，Node, Pod, Container, 为了保护 Container 里面的应用，各层都进行了隔离。为了能够访问到 Pod 里面的 Container, Service 定义了几种 Port 类型：
 
 - Port - exposes the Kubernetes service on the specified port within the cluster. Other pods within the cluster can communicate with this server on the specified port.
 
@@ -1398,19 +1739,19 @@ K8S 的结构可以大致分为 3 层，Node, Pod, Container, 为了保护 Conta
 
 - TargetPort - is the port on which the service will send requests to, that your pod will be listening on. Your application in the container will need to be listening on this port also.
 
-  Pod 和 Container 监听的 Port.
+  即 Pod / Container 监听的 Port.
 
-- NodePort - exposes a service externally to the cluster by means of the target nodes IP address and the NodePort. NodePort is the default setting if the port field is not specified.
+- NodePort - exposes a service externally to the cluster by means of the target nodes IP address and the NodePort. 
+  
+  NodePort is the default setting if the port field is not specified.
 
   暴露端口到节点，可以让外网能够访问到 Pod/Container.
 
   范围固定 30000 ~ 32767
 
-#### 6.8.4. ClusterIP (默认使用的类型)
+#### 6.8.3. ClusterIP (默认使用的类型)
 
-通过 kubernetes 集群的内部 IP 暴露服务
-
-仅供集群内部互相访问
+Service 的默认类型，自动分配一个仅Cluster内部可以访问的虚拟IP, 通过 kubernetes 集群的内部 IP 暴露服务
 
 > 当我们只需要让集群中运行的其他应用程序访问我们的 pod 时，就可以使用这种类型的 Service
 
@@ -1435,25 +1776,24 @@ spec:
       targetPort: 3000
 ```
 
-##### 6.8.4.1. Headless
+##### 6.8.3.1. Headless
 
 service type 还是 clusterIP, 但是 clusterIp 设置为 None 就变成 Headless 了，不会再分配 IP 
 
 > 适合数据库
 
-#### 6.8.5. NodePort
+#### 6.8.4. NodePort
 
-把Service映射到节点的IP上, 通过node 上指定的端口将服务暴露给集群外部访问
-
-> 但是 node port 数量是有限的, 六万多个吧, 如果都用这种方式暴露服务给集群外部访问, 总有用完的时候, 这是需要 ingress
-
-NodePort 服务会路由到自动创建的 ClusterIP 服务。
-
-通过请求 `<nodeIP>:<nodePort>`，你可以从集群的外部访问一个 NodePort 服务
+在ClusterlP基础上为Service在每台机器上绑定一个端口，这样就可以在 cluster 外部通过`<NodeIP>:NodePort `来访问该服务
 
 > 比如外部用户要访问 k8s 集群中的一个 Web 应用，那么我们可以配置对应 service 的 type=NodePort，nodePort=30001。其他用户就可以通过浏览器 http://node:30001 访问到该 web 服务。
 >
 > 而数据库等服务可能不需要被外界访问，只需被内部服务访问即可，那么我们就不必设置 service 的 NodePort。
+
+
+> 但是 node port 数量是有限的, 六万多个吧, 如果都用这种方式暴露服务给集群外部访问, 总有用完的时候, 这是需要 ingress
+
+NodePort 服务会路由到自动创建的 ClusterIP 服务。
 
 ```yml
 apiVersion: v1
@@ -1471,32 +1811,39 @@ spec:
 
 ```
 
-#### 6.8.6. LoadBalancer
+#### 6.8.5. LoadBalancer
 
-需要第三方负载均衡服务来实现，可以是软件的也可以是硬件的。
+在NodePort的基础上，创建一个外部负载均衡器, 将请求转发到内部 Service 上; 需要第三方负载均衡服务来实现，可以是软件的也可以是硬件的。
 
 > 一般是使用云提供商的负载均衡器向外部暴露服务。 这个外部负载均衡器可以将流量路由到自动创建的 NodePort 服务和 ClusterIP 服务上.
 
-#### 6.8.7. ExternalName
+#### 6.8.6. ExternalName
 
-通过返回 CNAME 和对应值，可以将服务映射到 externalName 字段的内容（例如，foo.bar.example.com）。 无需创建任何类型代理。
+此类型的Service节点会将所有流量直接转发到某个预定义的外部服务。
 
+> 通常情况下，在集群内使用ExternalName Service类型，将某个外部服务作为集群内部服务的别名来使用，使得内部服务使用起来更加方便和简单
 
-#### 6.8.8. 手动端口转发
+#### 6.8.7. 手动端口转发
 
 `kubectl port-forward`, 用于临时调试
 
-#### 6.8.9. service 如何工作
+#### 6.8.8. service 如何工作
 
 Pod 通过 label 键值对与 Service 上的 label selector 相关联。Service 会自动发现带有与选择器匹配的标签的新 Pod。
 
 ### 6.9. ingress
 
-可为 Service 提供外部可访问的 URL、负载均衡流量、 SSL/TLS，以及基于名称的虚拟托管 (service 毕竟只是内部使用的负载均衡)
+可为 Service 提供外部可访问的域名绑定(默认端口 80, 通过域名进行流量转发)、负载均衡、 SSL/TLS 
+
+> 和 Service 区别: 
+> service 毕竟只是内部使用的负载均衡, 无法提供给外界访问; Service 工作在网络传输层, 只能识别 ip 和端口来处理网络流量
+> ingress 则用于将外部网络流量路由到适当的Service上; ingress 工作在应用层, 能识别 http协议, 更细的路由控制
 
 > 为什么需要? - NodePort的方式有个问题，每个 working node 端口65535个，总有用完的时候，要是暴露的服务特别多，65535就不够用了，所以还是得上nginx这样的反向代理，因此K8S还有个Ingress的东西。避免了对外暴露集群节点端口
 
-可以根据域名、路径把请求转发到不同的 Service, 相当于 nginx, 常用的实现是 nginx-ingress, kong-ingress; k8s 也只是定义了 ingress 资源的各个属性，ingress 资源的创建需要借助 ingressController，ingressController 则需要有第三方服务来提供。
+可以根据域名、路径把请求转发到不同的 Service, 相当于 nginx
+
+常用的实现是 nginx-ingress, kong-ingress, Traefik Ingress; k8s 也只是定义了 ingress 资源的各个属性，ingress 资源的创建需要借助 ingressController，ingressController 则需要有第三方服务来提供。
 
 > 原理: Ingress Contronler 通过与 Kubernetes API 交互，动态的去感知集群中 Ingress 规则变化，然后读取它，按照自定义的规则，规则就是写明了哪个域名对应哪个 service，生成一段 Nginx 配置，再写到 Nginx-ingress-control 的 Pod 里，这个 Ingress Contronler 的 pod 里面运行着一个 nginx 服务，控制器会把生成的 nginx 配置写入/etc/nginx.conf 文件中，然后 reload 一下 使用配置生效。以此来达到域名分配置及动态更新的问题。
 
@@ -1541,7 +1888,11 @@ kubectl get ingress
 
 ```
 
-#### 6.9.1. Traefik
+#### 6.9.1. install ingress-nginx
+
+https://docs.rancherdesktop.io/zh/how-to-guides/setup-NGINX-Ingress-Controller
+
+#### 6.9.2. Traefik
 
 todo Traefik
 
@@ -2725,13 +3076,18 @@ https://www.bilibili.com/video/BV1cL4y167GV 视频教程
 
 部署 k8s 集群
 
+https://docs.rancher.cn/
+
 ## 16. Harbor
+
+Harbor 是由 VMware 公司中国团队为企业用户设计的 Registry server 开源项目 (镜像仓库, 类似 docker hub)
 
 ## 17. Helm
 
-来自 CNCF, 使用 helm chart 一键拉起整套环境. 也可以使用其应用商店, 一键部署别人写好的软件集群
+来自 CNCF, 使用 helm chart 一键拉起整套环境(第三方部署k8s应用的工具). 也可以使用其应用商店, 一键部署别人写好的软件集群
 
-> Helm 的使用方式可以解释为：Helm 安装 charts 到 Kubernetes 集群中，每次安装都会创建一个新的 release。你可以在 Helm 的 chart repositories 中寻找新的 chart。
+> Helm把Kubernetes资源（比如deployments、services或 ingress等）打包到一个chart中，而chart被保存到chart仓库。通过chart仓库可用来存储和分享chart。Helm使发布可配置，支持发布应用配置的版本管理，简化了Kubernetes部署应用的版本控制、打包、发布、删除、更新等操作。
+
 
 
 ### 17.1. How to create helm chart
