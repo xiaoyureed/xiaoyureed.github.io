@@ -4,6 +4,7 @@ tags: [ansible, devops, cicd]
 date: 2023-04-22
 toc_min_heading_level: 2
 toc_max_heading_level: 5
+draft: true
 ---
 
 https://docs.ansible.com/

@@ -19,13 +19,14 @@ toc_max_heading_level: 5
   - [3.3. 众多的发行版](#33-众多的发行版)
     - [3.3.1. k3s](#331-k3s)
       - [3.3.1.1. k3d](#3311-k3d)
-        - [操作 kubeconfig](#操作-kubeconfig)
-        - [3.3.1.1.1. 支持的命令](#33111-支持的命令)
-        - [3.3.1.1.2. 国内镜像](#33112-国内镜像)
-        - [导入镜像](#导入镜像)
-        - [3.3.1.1.3. k3s 包括以下一些组件](#33113-k3s-包括以下一些组件)
-        - [3.3.1.1.4. 完整的 k3d yml 配置文件](#33114-完整的-k3d-yml-配置文件)
-        - [3.3.1.1.5. 部署一个 NGINX](#33115-部署一个-nginx)
+        - [3.3.1.1.1. 使用 helmChart controller](#33111-使用-helmchart-controller)
+        - [3.3.1.1.2. 操作 kubeconfig](#33112-操作-kubeconfig)
+        - [3.3.1.1.3. 支持的命令](#33113-支持的命令)
+        - [3.3.1.1.4. 国内镜像](#33114-国内镜像)
+        - [3.3.1.1.5. 导入镜像](#33115-导入镜像)
+        - [3.3.1.1.6. k3s 包括以下一些组件](#33116-k3s-包括以下一些组件)
+        - [3.3.1.1.7. 完整的 k3d yml 配置文件](#33117-完整的-k3d-yml-配置文件)
+        - [3.3.1.1.8. 部署一个 NGINX](#33118-部署一个-nginx)
     - [3.3.2. k0s](#332-k0s)
     - [3.3.3. microk8s](#333-microk8s)
     - [3.3.4. docker desktop (推荐使用 rancher desktop 替代)](#334-docker-desktop-推荐使用-rancher-desktop-替代)
@@ -37,8 +38,6 @@ toc_max_heading_level: 5
     - [4.2.1. using pod directly](#421-using-pod-directly)
     - [4.2.2. using deployment](#422-using-deployment)
 - [5. 集群结构 underlying infrastructure 基础设施](#5-集群结构-underlying-infrastructure-基础设施)
-  - [5.1. control plane 控制平面](#51-control-plane-控制平面)
-  - [5.2. computer machines (计算节点 Node)](#52-computer-machines-计算节点-node)
 - [6. api 管理的各种资源](#6-api-管理的各种资源)
   - [6.1. 各种资源的关系](#61-各种资源的关系)
   - [6.2. 3 common properties](#62-3-common-properties)
@@ -122,6 +121,7 @@ toc_max_heading_level: 5
     - [13.1.6. 查询详细描述 describe](#1316-查询详细描述-describe)
     - [13.1.7. 查询日志 logs](#1317-查询日志-logs)
     - [13.1.8. 删除 delete](#1318-删除-delete)
+    - [操作上下文](#操作上下文)
   - [13.2. kubeadmin](#132-kubeadmin)
 - [14. cka ckad 证书考试](#14-cka-ckad-证书考试)
 - [15. dashboard](#15-dashboard)
@@ -136,7 +136,7 @@ toc_max_heading_level: 5
   - [17.2. helm chart 的打包发布](#172-helm-chart-的打包发布)
     - [17.2.1. 手动打包发布](#1721-手动打包发布)
     - [17.2.2. 利用 github action 自动打包发布](#1722-利用-github-action-自动打包发布)
-  - [17.3. 基本使用](#173-基本使用)
+  - [17.3. 基本命令使用](#173-基本命令使用)
   - [17.4. rollback](#174-rollback)
   - [17.5. 多环境](#175-多环境)
 - [18. reference materials](#18-reference-materials)
@@ -420,7 +420,73 @@ https://cloud.tencent.com/developer/article/1791688 原理教程
 
 For macOs, we can just download the binary file from github release page or by using `brew install k3d`
 
-###### 操作 kubeconfig
+###### 3.3.1.1.1. 使用 helmChart controller
+
+Helm Controller 定义了一个新的HelmChart自定义资源, 部署到 kubernetes 中, 用于管理 Helm 图表。
+
+> 用于简化 helm 命令行的使用, 类比 docker 命令行之于 docker-compose
+>
+> Helm Controller实际上就是一个CRD Controller，管理的是HelmChart类型的CRD API
+>
+> Helm是 Kubernetes 的包管理器, Helm 由客户端 (helm) 和服务器端组件Tiller组成,用于管理 Helm 图表的部署和生命周期。在 k3s 中,Tiller 被替换为Helm Controller; 
+> 
+> Helm v3 中，Tiller 被移除了, 新的 Helm 客户端会像 kubectl 命令一样，读取本地的 kubeconfig 文件，使用我们在 kubeconfig 中预先定义好的SA权限来进行一系列操作。这样做法即简单，又安全。
+
+HelmChart部署应用，有以下好处:
+
+1、HelmChart把Helm的操作变成对CRD API的管理，当需要对应用进行修改时，只需修改HelmChart相关属性即可，Helm-controller会主动监听API对象是否发生变化；
+
+2、省去在宿主机上安装helm的步骤；
+
+
+```yml
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata: # Kubernetes object metadata
+  name: # Chart name (required)
+  # 对于 k3s,这必须是kube-system,因为 Helm Controller 仅配置为监视此命名空间以获取新的 HelmChart 资源。
+  namespace: kube-system # Namespace Helm Controller is monitoring to deploy charts (required)
+spec: # resource specification
+  chart: test-helmchart  # char name / url
+  targetNamespace: test-namespace # which ns will be used to install the chart
+  version: 0.0.1        # chart version
+  repo: https://example.com/helm-charts   # chart repo url
+  # 要提供给 Helm 的配置值的字典/映射。键应指定为字符串。值可以是整数或字符串。
+  # 如果需要更复杂的值,请使用valuesContent
+  set:
+    key1: "value1"
+    key2: "value2"
+  valuesContent: |-
+    config:
+      application:
+        admin_username: admin
+        admin_password: insecure_password
+      server:
+        port: 8080
+        tls_enabled: false
+```
+
+相应的命令行:
+
+```sh
+$ helm install test-helmchart --namespace test-namespace \
+                              --version 0.0.1 \
+                              --repo https://example.com/helm-charts \
+                              --set-string key1=value1 \
+                              --set-string key2=value2 \
+                              #  values.yaml 包含valuesContent字段下的内容
+                              --values values.yaml
+
+```
+
+安装: `k3s kubectl apply --filename node-red-helmchart.yaml`, 或者将资源定义复制到服务器的manifest目录 `/var/lib/rancher/k3s/server/manifests/` (Helm Controller 不断监视此目录中的新 CRD。当它检测到添加了新资源时,它将自动部署图表)
+
+更新: 修改 yml 文件后, 再次执行 `kubectl apply --filename node-red-helmchart.yaml`
+
+删除: `kubectl --namespace kube-system delete helmchart <char name, eg. node-red>`
+
+###### 3.3.1.1.2. 操作 kubeconfig
 
 ```sh
 # 获取 kubeconfig 文件 (最新版k3d 会自动更新 ~/.kube/config, 我们无需手动修改 kubectl 即可操作k3d 创建的集群)
@@ -429,7 +495,7 @@ k3d kubeconfig get --all
 
 ```
 
-###### 3.3.1.1.1. 支持的命令
+###### 3.3.1.1.3. 支持的命令
 
 ```sh
 k3d version
@@ -492,7 +558,7 @@ k3d node list
 k3d registry list
 ```
 
-###### 3.3.1.1.2. 国内镜像
+###### 3.3.1.1.4. 国内镜像
 
 ```sh
 
@@ -515,7 +581,7 @@ mirrors:
 
 ```
 
-###### 导入镜像
+###### 3.3.1.1.5. 导入镜像
 
 ```sh
 # k3d 中的镜像和 docker 不通, 需要手动导入
@@ -525,7 +591,7 @@ k3d image import <customized image name>
 
 或者自己搭建 image registry
 
-###### 3.3.1.1.3. k3s 包括以下一些组件
+###### 3.3.1.1.6. k3s 包括以下一些组件
 
 ```
 Containerd：一个类似 Docker 的运行时容器，但是它不支持构建镜像；
@@ -536,7 +602,7 @@ Traefik：默认安装 Ingress controller 是 traefik 1.x 的版本；
 Embedded service loadbalancer：内嵌的一个服务负载均衡组件。
 ```
 
-###### 3.3.1.1.4. 完整的 k3d yml 配置文件
+###### 3.3.1.1.7. 完整的 k3d yml 配置文件
 
 or taking a yaml file to create cluster:
 
@@ -611,7 +677,7 @@ registries: # define how registries should be created or used
 `k3d cluster create --config /path/to/mycluster.yaml`
 
 
-###### 3.3.1.1.5. 部署一个 NGINX 
+###### 3.3.1.1.8. 部署一个 NGINX 
 
 https://blog.bwcxtech.com/posts/ea0ef82f/ 使用 Traefik2 代替 1
 
@@ -1033,55 +1099,35 @@ kc delete pod hello-k8s-deployment-6bb465758-5d8lk
 
 ![k8s design1](/img/k8s_design1.png)
 
-### 5.1. control plane 控制平面
-
-Also known as "master" node, designed to manage the hole cluster to make it work properly
-
-Consists of these part:
-
-- api server
-
-  - Provide the api interface to interactive with the developer.
-  - Also, offer the authentication, authorization
-
-- etcd
-
-  - distributed data storage; used to store the cluster status
-
-- scheduler
-
-  - 调度， 决定哪个 pod 部署到哪个节点;
-  - 监视那些新创建的未指定运行节点的 Pod，并选择节点让 Pod 在上面运行
-
-- controller manager
-
-  - 整个集群的管家，用来管理资源对象: 如 复制节点， 持续跟踪工作节点
-
+```
+控制平面(control plane): Also known as "master" node, designed to manage the hole cluster to make it work properly
+  配置存储中心: ETCd
+    distributed data storage; used to store the cluster status
+  api server
+    Provide the api interface to interactive with the developer.
+  scheduler
+    调度， 决定哪个 pod 部署到哪个节点;
+  control manager
+    整个集群的管家，用来管理资源对象: 如 复制节点， 持续跟踪工作节点
     - node controller 在节点出现故障时进行通知和响应
     - Replication Controller 维护正确数量的 Pod
     - Endpoints Controller 填充端点(Endpoints)对象(即加入 Service 与 Pod)
 
-> Minikube 管理的是单节点 k8s， master node， 和 worker node 都在一台物理主机上
+computer machines (计算节点 Node): Also known as Node, designed to run the real application; 是所有 Pod 运行所在的工作主机，可以是物理机也可以是虚拟机
+  kubelet: 相当于节点的代理, 和 master 节点交互
+    和 master 节点的 api server 通信, 以管理所在的 节点/机器上的 pod (创建、修改、监控、删除)
+  kube-proxy: 负责一组 pods 的负载均衡
+    是 K8s 集群内部的负载均衡器。它是一个分布式代理服务器, 在 K8s 的每个节点上都有一个；这一设计体现了它的伸缩性优势，需要访问服务的节点越多，提供负载均衡能力的 Kube-proxy 就越多，高可用节点也随之增多。与之相比，我们平时在服务器端做个反向代理做负载均衡，还要进一步解决反向代理的负载均衡和高可用问题。
 
-### 5.2. computer machines (计算节点 Node)
+  Fluentd，主要负责日志收集、存储与查询
+  container runtime engine (需要符合 oci 标准的运行时, 如 docker, containerd, rkt, CRI-O): 负责创建容器
 
-Also known as Node, designed to run the real application
-
-是所有 Pod 运行所在的工作主机，可以是物理机也可以是虚拟机
-
-包含这些组件
-
-- kubelet: 和 master 节点的 api server 通信, 以管理所在的 节点/机器上的 pod (创建、修改、监控、删除)
-
-  相当于节点的代理, 和 master 节点交互
-
-- kube-proxy: 负责一组 pods 的负载均衡
-
-  是 K8s 集群内部的负载均衡器。它是一个分布式代理服务器, 在 K8s 的每个节点上都有一个；这一设计体现了它的伸缩性优势，需要访问服务的节点越多，提供负载均衡能力的 Kube-proxy 就越多，高可用节点也随之增多。与之相比，我们平时在服务器端做个反向代理做负载均衡，还要进一步解决反向代理的负载均衡和高可用问题。
-
-- Fluentd，主要负责日志收集、存储与查询
-
-- container runtime engine (需要符合 oci 标准的运行时, 如 docker, rkt, CRI-O): 负责创建容器
+核心附件:
+  cni 网络插件: flannel/calico
+  服务发现插件: coredns
+  服务暴露插件: nginx-ingress/traefik-ingress
+  gui 管理插件: dashboard
+```
 
 ## 6. api 管理的各种资源
 
@@ -3007,6 +3053,17 @@ kubectl delete deployment,service --all
 
 ```
 
+#### 操作上下文
+
+```sh
+# 更新上下文, 为当前上下文加上 namespace
+kubectl config set-context $(kubectl config current-context) --namespace <other ns>
+# check list
+kubectl config get-contexts
+# 更换上下文
+kubectl config use-context docker-desktop
+```
+
 ### 13.2. kubeadmin
 
 ```sh
@@ -3268,38 +3325,99 @@ jobs:
 
 
 
-### 17.3. 基本使用
+### 17.3. 基本命令使用
 
 ```sh
-# 使用别人制作好的 chart
-# Add the remote git repository to local helm repo
-# The git repo include a chart yml file, with which we can used to create all of the resources
-helm repo add <chart name> <git url>
-helm install my-hello-helm hellok8s/hello-helm [--version 0.1.0]
+# Chart 仓库其实就是一个带有index.yaml索引文件和任意个打包的 Chart 的 HTTP 服务器而已
+# 可以利用 Github pages 搭建自己的仓库
+# 
+# stable https://kubernetes-charts.storage.googleapis.com the offical repo from google
+# 
+# Repos provided by Microsoft
+# stable: http://mirror.azure.cn/kubernetes/charts/
+# incubator: http://mirror.azure.cn/kubernetes/charts-incubator/
+# 
+# provied by bitnami
+# bitnami	https://charts.bitnami.com/bitnami
+# 
+# aliyun                https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
+# ingress-nginx         https://kubernetes.github.io/ingress-nginx
+helm repo list
+
+helm repo remove <repo name>
+
+helm repo add <repo name> <url>
+helm repo update
 
 
+
+
+# search from local added repo
+helm search repo [chart name]
+# search from helm hub
+helm search hub [chart name]
+# 查看一个 chart 的详细信息
+helm inspect stable/mysql
+
+
+
+
+# Chart name usually consists of repo_name + / + sub_name, eg. stable/mysql
+# 安装 chart 会创建一个新 release 对象, 通过 --name 指定名字
+# -f config.yaml 指定自定义配置文件
+helm install [-f config.yaml] <char name> [--name <release name>]
+# or
+helm install <release name> <chart name> [--version 0.1.0]
 # or
 #  自己制作好 chart 后, 在 helm chart 目录下执行安装, 会创建好 resources
 helm upgrade --install hello-helm --values values.yaml .
 
+# 跟踪 release 状态或重新读取配置信息
+helm status <release name>
 
 
-# 查看 charts list
-helm ls
+
+
+# 查看 chart 上可配置自定义的选项
+# 通过 yml 格式定义配置如 config.yml后, 
+#   可 helm install -f config.yaml stable/mysql --name mydb
+#   亦可 --set persistence.enabled=false 来自定义配置
+helm inspect values
+
+
+# 更新/升级 (config.yml 中就是更新的内容)
+helm upgrade -f config.yaml <release object> <chart name>
+
+
+
+
+
+# 查看 已经安装的 charts list (即已经 release 的对象), 包括已经删除的
+helm ls [--all]
 
 # 删除
-helm delete my-mongo
+# 不代表就完全删除了
+# 由于 Helm 保留已删除 release 的记录，因此不能重新使用 release 名称。（如果 确实 需要重新使用此 release 名称，则可以使用此 –replace 参数，但它只会重用现有 release 并替换其资源。）
+# --purge 彻底删除
+helm delete <release name> [--purge]
+# 显示被删除掉 release
+helm list --deleted
+
+
+helm uninstall <chart name>
 ```
 
 ### 17.4. rollback
 
 ```sh
-# 比如, 我们对 values.yml 做了修改
+# 先查看历史
+helm history <release object name>
 
+# 比如, 我们对 values.yml 做了修改
 # 更新 k8s 资源
 helm upgrade --install hello-helm --values values.yaml .
 
-# 发现更新有问题, 回滚 (回滚后 REVISION 版本都会增大到 3 而不是回滚到 1)
+# 发现更新有问题, 回滚上一个版本 (回滚后 REVISION 版本都会增大到 3 而不是回滚到 1)
 helm rollback hello-helm 1
 
 ```
@@ -3325,7 +3443,12 @@ helm upgrade --install hello-helm -f values.yaml -f values-dev.yaml \
 ## 18. reference materials
 
 
+https://github.com/techiescamp/kubernetes-learning-path
+https://github.com/guangzhengli/k8s-tutorials
+
 https://www.bilibili.com/video/BV1Ja4y1x748 视频教程
+https://edu.aliyun.com/roadmap/cloudnative?from=timeline
+
 
 
 

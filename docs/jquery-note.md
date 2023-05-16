@@ -5,6 +5,7 @@ tags:
 date: 2014-03-12 13:04:16
 toc_min_heading_level: 2
 toc_max_heading_level: 5
+draft: true
 ---
 
 <div align="center">
@@ -12,43 +13,41 @@ JQuery NOte.
 ref: https://jquery.com/
 </div>
 
-<!-- TOC -->
-
-- [1. 基本语法](#1-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95)
-- [2. dom对象，jquery对象互转](#2-dom%E5%AF%B9%E8%B1%A1jquery%E5%AF%B9%E8%B1%A1%E4%BA%92%E8%BD%AC)
-- [3. 加载顺序,window.onload区别](#3-%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8Fwindowonload%E5%8C%BA%E5%88%AB)
-- [4. 选择器](#4-%E9%80%89%E6%8B%A9%E5%99%A8)
-    - [4.1. 基本选择器](#41-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8)
-    - [4.2. 属性选择器](#42-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8)
-    - [4.3. 伪类选择器](#43-%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8)
-    - [4.4. 借助过滤函数选择元素](#44-%E5%80%9F%E5%8A%A9%E8%BF%87%E6%BB%A4%E5%87%BD%E6%95%B0%E9%80%89%E6%8B%A9%E5%85%83%E7%B4%A0)
-- [5. css 样式处理](#5-css-%E6%A0%B7%E5%BC%8F%E5%A4%84%E7%90%86)
-- [6. 处理 class 类](#6-%E5%A4%84%E7%90%86-class-%E7%B1%BB)
-- [7. 添加html或text](#7-%E6%B7%BB%E5%8A%A0html%E6%88%96text)
-- [8. 添加属性](#8-%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7)
-- [9. jq遍历](#9-jq%E9%81%8D%E5%8E%86)
-- [10. 显示or隐藏](#10-%E6%98%BE%E7%A4%BAor%E9%9A%90%E8%97%8F)
-- [11. 淡入淡出](#11-%E6%B7%A1%E5%85%A5%E6%B7%A1%E5%87%BA)
-- [12. 滑动](#12-%E6%BB%91%E5%8A%A8)
-- [13. 自定义动画](#13-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A8%E7%94%BB)
-- [14. 放大镜](#14-%E6%94%BE%E5%A4%A7%E9%95%9C)
-- [15. 宽度, 位置, 回到顶部](#15-%E5%AE%BD%E5%BA%A6-%E4%BD%8D%E7%BD%AE-%E5%9B%9E%E5%88%B0%E9%A1%B6%E9%83%A8)
-- [16. 事件绑定](#16-%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A)
-    - [16.1. 当前元素绑定](#161-%E5%BD%93%E5%89%8D%E5%85%83%E7%B4%A0%E7%BB%91%E5%AE%9A)
-    - [16.2. 给子元素绑定](#162-%E7%BB%99%E5%AD%90%E5%85%83%E7%B4%A0%E7%BB%91%E5%AE%9A)
-- [17. document增添处理](#17-document%E5%A2%9E%E6%B7%BB%E5%A4%84%E7%90%86)
-- [18. 编写插件](#18-%E7%BC%96%E5%86%99%E6%8F%92%E4%BB%B6)
+- [1. 基本语法](#1-基本语法)
+- [2. dom对象，jquery对象互转](#2-dom对象jquery对象互转)
+- [3. 加载顺序,window.onload区别](#3-加载顺序windowonload区别)
+- [4. 选择器](#4-选择器)
+	- [4.1. 基本选择器](#41-基本选择器)
+	- [4.2. 属性选择器](#42-属性选择器)
+	- [4.3. 伪类选择器](#43-伪类选择器)
+	- [4.4. 借助过滤函数选择元素](#44-借助过滤函数选择元素)
+- [5. css 样式处理](#5-css-样式处理)
+- [6. 处理 class 类](#6-处理-class-类)
+- [7. 添加html或text](#7-添加html或text)
+- [8. 添加属性](#8-添加属性)
+- [9. jq遍历](#9-jq遍历)
+- [10. 显示or隐藏](#10-显示or隐藏)
+- [11. 淡入淡出](#11-淡入淡出)
+- [12. 滑动](#12-滑动)
+- [13. 自定义动画](#13-自定义动画)
+- [14. 放大镜](#14-放大镜)
+- [15. 宽度, 位置, 回到顶部](#15-宽度-位置-回到顶部)
+- [16. 事件绑定](#16-事件绑定)
+	- [16.1. 当前元素绑定](#161-当前元素绑定)
+	- [16.2. 给子元素绑定](#162-给子元素绑定)
+- [17. document增添处理](#17-document增添处理)
+- [18. 编写插件](#18-编写插件)
 - [19. ajax](#19-ajax)
-    - [19.1. $xxx.load](#191-xxxload)
-    - [19.2. $.get](#192-get)
-    - [19.3. $.post](#193-post)
-    - [19.4. $.ajax](#194-ajax)
-    - [19.5. form表单序列化](#195-form%E8%A1%A8%E5%8D%95%E5%BA%8F%E5%88%97%E5%8C%96)
-    - [19.6. ajax请求本地json文件](#196-ajax%E8%AF%B7%E6%B1%82%E6%9C%AC%E5%9C%B0json%E6%96%87%E4%BB%B6)
-    - [19.7. demo](#197-demo)
+	- [19.1. $(xxx).load()](#191-xxxload)
+	- [19.2. $.get()](#192-get)
+	- [19.3. $.post()](#193-post)
+	- [19.4. $.ajax()](#194-ajax)
+	- [19.5. form表单序列化](#195-form表单序列化)
+	- [19.6. ajax请求本地json文件](#196-ajax请求本地json文件)
+	- [19.7. demo](#197-demo)
 
-<!-- /TOC -->
-# 基本语法
+
+# 1. 基本语法
 
 首先要引入JQ的依赖包 http://jquery.com/download/
 
@@ -67,7 +66,7 @@ ref: https://jquery.com/
 
 ```
 
-# dom对象，jquery对象互转
+# 2. dom对象，jquery对象互转
 
 函数中的 this 都是 原生对象, 使用时都要转换一下, 比如:  $(this).val();
 
@@ -101,7 +100,7 @@ ref: https://jquery.com/
 
 ```
 
-# 加载顺序,window.onload区别
+# 3. 加载顺序,window.onload区别
 
 ```html
 <!DOCTYPE html>
@@ -159,7 +158,7 @@ ref: https://jquery.com/
 
 ```
 
-# 选择器
+# 4. 选择器
 
 ```js
 // 子元素
@@ -172,7 +171,7 @@ $(".required-control-related button[coral-multifield-add]")
 
 ```
 
-## 基本选择器
+## 4.1. 基本选择器
 
 ```html
 <!DOCTYPE html>
@@ -253,7 +252,7 @@ $("tr:odd")	选取奇数位置的 <tr> 元素
 
 ```
 
-## 属性选择器
+## 4.2. 属性选择器
 
 ```html
 <!DOCTYPE html>
@@ -306,7 +305,7 @@ $("tr:odd")	选取奇数位置的 <tr> 元素
 
 ```
 
-## 伪类选择器
+## 4.3. 伪类选择器
 
 ```html
 <!DOCTYPE html>
@@ -406,7 +405,7 @@ $("tr:odd")	选取奇数位置的 <tr> 元素
 
 ```
 
-## 借助过滤函数选择元素
+## 4.4. 借助过滤函数选择元素
 
 ```html
 <!DOCTYPE html>
@@ -480,7 +479,7 @@ $("tr:odd")	选取奇数位置的 <tr> 元素
 
 ```
 
-# css 样式处理
+# 5. css 样式处理
 
 ```html
 
@@ -560,7 +559,7 @@ $("tr:odd")	选取奇数位置的 <tr> 元素
 
 ```
 
-# 处理 class 类
+# 6. 处理 class 类
 
 ```html
 <!-- 切换 -->
@@ -689,7 +688,7 @@ removeClass
 
 ```
 
-# 添加html或text
+# 7. 添加html或text
 
 ```html
 <!DOCTYPE html>
@@ -758,7 +757,7 @@ removeClass
 
 ```
 
-# 添加属性
+# 8. 添加属性
 
 ```html
 <!DOCTYPE html>
@@ -817,7 +816,7 @@ removeClass
 
 ```
 
-# jq遍历
+# 9. jq遍历
 
 ```html
 <!DOCTYPE html>
@@ -878,7 +877,7 @@ removeClass
 
 ```
 
-# 显示or隐藏
+# 10. 显示or隐藏
 
 ```html
 <!DOCTYPE html>
@@ -941,7 +940,7 @@ removeClass
 
 ```
 
-# 淡入淡出
+# 11. 淡入淡出
 
 ```html
 <!DOCTYPE html>
@@ -1007,7 +1006,7 @@ removeClass
 
 ```
 
-# 滑动
+# 12. 滑动
 
 ```html
 <!DOCTYPE html>
@@ -1077,7 +1076,7 @@ removeClass
 
 ```
 
-# 自定义动画
+# 13. 自定义动画
 
 ```html
 <!DOCTYPE html>
@@ -1168,7 +1167,7 @@ removeClass
 
 ```
 
-# 放大镜
+# 14. 放大镜
 
 ```html
 <!DOCTYPE html>
@@ -1208,7 +1207,7 @@ removeClass
 
 ```
 
-# 宽度, 位置, 回到顶部
+# 15. 宽度, 位置, 回到顶部
 
 ```html
 <!DOCTYPE html>
@@ -1323,9 +1322,9 @@ removeClass
 
 ```
 
-# 事件绑定
+# 16. 事件绑定
 
-## 当前元素绑定
+## 16.1. 当前元素绑定
 
 ```html
 <!doctype html>
@@ -1438,7 +1437,7 @@ removeClass
 </html>
 ```
 
-## 给子元素绑定
+## 16.2. 给子元素绑定
 
 ```html
 <!DOCTYPE html>
@@ -1497,7 +1496,7 @@ removeClass
 
 ```
 
-# document增添处理
+# 17. document增添处理
 
 ```html
 <!DOCTYPE html>
@@ -1600,7 +1599,7 @@ removeClass
 
 ```
 
-# 编写插件
+# 18. 编写插件
 
 ```html
 <!DOCTYPE html>
@@ -1678,7 +1677,7 @@ removeClass
 
 ```
 
-# ajax
+# 19. ajax
 
 * jQuery对 JS AJAX 进行封装，回顾js ajax引擎 （XMLHttpRequest）
 
@@ -1694,7 +1693,7 @@ removeClass
         
 		* $.getScript()  动态加载js文件。
 
-## $(xxx).load()
+## 19.1. $(xxx).load()
 
 ```js
 /*2.1 load方法 ，不是全局的，必须有jQuery对象
@@ -1715,7 +1714,7 @@ removeClass
 
 ```
 
-## $.get()
+## 19.2. $.get()
 
 ```js
 /* 2.2 $.get()方法 ,只能发送get请求
@@ -1734,7 +1733,7 @@ removeClass
 
 ```
 
-## $.post()
+## 19.3. $.post()
 
 ```js
 /* 2.3 $.post 只能发送post请求
@@ -1747,7 +1746,7 @@ removeClass
 
 ```
 
-## $.ajax()
+## 19.4. $.ajax()
 
 ```js
 /* 2.4 $.ajax 底层ajax请求
@@ -1781,16 +1780,16 @@ removeClass
 
 ```
 
-## form表单序列化
+## 19.5. form表单序列化
 
 serialize()  将表单中所有内容转成字符串 。格式：username=jack&password=1234&....
 serializeArray()  将表单中所有内容转成json格式
 
-## ajax请求本地json文件
+## 19.6. ajax请求本地json文件
 
 https://blog.csdn.net/xuanpl/article/details/68928586
 
-## demo
+## 19.7. demo
 
 ```html
 <!-- Html页面： -->

@@ -5,51 +5,49 @@ tags:
 date: 2017-08-25 21:46:25
 toc_min_heading_level: 2
 toc_max_heading_level: 5
+draft: true
 ---
 
 <div align="center">
 references: https://freemarker.apache.org/docs/dgui_quickstart_template.html
 </div>
 
-<!-- TOC -->
-
-- [1. 和jsp-velocity-thymeleaf对比](#1-%E5%92%8Cjsp-velocity-thymeleaf%E5%AF%B9%E6%AF%94)
-- [2. 和 springboot 集成](#2-%E5%92%8C-springboot-%E9%9B%86%E6%88%90)
+- [1. 和jsp-velocity-thymeleaf对比](#1-和jsp-velocity-thymeleaf对比)
+- [2. 和 springboot 集成](#2-和-springboot-集成)
 - [3. quick start](#3-quick-start)
-- [4. 基本语法](#4-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95)
-    - [4.1. 支持的类型](#41-%E6%94%AF%E6%8C%81%E7%9A%84%E7%B1%BB%E5%9E%8B)
-    - [4.2. if 条件指令](#42-if-%E6%9D%A1%E4%BB%B6%E6%8C%87%E4%BB%A4)
-    - [4.3. list 遍历指令](#43-list-%E9%81%8D%E5%8E%86%E6%8C%87%E4%BB%A4)
-    - [4.4. include 和 import](#44-include-%E5%92%8C-import)
-    - [4.5. 定义变量](#45-%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F)
-    - [4.6. 命名空间](#46-%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4)
-    - [4.7. 联合使用指令](#47-%E8%81%94%E5%90%88%E4%BD%BF%E7%94%A8%E6%8C%87%E4%BB%A4)
-    - [4.8. 内建函数](#48-%E5%86%85%E5%BB%BA%E5%87%BD%E6%95%B0)
-    - [4.9. 方法和函数](#49-%E6%96%B9%E6%B3%95%E5%92%8C%E5%87%BD%E6%95%B0)
-    - [4.10. 用户自定义指令推荐优先使用](#410-%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4%E6%8E%A8%E8%8D%90%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8)
-        - [4.10.1. macro nested 宏指令 嵌套指令](#4101-macro-nested-%E5%AE%8F%E6%8C%87%E4%BB%A4-%E5%B5%8C%E5%A5%97%E6%8C%87%E4%BB%A4)
-        - [4.10.2. 宏指令中的循环变量](#4102-%E5%AE%8F%E6%8C%87%E4%BB%A4%E4%B8%AD%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%8F%98%E9%87%8F)
-    - [4.11. 表达式](#411-%E8%A1%A8%E8%BE%BE%E5%BC%8F)
-- [5. 处理不存在的变量](#5-%E5%A4%84%E7%90%86%E4%B8%8D%E5%AD%98%E5%9C%A8%E7%9A%84%E5%8F%98%E9%87%8F)
-- [6. 常见错误](#6-%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF)
-    - [6.1. 指令体内部变量无需${}](#61-%E6%8C%87%E4%BB%A4%E4%BD%93%E5%86%85%E9%83%A8%E5%8F%98%E9%87%8F%E6%97%A0%E9%9C%80)
-    - [6.2. 数字千分位格式化](#62-%E6%95%B0%E5%AD%97%E5%8D%83%E5%88%86%E4%BD%8D%E6%A0%BC%E5%BC%8F%E5%8C%96)
-- [7. 程序开发](#7-%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91)
-    - [7.1. freemaker对象的包装](#71-freemaker%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%8C%85%E8%A3%85)
-    - [7.2. Configuration 配置](#72-configuration-%E9%85%8D%E7%BD%AE)
-        - [7.2.1. 共享变量](#721-%E5%85%B1%E4%BA%AB%E5%8F%98%E9%87%8F)
-        - [7.2.2. 三层配置](#722-%E4%B8%89%E5%B1%82%E9%85%8D%E7%BD%AE)
-            - [7.2.2.1. Configuration层](#7221-configuration%E5%B1%82)
-            - [7.2.2.2. Template](#7222-template)
-            - [7.2.2.3. Environment](#7223-environment)
-        - [7.2.3. 模板的加载](#723-%E6%A8%A1%E6%9D%BF%E7%9A%84%E5%8A%A0%E8%BD%BD)
-        - [7.2.4. 错误控制](#724-%E9%94%99%E8%AF%AF%E6%8E%A7%E5%88%B6)
-    - [7.3. 通过java开发自定义方法](#73-%E9%80%9A%E8%BF%87java%E5%BC%80%E5%8F%91%E8%87%AA%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95)
-    - [7.4. 通过java开发自定义指令](#74-%E9%80%9A%E8%BF%87java%E5%BC%80%E5%8F%91%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4)
+- [4. 基本语法](#4-基本语法)
+  - [4.1. 支持的类型](#41-支持的类型)
+  - [4.2. if 条件指令](#42-if-条件指令)
+  - [4.3. list 遍历指令](#43-list-遍历指令)
+  - [4.4. include 和 import](#44-include-和-import)
+  - [4.5. 定义变量](#45-定义变量)
+  - [4.6. 命名空间](#46-命名空间)
+  - [4.7. 联合使用指令](#47-联合使用指令)
+  - [4.8. 内建函数](#48-内建函数)
+  - [4.9. 方法和函数](#49-方法和函数)
+  - [4.10. 用户自定义指令(推荐优先使用)](#410-用户自定义指令推荐优先使用)
+    - [4.10.1. macro nested 宏指令 嵌套指令](#4101-macro-nested-宏指令-嵌套指令)
+    - [4.10.2. 宏指令中的循环变量](#4102-宏指令中的循环变量)
+  - [4.11. 表达式](#411-表达式)
+- [5. 处理不存在的变量](#5-处理不存在的变量)
+- [6. 常见错误](#6-常见错误)
+  - [6.1. 指令体内部变量无需${}](#61-指令体内部变量无需)
+  - [6.2. 数字千分位格式化](#62-数字千分位格式化)
+- [7. 程序开发](#7-程序开发)
+  - [7.1. freemaker对象的包装](#71-freemaker对象的包装)
+  - [7.2. Configuration 配置](#72-configuration-配置)
+    - [7.2.1. 共享变量](#721-共享变量)
+    - [7.2.2. 三层配置](#722-三层配置)
+      - [7.2.2.1. Configuration层](#7221-configuration层)
+      - [7.2.2.2. Template](#7222-template)
+      - [7.2.2.3. Environment](#7223-environment)
+    - [7.2.3. 模板的加载](#723-模板的加载)
+    - [7.2.4. 错误控制](#724-错误控制)
+  - [7.3. 通过java开发自定义方法](#73-通过java开发自定义方法)
+  - [7.4. 通过java开发自定义指令](#74-通过java开发自定义指令)
 
-<!-- /TOC -->
 
-# 和jsp-velocity-thymeleaf对比
+# 1. 和jsp-velocity-thymeleaf对比
 
 https://blog.csdn.net/richard_vi/article/details/78849539
 
@@ -60,14 +58,14 @@ velocity 语法简单， freemarker 功能更强大
 - FreeMarker可以基于各种各样的内置和自定义数字或者日期格式，来格式化数字区域或者日期地区时区等
 - 1.5及以上版本的spring boot已经不支持velocity。
 
-# 和 springboot 集成
+# 2. 和 springboot 集成
 
 ```yml
 
 ```
 
 
-# quick start
+# 3. quick start
 
 完成一个简单的demo, 需要准备2部分工作要做
 
@@ -134,14 +132,14 @@ velocity 语法简单， freemarker 功能更强大
     </html>
 ```
 
-# 基本语法
+# 4. 基本语法
 
 *   `${...}` ： FreeMarker将会输出真实的值来替换大括号内的表达式，这样的表达式被称为 interpolation(插值)
 *   `FTL 标签` : (FreeMarker模板的语言标签)： FTL标签和HTML标签有一些相似之处，但是它们是FreeMarker的指令，是不会在输出中打印的。 这些标签的名字以 `# `开头。(用户自定义的FTL标签则需要使用 @ 来代替 #)
 
 *   `注释`： 注释和HTML的注释也很相似， 但是它们使用 `<#-- and --> `来标识。 不像HTML注释那样，FTL注释不会出现在输出中(不出现在访问者的页面中)， 因为 FreeMarker会跳过它们。
 
-## 支持的类型
+## 4.1. 支持的类型
 
 *   标量(scalars)
     *   字符串
@@ -153,7 +151,7 @@ velocity 语法简单， freemarker 功能更强大
     *   序列: 每个子变量通过一个整数来标识,而且子变量是有顺序的, 子变量的类型也并不需要完全一致
     *   集合: 集合是有限制的序列。不能获取集合的大小， 也不能通过索引取出集合中的子变量，但是它们仍然可以通过 list 指令来遍历。
 
-## if 条件指令
+## 4.2. if 条件指令
 
 ```html
 Welcome ${user}<#if user == "Big Joe">, our beloved leader</#if>!
@@ -181,7 +179,7 @@ Welcome ${user}<#if user == "Big Joe">, our beloved leader</#if>!
 </#if>
 ```
 
-## list 遍历指令
+## 4.3. list 遍历指令
 
 ```html
 <p>We have these animals:
@@ -236,7 +234,7 @@ list 和items合用, 处理空值:
 <div>有空行</div>
 ```
 
-## include 和 import
+## 4.4. include 和 import
 
 ```html
 <body>
@@ -252,7 +250,7 @@ include只有开始标签, 没有结束标签, 因为没有标签嵌套内容, �
 
 再看import, import也是用于变量生命导入声明
 
-## 定义变量
+## 4.5. 定义变量
 
 *   简单变量： 它能从模板中的任何位置来访问，或者从使用 include 指令引入的模板访问。可以使用 `assign 指令`来创建或替换这些变量。因为宏和方法只是变量，那么 `macro 指令 和 function 指令 也可以用来设置变量`，就像 assign 那样。
 
@@ -262,7 +260,7 @@ include只有开始标签, 没有结束标签, 因为没有标签嵌套内容, �
 
 *   全局变量：这是一个高级话题了， 并且这种变量最好别用。即便它们属于不同的命名空间， 全局变量也被所有模板共享，因为它们是被 import进来的， 不同于 include 进来的。那么它们的可见度就像数据模型那样。 全局变量通过 `global指令`来定义。
 
-## 命名空间
+## 4.6. 命名空间
 
 使用 assign 和 macro 指令创建的变量的集合, 这样的变量集合就是命名空间; 如果想创建可以重复使用的宏，函数和其他变量的集合， 通常用术语来说就是引用 库, 为了避免变量名冲突, 引入命名空间;
 
@@ -301,7 +299,7 @@ ${my.mail}
 库的路径一般这样: /lib/yourcompany.com/your_library.ftl, 方便他人引用;
 
 
-## 联合使用指令
+## 4.7. 联合使用指令
 
 指令可嵌套使用, 即使是在尖括号内部; 因为FreeMarker并不解析FTL标签以外的文本、插值和注释， 所以在HTML属性中使用FTL标签也不会有问题。
 
@@ -313,7 +311,7 @@ ${my.mail}
 </#list>
 ```
 
-## 内建函数
+## 4.8. 内建函数
 
 内建函数类似于子属性(scalars), 但是访问方法不是`.`, 而是`?`, 常用的列在这里
 
@@ -332,7 +330,7 @@ ${my.mail}
     *   `animal?item_parity` 基于当前计数的奇偶性，给出字符串 "odd" 或 "even"。在给不同行着色时非常有用，比如在 `<td class="${animal?item_parity}Row">`中。功能同animal?item_cycle('lightRow','darkRow')
 
 
-## 方法和函数
+## 4.9. 方法和函数
 
 使用: 
 
@@ -345,7 +343,7 @@ ${avg(animals.python.price, animals.elephant.price)}
 
 方法来自于数据模型中的定义, 函数来自于模版内的定义
 
-## 用户自定义指令(推荐优先使用)
+## 4.10. 用户自定义指令(推荐优先使用)
 
 换句话说，就是FreeMarker的标签
 
@@ -358,7 +356,7 @@ ${avg(animals.python.price, animals.elephant.price)}
 </@box>
 ```
 
-### macro nested 宏指令 嵌套指令
+### 4.10.1. macro nested 宏指令 嵌套指令
 
 ```html
 <#--user-customized-directive-->
@@ -412,7 +410,7 @@ ${avg(animals.python.price, animals.elephant.price)}
 
 ```
 
-### 宏指令中的循环变量
+### 4.10.2. 宏指令中的循环变量
 
 ```html
 <#macro do_thrice>
@@ -450,7 +448,7 @@ ${avg(animals.python.price, animals.elephant.price)}
 </@repeat>
 ```
 
-## 表达式
+## 4.11. 表达式
 
 表达式用于插值/指令参数
 
@@ -485,7 +483,7 @@ ${avg(animals.python.price, animals.elephant.price)}
 *   赋值操作： =, +=, -=, *=, /=, %=, ++, --
 
 
-# 处理不存在的变量   
+# 5. 处理不存在的变量   
 
 这里可分为2种情况, 变量不存在or变量值为null. freemaker一视同仁
 
@@ -508,21 +506,21 @@ ${avg(animals.python.price, animals.elephant.price)}
 对于`??` 多级访问变量的处理类似
 
 
-# 常见错误
+# 6. 常见错误
 
-## 指令体内部变量无需${}
+## 6.1. 指令体内部变量无需${}
 
 用户所犯的一个常见错误是将插值放在了不需要/不应该使用的地方。 插值 仅 在 文本 区 中有效。(比如， `<h1>Hello ${name}!</h1>`) 还有在字符串值中 (比如， `<#include "/footer/${company}.html">`)。 典型的 错误 使用是 <#if ${big}>...</#if>， 这会导致语法错误。简单写为 <#if big>...</#if>即可。 而且， <#if "${big}">...</#if> 也是 错误的， 因为它将参数值转换为字符串，但是 if 指令只接受布尔值， 那么这将导致运行时错误。
 
-## 数字千分位格式化
+## 6.2. 数字千分位格式化
 
  因为很多地区使用分组(千分位分隔符)，那么 "someUrl?id=" + id 就可能会是 "someUrl?id=1 234"。 要预防这种事情的发生，请使用 `?c `(对计算机来说)内建函数，那么在 `"someUrl?id=" + id?c `或 `"someUrl?id=${id?c}"`中， 就会得到如 "someUrl?id=1234" 这样的输出， 而不管本地化和格式的设置是什么。
 
 
 
-# 程序开发
+# 7. 程序开发
 
-## freemaker对象的包装
+## 7.1. freemaker对象的包装
 
 数据模型中，可以使用基本的Java集合类作为变量，因为这些变量会在内部被替换为适当的 TemplateModel 类型。这种功能特性被称作是 对象包装; 对象包装功能可以透明地把 任何 类型的对象转换为实现了 TemplateModel 接口类型的实例;
 
@@ -604,11 +602,11 @@ And your addr is 上海
  freemaker已经实现了常用的变量类型: SimpleScalar(String), SimpleHash (Map)等等
 
 
-## Configuration 配置
+## 7.2. Configuration 配置
 
 配置(configuration)就是 freemarker.template.Configuration 对象， 它存储了常用(全局，应用程序级)的设置，定义了想要在所有模板中可用的变量(称为共享变量)。 而且，它会处理 Template 实例的新建和缓存
 
-### 共享变量
+### 7.2.1. 共享变量
 
 Shared variables (共享变量)是为所有模板定义的变量。可以使用 setSharedVariable 方法向配置中添加共享变量：
 
@@ -625,7 +623,7 @@ cfg.setSharedVariable("company", "Foo Inc.");
 
 
 
-### 三层配置
+### 7.2.2. 三层配置
 
 Settings(配置设置) 是影响FreeMarker行为的已被命名的值。配置设置有很多， 例如：locale，number_format， default_encoding， template_exception_handler。
 
@@ -634,7 +632,7 @@ Settings(配置设置) 是影响FreeMarker行为的已被命名的值。配置�
 
 具体如何配置呢?
 
-#### Configuration层
+#### 7.2.2.1. Configuration层
 
 ```java
 Configuration myCfg = new Configuration(Configuration.VERSION_2_3_23);
@@ -658,10 +656,10 @@ spring中配置:
 </bean>
 ```
 
-#### Template
+#### 7.2.2.2. Template
 
 
-#### Environment
+#### 7.2.2.3. Environment
 
 使用Java API：使用 Environment 对象的setter方法。当然想要在模板执行之前来做，然后当调用 myTemplate.process(...) 时会遇到问题， 因为在内部创建 Environment 对象后立即就执行模板了， 导致没有机会来进行设置。这个问题的解决可以用下面两个步骤进行：
 ```java
@@ -678,7 +676,7 @@ env.process();  // process the template
 <#setting number_format="0.####">
 ```
 
-### 模板的加载
+### 7.2.3. 模板的加载
 
 configuration提供了三个方法, 代表三种方式:
 
@@ -717,7 +715,7 @@ FreeMarker 是会缓存模板的(假设使用 Configuration 对象的方法来�
 那么开发阶段怎么禁用这个特性? --- 有一个 Configuration 级别的设置被称作"更新延迟", 这个时间就是从上次对某个模板检查更新后，FreeMarker再次检查模板所要间隔的时间。 其默认值是5秒; 设为0即可;
 
 
-### 错误控制
+### 7.2.4. 错误控制
 
 关于 FreeMarker 发生的异常，可以分为3类:
 
@@ -791,7 +789,7 @@ FreeMarker 本身带有这些预先编写的错误控制器:
 *   `TemplateExceptionHandler.RETHROW_HANDLER`： 简单重新抛出所有异常而不会做其它的事情。 这个控制器对Web应用程序来说非常好， 因为它在生成的页面发生错误的情况下，给了你很多对Web应用程序的控制权 (因为FreeMarker不向输出中打印任何关于该错误的信息)。 要获得更多在Web应用程序中处理错误的信息
 
 
-## 通过java开发自定义方法
+## 7.3. 通过java开发自定义方法
 
 开发这样一个方法: indexOf(arg1, arg2), 返回字符串arg1在arg2中的位置索引
 
@@ -838,7 +836,7 @@ ${indexOf("m", x)}
 ${indexOf("foo", x)}
 ```
 
-## 通过java开发自定义指令
+## 7.4. 通过java开发自定义指令
 
 ```java
 

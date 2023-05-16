@@ -9,14 +9,7 @@ toc_max_heading_level: 5
 
 <div align="center">
 
-https://github.com/techiescamp/kubernetes-learning-path
-https://github.com/guangzhengli/k8s-tutorials
 
-https://edu.aliyun.com/roadmap/cloudnative?from=timeline
-
-https://yomxxx.github.io/2020/11/20/20201120-docker-web/ 搭建前端开发环境
-
-https://github.com/yeasy/docker_practice
 https://vuepress.mirror.docker-practice.com/
 
 替代品: 
@@ -114,11 +107,7 @@ https://github.com/docker/kitematic 可视化管理gui
   - [11.2. 挂载主机目录](#112-挂载主机目录)
   - [11.3. volume 的共享](#113-volume-的共享)
 - [12. 网络互联](#12-网络互联)
-  - [12.1. docker 默认初始创建](#121-docker-默认初始创建)
-  - [12.2. 网卡](#122-网卡)
-  - [12.3. network分类](#123-network分类)
-    - [12.3.1. bridge 类型](#1231-bridge-类型)
-    - [12.3.2. host 类型](#1232-host-类型)
+  - [12.1. docker 默认初始创建3 个网络](#121-docker-默认初始创建3-个网络)
   - [12.4. 创建固定ip](#124-创建固定ip)
   - [12.5. 查看container的ip](#125-查看container的ip)
   - [12.6. 外部访问容器](#126-外部访问容器)
@@ -1583,21 +1572,23 @@ todo
 
 https://github.com/goharbor/harbor Harbor
 
-或者:
-
-```sh
-# 可以通过获取官方 registry 镜像来运行
-# 默认情况下，仓库会被创建在容器的 /var/lib/registry 目录
-docker run -d -p 5000:5000 --restart=always --name registry registry
-
-# 使用 -v 自定义 仓库目录
-$ docker run -d \
-    -p 5000:5000 \
-    -v /opt/data/registry:/var/lib/registry \
-    registry
-```
+Nexus
 
 想让本网段的其他主机也能把镜像推送到私有仓库。你就得把例如 192.168.199.100:5000 这样的内网地址作为私有仓库地址，这时你会发现无法成功推送镜像。这是因为 Docker 默认不允许非 HTTPS 方式推送镜像。我们可以通过 Docker 的配置选项来取消这个限制:
+
+`/etc/docker/daemon.json`
+
+```json
+{
+  "registry-mirror": [
+    "https://hub-mirror.c.163.com",
+    "https://mirror.baidubce.com"
+  ],
+  "insecure-registries": [
+    "192.168.199.100:5000"
+  ]
+}
+```
 
 # 11. docker数据管理
 
@@ -1733,55 +1724,35 @@ docker run -d \
 
 ## 11.3. volume 的共享
 
-`--volume-from` 为当创建的容器指定其他容器的 volume
+`--volume-from` 为当前创建的容器指定其他容器的 volume
 
 有镜像 imageA, 派生容器 container1, 挂载有匿名卷 /data, `docker run --name container2 --volume-from container1 imageA` 那么 /data 目录会被两个 容器共享
 
 # 12. 网络互联
 
-## 12.1. docker 默认初始创建
+## 12.1. docker 默认初始创建3 个网络
 
 docker 安装的时候，会在宿主机建立一块虚拟网卡 docker0 作为网桥， 宿主机 通过这个网卡 桥接到了docker内局域网。在docker容器内，通过 docker0 的 IP 地址就能访问宿主机的服务了。
+
+> 宿主执行 ifconfig, `eth0, eth1 ...` 代表真实网卡, `docker0` 是 docker 新建的虚拟网卡, 作为容器访问宿主的网桥, `veth2ddf66cc, vethxxxxx ...` 和容器内的 eth0 绑定
 
 Docker安装后，默认会创建下面三个 network, 除非另有指定，否则新启动的容器会链接 bridge 这个 network。
 
 ```sh
 $ docker network ls
 NETWORK ID     NAME        DRIVER       SCOPE
-9781b1f585ae    bridge       bridge(默认)      local   ==> 桥接网络, 默认, 重启下，Docker的IP地址就变了
-1252da701e55    host        host        local     ==> 主机网络, 容器的网络会附属在主机上，两者是互通的(在容器中运行一个Web服务，监听8080端口，则主机的8080端口就会自动映射到容器中)
-237ea3d5cfbf    none        null        local     ==> 无指定网络, docker 容器就不会分配局域网的IP
+
+9781b1f585ae    bridge       bridge(默认)    local   --> 桥接网络, 默认, 重启下，Docker的IP地址就变了, 同个默认桥接网络下的两个容器只能通过docker内部 ip 访问, 除非创建容器时候使用--link指定链接别名
+
+  生产一般自定义一个桥接网络(因为自定义桥接网络优先级高于默认桥接网络, 不要在生产环境使用默认 bridge network
+
+  链接到同一个 自定义桥接网络的两个容器互相能够通过 容器名字访问
+
+1252da701e55    host        host        local     --> 主机网络, 容器的网络会附属在主机上，两者是互通的, 没有隔离 (在容器中运行一个Web服务，监听8080端口，则主机的8080端口就会自动映射到容器中)
+
+237ea3d5cfbf    none        null        local     --> 无指定网络, docker 容器就不会分配局域网的IP
 
 ```
-
-## 12.2. 网卡
-
-容器内部如何访问宿主机器?
-
-宿主执行 ifconfig, `eth0, eth1 ...` 代表真实网卡, `docker0` 是 docker 新建的虚拟网卡, 作为容器访问宿主的网桥, `veth2ddf66cc, vethxxxxx ...` 和容器内的 eth0 绑定
-
-## 12.3. network分类
-
-### 12.3.1. bridge 类型
-
-桥接网络, 重启下，Docker的IP地址就变了, 系统默认初始创建一个默认桥接网络名为 "bridge", 但是生产一般自定义一个桥接网络(因为自定义桥接网络优先级高于默认桥接网络, 不要在生产环境使用默认 bridge network)
-
-连接同一个自定义桥接网络的容器彼此暴露端口，而不会对外世界暴露端口, 但是外界若要连接, 需要使用 -p (host port):(container port) 发布接口
-
-默认请求网络 and 自定义桥接网络 的区别:
-
-- 自定义桥接网络优先级高于默认桥接网络, 不要在生产环境使用默认 bridge network
-
-- 默认桥接网络上的容器只能通过IP地址相互访问，除非使用 `--link` 选项，而在用户定义的桥接网络上，容器可以通过名称或别名彼此解析
-
-- 在容器的生命周期中，可以动态地将它与用户定义的网络连接或断开。而要从默认桥接网络中删除容器，需要停止容器并使用不同的网络选项重新创建容器。
-
-### 12.3.2. host 类型
-
-host: 容器的网络栈并不是和docker宿主机隔离的
-
-容器的网络会附属在主机上，两者是互通的(在容器中运行一个Web服务，监听8080端口，则主机的8080端口就会自动映射到容器中)
-
 
 ## 12.4. 创建固定ip
 
@@ -1801,27 +1772,26 @@ docker run -itd --name my-container --network my-network --ip 172.18.0.10 my-ima
 
 ```sh
 # 查看docker0的网络(宿主机上操作)
-ip a show docker0
+ip addr show docker0
 # 到容器内部查看ip
-ip a show eth0
+ip addr show eth0
 # or
 docker inspect <id,container_name> | grep "IPAddress"
 ```
 
 ## 12.6. 外部访问容器
 
-一个是通过 host 类型的 network (宿主连容器)
+如果是 bridge network, 可使用 -p 暴露接口
 
-一个 是 查询 docker0 网卡的地址 `ip addr show docker0` 作为 宿主在 docker 局域网的地址 (容器连宿主),  在 wsl2 下的的 容器, 外部连接容器暂时还需要使用 wsl 的ip即 `ifconfig` 的 eth0
+```
+-p <host port>:<container port> 指定端口映射
+-P    使用宿主随机端口映射到容器, 可通过 docker ls 查看到底哪个端口
+```
 
+如果是 host network, 则容器的端口会自动暴露到宿主 (宿主连容器)
 
-容器中可以运行一些网络应用，要让外部也可以访问这些应用，可以通过
+> 或者查询宿主机 docker0 网卡的地址 `ip addr show docker0` 作为 宿主在 docker 局域网的地址 (然后容器连宿主)
 
-` -P `(Docker 会随机映射一个 49000~49900 的端口到内部容器开放的网络端口)
-
-` -p `(指定要映射的端口，并且，在一个指定端口上只可以绑定一个容器。支持的格式有 ip:hostPort:containerPort | ip::containerPort | hostPort:containerPort
-
-eg: 
 
 ```sh
 # 端口自动映射, 需要手动查看端口是多少
@@ -1834,13 +1804,6 @@ bc533791f3f5  training/webapp:latest  python app.py 5 seconds ago  Up 2 seconds 
 # 映射所有接口地址
 # 使用 hostPort:containerPort 格式本地的 5000 端口映射到容器的 5000 端口; 此时默认会绑定本地所有接口上的所有地址
 $ docker run -d -p 5000:5000 training/webapp python app.py
-
-# -p 可多次使用, 指定不同的端口映射
-$ docker run -d \
-    -p 5000:5000 \
-    -p 3000:80 \
-    training/webapp \
-    python app.py
 
 # 映射到指定地址的指定端口
 # 可以使用 ip:hostPort:containerPort 格式指定映射使用一个特定地址，比如 localhost 地址 127.0.0.1

@@ -27,6 +27,7 @@ https://github.com/Louiszhai/tool
 - [10. 自启动管理](#10-自启动管理)
 - [11. 浏览器 多线程下载](#11-浏览器-多线程下载)
 - [12. 开发环境配置](#12-开发环境配置)
+  - [ifconfig 详解](#ifconfig-详解)
   - [12.1. chrome](#121-chrome)
     - [12.1.1. 开启非安全模式](#1211-开启非安全模式)
   - [12.2. idea](#122-idea)
@@ -310,6 +311,37 @@ Edge 新版浏览器，地址栏输入并回车：edge://flags/#enable-parallel-
 
 
 # 12. 开发环境配置
+
+## ifconfig 详解
+
+```
+lo0: loopback 回环地址一般是127.0.0.1
+
+gif0: software Network Interface 软件网络接口
+
+stf0: 6to4 tunnel interface , 即 ipv6->ipv4通道接口
+
+anpi0, anpi1 ,anpi2
+
+en0: Ethernet以太网 有线网卡 (局域网 ip 就在这里看)
+
+en1,2,3,4,5,6
+
+awdl0: airdrop peer to peer(一种mesh network), apple airdrop设备特有
+
+bridge0: 第2层桥接
+
+utun0,1,2,3,4,5,6:
+
+p2po: Point-to-Point 协议
+
+llw0
+
+
+UP代表网卡是开启状态
+RUNNING 代表这个网卡是处于网络连接状态
+MULTICAST:代表着喝网卡是支持组播的
+```
 
 ## 12.1. chrome
 
@@ -884,9 +916,20 @@ https://www.cnblogs.com/huaxiaoyao/p/12088948.html
 # edit config.json
 orb config docker
 # or just edit
-~/.orbstack/config/docker.json
+# ~/.orbstack/config/docker.json
+
 # restart
 orb restart docker
+
+# If you want to exit orbstack and take the docker desktop in use
+# just edit ~/.docker/config.json, 
+ "currentContext": "default"    # orbstack --> default
+# or
+docker context use default
+# Switch to OrbStack
+docker context use orbstack
+# Switch to Docker Desktop
+docker context use desktop-linux
 ```
 
 ## 12.24. vscode 安装配置

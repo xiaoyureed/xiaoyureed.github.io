@@ -5,6 +5,7 @@ tags:
 date: 2014-03-11 10:59:27
 toc_min_heading_level: 2
 toc_max_heading_level: 5
+draft: true
 ---
 
 <div align="center">
@@ -23,15 +24,15 @@ w3shcool国内镜像: https://www.quanzhanketang.com/default.html
 - [2. html语义化](#2-html%E8%AF%AD%E4%B9%89%E5%8C%96)
 - [3. dom结构](#3-dom%E7%BB%93%E6%9E%84)
 - [4. html5新增内容](#4-html5%E6%96%B0%E5%A2%9E%E5%86%85%E5%AE%B9)
-  - [4.1. 合在一起](#41-%E5%90%88%E5%9C%A8%E4%B8%80%E8%B5%B7)
-  - [4.2. 视频](#42-%E8%A7%86%E9%A2%91)
-  - [4.3. 音频](#43-%E9%9F%B3%E9%A2%91)
-  - [4.4. 拖放](#44-%E6%8B%96%E6%94%BE)
+    - [4.1. 合在一起](#41-%E5%90%88%E5%9C%A8%E4%B8%80%E8%B5%B7)
+    - [4.2. 视频](#42-%E8%A7%86%E9%A2%91)
+    - [4.3. 音频](#43-%E9%9F%B3%E9%A2%91)
+    - [4.4. 拖放](#44-%E6%8B%96%E6%94%BE)
 - [5. 兼容 ie](#5-%E5%85%BC%E5%AE%B9-ie)
 - [6. demo](#6-demo)
-  - [6.1. w3c经典页面](#61-w3c%E7%BB%8F%E5%85%B8%E9%A1%B5%E9%9D%A2)
-  - [6.2. 简历典型页面](#62-%E7%AE%80%E5%8E%86%E5%85%B8%E5%9E%8B%E9%A1%B5%E9%9D%A2)
-  - [6.3. table中包含form](#63-table%E4%B8%AD%E5%8C%85%E5%90%ABform)
+    - [6.1. w3c经典页面](#61-w3c%E7%BB%8F%E5%85%B8%E9%A1%B5%E9%9D%A2)
+    - [6.2. 简历典型页面](#62-%E7%AE%80%E5%8E%86%E5%85%B8%E5%9E%8B%E9%A1%B5%E9%9D%A2)
+    - [6.3. table中包含form](#63-table%E4%B8%AD%E5%8C%85%E5%90%ABform)
 
 <!-- /TOC -->
 
