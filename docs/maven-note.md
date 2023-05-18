@@ -93,21 +93,26 @@ jetbrains package search : https://pkg.biuaxia.cn/
   - [20.6. 在pom中给插件任务配置个性化参数](#206-在pom中给插件任务配置个性化参数)
   - [20.7. 常用的插件](#207-常用的插件)
     - [20.7.1. 打可执行包插件](#2071-打可执行包插件)
-    - [20.7.2. maven-war-plugin](#2072-maven-war-plugin)
+      - [20.7.1.1. maven-shade-plugin](#20711-maven-shade-plugin)
+      - [20.7.1.2. maven-assembly-plugin](#20712-maven-assembly-plugin)
+    - [20.7.2. maven-war-plugin 打 war 包](#2072-maven-war-plugin-打-war-包)
     - [20.7.3. maven-eclipse-plugin](#2073-maven-eclipse-plugin)
-    - [20.7.4. exec-maven-plugin](#2074-exec-maven-plugin)
-    - [20.7.5. bash-maven-plugin](#2075-bash-maven-plugin)
-    - [20.7.6. maven-antrun-plugin](#2076-maven-antrun-plugin)
-    - [20.7.7. versions-maven-plugin](#2077-versions-maven-plugin)
-    - [20.7.8. build-helper-maven-plugin](#2078-build-helper-maven-plugin)
-    - [20.7.9. maven-dependency-plugin](#2079-maven-dependency-plugin)
-    - [20.7.10. jetty和tomcat](#20710-jetty和tomcat)
-    - [20.7.11. maven-source-plugin](#20711-maven-source-plugin)
-    - [20.7.12. maven-resources-plugins](#20712-maven-resources-plugins)
-    - [20.7.13. maven-assembly-plugin](#20713-maven-assembly-plugin)
-    - [20.7.14. maven-compiler-plugin](#20714-maven-compiler-plugin)
-    - [20.7.15. spring-boot-maven-plugin](#20715-spring-boot-maven-plugin)
-    - [20.7.16. maven-install-plugin](#20716-maven-install-plugin)
+    - [20.7.4. 执行脚本命令](#2074-执行脚本命令)
+      - [20.7.4.1. exec-maven-plugin](#20741-exec-maven-plugin)
+      - [20.7.4.2. bash-maven-plugin 脚本内容直接卸载 pom 文件中](#20742-bash-maven-plugin-脚本内容直接卸载-pom-文件中)
+      - [20.7.4.3. maven-antrun-plugin 更强大](#20743-maven-antrun-plugin-更强大)
+    - [20.7.5. versions-maven-plugin 管理子模块版本](#2075-versions-maven-plugin-管理子模块版本)
+    - [20.7.6. build-helper-maven-plugin 自定义 build目录结构](#2076-build-helper-maven-plugin-自定义-build目录结构)
+    - [20.7.7. maven-dependency-plugin 管理依赖库](#2077-maven-dependency-plugin-管理依赖库)
+    - [20.7.8. jetty和tomcat](#2078-jetty和tomcat)
+    - [20.7.9. maven-source-plugin 打包源码](#2079-maven-source-plugin-打包源码)
+    - [native-maven-plugin 打二进制包](#native-maven-plugin-打二进制包)
+    - [jib-maven-plugin 打 docker 镜像](#jib-maven-plugin-打-docker-镜像)
+    - [20.7.10. maven-resources-plugins 处理资源替换](#20710-maven-resources-plugins-处理资源替换)
+    - [20.7.11. maven-compiler-plugin 编译](#20711-maven-compiler-plugin-编译)
+    - [20.7.12. spring-boot-maven-plugin](#20712-spring-boot-maven-plugin)
+    - [20.7.13. maven-install-plugin](#20713-maven-install-plugin)
+    - [20.7.14. frontend-maven-plugin 管理前端环境](#20714-frontend-maven-plugin-管理前端环境)
   - [20.8. 编写maven插件](#208-编写maven插件)
 - [21. maven属性](#21-maven属性)
 - [22. 开启资源文件过滤](#22-开启资源文件过滤)
@@ -2790,7 +2795,8 @@ p1|p2|p3
 
 https://www.baeldung.com/executable-jar-with-maven
 
-常用的打包插件有如下3种
+
+#### 20.7.1.1. maven-shade-plugin
 
 
 ```xml
@@ -2819,9 +2825,9 @@ https://www.baeldung.com/executable-jar-with-maven
 </plugin>
 ```
 
-主要说说第三种
+#### 20.7.1.2. maven-assembly-plugin
 
-两种使用方式
+根据不同环境打包成tar.gz或者zip
 
 * 使用 descriptorRefs(官方提供的定制化打包方式)，官方提供的 descriptorRef 有 bin, jar-with-dependencies, src, project。[不建议使用]
 * 使用 descriptors，指定打包文件 src/assembly/src.xml，在该配置文件内指定打包操作。
@@ -2917,7 +2923,7 @@ https://www.baeldung.com/executable-jar-with-maven
 
     ```
 
-### 20.7.2. maven-war-plugin
+### 20.7.2. maven-war-plugin 打 war 包
 
 打war包插件, 打包时对web资源开启资源过滤, 使得能够使用Maven属性. 见[开启web资源过滤](#开启web资源过滤)
 
@@ -2934,7 +2940,7 @@ https://www.baeldung.com/executable-jar-with-maven
 </plugin>
 ```
 
-### 20.7.3. maven-eclipse-plugin
+### 20.7.3. maven-eclipse-plugin 
 
 生成.classpath和.project文件，并且配置Eclispe将Maven作为External工具
 
@@ -2958,11 +2964,15 @@ https://www.baeldung.com/executable-jar-with-maven
 
 运行：mvn eclipse:eclipse 生成.classpath和.project文件
 
-### 20.7.4. exec-maven-plugin
+### 20.7.4. 执行脚本命令
+
+#### 20.7.4.1. exec-maven-plugin
 
 可以执行命令行, or 执行 shell
 
-通过命令行 执行java main。`mvn exec:java -Dexec.mainClass="com.demo.HelloWorld"` 并不打可执行包
+通过命令行 执行java main
+
+> `mvn exec:java -Dexec.mainClass="com.demo.HelloWorld"` 并不打可执行包
 
 ```xml
 <plugin>  
@@ -3026,7 +3036,7 @@ or 简单点的
     </build>
 ```
 
-### 20.7.5. bash-maven-plugin
+#### 20.7.4.2. bash-maven-plugin 脚本内容直接卸载 pom 文件中
 
 执行 bash 脚本
 
@@ -3058,7 +3068,7 @@ or 简单点的
 </plugin>
 ```
 
-### 20.7.6. maven-antrun-plugin
+#### 20.7.4.3. maven-antrun-plugin 更强大
 
 执行脚本
 
@@ -3104,7 +3114,7 @@ ${line.separator}
 
 ```
 
-### 20.7.7. versions-maven-plugin
+### 20.7.5. versions-maven-plugin 管理子模块版本
 
 统一更新子模块版本号为父模块版本号插件
 
@@ -3121,7 +3131,7 @@ ${line.separator}
 
 ```
 
-### 20.7.8. build-helper-maven-plugin
+### 20.7.6. build-helper-maven-plugin 自定义 build目录结构
 
 codehaus提供了build-helper-maven-plugin插件来支持自定义的项目目录结构(相对于Maven默认目录结构来说)。
 
@@ -3225,7 +3235,7 @@ codehaus提供了build-helper-maven-plugin插件来支持自定义的项目目�
 </plugin>
 ```
 
-### 20.7.9. maven-dependency-plugin
+### 20.7.7. maven-dependency-plugin 管理依赖库
 
 依赖项插件, 提供了处理工件的功能。它可以将本地或远程存储库中的工件(或构件中的文件)复制和/或解包到指定的位置。
 
@@ -3250,7 +3260,7 @@ codehaus提供了build-helper-maven-plugin插件来支持自定义的项目目�
 </plugin>  
 ```
 
-### 20.7.10. jetty和tomcat
+### 20.7.8. jetty和tomcat
 
 jetty:
 
@@ -3308,7 +3318,7 @@ tomcat:
 </plugin>
 ```
 
-### 20.7.11. maven-source-plugin
+### 20.7.9. maven-source-plugin 打包源码
 
 程序打包时候, 同时打包源码
 
@@ -3331,7 +3341,29 @@ tomcat:
 
 ```
 
-### 20.7.12. maven-resources-plugins
+### native-maven-plugin 打二进制包
+
+需要和 springboot 3 合作, 默认设置了版本
+
+```xml
+ <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+            </plugin>
+```
+
+### jib-maven-plugin 打 docker 镜像
+
+```xml
+<!--            ./mvnw compile jib:build -Dimage=xxx -->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.3.2</version>
+            </plugin>
+```
+
+### 20.7.10. maven-resources-plugins 处理资源替换
 
 springboot 默认提供, 用于 maven 打包时资源文件的复制, 占位符的替换
 
@@ -3360,17 +3392,40 @@ springboot 默认提供, 用于 maven 打包时资源文件的复制, 占位符�
         </includes>
     </resource>
 </resources>
+
+
+
+
+
+ <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>position-react-build</id>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${frontend.dir}/out</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 ```
 
 ①中，我们通过 excludes 来将所有的 application*.properties 排除在外，这样 maven 在打包时就不会复制这些文件。毕竟我们不希望把 application-dev.properties 也包含在 prod 的 jar 包里。
 
 ②中，通过开启 filtering，maven 会将文件中的 @XX@ 替换 profile 中定义的 XX 变量/属性。另外，我们还通过 includes 来告诉 maven 根据 自定义的 maven profile 来复制对应的 properties 文件。
 
-### 20.7.13. maven-assembly-plugin
 
-根据不同环境打包成tar.gz或者zip
-
-### 20.7.14. maven-compiler-plugin
+### 20.7.11. maven-compiler-plugin 编译
 
 编译插件, 可以设置 Java compile version
 
@@ -3413,7 +3468,7 @@ springboot 默认提供, 用于 maven 打包时资源文件的复制, 占位符�
 ```
 
 
-### 20.7.15. spring-boot-maven-plugin
+### 20.7.12. spring-boot-maven-plugin
 
 为Spring Boot应用提供了执行Maven操作的可能。允许你打包可执行文件和war文件，并且就地运行。
 
@@ -3433,9 +3488,62 @@ spring-boot:run，运行Spring Boot应用, 指定 spring boot profile 启动 `mv
 </plugin>
 ```
 
-### 20.7.16. maven-install-plugin
+### 20.7.13. maven-install-plugin
 
 本地依赖加入本地仓库
+
+### 20.7.14. frontend-maven-plugin 管理前端环境
+
+```xml
+  <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.11.3</version>
+                <executions>
+                    <!-- check if nodejs/npm installed -->
+                    <execution>
+                        <id>install-frontend-tools</id>
+                        <goals>
+                            <goal>install-node-and-yarn</goal>
+                        </goals>
+                        <!-- optional, also the default value -->
+                        <phase>generate-resources</phase>
+                    </execution>
+
+                    <!-- install dependencies -->
+                    <execution>
+                        <id>yarn-install</id>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install --registry=https://registry.npm.taobao.org</arguments>
+                            <!--                            <arguments>install</arguments>-->
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>yarn-build-and-export</id>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>export</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <workingDirectory>${frontend.dir}</workingDirectory>
+                    <installDirectory>${project.build.directory}</installDirectory>
+                    <nodeVersion>v18.14.0</nodeVersion>
+                    <yarnVersion>v1.22.19</yarnVersion>
+                    <!-- optional, just for projects in China main land -->
+                    <!-- <downloadRoot>http://npm.taobao.org/mirrors/node/</downloadRoot> -->
+                </configuration>
+            </plugin>
+
+```
 
 ## 20.8. 编写maven插件
 

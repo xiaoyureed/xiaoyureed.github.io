@@ -10,55 +10,53 @@ references： [1](https://docs.spring.io/spring/docs/5.1.2.RELEASE/spring-framew
 
 https://github.com/huifer/spring-analysis 源码分析
 
-<!-- TOC -->
-
-- [1. 拾遗](#1-%E6%8B%BE%E9%81%97)
-  - [1.1. classpath\*区别](#11-classpath%5C%E5%8C%BA%E5%88%AB)
-  - [1.2. 各种注解怎么理解](#12-%E5%90%84%E7%A7%8D%E6%B3%A8%E8%A7%A3%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3)
-- [2. 认识](#2-%E8%AE%A4%E8%AF%86)
-  - [2.1. core 部分](#21-core-%E9%83%A8%E5%88%86)
-  - [2.2. aop 部分](#22-aop-%E9%83%A8%E5%88%86)
-  - [2.3. data access 部分](#23-data-access-%E9%83%A8%E5%88%86)
-  - [2.4. web 部分](#24-web-%E9%83%A8%E5%88%86)
-  - [2.5. test 部分&context-support](#25-test-%E9%83%A8%E5%88%86context-support)
-  - [2.6. spring4 新增](#26-spring4-%E6%96%B0%E5%A2%9E)
-  - [2.7. 组件结构](#27-%E7%BB%84%E4%BB%B6%E7%BB%93%E6%9E%84)
+- [1. 拾遗](#1-拾遗)
+  - [1.1. classpath\*区别](#11-classpath区别)
+  - [1.2. 各种注解怎么理解](#12-各种注解怎么理解)
+- [2. 认识](#2-认识)
+  - [2.1. core 部分](#21-core-部分)
+  - [2.2. aop 部分](#22-aop-部分)
+  - [2.3. data access 部分](#23-data-access-部分)
+  - [2.4. web 部分](#24-web-部分)
+  - [2.5. test 部分\&context-support](#25-test-部分context-support)
+  - [2.6. spring4 新增](#26-spring4-新增)
+  - [2.7. 组件结构](#27-组件结构)
     - [2.7.1. ioc-container](#271-ioc-container)
-- [3. api 使用](#3-api-%E4%BD%BF%E7%94%A8)
+- [3. api 使用](#3-api-使用)
 - [4. quickstart](#4-quickstart)
-- [5. 配置的方式](#5-%E9%85%8D%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F)
-  - [5.1. 基于 xml](#51-%E5%9F%BA%E4%BA%8E-xml)
-    - [5.1.1. xml 中的配置项](#511-xml-%E4%B8%AD%E7%9A%84%E9%85%8D%E7%BD%AE%E9%A1%B9)
-    - [5.1.2. 几种注入-实例化方式](#512-%E5%87%A0%E7%A7%8D%E6%B3%A8%E5%85%A5-%E5%AE%9E%E4%BE%8B%E5%8C%96%E6%96%B9%E5%BC%8F)
-      - [5.1.2.1. 通过构造函数](#5121-%E9%80%9A%E8%BF%87%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0)
-        - [5.1.2.1.1. 通过静态工厂方法](#51211-%E9%80%9A%E8%BF%87%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95)
-        - [5.1.2.1.2. 通过实例工厂方法](#51212-%E9%80%9A%E8%BF%87%E5%AE%9E%E4%BE%8B%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95)
-      - [5.1.2.2. 通过 setter 注入](#5122-%E9%80%9A%E8%BF%87-setter-%E6%B3%A8%E5%85%A5)
-      - [5.1.2.3. 通过 MethodInvokingFactoryBean 注入方法的返回值](#5123-%E9%80%9A%E8%BF%87-methodinvokingfactorybean-%E6%B3%A8%E5%85%A5%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC)
-      - [5.1.2.4. @Autowired 注入](#5124-autowired-%E6%B3%A8%E5%85%A5)
-    - [5.1.3. springEL 表达式,注入表达式](#513-springel-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5%E8%A1%A8%E8%BE%BE%E5%BC%8F)
-    - [5.1.4. 集合的注入](#514-%E9%9B%86%E5%90%88%E7%9A%84%E6%B3%A8%E5%85%A5)
-  - [5.2. 基于注解](#52-%E5%9F%BA%E4%BA%8E%E6%B3%A8%E8%A7%A3)
-  - [5.3. xml 和注解混用](#53-xml-%E5%92%8C%E6%B3%A8%E8%A7%A3%E6%B7%B7%E7%94%A8)
-- [6. JUnit 整合](#6-junit-%E6%95%B4%E5%90%88)
+- [5. 配置的方式](#5-配置的方式)
+  - [5.1. 基于 xml](#51-基于-xml)
+    - [5.1.1. xml 中的配置项](#511-xml-中的配置项)
+    - [5.1.2. 几种注入-实例化方式](#512-几种注入-实例化方式)
+      - [5.1.2.1. 通过构造函数](#5121-通过构造函数)
+        - [5.1.2.1.1. 通过静态工厂方法](#51211-通过静态工厂方法)
+        - [5.1.2.1.2. 通过实例工厂方法](#51212-通过实例工厂方法)
+      - [5.1.2.2. 通过 setter 注入](#5122-通过-setter-注入)
+      - [5.1.2.3. 通过 MethodInvokingFactoryBean 注入方法的返回值](#5123-通过-methodinvokingfactorybean-注入方法的返回值)
+      - [5.1.2.4. @Autowired 注入](#5124-autowired-注入)
+    - [5.1.3. springEL 表达式,注入表达式](#513-springel-表达式注入表达式)
+    - [5.1.4. 集合的注入](#514-集合的注入)
+  - [5.2. 基于注解](#52-基于注解)
+  - [5.3. xml 和注解混用](#53-xml-和注解混用)
+- [6. JUnit 整合](#6-junit-整合)
 - [7. IoC](#7-ioc)
 - [8. AOP](#8-aop)
-  - [8.1. aop 概念](#81-aop-%E6%A6%82%E5%BF%B5)
-  - [8.2. aop 联盟规范](#82-aop-%E8%81%94%E7%9B%9F%E8%A7%84%E8%8C%83)
-    - [8.2.1. 通知类型](#821-%E9%80%9A%E7%9F%A5%E7%B1%BB%E5%9E%8B)
-    - [8.2.2. Joinpoint 连接点](#822-joinpoint-%E8%BF%9E%E6%8E%A5%E7%82%B9)
-  - [8.3. 不和 spring 集成单独使用动态代理](#83-%E4%B8%8D%E5%92%8C-spring-%E9%9B%86%E6%88%90%E5%8D%95%E7%8B%AC%E4%BD%BF%E7%94%A8%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86)
-    - [8.3.1. 通过 jdk 动态生成代理](#831-%E9%80%9A%E8%BF%87-jdk-%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E4%BB%A3%E7%90%86)
-    - [8.3.2. 通过 cglib 动态生成代理](#832-%E9%80%9A%E8%BF%87-cglib-%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E4%BB%A3%E7%90%86)
-  - [8.4. 通过 ProxyFactoryBean 生成代理半自动](#84-%E9%80%9A%E8%BF%87-proxyfactorybean-%E7%94%9F%E6%88%90%E4%BB%A3%E7%90%86%E5%8D%8A%E8%87%AA%E5%8A%A8)
-  - [8.5. 全自动实现](#85-%E5%85%A8%E8%87%AA%E5%8A%A8%E5%AE%9E%E7%8E%B0)
-  - [8.6. 使用 AspectJ 框架生成代理和 spring 集成](#86-%E4%BD%BF%E7%94%A8-aspectj-%E6%A1%86%E6%9E%B6%E7%94%9F%E6%88%90%E4%BB%A3%E7%90%86%E5%92%8C-spring-%E9%9B%86%E6%88%90)
-    - [8.6.1. 准备工作](#861-%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C)
-    - [8.6.2. AspectJ 通知类型](#862-aspectj-%E9%80%9A%E7%9F%A5%E7%B1%BB%E5%9E%8B)
-    - [8.6.3. AspectJ 编程,基于 xml](#863-aspectj-%E7%BC%96%E7%A8%8B%E5%9F%BA%E4%BA%8E-xml)
-    - [8.6.4. AspectJ 编程,基于注解](#864-aspectj-%E7%BC%96%E7%A8%8B%E5%9F%BA%E4%BA%8E%E6%B3%A8%E8%A7%A3)
+  - [8.1. aop 概念](#81-aop-概念)
+  - [8.2. aop 联盟规范](#82-aop-联盟规范)
+    - [8.2.1. 通知类型](#821-通知类型)
+    - [8.2.2. Joinpoint 连接点](#822-joinpoint-连接点)
+  - [8.3. 不和 spring 集成(单独使用动态代理)](#83-不和-spring-集成单独使用动态代理)
+    - [8.3.1. 通过 jdk 动态生成代理](#831-通过-jdk-动态生成代理)
+    - [8.3.2. 通过 cglib 动态生成代理](#832-通过-cglib-动态生成代理)
+  - [8.4. 通过 ProxyFactoryBean 生成代理(半自动)](#84-通过-proxyfactorybean-生成代理半自动)
+  - [8.5. 全自动实现](#85-全自动实现)
+  - [8.6. 使用 AspectJ 框架生成代理(和 spring 集成)](#86-使用-aspectj-框架生成代理和-spring-集成)
+    - [8.6.1. 准备工作](#861-准备工作)
+    - [8.6.2. AspectJ 通知类型](#862-aspectj-通知类型)
+    - [8.6.3. AspectJ 编程,基于 xml](#863-aspectj-编程基于-xml)
+    - [8.6.4. AspectJ 编程,基于注解](#864-aspectj-编程基于注解)
 - [9. JDBC](#9-jdbc)
-  - [9.1. 数据库连接池](#91-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0)
+  - [9.1. 数据库连接池](#91-数据库连接池)
     - [9.1.1. C3P0](#911-c3p0)
     - [9.1.2. DBCP](#912-dbcp)
     - [9.1.3. Druid](#913-druid)
@@ -66,56 +64,57 @@ https://github.com/huifer/spring-analysis 源码分析
     - [9.1.5. HikariCP](#915-hikaricp)
   - [9.2. JdbcTemplate](#92-jdbctemplate)
     - [9.2.1. quickstart](#921-quickstart)
-    - [9.2.2. Dao 实现类继承 JdbcDaoSupport 支持类](#922-dao-%E5%AE%9E%E7%8E%B0%E7%B1%BB%E7%BB%A7%E6%89%BF-jdbcdaosupport-%E6%94%AF%E6%8C%81%E7%B1%BB)
-    - [9.2.3. 数据库连接配置放入 Properties 文件](#923-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E9%85%8D%E7%BD%AE%E6%94%BE%E5%85%A5-properties-%E6%96%87%E4%BB%B6)
-- [10. 事务管理](#10-%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86)
-  - [10.1. 事务实现原理](#101-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86)
-  - [10.2. TransactionDefinition 事务传播](#102-transactiondefinition-%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD)
-  - [10.3. 事务相关 api](#103-%E4%BA%8B%E5%8A%A1%E7%9B%B8%E5%85%B3-api)
+    - [9.2.2. Dao 实现类继承 JdbcDaoSupport 支持类](#922-dao-实现类继承-jdbcdaosupport-支持类)
+    - [9.2.3. 数据库连接配置放入 Properties 文件](#923-数据库连接配置放入-properties-文件)
+- [10. 事务管理](#10-事务管理)
+  - [10.1. 事务实现原理](#101-事务实现原理)
+  - [10.2. TransactionDefinition 事务传播](#102-transactiondefinition-事务传播)
+  - [10.3. 事务相关 api](#103-事务相关-api)
     - [10.3.1. PlatformTransactionManager](#1031-platformtransactionmanager)
     - [10.3.2. TransactionStatus](#1032-transactionstatus)
-    - [10.3.3. 使用 jdbc 操作事务](#1033-%E4%BD%BF%E7%94%A8-jdbc-%E6%93%8D%E4%BD%9C%E4%BA%8B%E5%8A%A1)
-  - [10.4. 事务相关案例-转账](#104-%E4%BA%8B%E5%8A%A1%E7%9B%B8%E5%85%B3%E6%A1%88%E4%BE%8B-%E8%BD%AC%E8%B4%A6)
-    - [10.4.1. 准备](#1041-%E5%87%86%E5%A4%87)
-    - [10.4.2. 手动开发事务](#1042-%E6%89%8B%E5%8A%A8%E5%BC%80%E5%8F%91%E4%BA%8B%E5%8A%A1)
-    - [10.4.3. 半自动事务生成代理](#1043-%E5%8D%8A%E8%87%AA%E5%8A%A8%E4%BA%8B%E5%8A%A1%E7%94%9F%E6%88%90%E4%BB%A3%E7%90%86)
-    - [10.4.4. 全自动事务基于 xml](#1044-%E5%85%A8%E8%87%AA%E5%8A%A8%E4%BA%8B%E5%8A%A1%E5%9F%BA%E4%BA%8E-xml)
-    - [10.4.5. 全自动事务基于注解](#1045-%E5%85%A8%E8%87%AA%E5%8A%A8%E4%BA%8B%E5%8A%A1%E5%9F%BA%E4%BA%8E%E6%B3%A8%E8%A7%A3)
-- [11. spring web 开发](#11-spring-web-%E5%BC%80%E5%8F%91)
-- [12. 几种加载 xml 方式](#12-%E5%87%A0%E7%A7%8D%E5%8A%A0%E8%BD%BD-xml-%E6%96%B9%E5%BC%8F)
-- [13. spring 中的设计模式](#13-spring-%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F)
-- [14. spring bean 生命周期](#14-spring-bean-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
-- [15. 常用的 spring bean 拓展接口](#15-%E5%B8%B8%E7%94%A8%E7%9A%84-spring-bean-%E6%8B%93%E5%B1%95%E6%8E%A5%E5%8F%A3)
-  - [15.1. BeanNameAware、ApplicationContextAware 和 BeanFactoryAware](#151-beannameawareapplicationcontextaware-%E5%92%8C-beanfactoryaware)
-  - [15.2. BeanPostProcessor 接口](#152-beanpostprocessor-%E6%8E%A5%E5%8F%A3)
-  - [15.3. InitialingBean 和 DisposableBean](#153-initialingbean-%E5%92%8C-disposablebean)
-  - [15.4. FactoryBean 接口](#154-factorybean-%E6%8E%A5%E5%8F%A3)
-    - [15.4.1. FactoryBean 解释](#1541-factorybean-%E8%A7%A3%E9%87%8A)
-    - [15.4.2. FactoryBean 接口的 api](#1542-factorybean-%E6%8E%A5%E5%8F%A3%E7%9A%84-api)
-    - [15.4.3. FactoryBean 简单的使用示例](#1543-factorybean-%E7%AE%80%E5%8D%95%E7%9A%84%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B)
-    - [15.4.4. factoryBean 在 mabatis-spring 集成中的应用](#1544-factorybean-%E5%9C%A8-mabatis-spring-%E9%9B%86%E6%88%90%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8)
-    - [15.4.5. factoryBean 案例-dao 切换](#1545-factorybean-%E6%A1%88%E4%BE%8B-dao-%E5%88%87%E6%8D%A2)
-  - [15.5. BeanFactory 接口](#155-beanfactory-%E6%8E%A5%E5%8F%A3)
-    - [15.5.1. BeanFactory 解释](#1551-beanfactory-%E8%A7%A3%E9%87%8A)
-    - [15.5.2. api 有哪些](#1552-api-%E6%9C%89%E5%93%AA%E4%BA%9B)
+    - [10.3.3. 使用 jdbc 操作事务](#1033-使用-jdbc-操作事务)
+  - [10.4. 事务相关案例-转账](#104-事务相关案例-转账)
+    - [10.4.1. 准备](#1041-准备)
+    - [10.4.2. 手动开发事务](#1042-手动开发事务)
+    - [10.4.3. 半自动事务(生成代理)](#1043-半自动事务生成代理)
+    - [10.4.4. 全自动事务基于 xml](#1044-全自动事务基于-xml)
+    - [10.4.5. 全自动事务基于注解](#1045-全自动事务基于注解)
+- [11. spring web 开发](#11-spring-web-开发)
+- [12. 几种加载 xml 方式](#12-几种加载-xml-方式)
+- [13. spring 中的设计模式](#13-spring-中的设计模式)
+- [14. spring bean 生命周期](#14-spring-bean-生命周期)
+- [15. 常用的 spring bean 拓展接口](#15-常用的-spring-bean-拓展接口)
+  - [15.1. BeanNameAware、ApplicationContextAware 和 BeanFactoryAware](#151-beannameawareapplicationcontextaware-和-beanfactoryaware)
+  - [15.2. BeanPostProcessor 接口](#152-beanpostprocessor-接口)
+  - [15.3. InitialingBean 和 DisposableBean](#153-initialingbean-和-disposablebean)
+  - [15.4. FactoryBean 接口](#154-factorybean-接口)
+    - [15.4.1. FactoryBean 解释](#1541-factorybean-解释)
+    - [15.4.2. FactoryBean 接口的 api](#1542-factorybean-接口的-api)
+    - [15.4.3. FactoryBean 简单的使用示例](#1543-factorybean-简单的使用示例)
+    - [15.4.4. factoryBean 在 mabatis-spring 集成中的应用](#1544-factorybean-在-mabatis-spring-集成中的应用)
+    - [15.4.5. factoryBean 案例-dao 切换](#1545-factorybean-案例-dao-切换)
+  - [15.5. BeanFactory 接口](#155-beanfactory-接口)
+    - [15.5.1. BeanFactory 解释](#1551-beanfactory-解释)
+    - [15.5.2. api 有哪些](#1552-api-有哪些)
   - [15.6. BeanFactoryPostProcessor](#156-beanfactorypostprocessor)
   - [15.7. InstantiationAwareBeanPostProcessor](#157-instantiationawarebeanpostprocessor)
-- [16. 动态注册 bean](#16-%E5%8A%A8%E6%80%81%E6%B3%A8%E5%86%8C-bean)
-  - [16.1. 动态注册场景](#161-%E5%8A%A8%E6%80%81%E6%B3%A8%E5%86%8C%E5%9C%BA%E6%99%AF)
-  - [16.2. 动态注册 api](#162-%E5%8A%A8%E6%80%81%E6%B3%A8%E5%86%8C-api)
-  - [16.3. 怎么使用动态注册](#163-%E6%80%8E%E4%B9%88%E4%BD%BF%E7%94%A8%E5%8A%A8%E6%80%81%E6%B3%A8%E5%86%8C)
-    - [16.3.1. 通过 BeanFactoryPostProcessor 实现动态注册](#1631-%E9%80%9A%E8%BF%87-beanfactorypostprocessor-%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81%E6%B3%A8%E5%86%8C)
-    - [16.3.2. 通过 BeanDefinitionRegistry 在普通 bean 中注册](#1632-%E9%80%9A%E8%BF%87-beandefinitionregistry-%E5%9C%A8%E6%99%AE%E9%80%9A-bean-%E4%B8%AD%E6%B3%A8%E5%86%8C)
-    - [16.3.3. 通过 ImportBeanDefinitionRegistrar](#1633-%E9%80%9A%E8%BF%87-importbeandefinitionregistrar)
-- [17. 国际化 and 参数校验](#17-%E5%9B%BD%E9%99%85%E5%8C%96-and-%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C)
-- [18. spring5 新特性](#18-spring5-%E6%96%B0%E7%89%B9%E6%80%A7)
-- [19. Guice](#19-guice)
+- [16. 动态注册 bean](#16-动态注册-bean)
+  - [16.1. 动态注册场景](#161-动态注册场景)
+  - [16.2. 动态注册 api](#162-动态注册-api)
+  - [16.3. 怎么使用动态注册](#163-怎么使用动态注册)
+    - [16.3.1. 通过 BeanFactoryPostProcessor 实现动态注册](#1631-通过-beanfactorypostprocessor-实现动态注册)
+    - [16.3.2. 通过 BeanDefinitionRegistry 在普通 bean 中注册](#1632-通过-beandefinitionregistry-在普通-bean-中注册)
+    - [16.3.3. 通过 ImportBeanDefinitionRegistrar](#1633-通过-importbeandefinitionregistrar)
+- [17. 国际化 and 参数校验](#17-国际化-and-参数校验)
+- [18. spring5 新特性](#18-spring5-新特性)
 
-<!-- /TOC -->
 
-# 拾遗
+# 1. 拾遗
 
-## classpath\*区别
+
+
+
+## 1.1. classpath\*区别
 
 classpath 是指 WEB-INF 文件夹下的 classes 目录
 
@@ -140,7 +139,7 @@ classpath 是指 WEB-INF 文件夹下的 classes 目录
 
 ```
 
-## 各种注解怎么理解
+## 1.2. 各种注解怎么理解
 
 references: [常用注解分类汇总](http://blog.leanote.com/post/sheng91666@163.com/spring%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3%E6%B1%87%E6%80%BB)
 
@@ -282,7 +281,7 @@ ExceptionHandler    方法上; 全局处理控制器里的异常
 
 ```
 
-# 认识
+# 2. 认识
 
 spring 的体系结构
 
@@ -292,7 +291,7 @@ spring4: (去掉了 spring3 的 struts，添加了 messaging 和 websocket，其
 
 至于 spring5 的新特性, 参见: https://www.ibm.com/developerworks/cn/java/j-whats-new-in-spring-framework-5-theedom/index.html
 
-## core 部分
+## 2.1. core 部分
 
 -   四个核心 jar
 
@@ -320,13 +319,13 @@ spring4: (去掉了 spring3 的 struts，添加了 messaging 和 websocket，其
         > 注:
         > spring-context-support: context 拓展包, 包含支持 mvc 相关, 缓存 Cache（ehcache）、JCA、JMX、 邮件服务（Java Mail、COS Mail）、任务计划 Scheduling（Timer、Quartz）方面的类
 
-## aop 部分
+## 2.2. aop 部分
 
 -   spring-aop：面向切面编程
 
 -   spring-aspects：集成 AspectJ
 
-## data access 部分
+## 2.3. data access 部分
 
 -   spring-jdbc：jdbc 的支持
 
@@ -338,27 +337,27 @@ spring4: (去掉了 spring3 的 struts，添加了 messaging 和 websocket，其
 
 -   spring-jms：java 消息服务
 
-## web 部分
+## 2.4. web 部分
 
 -   spring-web：基础 web 功能，如文件上传
 
 -   spring-webmvc：mvc 实现
 
-## test 部分&context-support
+## 2.5. test 部分&context-support
 
 -   spring-test：spring 测试，提供 junit 与 mock 测试功能
 
 -   spring-context-support：spring 额外支持包，比如邮件服务、视图解析等
 
-## spring4 新增
+## 2.6. spring4 新增
 
 -   spring-websocket：为 web 应用提供的高效通信工具
 
 -   spring-messaging：用于构建基于消息的应用程序
 
-## 组件结构
+## 2.7. 组件结构
 
-### ioc-container
+### 2.7.1. ioc-container
 
 ```java
 BeanFactory - 顶级接口
@@ -370,7 +369,7 @@ FactoryBean - 实现这个接口的bean 时特殊的 "工厂bean", getObject() �
 
 ```
 
-# api 使用
+# 3. api 使用
 
 
 ```java
@@ -401,7 +400,7 @@ public class TestDI {
 
 ```
 
-# quickstart
+# 4. quickstart
 
 引入依赖
 
@@ -653,11 +652,11 @@ public void demo01(){
 
 ```
 
-# 配置的方式
+# 5. 配置的方式
 
-## 基于 xml
+## 5.1. 基于 xml
 
-### xml 中的配置项
+### 5.1.1. xml 中的配置项
 
 -   id 属性可以自动提示(一般使用 id 属性), name 属性则没有
 
@@ -676,11 +675,11 @@ public void demo01(){
     -   globalsession：存疑 //todo
 
 
-### 几种注入-实例化方式
+### 5.1.2. 几种注入-实例化方式
 
 https://blog.csdn.net/a909301740/article/details/78379720
 
-#### 通过构造函数
+#### 5.1.2.1. 通过构造函数
 
 ```java
 public class UserService implements IUserService {
@@ -711,7 +710,7 @@ public class UserService implements IUserService {
 
 ```
 
-##### 通过静态工厂方法
+##### 5.1.2.1.1. 通过静态工厂方法
 
 属于构造函数注入
 
@@ -777,7 +776,7 @@ xml 配置
 
 ```
 
-##### 通过实例工厂方法
+##### 5.1.2.1.2. 通过实例工厂方法
 
 属于构造函数注入
 
@@ -835,7 +834,7 @@ public class TestFactory {
 
 ```
 
-#### 通过 setter 注入
+#### 5.1.2.2. 通过 setter 注入
 
 (setter injection)
 
@@ -859,7 +858,7 @@ public class TestFactory {
 
 xml 配置方式之外, 还提供注解的方式, 也是需要 setter 方法;
 
-#### 通过 MethodInvokingFactoryBean 注入方法的返回值
+#### 5.1.2.3. 通过 MethodInvokingFactoryBean 注入方法的返回值
 
 MethodInvokingFactoryBean 可以注册某个方法的返回值到 spring 中, 这个方法可以是实例方法, 也可以是静态方法;
 
@@ -950,7 +949,7 @@ public MethodInvokingFactoryBean methodInvokingFactoryBean() {
 
 ```
 
-#### @Autowired 注入
+#### 5.1.2.4. @Autowired 注入
 
 底层是使用了反射, 不依赖构造函数, 不依赖 setter
 
@@ -968,7 +967,7 @@ public MethodInvokingFactoryBean methodInvokingFactoryBean() {
 @Inject是JSR330规范实现的, 根据类型进行自动装配的，如果需要按名称进行装配，则需要配合@Named
 ```
 
-### springEL 表达式,注入表达式
+### 5.1.3. springEL 表达式,注入表达式
 
 ```java
 // 实体类Person：
@@ -1028,7 +1027,7 @@ public class Address {
 
 ```
 
-### 集合的注入
+### 5.1.4. 集合的注入
 
 ```java
 // 实体类：
@@ -1133,7 +1132,7 @@ public class TestColl {
 
 ```
 
-## 基于注解
+## 5.2. 基于注解
 
 -   添加约束: 即 context schema,在 xsd-config.xml 中找
 
@@ -1309,7 +1308,7 @@ public class TestAnnoHello {
 
 ```
 
-## xml 和注解混用
+## 5.3. xml 和注解混用
 
 -   xml 负责配置 bean(所以可以去掉`context:component-scan`配置), 注解负责配置注入(所以开启`<context:annotation-config/>`)
 
@@ -1390,7 +1389,7 @@ public class TestAnnoWeb {
 
 ```
 
-# JUnit 整合
+# 6. JUnit 整合
 
 https://www.ibm.com/developerworks/cn/java/j-lo-springunitest/index.html
 
@@ -1443,15 +1442,15 @@ public class TestJunit {
 
 ```
 
-# IoC
+# 7. IoC
 
 Spring 中的 IoC 的实现原理就是工厂模式加反射机制。
 
 [ioc 有什么好处](https://www.zhihu.com/question/23277575/answer/169698662)
 
-# AOP
+# 8. AOP
 
-## aop 概念
+## 8.1. aop 概念
 
 在不修改源代码的情况下, 增强某个方法, 比如在这个方法逻辑执行之前, 之后, 前后, 返回值返回之后, 抛出异常之后
 
@@ -1484,9 +1483,9 @@ Spring 中的 IoC 的实现原理就是工厂模式加反射机制。
 
 ```
 
-## aop 联盟规范
+## 8.2. aop 联盟规范
 
-### 通知类型
+### 8.2.1. 通知类型
 
 ```
 1） aop联盟 定义 aop通知类型，spring 对 aop联盟规范支持。
@@ -1519,7 +1518,7 @@ Spring 中的 IoC 的实现原理就是工厂模式加反射机制。
 
 ```
 
-### Joinpoint 连接点
+### 8.2.2. Joinpoint 连接点
 
 ```
 1） JoinPoint连接点的信息
@@ -1538,9 +1537,9 @@ Spring 中的 IoC 的实现原理就是工厂模式加反射机制。
 
 
 
-## 不和 spring 集成(单独使用动态代理)
+## 8.3. 不和 spring 集成(单独使用动态代理)
 
-### 通过 jdk 动态生成代理
+### 8.3.1. 通过 jdk 动态生成代理
 
 spring 对于实现了接口的类, 会使用这种方式生成代理
 
@@ -1635,7 +1634,7 @@ public class MyFactory {
 
 ```
 
-### 通过 cglib 动态生成代理
+### 8.3.2. 通过 cglib 动态生成代理
 
 spring 对于没有实现接口的类, 会使用这种方式生成代理
 
@@ -1726,7 +1725,7 @@ public class TestCglib {
 
 ```
 
-## 通过 ProxyFactoryBean 生成代理(半自动)
+## 8.4. 通过 ProxyFactoryBean 生成代理(半自动)
 
 添加 aop 开发包: http://mvnrepository.com/artifact/org.aopalliance/com.springsource.org.aopalliance/1.0.0, 还有实现类 spring-aop
 
@@ -1821,7 +1820,7 @@ public class TestFactoryBean {
 
 ```
 
-## 全自动实现
+## 8.5. 全自动实现
 
 -   配置文件中加入约束(使用 aop 编程，必须使用 aop schema（引用 aop 命名空间），在 index-config.html 中找)
 
@@ -1913,9 +1912,9 @@ public class TestAOP {
 
 ```
 
-## 使用 AspectJ 框架生成代理(和 spring 集成)
+## 8.6. 使用 AspectJ 框架生成代理(和 spring 集成)
 
-### 准备工作
+### 8.6.1. 准备工作
 
 引入 jar 包
 
@@ -1925,7 +1924,7 @@ public class TestAOP {
 导入的 jar 包还有另一种说法, 对错存疑:
 [aop 联盟规范](http://mvnrepository.com/artifact/org.aopalliance/com.springsource.org.aopalliance/1.0.0, 还有实现类 spring-aop), 对应的 spring-aop 实现
 
-### AspectJ 通知类型
+### 8.6.2. AspectJ 通知类型
 
 ```
 定义6中通知类型，。
@@ -1955,7 +1954,7 @@ try{
 
 ```
 
-### AspectJ 编程,基于 xml
+### 8.6.3. AspectJ 编程,基于 xml
 
 ```java
 /**
@@ -2112,7 +2111,7 @@ public class TestXml {
 
 ```
 
-### AspectJ 编程,基于注解
+### 8.6.4. AspectJ 编程,基于注解
 
 ```java
 /**
@@ -2264,13 +2263,13 @@ public class TestAnno {
 
 ```
 
-# JDBC
+# 9. JDBC
 
 references: [1](https://blog.csdn.net/fysuccess/article/details/66972554)
 
-## 数据库连接池
+## 9.1. 数据库连接池
 
-### C3P0
+### 9.1.1. C3P0
 
 ```xml
 <dependency>
@@ -2309,7 +2308,7 @@ references: [1](https://blog.csdn.net/fysuccess/article/details/66972554)
     </bean>
 ```
 
-### DBCP
+### 9.1.2. DBCP
 
 引入 jar
 
@@ -2356,7 +2355,7 @@ references: [1](https://blog.csdn.net/fysuccess/article/details/66972554)
      </bean>
 ```
 
-### Druid
+### 9.1.3. Druid
 
 数据源配置
 
@@ -2411,7 +2410,7 @@ web.xml 中的配置
       </servlet-mapping>
 ```
 
-### BoneCP
+### 9.1.4. BoneCP
 
 引入 jar
 
@@ -2443,7 +2442,7 @@ web.xml 中的配置
 </bean>
 ```
 
-### HikariCP
+### 9.1.5. HikariCP
 
 ```xml
 <!-- Hikari Datasource -->
@@ -2465,9 +2464,9 @@ web.xml 中的配置
 </bean>
 ```
 
-## JdbcTemplate
+## 9.2. JdbcTemplate
 
-### quickstart
+### 9.2.1. quickstart
 
 -   jar 包: spring-jdbc, spring-tx, 数据库驱动, 连接池 jar
 
@@ -2571,7 +2570,7 @@ public class UserDao {
 }
 ```
 
-### Dao 实现类继承 JdbcDaoSupport 支持类
+### 9.2.2. Dao 实现类继承 JdbcDaoSupport 支持类
 
 ```java
 // User:
@@ -2639,7 +2638,7 @@ public class TestSupport {
 
 ```
 
-### 数据库连接配置放入 Properties 文件
+### 9.2.3. 数据库连接配置放入 Properties 文件
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -2678,9 +2677,9 @@ jdbc.user=root
 jdbc.password=1234
 ```
 
-# 事务管理
+# 10. 事务管理
 
-## 事务实现原理
+## 10.1. 事务实现原理
 
 Java 中我们平时用的最多的就是在 service 层的增删改方法上添加@Transactional 注解，让 spring 去帮我们管理事务。
 
@@ -2691,7 +2690,7 @@ Java 中我们平时用的最多的就是在 service 层的增删改方法上添
 
 
 
-## TransactionDefinition 事务传播
+## 10.2. TransactionDefinition 事务传播
 
 @transaction(propagation=...)
 
@@ -2728,13 +2727,13 @@ Spring 在 TransactionDefinition 接口中规定了 7 种类型的事务传播�
     A 使用事务，B 使用同一个事务。A 没有事务，B 抛出异常
 
 
-## 事务相关 api
+## 10.3. 事务相关 api
 
 三个顶级接口(规范)
 
 涉及到的 jar: spring-tx, spring-jdbc, orm 的 jar
 
-### PlatformTransactionManager
+### 10.3.1. PlatformTransactionManager
 
 spring dao 使用不同技术，需要的事务管理器不同。JDBC 事务管理器：DataSourceTransactionManager, Hibernate 事务管理器：HibernateTransactionManager
 
@@ -2749,11 +2748,11 @@ rollback(TransactionStatus) //回滚事务
 ```
 
 
-### TransactionStatus
+### 10.3.2. TransactionStatus
 
 事务状态，一般是 spring 底层自动使用
 
-### 使用 jdbc 操作事务
+### 10.3.3. 使用 jdbc 操作事务
 
 ```java
 // 某个事务, 包括ABCD 四个步骤(一个整体事务)
@@ -2817,9 +2816,9 @@ try{
 
 ```
 
-## 事务相关案例-转账
+## 10.4. 事务相关案例-转账
 
-### 准备
+### 10.4.1. 准备
 
 依赖:
 
@@ -2928,7 +2927,7 @@ public class TestApp {
 
 ```
 
-### 手动开发事务
+### 10.4.2. 手动开发事务
 
 ```java
 Dao接口：
@@ -3044,7 +3043,7 @@ public class TestApp {
 
 ```
 
-### 半自动事务(生成代理)
+### 10.4.3. 半自动事务(生成代理)
 
 代码无需改动, 就是没有事务的代码
 
@@ -3107,7 +3106,7 @@ public class TestApp {
 
 ```
 
-### 全自动事务基于 xml
+### 10.4.4. 全自动事务基于 xml
 
 同样代码无需改动, 只需设置好配置文件
 
@@ -3187,7 +3186,7 @@ xmlns:tx="http://www.springframework.org/schema/tx"
 
 ```
 
-### 全自动事务基于注解
+### 10.4.5. 全自动事务基于注解
 
 ```java
 Dao接口：
@@ -3298,7 +3297,7 @@ public class TestApp {
 
 ```
 
-# spring web 开发
+# 11. spring web 开发
 
 普通的 spring 程序通过 main 函数加载 xml 即可完成启动
 
@@ -3384,7 +3383,7 @@ public class HelloServlet extends HttpServlet {
 </beans>
 ```
 
-# 几种加载 xml 方式
+# 12. 几种加载 xml 方式
 
 ```java
 public class Client {
@@ -3428,7 +3427,7 @@ public class Client {
 }
 ```
 
-# spring 中的设计模式
+# 13. spring 中的设计模式
 
 -   工厂模式 - BeanFactory, ApplicationContext 都是工厂
 -   单例 - spring 中的 bean 构造默认都是单例
@@ -3437,7 +3436,7 @@ public class Client {
 -   模板模式 - jdbcTemplate, JpaTemplate, RedisTemplate
 -   观察者模式 - Spring 中 Observer 模式常用的地方是 listener 的实现
 
-# spring bean 生命周期
+# 14. spring bean 生命周期
 
 [详细的顺序](https://www.cnblogs.com/zrtqsk/p/3735273.html)
 
@@ -3464,9 +3463,9 @@ TODO
 
         1. `<bean>的destroy-method`属性指定的方法
 
-# 常用的 spring bean 拓展接口
+# 15. 常用的 spring bean 拓展接口
 
-## BeanNameAware、ApplicationContextAware 和 BeanFactoryAware
+## 15.1. BeanNameAware、ApplicationContextAware 和 BeanFactoryAware
 
 "Aware"的意思是"感知到的", 都有自己 setXXX(xxx) 方法需要覆盖
 
@@ -3510,7 +3509,7 @@ public class AwareBean implements BeanNameAware, BeanFactoryAware, ApplicationCo
 }
 ```
 
-## BeanPostProcessor 接口
+## 15.2. BeanPostProcessor 接口
 
 不是针对单一 bean, 而是针对每个 Bean 的生成前后做一些逻辑操作, 有两个方法, 这两个方法是有返回值的，不要返回 null 否则`getBean`的时候拿不到对象
 
@@ -3566,7 +3565,7 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 
 ```
 
-## InitialingBean 和 DisposableBean
+## 15.3. InitialingBean 和 DisposableBean
 
 实现这两个接口以在 bean 构造前后执行自定义的代码; 各有一个唯一的方法, `afterPropertiesSet()`在 Bean 属性(setters())都设置完毕后调用, 做一些初始化的工作, `destory()`在 Bean 生命周期结束前调用 destory()方法做一些收尾工作
 
@@ -3578,11 +3577,11 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 
     要让 JSR-250 的注释生效，除了在 Bean 类中标注这些注释外，还需要在 Spring 容器中注册一个负责处理这些注释的 `org.springframework.context.annotation.CommonAnnotationBeanPostProcessor`, 无需 id; 也可以使用 `<context:annotation-config/>` 简化配置 --> 进一步使用 `<context:component-scan package="" />`
 
-## FactoryBean 接口
+## 15.4. FactoryBean 接口
 
 http://www.cnblogs.com/davidwang456/p/3688250.html
 
-### FactoryBean 解释
+### 15.4.1. FactoryBean 解释
 
 是一个特殊的 bean, 而不是工厂通过 getObject() 可以自定义生成 bean 的逻辑
 
@@ -3594,7 +3593,7 @@ http://www.cnblogs.com/davidwang456/p/3688250.html
 
 -   FactoryBean 这个接口在 Spring 容器中有大量的子实现。
 
-### FactoryBean 接口的 api
+### 15.4.2. FactoryBean 接口的 api
 
 ```java
 T getObject() throws Exception;// context.getBean(id)时, 底层就是调用的这个方法, id前添加"&"则返回的就是这个对象的FactoryBean
@@ -3603,7 +3602,7 @@ default boolean isSingleton() {return true;}
 
 ```
 
-### FactoryBean 简单的使用示例
+### 15.4.3. FactoryBean 简单的使用示例
 
 ```java
 // 一个接口
@@ -3687,7 +3686,7 @@ public class BaseTest{
 </beans>
 ```
 
-### factoryBean 在 mabatis-spring 集成中的应用
+### 15.4.4. factoryBean 在 mabatis-spring 集成中的应用
 
 类似 spring 中的 "静态工厂方法注入"
 
@@ -3706,7 +3705,7 @@ public class BaseTest{
 
 ```
 
-### factoryBean 案例-dao 切换
+### 15.4.5. factoryBean 案例-dao 切换
 
 看一个案例: [check here](https://blog.csdn.net/ykdsg/article/details/18733041)
 
@@ -3781,9 +3780,9 @@ public class ProxyBidDAOProxyFactoryBean implements InvocationHandler, FactoryBe
 
 ```
 
-## BeanFactory 接口
+## 15.5. BeanFactory 接口
 
-### BeanFactory 解释
+### 15.5.1. BeanFactory 解释
 
 是一个接口, 相当于容器, 管理所有的 bean, 包括 factory bean
 
@@ -3791,7 +3790,7 @@ public class ProxyBidDAOProxyFactoryBean implements InvocationHandler, FactoryBe
 
 -   BeanFactory 和 ApplicationContext(通过前者派生)就是 spring 框架的两个 IOC 容器，现在一般使用 ApplicationnContext，其不但包含了 BeanFactory 的作用，同时还进行更多的扩展。
 
-### api 有哪些
+### 15.5.2. api 有哪些
 
 ```java
 　　boolean containsBean(String beanName) 判断工厂中是否包含给定名称的bean定义，若有则返回true
@@ -3803,7 +3802,7 @@ public class ProxyBidDAOProxyFactoryBean implements InvocationHandler, FactoryBe
 
 ```
 
-## BeanFactoryPostProcessor
+## 15.6. BeanFactoryPostProcessor
 
 在所有的 Bean 创建之前，读取 Bean 的元属性(Scope 等等)，并根据自己的需求对元属性进行改变 ---------- 动态注册, 见下文
 
@@ -3823,7 +3822,7 @@ public void postProcessBeanFactory(ConfigurableListableBeanFactory configurablel
 }
 ```
 
-## InstantiationAwareBeanPostProcessor
+## 15.7. InstantiationAwareBeanPostProcessor
 
 继承自 BeanPostProcessor 接口
 
@@ -3834,15 +3833,15 @@ bean 实例化前后做一些处理(区别于 bean 初始化); 1、实例化----
 
 通常来讲，我们不会直接实现 InstantiationAwareBeanPostProcessor 接口，而是会采用继承 InstantiationAwareBeanPostProcessorAdapter 这个抽象类的方式来使用。
 
-# 动态注册 bean
+# 16. 动态注册 bean
 
 https://blog.csdn.net/neweastsun/article/details/79222256
 
-## 动态注册场景
+## 16.1. 动态注册场景
 
 用户定义一个接口，而接口的实现则由框架生成，不需要用户自行编写，此时实现类就需要动态注册到容器中
 
-## 动态注册 api
+## 16.2. 动态注册 api
 
 -   Spring 中的 bean 定义都保存在 **BeanDefinitionRegistry** 接口中，单例的 bean 的实例都保存在 **SingletonBeanRegistry** 接口中。
 
@@ -3856,9 +3855,9 @@ https://blog.csdn.net/neweastsun/article/details/79222256
 
     所有实现了该接口的类的都会被 ConfigurationClassPostProcessor 处理，ConfigurationClassPostProcessor 实现了 BeanFactoryPostProcessor 接口，所以 ImportBeanDefinitionRegistrar 中动态注册的 bean 是优先与依赖其的 bean 初始化的，也能被 aop、validator 等机制处理。
 
-## 怎么使用动态注册
+## 16.3. 怎么使用动态注册
 
-### 通过 BeanFactoryPostProcessor 实现动态注册
+### 16.3.1. 通过 BeanFactoryPostProcessor 实现动态注册
 
 bean 不是在 BeanFactoryPostProcessor 中被注册，那么该 bean 则无法被**BeanPostProcessor**处理，即无法对其应用 aop、Bean Validation 等功能。
 
@@ -3896,7 +3895,7 @@ public class PersonBeanFactoryPostProcessor implements BeanFactoryPostProcessor 
 
 ```
 
-### 通过 BeanDefinitionRegistry 在普通 bean 中注册
+### 16.3.2. 通过 BeanDefinitionRegistry 在普通 bean 中注册
 
 bean 不是在 BeanFactoryPostProcessor 中被注册，那么该 bean 则无法被**BeanPostProcessor**处理，即无法对其应用 aop、Bean Validation 等功能。
 
@@ -3935,7 +3934,7 @@ public class PersonManagerRegisterController {
 
 ```
 
-### 通过 ImportBeanDefinitionRegistrar
+### 16.3.3. 通过 ImportBeanDefinitionRegistrar
 
 https://github.com/pkpk1234/registerbean-ImportBeanDefinitionRegistrar
 
@@ -4083,19 +4082,15 @@ public @interface EnableHttpUtil {
 
 ```
 
-# 国际化 and 参数校验
+# 17. 国际化 and 参数校验
 
 https://blog.csdn.net/shuangyidehudie/article/details/40586143
 https://blog.csdn.net/catoop/article/details/51284638
 
 
 
-# spring5 新特性
+# 18. spring5 新特性
 
 https://www.ibm.com/developerworks/cn/java/j-whats-new-in-spring-framework-5-theedom/index.html
 
-# Guice
 
-https://www.ibm.com/developerworks/cn/java/j-guice.html
-
-编译器依赖注入：Dagger2 - https://zhuanlan.zhihu.com/p/24454466

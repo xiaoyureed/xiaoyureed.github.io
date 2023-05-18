@@ -102,6 +102,11 @@ https://github.com/docker/kitematic 可视化管理gui
   - [10.1. dockerhub](#101-dockerhub)
     - [10.1.1. publish by using github action](#1011-publish-by-using-github-action)
   - [10.2. 私有仓库](#102-私有仓库)
+    - [allow http](#allow-http)
+    - [harbor(推荐)](#harbor推荐)
+      - [k8s 配置harbor](#k8s-配置harbor)
+    - [Nexus](#nexus)
+    - [docker-registry](#docker-registry)
 - [11. docker数据管理](#11-docker数据管理)
   - [11.1. 数据卷](#111-数据卷)
   - [11.2. 挂载主机目录](#112-挂载主机目录)
@@ -1540,7 +1545,7 @@ docker import和docker load比较: 容器快照文件(docker import)将丢弃所
 
 ```sh
 # 标记新的tag用于推送到远程
-# 即修改镜像名字
+# 即修改镜像名字 (不过一般在 build image 时就应该规范指定好最终名字)
 $ docker tag <image_old_name/old_id> xiaoyureed/ubuntu:17.10
 
 $ docker image ls
@@ -1569,10 +1574,8 @@ todo
 
 ## 10.2. 私有仓库
 
+### allow http 
 
-https://github.com/goharbor/harbor Harbor
-
-Nexus
 
 想让本网段的其他主机也能把镜像推送到私有仓库。你就得把例如 192.168.199.100:5000 这样的内网地址作为私有仓库地址，这时你会发现无法成功推送镜像。这是因为 Docker 默认不允许非 HTTPS 方式推送镜像。我们可以通过 Docker 的配置选项来取消这个限制:
 
@@ -1589,6 +1592,66 @@ Nexus
   ]
 }
 ```
+
+### harbor(推荐)
+
+https://github.com/goharbor/harbor , 带 gui, user management
+
+> 由VMWare在Docker Registry的基础之上进行了二次封装，加进去了很多额外程序，而且提供了一个非常漂亮的web界面。
+
+从私服拉取镜像: 先登录 ` docker login -u admin -p xxx <harbor ip>`, 再拉取 `docker pull 182.168.xxx.xxx/org_name/img_name:v`
+
+
+#### k8s 配置harbor
+
+在任意节点 docker 登录 harbor 后, `/root/.docker/config.json` 能查看密码, 将 json 内容 base64 编码 `cat /root/.docker/config.json | base64 -w O`, 创建 secret.yml:
+
+```yml
+apiVersion: v1
+kind: Secret
+metadata:
+  # 值 "login" 会在 Deployment 中使用
+  name: login
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: <base64_value>
+```
+
+`kc apply -f secret.yml`
+
+在 deployment 中如何使用?
+
+```yml
+...
+kind: Deployment
+...
+...
+      spec:
+        containers:
+          - image: <harbor url>/org/img_name:version
+            ...
+        imagePullSecretes:
+          # 配置k8s 登录 harbor 时使用的 secret 名
+          - name: login
+```
+
+### Nexus
+
+多用于 搭建 Maven repo, 也能存储 docker image
+
+### docker-registry
+
+docker hub 提供, 一个镜像即可拉起来, 没有 gui, 但是社区有 gui
+
+```sh
+docker pull docker.io/registry:latest
+docker pull konradkleine/docker-registry-frontend:v2
+
+docker run -d  -p 5000:5000  --restart=always  --name registry docker.io/registry:latest
+
+docker run -d  --link registry:registry  --name registry-frontend  -e ENV_DOCKER_REGISTRY_HOST=registry  -e ENV_DOCKER_REGISTRY_PORT=5000  -p 9090:80  konradkleine/docker-registry-frontend:v2
+```
+
 
 # 11. docker数据管理
 
@@ -1870,7 +1933,7 @@ docker run -it --rm --network some-network mysql mysql -hsome-mysql -uexample-us
 
 
 
-一个是通过 `--link`, docker run --link可以用来链接2个容器，使得源容器（被链接的容器）和接收容器（主动去链接的容器）之间可以互相通信，并且接收容器可以获取源容器的一些数据，如源容器的环境变量。
+一个是通过 `--link` (不推荐), docker run --link可以用来链接2个容器，使得源容器（被链接的容器）和接收容器（主动去链接的容器）之间可以互相通信，并且接收容器可以获取源容器的一些数据，如源容器的环境变量。
 
 ```sh
 #--link <container_name>:<link_name> 
@@ -2338,6 +2401,8 @@ https://docs.docker.com/compose/compose-file/
 
 如果变量名称或者值中用到 true|false，yes|no 等表达 布尔 含义的词汇，最好放到引号里, 这些符号包括:
 
+如果值的含义是密码, 应该用引号, 不管是不是数字
+
 ```
 y|Y|yes|Yes|YES|n|N|no|No|NO|true|True|TRUE|false|False|FALSE|on|On|ON|off|Off|OFF
 ```
@@ -2351,8 +2416,12 @@ services:
         # 每个服务都必须通过 image 指令指定镜像或 build 指令（需要 Dockerfile）等来自动构建生成镜像。
         # 可以不加引号
         image: "examples/web"
-        # 若果当前目录下有 dockerfile, 则是用 dockerfile 构建出的镜像作为 image
+        # 若果当前目录下有 dockerfile, 则是用 dockerfile 构建出的镜像, 此时 image 属性可以不设置
         build: ./
+        # 如果时多模块项目, xxx 就是子模块目录目录名
+         # 使用 build 指令，在 Dockerfile 中设置的选项(例如：CMD, EXPOSE, VOLUME, ENV 等) 将会自动被获取，无需在 docker-compose.yml 中再次设置。
+        # 指定 Dockerfile 所在文件夹的路径（可以是绝对路径，或者相对 docker-compose.yml 文件的路径）
+        build: ./dir_name
         ports:
             - "80:80"
         volumes:
@@ -2451,6 +2520,10 @@ services:
             # 配置日志驱动的相关参数
             options:
                 syslog-address: "tcp://192.168.0.42:123"
+        # 需要先声明
+        networks:
+          - some-network
+          - other-network
         # 设置网络模式。使用和 docker run 的 --network 参数一样的值
         network_mode: "bridge" # 支持"bridge", "host", "none", "service:[service name]", "container:[container name/id]"
         # 跟主机系统共享进程命名空间。打开该选项的容器之间，以及容器和宿主机系统之间可以通过进程 ID 来相互访问和操作。
@@ -2483,8 +2556,6 @@ services:
             - xxName:/tmp/data  # 为容器内的匿名volume 名为为 xxName
 
     db:
-        # 如果使用 build 指令，在 Dockerfile 中设置的选项(例如：CMD, EXPOSE, VOLUME, ENV 等) 将会自动被获取，无需在 docker-compose.yml 中再次设置。
-        # 指定 Dockerfile 所在文件夹的路径（可以是绝对路径，或者相对 docker-compose.yml 文件的路径）
         build: ./dir
         # 配置容器连接的网络。注意这里是引用和services同级的networks下的项
         networks:
@@ -2505,6 +2576,7 @@ services:
             cache_from: # 指定构建镜像的缓存
                 - alpine:latest
                 - corp/web_app:3.14
+# 声明网络
 networks:
   some-network:
   other-network:

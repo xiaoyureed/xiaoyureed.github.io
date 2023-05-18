@@ -16,9 +16,22 @@ Linkerd
 
 # what
 
-服务网格是一个用于处理服务间通信的基础设施层，它负责为构建复杂的云原生应用传递可靠的网络请求
-
 部署之后的架构图类似这样: 服务分布于多个网格内, 每个网格包含一个服务 app, 一个 sidecar proxy, 应用服务之间通过 Sidecar Proxy 进行通信
+
+主要的技术组件包括：
+
+配置中心：通过 Kubernetes 的 ConfigMap 来管理。
+
+服务发现：通过 Kubernetes 的 Service 来管理，
+
+负载均衡：未注入边车代理时，依赖 KubeDNS 实现基础的负载均衡，一旦有了 Envoy 的支持，就可以配置丰富的代理规则和策略。
+
+服务网关：依靠 Istio Ingress Gateway 来实现
+
+服务容错：依靠 Envoy 来实现
+
+认证授权：依靠 Istio 的安全机制来实现，实质上已经不再依赖 Spring Security 进行 ACL 控制，但 Spring Security OAuth 2 仍然以第三方 JWT 授权中心的角色存在，为系统提供终端用户认证，为服务网格提供令牌生成、公钥JWKS等支持。
+
 
 # why
 

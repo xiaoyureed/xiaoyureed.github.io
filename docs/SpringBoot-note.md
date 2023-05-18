@@ -219,8 +219,11 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
     - [27.2.4. objectmapper 定制](#2724-objectmapper-定制)
     - [27.2.5. objectmapper 使用](#2725-objectmapper-使用)
 - [28. 接入第三方支付](#28-接入第三方支付)
+- [轻量级的技术栈](#轻量级的技术栈)
+  - [dagger2 编译器依赖注入](#dagger2-编译器依赖注入)
 - [29. 拾遗](#29-拾遗)
   - [29.1. bean 懒加载](#291-bean-懒加载)
+  - [bean 循环依赖](#bean-循环依赖)
 
 
 
@@ -5382,9 +5385,64 @@ https://github.com/roncoo/roncoo-pay
 https://github.com/Exrick/xpay 个人收款
 
 
+# 轻量级的技术栈
+
+java8,guice,javalin(写 rest api),nashorn(js engine),arangodb (多模型数据库, 支持图,键值对,...)
+
+## dagger2 编译器依赖注入
+
+There are many methods can be used to perform dependency injection, such as
+
+- constructor injection
+
+- setter method injection
+
+for the two ways, there are too mach sacaffold code need devs to finish, but luckily, Spring framework helps the devs to handle these code. 但是这种运行时动态注入, 在 debug 是非常难以定位问题
+
+For dagger2, it reach the goal by using annotation, and it works in the compiling duration
+
+
+
 # 29. 拾遗
 
 ## 29.1. bean 懒加载
 
 一般情况下，Spring容器在启动时会创建所有的Bean对象，使用@Lazy注解 (和 @Component 共同使用) 可以将Bean对象的创建延迟到第一次使用Bean的时候
 
+## bean 循环依赖
+
+什么是循环依赖 ? 
+
+1. 一个 bean 注入了自己的一个实例
+1. 两个 bean 互相注入 (spring 默认能解决)
+1. 多个 bean 注入, 形成环形
+
+
+
+spring 通过 3 个 map 缓存解决
+
+一级缓存: 存储完整构造后的bean
+二级缓存: 存储刚刚创建还没填充属性的空 bean
+三级缓存: 保存bean 的创建工厂 (空 bean 创建后, 会吧对应的 ObjectFactory 存到这里, 叫做提前暴露)
+
+
+对于情况 2, 注入流程如下: 
+
+> a 依赖 b, b 依赖 a; 假设首先构造a, spring 在一级缓存找不到 a, 则创建 a 的空 bean, 并添加到三级缓存(提前暴露), 然后尝试创建 b, 到一级缓存找不到, 则创还能 b 空 bean, 同样存入三级缓存(提前暴露), 这是 spring发现 b 竟然依赖 a, 于是在三级缓存获取到 a 的工厂对象, 进而得到a 的实例, **同时将 a 添加到二级缓存**, 此时 b 构造完成, 被添加到一级缓存, 接着 a 也构造完成, 存入一级缓存.
+
+![](/img/loop_dependency.png)
+
+```
+看下来, 二级缓存貌似没什么作用, 可以去掉吗?
+    不可以, 因为如果抽掉二级缓存后, 每次从三级缓存拿到工厂对象, 进而生成得到空 bean, 如果两个 bean 同时依赖第三个 bean, 那么这个第三个 bean 被注入到两个 bean 中的对象将会是不同的. 为了解决这个问题, spring 引入了二级缓存
+
+    去掉二级缓存后考虑这种场景: a 依赖 b, c, 然后 b, c 都依赖 a
+
+三级缓存为什么要添加objectFactory 工厂对象, 直接保存实例对象不行吗?
+    No, absolutely not. Let's assume thsi scenario: if you want to enhance one instance in the third-level cache, using the instace directly is not the way
+```
+
+对于spring默认无法解决的情况, 如何手动解决呢?
+
+- 属性添加 @lazy 
+- 类上使用 @dependson 

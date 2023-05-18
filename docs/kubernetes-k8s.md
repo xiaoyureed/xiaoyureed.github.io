@@ -9,137 +9,142 @@ toc_max_heading_level: 5
 
 
 - [1. 面试问题](#1-面试问题)
-- [2. what and why](#2-what-and-why)
-  - [2.1. k8s 是做什么的](#21-k8s-是做什么的)
-  - [2.2. 为什么使用:](#22-为什么使用)
-  - [2.3. compare with spring cloud](#23-compare-with-spring-cloud)
-- [3. 搭建环境](#3-搭建环境)
-  - [3.1. 生产服务器上安装](#31-生产服务器上安装)
-  - [3.2. vagrant 搭建 k8s 环境](#32-vagrant-搭建-k8s-环境)
-  - [3.3. 众多的发行版](#33-众多的发行版)
-    - [3.3.1. k3s](#331-k3s)
-      - [3.3.1.1. k3d](#3311-k3d)
-        - [3.3.1.1.1. 使用 helmChart controller](#33111-使用-helmchart-controller)
-        - [3.3.1.1.2. 操作 kubeconfig](#33112-操作-kubeconfig)
-        - [3.3.1.1.3. 支持的命令](#33113-支持的命令)
-        - [3.3.1.1.4. 国内镜像](#33114-国内镜像)
-        - [3.3.1.1.5. 导入镜像](#33115-导入镜像)
-        - [3.3.1.1.6. k3s 包括以下一些组件](#33116-k3s-包括以下一些组件)
-        - [3.3.1.1.7. 完整的 k3d yml 配置文件](#33117-完整的-k3d-yml-配置文件)
-        - [3.3.1.1.8. 部署一个 NGINX](#33118-部署一个-nginx)
-    - [3.3.2. k0s](#332-k0s)
-    - [3.3.3. microk8s](#333-microk8s)
-    - [3.3.4. docker desktop (推荐使用 rancher desktop 替代)](#334-docker-desktop-推荐使用-rancher-desktop-替代)
-    - [3.3.5. kind (推荐使用 k3d 代替)](#335-kind-推荐使用-k3d-代替)
-    - [3.3.6. minikube](#336-minikube)
-- [4. Quickstart](#4-quickstart)
-  - [4.1. 以Java 为例](#41-以java-为例)
-  - [4.2. 以 go 为例](#42-以-go-为例)
-    - [4.2.1. using pod directly](#421-using-pod-directly)
-    - [4.2.2. using deployment](#422-using-deployment)
-- [5. 集群结构 underlying infrastructure 基础设施](#5-集群结构-underlying-infrastructure-基础设施)
-- [6. api 管理的各种资源](#6-api-管理的各种资源)
-  - [6.1. 各种资源的关系](#61-各种资源的关系)
-  - [6.2. 3 common properties](#62-3-common-properties)
-    - [6.2.1. metadata](#621-metadata)
-    - [6.2.2. spec](#622-spec)
-    - [6.2.3. status](#623-status)
-  - [6.3. node](#63-node)
-  - [6.4. pod](#64-pod)
-  - [6.5. label](#65-label)
-    - [6.5.1. Label selector 使用](#651-label-selector-使用)
-  - [6.6. Taint（污点）和 Toleration（容忍）](#66-taint污点和-toleration容忍)
-    - [6.6.1. taint](#661-taint)
-    - [6.6.2. toleration](#662-toleration)
-  - [6.7. controllers(各种控制器)](#67-controllers各种控制器)
-    - [6.7.1. ~~RC (replica controller 副本控制器)~~](#671-rc-replica-controller-副本控制器)
-    - [6.7.2. RS (replica set, 代替 RC)](#672-rs-replica-set-代替-rc)
-    - [6.7.3. Deployment (管理 RS)](#673-deployment-管理-rs)
-      - [6.7.3.1. scale up/back (扩容缩容)](#6731-scale-upback-扩容缩容)
-      - [6.7.3.2. version upgrade (版本升级)](#6732-version-upgrade-版本升级)
-      - [6.7.3.3. rolling update (滚动升级)](#6733-rolling-update-滚动升级)
-      - [6.7.3.4. 回滚 版本回退 查看历史](#6734-回滚-版本回退-查看历史)
-      - [6.7.3.5. livenessProbe (存活探针)](#6735-livenessprobe-存活探针)
-      - [6.7.3.6. readinessProbe (就绪探针)](#6736-readinessprobe-就绪探针)
-    - [6.7.4. SC (stateful set)](#674-sc-stateful-set)
-      - [6.7.4.1. 数据持久化 persist](#6741-数据持久化-persist)
-    - [6.7.5. DS (daemon set 后台支撑服务集)](#675-ds-daemon-set-后台支撑服务集)
-    - [6.7.6. job (一次性任务)](#676-job-一次性任务)
-    - [6.7.7. cronjob (定时任务)](#677-cronjob-定时任务)
-  - [6.8. service](#68-service)
-    - [6.8.1. Endpoint](#681-endpoint)
-    - [6.8.2. 多端口](#682-多端口)
-    - [6.8.3. ClusterIP (默认使用的类型)](#683-clusterip-默认使用的类型)
-      - [6.8.3.1. Headless](#6831-headless)
-    - [6.8.4. NodePort](#684-nodeport)
-    - [6.8.5. LoadBalancer](#685-loadbalancer)
-    - [6.8.6. ExternalName](#686-externalname)
-    - [6.8.7. 手动端口转发](#687-手动端口转发)
-    - [6.8.8. service 如何工作](#688-service-如何工作)
-  - [6.9. ingress](#69-ingress)
-    - [6.9.1. install ingress-nginx](#691-install-ingress-nginx)
-    - [6.9.2. Traefik](#692-traefik)
-  - [6.10. volume](#610-volume)
-  - [6.11. secret](#611-secret)
-  - [6.12. config map](#612-config-map)
-  - [6.13. flannel](#613-flannel)
-  - [6.14. name](#614-name)
-  - [6.15. name namespace (用来划分多环境)](#615-name-namespace-用来划分多环境)
-- [7. 垃圾回收](#7-垃圾回收)
-  - [7.1. 级联删除](#71-级联删除)
-  - [7.2. 孤儿删除 orphan](#72-孤儿删除-orphan)
-- [8. 资源描述文件](#8-资源描述文件)
-  - [8.1. 通过命令生成 yml](#81-通过命令生成-yml)
-  - [8.2. pod 的 yaml 描述文件](#82-pod-的-yaml-描述文件)
-  - [8.3. deployment 的描述文件](#83-deployment-的描述文件)
-  - [8.4. service](#84-service)
-- [9. 注解](#9-注解)
-- [10. 命名空间](#10-命名空间)
-- [11. pod 管理](#11-pod-管理)
-  - [11.1. 探测 pod 是否健康](#111-探测-pod-是否健康)
-  - [11.2. pod 副本](#112-pod-副本)
-  - [11.3. 运行单个任务 Job](#113-运行单个任务-job)
-  - [11.4. 定时任务 CronJob](#114-定时任务-cronjob)
-- [12. pod 通信](#12-pod-通信)
-  - [12.1. proxy](#121-proxy)
-  - [12.2. Service](#122-service)
-  - [12.3. pod 间通信](#123-pod-间通信)
-  - [12.4. 通过 Service 连接外部服务](#124-通过-service-连接外部服务)
-    - [12.4.1. 通过手动生成 endpoint](#1241-通过手动生成-endpoint)
-    - [12.4.2. 通过 externalName 类型的 Service](#1242-通过-externalname-类型的-service)
-  - [12.5. 将服务暴露给外部](#125-将服务暴露给外部)
-    - [12.5.1. 将服务的类型设置成 NodePort](#1251-将服务的类型设置成-nodeport)
-    - [12.5.2. 将服务的类型设置成 LoadBalance](#1252-将服务的类型设置成-loadbalance)
-    - [12.5.3. 创建一 个 Ingress 资源](#1253-创建一-个-ingress-资源)
-- [13. 命令](#13-命令)
-  - [13.1. kubectl](#131-kubectl)
-    - [13.1.1. 基本信息](#1311-基本信息)
-    - [13.1.2. 创建 create expose](#1312-创建-create-expose)
-    - [13.1.3. 执行命令到容器 exec](#1313-执行命令到容器-exec)
-    - [13.1.4. 修改](#1314-修改)
-    - [13.1.5. 资源列表 get](#1315-资源列表-get)
-    - [13.1.6. 查询详细描述 describe](#1316-查询详细描述-describe)
-    - [13.1.7. 查询日志 logs](#1317-查询日志-logs)
-    - [13.1.8. 删除 delete](#1318-删除-delete)
-    - [操作上下文](#操作上下文)
-  - [13.2. kubeadmin](#132-kubeadmin)
-- [14. cka ckad 证书考试](#14-cka-ckad-证书考试)
-- [15. dashboard](#15-dashboard)
-  - [15.1. k9s](#151-k9s)
-  - [15.2. kuboard](#152-kuboard)
-  - [15.3. kubernetes-dashboard](#153-kubernetes-dashboard)
-  - [15.4. kubesphere (推荐)](#154-kubesphere-推荐)
-  - [15.5. rancher](#155-rancher)
-- [16. Harbor](#16-harbor)
-- [17. Helm](#17-helm)
-  - [17.1. How to create helm chart](#171-how-to-create-helm-chart)
-  - [17.2. helm chart 的打包发布](#172-helm-chart-的打包发布)
-    - [17.2.1. 手动打包发布](#1721-手动打包发布)
-    - [17.2.2. 利用 github action 自动打包发布](#1722-利用-github-action-自动打包发布)
-  - [17.3. 基本命令使用](#173-基本命令使用)
-  - [17.4. rollback](#174-rollback)
-  - [17.5. 多环境](#175-多环境)
-- [18. reference materials](#18-reference-materials)
+- [开发调试工具](#开发调试工具)
+- [2. deploying springcloud](#2-deploying-springcloud)
+  - [using configMap](#using-configmap)
+  - [部署到 k8s 后还是有缺点](#部署到-k8s-后还是有缺点)
+- [3. what and why](#3-what-and-why)
+  - [3.1. k8s 是做什么的](#31-k8s-是做什么的)
+  - [3.2. 为什么使用:](#32-为什么使用)
+  - [3.3. compare with spring cloud](#33-compare-with-spring-cloud)
+- [4. 搭建环境](#4-搭建环境)
+  - [4.1. 生产服务器上安装](#41-生产服务器上安装)
+  - [4.2. vagrant 搭建 k8s 环境](#42-vagrant-搭建-k8s-环境)
+  - [4.3. 众多的发行版](#43-众多的发行版)
+    - [4.3.1. k3s](#431-k3s)
+      - [4.3.1.1. k3d](#4311-k3d)
+        - [4.3.1.1.1. 使用 helmChart controller](#43111-使用-helmchart-controller)
+        - [4.3.1.1.2. 操作 kubeconfig](#43112-操作-kubeconfig)
+        - [4.3.1.1.3. 支持的命令](#43113-支持的命令)
+        - [4.3.1.1.4. 国内镜像](#43114-国内镜像)
+        - [4.3.1.1.5. 导入镜像](#43115-导入镜像)
+        - [4.3.1.1.6. k3s 包括以下一些组件](#43116-k3s-包括以下一些组件)
+        - [4.3.1.1.7. 完整的 k3d yml 配置文件](#43117-完整的-k3d-yml-配置文件)
+        - [4.3.1.1.8. 部署一个 NGINX](#43118-部署一个-nginx)
+    - [4.3.2. k0s](#432-k0s)
+    - [4.3.3. microk8s](#433-microk8s)
+    - [4.3.4. docker desktop (推荐使用 rancher desktop 替代)](#434-docker-desktop-推荐使用-rancher-desktop-替代)
+    - [4.3.5. kind (推荐使用 k3d 代替)](#435-kind-推荐使用-k3d-代替)
+    - [4.3.6. minikube](#436-minikube)
+- [5. Quickstart](#5-quickstart)
+  - [5.1. 以Java 为例](#51-以java-为例)
+  - [5.2. 以 go 为例](#52-以-go-为例)
+    - [5.2.1. using pod directly](#521-using-pod-directly)
+    - [5.2.2. using deployment](#522-using-deployment)
+- [6. 集群结构 underlying infrastructure 基础设施](#6-集群结构-underlying-infrastructure-基础设施)
+- [7. api 管理的各种资源](#7-api-管理的各种资源)
+  - [7.1. 各种资源的关系](#71-各种资源的关系)
+  - [7.2. 3 common properties](#72-3-common-properties)
+    - [7.2.1. metadata](#721-metadata)
+    - [7.2.2. spec](#722-spec)
+    - [7.2.3. status](#723-status)
+  - [7.3. node](#73-node)
+  - [7.4. pod](#74-pod)
+  - [7.5. label](#75-label)
+    - [7.5.1. Label selector 使用](#751-label-selector-使用)
+  - [7.6. Taint（污点）和 Toleration（容忍）](#76-taint污点和-toleration容忍)
+    - [7.6.1. taint](#761-taint)
+    - [7.6.2. toleration](#762-toleration)
+  - [7.7. controllers(各种控制器)](#77-controllers各种控制器)
+    - [7.7.1. ~~RC (replica controller 副本控制器)~~](#771-rc-replica-controller-副本控制器)
+    - [7.7.2. RS (replica set, 代替 RC)](#772-rs-replica-set-代替-rc)
+    - [7.7.3. Deployment (管理 RS)](#773-deployment-管理-rs)
+      - [7.7.3.1. scale up/back (扩容缩容)](#7731-scale-upback-扩容缩容)
+      - [7.7.3.2. version upgrade (版本升级)](#7732-version-upgrade-版本升级)
+      - [7.7.3.3. rolling update (滚动升级)](#7733-rolling-update-滚动升级)
+      - [7.7.3.4. 回滚 版本回退 查看历史](#7734-回滚-版本回退-查看历史)
+      - [7.7.3.5. livenessProbe (存活探针)](#7735-livenessprobe-存活探针)
+      - [7.7.3.6. readinessProbe (就绪探针)](#7736-readinessprobe-就绪探针)
+    - [7.7.4. SC (stateful set)](#774-sc-stateful-set)
+      - [7.7.4.1. 数据持久化 persist](#7741-数据持久化-persist)
+    - [7.7.5. DS (daemon set 后台支撑服务集)](#775-ds-daemon-set-后台支撑服务集)
+    - [7.7.6. job (一次性任务)](#776-job-一次性任务)
+    - [7.7.7. cronjob (定时任务)](#777-cronjob-定时任务)
+  - [7.8. service](#78-service)
+    - [7.8.1. Endpoint](#781-endpoint)
+    - [7.8.2. 多端口](#782-多端口)
+    - [7.8.3. ClusterIP (默认使用的类型)](#783-clusterip-默认使用的类型)
+      - [7.8.3.1. Headless](#7831-headless)
+    - [7.8.4. NodePort](#784-nodeport)
+    - [7.8.5. LoadBalancer](#785-loadbalancer)
+    - [7.8.6. ExternalName](#786-externalname)
+    - [7.8.7. 手动端口转发](#787-手动端口转发)
+    - [7.8.8. service 如何工作](#788-service-如何工作)
+  - [7.9. ingress](#79-ingress)
+    - [7.9.1. install ingress-nginx](#791-install-ingress-nginx)
+    - [7.9.2. Traefik](#792-traefik)
+  - [7.10. volume](#710-volume)
+  - [7.11. secret](#711-secret)
+  - [7.12. config map](#712-config-map)
+  - [7.13. flannel](#713-flannel)
+  - [7.14. name](#714-name)
+  - [7.15. name namespace (用来划分多环境)](#715-name-namespace-用来划分多环境)
+- [8. 垃圾回收](#8-垃圾回收)
+  - [8.1. 级联删除](#81-级联删除)
+  - [8.2. 孤儿删除 orphan](#82-孤儿删除-orphan)
+- [9. 资源描述文件](#9-资源描述文件)
+  - [9.1. 查看属性说明](#91-查看属性说明)
+  - [9.2. 通过命令生成 yml](#92-通过命令生成-yml)
+  - [9.3. pod 的 yaml 描述文件](#93-pod-的-yaml-描述文件)
+  - [9.4. deployment 的描述文件](#94-deployment-的描述文件)
+  - [9.5. service](#95-service)
+- [10. 注解](#10-注解)
+- [11. 命名空间](#11-命名空间)
+- [12. pod 管理](#12-pod-管理)
+  - [12.1. 探测 pod 是否健康](#121-探测-pod-是否健康)
+  - [12.2. pod 副本](#122-pod-副本)
+  - [12.3. 运行单个任务 Job](#123-运行单个任务-job)
+  - [12.4. 定时任务 CronJob](#124-定时任务-cronjob)
+- [13. pod 通信](#13-pod-通信)
+  - [13.1. proxy](#131-proxy)
+  - [13.2. Service](#132-service)
+  - [13.3. pod 间通信](#133-pod-间通信)
+  - [13.4. 通过 Service 连接外部服务](#134-通过-service-连接外部服务)
+    - [13.4.1. 通过手动生成 endpoint](#1341-通过手动生成-endpoint)
+    - [13.4.2. 通过 externalName 类型的 Service](#1342-通过-externalname-类型的-service)
+  - [13.5. 将服务暴露给外部](#135-将服务暴露给外部)
+    - [13.5.1. 将服务的类型设置成 NodePort](#1351-将服务的类型设置成-nodeport)
+    - [13.5.2. 将服务的类型设置成 LoadBalance](#1352-将服务的类型设置成-loadbalance)
+    - [13.5.3. 创建一 个 Ingress 资源](#1353-创建一-个-ingress-资源)
+- [14. 命令](#14-命令)
+  - [14.1. kubectl](#141-kubectl)
+    - [14.1.1. 基本信息](#1411-基本信息)
+    - [14.1.2. 创建 create expose](#1412-创建-create-expose)
+    - [14.1.3. 执行命令到容器 exec](#1413-执行命令到容器-exec)
+    - [14.1.4. 修改](#1414-修改)
+    - [14.1.5. 资源列表 get](#1415-资源列表-get)
+    - [14.1.6. 查询详细描述 describe](#1416-查询详细描述-describe)
+    - [14.1.7. 查询日志 logs](#1417-查询日志-logs)
+    - [14.1.8. 删除 delete](#1418-删除-delete)
+    - [14.1.9. 操作上下文](#1419-操作上下文)
+  - [14.2. kubeadmin](#142-kubeadmin)
+- [15. cka ckad 证书考试](#15-cka-ckad-证书考试)
+- [16. dashboard](#16-dashboard)
+  - [16.1. k9s](#161-k9s)
+  - [16.2. kuboard](#162-kuboard)
+  - [16.3. kubernetes-dashboard](#163-kubernetes-dashboard)
+  - [16.4. kubesphere (推荐)](#164-kubesphere-推荐)
+- [17. rancher](#17-rancher)
+- [18. Harbor](#18-harbor)
+- [19. Helm](#19-helm)
+  - [19.1. How to create helm chart](#191-how-to-create-helm-chart)
+  - [19.2. helm chart 的打包发布](#192-helm-chart-的打包发布)
+    - [19.2.1. 手动打包发布](#1921-手动打包发布)
+    - [19.2.2. 利用 github action 自动打包发布](#1922-利用-github-action-自动打包发布)
+  - [19.3. 基本命令使用](#193-基本命令使用)
+  - [19.4. rollback](#194-rollback)
+  - [19.5. 多环境](#195-多环境)
+- [20. reference materials](#20-reference-materials)
 
 
 
@@ -162,9 +167,154 @@ toc_max_heading_level: 5
 
 11 年运维工作经验，现从事腾讯工业互联网运维工作； DevOps 运维工程师，开源爱好者； 3 年+Kubernetes 平台经验，对 Kubernetes 生态有自己的认识；掌握 Jenkins+Gitlab+Helm 持续集成/持续交付工具链；对消息队列，缓存等中间件，软件架构体系有一定的了解；熟练掌握 shell 编程，熟悉 Python,Go 语言； TODO
 
-## 2. what and why
 
-### 2.1. k8s 是做什么的
+## 开发调试工具
+
+一般来说k8s使用的容器网络与开发者的所在的办公网络并不能直接连通，如何在本地开发环境访问服务器上的k8s的服务?
+
+- https://github.com/alibaba/kt-connect 阿里出品
+- https://github.com/telepresenceio/telepresence windows 系统上安装复杂
+- 利用 kubectl forward在本地建立 k8s 中服务的代理
+  `kubectl port-forward <generated target pod name> <local port>:<target port>` 这里 pod name 名字不固定, 更好的办法是指定 deployment
+  `kubectl port-forward deployment/<your pod name> <local post>:<target port>` 更好
+  或者 deployment 替换为 rs/svc
+
+## 2. deploying springcloud
+
+SpringCloud 通过 spring cloud kubernetes starter, 屏蔽了spring cloud 原来组件和 k8s 原生能力的差异
+
+服务发现. k8s的service
+
+> 通过Spring Cloud Kubernetes Discovery自动将 HTTP 访问中的服务转换为 full qualified domain name
+
+负载均衡. 
+  
+> 采用 Kubernetes Service 本身的负载均衡能力实现，可以不再需要 Ribbon 这样的客户端负载均衡了
+
+配置中心. k8s 的 Secret & ConfigMap
+
+> 通过 springcloud kubernetes config 自动将 configMap 内容注入到 springboot 配置文件中并实现动态更新
+
+网关: k8s 提供 Ingress
+
+> 网关部分 springcloud kubernetes 仍然保留了 Zuul，未采用 Ingress 代替。这里有两点考虑，一是 Ingress Controller 不算是 Kubernetes 的自带组件，它可以有不同的选择（KONG、Nginx、Haproxy，等等），同时也需要独立安装
+
+服务熔断
+  
+> 仍然采用 Hystrix，Kubernetes 本身无法做到精细化的服务治理，包括熔断、流控、监视，等等
+>
+> 将在基于 Istio 的服务网格架构中解决这个问题
+
+认证授权
+
+> 仍然采用 Spring Security OAuth 2，Kubernetes 的 RBAC 授权可以解决服务层面的访问控制问题，但 Security 是跨越了业务和技术的边界的，认证授权模块本身仍承担着对前端用户的认证、授权职责，这部分是与业务相关的。
+
+容器环境感知. 
+
+> springcloud k8s 引入了 fabric8 的 kubernetes client
+
+
+```xml
+<!-- 整合了 k8s 的功能, 提供服务发现, 可以去掉 eurake 了 -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-kubernetes</artifactId>
+</dependency>
+<!-- 负载均衡 -->
+<!-- spring.cloud.loadbalancer.ribbon. enabled=false
+ -->
+<!-- 本地调用kubernetes中的服务, 将spring.cloud.kubernetes.ribbon.mode修改为service，然后再将对应的服务开放一个端口出来，放一个nodeport出来就可以直接调用了。 -->
+<!-- 本地项目中调用另一个本地服务是用的@FeignClient注解来实现的，那么就可以在@FeignClient注解中添加url参数来实现忽略name的功能从而实现本地请求到本地 ,
+如 @FeignClient(name = "svcb-service",url = "${local.feign.server.svcb-service.url:}",fallback = ServiceBClient.ServiceBClientFallback.class) , 然后就可以在配置文件中配置 local.feign.server.svcb-service.url 为目标 ip:port, 建议配置成环境变量, 不要写死
+-->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-kubernetes-ribbon</artifactId>
+</dependency>
+<!-- 配置中心, 可以去掉 config server 了 -->
+<!-- 但是不建议替换配置中心, config server 的存在方便配置文件的溯源 -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-kubernetes-config</artifactId>
+</dependency>
+
+
+<!-- 自动维护 k8s deployment, service 资源定义文件, 产物在 meta-inf/fabric8 下 -->
+<!-- 也可以自己在 src/main/fabric8 下重写deployment.yml, service.yml定义文件 -->
+<build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>fabric8-maven-plugin</artifactId>
+                        <version>${fabric8.maven.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>fmp</id>
+                                <goals>
+                                    <goal>resource</goal>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <!--docker需要开启远程访问-->
+                            <dockerHost>http://haiyang.dockerhost.com:2375</dockerHost>
+                            <enricher>
+                                <config>
+                                    <fmp-service>
+                                        <type>NodePort</type>
+                                    </fmp-service>
+                                </config>
+                            </enricher>
+
+                            <!--registry地址,用于推送镜像-->
+                            <!--                            <registry>ccr.ccs.tencentyun.com</registry>-->
+                            <!--认证配置,用于私有registry认证,如果忘记了可以去阿里的registry查看-->
+                            <authConfig>
+                                <push>
+                                    <username>your usernmae</username>
+                                    <password>your password</password>
+                                </push>
+                            </authConfig>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+
+
+<!-- fabric8插件生成的deployment还会自动生成readinessProbe和livenessProbe。 -->
+<!-- 需要引入 actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+```
+
+
+### using configMap
+
+```yml
+apiVersion: v1 by d
+kind: ConfigMap
+metadata:
+  # 必须和 应用名称一样
+  name: client-service
+data:
+  # 这里的内容会被 client-service 作为配置文件, 覆盖应用内的配置
+  application.properties: |-
+    bean.message=Testing reload! Message from backend is: %s <br/> Services : %s
+```
+
+### 部署到 k8s 后还是有缺点
+
+> 随着 Kubernetes 集群中的 Pod 数量规模越来越庞大，到一定程度之后，运维的同学无奈地表示已经不可能够依靠人力来跟进微服务中出现的各种问题了：一个请求在哪个服务上调用失败啦？是 A 有调用 B 吗？还是 C 调用 D 时出错了？为什么这个请求、页面忽然卡住了？怎么调度到这个 Node 上的服务比其他 Node 慢那么多？
+
+k8s 下的 springcloud 可配置, 可观测特性还有待加强 --> istio
+
+## 3. what and why
+
+### 3.1. k8s 是做什么的
 
 抽象了数据中心的硬件基础设施，对外暴露统一的接口，具体包括
 
@@ -174,7 +324,7 @@ toc_max_heading_level: 5
 
 只需要告诉 k8s 要做什么 (比如保持某个 pod 有三个副本), 而不必告诉它怎么做, 就像 sql 只告诉 数据库要查询那些数据, 而没有告诉数据库怎么查数据
 
-### 2.2. 为什么使用:
+### 3.2. 为什么使用:
 
 当 container 太多, 需要管理, 单机情况下, 还能依靠 docker-compose 这些工具, 当有很多机器时, 就必须通过 k8s 来将 容器合理地分配到这些机器中去
 
@@ -182,7 +332,7 @@ toc_max_heading_level: 5
 - 自动部署 and 回滚
 - 替换失败容器 (自我修复)
 
-### 2.3. compare with spring cloud
+### 3.3. compare with spring cloud
 
 Spring Cloud 通过整合Neflix相关开源组件实现了一套完整的微服务方案，但是必须借助于K8S这样的容器编排工具才能实现理想的效果。而K8S却可以自成体系构建微服务系统
 
@@ -194,18 +344,20 @@ Spring Cloud 通过整合Neflix相关开源组件实现了一套完整的微服�
 
 4. Spring Cloud 体系的程序如果部署在K8S的环境， 很多微服务特性都是重复的
 
-## 3. 搭建环境
+## 4. 搭建环境
 
-### 3.1. 生产服务器上安装
+### 4.1. 生产服务器上安装
 
 https://github.com/fanux/sealos 一键安装
+
+https://github.com/guoliangdi/springcloudFeign centos 上安装 基于 k8s 的 devops
 
 https://github.com/lework/kainstall
 
 https://github.com/easzlab/kubeasz 使用Ansible脚本安装K8S集群
 
 
-### 3.2. vagrant 搭建 k8s 环境
+### 4.2. vagrant 搭建 k8s 环境
 
 一个 master node: docker, kubeadm, kubelet, kubectl 两个 worker node:
 
@@ -396,9 +548,9 @@ watch kubectl get po -n kube-system -o wide
 ```
 
 
-### 3.3. 众多的发行版
+### 4.3. 众多的发行版
 
-#### 3.3.1. k3s
+#### 4.3.1. k3s
 
 
 https://github.com/k3s-io/k3s
@@ -412,7 +564,7 @@ https://oldj.net/article/2022/04/17/install-k3s-and-rancher/
 
 将其应用于 IoT 设备（比如树莓派）, CI, development 是非常好的选择
 
-##### 3.3.1.1. k3d
+##### 4.3.1.1. k3d
 
 https://github.com/k3d-io/k3d 将 k3s 跑在 docker 里
 
@@ -420,7 +572,7 @@ https://cloud.tencent.com/developer/article/1791688 原理教程
 
 For macOs, we can just download the binary file from github release page or by using `brew install k3d`
 
-###### 3.3.1.1.1. 使用 helmChart controller
+###### 4.3.1.1.1. 使用 helmChart controller
 
 Helm Controller 定义了一个新的HelmChart自定义资源, 部署到 kubernetes 中, 用于管理 Helm 图表。
 
@@ -486,7 +638,7 @@ $ helm install test-helmchart --namespace test-namespace \
 
 删除: `kubectl --namespace kube-system delete helmchart <char name, eg. node-red>`
 
-###### 3.3.1.1.2. 操作 kubeconfig
+###### 4.3.1.1.2. 操作 kubeconfig
 
 ```sh
 # 获取 kubeconfig 文件 (最新版k3d 会自动更新 ~/.kube/config, 我们无需手动修改 kubectl 即可操作k3d 创建的集群)
@@ -495,7 +647,7 @@ k3d kubeconfig get --all
 
 ```
 
-###### 3.3.1.1.3. 支持的命令
+###### 4.3.1.1.3. 支持的命令
 
 ```sh
 k3d version
@@ -558,7 +710,7 @@ k3d node list
 k3d registry list
 ```
 
-###### 3.3.1.1.4. 国内镜像
+###### 4.3.1.1.4. 国内镜像
 
 ```sh
 
@@ -581,17 +733,17 @@ mirrors:
 
 ```
 
-###### 3.3.1.1.5. 导入镜像
+###### 4.3.1.1.5. 导入镜像
 
 ```sh
 # k3d 中的镜像和 docker 不通, 需要手动导入
-# 编写 deployment 时注明 imagePullPolicy: Never 从不拉取
+# 编写 deployment 时注明 imagePullPolicy: Never 从不拉取, 仅仅使用k3d 内部镜像
 k3d image import <customized image name>
 ```
 
 或者自己搭建 image registry
 
-###### 3.3.1.1.6. k3s 包括以下一些组件
+###### 4.3.1.1.6. k3s 包括以下一些组件
 
 ```
 Containerd：一个类似 Docker 的运行时容器，但是它不支持构建镜像；
@@ -602,7 +754,7 @@ Traefik：默认安装 Ingress controller 是 traefik 1.x 的版本；
 Embedded service loadbalancer：内嵌的一个服务负载均衡组件。
 ```
 
-###### 3.3.1.1.7. 完整的 k3d yml 配置文件
+###### 4.3.1.1.7. 完整的 k3d yml 配置文件
 
 or taking a yaml file to create cluster:
 
@@ -677,7 +829,7 @@ registries: # define how registries should be created or used
 `k3d cluster create --config /path/to/mycluster.yaml`
 
 
-###### 3.3.1.1.8. 部署一个 NGINX 
+###### 4.3.1.1.8. 部署一个 NGINX 
 
 https://blog.bwcxtech.com/posts/ea0ef82f/ 使用 Traefik2 代替 1
 
@@ -827,19 +979,19 @@ ports:
 `http://localhost:9001/` To check the nginx welcome page
 
 
-#### 3.3.2. k0s
+#### 4.3.2. k0s
 
 https://github.com/k0sproject/k0s 体积下, 更精简的 k8s
 
-#### 3.3.3. microk8s
+#### 4.3.3. microk8s
 
 https://github.com/canonical/microk8s
 
-#### 3.3.4. docker desktop (推荐使用 rancher desktop 替代)
+#### 4.3.4. docker desktop (推荐使用 rancher desktop 替代)
 
 it's the easiest way to install k8s locally I think.
 
-#### 3.3.5. kind (推荐使用 k3d 代替)
+#### 4.3.5. kind (推荐使用 k3d 代替)
 
 https://guoxudong.io/post/k3d-vs-kind/ 对比
 
@@ -883,7 +1035,7 @@ kind load docker-image <img_name> [--name cluster_name]
 docker exec -it kind-control-plane crictl images
 ```
 
-#### 3.3.6. minikube
+#### 4.3.6. minikube
 
 create single node k8s cluster for dev, 原理是 创建虚拟机,
 
@@ -914,17 +1066,17 @@ minikube ip
 
 ```
 
-## 4. Quickstart
+## 5. Quickstart
 
-### 4.1. 以Java 为例
+### 5.1. 以Java 为例
 
 https://mritd.com/2022/11/08/java-containerization-guide/
 
 
 
-### 4.2. 以 go 为例
+### 5.2. 以 go 为例
 
-#### 4.2.1. using pod directly
+#### 5.2.1. using pod directly
 
 here is a piece of code in go:
 
@@ -1054,7 +1206,7 @@ kubectl delete -f xxx.yaml
 
 ```
 
-#### 4.2.2. using deployment
+#### 5.2.2. using deployment
 
 Let's write a yml file to define a deployment to manage the pods
 
@@ -1093,7 +1245,7 @@ kc delete pod hello-k8s-deployment-6bb465758-5d8lk
 ```
 
 
-## 5. 集群结构 underlying infrastructure 基础设施
+## 6. 集群结构 underlying infrastructure 基础设施
 
 ![k8s design](/img/k8s_design.png)
 
@@ -1129,19 +1281,19 @@ computer machines (计算节点 Node): Also known as Node, designed to run the r
   gui 管理插件: dashboard
 ```
 
-## 6. api 管理的各种资源
+## 7. api 管理的各种资源
 
 即各种 api object,
 
 像 pod, rc, rs, deployment 都属于 api object
 
-### 6.1. 各种资源的关系
+### 7.1. 各种资源的关系
 
 在 K8S 中，应用会被封装在 Container 中暴露出来一个 Port. 一个和多个 Container 组成了一个 Pod。 Pod 是 K8S 的基本执行单元。Pod 会被分配到 Node 上运行。而多个 Node 组成了一个 K8S Cluster.
 
-### 6.2. 3 common properties
+### 7.2. 3 common properties
 
-#### 6.2.1. metadata
+#### 7.2.1. metadata
 
 metadata (contains 3 factors at least):
 
@@ -1155,13 +1307,13 @@ metadata (contains 3 factors at least):
 
 used to identify api obj
 
-#### 6.2.2. spec
+#### 7.2.2. spec
 
 used to declare the configuration that we want
 
-#### 6.2.3. status
+#### 7.2.3. status
 
-### 6.3. node
+### 7.3. node
 
 是 K8S 的集群工作节点，可以是物理机也可以是虚拟机；
 
@@ -1177,7 +1329,7 @@ kubectl drain NODENAME
 
 ```
 
-### 6.4. pod
+### 7.4. pod
 
 由 一个或多个相互关联的 container 组成, 这些 container 共享网络地址和文件系统, 是 k8s 管理的基本单位, 代表着集群中的一个虚拟主机
 
@@ -1226,7 +1378,7 @@ kubectl exec -it <pod name> /bin/bash
 
 ```
 
-### 6.5. label
+### 7.5. label
 
 label 是资源上的标识，用来对它们进行区分和选择,
 
@@ -1242,7 +1394,7 @@ label 是资源上的标识，用来对它们进行区分和选择,
 架构标签："tier": "frontend" ,"tier": "backend","tier": "cache"
 ```
 
-#### 6.5.1. Label selector 使用
+#### 7.5.1. Label selector 使用
 
 
 - 包含/不包含 特定 key 的 资源
@@ -1251,7 +1403,7 @@ label 是资源上的标识，用来对它们进行区分和选择,
 
 
 
-### 6.6. Taint（污点）和 Toleration（容忍）
+### 7.6. Taint（污点）和 Toleration（容忍）
 
 可以作用于 node 和 pod 上, 用于控制和优化 pod 在 node 上的调度
 
@@ -1261,7 +1413,7 @@ label 是资源上的标识，用来对它们进行区分和选择,
 >
 > 另外还有可以给 node 设置 label，通过给 pod 设置 nodeSelector 将 pod 调度到具有匹配标签的节点上。
 
-#### 6.6.1. taint
+#### 7.6.1. taint
 
 作用在 node 上.
 
@@ -1299,17 +1451,17 @@ kubectl taint nodes node1 tag-
 kubectl describe node node1
 ```
 
-#### 6.6.2. toleration
+#### 7.6.2. toleration
 
 作用在 pod 上
 
 若将 pod 调度到一个有污点的 node 上去，需要用到容忍; Node 通过污点拒绝 pod 调度上去，pod 通过容忍忽略拒绝；
 
-### 6.7. controllers(各种控制器)
+### 7.7. controllers(各种控制器)
 
 pod 控制器, 部署/管理 pods
 
-#### 6.7.1. ~~RC (replica controller 副本控制器)~~
+#### 7.7.1. ~~RC (replica controller 副本控制器)~~
 
 **outdated**
 
@@ -1331,7 +1483,7 @@ Best practice: remember that always start pod by using RC
 
 在新版的 K8s 中，建议使用 ReplicaSet 作为副本控制器，ReplicationController 不再使用了
 
-#### 6.7.2. RS (replica set, 代替 RC)
+#### 7.7.2. RS (replica set, 代替 RC)
 
 副本集
 
@@ -1341,7 +1493,7 @@ Best practice: remember that always start pod by using RC
 >
 > 对于 RC 和 RS 中的 Pod，一般不挂载存储或者挂载共享存储，保存的是所有 Pod 共享的状态
 
-#### 6.7.3. Deployment (管理 RS)
+#### 7.7.3. Deployment (管理 RS)
 
 表示用户对 Kubernetes 集群的一次更新操作。可以是创建/更新一个新的服务，也可以是滚动升级一个服务
 
@@ -1379,12 +1531,16 @@ spec:
             limits:
               memory: '128Mi'
               cpu: '500m'
+          # 环境变量 可以在 springboot应用中通过 ${xxx} 使用
+          env:
+            - name: xxx
+              value: yyy
           # optional
           ports:
             - containerPort: 80  # 指定 container 中应用暴露的端口, 应该保持和 dockerfile 中的 expose 一样
 ```
 
-##### 6.7.3.1. scale up/back (扩容缩容)
+##### 7.7.3.1. scale up/back (扩容缩容)
 
 With regards to Scale up/back, we just need update the "spec.replicas" field, then rerun `kubectl apply -f xxx.yml`
 
@@ -1392,13 +1548,13 @@ With regards to Scale up/back, we just need update the "spec.replicas" field, th
 
 or we can use this cmd `kubectl scale deployment test-k8s --replicas=5`
 
-##### 6.7.3.2. version upgrade (版本升级)
+##### 7.7.3.2. version upgrade (版本升级)
 
 When talking about the app Version Upgrade, after make the code change, just need rebuild the image (note version number should change from v1 to v2) and push to docker hub, then update the yml `image` field, finally exec `kc apply ...`
 
 > Use `kubectl describe pod xxx` to check the pod details info, so that you can see the version info
 
-##### 6.7.3.3. rolling update (滚动升级)
+##### 7.7.3.3. rolling update (滚动升级)
 
 > 像上面那样的部署方式是可以的，但是也会带来一个问题，就是所有的副本在同一时间更新，这会导致我们 hellok8s 服务在短时间内是不可用的，因为所有 pod 都在升级到 v2 版本的过程中，需要等待某个 pod 升级完成后才能提供服务
 >
@@ -1444,7 +1600,7 @@ spec:
           name: hellok8s-container
 ```
 
-##### 6.7.3.4. 回滚 版本回退 查看历史
+##### 7.7.3.4. 回滚 版本回退 查看历史
 
 ```sh
 # roll back to last deployment version
@@ -1457,7 +1613,7 @@ kubectl rollout history deployment hellok8s-deployment
 kubectl rollout undo deployment/hellok8s-deployment --to-revision=2
 ```
 
-##### 6.7.3.5. livenessProbe (存活探针)
+##### 7.7.3.5. livenessProbe (存活探针)
 
 > 在生产中，有时候因为某些 bug 导致应用死锁或者线程耗尽了，最终会导致应用无法继续提供服务，这个时候如果没有手段来自动监控和处理这一问题的话，可能会导致很长一段时间无人发现
 
@@ -1503,7 +1659,7 @@ spec:
 
 通过 `kubectl get pods` 查看状态 or `kubectl describe pod hellok8s-68f47f657c-zwn6g` 查看原因,
 
-##### 6.7.3.6. readinessProbe (就绪探针)
+##### 7.7.3.6. readinessProbe (就绪探针)
 
 > 在生产环境中，升级服务的版本是日常的需求，这时我们需要考虑一种场景，即当发布的版本存在问题，就不应该让它升级成功。kubelet 使用就绪探测器可以知道容器何时准备好接受请求流量，当一个 pod 升级后不能就绪，即不应该让流量进入该 pod，在配合 rollingUpate 的功能下，也不能允许升级版本继续下去，否则服务会出现全部升级完成，导致所有服务均不可用的情况。
 
@@ -1539,7 +1695,7 @@ spec:
             successThreshold: 5
 ```
 
-#### 6.7.4. SC (stateful set)
+#### 7.7.4. SC (stateful set)
 
 有状态应用部署 (如 MySQL, ZooKeeper、etcd )
 
@@ -1605,7 +1761,7 @@ spec:
 
 ```
 
-##### 6.7.4.1. 数据持久化 persist
+##### 7.7.4.1. 数据持久化 persist
 
 
 Storage Class (SC) : 将存储卷划分为不同的种类，例如：SSD，普通磁盘，本地磁盘
@@ -1622,13 +1778,13 @@ PersistemVolume(PV)用来定义存储卷，PersistemVolumeClaim(PVC)用来声明
 ![xx](/img/k8s_storage.png)
 
 
-#### 6.7.5. DS (daemon set 后台支撑服务集)
+#### 7.7.5. DS (daemon set 后台支撑服务集)
 
 确保每个 working node 都运行一个指定 pod (working node 可能是所有集群节点也可能是通过 nodeSelector 选定的一些特定节点)
 
 > 这个 pod 可能是用来专门支撑业务系统运行的基础服务, 比如对集群中的每个 working node 做日志采集，性能指标监控
 
-#### 6.7.6. job (一次性任务)
+#### 7.7.6. job (一次性任务)
 
 Job 管理的 Pod 根据用户的设置把任务成功完成就自动退出了
 
@@ -1681,7 +1837,7 @@ kubectl get pods -w
 kubectl logs -f xxx_pod
 ```
 
-#### 6.7.7. cronjob (定时任务)
+#### 7.7.7. cronjob (定时任务)
 
 用法除了需要加上 cron 表达式之外，其余基本和 Job 保持一致。
 
@@ -1719,7 +1875,7 @@ spec:
                 - "for i in 9 8 7 6 5 4 3 2 1 ; do echo $i ; done"
 ```
 
-### 6.8. service
+### 7.8. service
 
 用来代理一组 pods, 通过 label selector 选择一批 pods
 
@@ -1740,7 +1896,7 @@ kubectl get service[s]
 
 ```
 
-#### 6.8.1. Endpoint
+#### 7.8.1. Endpoint
 
 被 selector 选中的 Pod，就称为 Service 的 Endpoints
 
@@ -1751,7 +1907,7 @@ kubectl get service[s]
 kubectl get endpoints
 ```
 
-#### 6.8.2. 多端口
+#### 7.8.2. 多端口
 
 ```yml
 apiVersion: v1
@@ -1795,7 +1951,7 @@ K8S 的结构可以大致分为 3 层，Node, Pod, Container, 为了保护 Conta
 
   范围固定 30000 ~ 32767
 
-#### 6.8.3. ClusterIP (默认使用的类型)
+#### 7.8.3. ClusterIP (默认使用的类型)
 
 Service 的默认类型，自动分配一个仅Cluster内部可以访问的虚拟IP, 通过 kubernetes 集群的内部 IP 暴露服务
 
@@ -1822,13 +1978,13 @@ spec:
       targetPort: 3000
 ```
 
-##### 6.8.3.1. Headless
+##### 7.8.3.1. Headless
 
 service type 还是 clusterIP, 但是 clusterIp 设置为 None 就变成 Headless 了，不会再分配 IP 
 
 > 适合数据库
 
-#### 6.8.4. NodePort
+#### 7.8.4. NodePort
 
 在ClusterlP基础上为Service在每台机器上绑定一个端口，这样就可以在 cluster 外部通过`<NodeIP>:NodePort `来访问该服务
 
@@ -1857,27 +2013,27 @@ spec:
 
 ```
 
-#### 6.8.5. LoadBalancer
+#### 7.8.5. LoadBalancer
 
 在NodePort的基础上，创建一个外部负载均衡器, 将请求转发到内部 Service 上; 需要第三方负载均衡服务来实现，可以是软件的也可以是硬件的。
 
 > 一般是使用云提供商的负载均衡器向外部暴露服务。 这个外部负载均衡器可以将流量路由到自动创建的 NodePort 服务和 ClusterIP 服务上.
 
-#### 6.8.6. ExternalName
+#### 7.8.6. ExternalName
 
 此类型的Service节点会将所有流量直接转发到某个预定义的外部服务。
 
 > 通常情况下，在集群内使用ExternalName Service类型，将某个外部服务作为集群内部服务的别名来使用，使得内部服务使用起来更加方便和简单
 
-#### 6.8.7. 手动端口转发
+#### 7.8.7. 手动端口转发
 
 `kubectl port-forward`, 用于临时调试
 
-#### 6.8.8. service 如何工作
+#### 7.8.8. service 如何工作
 
 Pod 通过 label 键值对与 Service 上的 label selector 相关联。Service 会自动发现带有与选择器匹配的标签的新 Pod。
 
-### 6.9. ingress
+### 7.9. ingress
 
 可为 Service 提供外部可访问的域名绑定(默认端口 80, 通过域名进行流量转发)、负载均衡、 SSL/TLS 
 
@@ -1934,15 +2090,15 @@ kubectl get ingress
 
 ```
 
-#### 6.9.1. install ingress-nginx
+#### 7.9.1. install ingress-nginx
 
 https://docs.rancherdesktop.io/zh/how-to-guides/setup-NGINX-Ingress-Controller
 
-#### 6.9.2. Traefik
+#### 7.9.2. Traefik
 
 todo Traefik
 
-### 6.10. volume
+### 7.10. volume
 
 即在 pod 中可访问的文件目录, 用来存储大数据量的内容
 
@@ -1950,7 +2106,7 @@ todo Traefik
 
 > 可被挂载到 pod 中的一个/多个 container 的指定路径 下
 
-### 6.11. secret
+### 7.11. secret
 
 Secret 是用来保存和传递密码
 
@@ -1985,7 +2141,7 @@ kubectl get secret my-mongo-mongodb -o json
 kubectl get secret my-mongo-mongodb -o yaml > secret.yaml
 ```
 
-### 6.12. config map
+### 7.12. config map
 
 将非机密性的数据保存到键值对中
 
@@ -2048,17 +2204,18 @@ spec:
           # specify that getting db_url from the specified config map
           valueFrom:
             configMapKeyRef:
+              # config map 的name
               name: hellok8s-config
               key: DB_URL
 ```
 
-### 6.13. flannel
+### 7.13. flannel
 
 是 CoreOS 团队针对 Kubernetes 设计的一个网络规划服务, 简单来说, 它的功能是让集群中的不同节点主机创建的 Docker 容器都具有全集群唯一的虚拟 IP 地址, 让属于不同节点上的容器能够直接通过内网 IP 互通
 
 
 
-### 6.14. name
+### 7.14. name
 
 由于 K8S 内部,使用“资源”来定义每一种逻辑概念(功能)故每种"资源”, 都应该有自己的"名称”
 
@@ -2066,7 +2223,7 @@ spec:
 
 "名称”通常定义在"资源”的"元数据”信息里
 
-### 6.15. name namespace (用来划分多环境)
+### 7.15. name namespace (用来划分多环境)
 
 可以使用 namespace 划分出多个“虚拟集群”，这些 ns 之间可以完全隔离, 例如 dev 环境给开发使用，test 环境给 QA 使用
 
@@ -2126,9 +2283,9 @@ kubectx minikube
 
 ```
 
-## 7. 垃圾回收
+## 8. 垃圾回收
 
-### 7.1. 级联删除
+### 8.1. 级联删除
 
 所有者删除，从属对象也被删除；
 
@@ -2138,15 +2295,21 @@ kubectx minikube
 
 - Background 后台级联删除： 立即删除所有者的对象，并由垃圾回收器在后台删除其从属对象 ； 不用等待删除从属对象的时间；
 
-### 7.2. 孤儿删除 orphan
+### 8.2. 孤儿删除 orphan
 
 所有者删除，从属对象变成孤儿
 
 > 直接删除所有者对象，并将从属对象中的 ownerReference 元数据设置为默认值。之后垃圾回收器会确定孤儿对象并将其删除；
 
-## 8. 资源描述文件
+## 9. 资源描述文件
 
-### 8.1. 通过命令生成 yml
+### 9.1. 查看属性说明
+
+如 当前 k8s 支持的 apiVersion ...
+
+`kc explain deployment` , `kc explain deployment.spec.template.spec`
+
+### 9.2. 通过命令生成 yml
 
 ```sh
 kubectl create deployment tomcat6 --image=tomcat:6.0.53-jre8 --dry-run -o yaml > tomcat6.yml
@@ -2156,7 +2319,7 @@ kubectl apply -f xxx.yaml
 
 ```
 
-### 8.2. pod 的 yaml 描述文件
+### 9.3. pod 的 yaml 描述文件
 
 ```yml
 apiVersion : v1 #(k8s api server version)
@@ -2200,7 +2363,7 @@ status: #包含运行中的 po 的当前信息，例如 po 所处的条件 每�
 
 ```
 
-### 8.3. deployment 的描述文件
+### 9.4. deployment 的描述文件
 
 ```yml
 apiVersion: apps/v1
@@ -2232,7 +2395,7 @@ spec:
             - containerPort: 80
 ```
 
-### 8.4. service
+### 9.5. service
 
 ```yml
 apiVersion: v1
@@ -2249,11 +2412,11 @@ spec:
     app: nginx
 ```
 
-## 9. 注解
+## 10. 注解
 
 注解: TODO
 
-## 10. 命名空间
+## 11. 命名空间
 
 K8S namespace: 为 对象资源提供了一个作用域, 在不同的 作用域中可以使用相同的资源名， 但这相同的资源名代表了不同的资源。 类比 java package
 
@@ -2278,9 +2441,9 @@ metadata:
 
 切换 ns： `kubectl config set-context $(kubectl config current-context) --namespace <other ns>`
 
-## 11. pod 管理
+## 12. pod 管理
 
-### 11.1. 探测 pod 是否健康
+### 12.1. 探测 pod 是否健康
 
 k8s 会保持 pod 始终正常运行， 如果容器的主进程崩溃， Kubelet 将重启容器。 当容器被强行终止时，会创建一个全新的容器—-而不是重启原来的容器
 
@@ -2315,7 +2478,7 @@ spec:
           port: 8080
 ```
 
-### 11.2. pod 副本
+### 12.2. pod 副本
 
 ReplicationController 是一种 Kubernetes 资源，负责创建和管理 pod 副本
 
@@ -2437,7 +2600,7 @@ Deployment 额外的特性：
 
 ================= HPA 弹性伸缩 根据资源的使用情况自动缩扩容
 
-### 11.3. 运行单个任务 Job
+### 12.3. 运行单个任务 Job
 
 到目前为止， 我们只谈论了需要持续运行的 pod， 这些 pod 由 rc， rs， ds 管理。 你会遇到只想运行完成工作后就终止任务的清况， 这种 pod 由 Job 管理
 
@@ -2469,15 +2632,15 @@ spec:
 
 ```
 
-### 11.4. 定时任务 CronJob
+### 12.4. 定时任务 CronJob
 
 TODO
 
-## 12. pod 通信
+## 13. pod 通信
 
-### 12.1. proxy
+### 13.1. proxy
 
-### 12.2. Service
+### 13.2. Service
 
 pods 有自己的内部地址, 但是无法从 cluster 外部访问, 通过 service 可以暴露到 cluster 外部
 
@@ -2496,7 +2659,7 @@ a default service named kubernetes will be created with type ClusterIP
 
 ```
 
-### 12.3. pod 间通信
+### 13.3. pod 间通信
 
 Service
 
@@ -2570,11 +2733,11 @@ spec:
 
   `curl http://kubia.default.svc.cluster.local `
 
-### 12.4. 通过 Service 连接外部服务
+### 13.4. 通过 Service 连接外部服务
 
 pod 如何访问 k8s 外部 服务？
 
-#### 12.4.1. 通过手动生成 endpoint
+#### 13.4.1. 通过手动生成 endpoint
 
 Service 和 pod 中间不是直接相连， 而是插着 Endpoint，就是一个 ip:port 列表，在创建 Service 时 根据 该服务的 label selector 产生
 
@@ -2614,7 +2777,7 @@ subsets:
 
 如果稍后决定将 外部服务迁移到 Kubemetes 中运行的 pod, 可以为服务添加选择器，从而对 Endpoint 进行自动管理
 
-#### 12.4.2. 通过 externalName 类型的 Service
+#### 13.4.2. 通过 externalName 类型的 Service
 
 另外的方式来访问外部服务：创建 ExtemalName 类型的 Service
 
@@ -2636,9 +2799,9 @@ spec:
 
 在以后如果将其指向不同的服务，只需简单地修改 externalName 属性，或者将类型重新变回 ClusterIP 并为服务创建 Endpoint
 
-### 12.5. 将服务暴露给外部
+### 13.5. 将服务暴露给外部
 
-#### 12.5.1. 将服务的类型设置成 NodePort
+#### 13.5.1. 将服务的类型设置成 NodePort
 
 每个集群节点都会在节点上打开一个端口(端口号相同)。并将传入的连接转发给 pod
 
@@ -2661,7 +2824,7 @@ spec:
 
 worker node ip 如何获取：`kubectl get nodes -o jsonpath='...'`
 
-#### 12.5.2. 将服务的类型设置成 LoadBalance
+#### 13.5.2. 将服务的类型设置成 LoadBalance
 
 NodePort 类型的一 种扩展, 在 client 和 worker node 间 放了一个 LoadBalancer， 防止节点单点故障
 
@@ -2685,7 +2848,7 @@ spec:
         app: kubia
 ```
 
-#### 12.5.3. 创建一 个 Ingress 资源
+#### 13.5.3. 创建一 个 Ingress 资源
 
 通过一 个 IP 地址公开多个服务，它运行在 HTTP 层（网络协议第 7 层）上， 因此可以提供比工作在第 4 层的服务更多的功能
 
@@ -2719,11 +2882,11 @@ spec:
 
 为 ingress 创建 tls 认证 TODO
 
-## 13. 命令
+## 14. 命令
 
-### 13.1. kubectl
+### 14.1. kubectl
 
-#### 13.1.1. 基本信息
+#### 14.1.1. 基本信息
 
 ```sh
 kubectl version
@@ -2733,14 +2896,20 @@ kubectl get nodes
 kubectl get cs # 健康状况
 ```
 
-#### 13.1.2. 创建 create expose
+#### 14.1.2. 创建 create expose
 
 ```sh
 
 # create depend on a spec file.
+# 
+# 和 kubectl apply 区别:
+# - create 是创建新资源。这里我们需要注意的是，如果再次运行相同的命令，就会抛出错误，因为资源名称在名称空间中应该是唯一的。
+# - apply 使配置在资源上生效, 可能是创建, 也可能是根据资源定义文件更新资源, 可重复执行  (推荐)
+# 
 kubectl create -f xxx.yml
 
-
+# 递归从 dir 下查找资源定义文件, 并创建
+kc create -R -f <dir>
 
 # >>> deployment,
 
@@ -2814,7 +2983,7 @@ kubectl config set-context Kubernetes --namespace=beta
 kubectl config view | grep namespace command
 ```
 
-#### 13.1.3. 执行命令到容器 exec
+#### 14.1.3. 执行命令到容器 exec
 
 ```sh
 # 仅有 一个容器在 pod, 无需指定容器
@@ -2824,7 +2993,7 @@ kubectl exec [-c container_name] $POD_NAME -- env
 kubectl exec -ti $POD_NAME -- bash
 ```
 
-#### 13.1.4. 修改
+#### 14.1.4. 修改
 
 ```sh
 
@@ -2849,7 +3018,7 @@ $ kubectl rollout status deployments/kubernetes-bootcamp
 $ kubectl rollout undo deployments/kubernetes-bootcamp
 ```
 
-#### 13.1.5. 资源列表 get
+#### 14.1.5. 资源列表 get
 
 单复数均可
 
@@ -2975,7 +3144,7 @@ kubectl get events
 
 ```
 
-#### 13.1.6. 查询详细描述 describe
+#### 14.1.6. 查询详细描述 describe
 
 ```sh
 # >>> pods
@@ -2996,7 +3165,7 @@ $ kubectl describe deployment
 
 ```
 
-#### 13.1.7. 查询日志 logs
+#### 14.1.7. 查询日志 logs
 
 ```sh
 # 查指定 pod 下的 container 日志
@@ -3019,7 +3188,7 @@ kubectl explain pod.spec
 
 ```
 
-#### 13.1.8. 删除 delete
+#### 14.1.8. 删除 delete
 
 ```sh
 # delete by spec file
@@ -3053,7 +3222,7 @@ kubectl delete deployment,service --all
 
 ```
 
-#### 操作上下文
+#### 14.1.9. 操作上下文
 
 ```sh
 # 更新上下文, 为当前上下文加上 namespace
@@ -3064,7 +3233,7 @@ kubectl config get-contexts
 kubectl config use-context docker-desktop
 ```
 
-### 13.2. kubeadmin
+### 14.2. kubeadmin
 
 ```sh
 kubeadm init # create a master node
@@ -3073,7 +3242,7 @@ kubeadm join <master_id:port> # add a node to cluster
 ```
 
 
-## 14. cka ckad 证书考试
+## 15. cka ckad 证书考试
 
 https://blog.csdn.net/vic_qxz/article/details/108338442 https://zhuanlan.zhihu.com/p/139052135 备考 cka ckad
 
@@ -3083,18 +3252,18 @@ https://zhuanlan.zhihu.com/p/138796893 https://www.jianshu.com/p/629525af31c4 ht
 
 
 
-## 15. dashboard
+## 16. dashboard
 
-### 15.1. k9s
+### 16.1. k9s
 
 https://k9scli.io/, 基于 Terminal 的轻量级 UI
 
-### 15.2. kuboard
+### 16.2. kuboard
 
 https://github.com/eip-work/kuboard-press 面板
 
 
-### 15.3. kubernetes-dashboard
+### 16.3. kubernetes-dashboard
 
 https://github.com/kubernetes/dashboard
 
@@ -3118,7 +3287,7 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
 
 
 
-### 15.4. kubesphere (推荐)
+### 16.4. kubesphere (推荐)
 
 打通 devops 全套流水线, 对 cluster 要求高 https://github.com/kubesphere/kubesphere
 
@@ -3129,17 +3298,17 @@ https://www.zhihu.com/question/348609092 rancher 和 kubesphere 对比
 https://www.bilibili.com/video/BV1cL4y167GV 视频教程
 
 
-### 15.5. rancher
+## 17. rancher
 
-部署 k8s 集群
+部署和管理 k8s 集群
 
 https://docs.rancher.cn/
 
-## 16. Harbor
+## 18. Harbor
 
 Harbor 是由 VMware 公司中国团队为企业用户设计的 Registry server 开源项目 (镜像仓库, 类似 docker hub)
 
-## 17. Helm
+## 19. Helm
 
 来自 CNCF, 使用 helm chart 一键拉起整套环境(第三方部署k8s应用的工具). 也可以使用其应用商店, 一键部署别人写好的软件集群
 
@@ -3147,7 +3316,7 @@ Harbor 是由 VMware 公司中国团队为企业用户设计的 Registry server 
 
 
 
-### 17.1. How to create helm chart
+### 19.1. How to create helm chart
 
 We can use `helm create <chart-name>` to create a default chart template, 该命令默认会创建一些 k8s 资源定义的初始文件，并且会生成官网推荐的目录结构
 
@@ -3259,13 +3428,13 @@ spec:
               value: {{ .Values.application.hellok8s.message }}
 ```
 
-### 17.2. helm chart 的打包发布
+### 19.2. helm chart 的打包发布
 
 这里一 使用 github pages 存储为例
 
 打包发布到 https://artifacthub.io/  (类似 dockerhub)
 
-#### 17.2.1. 手动打包发布
+#### 19.2.1. 手动打包发布
 
 ```sh
 helm package <char name> # 将chart目录打包到chart归档中。
@@ -3278,7 +3447,7 @@ helm upgrade --install *.tgz
 helm upgrade --install hello-helm hello-helm-0.1.0.tgz
 ```
 
-#### 17.2.2. 利用 github action 自动打包发布
+#### 19.2.2. 利用 github action 自动打包发布
 
 使用 [char-release-action](https://github.com/helm/chart-releaser-action) 自动发布 (该 action 会默认生成 helm chart 发布到 gh-pages 分支上)
 
@@ -3325,7 +3494,7 @@ jobs:
 
 
 
-### 17.3. 基本命令使用
+### 19.3. 基本命令使用
 
 ```sh
 # Chart 仓库其实就是一个带有index.yaml索引文件和任意个打包的 Chart 的 HTTP 服务器而已
@@ -3407,7 +3576,7 @@ helm list --deleted
 helm uninstall <chart name>
 ```
 
-### 17.4. rollback
+### 19.4. rollback
 
 ```sh
 # 先查看历史
@@ -3423,7 +3592,7 @@ helm rollback hello-helm 1
 ```
 
 
-### 17.5. 多环境
+### 19.5. 多环境
 
 create `values-dev.yaml`
 
@@ -3440,7 +3609,7 @@ helm upgrade --install hello-helm -f values.yaml -f values-dev.yaml \
 ```
 
 
-## 18. reference materials
+## 20. reference materials
 
 
 https://github.com/techiescamp/kubernetes-learning-path

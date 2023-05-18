@@ -24,6 +24,7 @@ https://github.com/Terminus2049/Awesome-Social-Impact 社会议题
 
 - [1. 博客](#1-博客)
 - [2. 检索搜索技巧 github tips](#2-检索搜索技巧-github-tips)
+- [using the raw content](#using-the-raw-content)
 - [3. 文档\&资源](#3-文档资源)
   - [3.1. 语言](#31-语言)
     - [3.1.1. go](#311-go)
@@ -108,6 +109,12 @@ syntax
   awesome系列：一般用来学习的项目
 
 ```
+
+# using the raw content
+
+`$ kubectl apply -f https://raw.githubusercontent.com/fenixsoft/microservice_arch_kubernetes/master/bookstore.yml`
+
+> respecting the format: https://raw.githubusercontent.com/{org name}/{repo name}/{branch name}/{file name}
 
 # 3. 文档&资源
 
