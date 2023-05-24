@@ -34,11 +34,8 @@ tag: [gradle]
   - [3.3. 自定义插件](#33-自定义插件)
 - [4. gradle wrapper](#4-gradle-wrapper)
   - [To get a better experience in china](#to-get-a-better-experience-in-china)
----
-title: gradle
-tags: [gradle]
-0.1. date: 2020-08-17
----
+
+
 
 https://gradle.org/
 
@@ -48,8 +45,12 @@ https://www.jianshu.com/p/7ccdca8199b8 入门
 https://gradle.org/releases/ install
 
 https://plugins.gradle.org/ 插件平台
-<!--more-->
 
+https://www.bilibili.com/video/BV1DE411Z7n
+
+https://www.bilibili.com/video/BV1484y1C7G3
+
+https://www.bilibili.com/video/BV1dK411K7Pg
 
 
 # 1. 简介

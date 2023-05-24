@@ -22,6 +22,12 @@ https://github.com/alibaba/formily
 
 https://blog.csdn.net/qq_35427589/article/details/127677775
 
+https://github.com/MrXujiang/h5-Dooring
+https://github.com/H5-Dooring/dooringx
+https://github.com/nihaojob/vue-fabric-editor
+
+https://github.com/smartxworks/sunmao-ui
+
 ## backend
 
 Airtable/apitable

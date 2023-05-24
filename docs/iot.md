@@ -43,3 +43,5 @@ https://zditect.com/main/iot-internet-of-things/iot-internet-of-things.html
 熟悉消费级物联网的技术生态， 能独立完成物联网系统的设备选型、方案设计、硬件调试和控制软件开发。
 精通主流的物联通讯协议 WiFi/BlueTooth/NFC/RS485/……， 熟练使用 Java/C#/C++ 等语言进行开发集成。
 具备芯片级集成开发经验 STM32/ESP8266/HX711/ATGM336H/74HC595/……
+
+https://github.com/Amazingwujun/mqttx 学习项目

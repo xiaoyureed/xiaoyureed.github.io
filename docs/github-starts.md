@@ -338,6 +338,7 @@ https://github.com/DIYgod/Resume
 ## awesome tools
 
 https://github.com/alist-org/alist 文件列表 网盘
+https://github.com/lrsjng/h5ai
 
 https://github.com/veloren/veloren 开放世界游戏 像素
 

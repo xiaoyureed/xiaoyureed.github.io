@@ -29,6 +29,7 @@ https://www.devglan.com/spring-security/spring-boot-oauth2-jwt-example 和jwt集
 - [1. jwt](#1-jwt)
   - [1.1. jwt 介绍](#11-jwt-介绍)
   - [1.2. 优缺点](#12-优缺点)
+    - [使用场景](#使用场景)
   - [1.3. 怎么使用](#13-怎么使用)
 - [2. spring security](#2-spring-security)
   - [2.1. 基本架构](#21-基本架构)
@@ -80,9 +81,29 @@ https://www.devglan.com/spring-security/spring-boot-oauth2-jwt-example 和jwt集
 
 ## 1.2. 优缺点
 
-优点: 去掉了 cookie/session, server端容易水平扩展, 也更安全(避免了跨站请求伪造攻击, 原理:利用未删除的cookie, 伪造恶意请求)
+```
+ 2种Token：
+    1. 去中心化的JWT token
+        优点：
+            1. 去中心化，便于分布式系统使用
+            2. 基本信息可以直接放在token中。 username，nickname，role
+            3. 功能权限较少的话，可以直接放在token中。用bit位表示用户所具有的功能权限
+        缺点：服务端不能主动让token失效 
+             token无法自动续期
+        为了规避缺点, 建议联合 redis 一起使用 (但是这样又回到了 session/cookie 这种老路, 需要再一个集中的redis 中维护状态信息, 不如不用 jwt)
 
-缺点: 信息暴露, jwt 只提供了防篡改, 没有加密, 任何人都可以解析 token, 所以无法存放敏感信息比如密码 (可以对生成的 token 加密, 或者 https 传输 token)
+    2. 中心化的 redis token / memory session等
+        优点：服务端可以主动让token失效
+        缺点：
+           1. 依赖内存或redis存储。
+           2. 分布式系统的话，需要redis查询/接口调用增加系统复杂性。
+```
+
+### 使用场景
+
+一般不单纯使用 jwt token 来做用户登录鉴权, 会搭配 redis 一起使用, (以提供token主动失效功能)
+
+使用场景: 后端服务之间的鉴权 (不会用在用户登录鉴权); 或者生成开发 api 平台的 token, 生成/销毁都在 client 端主动完成.
 
 ## 1.3. 怎么使用
 

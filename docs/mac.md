@@ -61,6 +61,7 @@ https://github.com/Louiszhai/tool
   - [orbstack 代替 docker](#orbstack-代替-docker)
   - [12.24. vscode 安装配置](#1224-vscode-安装配置)
     - [12.24.1. vscode插件](#12241-vscode插件)
+      - [editorconfig](#editorconfig)
     - [12.24.2. 创建文件文件夹 快捷键](#12242-创建文件文件夹-快捷键)
     - [12.24.3. 使用 debugger for Chrome](#12243-使用-debugger-for-chrome)
     - [12.24.4. snippets](#12244-snippets)
@@ -893,6 +894,8 @@ aria2c --conf-path /xxx/aria2.conf" [-D]
 
 ```
 
+gui 控制台 https://aria2c.com/ 输入 rpc 链接: http://127.0.0.1:6800/jsonrpc
+
 ## 12.23. docker 安装
 
 https://mritd.com/2022/06/08/happy-using-docker-on-macos/ ToDo 推荐更好的工具 lima
@@ -942,12 +945,32 @@ https://blog.csdn.net/qq_43827595/article/details/104277051 vim 插件按键映�
 
 ### 12.24.1. vscode插件
 
-智能提示插件:
+#### editorconfig
 
-- tabnine (vscode)
-- cododa (适用于idea, 主要 java 专业, 收购了 tabnine)
-- kite (需要单独下载插件外的引擎 app , 对 Python 更专业, 节省内存 ) https://www.kite.com/,
+```conf
+# http://editorconfig.org
+root = true
 
+# 空格替代Tab缩进在各种编辑工具下效果一致
+[*]
+indent_style = space
+indent_size = 4
+charset = utf-8
+end_of_line = lf
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+; [*.java]
+; indent_style = tab
+
+[*.{json,yml}]
+indent_size = 2
+
+[*.md]
+insert_final_newline = false
+trim_trailing_whitespace = false
+
+```
 
 ### 12.24.2. 创建文件文件夹 快捷键
 

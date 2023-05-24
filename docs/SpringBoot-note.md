@@ -61,6 +61,7 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
   - [10.5. 封装组合条件](#105-封装组合条件)
   - [10.6. 创建自己的 starter](#106-创建自己的-starter)
   - [10.7. 反爬虫 starter](#107-反爬虫-starter)
+  - [gprc starter](#gprc-starter)
 - [11. 监控 and 安全](#11-监控-and-安全)
   - [11.1. spring-boot-actuator 监控](#111-spring-boot-actuator-监控)
   - [11.2. spring boot admin 监控界面](#112-spring-boot-admin-监控界面)
@@ -1197,6 +1198,10 @@ https://www.cnblogs.com/zouhao/p/12175653.html
 
 TODO
 
+## gprc starter
+
+https://github.com/yidongnan/grpc-spring-boot-starter
+
 # 11. 监控 and 安全
 
 密码加密 Argon2
@@ -1741,6 +1746,8 @@ https://www.cnblogs.com/liyihua/p/12333967.html
 
 ## 13.9. 整合 hibernate (即 jpa)
 
+https://github.com/raeperd/realworld-springboot-java
+
 ### 13.9.1. jpa注解总结
 
 ```java
@@ -2031,6 +2038,8 @@ AccountMapper.xml
 ```
 
 ## 13.11. 整合 mybatis
+
+https://github.com/gothinkster/spring-boot-realworld-example-app
 
 * 依赖：mybatis-spring-boot-starter
 * @Mapper标注创建的xxxMapper接口；或者 在 启动类上 标注 @mapperscan(basepackage...)

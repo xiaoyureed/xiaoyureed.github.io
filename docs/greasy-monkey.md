@@ -36,6 +36,8 @@ toc_max_heading_level: 5
 
 # 1. reference materials
 
+https://github.com/syhyz1990 脚本学习
+
 https://www.v2ex.com/t/848726
 
 https://www.tampermonkey.net/documentation.php

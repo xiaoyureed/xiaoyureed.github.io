@@ -181,7 +181,13 @@ toc_max_heading_level: 5
 
 ## 2. deploying springcloud
 
+https://github.com/Fenderon/springcloud-kubernetes-example
+
+http://www.enmalvi.com/2022/05/27/springcloud-spring-cloud-kubernetes/
+
 SpringCloud 通过 spring cloud kubernetes starter, 屏蔽了spring cloud 原来组件和 k8s 原生能力的差异
+
+> 使用spring-cloud-kubernetes框架，该框架可以调用kubernetes的原生能力来为现有SpringCloud应用提供服务
 
 服务发现. k8s的service
 
@@ -194,14 +200,16 @@ SpringCloud 通过 spring cloud kubernetes starter, 屏蔽了spring cloud 原来
 配置中心. k8s 的 Secret & ConfigMap
 
 > 通过 springcloud kubernetes config 自动将 configMap 内容注入到 springboot 配置文件中并实现动态更新
+>
+> 最佳实践: Git维护配置的版本，CI/CD部署到Kubernetes集群的ConfigMap/Secret。
 
 网关: k8s 提供 Ingress
 
 > 网关部分 springcloud kubernetes 仍然保留了 Zuul，未采用 Ingress 代替。这里有两点考虑，一是 Ingress Controller 不算是 Kubernetes 的自带组件，它可以有不同的选择（KONG、Nginx、Haproxy，等等），同时也需要独立安装
 
-服务熔断
+熔断、降级、限流
   
-> 仍然采用 Hystrix，Kubernetes 本身无法做到精细化的服务治理，包括熔断、流控、监视，等等
+> Kubernetes本身没有熔断器，因此微服务框架中的熔断组件是有必要的 (Sentinel, Hystrix)
 >
 > 将在基于 Istio 的服务网格架构中解决这个问题
 

@@ -12,7 +12,7 @@ https://github.com/SophonPlus/ChineseNlpCorpus
 
 https://github.com/dmlc/gluon-nlp
 
-https://github.com/fighting41love/funNLP 敏感词检测
+https://github.com/fighting41love/funNLP 敏感词检测 中文资料
 
 https://github.com/crownpku/Awesome-Chinese-NLP
 https://github.com/brightmart/nlp_chinese_corpus

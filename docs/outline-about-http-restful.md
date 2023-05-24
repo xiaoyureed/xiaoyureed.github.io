@@ -31,6 +31,7 @@ https://kalasearch.cn/blog/rest-api-best-practices/
 
 <!--more-->
 
+- [免费 api 资源](#免费-api-资源)
 - [1. 概念](#1-概念)
 - [2. http和tcp/ip比较](#2-http和tcpip比较)
 - [3. 怎么查看](#3-怎么查看)
@@ -87,6 +88,9 @@ https://kalasearch.cn/blog/rest-api-best-practices/
     - [11.7.6. API访问权](#1176-api访问权)
 
 
+# 免费 api 资源
+
+https://github.com/public-apis/public-apis
 
 # 1. 概念
 
