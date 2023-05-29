@@ -10,6 +10,8 @@ toc_max_heading_level: 5
 
 <div align="center">
 
+段子: 不管什么业务，直接上一套：spring boot+mysql 集群分库分表读写分离主备切换+kafak 集群+redis 集群用于缓存或者分布式锁+prometheus grafana 性能监控+ELK 日志收集分析+Flink 与 Hive 流批数仓+k8s 部署+双机房容灾
+
 https://github.com/YunaiV/SpringBoot-Labs
 
 记录springboot学习中的问题, 总结;
@@ -82,7 +84,10 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
   - [13.4. 数据库迁移版本控制](#134-数据库迁移版本控制)
     - [13.4.1. liquibase](#1341-liquibase)
     - [13.4.2. Flyway](#1342-flyway)
-  - [13.5. 数据库 url 和驱动](#135-数据库-url-和驱动)
+      - [working process 工作原理](#working-process-工作原理)
+      - [how to verify the sql update 校验原理](#how-to-verify-the-sql-update-校验原理)
+      - [how to use flyway](#how-to-use-flyway)
+  - [13.5. 数据库 jdbc url 和驱动 各种连接字符串](#135-数据库-jdbc-url-和驱动-各种连接字符串)
   - [13.6. graphql集成](#136-graphql集成)
   - [13.7. 启动执行 SQL](#137-启动执行-sql)
     - [13.7.1. 利用 spring jdbc](#1371-利用-spring-jdbc)
@@ -1169,6 +1174,17 @@ NoneNestedConditions (none 关系)
     引入 `spring boot starter` (相关注解需要), 标注为 optional true,  idea 中 spring boot app 创建时自动导入了
 
     继承 `spring-boot-starter-parent`, [如果想不通过继承方式使用, 可以 dependencyManagement `spring boot dependencies`, 参考](https://stackoverflow.com/questions/21317006/spring-boot-parent-pom-when-you-already-have-a-parent-pom/21318359#21318359)
+    但是这种方式有个弊端, 就是需要指定 spring-boot-maven-plugin 的 goal, 如果用 parent 的方式则不需要这一点
+    
+    ```
+    <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
+    ```
 
     如果是生成的 spring boot 项目, 删除 启动类, 然后替换 spring boot maven 插件 为 `maven-compile-plugin` (因为没有启动类, repackage 会报错), 设置 properties 下 maven.compiler.source, maven.compiler.target, java.version
 
@@ -1385,9 +1401,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 ### 11.3.4. 配置中 WebSecurity 和 HttpSecurity 区别
 
-```java
 
-// 影响全局安全性的配置（忽略资源，设置调试模式，通过实现自定义防火墙定义拒绝请求）
+```java
+// - WebSecurity:用于配置一些与 Servlet 容器相关的安全性设置,如忽略某些 资源的权限校验等。
+// WebSecurity 的配置通常较简单,主要还是 HttpSecurity 负责了绝大部分的认证与授权功能配置。所以,总体来说,WebSecurity 配置微调,HttpSecurity 配置主体
 @Override
 public void configure(WebSecurity web) throws Exception {
     web
@@ -1396,7 +1413,7 @@ public void configure(WebSecurity web) throws Exception {
         .antMatchers("/publics/**"); // 忽略
 }
 
-//资源级别 配置基于Web的安全性, 粒度更细
+// - HttpSecurity:用于配置与 HTTP 请求路由相关的权限控制和认证设置,如表单登录,HTTP 基础认证,访问控制等。
 @Override
 protected void configure(HttpSecurity http) throws Exception {
     http
@@ -1555,9 +1572,174 @@ https://github.com/bytebase/bytebase 新的更为全面的数据库 schema 管�
 
 ### 13.4.2. Flyway
 
+#### working process 工作原理
 
 
-## 13.5. 数据库 url 和驱动
+1. 项目启动，应用程序完成数据库连接池的建立后，Flyway自动运行。
+
+    > 初次使用时，flyway会创建一个 flyway_schema_history 表，用于记录sql执行记录。
+
+2. Flyway会扫描项目指定路径下(默认是 classpath:db/migration )的所有sql脚本，检查已经执行过的版本对应的脚本是否发生变化，包括脚本文件名，以及脚本内容, 与项目中的sql脚本若不一致，Flyway会报错并停止项目执行。
+
+3. 如果校验通过，则根据表中的sql成功记录最大版本号，忽略所有版本号小于该版本的脚本。再按照版本号从小到大，逐个执行其余脚本。
+
+#### how to verify the sql update 校验原理
+
+如何校验文件?
+
+Flyway获取 flyway_schema_history 中最新成功记录的版本号（基准version），与项目中db/migration目录中的脚本version进行比对，当脚本version大于基准version则执行。
+
+对于修改已经执行过的sql脚本，Flyway也有预防，那就是checksum。每个sql脚本在执行前会将基本信息写入flyway_schema_history中，Flyway会把每个脚本作为输入，通过一系列算法输出一个整数值checksum来判断脚本是否有修改（哪怕是一个空格），Flyway在工作之前，会逐个脚本比对其数据库中的checksum值，如果计算结果不同，则会报mismatch的错误
+
+#### how to use flyway
+
+```xml
+<dependency>
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-core</artifactId>
+    <version>7.1.1</version>
+</dependency>
+
+```
+
+```yml
+spring:
+  # 数据库连接配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/flyway_demo?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  flyway:
+    # 是否启用flyway, 默认就是开启的
+    enabled: true
+    # 编码格式，默认UTF-8
+    encoding: UTF-8
+    # 迁移sql脚本文件存放路径，默认db/migration
+    locations: classpath:db/migration
+    check-location: true #检查迁移脚本的位置是否存在，默认false.
+    table: schema_version_synchronizer  #配置数据库信息表的名称，默认是 flyway_schema_history。
+
+    # 迁移sql脚本文件名称的前缀，默认V
+    # 
+    sql-migration-prefix: V
+    # 迁移sql脚本文件名称的分隔符，默认2个下划线__
+    sql-migration-separator: __
+    # 迁移sql脚本文件名称的后缀
+    sql-migration-suffixes: .sql
+    # 迁移时是否进行校验，默认true
+    validate-on-migrate: true
+    # 升级一个空的数据库，或者在一直使用flyway升级方案的数据库上进行升级，都不会又问题。但是，如果在已有的数据库引入flyway，就需要一些额外的工作。
+    # 设置此属性 true, 表示当迁移发现数据库非空且存在没有元数据的表时，自动执行基准迁移，新建schema_version表
+    # flyway会自动将当前的数据库记录为V1版本，然后执行升级脚本。这也表示用户所准备的脚本中，V1版本的脚本会被跳过，只有V1之后的版本才会被执行
+    # 默认 false
+    baseline-on-migrate: true
+    # 是否允许无序的迁移，默认false
+    out-of-order: true
+    clean-disabled: true #flyway 的 clean 命令会删除指定 schema 下的所有 table, 生产务必禁掉。这个默认值是 false 理论上作为默认配置是不科学的。
+
+
+```
+
+
+命名规则:
+
+```
+仅需要被执行一次的SQL命名以大写的"V"开头，V + 版本号(版本号的数字间以”.“或”_“分隔开) + 双下划线(用来分隔版本号和描述) + 文件描述 + 后缀名。例如： V20201100__create_user.sql、V2.1.5__create_user_ddl.sql、V4.1_2__add_user_dml.sql 。
+
+可重复运行的SQL，则以大写的“R”开头，后面再以两个下划线分割，其后跟文件名称，最后.sql结尾，比如： R__truncate_user_dml.sql ，但一般不推荐使用。(只要脚本内容发生了变化，启动时候就会执行)
+
+```
+
+
+更详细配置
+```
+flyway.baseline-description对执行迁移时基准版本的描述.
+flyway.baseline-on-migrate当迁移时发现目标schema非空，而且带有没有元数据的表时，是否自动执行基准迁移，默认false.
+flyway.baseline-version开始执行基准迁移时对现有的schema的版本打标签，默认值为1.
+flyway.check-location检查迁移脚本的位置是否存在，默认false.
+flyway.clean-on-validation-error当发现校验错误时是否自动调用clean，默认false.
+flyway.enabled是否开启flywary，默认true.
+flyway.encoding设置迁移时的编码，默认UTF-8.
+flyway.ignore-failed-future-migration当读取元数据表时是否忽略错误的迁移，默认false.
+flyway.init-sqls当初始化好连接时要执行的SQL.
+flyway.locations迁移脚本的位置，默认db/migration.
+flyway.out-of-order是否允许无序的迁移，默认false.
+flyway.password目标数据库的密码.
+flyway.placeholder-prefix设置每个placeholder的前缀，默认${.
+flyway.placeholder-replacementplaceholders是否要被替换，默认true.
+flyway.placeholder-suffix设置每个placeholder的后缀，默认}.
+flyway.placeholders.[placeholder name]设置placeholder的value
+flyway.schemas设定需要flywary迁移的schema，大小写敏感，默认为连接默认的schema.
+flyway.sql-migration-prefix迁移文件的前缀，默认为V.
+flyway.sql-migration-separator迁移脚本的文件名分隔符，默认__
+flyway.sql-migration-suffix迁移脚本的后缀，默认为.sql
+flyway.tableflyway使用的元数据表名，默认为schema_version
+flyway.target迁移时使用的目标版本，默认为latest version
+flyway.url迁移时使用的JDBC URL，如果没有指定的话，将使用配置的主数据源
+flyway.user迁移数据库的用户名
+flyway.validate-on-migrate迁移时是否校验，默认为true.
+ 
+
+```
+
+和 Maven 插件配合使用: 
+(maven插件让我们可以不需要启动项目就能执行Flyway的各种命令)
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-maven-plugin</artifactId>
+            <version>5.2.4</version>
+            <configuration>
+                <url>jdbc:mysql://localhost:3306/flyway_demo?characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai
+                </url>
+                <user>root</user>
+                <password>root</password>
+                <driver>com.mysql.cj.jdbc.Driver</driver>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
+
+1.baseline
+
+对已经存在数据库Schema结构的数据库一种解决方案。
+
+实现在非空数据库新建MetaData表，并把Migrations应用到该数据库；也可以在已有表结构的数据库中实现添加Metadata表。
+
+2.clean（非常危险）
+
+清除掉对应数据库Schema中所有的对象，包括表结构，视图，存储过程等，clean操作在dev 和 test阶段很好用，但在生产环境务必禁用。
+
+3.info
+
+用于打印所有的Migrations的详细和状态信息，也是通过MetaData和Migrations完成的，可以快速定位当前的数据库版本。
+
+4.migrate
+
+执行迁移，等同于项目启动执行的内容
+
+5.repair
+
+修复metaData表，该操作在metadata出现错误时很有用。
+
+6.undo(社区版本不支持)
+
+撤销操作
+
+7.validate
+
+验证已经执行的Migrations是否有变更，默认开启的，原理是对比MetaData表与本地Migrations的checkNum值，如果值相同则验证通过，否则失败。
+
+
+```
+
+
+## 13.5. 数据库 jdbc url 和驱动 各种连接字符串
 
 ```
 MySQL
@@ -1569,6 +1751,7 @@ oracle:
 1.使用service_name,配置方式: jdbc:oracle:thin:@//:1521/helowin
 2.使用SID，配置方式：         jdbc:oracle:thin:@//:1521/helowin
 3.使用SID，配置方式：         jdbc:oracle:thin:@:1521:helowin
+oracle.jdbc.driver.OracleDriver
 ```
 
 ## 13.6. graphql集成

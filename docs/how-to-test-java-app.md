@@ -29,7 +29,7 @@ toc_max_heading_level: 5
 - [3. AssertJ](#3-assertj)
 - [4. Mockito](#4-mockito)
   - [4.1. 和 springboot 配合使用](#41-和-springboot-配合使用)
-- [5. powerMock](#5-powermock)
+  - [mock 静态方法](#mock-静态方法)
 - [6. web层测试](#6-web层测试)
 - [7. 压测](#7-压测)
   - [7.1. 性能指标](#71-性能指标)
@@ -222,14 +222,70 @@ import static org.mockito.Mockito.when;
 
 ### 4.1. 和 springboot 配合使用
 
+引入
+
+```xml
+ <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+<!-- optional, this is dedicated to mock static methods, powerMock can be replaced now! -->
+ <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <scope>test</scope>
+        </dependency>
+```
+
 scenario1: 需要 mock 的对象成员如 RedisService 使用 @mock, 不需要 mock 的成员使用 @Spy @Autowired;  填充到目标测试对象 使用 @InjectMocks 标注目标对象, 每次测试前需要初始化 `@BeforeEach void xxx() {MockitoAnnotations.initMocks(this);}`
 
 scenario2: @MockBean 标注需要 mock 的成员, @Autowired 标注目标对象, 无需初始化, 但是这种方式造成 appContext 重启, 性能低
 
 
-## 5. powerMock 
+if you would like using it without springboot, just:
 
-用于解决 mockito 无法覆盖的 case, 比如 static method 的 mock
+```xml
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+```
+
+### mock 静态方法
+
+powerMock: 用于解决 mockito 无法覆盖的 case, 比如 static method 的 mock, 现在推荐mockito-inline 
+
+
+mockito-inline should be used like this:
+
+```xml
+
+<!-- https://mvnrepository.com/artifact/org.mockito/mockito-inline -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+```
+
+```java
+
+```
 
 ## 6. web层测试
 

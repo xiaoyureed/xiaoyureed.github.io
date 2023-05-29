@@ -9,6 +9,7 @@ toc_max_heading_level: 5
 
 <div align="center">
 
+https://github.com/yeasy/docker_practice
 
 https://vuepress.mirror.docker-practice.com/
 
@@ -2134,7 +2135,7 @@ options有这些:
 
     当通过 Ctrl-C 停止命令时，所有容器将会停止
 
-    如果使用 `docker-compose up -d`，将会在后台启动并运行所有的容器。一般推荐生产环境下使用该选项
+    如果使用 `docker-compose up -d`，将会在后台启动并运行所有的容器。一般推荐生产环境下使用该选项 (-d 必须接在 up 之后不能在之前)
 
 * `docker-compose up --no-recreate`只会启动处于停止状态的容器，而忽略已经运行的服务
 
@@ -2146,8 +2147,13 @@ options有这些:
 
 所有可用的选项:
 
-```
--d 在后台运行服务容器。
+```sh
+-d 在后台运行服务容器。(必须在 docker-compose [flags] <command> 中的 command 之后, 不能在之前)
+
+-f 指定 yml 文件
+  docker-compose -f xxx.yml up [-d]
+
+-p, --project-name ：指定工程名称，默认使用 docker-compose.yml 文件所在目录的名称；
 
 --no-color 不使用颜色来区分不同的服务的控制台输出。
 
@@ -2820,7 +2826,7 @@ root, root 登陆
 
 `docker run -d --name Postgres -p 5432:5432 [-e POSTGRES_USER=dev] -e POSTGRES_PASSWORD=dev123 postgres:alpine`
 
-> If the db use is not been specified, the password will be setup on the head of "postgres" (the db user which has a root access)
+> If the db users is not been specified, the password will be setup on the head of "postgres" (the db user which has a root access)
 
 or
 
@@ -2862,10 +2868,16 @@ services:
 ## 16.7. redis镜像
 
 ```yml
-redis:
-  image: redis 
-  ports: 
-    - "6379:6379"
+version: "3"
+services:
+  redis:
+    image: redis 
+    container_name: redis
+    command: redis-server --requirepass 123456
+    ports: 
+      - "6379:6379"
+    volumes:
+      - ./db/redis:/data
   
 
 ```
@@ -2873,8 +2885,10 @@ redis:
 
 ```sh
 docker run -p 6379:6379 -d redis:latest redis-server
+
 # 数据持久化存方式启动
 docker run -p 6379:6379 -v $PWD/data:/data --name redis -d redis redis-server --appendonly yes
+
 # 自定义配置文件, 先创建 /usr/local/docker/redis.conf
 docker run -p 6379:6379 --name myredis -v /usr/local/docker/redis.conf:/etc/redis/redis.conf -v /usr/local/docker/data:/data -d redis redis-server /etc/redis/redis.conf --appendonly yes
 
@@ -2885,7 +2899,7 @@ docker run --name redis_with_auth -p 6379:6379 -d --restart=always redis:latest 
 # redis client
 docker exec -ti d0b86 redis-cli [-h localhost -p 6379]
 # remote client
-docker exec -it redis_image redis-cli -h 192.168.1.100 -p 6379 -a your_password //如果有密码 使用 -a参数
+docker exec -it redis_image redis-cli -h 192.168.1.100 -p 6379 -a your_password #如果有密码 使用 -a参数
 
 ```
 
@@ -2916,6 +2930,8 @@ requirepass 123
 redis-commander: 提供 redis web 管理界面
 
 `docker run --rm -d --name redis-cmder -p 8081:8081 --link redis:re -e REDIS_HOSTS=re:6379 rediscommander/redis-commander`
+
+
 
 ## 16.8. ubuntu镜像
 

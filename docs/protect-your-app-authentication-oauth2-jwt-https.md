@@ -29,16 +29,17 @@ https://www.devglan.com/spring-security/spring-boot-oauth2-jwt-example 和jwt集
 - [1. jwt](#1-jwt)
   - [1.1. jwt 介绍](#11-jwt-介绍)
   - [1.2. 优缺点](#12-优缺点)
-    - [使用场景](#使用场景)
+    - [1.2.1. 使用场景](#121-使用场景)
   - [1.3. 怎么使用](#13-怎么使用)
 - [2. spring security](#2-spring-security)
   - [2.1. 基本架构](#21-基本架构)
 - [3. Oauth2.0](#3-oauth20)
-  - [3.2. oauth2介绍](#32-oauth2介绍)
-  - [四种模式](#四种模式)
+  - [3.1. oauth2介绍](#31-oauth2介绍)
+  - [3.2. 四种模式](#32-四种模式)
   - [3.3. 优缺点](#33-优缺点)
   - [3.4. spring security 入门](#34-spring-security-入门)
   - [3.5. 案例: 集成微信登录](#35-案例-集成微信登录)
+- [单点登录 sso](#单点登录-sso)
 - [4. https](#4-https)
 - [5. 加密](#5-加密)
   - [5.1. 对称加密](#51-对称加密)
@@ -99,7 +100,7 @@ https://www.devglan.com/spring-security/spring-boot-oauth2-jwt-example 和jwt集
            2. 分布式系统的话，需要redis查询/接口调用增加系统复杂性。
 ```
 
-### 使用场景
+### 1.2.1. 使用场景
 
 一般不单纯使用 jwt token 来做用户登录鉴权, 会搭配 redis 一起使用, (以提供token主动失效功能)
 
@@ -176,7 +177,7 @@ AccessDeniedHandler
 
 # 3. Oauth2.0
 
-## 3.2. oauth2介绍
+## 3.1. oauth2介绍
 
 https://www.cnblogs.com/flashsun/p/7424071.html
 
@@ -216,7 +217,7 @@ https://www.cnblogs.com/flashsun/p/7424071.html
 
 有了 token 后, 就可以访问 auth server 的资源信息
 
-## 四种模式
+## 3.2. 四种模式
 
 
 OAuth 2.0 规定了四种获得令牌的流程模式:
@@ -350,6 +351,10 @@ class WechatTokenResp {
     private String unionid;
 }
 ```
+
+# 单点登录 sso
+
+ 
 
 # 4. https
 

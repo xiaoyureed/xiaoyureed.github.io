@@ -19,6 +19,8 @@ jetbrains package search : https://pkg.biuaxia.cn/
 </div>
 
 - [1. error solutions](#1-error-solutions)
+  - [仓库镜像有问题](#仓库镜像有问题)
+  - [依赖解析有问题](#依赖解析有问题)
 - [2. 命令行](#2-命令行)
 - [3. spring-io-platform](#3-spring-io-platform)
 - [4. why maven](#4-why-maven)
@@ -140,6 +142,8 @@ jetbrains package search : https://pkg.biuaxia.cn/
 
 # 1. error solutions
 
+## 仓库镜像有问题
+
 ```
 error:
 maven blocked mirror for repositories
@@ -166,6 +170,13 @@ Put this section in your ~/.m2/settings.xml-file, and rerun mvn with -U option. 
   ...
 </settings>
 
+```
+
+## 依赖解析有问题
+
+```sh
+# 清除本地依赖 (或者清除指定依赖)
+mvn dependency:purge-local-repository [-DmanualInclude=org.springframework:spring-webmvc]
 ```
 
 
@@ -351,6 +362,58 @@ pom.xml has to make some changes to specify repository mirrors:
     </pluginRepositories>
 
 </project>
+
+
+<!-- or -->
+
+ <repositories>
+           <repository>
+                <id>aliyunmaven</id>
+                <name>aliyunmaven</name>
+                <url>https://maven.aliyun.com/repository/public</url>
+                <layout>default</layout>
+                <releases>
+                        <enabled>true</enabled>
+                </releases>
+                <snapshots>
+                        <enabled>true</enabled>
+                </snapshots>
+            </repository>
+            <repository>
+                <id>MavenCentral</id>
+                <url>http://repo1.maven.org/maven2/</url>
+            </repository>
+            <repository>
+                <id>aliyunmavenApache</id>
+                <url>https://maven.aliyun.com/repository/apache-snapshots</url>
+            </repository>
+        </repositories>    
+
+<!-- or -->
+
+<repositories>
+        <repository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
 ```
 

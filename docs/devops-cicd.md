@@ -27,9 +27,29 @@ https://github.com/MichaelCade/90DaysOfDevOps
 
 <!-- more -->
 
-## gitlab ci
 
-### brief Intro
+- [1. gitlab ci](#1-gitlab-ci)
+  - [1.1. brief Intro](#11-brief-intro)
+  - [1.2. 配置文件语法](#12-配置文件语法)
+  - [1.3. 设置触发条件](#13-设置触发条件)
+    - [典型 springboot 项目中使用](#典型-springboot-项目中使用)
+    - [1.3.1. 定义单个job](#131-定义单个job)
+    - [1.3.2. 多个 stage 多个 job](#132-多个-stage-多个-job)
+    - [1.3.3. 使用 Maven](#133-使用-maven)
+    - [1.3.4. 定义变量](#134-定义变量)
+    - [1.3.5. 文件上传部署](#135-文件上传部署)
+    - [1.3.6. 缓存](#136-缓存)
+    - [1.3.7. 启动 jar 包](#137-启动-jar-包)
+    - [1.3.8. 使用 docker](#138-使用-docker)
+- [2. github actions](#2-github-actions)
+- [3. Jenkins](#3-jenkins)
+- [4. travis-ci](#4-travis-ci)
+- [5. Gitea+Drone](#5-giteadrone)
+
+
+## 1. gitlab ci
+
+### 1.1. brief Intro
 
 > 轻量级, 简单(在 项目root 编写 gitlab-ci.yml 即可)
 
@@ -45,14 +65,14 @@ Gitlab runner
 
 ```
 
-### 配置文件语法
+### 1.2. 配置文件语法
 
 https://juejin.cn/post/7064906701941506061
 
 > 有固定名字: .gitlab-ci.yml
 >
 
-### 设置触发条件
+### 1.3. 设置触发条件
 
 ```yml
 myjob:
@@ -69,7 +89,14 @@ myjob:
 
 ```
 
-#### 定义单个job
+#### 典型 springboot 项目中使用
+
+```yml
+
+
+```
+
+#### 1.3.1. 定义单个job
 
 ```yml
 # 这个my_job的任务名是可以自定义起的
@@ -87,7 +114,7 @@ my_job:
   retry: 2
 ```
 
-#### 多个 stage 多个 job
+#### 1.3.2. 多个 stage 多个 job
 
 > 一个 stage 失败, 后续 stage 都不会执行
 
@@ -136,7 +163,7 @@ deploy-prod:
   environment: production
 ```
 
-#### 使用 Maven
+#### 1.3.3. 使用 Maven
 
 ```yml
 # 使用 maven 镜像打包项目
@@ -154,7 +181,7 @@ maven-build:
       - target/$jar_name
 ```
 
-#### 定义变量
+#### 1.3.4. 定义变量
 
 ```yml
 # 定义一些变量, 下面各阶段会使用
@@ -171,7 +198,7 @@ job1:
     - echo "$TEST_VAR"
 ```
 
-#### 文件上传部署
+#### 1.3.5. 文件上传部署
 
 ```yml
 # 上传生成的 jar 包到你的应用服务器，这里使用 ictu/sshpass 这个镜像，是为了使用 sshpass 命令
@@ -184,7 +211,7 @@ upload-jar:
 
 ```
 
-#### 缓存
+#### 1.3.6. 缓存
 
 ```yml
 # 缓存多个流水线任务之间共用的文件，目录
@@ -196,7 +223,7 @@ cache:
 ```
 
 
-#### 启动 jar 包
+#### 1.3.7. 启动 jar 包
 
 ```yml
 # 启动 SpringBoot jar包
@@ -207,7 +234,7 @@ deploy-test:
     - sshpass -p $ssh_password ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$server_ip "nohup $java_path/java -jar $upload_path/$jar_name >/dev/null 2>&1 &"
 ```
 
-#### 使用 docker
+#### 1.3.8. 使用 docker
 
 ```yml
 # CI流水线运行环境的docker镜像
@@ -264,17 +291,17 @@ deploy_staging:
 ```
 
 
-## github actions
+## 2. github actions
 
-## Jenkins
+## 3. Jenkins
 
 Jenkins - 老牌 ci 工具, 插件多(比如编译情况统计..)
 
-## travis-ci 
+## 4. travis-ci 
 
 - 持续集成的 PasS 服务. 和 Github 强关联, 闭源代码使用 SaaS 还需考虑安全问题, 不可定制, 企业使用收费
 
-## Gitea+Drone    
+## 5. Gitea+Drone    
 
 Drone 是基于Docker的CI/CD工具
 

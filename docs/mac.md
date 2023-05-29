@@ -27,10 +27,9 @@ https://github.com/Louiszhai/tool
 - [10. 自启动管理](#10-自启动管理)
 - [11. 浏览器 多线程下载](#11-浏览器-多线程下载)
 - [12. 开发环境配置](#12-开发环境配置)
-  - [ifconfig 详解](#ifconfig-详解)
-  - [12.1. chrome](#121-chrome)
-    - [12.1.1. 开启非安全模式](#1211-开启非安全模式)
-  - [12.2. idea](#122-idea)
+  - [12.1. ifconfig 详解](#121-ifconfig-详解)
+  - [12.2. chrome](#122-chrome)
+    - [12.2.1. 开启非安全模式](#1221-开启非安全模式)
   - [12.3. mysql](#123-mysql)
   - [12.4. tldr 代替man 帮助](#124-tldr-代替man-帮助)
   - [12.5. ssh 客户端](#125-ssh-客户端)
@@ -58,24 +57,25 @@ https://github.com/Louiszhai/tool
   - [12.22. 安装 Aria2 下载工具](#1222-安装-aria2-下载工具)
   - [12.23. docker 安装](#1223-docker-安装)
     - [12.23.1. 容器和宿主机网络互通](#12231-容器和宿主机网络互通)
-  - [orbstack 代替 docker](#orbstack-代替-docker)
-  - [12.24. vscode 安装配置](#1224-vscode-安装配置)
-    - [12.24.1. vscode插件](#12241-vscode插件)
-      - [editorconfig](#editorconfig)
-    - [12.24.2. 创建文件文件夹 快捷键](#12242-创建文件文件夹-快捷键)
-    - [12.24.3. 使用 debugger for Chrome](#12243-使用-debugger-for-chrome)
-    - [12.24.4. snippets](#12244-snippets)
-    - [12.24.5. code copilot 插件使用快捷键](#12245-code-copilot-插件使用快捷键)
-  - [12.25. 修改 hosts 文件](#1225-修改-hosts-文件)
-  - [12.26. idea](#1226-idea)
-    - [12.26.1. vm 配置文件路径](#12261-vm-配置文件路径)
-    - [12.26.2. 完全卸载](#12262-完全卸载)
-    - [12.26.3. 插件无法搜索](#12263-插件无法搜索)
-    - [12.26.4. ideavim](#12264-ideavim)
-    - [12.26.5. 自定义堆内存](#12265-自定义堆内存)
-  - [12.27. tmux 多会话管理](#1227-tmux-多会话管理)
-  - [12.28. htop 替代 top](#1228-htop-替代-top)
-  - [12.29. 安装 visualvm](#1229-安装-visualvm)
+  - [12.24. orbstack 代替 docker](#1224-orbstack-代替-docker)
+  - [12.25. vscode 安装配置](#1225-vscode-安装配置)
+    - [12.25.1. vscode插件](#12251-vscode插件)
+      - [12.25.1.1. editorconfig](#122511-editorconfig)
+    - [12.25.2. 创建文件文件夹 快捷键](#12252-创建文件文件夹-快捷键)
+    - [12.25.3. 使用 debugger for Chrome](#12253-使用-debugger-for-chrome)
+    - [12.25.4. snippets](#12254-snippets)
+    - [12.25.5. code copilot 插件使用快捷键](#12255-code-copilot-插件使用快捷键)
+  - [12.26. 修改 hosts 文件](#1226-修改-hosts-文件)
+  - [12.27. idea](#1227-idea)
+    - [12.27.1. idea 无法启动 missing essential plugins](#12271-idea-无法启动-missing-essential-plugins)
+    - [12.27.2. vm 配置文件路径](#12272-vm-配置文件路径)
+    - [12.27.3. 完全卸载](#12273-完全卸载)
+    - [12.27.4. 插件无法搜索](#12274-插件无法搜索)
+    - [12.27.5. ideavim](#12275-ideavim)
+    - [12.27.6. 自定义堆内存](#12276-自定义堆内存)
+  - [12.28. tmux 多会话管理](#1228-tmux-多会话管理)
+  - [12.29. htop 替代 top](#1229-htop-替代-top)
+  - [12.30. 安装 visualvm](#1230-安装-visualvm)
 - [13. 空格预览插件](#13-空格预览插件)
 - [14. 拼音输入法](#14-拼音输入法)
 - [15. 视频](#15-视频)
@@ -313,7 +313,7 @@ Edge 新版浏览器，地址栏输入并回车：edge://flags/#enable-parallel-
 
 # 12. 开发环境配置
 
-## ifconfig 详解
+## 12.1. ifconfig 详解
 
 ```
 lo0: loopback 回环地址一般是127.0.0.1
@@ -344,35 +344,11 @@ RUNNING 代表这个网卡是处于网络连接状态
 MULTICAST:代表着喝网卡是支持组播的
 ```
 
-## 12.1. chrome
+## 12.2. chrome
 
-### 12.1.1. 开启非安全模式
+### 12.2.1. 开启非安全模式
 
 `open -n /Applications/Google\ Chrome.app/ --args --disable-web-security  --user-data-dir=/Users/xiaoyu/MyChromeDevUserData`
-
-## 12.2. idea
-
-idea 无法启动 missing essential plugins 
-
-```
-删除以下文件夹中的idea和jetbrains文件：
-# xxx为用户名
-/Users/xxx/Library/Preferences/
-/Users/xxx/Library/Caches/
-/Users/xxx/Library/Application\ Support/
-/Users/xxx/Library/Logs/
-
-
-rm -rf /Users/xxx/Library/Preferences/jetbrains.jetprofile.asset.plist
-
-rm -rf /Users/xxx/Library/Caches/JetBrains
-
-rm -rf /Users/xxx/Library/Application\ Support/JetBrains
-
-rm -rf/Users/xxx/Library/Logs/JetBrains
-
-
-```
 
 ## 12.3. mysql
 
@@ -913,7 +889,7 @@ https://www.cnblogs.com/huaxiaoyao/p/12088948.html
 
 
 
-## orbstack 代替 docker
+## 12.24. orbstack 代替 docker
 
 ```sh
 # edit config.json
@@ -935,7 +911,7 @@ docker context use orbstack
 docker context use desktop-linux
 ```
 
-## 12.24. vscode 安装配置
+## 12.25. vscode 安装配置
 
 配置 mac 命令行即可启动vscode：打开命令面板 (shift + cmmand + P) ，输入 shell command’，找到: “Install ‘code’ command in PATH”，点击就可以了
 
@@ -943,9 +919,9 @@ docker context use desktop-linux
 
 https://blog.csdn.net/qq_43827595/article/details/104277051 vim 插件按键映射
 
-### 12.24.1. vscode插件
+### 12.25.1. vscode插件
 
-#### editorconfig
+#### 12.25.1.1. editorconfig
 
 ```conf
 # http://editorconfig.org
@@ -972,14 +948,14 @@ trim_trailing_whitespace = false
 
 ```
 
-### 12.24.2. 创建文件文件夹 快捷键
+### 12.25.2. 创建文件文件夹 快捷键
 
 https://blog.csdn.net/u011511756/article/details/85058990
 
 new file, new folder -> explorerResourceIsFolder && !inputFocus
 
 
-### 12.24.3. 使用 debugger for Chrome
+### 12.25.3. 使用 debugger for Chrome
 
 .vscode 配置文件中的专有变量:
 
@@ -1005,7 +981,7 @@ ${lineNumber}:当前文件光标所在的行号
 ${env:PATH}:系统中的环境变量
 ```
 
-### 12.24.4. snippets
+### 12.25.4. snippets
 
 https://github.com/microsoft/vscode/issues/89700 当前文件夹名字
 
@@ -1030,7 +1006,7 @@ https://github.com/microsoft/vscode/issues/89700 当前文件夹名字
 	},
 ```
 
-### 12.24.5. code copilot 插件使用快捷键
+### 12.25.5. code copilot 插件使用快捷键
 
 ```
 
@@ -1042,7 +1018,7 @@ https://github.com/microsoft/vscode/issues/89700 当前文件夹名字
 触发行内Copilot：Alt/Option + \ （Coplit还没有给出建议或者建议被拒绝了，希望手工触发它提供建议）
 ```
 
-## 12.25. 修改 hosts 文件
+## 12.26. 修改 hosts 文件
 
 ```sh
 sodu vim /etc/hosts
@@ -1056,14 +1032,38 @@ Mac 命令：sudo killall -HUP mDNSResponder
 
 ```
 
-## 12.26. idea 
+## 12.27. idea 
 
-### 12.26.1. vm 配置文件路径
+
+### 12.27.1. idea 无法启动 missing essential plugins 
+
+```
+删除以下文件夹中的idea和jetbrains文件：
+# xxx为用户名
+/Users/xxx/Library/Preferences/
+/Users/xxx/Library/Caches/
+/Users/xxx/Library/Application\ Support/
+/Users/xxx/Library/Logs/
+
+
+rm -rf /Users/xxx/Library/Preferences/jetbrains.jetprofile.asset.plist
+
+rm -rf /Users/xxx/Library/Caches/JetBrains
+
+rm -rf /Users/xxx/Library/Application\ Support/JetBrains
+
+rm -rf/Users/xxx/Library/Logs/JetBrains
+
+
+```
+
+
+### 12.27.2. vm 配置文件路径
 
 /Users/xiaoyu/Library/Application Support/JetBrains/IntelliJIdea2020.3
 
 
-### 12.26.2. 完全卸载
+### 12.27.3. 完全卸载
 
 ```
 进入 cd Users/xiaoyu/Library/
@@ -1079,11 +1079,11 @@ rm -rf Caches/IntelliJIdeaxxx
 把～/下的.idea/也删掉
 ```
 
-### 12.26.3. 插件无法搜索
+### 12.27.4. 插件无法搜索
 
 可能是 idea 代理设置不正确, 如果实在不行, 可以: 官网下载 , 导入  -> http://plugins.jetbrains.com/
 
-### 12.26.4. ideavim
+### 12.27.5. ideavim
 
 http://einverne.github.io/post/2017/10/vim-config-map.html vimrc 按键映射
 http://einverne.github.io/post/2020/07/idea-vim-usage.html ideavim 内置了插件
@@ -1105,14 +1105,14 @@ set timeoutlen=300
 
 ```
 
-### 12.26.5. 自定义堆内存
+### 12.27.6. 自定义堆内存
 
 https://www.jianshu.com/p/2fa801238a1d
 https://www.jianshu.com/p/c858e6a988b9
 
 `/Users/xiaoyu/Library/Application Support/JetBrains/IntelliJIdea2020.2/idea.vmoptions`
 
-## 12.27. tmux 多会话管理
+## 12.28. tmux 多会话管理
 
 http://www.ruanyifeng.com/blog/2019/10/tmux.html
 
@@ -1233,9 +1233,9 @@ tmux source-file ~/.tmux.conf
 ```
 
 
-## 12.28. htop 替代 top
+## 12.29. htop 替代 top
 
-## 12.29. 安装 visualvm
+## 12.30. 安装 visualvm
 
 https://github.com/oracle/visualvm
 
