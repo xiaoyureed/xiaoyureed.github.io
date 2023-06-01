@@ -36,7 +36,7 @@ https://github.com/chillzhuang/SpringBlade 实例
 </div>
   
 
-- [1. spring boot 和 spring cloud 搭配选型](#1-spring-boot-和-spring-cloud-搭配选型)
+- [1. 一套微服务平台技术选型](#1-一套微服务平台技术选型)
 - [2. 微服务核心要素和 spring cloud 工作流程](#2-微服务核心要素和-spring-cloud-工作流程)
 - [3. 和dubbo-zookeeper对比](#3-和dubbo-zookeeper对比)
 - [4. 配置中心](#4-配置中心)
@@ -151,9 +151,68 @@ https://github.com/chillzhuang/SpringBlade 实例
 - [23. 案例 物联网平台](#23-案例-物联网平台)
 
 
-# 1. spring boot 和 spring cloud 搭配选型
+# 1. 一套微服务平台技术选型
 
-https://start.spring.io/actuator/info 返回的 json 可以看到官方推荐的搭配
+![alt](/img/spring-cloud-arch.png)
+
+```
+
+开发组件
+
+  spring boot
+  jpa / mybatisplus
+  mapstruct 对象转换插件
+  knife + swagger api 文档
+  easycode 代码生成
+  idea 插件
+    jrebel
+    mybatisx
+    batslog
+    generateAllsetter
+    swagger tools
+    restful tool
+    string manipulation
+    gsonformatplus
+    Maven helper
+    key promoter
+    Rainbow brackets
+    grep console
+    code glance
+
+微服务
+
+  nacos 配置中心, 注册中心
+  spring-cloud-gateway 网关
+  spring-security + oauth2.0 安全验证
+  seata 分布式事务
+  sentinel 限流(流量防护, 带有控制面板)
+  open feign 服务调用(负载均衡)
+  skywalking 链路追踪
+  elastic search 业务搜索
+  EFK(es, filebeat, kibana) 分布式日志存储展示
+  Prometheus + grafana 监控 (指标采集 + 展示面板)
+    钉钉告警
+  canal 数据同步 (MySql -> ES)
+  xxl-job 分布式任务调度
+  rocketMQ 消息队列
+  redis-cluster 缓存
+  redission 基于redis 的分布式锁
+  MySQL 数据库
+  jeepay 支付聚合平台
+
+
+云原生 devops
+
+  docker 容器化
+  Harbor 私有镜像仓库
+  k8s 编排管理, 部署
+    kubesphere 容器监控
+  gitlab 代码管理
+  Jenkins 持续集成
+  Maven 打包编译
+  nexus Maven 私有仓库
+
+```
 
 # 2. 微服务核心要素和 spring cloud 工作流程
 
