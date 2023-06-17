@@ -4391,6 +4391,11 @@ https://blog.csdn.net/andy_zhang2007/article/details/89393005 和 webjars
 
 # 33. 和 typescript 一起使用
 
+https://github.com/jkchao/typescript-book-chinese
+https://www.v2ex.com/t/948292#reply52
+
+https://github.com/type-challenges/type-challenges 挑战练习
+
 ## 33.1. 集成 ts 环境
 
 https://create-react-app.dev/docs/adding-typescript/

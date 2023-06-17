@@ -65,3 +65,8 @@ toc_max_heading_level: 5
     我的问题：
 
 ```
+
+## LLM large language model
+
+https://gofurther.feishu.cn/docx/Enofdl25BotoVrxth8ec4rNBn5c
+https://mojidoc.com/08z7y-e43hjtkw3rglpkfnsqrgkuyyey-00b

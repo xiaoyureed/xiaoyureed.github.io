@@ -52,63 +52,68 @@ https://github.com/xtaci/algorithms cpp 中文
 
 <!-- TOC -->
 
-- [1. 数据结构总结](#1-数据结构总结)
-  - [1.1. 存储方式](#11-存储方式)
-  - [1.2. 基本操作](#12-基本操作)
-  - [1.3. 时间复杂度](#13-时间复杂度)
-    - [1.3.1. 计算方法](#131-计算方法)
-    - [1.3.2. 常数复杂度](#132-常数复杂度)
-    - [1.3.3. 线性复杂度](#133-线性复杂度)
-    - [1.3.4. 对数复杂度](#134-对数复杂度)
-    - [1.3.5. 平方复杂度](#135-平方复杂度)
-    - [1.3.6. 指数复杂度](#136-指数复杂度)
-- [2. 数组](#2-数组)
-- [3. 栈](#3-栈)
-- [4. 队列](#4-队列)
-- [5. 链表](#5-链表)
-- [6. 树](#6-树)
-  - [6.1. 树的基本概念and一般结构](#61-树的基本概念and一般结构)
-  - [6.2. 二叉查找树](#62-二叉查找树)
-    - [6.2.1. 非平衡二叉查找树](#621-非平衡二叉查找树)
-      - [6.2.1.1. BST(Binary Search Tree)-查找树的一般结构](#6211-bstbinary-search-tree-查找树的一般结构)
-      - [6.2.1.2. Splay Tree 伸展树](#6212-splay-tree-伸展树)
-    - [6.2.2. 平衡二叉树](#622-平衡二叉树)
-      - [6.2.2.1. AVL树](#6221-avl树)
-      - [6.2.2.2. 红黑树](#6222-红黑树)
-  - [6.3. 多路平衡查找树](#63-多路平衡查找树)
-    - [6.3.1. -3树(二三树)](#631--3树二三树)
-    - [6.3.2. B树(B-tree)](#632-b树b-tree)
-      - [6.3.2.1. b树的概念](#6321-b树的概念)
-      - [6.3.2.2. b树的特征](#6322-b树的特征)
-    - [6.3.3. B+tree(B加树)](#633-btreeb加树)
-      - [6.3.3.1. b+tree定义](#6331-btree定义)
-      - [6.3.3.2. 比b-tree好的点](#6332-比b-tree好的点)
-    - [6.3.4. B\*树](#634-b树)
-    - [6.3.5. 前缀树(Trie树/字典树)](#635-前缀树trie树字典树)
-  - [6.4. 哈夫曼树(Huffman Tree)](#64-哈夫曼树huffman-tree)
-- [7. 堆](#7-堆)
-  - [7.1. 二叉堆](#71-二叉堆)
-  - [7.2. 堆排序](#72-堆排序)
-- [8. 图](#8-图)
-  - [8.1. 图的概念](#81-图的概念)
-- [9. 哈希表(hash-table)](#9-哈希表hash-table)
-- [10. 排序算法](#10-排序算法)
-  - [10.1. 选择排序(select Sort)](#101-选择排序select-sort)
-  - [10.2. 归并排序(merge sort)](#102-归并排序merge-sort)
-  - [10.3. 冒泡排序(bubble sort)](#103-冒泡排序bubble-sort)
-- [11. 查找算法](#11-查找算法)
-  - [11.1. 顺序查找](#111-顺序查找)
-  - [11.2. 有序表查找](#112-有序表查找)
-  - [11.3. 线性索引查找](#113-线性索引查找)
-- [12. 索引](#12-索引)
-  - [12.1. 线性索引](#121-线性索引)
-    - [12.1.1. 稠密索引](#1211-稠密索引)
-    - [12.1.2. 分块索引](#1212-分块索引)
-    - [12.1.3. 倒排索引](#1213-倒排索引)
-  - [12.2. 树形索引](#122-树形索引)
-  - [12.3. 多级索引](#123-多级索引)
-- [acm](#acm)
-- [13. leetcode 记录](#13-leetcode-记录)
+- [1. 数据结构总结](#1-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%80%BB%E7%BB%93)
+    - [1.1. 存储方式](#11-%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F)
+    - [1.2. 基本操作](#12-%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C)
+    - [1.3. 时间复杂度](#13-%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6)
+        - [1.3.1. 计算方法](#131-%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95)
+        - [1.3.2. 常数复杂度](#132-%E5%B8%B8%E6%95%B0%E5%A4%8D%E6%9D%82%E5%BA%A6)
+        - [1.3.3. 线性复杂度](#133-%E7%BA%BF%E6%80%A7%E5%A4%8D%E6%9D%82%E5%BA%A6)
+        - [1.3.4. 对数复杂度](#134-%E5%AF%B9%E6%95%B0%E5%A4%8D%E6%9D%82%E5%BA%A6)
+        - [1.3.5. 平方复杂度](#135-%E5%B9%B3%E6%96%B9%E5%A4%8D%E6%9D%82%E5%BA%A6)
+        - [1.3.6. 指数复杂度](#136-%E6%8C%87%E6%95%B0%E5%A4%8D%E6%9D%82%E5%BA%A6)
+- [2. 数组](#2-%E6%95%B0%E7%BB%84)
+- [3. 栈](#3-%E6%A0%88)
+- [4. 队列](#4-%E9%98%9F%E5%88%97)
+- [5. 链表](#5-%E9%93%BE%E8%A1%A8)
+- [6. 树](#6-%E6%A0%91)
+    - [6.1. 树的基本概念and一般结构](#61-%E6%A0%91%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5and%E4%B8%80%E8%88%AC%E7%BB%93%E6%9E%84)
+    - [6.2. 二叉查找树](#62-%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91)
+        - [6.2.1. 非平衡二叉查找树](#621-%E9%9D%9E%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91)
+            - [6.2.1.1. BSTBinary Search Tree-查找树的一般结构](#6211-bstbinary-search-tree-%E6%9F%A5%E6%89%BE%E6%A0%91%E7%9A%84%E4%B8%80%E8%88%AC%E7%BB%93%E6%9E%84)
+            - [6.2.1.2. Splay Tree 伸展树](#6212-splay-tree-%E4%BC%B8%E5%B1%95%E6%A0%91)
+        - [6.2.2. 平衡二叉树](#622-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91)
+            - [6.2.2.1. AVL树](#6221-avl%E6%A0%91)
+            - [6.2.2.2. 红黑树](#6222-%E7%BA%A2%E9%BB%91%E6%A0%91)
+    - [6.3. 多路平衡查找树](#63-%E5%A4%9A%E8%B7%AF%E5%B9%B3%E8%A1%A1%E6%9F%A5%E6%89%BE%E6%A0%91)
+        - [6.3.1. -3树二三树](#631--3%E6%A0%91%E4%BA%8C%E4%B8%89%E6%A0%91)
+        - [6.3.2. B树B-tree](#632-b%E6%A0%91b-tree)
+            - [6.3.2.1. b树的概念](#6321-b%E6%A0%91%E7%9A%84%E6%A6%82%E5%BF%B5)
+            - [6.3.2.2. b树的特征](#6322-b%E6%A0%91%E7%9A%84%E7%89%B9%E5%BE%81)
+        - [6.3.3. B+treeB加树](#633-btreeb%E5%8A%A0%E6%A0%91)
+            - [6.3.3.1. b+tree定义](#6331-btree%E5%AE%9A%E4%B9%89)
+            - [6.3.3.2. 比b-tree好的点](#6332-%E6%AF%94b-tree%E5%A5%BD%E7%9A%84%E7%82%B9)
+        - [6.3.4. B*树](#634-b%E6%A0%91)
+        - [6.3.5. 前缀树Trie树/字典树](#635-%E5%89%8D%E7%BC%80%E6%A0%91trie%E6%A0%91%E5%AD%97%E5%85%B8%E6%A0%91)
+    - [6.4. 哈夫曼树Huffman Tree](#64-%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91huffman-tree)
+- [7. 堆](#7-%E5%A0%86)
+    - [7.1. 二叉堆](#71-%E4%BA%8C%E5%8F%89%E5%A0%86)
+    - [7.2. 堆排序](#72-%E5%A0%86%E6%8E%92%E5%BA%8F)
+- [8. 图](#8-%E5%9B%BE)
+    - [8.1. 图的概念](#81-%E5%9B%BE%E7%9A%84%E6%A6%82%E5%BF%B5)
+- [9. 哈希表hash-table](#9-%E5%93%88%E5%B8%8C%E8%A1%A8hash-table)
+- [10. 排序算法](#10-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95)
+    - [10.1. 选择排序select Sort](#101-%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8Fselect-sort)
+    - [10.2. 归并排序merge sort](#102-%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8Fmerge-sort)
+    - [10.3. 冒泡排序bubble sort](#103-%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8Fbubble-sort)
+- [11. 查找算法](#11-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95)
+    - [11.1. 顺序查找](#111-%E9%A1%BA%E5%BA%8F%E6%9F%A5%E6%89%BE)
+    - [11.2. 有序表查找](#112-%E6%9C%89%E5%BA%8F%E8%A1%A8%E6%9F%A5%E6%89%BE)
+    - [11.3. 线性索引查找](#113-%E7%BA%BF%E6%80%A7%E7%B4%A2%E5%BC%95%E6%9F%A5%E6%89%BE)
+- [12. 索引](#12-%E7%B4%A2%E5%BC%95)
+    - [12.1. 线性索引](#121-%E7%BA%BF%E6%80%A7%E7%B4%A2%E5%BC%95)
+        - [12.1.1. 稠密索引](#1211-%E7%A8%A0%E5%AF%86%E7%B4%A2%E5%BC%95)
+        - [12.1.2. 分块索引](#1212-%E5%88%86%E5%9D%97%E7%B4%A2%E5%BC%95)
+        - [12.1.3. 倒排索引](#1213-%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95)
+    - [12.2. 树形索引](#122-%E6%A0%91%E5%BD%A2%E7%B4%A2%E5%BC%95)
+    - [12.3. 多级索引](#123-%E5%A4%9A%E7%BA%A7%E7%B4%A2%E5%BC%95)
+- [13. acm](#13-acm)
+- [14. leetcode 记录](#14-leetcode-%E8%AE%B0%E5%BD%95)
+    - [14.1. 字符串 string](#141-%E5%AD%97%E7%AC%A6%E4%B8%B2-string)
+        - [14.1.1. 是否回文字符串](#1411-%E6%98%AF%E5%90%A6%E5%9B%9E%E6%96%87%E5%AD%97%E7%AC%A6%E4%B8%B2)
+    - [14.2. 数组 array](#142-%E6%95%B0%E7%BB%84-array)
+        - [14.2.1. 最长递增子序列](#1421-%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97)
+        - [14.2.2. 最长递增数字子字符串](#1422-%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E6%95%B0%E5%AD%97%E5%AD%90%E5%AD%97%E7%AC%A6%E4%B8%B2)
 
 <!-- /TOC -->
 
@@ -1877,3 +1882,144 @@ ICPC官方网站：http://icpc.baylor.edu/icpc/
 https://github.com/aylei/leetcode-rust
 https://github.com/warycat/rustgym
 https://github.com/TheAlgorithms/Rust
+
+## 字符串 string
+
+### 是否回文字符串
+
+```java
+package io.github.xiaoyureed.farmerfriend.algo.str;
+
+/**
+ * @author: xiaoyureed@gmail.com
+ * 判断一个字符串是不是回文串
+ */
+public class 是否回文字符串 {
+    public static boolean isNotValid(char ch) {//判断是否为有效字符
+//        if(Character.isDigit(ch) || Character.isLetter(ch))
+//        or
+        if (ch > '0' && ch < '9' || ch > 'a' && ch < 'z') {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isPalindrome(String str) {
+        str = str.toLowerCase();//字符串全部字符转化为小写
+        int left = 0;
+        int right = str.length() - 1;//定义两个首尾下标
+        while (left < right) {
+            while (left < right && isNotValid(str.charAt(left))) {
+                left++;
+            }
+            //这段执行完保证此时left指向的有效字符
+            while (left < right && isNotValid(str.charAt(right))) {
+                right--;
+            }
+            //这段执行完保证此时right指向的有效字符
+            if (str.charAt(left) == str.charAt(right)) {
+                left++;
+                right--;
+            }
+            //循环判断回文
+            else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        String str = "A man, a plan, a canal: Panama";
+        if (isPalindrome(str)) {
+            System.out.println("是回文串！");
+        } else {
+            System.out.println("不是回文串！");
+        }
+    }
+}
+
+```
+
+## 数组 array
+
+### 最长递增子序列 
+
+```java
+package io.github.xiaoyureed.farmerfriend.algo.arr;
+
+/**
+ * @author: xiaoyureed@gmail.com
+ * 给定一个未经排序的整数数组，找到最长且 连续递增的子序列，并返回该序列的长度
+ *
+ * 输入：nums = [1,3,5,4,7]
+ * 输出：3
+ * 解释：最长连续递增序列是 [1,3,5], 长度为3。
+ */
+public class 最长递增子序列 {
+
+    public static void main(String[] args) {
+        int[] a = {4, 3, 1, 5, 7, 9};
+        System.out.println(findLengthOfLCIS(a));
+    }
+
+    public static int findLengthOfLCIS(int[] nums) {
+        if (nums.length == 0)
+            return 0;
+        int max = 0;
+        int num = 1;
+        for (int i = 0; i < nums.length - 1; i++){ // 遍历目标数组
+            if (nums[i + 1] > nums[i]){ // 如果next one > current one
+                num++;
+            }
+            else {
+                if (num > max)  //比较谁是最长序列
+                    max = num;
+                num = 1; //重新计数
+            }
+        }
+
+        return Math.max(max, num);
+    }
+}
+
+```
+
+### 最长递增数字子字符串
+
+```java
+
+package io.github.xiaoyureed.farmerfriend.algo.arr;
+
+/**
+ * @author: xiaoyureed@gmail.com
+ *
+ * 如ads3s456789DF3456d345AA中的456789
+ */
+public class 最长递增数字子字符串 {
+    public static void main(String[] args) {
+        System.out.println(func("ads3s456789DF3456d345AA"));
+    }
+
+    public static int func(String s){
+        int num = 1, max = 0;
+        for (int i = 0; i < s.length() - 1; i++){
+            if (Character.isDigit(s.charAt(i)) && Character.isDigit(s.charAt(i + 1))){
+                if (s.charAt(i + 1) > s.charAt(i)){
+                    num++;
+                } else {
+                    if (num > max)
+                        max = num;
+                    num = 1;
+                }
+            }else {
+                if (num > max)
+                    max = num;
+                num = 1;
+            }
+        }
+        return Math.max(max, num);
+    }
+}
+
+```

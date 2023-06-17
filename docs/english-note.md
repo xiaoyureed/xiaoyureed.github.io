@@ -7,6 +7,10 @@ toc_max_heading_level: 5
 ---
 
 <div align="center">
+https://catcoding.me/p/new_english_tools/
+https://www.bbc.co.uk/programmes/p02pc9tn
+https://www.ted.com/talks
+
 https://blog.csdn.net/m0_37631322/article/details/83785603
 https://blog.csdn.net/github_33696241/article/details/80382921
 

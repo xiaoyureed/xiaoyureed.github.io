@@ -6,6 +6,8 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
+https://iximiuz.com/en/posts/computer-networking-101/
+
 http://c.biancheng.net/tcp_ip/
 https://coolshell.cn/articles/11564.html
 http://www.tcpipguide.com/
@@ -700,5 +702,5 @@ Mac头 Ip头 Tcp头 Http头 数据体
 
 ## p2p
 
-[bit torrent](/blog/2022-11-10-bt-torrent-download/index.md)
+<!-- [bit torrent](/blog/2022-11-10-bt-torrent-download/index.md) -->
 

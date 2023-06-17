@@ -19,8 +19,9 @@ jetbrains package search : https://pkg.biuaxia.cn/
 </div>
 
 - [1. error solutions](#1-error-solutions)
-  - [仓库镜像有问题](#仓库镜像有问题)
-  - [依赖解析有问题](#依赖解析有问题)
+  - [1.1. 仓库镜像有问题](#11-仓库镜像有问题)
+  - [1.2. 依赖解析有问题](#12-依赖解析有问题)
+- [mavend 更快的 Maven](#mavend-更快的-maven)
 - [2. 命令行](#2-命令行)
 - [3. spring-io-platform](#3-spring-io-platform)
 - [4. why maven](#4-why-maven)
@@ -108,13 +109,14 @@ jetbrains package search : https://pkg.biuaxia.cn/
     - [20.7.7. maven-dependency-plugin 管理依赖库](#2077-maven-dependency-plugin-管理依赖库)
     - [20.7.8. jetty和tomcat](#2078-jetty和tomcat)
     - [20.7.9. maven-source-plugin 打包源码](#2079-maven-source-plugin-打包源码)
-    - [native-maven-plugin 打二进制包](#native-maven-plugin-打二进制包)
-    - [jib-maven-plugin 打 docker 镜像](#jib-maven-plugin-打-docker-镜像)
-    - [20.7.10. maven-resources-plugins 处理资源替换](#20710-maven-resources-plugins-处理资源替换)
-    - [20.7.11. maven-compiler-plugin 编译](#20711-maven-compiler-plugin-编译)
-    - [20.7.12. spring-boot-maven-plugin](#20712-spring-boot-maven-plugin)
-    - [20.7.13. maven-install-plugin](#20713-maven-install-plugin)
-    - [20.7.14. frontend-maven-plugin 管理前端环境](#20714-frontend-maven-plugin-管理前端环境)
+    - [20.7.10. native-maven-plugin 打二进制包](#20710-native-maven-plugin-打二进制包)
+    - [20.7.11. jib-maven-plugin 打 docker 镜像](#20711-jib-maven-plugin-打-docker-镜像)
+    - [20.7.12. maven-resources-plugins 处理资源替换](#20712-maven-resources-plugins-处理资源替换)
+    - [20.7.13. maven-compiler-plugin 编译](#20713-maven-compiler-plugin-编译)
+    - [20.7.14. proguard-maven-plugin](#20714-proguard-maven-plugin)
+    - [20.7.15. spring-boot-maven-plugin](#20715-spring-boot-maven-plugin)
+    - [20.7.16. maven-install-plugin](#20716-maven-install-plugin)
+    - [20.7.17. frontend-maven-plugin 管理前端环境](#20717-frontend-maven-plugin-管理前端环境)
   - [20.8. 编写maven插件](#208-编写maven插件)
 - [21. maven属性](#21-maven属性)
 - [22. 开启资源文件过滤](#22-开启资源文件过滤)
@@ -142,7 +144,7 @@ jetbrains package search : https://pkg.biuaxia.cn/
 
 # 1. error solutions
 
-## 仓库镜像有问题
+## 1.1. 仓库镜像有问题
 
 ```
 error:
@@ -172,13 +174,24 @@ Put this section in your ~/.m2/settings.xml-file, and rerun mvn with -U option. 
 
 ```
 
-## 依赖解析有问题
+## 1.2. 依赖解析有问题
 
 ```sh
 # 清除本地依赖 (或者清除指定依赖)
 mvn dependency:purge-local-repository [-DmanualInclude=org.springframework:spring-webmvc]
 ```
 
+
+# mavend 更快的 Maven
+
+https://github.com/apache/maven-mvnd#install-manually
+
+```sh
+mvnd -version
+
+
+
+```
 
 # 2. 命令行
 
@@ -3404,7 +3417,7 @@ tomcat:
 
 ```
 
-### native-maven-plugin 打二进制包
+### 20.7.10. native-maven-plugin 打二进制包
 
 需要和 springboot 3 合作, 默认设置了版本
 
@@ -3415,7 +3428,7 @@ tomcat:
             </plugin>
 ```
 
-### jib-maven-plugin 打 docker 镜像
+### 20.7.11. jib-maven-plugin 打 docker 镜像
 
 ```xml
 <!--            ./mvnw compile jib:build -Dimage=xxx -->
@@ -3426,7 +3439,7 @@ tomcat:
             </plugin>
 ```
 
-### 20.7.10. maven-resources-plugins 处理资源替换
+### 20.7.12. maven-resources-plugins 处理资源替换
 
 springboot 默认提供, 用于 maven 打包时资源文件的复制, 占位符的替换
 
@@ -3488,7 +3501,7 @@ springboot 默认提供, 用于 maven 打包时资源文件的复制, 占位符�
 ②中，通过开启 filtering，maven 会将文件中的 @XX@ 替换 profile 中定义的 XX 变量/属性。另外，我们还通过 includes 来告诉 maven 根据 自定义的 maven profile 来复制对应的 properties 文件。
 
 
-### 20.7.11. maven-compiler-plugin 编译
+### 20.7.13. maven-compiler-plugin 编译
 
 编译插件, 可以设置 Java compile version
 
@@ -3530,8 +3543,11 @@ springboot 默认提供, 用于 maven 打包时资源文件的复制, 占位符�
 </plugin>    
 ```
 
+### 20.7.14. proguard-maven-plugin
 
-### 20.7.12. spring-boot-maven-plugin
+https://github.com/wvengen/proguard-maven-plugin 代码混淆
+
+### 20.7.15. spring-boot-maven-plugin
 
 为Spring Boot应用提供了执行Maven操作的可能。允许你打包可执行文件和war文件，并且就地运行。
 
@@ -3551,11 +3567,13 @@ spring-boot:run，运行Spring Boot应用, 指定 spring boot profile 启动 `mv
 </plugin>
 ```
 
-### 20.7.13. maven-install-plugin
+对于多模块, `mvn spring-boot:run -pl [groupId:]<artifactId>`
+
+### 20.7.16. maven-install-plugin
 
 本地依赖加入本地仓库
 
-### 20.7.14. frontend-maven-plugin 管理前端环境
+### 20.7.17. frontend-maven-plugin 管理前端环境
 
 ```xml
   <plugin>
