@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[8472],{64991:function(s){s.exports=JSON.parse('{"label":"ansible","permalink":"/docs/tags/ansible","allTagsPath":"/docs/tags","count":1,"items":[{"id":"devops","title":"DevOps","description":"https://docs.ansible.com/","permalink":"/docs/devops"}]}')}}]);

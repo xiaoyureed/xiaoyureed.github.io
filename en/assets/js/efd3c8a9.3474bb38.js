@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[399],{14791:function(s){s.exports=JSON.parse('{"label":"cicd","permalink":"/en/docs/tags/cicd","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"devops","title":"DevOps","description":"https://docs.ansible.com/","permalink":"/en/docs/devops"}]}')}}]);
