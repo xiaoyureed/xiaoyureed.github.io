@@ -1126,9 +1126,8 @@ acks=-1(一条数据必须写入ISR里所有副本才算成功)，你写一条�
 ### 6.3.2. KafkaManager web 界面
 
 
-https://github.com/obsidiandynamics/kafdrop
+https://github.com/provectus/kafka-ui
 
-可以使用第三方的Kafka Eagle代替，Kafka Manager过于难用
 
 ### 6.3.3. springboot 集成 kafka
 

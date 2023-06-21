@@ -45,6 +45,7 @@ https://github.com/MichaelCade/90DaysOfDevOps
 - [3. Jenkins](#3-jenkins)
 - [4. travis-ci](#4-travis-ci)
 - [5. Gitea+Drone](#5-giteadrone)
+- [产品发布策略](#产品发布策略)
 
 
 ## 1. gitlab ci
@@ -91,10 +92,6 @@ myjob:
 
 #### 典型 springboot 项目中使用
 
-```yml
-
-
-```
 
 #### 1.3.1. 定义单个job
 
@@ -306,3 +303,50 @@ Jenkins - 老牌 ci 工具, 插件多(比如编译情况统计..)
 Drone 是基于Docker的CI/CD工具
 
 https://blog.ops-coffee.cn/s/gatfwneto_agsjhzdv5yzq 中小团队基于Docker的devops实践
+
+
+## 产品发布策略
+
+```sh
+蓝绿发布 (Blue-Green Deployment)
+
+  通过部署两套环境来解决新老版本的发布问题。
+  
+    项目逻辑上分为AB组, 首先把A组从负载均衡中摘除，进行新版本的部署。B组仍然继续提供服务。当A组升级完毕，负载均衡重新接入A组，再把B组从负载列表中摘除，进行新版本的部署。
+
+  pros:
+
+    发布策略简单; 升级/回滚速度快。
+
+  cons:
+
+    浪费资源, 需要准备正常业务使用资源的两倍以上服务器
+
+
+
+
+金丝雀发布( Canary Release ) 也叫灰度发布 , 滚动发布( Rolling Release )
+
+  通过切换线上并存版本之间的路由权重，逐步从一个版本切换为另一个版本的过程。
+
+    服务的替换是用流量这个维度来做替换的而不是节点这个维度。
+
+  pros:
+
+    不增加机器的情况下流量的平滑过渡
+
+    灵活，策略自定义，可以按照流量或具体的内容进行灰度(比如不同账号，不同参数)
+
+  cons:
+
+    自动化要求高。
+
+
+
+
+
+
+
+A/B测试
+
+```

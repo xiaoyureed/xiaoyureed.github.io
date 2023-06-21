@@ -183,6 +183,7 @@ https://github.com/Snailclimb/awesome-java#%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F 
   - [20.3. Micronaut](#203-micronaut)
   - [20.4. Quarkus](#204-quarkus)
 - [21. 拾遗](#21-拾遗)
+  - [class 对象方法](#class-对象方法)
   - [21.1. 正则表达式 regex](#211-正则表达式-regex)
   - [21.2. 静态绑定和动态绑定](#212-静态绑定和动态绑定)
   - [21.3. 重载 and 重写](#213-重载-and-重写)
@@ -5333,6 +5334,16 @@ https://zhuanlan.zhihu.com/p/106555993
 ## 20.4. Quarkus
 
 # 21. 拾遗
+
+## class 对象方法
+
+```java
+A.isAssignableFrom(B)
+    判断 A 和 B 是否同一个类对象
+    判断 A 是否是 B 的父类 (不管中间隔了几层)
+
+
+```
 
 ## 21.1. 正则表达式 regex
 

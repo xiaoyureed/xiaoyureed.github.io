@@ -800,7 +800,9 @@ https://www.baeldung.com/executable-jar-with-maven
 * `artifactId`: 定义实际项目中的一个maven模块, 推荐做法是使用实际项目名称作为其前缀, 比如groupId是'com.xy.project', 那么artifactId可设为'project-xxx', 这样方便寻找实际构件, maven生成的构件默认名称以artifactId开头
 * `version`: 版本, snapshoot..., 见 [快照版本和发布版本](#快照版本和发布版本)
 * `packaging`: 定义maven打包方式(可选, 默认jar), jar/war/pom
-* `classifier`: 帮助定义构建输出的一些附属构件; 比如定义了主构件'xxx.jar', 有时可能还会使用一些插件生成'xxx-javadoc.jar', 'xxx-source.jar'这样的附属构件, 这时, 'javadoc', 'source'就是这两个附属构件的classifier ;(classifier不能直接定义)
+* `classifier`: classifier可以是任意的字符串，用于拼接在GAV之后来确定依赖的坐标
+  * 可以帮助定义构建输出的一些附属构件; 比如定义了主构件'xxx.jar', 有时可能还会使用一些插件生成'xxx-javadoc.jar', 'xxx-source.jar'这样的附属构件, 这时, 'javadoc', 'source'就是这两个附属构件的classifier ;(classifier不能直接定义)
+  * 可以区分不同jdk版本所生成的jar包, 如 `<classifier>jdk15</classifier> , <classifier>jdk13</classifier>`
 
 # 15. 快照版本和发布版本
 

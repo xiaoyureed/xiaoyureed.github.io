@@ -149,6 +149,7 @@ https://github.com/docker/kitematic 可视化管理gui
 - [14. docker-machine](#14-docker-machine)
 - [15. docker-swarm,swarm-mode](#15-docker-swarmswarm-mode)
 - [16. docker实践](#16-docker实践)
+  - [nacos](#nacos)
   - [16.1. 搭建持续集成系统](#161-搭建持续集成系统)
   - [16.2. docker和springboot](#162-docker和springboot)
   - [16.3. oracle11g](#163-oracle11g)
@@ -2688,6 +2689,17 @@ Docker Swarm 是 Docker 官方三剑客项目之一，提供 Docker 容器集群
 
 https://github.com/wenshunbiao/docker
 
+## nacos
+
+https://hub.docker.com/r/nacos/nacos-server
+
+https://hub.docker.com/r/zhusaidong/nacos-server-m1
+
+```
+docker run -d -p 8848:8848 --env MODE=standalone  --name nacos  zhusaidong/nacos-server-m1:2.0.3
+
+```
+
 ## 16.1. 搭建持续集成系统
 
 ```sh
@@ -2767,7 +2779,7 @@ https://www.35youth.cn/685.html (https://registry.hub.docker.com/r/jaspeen/oracl
 
 ```sh
 docker pull mysql
-docker run -d -p 3306:3306 --name mysql_xy -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=a4flocal mysql
+docker run -d -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=raincloud-hello mysql
 mysql -h127.0.0.1 -uroot -p # password is 'hello'
 
 # 若 local 没有安装 MySQL client, 则使用 container client
@@ -2967,9 +2979,16 @@ get /zookeeper
 
 ## 16.10. kafka
 
+https://hub.docker.com/r/bitnami/kafka/
+  https://flxdu.cn/2023/01/23/Kafka-in-Docker-%E5%8D%95%E8%8A%82%E7%82%B9-%E5%A4%9A%E8%8A%82%E7%82%B9/
+
+https://github.com/bashj79/kafka-kraft-docker , withou zookeeper
+
+https://github.com/provectus/kafka-ui
+
+
 if error ` dial tcp: lookup cbacb08a78fe: no such host` occured, maybe it is because the domain name `cbacb08a78fe` is not defined in host file, add `127.0.0.1 cbacb08a78fe` in host file (https://www.cnblogs.com/xwxz/p/13565422.html)
 
-- https://hub.docker.com/r/bitnami/kafka/
 
 
 ```yml
@@ -3020,7 +3039,6 @@ cd /opt/bitnami/kafka/bin
 ./kafka-topics.sh --create --topic kafka_topic --replication-factor 1 --partitions 1 --bootstrap-server kafka:9092
 ```
 
-https://github.com/wurstmeister/kafka-docker 推荐
 
 ## 16.11. rabbitmq
 

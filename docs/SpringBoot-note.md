@@ -10,6 +10,8 @@ toc_max_heading_level: 5
 
 <div align="center">
 
+https://spring.io/blog/
+
 段子: 不管什么业务，直接上一套：spring boot+mysql 集群分库分表读写分离主备切换+kafak 集群+redis 集群用于缓存或者分布式锁+prometheus grafana 性能监控+ELK 日志收集分析+Flink 与 Hive 流批数仓+k8s 部署+双机房容灾
 
 https://github.com/YunaiV/SpringBoot-Labs
@@ -164,7 +166,11 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
   - [14.11. aop 整合使用](#1411-aop-整合使用)
     - [14.11.1. 基本使用](#14111-基本使用)
     - [14.11.2. 切入点表达式](#14112-切入点表达式)
-  - [14.12. @controllerAdvice 异常处理](#1412-controlleradvice-异常处理)
+  - [controllerAdvice 使用](#controlleradvice-使用)
+    - [全局异常处理 全局数据绑定 全局请求数据预处理](#全局异常处理-全局数据绑定-全局请求数据预处理)
+  - [利用 ResponseBodyAdvice requestbodyadvice](#利用-responsebodyadvice-requestbodyadvice)
+    - [进行 feign 响应数据解包](#进行-feign-响应数据解包)
+    - [请求响应加解密](#请求响应加解密)
   - [14.13. HttpServletRequest 的输入流只能读取一次的问题](#1413-httpservletrequest-的输入流只能读取一次的问题)
   - [14.14. 路由处理](#1414-路由处理)
     - [14.14.1. 静态资源映射 暴露静态资源](#14141-静态资源映射-暴露静态资源)
@@ -216,6 +222,7 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
   - [26.2. 配置文件优先级](#262-配置文件优先级)
   - [26.3. 读取环境信息](#263-读取环境信息)
   - [26.4. 两种引入 springboot 方式](#264-两种引入-springboot-方式)
+- [国际化 i18n](#国际化-i18n)
 - [27. 序列化 反序列化](#27-序列化-反序列化)
   - [27.1. 日期时间 json](#271-日期时间-json)
   - [27.2. jackson 使用](#272-jackson-使用)
@@ -4034,10 +4041,10 @@ https://www.cnblogs.com/ityangshuai/p/11923696.html
 -  可以使用 &&, ||, ! 运算符来定义切点表达式
 ```
 
+## controllerAdvice 使用
 
-## 14.12. @controllerAdvice 异常处理 
+### 全局异常处理 全局数据绑定 全局请求数据预处理
 
-全局异常处理 全局数据绑定 全局请求数据预处理
 
 
 ```java
@@ -4113,6 +4120,19 @@ public class MyGlobalExceptionHandler {
     }
 
 ```
+
+## 利用 ResponseBodyAdvice requestbodyadvice
+
+### 进行 feign 响应数据解包
+
+https://blog.csdn.net/qq_44817900/article/details/123035228 实现ResponseBodyAdvice接口，其实是对加了@RestController(也就是@Controller+@ResponseBody)注解的处理器将要返回的值进行增强处理。其实也就是采用了AOP的思想，对返回值进行一次修改。
+
+https://www.cnblogs.com/melonOO/p/15349258.html
+
+
+### 请求响应加解密
+
+https://www.jianshu.com/p/18f33cea8b8a
 
 ## 14.13. HttpServletRequest 的输入流只能读取一次的问题
 
@@ -4668,7 +4688,7 @@ https://github.com/tywo45
 
   - 推荐使用 @accesssor(chain=true)
 
-- 代替@AutoWired注解: @RequiredArgsConstructor(onConstructor =@__(@Autowired))标注在类上, 那么注入成员的时候, 可以省掉 @autowired 注解
+- 代替@AutoWired注解: @RequiredArgsConstructor(onConstructor =@__(@Autowired))标注在类上, 那么注入成员的时候, 可以省掉 @autowired 注解 (会自动生成构造器)
 
 - 替代@tostring注解 可以使用 lang3 的 `ToStringBuilder.reflectionToString(this)`
 
@@ -5365,6 +5385,10 @@ class DemoController {
     </build>
 ```
 
+# 国际化 i18n
+
+如果我们需要获取客户端的语言，本地化（国际化 i18n）参数，我们可以借助 Spring 提供的 LocaleContextHolder API 进行获取，比如： 1、获取语言：LocaleContextHolder.getLocale().getLanguage() 2、获取时区：LocaleContextHolder.getLocale().getTimeZone() 等等。
+
 # 27. 序列化 反序列化
 
 ## 27.1. 日期时间 json
@@ -5624,7 +5648,9 @@ spring 通过 3 个 map 缓存解决
 
 ![](/img/loop_dependency.png)
 
-```
+
+
+```sh
 看下来, 二级缓存貌似没什么作用, 可以去掉吗?
     不可以, 因为如果抽掉二级缓存后, 每次从三级缓存拿到工厂对象, 进而生成得到空 bean, 如果两个 bean 同时依赖第三个 bean, 那么这个第三个 bean 被注入到两个 bean 中的对象将会是不同的. 为了解决这个问题, spring 引入了二级缓存
 
@@ -5638,3 +5664,13 @@ spring 通过 3 个 map 缓存解决
 
 - 属性添加 @lazy 
 - 类上使用 @dependson 
+
+
+通过配置解决:
+
+```yml
+spring:
+    main:
+        allow-bean-definition-overriding: true
+        allow-circular-references: true
+```

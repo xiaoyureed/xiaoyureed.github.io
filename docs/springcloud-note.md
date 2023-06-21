@@ -58,6 +58,7 @@ https://github.com/chillzhuang/SpringBlade 实例
     - [6.3.2. 超时综合配置](#632-超时综合配置)
     - [6.3.3. feign client interceptor](#633-feign-client-interceptor)
     - [6.3.4. 日志配置](#634-日志配置)
+    - [6.3.5. feign Client 在生产者端还是在消费者端定义](#635-feign-client-在生产者端还是在消费者端定义)
 - [7. 负载均衡](#7-负载均衡)
   - [7.1. 集中式负载均衡和客户端负载均衡](#71-集中式负载均衡和客户端负载均衡)
   - [7.2. ribbon](#72-ribbon)
@@ -85,13 +86,22 @@ https://github.com/chillzhuang/SpringBlade 实例
     - [9.6.2. 基本使用](#962-基本使用)
   - [9.7. spring-cloud-gateway](#97-spring-cloud-gateway)
     - [9.7.1. 简单介绍](#971-简单介绍)
+    - [和注册中心配合](#和注册中心配合)
+    - [路由](#路由)
+    - [predcates 介绍](#predcates-介绍)
     - [9.7.2. 有哪些内置 route predicate factory](#972-有哪些内置-route-predicate-factory)
-    - [9.7.3. 有哪些 内置 filter](#973-有哪些-内置-filter)
-    - [9.7.4. 自定义 filter](#974-自定义-filter)
-      - [9.7.4.1. gateway filter](#9741-gateway-filter)
-      - [9.7.4.2. 全局 filter](#9742-全局-filter)
-    - [9.7.5. gateway 配置方法](#975-gateway-配置方法)
-    - [9.7.6. 网关监控](#976-网关监控)
+    - [9.7.3. 断言在代码中配置](#973-断言在代码中配置)
+    - [9.7.4. 断言在yml中配置](#974-断言在yml中配置)
+    - [filter 介绍](#filter-介绍)
+    - [9.7.5. 有哪些 内置 filter](#975-有哪些-内置-filter)
+    - [9.7.6. 过滤器的配置方法-代码](#976-过滤器的配置方法-代码)
+    - [9.7.7. 过滤器配置方法-yml](#977-过滤器配置方法-yml)
+    - [9.7.8. 自定义全局 filter](#978-自定义全局-filter)
+    - [9.7.9. 自定义普通 gateway filter](#979-自定义普通-gateway-filter)
+    - [9.7.10. gateway 配置方法](#9710-gateway-配置方法)
+    - [9.7.11. 网关监控](#9711-网关监控)
+    - [超时配置](#超时配置)
+    - [跨域配置](#跨域配置)
 - [10. 调用链路追踪](#10-调用链路追踪)
   - [10.1. sleuth 和 zipkin](#101-sleuth-和-zipkin)
     - [10.1.1. 分布式追踪](#1011-分布式追踪)
@@ -104,7 +114,7 @@ https://github.com/chillzhuang/SpringBlade 实例
   - [11.2. 日志怎么收集](#112-日志怎么收集)
   - [11.3. 日志怎么展示](#113-日志怎么展示)
 - [12. 运维监控](#12-运维监控)
-  - [prometheus/thanos](#prometheusthanos)
+  - [12.1. prometheus/thanos](#121-prometheusthanos)
 - [13. 消息总线](#13-消息总线)
   - [13.1. Spring-Cloud-Bus](#131-spring-cloud-bus)
   - [13.2. alibaba nacos 作为消息总线](#132-alibaba-nacos-作为消息总线)
@@ -516,7 +526,28 @@ eureka 集群配置:
 
 完美替代 eureka
 
-https://www.jianshu.com/p/6b6cf891ac6a  扩展Ribbon支持Nacos权重的三种方式
+https://www.jianshu.com/p/6b6cf891ac6a  扩展Ribbon支持Nacos权重的三种方式 todo
+
+修改配置: (数据源, auth)
+
+```sh
+# 数据库连接配置，原来这三项是注释了的，去掉前面的"#"号
+# 数据库连接地址及数据库名称根据自己实际情况修改
+db.url.0=jdbc:mysql://127.0.0.1:3306/nacos?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+# 数据库的用户名及密码根据自己的实际情况修改
+db.user.0=root
+db.password.0=rootPassword
+
+# 原来该配置的为false，开启nacos接入鉴权，这行最为关键
+nacos.core.auth.enabled=true
+
+# 当nacos.core.auth.enabled设置为true之后，下面两项必须给值，原来的以下两项都没有值，可以直接使用下面的值，不报错
+nacos.core.auth.server.identity.key=serverIdentity
+nacos.core.auth.server.identity.value=security
+
+# 原来这项配置为空，key还必须为base64，就用以下这个key可以不报错
+nacos.core.auth.plugin.nacos.token.secret.key=SecretKey012345678901234567890123456789012345678901234567890123456789
+```
 
 ## 5.6. etcd
 
@@ -702,6 +733,27 @@ class FeignConfig {
 ```
 
 然后配置文件中, 指定监控的 feign client 接口以及日志级别 `logging.level.io.github.xiaoyu.xxx.ReservationResource=debug`
+
+### 6.3.5. feign Client 在生产者端还是在消费者端定义
+
+```
+在生产端API中声明Feign客户端 (消费端服务直接依赖生产端提供的API包，然后通过@Autowired注解注入，就可以直接调用生产者提供的接口)
+
+  好处 是：简单方便，消费端直接使用生产者提供的Feign接口即可。
+
+  坏处 也很明显: 
+
+    熔断降级类也在生产端, 无法自定义
+
+    消费端在调用时由于包路径可能与生产者不一样，必须要通过@SpringBootApplication(scanBasePackages = {"com.javadaily.feign"})扫描Feign的路径，当消费端需要引入很多生产者Feign时那就需要扫描很多个接口路径。
+
+在消费端声明Feign客户端 (推荐)
+
+  好处 是：客户端可以按需编写自己需要的接口，熔断降级都由消费者控制；不需要在启动类上加入额外的扫描注解scanBasePackages。
+
+  坏处 是：消费端代码冗余，每个消费者都需要编写Feign客户端；服务间耦合比较紧，修改一处接口三处都要修改。
+
+```
 
 # 7. 负载均衡
 
@@ -1221,112 +1273,256 @@ http://www.ityouknow.com/springcloud/2018/02/02/spring-cloud-sleuth-zipkin.html
 
 Spring Cloud Gateway requires the Netty runtime provided by Spring Boot and Spring Webflux. It does not work in a traditional Servlet Container or built as a WAR (使用 netty+webflux 实现因此不需要再引入 web 模块, 不能使用 servlet container)
 
-包括三个大的要素:
 
-- route: 将 request 转发到具体的某个 service , 包含 (id, destination Uri, collection)
-  
+```sh
+工作流程: 请求进来, 如果在 Gateway Handler Mapping 中通过配置的一些断言, 找到与请求相匹配的路由，将其发送到 Gateway Web Handler, Handler 再通过指定的过滤器链来将请求发送到实际的服务执行业务逻辑，然后返回。
+
+  过滤器链条中, 经过 PreFilter —> 微服务 —> PostFilter 的方法，最终返回响应
+
+```
+
+### 和注册中心配合
+
+和 注册中心 一起使用 (动态路由), 需要打开开关, 默认的自动代理请求格式: http://网关地址/服务中心注册 serviceId/具体的path, 如: http://localhost:8888/EUREKA-SINGLE-CLIENT/hah (service name 可以配置小写), 如果路由的service有多个节点, 会自动负载均衡
+
+
+### 路由
+
+```sh
+
+route: 将 request 转发到具体的某个 service  (id, uri, predicates, [filter])
+
+  搭配 predicate 使用
+    
   route有两种配置方式, 通过yml,或者 通过@bean自定义 RouteLocator; 
   
   一个请求满足多个路由的谓词条件时，请求只会被首个成功匹配的路由转发 (就近匹配); 
   
   注册到 registration center 后, 通过配置, 可以自动路由所有已注册的服务
 
+```
 
-- predicate: 就是Java8中引入的的 Predicate, 输入是 ServerWebExchange, 可以获取 request, header, params
+### predcates 介绍
 
-  所有 predicate 返回true, 则当前 route matched 
-
-- filter: GatewayFilter 实例, 可以修改请求和响应, 生命周期分为 "pre" 和 "post"
-
-  filter 分为: GatewayFilter 与 GlobalFilter。GlobalFilter 会应用到所有的路由上(无需配置)，而 GatewayFilter 将应用到单个路由或者一个分组的路由上(需要跟Route绑定使用，不能在application.yml文件中配置使用),GatewayFilter  亦可 通过 AbstractGatewayFilterFactory, 在内部实现, 不写单独的 Java类(这种方式同样要配置 route)
-
-  集成了 Hystrix, 自动进行负载均衡, 集成了 Spring Cloud DiscoveryClient, 
+```sh
 
 
+  predicate: 就是Java8中引入的的 Predicate, 输入是 ServerWebExchange, 可以获取 request, header, params
 
-工作流程: 请求进来, 如果在 Gateway Handler Mapping 中找到与请求相匹配的路由，将其发送到 Gateway Web Handler, Handler 再通过指定的过滤器链来将请求发送到实际的服务执行业务逻辑，然后返回。
-
-
-和 注册中心 一起使用 (动态路由), 需要打开开关, 默认的自动代理请求格式: http://网关地址/服务中心注册 serviceId/具体的path, 如: http://localhost:8888/EUREKA-SINGLE-CLIENT/hah (service name 可以配置小写), 如果路由的service有多个节点, 会自动负载均衡
-
-
-### 9.7.2. 有哪些内置 route predicate factory
-
-- Before, After, Between: 通过时间匹配; 某个时间点前, 某个时间点后, 某段时间内 的request才匹配
-
-  时间字符串怎么获得: Java8 的时间 api, ZonedDateTime.now() ...
-
-- Cookie: 通过验证指定cookie 的值来匹配; 接受2个参数, Cookie 的name, cookie 的值
-
-- Header: 通过验证指定 Header 的值来匹配; 接受2个参数(headerName, regexPattern)
-
-- Host: 通过指定 host (还是属于Header验证) 来匹配(多个host 用 "." 分隔, 支持 `**` 通配符, 如 `**.github.io`)
-
-- Method: 通过http方法匹配
-
-- Path: 通过请求路径匹配, 支持 "/foo/{segment}" 的形式, 支持模板占位符 `{xxx}`, 在 filter 中可以使用占位符中的变量
-
-- Query: 通过请求参数匹配, 2个参数(paramName, paramValue(参数值, 或者是regex)), 参数2可选
-
-- RemoteAddr: 通过请求ip匹配, 如 "192.168.1.1/24"
-
-### 9.7.3. 有哪些 内置 filter
-
-https://docs.spring.io/spring-cloud-gateway/docs/2.2.5.RELEASE/reference/html/#gatewayfilter-factories
-
-- AddRequestFilter
-- SetPath 可以使用 Path 中的占位符变量
-- RewritePath
-- PrefixPath
-
-### 9.7.4. 自定义 filter
-
-- 接口 GlobalFilter (定义全局 filter, 需要 `@component`), 影响所有 route; Ordered 接口定义顺序
-
-- GatewayFilter (普通filter, 需要在 route 中使用代码硬编码配置 `xxx.filters(new MyFilter())` 无需 component), Ordered 顺序
-
-  - 如果希望在配置文件中配置Gateway Filter, 自定义过滤器工厂实现; 
-  
-    AbstractGatewayFilterFactory (继承抽象类实现 apply(config), config 为自定义参数)
-
-```yml
-- id: custom-filter-factory
-  uri: http://localhost:8080
-  predicates:
-    - Path=/service/**
-  filters:
-    - RewritePath=/service(?<segment>/?.*), $\{segment}
-    #简单配置, 但是这样就需要额外重写覆盖方法 shortcutFieldOrder()
-    #- Logging=My Custom Message, true, true
-    - name: Logging
-      args:
-        baseMessage: My Custom Message helloxxxx
-        preLogger: true
-        postLogger: true
+    所有 predicate 返回true, 则当前 route matched 
 
 ```
 
-
-#### 9.7.4.1. gateway filter
-
-实现自定义的Gateway Filter我们需要GatewayFilter、Ordered两个接口
-
-定义好MyFilter以后，其需要跟Route绑定使用，不能在application.yml文件中配置使用
-
-很多时候我们更希望在配置文件中配置Gateway Filter,所以我们可以自定义过滤器工厂实现。
-自定义过滤器工厂需要继承AbstractGatewayFilterFactory
+### 9.7.2. 有哪些内置 route predicate factory
 
 
 
-#### 9.7.4.2. 全局 filter
+```sh
+
+
+Cookie
+  Cookie=chocolate, ch.p    ","前面的为name，逗号后面的为值
+
+Header
+  Header=X-Request-Id, \d+  ","前面的为name，逗号后面的为值
+
+Host    通过指定 host (还是属于Header验证) 来匹配(多个host 用 "," 分隔, 支持 `**` 通配符, 如 `**.github.io`)
+  Host=**.somehost.org,**.anotherhost.org
+
+Method
+  Method=GET,post
+
+Query
+  Query=aaa，请求参数必须有name为aaa的参数
+  Query=aaa, 111：请求参数必须有name为aaa的参数，且aaa参数的值为111；
+
+After
+  After=2021-03-17T15:47:51.534+08:00[Asia/Shanghai]，日期时间，在该日期以后请求才被匹配
+    时间可以使用java.time.ZonedDateTime中的ZonedDateTime.now()获取当前时间
+
+Before
+  Before=2022-03-17T15:47:51.534+08:00[Asia/Shanghai]，日期时间，在该日期之前才被匹配
+
+Between
+  Between=2021-03-17T15:47:51.534+08:00[Asia/Shanghai],2022-03-17T15:47:51.534+08:00[Asia/Shanghai]，使用两个参数用逗号分隔，在两个时间范围内的请求才被匹配
+
+RemoteAddr：通过请求ip匹配
+  RemoteAddr=192.168.1.1/24
+
+Path    通过请求路径匹配, 
+  Path=/red/{segment},/blue/{segment}  
+    支持 "/foo/{segment}" 模板占位符的形式 在 filter 中可以使用占位符中的变量
+    如果请求路径是：/red/1或/red/blue或/blue/green，则此路由匹配。
+  Path=/gateway/**  
+    支持模糊匹配
+
+Weight  权重路由工厂有两个参数：group和Weight（int）。每组计算重量
+  Weight=group1, 2
+```
+
+
+### 9.7.3. 断言在代码中配置
+
+### 9.7.4. 断言在yml中配置
+
+两种配置方法
+
+```yml
+# 键值对方式, 简洁
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: cookie_route
+        uri: https://example.org
+        predicates:
+        - Cookie=mycookie,mycookievalue
+
+# 完全展开的方式, 标准方式
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: cookie_route
+        uri: https://example.org
+        predicates:
+        - name: Cookie
+          args:
+            name: mycookie
+            regexp: mycookievalue
+```
+
+### filter 介绍
+
+```sh
+
+
+filter: 可以修改请求和响应, 生命周期分为 "pre" 和 "post"
+
+  filter 分为: GatewayFilter 与 GlobalFilter。
+    
+    GlobalFilter 会应用到所有的路由上(无需配置)，
+    
+    GatewayFilter 将应用到单个路由或者一个分组的路由上(需要跟Route绑定使用，不能在application.yml文件中配置使用)
+      
+      GatewayFilter  亦可 通过 AbstractGatewayFilterFactory, 在内部实现, 不写单独的 Java类(这种方式同样要配置 route)
+
+
+集成了 Hystrix, 自动进行负载均衡, 集成了 Spring Cloud DiscoveryClient, 
+
+
+使用场景: 鉴权、限流、日志输出
+
+
+生命周期:
+
+  PRE： 这种过滤器在被代理的微服务（Proxied Service）执行之前调用。
+  
+    我们可利用这种过滤器实现身份验证、在集群中选择请求的微服务、记录调试信息等。
+
+  POST：这种过滤器在被代理的微服务（Proxied Service）执行完成后执行。
+  
+    这种过滤器可用来为响应添加标准的 HTTP Header、收集统计信息和指标、将响应从微服务发送给客户端等。
+
+
+```
+
+### 9.7.5. 有哪些 内置 filter
+
+https://docs.spring.io/spring-cloud-gateway/docs/2.2.5.RELEASE/reference/html/#gatewayfilter-factories
+
+```sh
+AddRequestHeader
+AddResponseHeader
+  AddRequestHeader=X-Request-red, blue
+
+DedupeResponseHeader
+  - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+
+AddRequestParameter
+  AddRequestParameter=red, blue
+
+AddRequestFilter
+
+RedirectTo    重定向, 需要两个参数，status和url。status参数应该是300系列重定向HTTP代码，例如301。url参数应该是有效的url
+   RedirectTo=302, https://acme.org
+
+SetPath 可以使用 Path 中的占位符变量 (通过模板设置路径)
+  SetPath=/app/{path}   {path} 是 Path predicate 里的占位符
+
+
+RewritePath   重写请求路径
+  RewritePath=/test, /app/test    访问网关localhost:8888/test, 请求会转发到localhost:8001/app/test
+  RewritePath=(?<oldPath>^/), /app$\{oldPath}  
+    当请求网关localhost:8888/test时，匹配所有以/开头的路径，然后在前面加上/app,所以现在请求变成了localhost:8888/app/test。然后转发时的url变成了localhost:8001/app/test 
+    (在yml文档中 $ 要写成 $\ )
+
+PrefixPath  在转发后的请求路径前加上自定义的路径
+  PrefixPath=/app   访问网关 localhost:8888/test, 会被转发成 目标地址 localhost:1234/app/test
+```
+
+### 9.7.6. 过滤器的配置方法-代码
+
+### 9.7.7. 过滤器配置方法-yml
+
+```yml
+
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: add_request_header_route
+        uri: https://example.org
+        filters:
+        - AddRequestHeader=X-Request-red, blue
+```
+
+
+### 9.7.8. 自定义全局 filter
+
+接口 GlobalFilter (定义全局 filter, 需要 `@component`), 影响所有 route; Ordered 接口定义顺序
+
 
 ```java
+// 实现授权、日志等功能
+@Component
+public class AuthorizeFilter implements GlobalFilter, Ordered {
+    private static final Logger log = LoggerFactory.getLogger(AuthorizeFilter.class);
+    private static final String AUTHORIZE_TOKEN = "token";
+ 
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain){
+        String token = exchange.getRequest().getQueryParams()
+          .getFirst(AUTHORIZE_TOKEN);
+ 
+        if ( StringUtils.isBlank( token )) {
+            log.info( "token is empty ..." );
+            exchange.getResponse().setStatusCode( HttpStatus.UNAUTHORIZED );
+            return exchange.getResponse().setComplete();
+        }
+        return chain.filter(exchange);
+    }
+ 
+    @Override
+    public int getOrder() {
+        return 0;
+    }
+}
+
+
+or
+
+// 统计时间
 @Component
 class TimeRecordGlobalFilter implements GlobalFilter, Ordered {
     private static final String TIME_BEGIN = "time begin";
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+      // log.info("custom global filter");
+        // return chain.filter(exchange);
+
+
         exchange.getAttributes().put(TIME_BEGIN, System.currentTimeMillis());
         return chain.filter(exchange).then(Mono.fromRunnable(() -> {
             Long timeBegin = exchange.getAttribute(TIME_BEGIN);
@@ -1346,11 +1542,129 @@ class TimeRecordGlobalFilter implements GlobalFilter, Ordered {
 }
 ```
 
-普通 filter, 在代码中配 route 使用:
 
-普通 filter, 在配置文件中使用:
+### 9.7.9. 自定义普通 gateway filter
+
+
+```sh
+两种方式:
+
+  GatewayFilter, Ordered ( 无需 @component)
+
+    需要在 route 中使用代码硬编码配置 `xxx.filters(new MyFilter(), 不能在application.yml文件中配置使用
+
+    // 统计某个或者某种路由的处理时长
+      public class CustomerGatewayFilter implements GatewayFilter, Ordered {
+          private static final Logger log = LoggerFactory.getLogger( CustomerGatewayFilter.class );
+          private static final String COUNT_START_TIME = "countStartTime";
+      
+          @Override
+          public Mono<Void> filter(ServerWebExchange exch, GatewayFilterChain chain) {
+              return chain.filter(exch).then(
+                  Mono.fromRunnable(() -> {
+                    long startTime = exch.getAttribute(COUNT_START_TIME);
+                    long endTime=(Instant.now().toEpochMilli() - startTime);
+                    log.info(exch.getRequest().getURI().getRawPath() + ": " + endTime + "ms");
+                })
+              );
+          }
+      
+          @Override
+          public int getOrder() {
+              return 0;
+        }
+      }
+
+  如果希望在配置文件中配置Gateway Filter, 则通过自定义过滤器工厂实现; 
+
+    继承抽象类 AbstractGatewayFilterFactory (实现 apply(config), config 为自定义参数)
+
+    @Component
+    public class CustomerGatewayFilterFactory extends AbstractGatewayFilterFactory<CustomerGatewayFilterFactory.Config> {
+    
+        private static final Logger log = LoggerFactory.getLogger( CustomerGatewayFilterFactory.class );
+        private static final String COUNT_START_TIME = "countStartTime";
+    
+        @Override
+        public List<String> shortcutFieldOrder() {
+            return Arrays.asList("enabled");
+        }
+    
+        public CustomerGatewayFilterFactory() {
+            super(Config.class);
+            log.info("Loaded GatewayFilterFactory [CustomerGatewayFilterFactory]");
+        }
+    
+        @Override
+        public GatewayFilter apply(Config config) {
+            return (exchange, chain) -> {
+                if (!config.isEnabled()) {
+                  return chain.filter(exchange);
+                }
+                exchange.getAttributes().put(COUNT_START_TIME, 
+                                            System.currentTimeMillis());
+              
+              return chain.filter(exchange).then(
+                    Mono.fromRunnable(() -> {
+                        Long startTime = exchange.getAttribute(COUNT_START_TIME);
+                        if (startTime != null) {
+                            StringBuilder sb = new StringBuilder(
+                              exchange.getRequest().getURI().getRawPath()
+                            ).append(": ")
+                            .append(System.currentTimeMillis() - startTime)
+                            .append("ms");
+    
+                            sb.append(" params:")
+                              .append(exchange.getRequest().getQueryParams());
+    
+                            log.info(sb.toString());
+                        }}));
+            };
+        }
+    
+        public static class Config {
+            //控制是否开启统计
+            private boolean enabled;
+            public Config() {}
+            // getter setter 省略
+        }
+    }
+
+
+    配置:
+
+    spring:
+      cloud:
+        gateway:
+          routes:
+            - id: elapse_route
+              uri: lb://account-service
+              filters:
+              - Customer=true
+              predicates:
+              - Method=GET
+
+      or
+
+      - id: custom-filter-factory
+        uri: http://localhost:8080
+        predicates:
+          - Path=/service/**
+        filters:
+          - RewritePath=/service(?<segment>/?.*), $\{segment}
+          #简单配置, 但是这样就需要额外重写覆盖方法 shortcutFieldOrder()
+          #- Logging=My Custom Message, true, true
+          - name: Logging
+            args:
+              baseMessage: My Custom Message helloxxxx
+              preLogger: true
+              postLogger: true
+```
+
+另外一个例子
 
 ```java
+// 鉴权
 @Component
 public class AuthorizeGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthorizeGatewayFilterFactory.Config> {
 
@@ -1438,7 +1752,8 @@ spring:
 ```
 
 
-### 9.7.5. gateway 配置方法
+
+### 9.7.10. gateway 配置方法
 
 ```props
 # enable gateway, default to true
@@ -1584,7 +1899,7 @@ class GatewayConfig {
 }
 ```
 
-### 9.7.6. 网关监控
+### 9.7.11. 网关监控
 
 spring-boot-starter-actuator
 
@@ -1594,6 +1909,49 @@ management:
     web:
       exposure:
         include: health,info,gateway
+```
+
+### 超时配置
+
+```yml
+# 全局超时
+spring:
+  cloud:
+    gateway:
+      # Http超时（响应和连接）可以为所有路由配置，并为每个特定路由重写。
+      httpclient:
+        connect-timeout: 1000 # 默认以毫秒为单位指定连接超时
+        response-timeout: 5s # 以秒为单位的配置方式
+
+
+
+# 单个路由超时
+
+- id: per_route_timeouts
+  uri: https://example.org
+  predicates:
+    - name: Path
+      args:
+        pattern: /delay/{timeout}
+  metadata:
+    response-timeout: 200
+    connect-timeout: 200
+```
+
+### 跨域配置
+
+```yml
+
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          # 在当前页面, 允许所有 来自 指定 url 的 get 方法
+          '[/**]':
+            allowedOrigins: "https://docs.spring.io"
+            allowedMethods:
+              - GET
 ```
 
 # 10. 调用链路追踪
@@ -1691,7 +2049,7 @@ K8s 、物理机、虚拟机等管理
 
 做好监控的真正难点不在于技术选型，而在于监控点覆盖、报警阈值调教、值班应急这一整套流程。
 
-## prometheus/thanos 
+## 12.1. prometheus/thanos 
 
  prometheus 不能集群部署，单点有瓶颈
 
