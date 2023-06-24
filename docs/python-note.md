@@ -188,6 +188,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
   - [18.3. 图像](#183-图像)
   - [18.4. 数据模型定义](#184-数据模型定义)
   - [18.5. 序列化反序列化](#185-序列化反序列化)
+  - [web 框架](#web-框架)
 - [19. jython](#19-jython)
 - [20. 调用 rust](#20-调用-rust)
 - [21. web应用部署](#21-web应用部署)
@@ -3829,6 +3830,14 @@ https://medium.com/swlh/parsing-rest-api-payload-and-query-parameters-with-flask
 ## 18.5. 序列化反序列化
 
 pickle
+
+## web 框架
+
+Django 大一统解决方案
+
+flask  rest api
+
+https://github.com/pynecone-io/pynecone 纯 py 实现 web
 
 
 # 19. jython

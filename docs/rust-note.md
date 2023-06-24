@@ -11470,6 +11470,8 @@ https://github.com/tauri-apps/tauri
 
 https://github.com/larksuite/rsmpeg 飞书团队出品 ffmpeg 的 rust binding
 
+https://github.com/gyroflow/gyroflow 视频防抖
+
 ## 21.5. 图片处理
 
 https://github.com/Aloxaf/silicon
