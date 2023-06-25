@@ -4,7 +4,7 @@ tags: [face recognition]
 authors: [me]
 ---
 
-本文收集了目前人脸识别领域的开源方案, 基于这些开源方案, 实现了一个基础 demo
+本文收集了目前人脸识别领域的开源方案, 基于这些开源方案, 实现了一个基础 demo, 代码库: https://github.com/xiaoyureed/face_recognize_rest_api
 
 <!-- truncate -->
 
