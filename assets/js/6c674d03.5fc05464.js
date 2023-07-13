@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[7600],{80372:function(t){t.exports=JSON.parse('{"label":"network","permalink":"/docs/tags/network","allTagsPath":"/docs/tags","count":1,"items":[{"id":"tcp-ip-note-p2p","title":"TCP IP, p2p","description":"https://iximiuz.com/en/posts/computer-networking-101/","permalink":"/docs/tcp-ip-note-p2p"}]}')}}]);

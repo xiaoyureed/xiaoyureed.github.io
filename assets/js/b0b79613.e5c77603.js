@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[7237],{23224:function(t){t.exports=JSON.parse('{"label":"react","permalink":"/docs/tags/react","allTagsPath":"/docs/tags","count":1,"items":[{"id":"react-note","title":"React\ud83c\udf08","description":"https://github.com/7kms/react-illustration-series \u56fe\u89e3","permalink":"/docs/react-note"}]}')}}]);
