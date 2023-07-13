@@ -2979,66 +2979,58 @@ get /zookeeper
 
 ## 16.10. kafka
 
+https://github.com/lensesio/fast-data-dev
+
 https://hub.docker.com/r/bitnami/kafka/
   https://flxdu.cn/2023/01/23/Kafka-in-Docker-%E5%8D%95%E8%8A%82%E7%82%B9-%E5%A4%9A%E8%8A%82%E7%82%B9/
 
-https://github.com/bashj79/kafka-kraft-docker , withou zookeeper
 
 https://github.com/provectus/kafka-ui
 
-
-if error ` dial tcp: lookup cbacb08a78fe: no such host` occured, maybe it is because the domain name `cbacb08a78fe` is not defined in host file, add `127.0.0.1 cbacb08a78fe` in host file (https://www.cnblogs.com/xwxz/p/13565422.html)
-
-
-
-```yml
-version: '3'
-
-networks:
-  app-tier:
-    driver: bridge
-
-services:
-  zookeeper:
-    image: 'bitnami/zookeeper:3.7'
-    ports:
-      - 2181:2181
-    restart: unless-stopped
-    networks:
-      - app-tier
-    environment:
-      - ALLOW_ANONYMOUS_LOGIN=yes
-  kafka:
-    image: 'bitnami/kafka:3'
-    ports:
-      - 9092:9092
-    restart: unless-stopped
-    networks:
-      - app-tier
-    environment:
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_BROKER_ID=1
-      - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
-      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
-    depends_on:
-      - zookeeper
-    
-    
-
-```
+(可能碰到 springboot 找不到 卡夫卡的地址的问题, 需要吧 docker id 和 127.0.0.1 在 host 中映射)
 
 ```sh
-docker exec -it --rm kafka_kafka_1 bash
-cd /opt/bitnami/kafka/bin
-#  check topics (可以是 service name 也可以是 container_name)
-./kafka-topics.sh --list --bootstrap-server kafka:9092
-# create topic
-# https://www.baeldung.com/kafka-topic-creation 使用代码创建
-./kafka-topics.sh --create --topic kafka_topic --replication-factor 1 --partitions 1 --bootstrap-server kafka:9092
-```
+version: "3"
+networks:
+  kafka-tier:
+    driver: bridge
+services:
+#  zookeeper:
+#    image: docker.io/bitnami/zookeeper:3.8
+#    container_name: zookeeper
+#    networks:
+#      - kafka-tier
+#    ports:
+#      - "2181:2181"
+#    environment:
+#      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafka:
+    image: docker.io/bitnami/kafka:3.5
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    networks:
+      - kafka-tier
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
 
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    networks:
+      - kafka-tier
+    ports:
+      - "9093:8080"
+    depends_on:
+      - kafka
+    environment:
+      DYNAMIC_CONFIG_ENABLED: 'true'  # not necessary, added for tests
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+
+
+
+
+```
 
 ## 16.11. rabbitmq
 

@@ -294,6 +294,10 @@ deploy_staging:
 
 Jenkins - 老牌 ci 工具, 插件多(比如编译情况统计..)
 
+https://wiki.eryajf.net/pages/2415.html
+
+
+
 ## 4. travis-ci 
 
 - 持续集成的 PasS 服务. 和 Github 强关联, 闭源代码使用 SaaS 还需考虑安全问题, 不可定制, 企业使用收费

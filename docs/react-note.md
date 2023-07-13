@@ -11,6 +11,8 @@ toc_max_heading_level: 5
 
 <div align="center">
 
+https://www.craft.me/s/bMJzbnjTRNBImx 设计教程资源
+
 
 https://github.com/7kms/react-illustration-series 图解
 
@@ -268,6 +270,9 @@ https://github.com/qiu-deqing/FE-interview , https://github.com/markyun/My-blog/
 
     asp .net 
       https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor
+
+css
+  tailwindcss: 搭配 https://tailblocks.cc/ 和 https://daisyui.com/
 
 ```
 

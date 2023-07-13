@@ -139,7 +139,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
   - [7.2. 集合](#72-集合)
 - [8. 编写命令行程序](#8-编写命令行程序)
   - [8.1. 命令行自动补全](#81-命令行自动补全)
-- [9. 类型系统](#9-类型系统)
+- [9. 类型系统 type-hint](#9-类型系统-type-hint)
 - [10. 调试](#10-调试)
   - [10.1. 断言](#101-断言)
   - [10.2. 设置断点 pdb](#102-设置断点-pdb)
@@ -183,6 +183,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [17.4.6. paramiko](#1746-paramiko)
   - [17.5. 部署 springboot](#175-部署-springboot)
 - [18. 开源库](#18-开源库)
+  - [变声 语音合成](#变声-语音合成)
   - [18.1. 系统运维](#181-系统运维)
   - [18.2. 声音](#182-声音)
   - [18.3. 图像](#183-图像)
@@ -191,6 +192,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
   - [web 框架](#web-框架)
 - [19. jython](#19-jython)
 - [20. 调用 rust](#20-调用-rust)
+- [cffi 绑定](#cffi-绑定)
 - [21. web应用部署](#21-web应用部署)
   - [21.1. 生成依赖清单](#211-生成依赖清单)
   - [21.2. gunicorn](#212-gunicorn)
@@ -2501,7 +2503,7 @@ https://www.cnblogs.com/lgh344902118/p/8521437.html
 
 
 
-# 9. 类型系统
+# 9. 类型系统 type-hint
 
 https://www.zhihu.com/question/265003581/answer/461562594
 https://zhuanlan.zhihu.com/p/56863684
@@ -3795,6 +3797,10 @@ TODO
 
 https://pypi.org/
 
+## 变声 语音合成
+
+https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI
+
 ## 18.1. 系统运维
 
 ```
@@ -3839,6 +3845,7 @@ flask  rest api
 
 https://github.com/pynecone-io/pynecone 纯 py 实现 web
 
+https://streamlit.io/       为脚本制作 ui 界面
 
 # 19. jython
 
@@ -3912,6 +3919,10 @@ https://blog.csdn.net/m0_37696990/article/details/96876692
 
 https://blog.csdn.net/muzico425/article/details/103331676
 
+
+# cffi 绑定
+
+https://github.com/yifeikong/curl_cffi 例子
 
 # 21. web应用部署
 

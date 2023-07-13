@@ -642,6 +642,7 @@ npm install -g yarn
 npm install === yarn
 npm uninstall === yarn remove
 npm install taco --save === yarn add taco
+npm install -g xxx === yarn global add xxx
 npm uninstall taco --save === yarn remove taco
 npm install taco --save-dev === yarn add taco --dev === yarn add -D taco
 npm update --save === yarn upgrade

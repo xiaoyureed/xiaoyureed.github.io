@@ -1709,7 +1709,7 @@ public class LockSupportDemo {
 
 ## 10.2. 线程复用-线程池
 
-类似数据路连接池
+类似数据库连接池
 
 jdk提供一套 Executor 框架, 本质就是一个 thread pool
 
