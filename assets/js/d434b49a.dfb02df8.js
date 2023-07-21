@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[121],{37588:function(a){a.exports=JSON.parse('{"label":"play","permalink":"/docs/tags/play","allTagsPath":"/docs/tags","count":1,"items":[{"id":"play-framework","title":"Play\u6846\u67b6","description":"https://www.playframework.com/getting-started","permalink":"/docs/play-framework"}]}')}}]);
