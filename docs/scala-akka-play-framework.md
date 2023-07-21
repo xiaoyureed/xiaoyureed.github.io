@@ -1,6 +1,6 @@
 ---
-title: Play框架
-tags: [play]
+title: Scala 语言
+tags: [play, akka, scala]
 date: 2023-03-20
 toc_min_heading_level: 2
 toc_max_heading_level: 5
@@ -12,35 +12,52 @@ https://developer.lightbend.com/start/?group=play
 
 <!-- more -->
 
-<!-- TOC -->
+- [scala](#scala)
+    - [brief intro for scala](#brief-intro-for-scala)
+- [scala-sql 库](#scala-sql-库)
+- [akka lib](#akka-lib)
+- [play framework](#play-framework)
+    - [brief intro for play](#brief-intro-for-play)
+        - [是什么](#是什么)
+        - [为什么使用](#为什么使用)
+    - [安装](#安装)
+        - [环境要求](#环境要求)
+        - [sbt 安装并配置国内镜像](#sbt-安装并配置国内镜像)
+    - [ide](#ide)
+    - [how to use](#how-to-use)
+        - [sbt usage](#sbt-usage)
+            - [sbt project layout](#sbt-project-layout)
+            - [sbt commands](#sbt-commands)
+            - [build.sbt](#buildsbt)
+            - [build.sbt 多项目](#buildsbt-多项目)
+            - [添加依赖库](#添加依赖库)
+            - [project 目录](#project-目录)
+                - [setup sbt version](#setup-sbt-version)
+                - [project/project 元构建](#projectproject-元构建)
+        - [project layout](#project-layout)
+    - [principle](#principle)
+        - [请求映射的原理](#请求映射的原理)
 
-- [intro](#intro)
-  - [是什么](#是什么)
-  - [为什么使用](#为什么使用)
-  - [安装](#安装)
-    - [环境要求](#环境要求)
-    - [sbt 安装并配置国内镜像](#sbt-安装并配置国内镜像)
-  - [ide](#ide)
-- [how to use](#how-to-use)
-  - [sbt usage](#sbt-usage)
-    - [sbt project layout](#sbt-project-layout)
-    - [sbt commands](#sbt-commands)
-    - [build.sbt](#buildsbt)
-    - [build.sbt 多项目](#buildsbt-多项目)
-    - [添加依赖库](#添加依赖库)
-    - [project 目录](#project-目录)
-      - [setup sbt version](#setup-sbt-version)
-      - [project/project 元构建](#projectproject-元构建)
-  - [project layout](#project-layout)
-- [principle](#principle)
-  - [请求映射的原理](#请求映射的原理)
-
-<!-- /TOC -->
 
 
-# intro
+## scala
 
-## 是什么
+### brief intro for scala
+
+```
+天然的线程安全
+
+```
+
+## scala-sql 库
+
+## akka lib
+
+## play framework
+
+### brief intro for play
+
+#### 是什么
 
 https://github.com/playframework/playframework
 
@@ -56,7 +73,7 @@ web 全栈开发框架, 类似 Ruby on Rails
 
 play1.x 基于 java 开发, play2.x 基于 Scala 开发. 使用时, 可以用 Scala , 也能够使用 java
 
-## 为什么使用
+#### 为什么使用
 
 
 - 非阻塞, 纯异步, 类比
@@ -66,9 +83,9 @@ play1.x 基于 java 开发, play2.x 基于 Scala 开发. 使用时, 可以用 Sc
 - hot reload
 - trirl model engine (简单, 类型安全, 错误信息显示在页面)
 
-## 安装
+### 安装
 
-### 环境要求
+#### 环境要求
 
 ```
 jdk8
@@ -79,7 +96,7 @@ idea need Scala plugin
 
 ```
 
-### sbt 安装并配置国内镜像
+#### sbt 安装并配置国内镜像
 
 自行在 /conf 目录下创建一个 repo.properties 文件，更改镜像地址。有些论坛还会带上 maven-central 行，这会导致 sbt 仍然优先从 maven 仓库下载文件，所以需要将这行去除。sbt 在寻找依赖时，会依次按配置顺序从镜像中下载依赖。
 
@@ -93,17 +110,17 @@ mvn: https://repo1.maven.org/maven2/
 sbt-plugin-repo: https://repo.scala-sbt.org/scalasbt/sbt-plugin-releases, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]
 ```
 
-## ide
+### ide
 
 idea + scala plugin
 
 不推荐 vscode + scala-lang.scala / scalameta.metals / dragos.scala-lsp + lightbend.vscode-sbt-scala
 
-# how to use
+### how to use
 
-## sbt usage
+#### sbt usage
 
-### sbt project layout
+##### sbt project layout
 
 sbt 和 Maven 的默认的源文件的目录结构是一样的
 
@@ -135,7 +152,7 @@ target/
 lib/
 ```
 
-### sbt commands
+##### sbt commands
 
 ```sh
 # enter sbt interactive mode
@@ -183,7 +200,7 @@ sbt clean compile "testOnly TestA TestB"
 
 ```
 
-### build.sbt
+##### build.sbt
 
 sbt 的构建脚本, 一般位于 proj root, 命名为 build.sbt 和 Build.scala只是惯例
 
@@ -199,7 +216,7 @@ lazy val root = (project in file("."))
   )
 ```
 
-### build.sbt 多项目
+##### build.sbt 多项目
 
 
 ```go
@@ -243,7 +260,7 @@ lazy val util = (project in file("util"))
 
 
 
-### 添加依赖库
+##### 添加依赖库
 
 一种是将 jar 文件 放入 lib/（非托管的依赖）中，
 
@@ -263,10 +280,10 @@ lazy val root = (project in file("."))
   )
 ```
 
-### project 目录
+##### project 目录
 
 
-#### setup sbt version
+###### setup sbt version
 
 位于 `$root/project/build.properties`, 强制指定一个版本的 sbt
 
@@ -275,7 +292,7 @@ sbt.version=1.6.2
 
 ```
 
-#### project/project 元构建
+###### project/project 元构建
 
 ```go
 hello/                  # 项目的基目录
@@ -333,7 +350,7 @@ lazy val backend = (project in file("backend"))
 
 
 
-## project layout
+#### project layout
 
 ```
 app                      → Application sources
@@ -372,8 +389,8 @@ test                     → source folder for unit or functional tests
 ```
 
 
-# principle
+### principle
 
-## 请求映射的原理
+#### 请求映射的原理
 
 浏览器内输入 url 请求某服务器上的 Play2 服务（默认是 9000 端口）。程序会去 routes 文件中根据 url 映射到 controllers 文件夹下的指定 Controller 的方法去执行, 示例：用户输入 localhost:9000/doLogin，该请求被转发到 controllers.LoginController.doLogin 去处理

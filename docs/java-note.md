@@ -30,186 +30,183 @@ https://github.com/Snailclimb/awesome-java#%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F 
 
 <!--more-->
 
-<!-- TOC -->
-
 - [1. 各个版本](#1-各个版本)
 - [2. 注释](#2-注释)
 - [3. 反射(reflect)](#3-反射reflect)
-  - [3.1. 反射的 api](#31-反射的-api)
-  - [3.2. 实现事件驱动机制](#32-实现事件驱动机制)
+    - [3.1. 反射的 api](#31-反射的-api)
+    - [3.2. 实现事件驱动机制](#32-实现事件驱动机制)
 - [4. java 并发-多线程](#4-java-并发-多线程)
 - [5. 集合](#5-集合)
-  - [5.1. 集合的体系](#51-集合的体系)
-  - [5.2. 读源码](#52-读源码)
-    - [5.2.1. 数组和链表区别](#521-数组和链表区别)
-    - [5.2.2. 单链表和双链表区别](#522-单链表和双链表区别)
-    - [5.2.3. HashMap](#523-hashmap)
-    - [5.2.4. HashSet](#524-hashset)
-    - [5.2.5. HashTable](#525-hashtable)
-    - [5.2.6. LinkedHashMap](#526-linkedhashmap)
-    - [5.2.7. TreeMap](#527-treemap)
-    - [5.2.8. LindedHashSet](#528-lindedhashset)
-    - [5.2.9. ArrayList 和 Vector](#529-arraylist-和-vector)
-    - [5.2.10. LinkedList](#5210-linkedlist)
-    - [5.2.11. ConcurrentHashMap](#5211-concurrenthashmap)
-  - [5.3. Collections 和 Arrays 工具类](#53-collections-和-arrays-工具类)
-  - [5.4. 集合排序](#54-集合排序)
+    - [5.1. 集合的体系](#51-集合的体系)
+    - [5.2. 读源码](#52-读源码)
+        - [5.2.1. 数组和链表区别](#521-数组和链表区别)
+        - [5.2.2. 单链表和双链表区别](#522-单链表和双链表区别)
+        - [5.2.3. HashMap](#523-hashmap)
+        - [5.2.4. HashSet](#524-hashset)
+        - [5.2.5. HashTable](#525-hashtable)
+        - [5.2.6. LinkedHashMap](#526-linkedhashmap)
+        - [5.2.7. TreeMap](#527-treemap)
+        - [5.2.8. LindedHashSet](#528-lindedhashset)
+        - [5.2.9. ArrayList 和 Vector](#529-arraylist-和-vector)
+        - [5.2.10. LinkedList](#5210-linkedlist)
+        - [5.2.11. ConcurrentHashMap](#5211-concurrenthashmap)
+    - [5.3. Collections 和 Arrays 工具类](#53-collections-和-arrays-工具类)
+    - [5.4. 集合排序](#54-集合排序)
 - [6. 泛型](#6-泛型)
-  - [6.1. 泛型方法-泛型类-泛型接口](#61-泛型方法-泛型类-泛型接口)
-  - [6.2. 泛型反射](#62-泛型反射)
-    - [6.2.1. 泛型反射 api](#621-泛型反射-api)
-    - [6.2.2. 案例-优化 BaseDao](#622-案例-优化-basedao)
+    - [6.1. 泛型方法-泛型类-泛型接口](#61-泛型方法-泛型类-泛型接口)
+    - [6.2. 泛型反射](#62-泛型反射)
+        - [6.2.1. 泛型反射 api](#621-泛型反射-api)
+        - [6.2.2. 案例-优化 BaseDao](#622-案例-优化-basedao)
 - [7. 注解](#7-注解)
-  - [7.1. 语法](#71-语法)
-  - [7.2. 元注解](#72-元注解)
-  - [7.3. 注解反射](#73-注解反射)
-  - [7.4. 看一个例子(优化 dao-解决字段和属性不一致)](#74-看一个例子优化-dao-解决字段和属性不一致)
-    - [7.4.1. 通过注解优化 JavaBean](#741-通过注解优化-javabean)
-    - [7.4.2. 泛型反射优化 BaseDao](#742-泛型反射优化-basedao)
-    - [7.4.3. 自定义结果集 handler](#743-自定义结果集-handler)
+    - [7.1. 语法](#71-语法)
+    - [7.2. 元注解](#72-元注解)
+    - [7.3. 注解反射 相关的方法](#73-注解反射-相关的方法)
+    - [7.4. 看一个例子(优化 dao-解决字段和属性不一致)](#74-看一个例子优化-dao-解决字段和属性不一致)
+        - [7.4.1. 通过注解优化 JavaBean](#741-通过注解优化-javabean)
+        - [7.4.2. 泛型反射优化 BaseDao](#742-泛型反射优化-basedao)
+        - [7.4.3. 自定义结果集 handler](#743-自定义结果集-handler)
 - [8. io](#8-io)
-  - [8.1. io总结](#81-io总结)
-  - [8.2. socket 网络编程](#82-socket-网络编程)
-  - [8.3. 阻塞 io](#83-阻塞-io)
-    - [8.3.1. 什么是阻塞 io](#831-什么是阻塞-io)
-    - [8.3.2. io 体系的整个概览](#832-io-体系的整个概览)
-    - [8.3.3. Paths 和 Files 相关 api](#833-paths-和-files-相关-api)
-      - [8.3.3.1. Paths 的获取转化](#8331-paths-的获取转化)
-      - [8.3.3.2. 通过 Files Paths 读取写入](#8332-通过-files-paths-读取写入)
-      - [8.3.3.3. 遍历文件夹](#8333-遍历文件夹)
-      - [8.3.3.4. 通过 files 获取文件属性](#8334-通过-files-获取文件属性)
-    - [8.3.4. bio tcp 实现通信](#834-bio-tcp-实现通信)
-  - [8.4. 非阻塞 io](#84-非阻塞-io)
-    - [8.4.1. 什么是非阻塞 io](#841-什么是非阻塞-io)
-    - [8.4.2. 同步异步和阻塞非阻塞](#842-同步异步和阻塞非阻塞)
-      - [8.4.2.1. 同步与异步](#8421-同步与异步)
-      - [8.4.2.2. 阻塞与非阻塞](#8422-阻塞与非阻塞)
-      - [8.4.2.3. 四种组合](#8423-四种组合)
-  - [8.5. 多路复用 IO 即 java nio](#85-多路复用-io-即-java-nio)
-    - [8.5.1. 解释多路复用](#851-解释多路复用)
-    - [8.5.2. nio 和 io 区别](#852-nio-和-io-区别)
-    - [8.5.3. Linux 中的多路复用支持](#853-linux-中的多路复用支持)
-    - [8.5.4. 核心组件](#854-核心组件)
-      - [8.5.4.1. 理解](#8541-理解)
-      - [8.5.4.2. Channels](#8542-channels)
-      - [8.5.4.3. Buffers](#8543-buffers)
-      - [8.5.4.4. Selectors](#8544-selectors)
-    - [8.5.5. nio 实现网络通信](#855-nio-实现网络通信)
-  - [8.6. java aio](#86-java-aio)
-  - [8.7. 断点续传](#87-断点续传)
+    - [8.1. io总结](#81-io总结)
+    - [8.2. socket 网络编程](#82-socket-网络编程)
+    - [8.3. 阻塞 io](#83-阻塞-io)
+        - [8.3.1. 什么是阻塞 io](#831-什么是阻塞-io)
+        - [8.3.2. io 体系的整个概览](#832-io-体系的整个概览)
+        - [8.3.3. Paths 和 Files 相关 api](#833-paths-和-files-相关-api)
+            - [8.3.3.1. Paths 的获取转化](#8331-paths-的获取转化)
+            - [8.3.3.2. 通过 Files Paths 读取写入](#8332-通过-files-paths-读取写入)
+            - [8.3.3.3. 遍历文件夹](#8333-遍历文件夹)
+            - [8.3.3.4. 通过 files 获取文件属性](#8334-通过-files-获取文件属性)
+        - [8.3.4. bio tcp 实现通信](#834-bio-tcp-实现通信)
+    - [8.4. 非阻塞 io](#84-非阻塞-io)
+        - [8.4.1. 什么是非阻塞 io](#841-什么是非阻塞-io)
+        - [8.4.2. 同步异步和阻塞非阻塞](#842-同步异步和阻塞非阻塞)
+            - [8.4.2.1. 同步与异步](#8421-同步与异步)
+            - [8.4.2.2. 阻塞与非阻塞](#8422-阻塞与非阻塞)
+            - [8.4.2.3. 四种组合](#8423-四种组合)
+    - [8.5. 多路复用 IO 即 java nio](#85-多路复用-io-即-java-nio)
+        - [8.5.1. 解释多路复用](#851-解释多路复用)
+        - [8.5.2. nio 和 io 区别](#852-nio-和-io-区别)
+        - [8.5.3. Linux 中的多路复用支持](#853-linux-中的多路复用支持)
+        - [8.5.4. 核心组件](#854-核心组件)
+            - [8.5.4.1. 理解](#8541-理解)
+            - [8.5.4.2. Channels](#8542-channels)
+            - [8.5.4.3. Buffers](#8543-buffers)
+            - [8.5.4.4. Selectors](#8544-selectors)
+        - [8.5.5. nio 实现网络通信](#855-nio-实现网络通信)
+    - [8.6. java aio](#86-java-aio)
+    - [8.7. 断点续传](#87-断点续传)
 - [9. 代理](#9-代理)
 - [10. Java 内存模型](#10-java-内存模型)
 - [11. java8](#11-java8)
-  - [11.1. 函数式编程的概念(FP)](#111-函数式编程的概念fp)
-  - [11.2. Java8 添加的新特性](#112-java8-添加的新特性)
-    - [11.2.1. 接口默认方法](#1121-接口默认方法)
-    - [11.2.2. @FunctionalInterface-函数接口](#1122-functionalinterface-函数接口)
-    - [11.2.3. 方法的引用](#1123-方法的引用)
-    - [11.2.4. Lambda 表达式](#1124-lambda-表达式)
-      - [11.2.4.1. lambda 介绍](#11241-lambda-介绍)
-      - [11.2.4.2. Lambda 作用域问题](#11242-lambda-作用域问题)
-        - [11.2.4.2.1. 访问局部变量](#112421-访问局部变量)
-        - [11.2.4.2.2. 访问成员变量](#112422-访问成员变量)
-        - [11.2.4.2.3. 访问默认接口方法](#112423-访问默认接口方法)
-  - [11.3. java8 中的并行流](#113-java8-中的并行流)
-    - [11.3.1. 使用并行过滤数据](#1131-使用并行过滤数据)
-    - [11.3.2. 从集合得到并行流](#1132-从集合得到并行流)
-    - [11.3.3. 并行排序-给数组赋值](#1133-并行排序-给数组赋值)
-  - [11.4. CompletableFuture 接口-增强的 Future](#114-completablefuture-接口-增强的-future)
-    - [11.4.1. java 异步编程](#1141-java-异步编程)
-    - [11.4.2. 原理介绍](#1142-原理介绍)
-    - [11.4.3. completablefuture api](#1143-completablefuture-api)
-    - [11.4.4. 完成了就通知我-手动填充结果](#1144-完成了就通知我-手动填充结果)
-    - [11.4.5. 异步执行任务](#1145-异步执行任务)
-    - [11.4.6. 流式调用组合多个 function 和 异常处理](#1146-流式调用组合多个-function-和-异常处理)
-    - [11.4.7. 组合多个 CompletableFuture](#1147-组合多个-completablefuture)
-  - [11.5. StampedLock-读写锁的改进](#115-stampedlock-读写锁的改进)
-  - [11.6. LongAdder-原子类的增强](#116-longadder-原子类的增强)
-  - [11.7. java8 内置函数式接口](#117-java8-内置函数式接口)
-    - [11.7.1. Predicates(谓词, 断定)](#1171-predicates谓词-断定)
-    - [11.7.2. Functions(函数)](#1172-functions函数)
-    - [11.7.3. Suppliers(生产者)](#1173-suppliers生产者)
-    - [11.7.4. Consumers(消费者)](#1174-consumers消费者)
-    - [11.7.5. Comparators(比较器)](#1175-comparators比较器)
-    - [11.7.6. Optional](#1176-optional)
-  - [11.8. Streams(管道)](#118-streams管道)
-    - [11.8.1. stream 介绍](#1181-stream-介绍)
-    - [11.8.2. 重复使用 stream](#1182-重复使用-stream)
-    - [11.8.3. map 和 flatMap](#1183-map-和-flatmap)
-    - [11.8.4. 去重](#1184-去重)
-    - [11.8.5. collect方法 如何收集处理后的元素 分组 去重](#1185-collect方法-如何收集处理后的元素-分组-去重)
-    - [11.8.6. stream 中异常处理](#1186-stream-中异常处理)
-  - [11.9. date 时间日期新的 api](#119-date-时间日期新的-api)
-    - [11.9.1. 介绍-为什么使用](#1191-介绍-为什么使用)
-    - [11.9.2. 使用新的时间日期 api](#1192-使用新的时间日期-api)
-    - [11.9.3. 统计代码耗时](#1193-统计代码耗时)
-  - [11.10. 可重复的 Annotations](#1110-可重复的-annotations)
-  - [11.11. base64 编码](#1111-base64-编码)
-  - [11.12. map 映射的新方法](#1112-map-映射的新方法)
+    - [11.1. 函数式编程的概念(FP)](#111-函数式编程的概念fp)
+    - [11.2. Java8 添加的新特性](#112-java8-添加的新特性)
+        - [11.2.1. 接口默认方法](#1121-接口默认方法)
+        - [11.2.2. @FunctionalInterface-函数接口](#1122-functionalinterface-函数接口)
+        - [11.2.3. 方法的引用](#1123-方法的引用)
+        - [11.2.4. Lambda 表达式](#1124-lambda-表达式)
+            - [11.2.4.1. lambda 介绍](#11241-lambda-介绍)
+            - [11.2.4.2. Lambda 作用域问题](#11242-lambda-作用域问题)
+                - [11.2.4.2.1. 访问局部变量](#112421-访问局部变量)
+                - [11.2.4.2.2. 访问成员变量](#112422-访问成员变量)
+                - [11.2.4.2.3. 访问默认接口方法](#112423-访问默认接口方法)
+    - [11.3. java8 中的并行流](#113-java8-中的并行流)
+        - [11.3.1. 使用并行过滤数据](#1131-使用并行过滤数据)
+        - [11.3.2. 从集合得到并行流](#1132-从集合得到并行流)
+        - [11.3.3. 并行排序-给数组赋值](#1133-并行排序-给数组赋值)
+    - [11.4. CompletableFuture 接口-增强的 Future](#114-completablefuture-接口-增强的-future)
+        - [11.4.1. java 异步编程](#1141-java-异步编程)
+        - [11.4.2. 原理介绍](#1142-原理介绍)
+        - [11.4.3. completablefuture api](#1143-completablefuture-api)
+        - [11.4.4. 完成了就通知我-手动填充结果](#1144-完成了就通知我-手动填充结果)
+        - [11.4.5. 异步执行任务](#1145-异步执行任务)
+        - [11.4.6. 流式调用组合多个 function 和 异常处理](#1146-流式调用组合多个-function-和-异常处理)
+        - [11.4.7. 组合多个 CompletableFuture](#1147-组合多个-completablefuture)
+    - [11.5. StampedLock-读写锁的改进](#115-stampedlock-读写锁的改进)
+    - [11.6. LongAdder-原子类的增强](#116-longadder-原子类的增强)
+    - [11.7. java8 内置函数式接口](#117-java8-内置函数式接口)
+        - [11.7.1. Predicates(谓词, 断定)](#1171-predicates谓词-断定)
+        - [11.7.2. Functions(函数)](#1172-functions函数)
+        - [11.7.3. Suppliers(生产者)](#1173-suppliers生产者)
+        - [11.7.4. Consumers(消费者)](#1174-consumers消费者)
+        - [11.7.5. Comparators(比较器)](#1175-comparators比较器)
+        - [11.7.6. Optional](#1176-optional)
+    - [11.8. Streams(管道)](#118-streams管道)
+        - [11.8.1. stream 介绍](#1181-stream-介绍)
+        - [11.8.2. 重复使用 stream](#1182-重复使用-stream)
+        - [11.8.3. map 和 flatMap](#1183-map-和-flatmap)
+        - [11.8.4. 去重](#1184-去重)
+        - [11.8.5. collect方法 如何收集处理后的元素 分组 去重](#1185-collect方法-如何收集处理后的元素-分组-去重)
+        - [11.8.6. stream 中异常处理](#1186-stream-中异常处理)
+    - [11.9. date 时间日期新的 api](#119-date-时间日期新的-api)
+        - [11.9.1. 介绍-为什么使用](#1191-介绍-为什么使用)
+        - [11.9.2. 使用新的时间日期 api](#1192-使用新的时间日期-api)
+        - [11.9.3. 统计代码耗时](#1193-统计代码耗时)
+    - [11.10. 可重复的 Annotations](#1110-可重复的-annotations)
+    - [11.11. base64 编码](#1111-base64-编码)
+    - [11.12. map 映射的新方法](#1112-map-映射的新方法)
 - [12. java11](#12-java11)
-  - [12.1. java module](#121-java-module)
-  - [12.2. jshell](#122-jshell)
-  - [12.3. var 类型推断](#123-var-类型推断)
-  - [12.4. jdk api enhencement](#124-jdk-api-enhencement)
-  - [12.5. 改进 java 程序在 docker 中的表现](#125-改进-java-程序在-docker-中的表现)
-  - [12.6. 新的垃圾回收器](#126-新的垃圾回收器)
+    - [12.1. java module](#121-java-module)
+    - [12.2. jshell](#122-jshell)
+    - [12.3. var 类型推断](#123-var-类型推断)
+    - [12.4. jdk api enhencement](#124-jdk-api-enhencement)
+    - [12.5. 改进 java 程序在 docker 中的表现](#125-改进-java-程序在-docker-中的表现)
+    - [12.6. 新的垃圾回收器](#126-新的垃圾回收器)
 - [13. java17](#13-java17)
-  - [13.1. record class](#131-record-class)
+    - [13.1. record class](#131-record-class)
 - [14. classloader 类加载器](#14-classloader-类加载器)
-  - [14.1. classloader 的概念](#141-classloader-的概念)
-  - [14.2. 层级结构](#142-层级结构)
-  - [14.3. 工作过程 and 双亲委派模式](#143-工作过程-and-双亲委派模式)
-  - [14.4. 线程上下文类加载器-打乱层级结构](#144-线程上下文类加载器-打乱层级结构)
-  - [14.5. 借助 classloader 实现类隔离](#145-借助-classloader-实现类隔离)
-  - [14.6. 类加载相关的异常](#146-类加载相关的异常)
-  - [14.7. 自定义 classloader(加载网络上的 class)](#147-自定义-classloader加载网络上的-class)
+    - [14.1. classloader 的概念](#141-classloader-的概念)
+    - [14.2. 层级结构](#142-层级结构)
+    - [14.3. 工作过程 and 双亲委派模式](#143-工作过程-and-双亲委派模式)
+    - [14.4. 线程上下文类加载器-打乱层级结构](#144-线程上下文类加载器-打乱层级结构)
+    - [14.5. 借助 classloader 实现类隔离](#145-借助-classloader-实现类隔离)
+    - [14.6. 类加载相关的异常](#146-类加载相关的异常)
+    - [14.7. 自定义 classloader(加载网络上的 class)](#147-自定义-classloader加载网络上的-class)
 - [15. 路径问题](#15-路径问题)
-  - [15.1. 获取 classpath 和 系统属性 环境变量](#151-获取-classpath-和-系统属性-环境变量)
+    - [15.1. 获取 classpath 和 系统属性 环境变量](#151-获取-classpath-和-系统属性-环境变量)
 - [16. 数据类型](#16-数据类型)
-  - [16.1. 各个数据类型的范围](#161-各个数据类型的范围)
-  - [16.2. double 类型的加减乘除](#162-double-类型的加减乘除)
+    - [16.1. 各个数据类型的范围](#161-各个数据类型的范围)
+    - [16.2. double 类型的加减乘除](#162-double-类型的加减乘除)
 - [17. 控制台命令](#17-控制台命令)
-  - [17.1. 打 jar 包](#171-打-jar-包)
-  - [17.2. 生成注释文档 javadoc](#172-生成注释文档-javadoc)
-  - [17.3. 编译和反编译](#173-编译和反编译)
+    - [17.1. 打 jar 包](#171-打-jar-包)
+    - [17.2. 生成注释文档 javadoc](#172-生成注释文档-javadoc)
+    - [17.3. 编译和反编译](#173-编译和反编译)
 - [18. 重要的对象](#18-重要的对象)
-  - [18.1. Object](#181-object)
-  - [18.2. String](#182-string)
+    - [18.1. Object](#181-object)
+    - [18.2. String](#182-string)
 - [19. 字节码编辑技术](#19-字节码编辑技术)
-  - [19.1. javassist](#191-javassist)
+    - [19.1. javassist](#191-javassist)
 - [20. 前沿](#20-前沿)
-  - [20.1. graalvm](#201-graalvm)
-  - [20.2. vertx](#202-vertx)
-  - [20.3. Micronaut](#203-micronaut)
-  - [20.4. Quarkus](#204-quarkus)
+    - [20.1. graalvm](#201-graalvm)
+    - [20.2. vertx](#202-vertx)
+    - [20.3. Micronaut](#203-micronaut)
+    - [20.4. Quarkus](#204-quarkus)
 - [21. 拾遗](#21-拾遗)
-  - [class 对象方法](#class-对象方法)
-  - [21.1. 正则表达式 regex](#211-正则表达式-regex)
-  - [21.2. 静态绑定和动态绑定](#212-静态绑定和动态绑定)
-  - [21.3. 重载 and 重写](#213-重载-and-重写)
-  - [21.4. java 值传递 or 引用传递](#214-java-值传递-or-引用传递)
-  - [21.5. 访问修饰符 public-protect-default-private](#215-访问修饰符-public-protect-default-private)
-  - [21.6. getcontextclassloader\&getclassloader 区别](#216-getcontextclassloadergetclassloader-区别)
-  - [21.7. getter 和 setter 存在的意义](#217-getter-和-setter-存在的意义)
-  - [21.8. 为什么 service 只有一个实现也需要一个接口](#218-为什么-service-只有一个实现也需要一个接口)
-  - [21.9. static 关键字](#219-static-关键字)
-  - [21.10. 内部类 or 静态内部类](#2110-内部类-or-静态内部类)
-    - [21.10.1. 内部类](#21101-内部类)
-    - [21.10.2. 静态内部类](#21102-静态内部类)
-  - [21.11. Java 类初始化顺序](#2111-java-类初始化顺序)
-  - [21.12. Random-随机数](#2112-random-随机数)
-  - [21.13. 位运算](#2113-位运算)
-  - [21.14. 为什么包名都小写](#2114-为什么包名都小写)
-  - [21.15. 处理 unicode 编码问题](#2115-处理-unicode-编码问题)
-  - [21.16. 为什么成员变量再次赋值给局部变量](#2116-为什么成员变量再次赋值给局部变量)
-  - [21.17. 为什么定义成员变量不用赋值而定义局部变量必须赋值](#2117-为什么定义成员变量不用赋值而定义局部变量必须赋值)
+    - [class 相关的方法](#class-相关的方法)
+    - [21.1. 正则表达式 regex](#211-正则表达式-regex)
+    - [21.2. 静态绑定和动态绑定](#212-静态绑定和动态绑定)
+    - [21.3. 重载 and 重写](#213-重载-and-重写)
+    - [21.4. java 值传递 or 引用传递](#214-java-值传递-or-引用传递)
+    - [21.5. 访问修饰符 public-protect-default-private](#215-访问修饰符-public-protect-default-private)
+    - [21.6. getcontextclassloader\&getclassloader 区别](#216-getcontextclassloadergetclassloader-区别)
+    - [21.7. getter 和 setter 存在的意义](#217-getter-和-setter-存在的意义)
+    - [21.8. 为什么 service 只有一个实现也需要一个接口](#218-为什么-service-只有一个实现也需要一个接口)
+    - [21.9. static 关键字](#219-static-关键字)
+    - [21.10. 内部类 or 静态内部类](#2110-内部类-or-静态内部类)
+        - [21.10.1. 内部类](#21101-内部类)
+        - [21.10.2. 静态内部类](#21102-静态内部类)
+    - [21.11. Java 类初始化顺序](#2111-java-类初始化顺序)
+    - [21.12. Random-随机数](#2112-random-随机数)
+    - [21.13. 位运算](#2113-位运算)
+    - [21.14. 为什么包名都小写](#2114-为什么包名都小写)
+    - [21.15. 处理 unicode 编码问题](#2115-处理-unicode-编码问题)
+    - [21.16. 为什么成员变量再次赋值给局部变量](#2116-为什么成员变量再次赋值给局部变量)
+    - [21.17. 为什么定义成员变量不用赋值而定义局部变量必须赋值](#2117-为什么定义成员变量不用赋值而定义局部变量必须赋值)
 - [22. 开源项目](#22-开源项目)
-  - [22.1. 博客 cms 系统](#221-博客-cms-系统)
-  - [22.2. 假数据 fake dummy data](#222-假数据-fake-dummy-data)
-  - [支付](#支付)
+    - [22.1. 博客 cms 系统](#221-博客-cms-系统)
+    - [22.2. 假数据 fake dummy data](#222-假数据-fake-dummy-data)
+    - [支付](#支付)
 - [23. java agent](#23-java-agent)
 
-<!-- /TOC -->
 
 # 1. 各个版本
 
@@ -1536,7 +1533,6 @@ public class BaseDao<T> {
 
 # 7. 注解
 
-https://blog.csdn.net/briblue/article/details/73824058
 
 ## 7.1. 语法
 
@@ -1554,7 +1550,7 @@ https://blog.csdn.net/briblue/article/details/73824058
 
 -   以上类型的数组
 
-注解本身不支持继承, 但是注解的属性可以是另外一个注解(注解数组), 而且注解有一个 一个元注解 @Inherited
+注解本身不支持继承, 但是注解的属性可以是另外一个注解(注解数组), 而且注解有一个元注解 @Inherited
 
 ```java
 /**
@@ -1702,7 +1698,7 @@ CONSTRUCTOR, 构造器
 
 ```
 
-## 7.3. 注解反射
+## 7.3. 注解反射 相关的方法
 
 ```java
 // 注解反射要设置注解在运行时有效，即：在创建注解时加上： @Retention(RetentionPolicy.RUNTIME)   注解在运行时期有效
@@ -1722,6 +1718,25 @@ public void save() throws Exception {
 }
 
 
+// 获取类上的注解
+Class.getAnnotations() 获取所有的注解，包括自己声明的以及继承的
+Class.getAnnotation(Class< A > annotationClass) 获取指定的注解，该注解可以是自己声明的，也可以是继承的
+Class.getDeclaredAnnotations() 获取自己声明的注解
+
+
+// 如果类被代理，如何获取到类的注解呢？
+正常情况下，我们的class是 com.cxytiandi.eureka_client.controller.ArticleController这种形式，如果用了AOP后，那么就会变成 com.cxytiandi.eureka_client.controller.ArticleController$$EnhancerBySpringCGLIB$$3323dd1e这样了。
+方法 1: 
+    Class.forname(proxyBean.getClass.getName.substring(0, fullName.indexOf("$$"));) 获取到原始类对象
+方法 2:
+    spring 提供了 AnnotationUtils.findAnnotation(method, Encrypt.class); //获取到被代理后方法上的注解
+
+
+
+
+// 获取被某注解标注的所有类/方法
+https://blog.csdn.net/qq_27471405/article/details/129409703
+https://blog.csdn.net/qq_25619143/article/details/120923915
 ```
 
 ## 7.4. 看一个例子(优化 dao-解决字段和属性不一致)
@@ -5335,14 +5350,39 @@ https://zhuanlan.zhihu.com/p/106555993
 
 # 21. 拾遗
 
-## class 对象方法
+## class 相关的方法
 
 ```java
 A.isAssignableFrom(B)
     判断 A 和 B 是否同一个类对象
-    判断 A 是否是 B 的父类 (不管中间隔了几层)
+    判断 A 是否是 B 的父类/父接口 (不管中间隔了几层)
 
+instanceof
+        object instanceof TypeName    判断一个对象是否是一个类及其子类或接口及其子接口的的实例
 
+Class.isInstance(obj)   检查给定对象是否是该类对象的实例。   
+
+通过泛型获取类型信息:
+https://blog.csdn.net/changsa65/article/details/78790881
+    public class Main{
+        public static void main(String[] args)
+        {
+            Foo<String> foo = new Foo<String>(){};
+            // 在类的外部这样获取
+            Type type = ((ParameterizedType)foo.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+            System.out.println(type); // class java.lang.String
+            // 在类的内部这样获取
+            System.out.println(foo.getTClass()); // class java.lang.String
+        }
+    }
+
+    abstract class Foo<T>{
+        public Class<T> getTClass()
+        {
+            Class<T> tClass = (Class<T>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+            return tClass;
+        }
+    }
 ```
 
 ## 21.1. 正则表达式 regex

@@ -21,77 +21,78 @@ https://blog.csdn.net/jiaowo_ccc/article/details/93893715 usage scenario
 - [1. 总结](#1-总结)
 - [2. mq 是什么](#2-mq-是什么)
 - [3. 为什么使用mq-优缺点](#3-为什么使用mq-优缺点)
-  - [3.1. 带来的好处](#31-带来的好处)
-  - [3.2. 引入mq带来的问题-怎么解决](#32-引入mq带来的问题-怎么解决)
-    - [3.2.1. 解决高可用问题](#321-解决高可用问题)
-    - [3.2.2. 解决消息传递可靠性](#322-解决消息传递可靠性)
-      - [3.2.2.1. 如何防止重复消费](#3221-如何防止重复消费)
-      - [3.2.2.2. 如何防止消息丢失](#3222-如何防止消息丢失)
-      - [3.2.2.3. 如何保证消息顺序](#3223-如何保证消息顺序)
-      - [3.2.2.4. 如何防止消息的大量积压](#3224-如何防止消息的大量积压)
-      - [3.2.2.5. 如何防止消息过期失效](#3225-如何防止消息过期失效)
-      - [3.2.2.6. 如何保证分布式最终一致性](#3226-如何保证分布式最终一致性)
+    - [3.1. 带来的好处](#31-带来的好处)
+    - [3.2. 引入mq带来的问题-怎么解决](#32-引入mq带来的问题-怎么解决)
+        - [3.2.1. 解决高可用问题](#321-解决高可用问题)
+        - [3.2.2. 解决消息传递可靠性](#322-解决消息传递可靠性)
+            - [3.2.2.1. 如何防止重复消费](#3221-如何防止重复消费)
+            - [3.2.2.2. 如何防止消息丢失](#3222-如何防止消息丢失)
+            - [3.2.2.3. 如何保证消息顺序](#3223-如何保证消息顺序)
+            - [3.2.2.4. 如何防止消息的大量积压](#3224-如何防止消息的大量积压)
+            - [3.2.2.5. 如何防止消息过期失效](#3225-如何防止消息过期失效)
+            - [3.2.2.6. 如何保证分布式最终一致性](#3226-如何保证分布式最终一致性)
 - [4. 有哪些产品可供选择-选型](#4-有哪些产品可供选择-选型)
 - [5. RabbitMQ](#5-rabbitmq)
-  - [5.1. AMQP协议](#51-amqp协议)
-    - [5.1.1. 概念](#511-概念)
-    - [5.1.2. 工作过程](#512-工作过程)
-    - [5.1.3. 消息确认](#513-消息确认)
-  - [5.2. 基本介绍](#52-基本介绍)
-  - [5.3. 几种消息模型](#53-几种消息模型)
-    - [5.3.1. hello-world](#531-hello-world)
-    - [5.3.2. worker-queue](#532-worker-queue)
-    - [5.3.3. 发布订阅](#533-发布订阅)
-    - [5.3.4. rpc](#534-rpc)
-  - [5.4. 使用 rabbit](#54-使用-rabbit)
-    - [5.4.1. 消息的序列化](#541-消息的序列化)
-    - [5.4.2. 发送](#542-发送)
-    - [5.4.3. 接收](#543-接收)
-    - [5.4.4. 持久化](#544-持久化)
-    - [5.4.5. 消息确认机制-手动确认-回调](#545-消息确认机制-手动确认-回调)
-      - [5.4.5.1. 消息发送确认](#5451-消息发送确认)
-      - [5.4.5.2. 消息消费确认](#5452-消息消费确认)
-    - [5.4.6. 使用 amqpAdmin 集中配置 rabbitmq](#546-使用-amqpadmin-集中配置-rabbitmq)
+    - [5.1. AMQP协议](#51-amqp协议)
+        - [5.1.1. 概念](#511-概念)
+        - [5.1.2. 工作过程](#512-工作过程)
+        - [5.1.3. 消息确认](#513-消息确认)
+    - [5.2. 基本介绍](#52-基本介绍)
+    - [5.3. 几种消息模型](#53-几种消息模型)
+        - [5.3.1. hello-world](#531-hello-world)
+        - [5.3.2. worker-queue](#532-worker-queue)
+        - [5.3.3. 发布订阅](#533-发布订阅)
+        - [5.3.4. rpc](#534-rpc)
+    - [5.4. 使用 rabbit](#54-使用-rabbit)
+        - [5.4.1. 消息的序列化](#541-消息的序列化)
+        - [5.4.2. 发送](#542-发送)
+        - [5.4.3. 接收](#543-接收)
+        - [5.4.4. 持久化](#544-持久化)
+        - [5.4.5. 消息确认机制-手动确认-回调](#545-消息确认机制-手动确认-回调)
+            - [5.4.5.1. 消息发送确认](#5451-消息发送确认)
+            - [5.4.5.2. 消息消费确认](#5452-消息消费确认)
+        - [5.4.6. 使用 amqpAdmin 集中配置 rabbitmq](#546-使用-amqpadmin-集中配置-rabbitmq)
 - [6. kafka](#6-kafka)
-  - [6.1. kafka 基本概念](#61-kafka-基本概念)
-    - [6.1.1. 逻辑架构](#611-逻辑架构)
-    - [6.1.2. 物理架构](#612-物理架构)
-    - [6.1.3. 写入消息工作流程](#613-写入消息工作流程)
-    - [6.1.4. 消费消息的原理](#614-消费消息的原理)
-    - [6.1.5. partition 分区选择原则逻辑](#615-partition-分区选择原则逻辑)
-    - [6.1.6. kafka 消息有序性](#616-kafka-消息有序性)
-    - [6.1.7. kafka 为什么快](#617-kafka-为什么快)
-    - [6.1.8. kafka 如何保证消息可靠性](#618-kafka-如何保证消息可靠性)
-    - [6.1.9. 如何保证不重复消费](#619-如何保证不重复消费)
-    - [6.1.10. 推or拉](#6110-推or拉)
-    - [6.1.11. 两种模型 基于队列 基于发布订阅](#6111-两种模型-基于队列-基于发布订阅)
-  - [6.2. 为什么使用 kafka](#62-为什么使用-kafka)
-    - [6.2.1. kafka使用场景](#621-kafka使用场景)
-    - [6.2.2. 和 redis 消息队列的区别](#622-和-redis-消息队列的区别)
-  - [6.3. 如何使用kafka](#63-如何使用kafka)
-    - [6.3.1. kafka 原生配置](#631-kafka-原生配置)
-    - [6.3.2. 在 springboot 中使用 kafka](#632-在-springboot-中使用-kafka)
-    - [6.3.3. 创建主题](#633-创建主题)
-    - [6.3.4. 生产者发送](#634-生产者发送)
-      - [6.3.4.1. kafka template 同步 异步](#6341-kafka-template-同步-异步)
-      - [6.3.4.2. 生产者配置](#6342-生产者配置)
-      - [6.3.4.3. 生产者事务消息](#6343-生产者事务消息)
-    - [6.3.5. 消费者消费](#635-消费者消费)
-      - [6.3.5.1. 配置 过滤器 全局异常处理](#6351-配置-过滤器-全局异常处理)
-      - [6.3.5.2. 监听消费](#6352-监听消费)
-        - [6.3.5.2.1. @kafkaListener基本使用](#63521-kafkalistener基本使用)
-        - [6.3.5.2.2. 消费指定分区](#63522-消费指定分区)
-        - [6.3.5.2.3. 动态开启关闭监听](#63523-动态开启关闭监听)
-        - [6.3.5.2.4. 禁用自启动](#63524-禁用自启动)
-        - [6.3.5.2.5. 定时启停监听器](#63525-定时启停监听器)
-      - [6.3.5.3. 通过消费者消费](#6353-通过消费者消费)
-      - [6.3.5.4. 消费者错误处理 单消息 批量消息](#6354-消费者错误处理-单消息-批量消息)
-      - [6.3.5.5. offset 提交](#6355-offset-提交)
-      - [6.3.5.6. 消息序列化](#6356-消息序列化)
-      - [6.3.5.7. 自定义代替默认线程池](#6357-自定义代替默认线程池)
-      - [6.3.5.8. 消费者组 多线程消费](#6358-消费者组-多线程消费)
-      - [6.3.5.9. 消息转发](#6359-消息转发)
-  - [6.4. 参数调优](#64-参数调优)
+    - [6.1. kafka 基本概念](#61-kafka-基本概念)
+        - [6.1.1. 逻辑架构](#611-逻辑架构)
+        - [6.1.2. 物理架构](#612-物理架构)
+        - [6.1.3. 写入消息工作流程](#613-写入消息工作流程)
+        - [6.1.4. 消费消息的原理](#614-消费消息的原理)
+        - [6.1.5. partition 分区选择原则逻辑](#615-partition-分区选择原则逻辑)
+        - [6.1.6. kafka 消息有序性](#616-kafka-消息有序性)
+        - [6.1.7. kafka 为什么快](#617-kafka-为什么快)
+        - [6.1.8. kafka 如何保证消息可靠性](#618-kafka-如何保证消息可靠性)
+        - [6.1.9. 如何保证不重复消费](#619-如何保证不重复消费)
+        - [6.1.10. 如何保证不遗漏消费 消息丢失](#6110-如何保证不遗漏消费-消息丢失)
+        - [6.1.11. 推or拉](#6111-推or拉)
+        - [6.1.12. 两种模型 基于队列 基于发布订阅](#6112-两种模型-基于队列-基于发布订阅)
+    - [6.2. 为什么使用 kafka](#62-为什么使用-kafka)
+        - [6.2.1. kafka使用场景](#621-kafka使用场景)
+        - [6.2.2. 和 redis 消息队列的区别](#622-和-redis-消息队列的区别)
+    - [6.3. 如何使用kafka](#63-如何使用kafka)
+        - [6.3.1. kafka 原生配置](#631-kafka-原生配置)
+        - [6.3.2. 在 springboot 中使用 kafka](#632-在-springboot-中使用-kafka)
+        - [6.3.3. 创建主题](#633-创建主题)
+        - [6.3.4. 生产者发送](#634-生产者发送)
+            - [6.3.4.1. kafka template 同步 异步](#6341-kafka-template-同步-异步)
+            - [6.3.4.2. 生产者配置](#6342-生产者配置)
+            - [6.3.4.3. 生产者事务消息](#6343-生产者事务消息)
+        - [6.3.5. 消费者消费](#635-消费者消费)
+            - [6.3.5.1. 配置 过滤器 全局异常处理](#6351-配置-过滤器-全局异常处理)
+            - [6.3.5.2. 监听消费](#6352-监听消费)
+                - [6.3.5.2.1. @kafkaListener基本使用](#63521-kafkalistener基本使用)
+                - [6.3.5.2.2. 消费指定分区](#63522-消费指定分区)
+                - [6.3.5.2.3. 动态开启关闭监听](#63523-动态开启关闭监听)
+                - [6.3.5.2.4. 禁用自启动](#63524-禁用自启动)
+                - [6.3.5.2.5. 定时启停监听器](#63525-定时启停监听器)
+            - [6.3.5.3. 消费者错误处理 单消息 批量消息](#6353-消费者错误处理-单消息-批量消息)
+            - [6.3.5.4. offset 提交](#6354-offset-提交)
+            - [6.3.5.5. 消息序列化](#6355-消息序列化)
+            - [6.3.5.6. 自定义代替默认线程池](#6356-自定义代替默认线程池)
+            - [6.3.5.7. 消费者组 多线程消费](#6357-消费者组-多线程消费)
+            - [6.3.5.8. 消息转发](#6358-消息转发)
+        - [6.3.6. 总结:消息送达的情况](#636-总结消息送达的情况)
+    - [6.4. 参数调优](#64-参数调优)
 - [7. 即时通讯 MQTT协议](#7-即时通讯-mqtt协议)
 
 
@@ -992,11 +993,11 @@ https://developer.confluent.io/learn/
 
 
 - ack 确认机制
-  生产者在往 kafka发送消息时可以设置应答机制的等级, 0, 1, all
-
-  0: 表示，生产者在发送消息后，不用等待，确认返回效率最高，但不保证发送成功。安全性不好 效率最高
-  1: 表示，生产者往集群发送消息。只需要分区 leader 返回 ack, 就认为发送成功, 可以发送下一条. 只确保 leader 发送成功
-  all: 需要所有的分区follower 从 leader同步消息成功(所有副本都完成备份)， producer成功才认为消息发送成功。  安全性最好 效率最低
+    broker 表示发来的数据已确认接收无误，表示数据已经保存到磁盘。 
+    
+    0：不等待 broker 返回确认消息 , 确认返回效率最高，但不保证发送成功。安全性不好 效率最高
+    1：等待 topic 中某个 partition leader 保存成功的状态反馈 , 只需要分区 leader 返回 ack, 就认为发送成功, 可以发送下一条. 只确保 leader 发送成功
+    -1/all：等待 topic 中某个 partition 所有副本都保存成功的状态反馈 (分区的所有副本都完成备份), producer成功才认为消息发送成功。  安全性最好 效率最低
 
   在生产环境中， acks=0 很少使用；acks=1， 一般用于传输普通日志 ， 允许丢个别数据；acks=all，一般用于传输和钱相关的数据，对可靠性要求比较高的场景 。
 
@@ -1107,17 +1108,63 @@ consumer 的消费策略:
 
 ### 6.1.9. 如何保证不重复消费
 
-每个 partition 对应一个消费者线程, 或者 每个 partition 对应一个 consumer group
+```
+
+重复消费原因: 
+
+- 可能是选择了错误的消费模型, 点对点的模型中消费者不会重复消费, 发布订阅模型中, 多个消费者会重复消费消息
+  
+  解决: 所以可以采用点对点模型: 每个 partition 对应一个消费者线程, 或者 每个 partition 对应一个 consumer group
+
+- 可能是 consumer 的 offset 没有配置, 采用了默认的自动提交
+
+  比如 consumer 每隔 5s 自动提交一次 offset (加入此时 offset = 2), 但是某次提交完成后第 2s consumer 挂了 (此时 offset=4), 再次重启 consumer, 则 consumer 会从 offset=2 处开始消费, 造成重复消费
+
+  解决: 
+
+```
 
 
-### 6.1.10. 推or拉
+### 6.1.10. 如何保证不遗漏消费 消息丢失
+
+```
+消息遗漏消费是对于consumer 来说的, 一般是因为 : 如果消费端接收到消息还没处理, 碰到kafka刚好自动提交了offset, 处理消息时消费端挂掉了,就造成了消息丢失
+
+  解决: 设置consumer手动提交 offset, 消息处理完了再手动提交 offset
+
+    enable.auto.commit：表示消费者会周期性自动提交消费的offset。默认值true。
+    auto.commit.interval.ms：在enable.auto.commit为true的情况下， 自动提交的间隔。默认值5秒
+
+  解决: 引入消息去重机制 (例如：生成消息时，在消息中加入唯一标识符如消息id, 在消费端，可以保存最近的max.poll.records条消息id到redis或mysql表中，这样在消费消息时先通过查询去重后，再进行消息的处理)
+
+此外消息还可能
+
+  在 broker 中丢失: 如, 某个 broker 挂了, 此时会选举新 leader, 如果某个 follower 倍选举为 leader 但是它还有些数据没有同步, 就消息丢失了
+
+    解决: 本质是要保证卡夫卡高可用 (为每隔分区设置多个副本)
+
+      - 给 topic 设置 replication.factor 参数：这个值必须大于 1，要求每个 partition 必须有至少 2 个副本
+
+      - 在 Kafka 服务端设置 min.insync.replicas 参数：这个值必须大于 1，这个是要求一个 leader 至少感知到有至少一个 follower 还跟自己保持联系，没掉队，这样才能确保 leader 挂了还有一个 follower 
+
+  在 producer 中丢失
+
+    - 设置 `acks=all`, 和 `retries=MAX`后就可以保证没有数据丢失了;
+      - 在 producer 端设置 acks=all：这个是要求每条数据，必须是写入所有 replica 之后，才能认为是写成功了。
+      - 在 producer 端设置 retries=MAX（很大很大很大的一个值，无限次重试的意思）：这个是要求一旦写入失败，就无限重试，卡在这里了。
+    - 不要使用 send(xxx, xxx), 而是使用 send(xxx, xxx, callback), 在 callback 里处理发送失败的后的补偿措施
+
+```
+
+
+### 6.1.11. 推or拉
 
 消费者如何消费消息? 采用 pull 还是 push?
 
 kafka 使用 pull (主动拉) 的方式, (没有采用 push 的方式, 是因为如果 broker push 消息的速度太快, consumer 可能跟不上)
 (pull 缺点: 如果卡夫卡没有数据, consumer 就会陷入空转)
 
-### 6.1.11. 两种模型 基于队列 基于发布订阅
+### 6.1.12. 两种模型 基于队列 基于发布订阅
 
 Kafka同时支持基于队列和基于发布/订阅的两种消息引擎模型，事实上Kafka是通过consumer group实现对这两种模型的支持
 
@@ -1182,6 +1229,7 @@ acks=-1(一条数据必须写入ISR里所有副本才算成功)，你写一条�
 ```
 
 
+
 ### 6.3.2. 在 springboot 中使用 kafka
 
 
@@ -1195,6 +1243,21 @@ Spring创建了一个名为Spring kafka的项目，它封装了Apache的kafka客
 @EnableKafka并不是在Spring Boot中启用Kafka必须的，Spring Boot附带了Spring Kafka的自动配置，因此不需要使用显式的@EnableKafka。如果想要自己实现Kafka配置类，则需要加上@EnableKafka，如果你不想要Kafka自动配置，比如测试中，需要做的只是移除KafkaAutoConfiguration `@SpringBootTest("spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration")`
 
 
+spring 中的配置
+
+```sh
+
+max.poll.records：单次消费者拉取的最大数据条数，默认值500。
+
+max.poll.interval.ms：表示若在阈值时间之内消费者没有消费完上一次poll的消息，consumer
+client会主动向coordinator发起LeaveGroup请求，触发Rebalance；然后consumer重新发送JoinGroup请求。
+
+session.timeout.ms：group
+Coordinator检测consumer发生崩溃所需的时间。在这个时间内如果Coordinator未收到Consumer的任何消息，那Coordinator就认为Consumer挂了。默认值10秒。
+
+heartbeat.interval.ms：标识Consumer给Coordinator发一个心跳包的时间间隔。heartbeat.interval.ms越小，发的心跳包越多。默认值3秒。
+
+```
 
 ### 6.3.3. 创建主题
 
@@ -1426,6 +1489,15 @@ public KafkaTemplate<Integer, String> kafkaTemplate() {
 
 #### 6.3.4.3. 生产者事务消息
 
+https://www.cnblogs.com/lshan/p/14467527.html
+
+```
+Kafka中的事务特性主要用于以下两种场景：
+【1】生产者发送多条消息可以封装在一个事务中，形成一个原子操作。 多条消息要么都发送成功，要么都发送失败。
+【2】read-process-write模式： 将消息消费和生产封装在一个事务中，形成一个原子操作。在一个流式处理的应用中，常常一个服务需要从上游接收消息，然后经过处理后送达到下游，这就对应着消息的消费和生成。
+
+```
+
 Kafka 的事务消息默认要求你的 Kafka Broker的节点在 3 个以上
 
 ```java
@@ -1644,6 +1716,25 @@ public class KafkaConsumerListener {
         return new KafkaMessageListenerContainer(consumerFactory(), properties);
     }
 
+
+// 方式 3:
+/**
+ * @KafkaListener 还可以作用在class 类上:
+该注解作用于类上时,类中的方法必须用 @KafkaHandler注解，在传递消息时，将使用转换后的消息有效负载类型来确定调用那个方法
+ */
+@KafkaListener(id = "myId", topics = "myTopic")
+public class Myclass {
+    @KafkaHandler
+    public void listen(String str) {
+
+    }
+
+    @KafkaHandler
+    public void listen(Integer integer) {
+
+    }
+}
+
 ```
 
 ##### 6.3.5.2.2. 消费指定分区
@@ -1801,9 +1892,7 @@ public class MyKafkaSchedule {
 }
 ```
 
-#### 6.3.5.3. 通过消费者消费
-
-#### 6.3.5.4. 消费者错误处理 单消息 批量消息 
+#### 6.3.5.3. 消费者错误处理 单消息 批量消息 
 
 ```java
 /**
@@ -1830,7 +1919,7 @@ public class ConsumerService {
      */
     @Bean
     public ConsumerAwareListenerErrorHandler listenErrorHandler() {
-        return new ConsumerAwareListenerErrorHandler() {
+        return new ConsumerAwareListenerErrorHandler() { // 或者: 创建 ConsumerAwareErrorHandler 这个子接口也可
 
             @Override
             public Object handleError(Message<?> message,
@@ -1889,7 +1978,7 @@ public class ConsumerBatchService {
 
 ```
 
-#### 6.3.5.5. offset 提交
+#### 6.3.5.4. offset 提交
 
 在kafka的消费者中有一个非常关键的机制，那就是 offset 机制。它使得 Kafka 在消费的过程中即使挂了或者引发再均衡问题重新分配 Partation，当下次重新恢复消费时仍然可以知道从哪里开始消费。
 
@@ -1935,7 +2024,7 @@ KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Integer, String
 
 ```
 
-#### 6.3.5.6. 消息序列化
+#### 6.3.5.5. 消息序列化
 
 ```java
 // producer
@@ -1984,7 +2073,7 @@ public void greetingListener(Greeting greeting) {
 }
 ```
 
-#### 6.3.5.7. 自定义代替默认线程池
+#### 6.3.5.6. 自定义代替默认线程池
 
 https://www.jianshu.com/p/cf367a8c6d67
 
@@ -2059,7 +2148,7 @@ public class KafkaExecutorConfig {
 
 ```
 
-#### 6.3.5.8. 消费者组 多线程消费
+#### 6.3.5.7. 消费者组 多线程消费
 
 https://www.modb.pro/db/51256
 
@@ -2114,7 +2203,7 @@ while (true) {
 
 ```
 
-#### 6.3.5.9. 消息转发
+#### 6.3.5.8. 消息转发
 
 ```java
 @Component
@@ -2133,6 +2222,56 @@ public class KafkaConsumer {
         System.out.println("业务B收到消息：" + data);
     }
 }
+```
+
+### 6.3.6. 总结:消息送达的情况
+
+```
+消息送达语义是消息系统中一个常见的问题，主要包含三种语义：
+
+【1】At most once：消息发送或消费至多一次；(允许存在消息丢失, 不允许重复消费)
+
+    对 producer 来说, 意味着 Producer发送完一条消息后，不会确认消息是否成功送达
+
+        通过配置 Producer 的 acks=0 && retries=0
+            当 retries 不是 0, 意味着允许重试, 如果没有将 max.in.flight.requests.per.connection (代表着一个 Producer同时可以发送的未收到确认的消息数量)配置的值设置为1，有可能造成消息乱序的结果。(如果max.in.flight.requests.per.connection数量大于1，那么可能发送了message1后，在没有收到确认前就发送了message2，此时 message1发送失败后触发重试，而 message2直接发送成功，就造成了Broker上消息的乱序。max.in.flight.requests.per.connection的默认值为5。)
+
+    对 consumer 来说, 意味着有可能存在消息消费失败依旧提交offset的情况 (考虑下面的情况：Consumer首先读取消息，然后提交 offset，最后处理这条消息。在处理消息时，Consumer宕机了，此时 offset已经提交，下一次读取消息时读到的是下一条消息了，这就是 At most once消费。)
+
+        consumer 配置:enable.auto.commit=true：后台定时提交offset；, auto.commit.interval.ms (表示后台提交 offset的时间间隔)配置为一个很小的数值。
+
+
+【2】At least once：消息发送或消费至少一次；(不允许消息丢失, 允许重复消费)
+
+    对于 producer 意味着发送完消息, 需要确认, 如果 Producer没有收到 Broker的 ack确认消息，那么会不断重试发送消息
+
+        Kafka默认的 Producer消息送达语义就是 At least once (原因是 Kafka中默认 acks=1并且 retries=2147483647。)
+
+    对于 consumer, 意味着 Consumer对一条消息可能消费多次 (考虑下面的情况：Consumer首先读取消息，然后处理这条消息，最后提交offset。在处理消息时成功后，Consumer宕机了，此时 offset还未提交，下一次读取消息时依旧是这条消息，那么处理消息的逻辑又将被执行一遍，这就是 At least once消费。)
+
+        consumer 配置: enable.auto.commit=false：禁止后台自动提交offset；, 手动调用 consumer.commitSync()来提交offset, 保证了 offset即时更新；
+
+
+【3】Exactly once：消息恰好只发送一次或只消费一次；(不允许丢失, 也不允许重复)
+
+    对于 producer, 意味着 Producer消息的发送是幂等的。 这意味着不论消息重发多少遍，最终 Broker上记录的只有一条不重复的数据。(kafka producer默认是支持at least once 的, 所以主要是要实现消息去重)
+
+        通过配置 Producer的以下配置项来实现: 
+        
+            enable.idempotence=true。enable.idempotence配置项表示是否使用幂等性(默认 false)。当 enable.idempotence配置为 true时，acks必须配置为all。并且建议 max.in.flight.requests.per.connection的值小于5。
+
+                设置 transactional.id (在 springboot 里是配置事务前缀为非空)后，enable.idempotence会自动设置为true
+
+        原理: kafka 引入了两个概念
+            【1】PID：每个新的 Producer在初始化的时候会被分配一个唯一的PID，这个 PID对用户是不可见的；
+            【2】Sequence Numbler：对于每个PID，该 Producer发送数据的每个<Topic, Partition>都对应一个从0开始单调递增的Sequence Number；
+
+    对于 consumer, 意味着消息的消费处理逻辑和offset的提交是原子性的，即消息消费成功后 offset改变，消息消费失败 offset也能回滚
+
+        即需要事务特性, 配置 consumer 的 isolation.level=read_committed, 有两个值
+            - read_committed : 所有事务未提交的数据就都对 Consumer不可见了，也就实现了 Kafka的事务语义
+            - read_uncommitted (默认)
+
 ```
 
 ## 6.4. 参数调优

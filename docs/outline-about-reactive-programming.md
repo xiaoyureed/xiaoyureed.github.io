@@ -15,21 +15,20 @@ Project Reactor: http://springcloud.cn/view/366
 https://github.com/hs-web/hsweb-framework 基于spring-boot 2.x开发 ,首个使用全响应式编程的企业级后台管理系统基础项目
 <!--more-->
 
-<!-- TOC -->
+- [由来](#由来)
+- [Rxjava](#rxjava)
+- [Rxjs](#rxjs)
+- [webflux](#webflux)
+    - [what is webflux](#what-is-webflux)
+    - [为什么使用](#为什么使用)
+    - [how to use](#how-to-use)
+- [smallrye-mutiny](#smallrye-mutiny)
 
-- [1. 由来](#1-%E7%94%B1%E6%9D%A5)
-- [2. Rxjava](#2-rxjava)
-- [3. Rxjs](#3-rxjs)
-- [4. webflux](#4-webflux)
-  - [4.1. what is webflux](#41-what-is-webflux)
-  - [4.2. 为什么使用](#42-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8)
-  - [4.3. how to use](#43-how-to-use)
 
-<!-- /TOC -->
 
-# 由来
+## 由来
 
-非响应式是这样的:
+非反应式是这样的:
 
 ```java
 int a=1;
@@ -50,11 +49,11 @@ a=10;
 System.out.print(“b=”+b)    //  b=11
 ```
 
-这就是是响应式的思想，它希望有某种方式能够构建关系，而不是执行某种赋值命令
+这就是是反应式的思想，它希望有某种方式能够构建关系，而不是执行某种赋值命令
 
-响应式编程是一种通过异步和数据流来构建事物关系的编程模型, 可以类比 react 中的 数据单向绑定
+反应式编程是一种通过异步和数据流来构建事物关系的编程模型, 可以类比 react 中的 数据单向绑定
 
-# Rxjava
+## Rxjava
 
  底层原理就是: 观察者模式和异步
 
@@ -74,12 +73,12 @@ Observer是观察者的接口， Subscriber是实现这个接口的抽象类,因
 </dependency>
 ```
 
-# Rxjs
+## Rxjs
 
 
-# webflux
+## webflux
 
-## what is webflux
+### what is webflux
 
 https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/web-reactive.html#webflux
 
@@ -89,16 +88,18 @@ webflux在web开发中的位置等同springmvc, 可以对比理解:
 - 以 Reactor 库为基础, 基于异步和事件驱动, 提升系统吞吐量和伸缩性, 并不提升接口的请求响应时间
   - 吞吐量: 一次请求处理过程, 传输的数据总量
 
-## 为什么使用
+### 为什么使用
 
 或者说使用webflux 会带来什么好处呢
 
 - 提升系统吞吐量, 伸缩性
 
 
-## how to use
+### how to use
 
 https://blog.csdn.net/suchahaerkang/article/details/90645760
 https://blog.csdn.net/qq_15144655/article/details/80708915
 https://www.ibm.com/developerworks/cn/java/spring5-webflux-reactive/index.html
 
+
+## smallrye-mutiny

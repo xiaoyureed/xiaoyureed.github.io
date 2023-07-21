@@ -19,101 +19,104 @@ https://github.com/ThinkingHan/Java-review-gudie/blob/master/%E9%9D%A2%E8%AF%95%
 
 
 - [1. 命令行](#1-命令行)
-  - [1.1. 怎么在命令行执行sql呢](#11-怎么在命令行执行sql呢)
-  - [1.2. 数据迁移](#12-数据迁移)
+    - [1.1. 怎么在命令行执行sql呢](#11-怎么在命令行执行sql呢)
+    - [1.2. 数据迁移](#12-数据迁移)
 - [2. SQL](#2-sql)
-  - [2.1. 标准数据库脚本写法](#21-标准数据库脚本写法)
-  - [2.2. 各种查询](#22-各种查询)
-  - [2.3. 连接-元数据查看](#23-连接-元数据查看)
-  - [2.4. user用户管理-权限](#24-user用户管理-权限)
-  - [2.5. 数据库管理](#25-数据库管理)
-  - [2.6. 表管理](#26-表管理)
-    - [2.6.1. 查看表结构](#261-查看表结构)
-    - [2.6.2. 创建删除表](#262-创建删除表)
-    - [2.6.3. 修改表结构](#263-修改表结构)
-    - [2.6.4. 操作索引](#264-操作索引)
-  - [2.7. 数据管理](#27-数据管理)
-    - [2.7.1. 增删改数据](#271-增删改数据)
-    - [2.7.2. 查询数据](#272-查询数据)
+    - [2.1. 标准数据库脚本写法](#21-标准数据库脚本写法)
+    - [2.2. 各种查询](#22-各种查询)
+    - [2.3. 连接-元数据查看](#23-连接-元数据查看)
+    - [2.4. user用户管理-权限](#24-user用户管理-权限)
+    - [2.5. 数据库管理](#25-数据库管理)
+    - [2.6. 表管理](#26-表管理)
+        - [2.6.1. 查看表结构](#261-查看表结构)
+        - [2.6.2. 创建删除表](#262-创建删除表)
+        - [2.6.3. 修改表结构](#263-修改表结构)
+        - [2.6.4. 操作索引](#264-操作索引)
+    - [2.7. 数据管理](#27-数据管理)
+        - [2.7.1. 增删改数据](#271-增删改数据)
+        - [2.7.2. 查询数据](#272-查询数据)
+    - [2.8. 优秀 SQL](#28-优秀-sql)
+        - [2.8.1. 常用sql命令](#281-常用sql命令)
+        - [2.8.2. nacos 初始化脚本](#282-nacos-初始化脚本)
 - [3. 分库分表和读写分离-表设计](#3-分库分表和读写分离-表设计)
-  - [3.1. 读写分离配置](#31-读写分离配置)
+    - [3.1. 读写分离配置](#31-读写分离配置)
 - [4. MySQL](#4-mysql)
-  - [4.1. MySQL的数据类型](#41-mysql的数据类型)
-    - [4.1.1. 选择合适的数据类型](#411-选择合适的数据类型)
-    - [4.1.2. 常见数据类型](#412-常见数据类型)
-    - [4.1.3. java jdbc 和 mysql 数据库的字段对应关系](#413-java-jdbc-和-mysql-数据库的字段对应关系)
-    - [4.1.4. Java中几种Date相关数据类型的区别](#414-java中几种date相关数据类型的区别)
-    - [4.1.5. 字段长度的意义and格式](#415-字段长度的意义and格式)
-  - [4.2. MySQL存储过程](#42-mysql存储过程)
-  - [4.3. 存储引擎](#43-存储引擎)
-    - [4.3.1. MyisAM与InnoDB相比较](#431-myisam与innodb相比较)
-  - [4.4. 范式and反范式](#44-范式and反范式)
-  - [4.5. 汇总表and缓存表](#45-汇总表and缓存表)
-  - [4.6. 优化 SQL](#46-优化-sql)
-    - [4.6.1. 基本原则](#461-基本原则)
-    - [4.6.2. 执行计划 explain](#462-执行计划-explain)
-  - [4.7. 怎么加快alter table操作](#47-怎么加快alter-table操作)
-  - [4.8. 怎么创建高性能索引](#48-怎么创建高性能索引)
-    - [4.8.1. 什么是索引](#481-什么是索引)
-    - [4.8.2. 索引的类型](#482-索引的类型)
-      - [4.8.2.1. b-tree 索引](#4821-b-tree-索引)
-        - [4.8.2.1.1. 满足哪些要求才能够使用到b-tree索引呢](#48211-满足哪些要求才能够使用到b-tree索引呢)
-        - [4.8.2.1.2. 两种实现方式](#48212-两种实现方式)
-      - [4.8.2.2. 哈希索引](#4822-哈希索引)
-        - [4.8.2.2.1. 创建自定义hash索引](#48221-创建自定义hash索引)
-      - [4.8.2.3. 空间数据索引](#4823-空间数据索引)
-      - [4.8.2.4. 全文索引](#4824-全文索引)
-    - [4.8.3. 索引有什么优缺点](#483-索引有什么优缺点)
-    - [4.8.4. 创建索引需要遵循哪些原则](#484-创建索引需要遵循哪些原则)
-      - [4.8.4.1. 始终使用最简化的条件表达式](#4841-始终使用最简化的条件表达式)
-      - [4.8.4.2. 使用前缀索引and什么是索引选择性](#4842-使用前缀索引and什么是索引选择性)
-      - [4.8.4.3. 联合索引也许好过多个单列索引](#4843-联合索引也许好过多个单列索引)
-      - [4.8.4.4. 选择合适的索引列顺序 最左前缀匹配原则](#4844-选择合适的索引列顺序-最左前缀匹配原则)
-      - [4.8.4.5. 多利用聚簇索引](#4845-多利用聚簇索引)
-      - [4.8.4.6. 多利用索引覆盖](#4846-多利用索引覆盖)
-      - [4.8.4.7. 使用索引进行排序](#4847-使用索引进行排序)
-      - [4.8.4.8. MyISAM引擎支持索引压缩](#4848-myisam引擎支持索引压缩)
-      - [4.8.4.9. 不要冗余的索引](#4849-不要冗余的索引)
-      - [4.8.4.10. 删除未使用的索引](#48410-删除未使用的索引)
-      - [4.8.4.11. 索引and锁](#48411-索引and锁)
-      - [4.8.4.12. 多利用 change buffer 所以不要使用唯一索引](#48412-多利用-change-buffer-所以不要使用唯一索引)
-    - [4.8.5. 索引案例demo](#485-索引案例demo)
-  - [4.9. binlog](#49-binlog)
-    - [4.9.1. canal 增量日志订阅](#491-canal-增量日志订阅)
-    - [4.9.2. mysql-binlog-connector-java](#492-mysql-binlog-connector-java)
-  - [4.10. MySQL的锁机制](#410-mysql的锁机制)
-    - [4.10.1. 表锁](#4101-表锁)
-    - [4.10.2. 行锁](#4102-行锁)
-      - [4.10.2.1. 记录锁](#41021-记录锁)
-      - [4.10.2.2. 区间锁(间隙锁)](#41022-区间锁间隙锁)
-      - [4.10.2.3. 临键锁](#41023-临键锁)
-  - [4.11. 多版本并发控制 mvcc](#411-多版本并发控制-mvcc)
-    - [4.11.1. 为什么需要 mvcc](#4111-为什么需要-mvcc)
-    - [4.11.2. 什么是 mvcc](#4112-什么是-mvcc)
-  - [4.12. 事务](#412-事务)
-    - [4.12.1. 事务acid](#4121-事务acid)
-    - [4.12.2. 实现 acid 特性的原理](#4122-实现-acid-特性的原理)
-      - [4.12.2.1. 原子性](#41221-原子性)
-      - [4.12.2.2. 持久性](#41222-持久性)
-      - [4.12.2.3. 隔离性](#41223-隔离性)
-      - [4.12.2.4. 一致性](#41224-一致性)
-    - [4.12.3. 并发问题和隔离级别](#4123-并发问题和隔离级别)
+    - [4.1. MySQL的数据类型](#41-mysql的数据类型)
+        - [4.1.1. 选择合适的数据类型](#411-选择合适的数据类型)
+        - [4.1.2. 常见数据类型](#412-常见数据类型)
+        - [4.1.3. java jdbc 和 mysql 数据库的字段对应关系](#413-java-jdbc-和-mysql-数据库的字段对应关系)
+        - [4.1.4. Java中几种Date相关数据类型的区别](#414-java中几种date相关数据类型的区别)
+        - [4.1.5. 字段长度的意义and格式](#415-字段长度的意义and格式)
+    - [4.2. MySQL存储过程](#42-mysql存储过程)
+    - [4.3. 存储引擎](#43-存储引擎)
+        - [4.3.1. MyisAM与InnoDB相比较](#431-myisam与innodb相比较)
+    - [4.4. 范式and反范式](#44-范式and反范式)
+    - [4.5. 汇总表and缓存表](#45-汇总表and缓存表)
+    - [4.6. 优化 SQL](#46-优化-sql)
+        - [4.6.1. 基本原则](#461-基本原则)
+        - [4.6.2. 执行计划 explain](#462-执行计划-explain)
+    - [4.7. 怎么加快alter table操作](#47-怎么加快alter-table操作)
+    - [4.8. 怎么创建高性能索引](#48-怎么创建高性能索引)
+        - [4.8.1. 什么是索引](#481-什么是索引)
+        - [4.8.2. 索引的类型](#482-索引的类型)
+            - [4.8.2.1. b-tree 索引](#4821-b-tree-索引)
+                - [4.8.2.1.1. 满足哪些要求才能够使用到b-tree索引呢](#48211-满足哪些要求才能够使用到b-tree索引呢)
+                - [4.8.2.1.2. 两种实现方式](#48212-两种实现方式)
+            - [4.8.2.2. 哈希索引](#4822-哈希索引)
+                - [4.8.2.2.1. 创建自定义hash索引](#48221-创建自定义hash索引)
+            - [4.8.2.3. 空间数据索引](#4823-空间数据索引)
+            - [4.8.2.4. 全文索引](#4824-全文索引)
+        - [4.8.3. 索引有什么优缺点](#483-索引有什么优缺点)
+        - [4.8.4. 创建索引需要遵循哪些原则](#484-创建索引需要遵循哪些原则)
+            - [4.8.4.1. 始终使用最简化的条件表达式](#4841-始终使用最简化的条件表达式)
+            - [4.8.4.2. 使用前缀索引and什么是索引选择性](#4842-使用前缀索引and什么是索引选择性)
+            - [4.8.4.3. 联合索引也许好过多个单列索引](#4843-联合索引也许好过多个单列索引)
+            - [4.8.4.4. 选择合适的索引列顺序 最左前缀匹配原则](#4844-选择合适的索引列顺序-最左前缀匹配原则)
+            - [4.8.4.5. 多利用聚簇索引](#4845-多利用聚簇索引)
+            - [4.8.4.6. 多利用索引覆盖](#4846-多利用索引覆盖)
+            - [4.8.4.7. 使用索引进行排序](#4847-使用索引进行排序)
+            - [4.8.4.8. MyISAM引擎支持索引压缩](#4848-myisam引擎支持索引压缩)
+            - [4.8.4.9. 不要冗余的索引](#4849-不要冗余的索引)
+            - [4.8.4.10. 删除未使用的索引](#48410-删除未使用的索引)
+            - [4.8.4.11. 索引and锁](#48411-索引and锁)
+            - [4.8.4.12. 多利用 change buffer 所以不要使用唯一索引](#48412-多利用-change-buffer-所以不要使用唯一索引)
+        - [4.8.5. 索引案例demo](#485-索引案例demo)
+    - [4.9. binlog](#49-binlog)
+        - [4.9.1. canal 增量日志订阅](#491-canal-增量日志订阅)
+        - [4.9.2. mysql-binlog-connector-java](#492-mysql-binlog-connector-java)
+    - [4.10. MySQL的锁机制](#410-mysql的锁机制)
+        - [4.10.1. 表锁](#4101-表锁)
+        - [4.10.2. 行锁](#4102-行锁)
+            - [4.10.2.1. 记录锁](#41021-记录锁)
+            - [4.10.2.2. 区间锁(间隙锁)](#41022-区间锁间隙锁)
+            - [4.10.2.3. 临键锁](#41023-临键锁)
+    - [4.11. 多版本并发控制 mvcc](#411-多版本并发控制-mvcc)
+        - [4.11.1. 为什么需要 mvcc](#4111-为什么需要-mvcc)
+        - [4.11.2. 什么是 mvcc](#4112-什么是-mvcc)
+    - [4.12. 事务](#412-事务)
+        - [4.12.1. 事务acid](#4121-事务acid)
+        - [4.12.2. 实现 acid 特性的原理](#4122-实现-acid-特性的原理)
+            - [4.12.2.1. 原子性](#41221-原子性)
+            - [4.12.2.2. 持久性](#41222-持久性)
+            - [4.12.2.3. 隔离性](#41223-隔离性)
+            - [4.12.2.4. 一致性](#41224-一致性)
+        - [4.12.3. 并发问题和隔离级别](#4123-并发问题和隔离级别)
 - [5. sql-server](#5-sql-server)
-  - [5.1. 数据类型](#51-数据类型)
-    - [5.1.1. string类型](#511-string类型)
-    - [5.1.2. number类型](#512-number类型)
-    - [5.1.3. date类型](#513-date类型)
-    - [5.1.4. sqlserver特有类型](#514-sqlserver特有类型)
-  - [5.2. 存储过程](#52-存储过程)
-    - [5.2.1. 无参存储过程](#521-无参存储过程)
-    - [5.2.2. 有参存储过程](#522-有参存储过程)
-      - [5.2.2.1. 参数是全局变量](#5221-参数是全局变量)
-      - [5.2.2.2. 参数是局部变量](#5222-参数是局部变量)
-  - [5.3. 碰到的问题记录](#53-碰到的问题记录)
+    - [5.1. 数据类型](#51-数据类型)
+        - [5.1.1. string类型](#511-string类型)
+        - [5.1.2. number类型](#512-number类型)
+        - [5.1.3. date类型](#513-date类型)
+        - [5.1.4. sqlserver特有类型](#514-sqlserver特有类型)
+    - [5.2. 存储过程](#52-存储过程)
+        - [5.2.1. 无参存储过程](#521-无参存储过程)
+        - [5.2.2. 有参存储过程](#522-有参存储过程)
+            - [5.2.2.1. 参数是全局变量](#5221-参数是全局变量)
+            - [5.2.2.2. 参数是局部变量](#5222-参数是局部变量)
+    - [5.3. 碰到的问题记录](#53-碰到的问题记录)
 - [6. oracle](#6-oracle)
-  - [6.1. java驱动](#61-java驱动)
-  - [6.2. 字段类型](#62-字段类型)
-  - [6.3. Oracle sql](#63-oracle-sql)
+    - [6.1. java驱动](#61-java驱动)
+    - [6.2. 字段类型](#62-字段类型)
+    - [6.3. Oracle sql](#63-oracle-sql)
 
 
 # 1. 命令行
@@ -1190,6 +1193,230 @@ SELECT e.empName,b.empName
 
 ```
 
+
+## 2.8. 优秀 SQL
+
+### 2.8.1. 常用sql命令
+
+```sql
+create database security CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+
+
+```
+
+### 2.8.2. nacos 初始化脚本
+
+```sql
+
+use nacos;
+
+/******************************************/
+/*   数据库全名 = nacos_config   */
+/*   表名称 = config_info   */
+/******************************************/
+CREATE TABLE `config_info` (
+                               `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                               `data_id` varchar(255) NOT NULL COMMENT 'data_id',
+                               `group_id` varchar(128) DEFAULT NULL,
+                               `content` longtext NOT NULL COMMENT 'content',
+                               `md5` varchar(32) DEFAULT NULL COMMENT 'md5',
+                               `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                               `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+                               `src_user` text COMMENT 'source user',
+                               `src_ip` varchar(50) DEFAULT NULL COMMENT 'source ip',
+                               `app_name` varchar(128) DEFAULT NULL,
+                               `tenant_id` varchar(128) DEFAULT '' COMMENT '租户字段',
+                               `c_desc` varchar(256) DEFAULT NULL,
+                               `c_use` varchar(64) DEFAULT NULL,
+                               `effect` varchar(64) DEFAULT NULL,
+                               `type` varchar(64) DEFAULT NULL,
+                               `c_schema` text,
+                               `encrypted_data_key` text NOT NULL COMMENT '秘钥',
+                               PRIMARY KEY (`id`),
+                               UNIQUE KEY `uk_configinfo_datagrouptenant` (`data_id`,`group_id`,`tenant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_info';
+
+/******************************************/
+/*   数据库全名 = nacos_config   */
+/*   表名称 = config_info_aggr   */
+/******************************************/
+CREATE TABLE `config_info_aggr` (
+                                    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                    `data_id` varchar(255) NOT NULL COMMENT 'data_id',
+                                    `group_id` varchar(128) NOT NULL COMMENT 'group_id',
+                                    `datum_id` varchar(255) NOT NULL COMMENT 'datum_id',
+                                    `content` longtext NOT NULL COMMENT '内容',
+                                    `gmt_modified` datetime NOT NULL COMMENT '修改时间',
+                                    `app_name` varchar(128) DEFAULT NULL,
+                                    `tenant_id` varchar(128) DEFAULT '' COMMENT '租户字段',
+                                    PRIMARY KEY (`id`),
+                                    UNIQUE KEY `uk_configinfoaggr_datagrouptenantdatum` (`data_id`,`group_id`,`tenant_id`,`datum_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='增加租户字段';
+
+
+/******************************************/
+/*   数据库全名 = nacos_config   */
+/*   表名称 = config_info_beta   */
+/******************************************/
+CREATE TABLE `config_info_beta` (
+                                    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                    `data_id` varchar(255) NOT NULL COMMENT 'data_id',
+                                    `group_id` varchar(128) NOT NULL COMMENT 'group_id',
+                                    `app_name` varchar(128) DEFAULT NULL COMMENT 'app_name',
+                                    `content` longtext NOT NULL COMMENT 'content',
+                                    `beta_ips` varchar(1024) DEFAULT NULL COMMENT 'betaIps',
+                                    `md5` varchar(32) DEFAULT NULL COMMENT 'md5',
+                                    `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                    `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+                                    `src_user` text COMMENT 'source user',
+                                    `src_ip` varchar(50) DEFAULT NULL COMMENT 'source ip',
+                                    `tenant_id` varchar(128) DEFAULT '' COMMENT '租户字段',
+                                    `encrypted_data_key` text NOT NULL COMMENT '秘钥',
+                                    PRIMARY KEY (`id`),
+                                    UNIQUE KEY `uk_configinfobeta_datagrouptenant` (`data_id`,`group_id`,`tenant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_info_beta';
+
+/******************************************/
+/*   数据库全名 = nacos_config   */
+/*   表名称 = config_info_tag   */
+/******************************************/
+CREATE TABLE `config_info_tag` (
+                                   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                   `data_id` varchar(255) NOT NULL COMMENT 'data_id',
+                                   `group_id` varchar(128) NOT NULL COMMENT 'group_id',
+                                   `tenant_id` varchar(128) DEFAULT '' COMMENT 'tenant_id',
+                                   `tag_id` varchar(128) NOT NULL COMMENT 'tag_id',
+                                   `app_name` varchar(128) DEFAULT NULL COMMENT 'app_name',
+                                   `content` longtext NOT NULL COMMENT 'content',
+                                   `md5` varchar(32) DEFAULT NULL COMMENT 'md5',
+                                   `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+                                   `src_user` text COMMENT 'source user',
+                                   `src_ip` varchar(50) DEFAULT NULL COMMENT 'source ip',
+                                   PRIMARY KEY (`id`),
+                                   UNIQUE KEY `uk_configinfotag_datagrouptenanttag` (`data_id`,`group_id`,`tenant_id`,`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_info_tag';
+
+/******************************************/
+/*   数据库全名 = nacos_config   */
+/*   表名称 = config_tags_relation   */
+/******************************************/
+CREATE TABLE `config_tags_relation` (
+                                        `id` bigint(20) NOT NULL COMMENT 'id',
+                                        `tag_name` varchar(128) NOT NULL COMMENT 'tag_name',
+                                        `tag_type` varchar(64) DEFAULT NULL COMMENT 'tag_type',
+                                        `data_id` varchar(255) NOT NULL COMMENT 'data_id',
+                                        `group_id` varchar(128) NOT NULL COMMENT 'group_id',
+                                        `tenant_id` varchar(128) DEFAULT '' COMMENT 'tenant_id',
+                                        `nid` bigint(20) NOT NULL AUTO_INCREMENT,
+                                        PRIMARY KEY (`nid`),
+                                        UNIQUE KEY `uk_configtagrelation_configidtag` (`id`,`tag_name`,`tag_type`),
+                                        KEY `idx_tenant_id` (`tenant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_tag_relation';
+
+/******************************************/
+/*   数据库全名 = nacos_config   */
+/*   表名称 = group_capacity   */
+/******************************************/
+CREATE TABLE `group_capacity` (
+                                  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                  `group_id` varchar(128) NOT NULL DEFAULT '' COMMENT 'Group ID，空字符表示整个集群',
+                                  `quota` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '配额，0表示使用默认值',
+                                  `usage` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '使用量',
+                                  `max_size` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '单个配置大小上限，单位为字节，0表示使用默认值',
+                                  `max_aggr_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '聚合子配置最大个数，，0表示使用默认值',
+                                  `max_aggr_size` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '单个聚合数据的子配置大小上限，单位为字节，0表示使用默认值',
+                                  `max_history_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最大变更历史数量',
+                                  `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                  `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+                                  PRIMARY KEY (`id`),
+                                  UNIQUE KEY `uk_group_id` (`group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='集群、各Group容量信息表';
+
+/******************************************/
+/*   数据库全名 = nacos_config   */
+/*   表名称 = his_config_info   */
+/******************************************/
+CREATE TABLE `his_config_info` (
+                                   `id` bigint(20) unsigned NOT NULL,
+                                   `nid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                                   `data_id` varchar(255) NOT NULL,
+                                   `group_id` varchar(128) NOT NULL,
+                                   `app_name` varchar(128) DEFAULT NULL COMMENT 'app_name',
+                                   `content` longtext NOT NULL,
+                                   `md5` varchar(32) DEFAULT NULL,
+                                   `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                   `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                   `src_user` text,
+                                   `src_ip` varchar(50) DEFAULT NULL,
+                                   `op_type` char(10) DEFAULT NULL,
+                                   `tenant_id` varchar(128) DEFAULT '' COMMENT '租户字段',
+                                   `encrypted_data_key` text NOT NULL COMMENT '秘钥',
+                                   PRIMARY KEY (`nid`),
+                                   KEY `idx_gmt_create` (`gmt_create`),
+                                   KEY `idx_gmt_modified` (`gmt_modified`),
+                                   KEY `idx_did` (`data_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='多租户改造';
+
+
+/******************************************/
+/*   数据库全名 = nacos_config   */
+/*   表名称 = tenant_capacity   */
+/******************************************/
+CREATE TABLE `tenant_capacity` (
+                                   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                   `tenant_id` varchar(128) NOT NULL DEFAULT '' COMMENT 'Tenant ID',
+                                   `quota` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '配额，0表示使用默认值',
+                                   `usage` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '使用量',
+                                   `max_size` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '单个配置大小上限，单位为字节，0表示使用默认值',
+                                   `max_aggr_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '聚合子配置最大个数',
+                                   `max_aggr_size` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '单个聚合数据的子配置大小上限，单位为字节，0表示使用默认值',
+                                   `max_history_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最大变更历史数量',
+                                   `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+                                   PRIMARY KEY (`id`),
+                                   UNIQUE KEY `uk_tenant_id` (`tenant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='租户容量信息表';
+
+
+CREATE TABLE `tenant_info` (
+                               `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                               `kp` varchar(128) NOT NULL COMMENT 'kp',
+                               `tenant_id` varchar(128) default '' COMMENT 'tenant_id',
+                               `tenant_name` varchar(128) default '' COMMENT 'tenant_name',
+                               `tenant_desc` varchar(256) DEFAULT NULL COMMENT 'tenant_desc',
+                               `create_source` varchar(32) DEFAULT NULL COMMENT 'create_source',
+                               `gmt_create` bigint(20) NOT NULL COMMENT '创建时间',
+                               `gmt_modified` bigint(20) NOT NULL COMMENT '修改时间',
+                               PRIMARY KEY (`id`),
+                               UNIQUE KEY `uk_tenant_info_kptenantid` (`kp`,`tenant_id`),
+                               KEY `idx_tenant_id` (`tenant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='tenant_info';
+
+CREATE TABLE `users` (
+                         `username` varchar(50) NOT NULL PRIMARY KEY,
+                         `password` varchar(500) NOT NULL,
+                         `enabled` boolean NOT NULL
+);
+
+CREATE TABLE `roles` (
+                         `username` varchar(50) NOT NULL,
+                         `role` varchar(50) NOT NULL,
+                         UNIQUE INDEX `idx_user_role` (`username` ASC, `role` ASC) USING BTREE
+);
+
+CREATE TABLE `permissions` (
+                               `role` varchar(50) NOT NULL,
+                               `resource` varchar(255) NOT NULL,
+                               `action` varchar(8) NOT NULL,
+                               UNIQUE INDEX `uk_role_permission` (`role`,`resource`,`action`) USING BTREE
+);
+
+INSERT INTO users (username, password, enabled) VALUES ('nacos', '$2a$10$EuWPZHzz32dJN7jexM34MOeYirDdFAZm2kuWj7VEOJhhZkDrxfvUu', TRUE);
+
+INSERT INTO roles (username, role) VALUES ('nacos', 'ROLE_ADMIN')
+```
 
 
 

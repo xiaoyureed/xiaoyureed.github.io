@@ -26,31 +26,30 @@ https://program-think.blogspot.com/2009/05/how-to-break-through-gfw.html
 
 <!--more-->
 
-<!-- TOC -->
+- [科学上网介绍](#科学上网介绍)
+- [GFW封锁手段](#gfw封锁手段)
+    - [DNS相关](#dns相关)
+        - [DNS劫持](#dns劫持)
+        - [DNS污染（DNS欺骗）](#dns污染dns欺骗)
+    - [IP封锁（IP黑名单）](#ip封锁ip黑名单)
+    - [敏感字过滤](#敏感字过滤)
+    - [CNNIC的CA证书造成中间人攻击](#cnnic的ca证书造成中间人攻击)
+- [应对手段](#应对手段)
+    - [修改DNS服务器](#修改dns服务器)
+    - [修改本机hosts文件](#修改本机hosts文件)
+    - [HTTPS 的加密 web 代理](#https-的加密-web-代理)
+    - [vpn 代理软件](#vpn-代理软件)
+        - [clash](#clash)
+        - [shadowsockets](#shadowsockets)
+        - [pac 规则](#pac-规则)
+        - [自己搭建](#自己搭建)
+        - [通过 代理科学上网 step by step](#通过-代理科学上网-step-by-step)
+        - [代理的客户端下载](#代理的客户端下载)
+    - [其他方法](#其他方法)
+- [vps](#vps)
+- [内网穿透](#内网穿透)
 
-- [1. 科学上网介绍](#1-%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E4%BB%8B%E7%BB%8D)
-- [2. GFW封锁手段](#2-gfw%E5%B0%81%E9%94%81%E6%89%8B%E6%AE%B5)
-  - [2.1. DNS相关](#21-dns%E7%9B%B8%E5%85%B3)
-    - [2.1.1. DNS劫持](#211-dns%E5%8A%AB%E6%8C%81)
-    - [2.1.2. DNS污染（DNS欺骗）](#212-dns%E6%B1%A1%E6%9F%93dns%E6%AC%BA%E9%AA%97)
-  - [2.2. IP封锁（IP黑名单）](#22-ip%E5%B0%81%E9%94%81ip%E9%BB%91%E5%90%8D%E5%8D%95)
-  - [2.3. 敏感字过滤](#23-%E6%95%8F%E6%84%9F%E5%AD%97%E8%BF%87%E6%BB%A4)
-  - [2.4. CNNIC的CA证书造成中间人攻击](#24-cnnic%E7%9A%84ca%E8%AF%81%E4%B9%A6%E9%80%A0%E6%88%90%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB)
-- [3. 应对手段](#3-%E5%BA%94%E5%AF%B9%E6%89%8B%E6%AE%B5)
-  - [3.1. 修改DNS服务器](#31-%E4%BF%AE%E6%94%B9dns%E6%9C%8D%E5%8A%A1%E5%99%A8)
-  - [3.2. 修改本机hosts文件](#32-%E4%BF%AE%E6%94%B9%E6%9C%AC%E6%9C%BAhosts%E6%96%87%E4%BB%B6)
-  - [3.3. HTTPS 的加密 web 代理](#33-https-%E7%9A%84%E5%8A%A0%E5%AF%86-web-%E4%BB%A3%E7%90%86)
-  - [3.4. vpn 代理软件](#34-vpn-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6)
-    - [3.4.1. pac 规则](#341-pac-%E8%A7%84%E5%88%99)
-    - [3.4.2. 自己搭建](#342-%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA)
-    - [3.4.3. 通过 代理科学上网 step by step](#343-%E9%80%9A%E8%BF%87-%E4%BB%A3%E7%90%86%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91-step-by-step)
-    - [3.4.4. 代理的客户端下载](#344-%E4%BB%A3%E7%90%86%E7%9A%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8B%E8%BD%BD)
-  - [3.5. 其他方法](#35-%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95)
-  - [3.6. 移动端](#36-%E7%A7%BB%E5%8A%A8%E7%AB%AF)
-- [4. vps](#4-vps)
-- [5. 内网穿透](#5-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F)
 
-<!-- /TOC -->
 
 # 科学上网介绍
 
@@ -170,6 +169,33 @@ Linux 在这个文件里： /etc/hosts
 但是有个明显的缺点，就是用的人一多就容易引起GFW注意，自然就挂掉了，所以需要自个找到好用的代理  
 
 ## vpn 代理软件
+
+### clash
+
+```sh
+
+https://github.com/Dreamacro/clash
+
+https://github.com/juewuy/ShellClash  shell 一件安装
+
+https://github.com/yichengchen/clashX mac client
+https://github.com/zzzgydi/clash-verge client
+
+https://github.com/Loyalsoldier/clash-rules
+
+https://github.com/Dreamacro/clash-dashboard
+https://github.com/haishanh/yacd dashboard
+
+
+https://github.com/aiboboxx/clashfree 免费节点
+https://github.com/openRunner/clash-freenode
+
+https://github.com/WilliamStar007/ClashX-V2Ray-TopFreeProxy
+
+```
+
+### shadowsockets
+
 
 ### pac 规则
 
@@ -738,14 +764,6 @@ https://github.com/shadowsocks
 内网穿透：比较典型的是ZeroTier，
 
 V2Ray：V2Ray 是 Project V 下的一个工具。Project V 是一个包含一系列构建特定网络环境工具的项目，而 V2Ray 属于最核心的一个
-
-## 移动端
-
-ios: shadowrocket, Surge
-
-Android:  shadowsocks , Postern, 
-
-clashx, clash
 
 
 

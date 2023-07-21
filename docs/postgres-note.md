@@ -24,31 +24,33 @@ https://github.com/PostgREST/postgrest - postgresql to rest api
 <!--more-->
 
 - [1. what is postgres](#1-what-is-postgres)
-  - [logical construction](#logical-construction)
-  - [physical structure](#physical-structure)
-  - [progress structure](#progress-structure)
-  - [memory construction](#memory-construction)
+    - [logical construction](#logical-construction)
+    - [physical structure](#physical-structure)
+    - [progress structure](#progress-structure)
+    - [memory construction](#memory-construction)
 - [2. Why Postgres](#2-why-postgres)
 - [3. how to use](#3-how-to-use)
-  - [3.1. 命令行使用](#31-命令行使用)
-  - [3.2. sql 示例](#32-sql-示例)
-  - [3.3. 数据类型](#33-数据类型)
-    - [3.3.1. 时间](#331-时间)
-    - [3.3.2. array类型](#332-array类型)
-    - [3.3.3. hstore 键值对类型](#333-hstore-键值对类型)
-    - [3.3.4. json类型](#334-json类型)
-    - [3.3.5. 数字类型](#335-数字类型)
-    - [3.3.6. 序号类型](#336-序号类型)
-    - [3.3.7. 字符类型](#337-字符类型)
-  - [3.4. 不同于MySQL的特性](#34-不同于mysql的特性)
-    - [3.4.1. 账号系统](#341-账号系统)
-    - [3.4.2. schema](#342-schema)
-    - [3.4.3. sql查询](#343-sql查询)
-    - [3.4.4. 数据修改](#344-数据修改)
-    - [3.4.5. 表管理](#345-表管理)
-    - [3.4.6. 导入导出](#346-导入导出)
+    - [3.1. 命令行使用](#31-命令行使用)
+    - [3.2. sql 示例](#32-sql-示例)
+    - [3.3. 数据类型](#33-数据类型)
+        - [3.3.1. 时间](#331-时间)
+        - [3.3.2. array类型](#332-array类型)
+        - [3.3.3. hstore 键值对类型](#333-hstore-键值对类型)
+        - [3.3.4. json类型](#334-json类型)
+        - [3.3.5. 数字类型](#335-数字类型)
+        - [3.3.6. 序号类型](#336-序号类型)
+        - [3.3.7. 字符类型](#337-字符类型)
+    - [3.4. 不同于MySQL的特性](#34-不同于mysql的特性)
+        - [3.4.1. 账号系统](#341-账号系统)
+        - [3.4.2. schema](#342-schema)
+        - [3.4.3. sql查询](#343-sql查询)
+        - [3.4.4. 数据修改](#344-数据修改)
+        - [3.4.5. 表管理](#345-表管理)
+        - [3.4.6. 导入导出](#346-导入导出)
 - [4. crontab 定时操作 postgresql](#4-crontab-定时操作-postgresql)
 - [5. docker 中启动 postgres](#5-docker-中启动-postgres)
+- [开源库 插件](#开源库-插件)
+    - [restapi](#restapi)
 
 
 
@@ -638,3 +640,10 @@ docker run -d --rm --name postgresql -e POSTGRES_USER=dbuser -e POSTGRES_DB=test
 ```
 
 我是在 wsl2 中运行的 docker, 使用 navicat 可以正常使用 localhost 连接 .使用 inteliJ 系列, 需要 查出 wsl2 的 eth0 地址, 不能直接用 localhost 连接
+
+
+# 开源库 插件
+
+## restapi
+
+https://github.com/PostgREST/postgrest
