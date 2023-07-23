@@ -21,50 +21,53 @@ references: [1](https://www.zhihu.com/question/32212996), [2](https://blog.csdn.
 <!--more-->
 
 - [比较](#比较)
-  - [Tomcat和jetty](#tomcat和jetty)
-  - [Apache http server和Nginx](#apache-http-server和nginx)
+    - [Tomcat和jetty](#tomcat和jetty)
+    - [Apache http server和Nginx](#apache-http-server和nginx)
 - [nginx](#nginx)
-  - [使用场景](#使用场景)
-  - [常用命令](#常用命令)
-  - [nginx 无法停止 无法重启](#nginx-无法停止-无法重启)
-  - [nginx.conf 配置文件](#nginxconf-配置文件)
-    - [最简配置](#最简配置)
-    - [反向代理配置](#反向代理配置)
-    - [负载均衡配置](#负载均衡配置)
-    - [gzip 压缩](#gzip-压缩)
-    - [websocket 配置](#websocket-配置)
-    - [搭建谷歌镜像站](#搭建谷歌镜像站)
-    - [上 https](#上-https)
-    - [组成元素](#组成元素)
-  - [搭配 docker 使用](#搭配-docker-使用)
-  - [负载均衡配置demo](#负载均衡配置demo)
-  - [nginx和lua脚本](#nginx和lua脚本)
-  - [tengine](#tengine)
-  - [nginx 模块开发](#nginx-模块开发)
-  - [nginx-lua 开发高并发服务](#nginx-lua-开发高并发服务)
-  - [nginx面试题](#nginx面试题)
-    - [nginx是如何实现高并发的](#nginx是如何实现高并发的)
-    - [nginx 和 apache 区别](#nginx-和-apache-区别)
-    - [fastcgi 与 cgi 的区别](#fastcgi-与-cgi-的区别)
-  - [NGINX 配置调优](#nginx-配置调优)
+    - [使用场景](#使用场景)
+    - [常用命令](#常用命令)
+    - [nginx 无法停止 无法重启](#nginx-无法停止-无法重启)
+    - [nginx.conf 配置文件](#nginxconf-配置文件)
+        - [最简配置](#最简配置)
+        - [配置语法](#配置语法)
+            - [location](#location)
+            - [proxy\_pass](#proxy_pass)
+        - [反向代理配置](#反向代理配置)
+        - [负载均衡配置](#负载均衡配置)
+        - [gzip 压缩](#gzip-压缩)
+        - [websocket 配置](#websocket-配置)
+        - [搭建谷歌镜像站](#搭建谷歌镜像站)
+        - [上 https](#上-https)
+        - [组成元素](#组成元素)
+    - [搭配 docker 使用](#搭配-docker-使用)
+    - [负载均衡配置demo](#负载均衡配置demo)
+    - [nginx和lua脚本](#nginx和lua脚本)
+    - [tengine](#tengine)
+    - [nginx 模块开发](#nginx-模块开发)
+    - [nginx-lua 开发高并发服务](#nginx-lua-开发高并发服务)
+    - [nginx面试题](#nginx面试题)
+        - [nginx是如何实现高并发的](#nginx是如何实现高并发的)
+        - [nginx 和 apache 区别](#nginx-和-apache-区别)
+        - [fastcgi 与 cgi 的区别](#fastcgi-与-cgi-的区别)
+    - [NGINX 配置调优](#nginx-配置调优)
 - [jetty](#jetty)
-  - [部署 app 到 jetty 内部](#部署-app-到-jetty-内部)
-  - [jetty支持servlet3.0注解](#jetty支持servlet30注解)
-  - [jetty的整个结构](#jetty的整个结构)
-  - [Jetty的工作过程](#jetty的工作过程)
-    - [启动](#启动)
-    - [接受请求](#接受请求)
-    - [处理请求](#处理请求)
+    - [部署 app 到 jetty 内部](#部署-app-到-jetty-内部)
+    - [jetty支持servlet3.0注解](#jetty支持servlet30注解)
+    - [jetty的整个结构](#jetty的整个结构)
+    - [Jetty的工作过程](#jetty的工作过程)
+        - [启动](#启动)
+        - [接受请求](#接受请求)
+        - [处理请求](#处理请求)
 - [Tomcat](#tomcat)
-  - [Tomcat 总体结构](#tomcat-总体结构)
-    - [Connector](#connector)
-    - [Container](#container)
-  - [用到了哪些设计模式](#用到了哪些设计模式)
-    - [Facade](#facade)
-    - [Observer](#observer)
-    - [Command](#command)
-    - [Chain of responsibility](#chain-of-responsibility)
-  - [Tomcat 优化](#tomcat-优化)
+    - [Tomcat 总体结构](#tomcat-总体结构)
+        - [Connector](#connector)
+        - [Container](#container)
+    - [用到了哪些设计模式](#用到了哪些设计模式)
+        - [Facade](#facade)
+        - [Observer](#observer)
+        - [Command](#command)
+        - [Chain of responsibility](#chain-of-responsibility)
+    - [Tomcat 优化](#tomcat-优化)
 
 
 # 比较
@@ -184,6 +187,95 @@ server {
     try_files $uri /index.html;
   }
 }
+
+```
+
+### 配置语法
+
+https://thinking.renzhansheng.cn/pages/nginx/
+
+#### location
+
+```sh
+location [ = | ~ | ~* | ^~ | @ ] uri { ... }
+
+匹配方式(优先级由高到低)：
+    精确匹配：使用修饰符=。
+    前缀匹配：使用修饰符^~。
+    正则匹配：使用修饰符~（区分大小写）和~*（不区分大小写）。
+    最长匹配：没有修饰符，使用匹配到的最长记录。
+
+    nginx内部跳转: @
+
+
+
+location /img/ {
+    error_page 404 @img_err;
+}
+#以 /img/ 开头的请求，如果链接的状态为 404, 则会匹配到 @img_err 这条规则上。
+location @img_err {
+    # 规则
+}
+
+# 精确匹配
+# 只匹配请求/ , 请求/精准匹配A，不再往下查找
+location = / {
+    [ configuration A ]
+}
+
+# 正则匹配，不区分大小写
+# 通过后缀匹配图片, /images/.../1.jpg
+# 请求/index.html匹配B。首先找到最长匹配B，接着又按照顺序查找匹配的正则。结果没有找到，因此使用先前标记的最长匹配，即配置B。
+# 请求/documents/about.html匹配B。因为B表示任何以/开头的URL都匹配。在上面的配置中，只有B能满足，所以匹配B。
+location ~* \.(gif|jpg|jpeg)$ {
+    [ configuration B ]
+}
+
+# 前缀匹配
+# 匹配 /images/xxx/yyyy
+# 请求/user/index.html匹配C。首先找到最长匹配C，由于后面没有匹配的正则，所以使用最长匹配C。
+location ^~ /images/ {
+    [ configuration C ]
+}
+
+
+# 前缀匹配
+# 匹配 /img/xxx/yyyy, /imgx,/imgy/abc/1
+# 请求/images/1.jpg匹配D。首先进行前缀字符的查找，找到最长匹配D。但是，特殊的是它使用了^~修饰符，不再进行接下来的正则的匹配查找，因此使用D。这里，如果没有前面的修饰符，其实最终的匹配是E。大家可以想一想为什么。
+location ^~ /img {
+    [ configuration D ]
+}
+
+# 请求/user/1.jpg匹配E。首先找到最长匹配项C，继续进行正则查找，找到匹配项E。因此使用E。
+location / {
+    [ configuration E ]
+}
+
+location /user/ {
+    [ configuration F ]
+}
+
+
+```
+
+#### proxy_pass
+
+```sh
+location [ = | ~ | ~* | ^~ ] uri {
+	proxy_pass http://host:port[uri0]
+}
+
+# uri0可以是 /, /www, /www/
+
+# 不存在uri0
+actualUrl = requestUrl
+# 存在uri0
+actualUrl = uri0 + requestUrl.remove(uri)
+
+# 以请求http://localhost:8080/api/values/ccc为例：
+
+
+
 
 ```
 

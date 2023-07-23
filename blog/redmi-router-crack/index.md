@@ -154,4 +154,6 @@ https://github.com/WilliamStar007/ClashX-V2Ray-TopFreeProxy
 https://github.com/learnhard-cn/free_proxy_ss
 
 https://github.com/233boy/v2ray one click scripts
+
+https://www.youtube.com/watch?v=KH318DzR7lA
 ```
