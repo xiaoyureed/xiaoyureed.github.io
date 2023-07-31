@@ -1,7 +1,7 @@
 ---
-title: Low code
+title: 关于低代码平台的调研
 date: 2023-5-15
-tags: [k8s]
+tags: [low code]
 toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
@@ -47,3 +47,11 @@ https://github.com/mfish-qf/mfish-nocode
 
 
 https://github.com/taowen/awesome-lowcode
+
+### rest api
+
+https://github.com/Tencent/APIJSON
+https://github.com/freakchick/DBApi
+https://github.com/PostgREST/postgrest
+
+https://github.com/getdozer/dozer

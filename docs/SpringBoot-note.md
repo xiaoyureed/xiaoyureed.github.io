@@ -122,10 +122,13 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
         - [14.11.4. 全注解开发](#14114-全注解开发)
         - [14.11.5. 动态定时刷新 SQL mapper 实现热加载](#14115-动态定时刷新-sql-mapper-实现热加载)
         - [14.11.6. 自定义资源文件打包目录 and 开启占位符过滤](#14116-自定义资源文件打包目录-and-开启占位符过滤)
-    - [14.12. springboot 事务](#1412-springboot-事务)
+    - [14.12. 事务](#1412-事务)
         - [14.12.1. 事务基本使用](#14121-事务基本使用)
+            - [14.12.1.1. 手动编程实现](#141211-手动编程实现)
+            - [14.12.1.2. 注解声明式](#141212-注解声明式)
         - [14.12.2. transaction not working](#14122-transaction-not-working)
         - [14.12.3. spring 事务传播失效的坑](#14123-spring-事务传播失效的坑)
+        - [避免长事务](#避免长事务)
         - [14.12.4. Transactional 注解](#14124-transactional-注解)
     - [14.13. 缓存](#1413-缓存)
         - [14.13.1. springboot-starter-cache](#14131-springboot-starter-cache)
@@ -1763,10 +1766,14 @@ flyway.validate-on-migrate迁移时是否校验，默认为true.
 
 ## 14.5. 数据库连接字符串收集
 
-```
+```sh
+
 MySQL
 jdbc:mysql://122.191.199.51:60000/js_phaseii_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=true
 com.mysql.cj.jdbc.Driver
+
+
+
 
 oracle:
 1.使用service_name,配置方式: jdbc:oracle:thin:@//:1521/helowin
@@ -1774,9 +1781,17 @@ oracle:
 3.使用SID，配置方式：         jdbc:oracle:thin:@:1521:helowin
 oracle.jdbc.driver.OracleDriver
 
+
+
+
 postgres:
- jdbc-url: jdbc:postgresql://127.0.0.1:5432/test
-      driver-class-name: org.postgresql.Driver
+语法: jdbc:postgresql://[user[:password]@][netloc][:port][/dbname][?param1=value1&...]
+
+jdbc:postgresql://127.0.0.1:5432/test
+postgresql://other@localhost/otherdb?connect_timeout=10&application_name=myapp
+postgresql://localhost/mydb?user=other&password=secret
+
+driver-class-name: org.postgresql.Driver
 ```
 
 ## 14.6. graphql集成
@@ -2635,28 +2650,171 @@ mapper.xml 和 dao interface 放在一起: (开启资源文件过滤)
 
 
 
-## 14.12. springboot 事务
+## 14.12. 事务
 
 ### 14.12.1. 事务基本使用
 
-Spring boot是默认启动事务的，只需要在类或者方法上添加@Transactional注解即可
+#### 14.12.1.1. 手动编程实现
 
-You can also use `transaction manager` manually: `transactionTemplate.execute()`
+
+```java
+// spring provide TransactionManager interface 
+// 各个厂商去实现然后注入到Spring容器中就就好了, for example : Spring-jdbc -> org.springframework.jdbc.datasource.DataSourceTransactionManager 
+TransactionStatus transaction =
+        //DefaultTransactionDefinition 定义隔离界别, 传播方式
+        transactionManager.getTransaction(new DefaultTransactionDefinition());
+try {
+    jdbcTemplate.update("UPDATE info_user SET sex = ? WHERE user_name = ?","女","lisi");
+    System.out.println("一段薛定谔的逻辑");
+    transactionManager.commit(transaction);
+} catch (DataAccessException e) {
+    transactionManager.rollback(transaction);
+}
+
+
+
+
+// or
+// 
+@Autowired 
+private TransactionTemplate transactionTemplate; 
+
+public void save(ArtisanDto artisanDto) { 
+    transactionTemplate.execute(transactionStatus -> {
+        artisanDao.save(artisanDto);
+        //....
+        // .....
+        return Boolean.TRUE; 
+    });
+} 
+
+```
+
+#### 14.12.1.2. 注解声明式
+
+
+```java
+只需要在类或者方法上添加@Transactional注解即可 
+
+    @EnableTransactionManagement 默认就开启了, 可加可不加
+
+        - proxyTargetClass 控制是否一定使用 cglib 生成代理类
+            默认 false, 此时事务类实现了接口的使用JDK代理，未实现接口的使用CGLIB代理, 当proxyTargetClass = true时，无论target是否实现了接口，其都是CGLIB代理
+
+        - mode  控制Advice切面如何被应用(如何被织入)
+            默认 PROXY 模式, 通过代理调用拦截实现通知增强，本地调用(即通过 this.xxx())不能实现通知增强；
+            AdviceMode.ASPECTJ模式, 这种情况下proxyTargetClass属性将会被忽略,其将通过编译时字节码增强的方式织入切面, 这种情况下不涉及代理，本地调用也同样生效。需要注意，这种情况下需要引入 spring-aspects 模块 jar包
+
+    如果事务类没有实现接口, 推荐基于AspectJ编译期织入来实现, @EnableTransactionManagement(mode = AdviceMode.ASPECTJ) 
+
+
+
+// 最严格, 效率最低
+// 这个隔离级别可以防止出现脏读，不可重复读和幻读，并且设置回归的异常类型为Exception，这个很重要哦，因为rollbackFor的默认值为RuntimeException运行时异常
+@tranfactional(isolation=serializable, rollbackfor=exception.class)
+
+
+
+
+// 如果想自己捕获异常, 不抛出异常, 然后回滚, 可以在 catch 里面拿到当前的事务设置回滚:
+TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
+
+
+
+
+// 事务同步
+// https://www.jdon.com/57371.html
+// 如何保证逻辑 A 所在的事务成功后才做某些操作B
+// 把A用try-catch包裹, 然后在finally里面获取当前事务的状态然后再决定是否执行 B  --> 可以, 但不优雅
+// 可以利用TransactionSynchronization 
+  @Transactional(isolation = Isolation.SERIALIZABLE, rollbackFor = Exception.class)
+    void a() {
+        // 操作 A
+        // ...
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                //操作 B
+                //...
+            }
+        });
+    }
+
+//  如何在事务失败回滚后, 执行逻辑 C?
+   @Transactional(isolation = Isolation.SERIALIZABLE, rollbackFor = Exception.class)
+    void a() {
+        // 操作 A
+        // ...
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+
+            @Override
+            public void afterCompletion(int status) {
+                if (status == TransactionSynchronization.STATUS_ROLLED_BACK) {
+                    // 逻辑 C
+                }
+                if (status == TransactionSynchronization.STATUS_COMMITTED) {
+                    // 逻辑 B
+                }
+            }
+        });
+
+    }
+
+
+// 事务传播
+// 它们规定了事务方法和事务方法发生嵌套调用时是否加入调用方的事务
+传播行为：一个业务 A (事务方法A)，调用另一个业务 B (带有事务)，B是否加入 A 的事务
+
+-   `PROPAGATION_REQUIRED` required 必须 （默认值） 
+
+    如果 A 使用事务，那么 B 使用同一个事务 (此时 B 的事务配置都无效, 被 A 的事务覆盖了)。如果 A 没有事务，B 创建一个新的事务。
+
+-   `PROPAGATION_REQUIRES_NEW` requires new 必须新的
+
+    无论 a 是否存在事务, b 都将创建新的事务 (小心死锁)
+
+-   `PROPAGATION_NESTED` nested 嵌套
+
+    AB 使用嵌套事务，底层使用 Savepoint, A 有事务, B 就创建一个子事务, A 没事务 , B 就创建个新事务
+
+-   PROPAGATION_SUPPORTS supports 支持
+
+    A 如果使用事务，B 使用同一个事务。A 没有事务，B 也就没有事务, 将以非事务执行
+
+-   PROPAGATION_NOT_SUPPORTED not supported 不支持
+
+    无论 a 是否存在事务, b 都以非事务执行 (若 A 有事务, 会暂时挂起该事物)
+
+-   PROPAGATION_NEVER never 从不
+
+    A 使用事务，B 将抛异常。A 没有事务，B 将以非事务执行
+
+-   PROPAGATION_MANDATORY mandatory 强制 (狗都不用)
+
+    A 使用事务，B 使用同一个事务。A 没有事务，B 抛出异常
+
+```
 
 ### 14.12.2. transaction not working 
 
 事务不生效, 可能是:
 
 ```java
-1、首先要看数据库引擎是否支持事务，mysql默认引擎INNODB是支持的，但MYISAM是不支持的；
+- 可能是数据库引擎不支持事务
+    mysql默认引擎INNODB是支持的，但MYISAM是不支持的；
 
-2、注解只能被应用到public, none final, none static 方法上, 其它方法上不会报错，但不生效；(as transaction is based on dynamic proxy, "public/final" method will defeat against proxy object generation;)
+- 如果是非 spring boot 项目, 没有启动自动配置, 这是可能的原因是
+    - 没有配置 transaction manager 实例, 
+    - 没引入 aop 相关的依赖
 
-  cglib proxy is based on "extends". jdk proxy is based on "interface", they are both need the method is not final/static
+- 如果是 spring boot 项目, 可能是
+    - 自定义了 trasaction manager, 但是没有在 @transaction 注解上配置manager 名字
 
-3、默认情况下只会对运行期异常(即 java.lang.RuntimeException异常)和 Error 进行回滚；
+- 编码上的写法错误
+    - 事务方法不是 public 的 (因为事务底层是动态代理, 非 public 方法无法被代理)
+    - 使用了 this 调用了事务方法, 即 this.xxxTransactionalMethod(...) , (this 是原始对象, 而不是生成的代理对象)
+    - 抛出的异常为 exception.class, 但是没有在 @trasactional 显式声明 rollbackfor (默认只 rollback runtime exception)
 
-  如果是其它异常, 需要手动指定`@Transactional(rollbackFor={Exception.class})` 回滚所有异常;
 
   还可能异常被某个 aop 切面捕获了, 没法触发回滚
 
@@ -2689,6 +2847,38 @@ public void a() {
     thisService.c()
 }
 ```
+
+### 避免长事务
+
+避免长事务最简单的方法就是不要使用声明式事务@Transactional，而是使用编程式事务手动控制事务的颗粒度, 将不需要事务的逻辑移动到事务外面
+
+如果使用了声明式事务, 在普通方法中调用事务方法, 要避免事务失效, 需要获取代理后的对象来调用事务方法
+
+```java
+@Service
+public class ArtisanService{
+
+    public void create(ArtisanDto dto){
+        queryData(); // 无需事务的逻辑
+        biz(); // 无需事务的逻辑
+
+        save(dto);  // 错误, 因为是使用 this 调用的方法, 不是代理对象
+
+        // 方式 1: 将 事务方法放到另一个事务类, 在这里注入后调用 (注入的是代理后的类)
+        // 方式 2: 开启 AspectJ 字节码织入切面, @EnableAspectJAutoProxy(exposeProxy = true)，方法内使用AopContext.currentProxy()获得代理类
+    }
+  
+	//事务操作
+    @Transactional(rollbackFor = Throwable.class)
+    public void save(ArtisanDto  dto){
+        artisanDao.insert(dto);
+    }
+}
+
+```
+
+
+
 
 ### 14.12.4. Transactional 注解
 
@@ -4763,7 +4953,7 @@ https://github.com/tywo45
 
 - @builder 构造对象时底层用的是全参数构造器, 需要 @AllArgsConstructor一起用, 无法单独使用, 若果一定要用, 好的组合是 @NoArgsConstructor @AllArgsConstructor @Builder @Data
 
-  - 推荐使用 @accesssor(chain=true)
+  - 推荐使用 @accesssor(chain=true), 注意Accessor 产生的方法和 cglib 冲突, 比如 beancopier.create() 就会报错, 此时可使用 spring 提供的 copy util (ref: https://github.com/cglib/cglib/issues/108)
 
 - 代替@AutoWired注解: @RequiredArgsConstructor(onConstructor =@__(@Autowired))标注在类上, 那么注入成员的时候, 可以省掉 @autowired 注解 (会自动生成构造器)
 

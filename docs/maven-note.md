@@ -88,6 +88,7 @@ jetbrains package search : https://pkg.biuaxia.cn/
     - [18.7. 打包测试代码](#187-打包测试代码)
 - [19. 生命周期](#19-生命周期)
 - [20. 插件](#20-插件)
+    - [jib-maven-plugin 构建 docker 镜像](#jib-maven-plugin-构建-docker-镜像)
     - [20.1. 查看插件帮助文档](#201-查看插件帮助文档)
     - [20.2. 插件绑定](#202-插件绑定)
     - [20.3. 插件的自定义绑定](#203-插件的自定义绑定)
@@ -198,8 +199,16 @@ mvnd -version
 [手动安装jar到本地仓库](https://blog.csdn.net/fangzg811107320/article/details/72763704): `mvn install:install-file -Dfile=D:/soft/ojdbc6.jar -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.3 -Dpackaging=jar -DgeneratePom=true`
 
 ```sh
+# install jar file
 mvn install:install-file -Dfile=/Users/xiaoyu/repo/sanxia_gaoke/resources/ojdbc8/19.3.0.0/ojdbc8-19.3.0.0.jar -DgoupId=com.oracle -DartifactId=ojdbc8 -Dversion=19.3.0.0 -Dpackaging=jar -DgeneratePom=true
 
+
+# 指定构建模块
+# -am --also-make 同时构建指定模块的依赖模块；
+# -amd -also-make-dependents 同时构建依赖指定模块的模块；
+# -pl --projects <arg> 构建制定的模块，模块间用逗号分隔；
+# -rf -resume-from <arg> 从指定的模块恢复反应堆。
+mvn clean package -pl  <指定模块工程路径> -am
 ```
 
 
@@ -2749,6 +2758,70 @@ mvn命令实际上就是调用三套生命周期的不同阶段进行组合
 
 # 20. 插件
 
+## jib-maven-plugin 构建 docker 镜像
+
+无需安装 Docker 环境
+
+```xml
+<!--
+
+build提供了创建镜像并推送到远程仓库功能。
+buildTar提供创建一个包含镜像的tar文件功能。(docker load命令将tar文件的镜像加载到本地镜像仓库)
+dockerBuild提供创建docker镜像到本地功能。
+exportDockerContext提供创建dockerfile功能
+
+由于编译构建是在没有docker环境的情况下构建，所以使用build命令和dockerBuild命令并不能制作出镜像，只能使用buildTar命令制作出一个包含镜像的tar文件
+    -->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <configuration>
+                    <from>
+                        <!--base image-->
+                        <image>amazoncorretto:20.0.2-alpine3.18</image>
+                    </from>
+                    <!--generated image configuration-->
+                    <to>
+<!--                        只有这个是必须的-->
+                        <image>xiaoyureed/${project.artifactId}:v${project.version}</image>
+                        <tags>
+                            <tag>v${project.version}</tag>
+                        </tags>
+<!--                        <auth>-->
+<!--                            <username></username>-->
+<!--                            <password></password>-->
+<!--                        </auth>-->
+                    </to>
+                    <allowInsecureRegistries>true</allowInsecureRegistries>
+                    <container>
+
+                        <mainClass>io.github.xiaoyureed.raincloud.example.springbootmybatismysql.SpringBootMybatisMysqlApp</mainClass>
+<!--                        镜像创建时间-->
+                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+<!--                        <jvmFlags>-->
+<!--                            <jvmFlag>-Xms4g</jvmFlag>-->
+<!--                            <jvmFlag>-Xmx4g</jvmFlag>-->
+<!--                        </jvmFlags>-->
+                        <ports>
+                            <port>8102</port>
+                        </ports>
+                    </container>
+                </configuration>
+                <executions>
+<!--                    将 jib buil 绑定到 package 阶段-->
+<!--                    <execution>-->
+<!--                        <id>jib-mvn-plugin</id>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>build</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+                </executions>
+            </plugin>
+
+```
+
+
 ## 20.1. 查看插件帮助文档
 
 `mvn help:describe -Dplugin=<plugin_name> -Dgoal=<goal> -Ddetail=true`
@@ -3935,7 +4008,7 @@ maven的聚合为这种场景服务: 我们一次希望构建两个项目/模块
 
 和dependencyMangement元素类似;
 
-# 28. 反应堆
+# 28. 反应堆 
 
 反应堆构件顺序: Maven按照顺序读取A的pom, 如果该A的pom没有依赖任何模块, 直接构建该项目A, 否则就先构建其依赖的模块B, 如果B还依赖构建C, 则进一步先构建模块C;
 

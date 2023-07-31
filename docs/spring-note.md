@@ -11,100 +11,99 @@ references： [1](https://docs.spring.io/spring/docs/5.1.2.RELEASE/spring-framew
 https://github.com/huifer/spring-analysis 源码分析
 
 - [1. 拾遗](#1-拾遗)
-  - [1.1. classpath\*区别](#11-classpath区别)
-  - [1.2. 各种注解怎么理解](#12-各种注解怎么理解)
+    - [1.1. classpath\*区别](#11-classpath区别)
+    - [1.2. 各种注解怎么理解](#12-各种注解怎么理解)
 - [2. 认识](#2-认识)
-  - [2.1. core 部分](#21-core-部分)
-  - [2.2. aop 部分](#22-aop-部分)
-  - [2.3. data access 部分](#23-data-access-部分)
-  - [2.4. web 部分](#24-web-部分)
-  - [2.5. test 部分\&context-support](#25-test-部分context-support)
-  - [2.6. spring4 新增](#26-spring4-新增)
-  - [2.7. 组件结构](#27-组件结构)
-    - [2.7.1. ioc-container](#271-ioc-container)
+    - [2.1. core 部分](#21-core-部分)
+    - [2.2. aop 部分](#22-aop-部分)
+    - [2.3. data access 部分](#23-data-access-部分)
+    - [2.4. web 部分](#24-web-部分)
+    - [2.5. test 部分\&context-support](#25-test-部分context-support)
+    - [2.6. spring4 新增](#26-spring4-新增)
+    - [2.7. 组件结构](#27-组件结构)
+        - [2.7.1. ioc-container](#271-ioc-container)
 - [3. api 使用](#3-api-使用)
 - [4. quickstart](#4-quickstart)
 - [5. 配置的方式](#5-配置的方式)
-  - [5.1. 基于 xml](#51-基于-xml)
-    - [5.1.1. xml 中的配置项](#511-xml-中的配置项)
-    - [5.1.2. 几种注入-实例化方式](#512-几种注入-实例化方式)
-      - [5.1.2.1. 通过构造函数](#5121-通过构造函数)
-        - [5.1.2.1.1. 通过静态工厂方法](#51211-通过静态工厂方法)
-        - [5.1.2.1.2. 通过实例工厂方法](#51212-通过实例工厂方法)
-      - [5.1.2.2. 通过 setter 注入](#5122-通过-setter-注入)
-      - [5.1.2.3. 通过 MethodInvokingFactoryBean 注入方法的返回值](#5123-通过-methodinvokingfactorybean-注入方法的返回值)
-      - [5.1.2.4. @Autowired 注入](#5124-autowired-注入)
-    - [5.1.3. springEL 表达式,注入表达式](#513-springel-表达式注入表达式)
-    - [5.1.4. 集合的注入](#514-集合的注入)
-  - [5.2. 基于注解](#52-基于注解)
-  - [5.3. xml 和注解混用](#53-xml-和注解混用)
+    - [5.1. 基于 xml](#51-基于-xml)
+        - [5.1.1. xml 中的配置项](#511-xml-中的配置项)
+        - [5.1.2. 几种注入-实例化方式](#512-几种注入-实例化方式)
+            - [5.1.2.1. 通过构造函数](#5121-通过构造函数)
+                - [5.1.2.1.1. 通过静态工厂方法](#51211-通过静态工厂方法)
+                - [5.1.2.1.2. 通过实例工厂方法](#51212-通过实例工厂方法)
+            - [5.1.2.2. 通过 setter 注入](#5122-通过-setter-注入)
+            - [5.1.2.3. 通过 MethodInvokingFactoryBean 注入方法的返回值](#5123-通过-methodinvokingfactorybean-注入方法的返回值)
+            - [5.1.2.4. @Autowired 注入](#5124-autowired-注入)
+        - [5.1.3. springEL 表达式,注入表达式](#513-springel-表达式注入表达式)
+        - [5.1.4. 集合的注入](#514-集合的注入)
+    - [5.2. 基于注解](#52-基于注解)
+    - [5.3. xml 和注解混用](#53-xml-和注解混用)
 - [6. JUnit 整合](#6-junit-整合)
 - [7. IoC](#7-ioc)
 - [8. AOP](#8-aop)
-  - [8.1. aop 概念](#81-aop-概念)
-  - [8.2. aop 联盟规范](#82-aop-联盟规范)
-    - [8.2.1. 通知类型](#821-通知类型)
-    - [8.2.2. Joinpoint 连接点](#822-joinpoint-连接点)
-  - [8.3. 不和 spring 集成(单独使用动态代理)](#83-不和-spring-集成单独使用动态代理)
-    - [8.3.1. 通过 jdk 动态生成代理](#831-通过-jdk-动态生成代理)
-    - [8.3.2. 通过 cglib 动态生成代理](#832-通过-cglib-动态生成代理)
-  - [8.4. 通过 ProxyFactoryBean 生成代理(半自动)](#84-通过-proxyfactorybean-生成代理半自动)
-  - [8.5. 全自动实现](#85-全自动实现)
-  - [8.6. 使用 AspectJ 框架生成代理(和 spring 集成)](#86-使用-aspectj-框架生成代理和-spring-集成)
-    - [8.6.1. 准备工作](#861-准备工作)
-    - [8.6.2. AspectJ 通知类型](#862-aspectj-通知类型)
-    - [8.6.3. AspectJ 编程,基于 xml](#863-aspectj-编程基于-xml)
-    - [8.6.4. AspectJ 编程,基于注解](#864-aspectj-编程基于注解)
+    - [8.1. aop 概念](#81-aop-概念)
+    - [8.2. aop 联盟规范](#82-aop-联盟规范)
+        - [8.2.1. 通知类型](#821-通知类型)
+        - [8.2.2. Joinpoint 连接点](#822-joinpoint-连接点)
+    - [8.3. 不和 spring 集成(单独使用动态代理)](#83-不和-spring-集成单独使用动态代理)
+        - [8.3.1. 通过 jdk 动态生成代理](#831-通过-jdk-动态生成代理)
+        - [8.3.2. 通过 cglib 动态生成代理](#832-通过-cglib-动态生成代理)
+    - [8.4. 通过 ProxyFactoryBean 生成代理(半自动)](#84-通过-proxyfactorybean-生成代理半自动)
+    - [8.5. 全自动实现](#85-全自动实现)
+    - [8.6. 使用 AspectJ 框架生成代理(和 spring 集成)](#86-使用-aspectj-框架生成代理和-spring-集成)
+        - [8.6.1. 准备工作](#861-准备工作)
+        - [8.6.2. AspectJ 通知类型](#862-aspectj-通知类型)
+        - [8.6.3. AspectJ 编程,基于 xml](#863-aspectj-编程基于-xml)
+        - [8.6.4. AspectJ 编程,基于注解](#864-aspectj-编程基于注解)
 - [9. JDBC](#9-jdbc)
-  - [9.1. 数据库连接池](#91-数据库连接池)
-    - [9.1.1. C3P0](#911-c3p0)
-    - [9.1.2. DBCP](#912-dbcp)
-    - [9.1.3. Druid](#913-druid)
-    - [9.1.4. BoneCP](#914-bonecp)
-    - [9.1.5. HikariCP](#915-hikaricp)
-  - [9.2. JdbcTemplate](#92-jdbctemplate)
-    - [9.2.1. quickstart](#921-quickstart)
-    - [9.2.2. Dao 实现类继承 JdbcDaoSupport 支持类](#922-dao-实现类继承-jdbcdaosupport-支持类)
-    - [9.2.3. 数据库连接配置放入 Properties 文件](#923-数据库连接配置放入-properties-文件)
+    - [9.1. 数据库连接池](#91-数据库连接池)
+        - [9.1.1. C3P0](#911-c3p0)
+        - [9.1.2. DBCP](#912-dbcp)
+        - [9.1.3. Druid](#913-druid)
+        - [9.1.4. BoneCP](#914-bonecp)
+        - [9.1.5. HikariCP](#915-hikaricp)
+    - [9.2. JdbcTemplate](#92-jdbctemplate)
+        - [9.2.1. quickstart](#921-quickstart)
+        - [9.2.2. Dao 实现类继承 JdbcDaoSupport 支持类](#922-dao-实现类继承-jdbcdaosupport-支持类)
+        - [9.2.3. 数据库连接配置放入 Properties 文件](#923-数据库连接配置放入-properties-文件)
 - [10. 事务管理](#10-事务管理)
-  - [10.1. 事务实现原理](#101-事务实现原理)
-  - [10.2. TransactionDefinition 事务传播](#102-transactiondefinition-事务传播)
-  - [10.3. 事务相关 api](#103-事务相关-api)
-    - [10.3.1. PlatformTransactionManager](#1031-platformtransactionmanager)
-    - [10.3.2. TransactionStatus](#1032-transactionstatus)
-    - [10.3.3. 使用 jdbc 操作事务](#1033-使用-jdbc-操作事务)
-  - [10.4. 事务相关案例-转账](#104-事务相关案例-转账)
-    - [10.4.1. 准备](#1041-准备)
-    - [10.4.2. 手动开发事务](#1042-手动开发事务)
-    - [10.4.3. 半自动事务(生成代理)](#1043-半自动事务生成代理)
-    - [10.4.4. 全自动事务基于 xml](#1044-全自动事务基于-xml)
-    - [10.4.5. 全自动事务基于注解](#1045-全自动事务基于注解)
+    - [10.1. 事务实现原理](#101-事务实现原理)
+    - [10.3. 事务相关 api](#103-事务相关-api)
+        - [10.3.1. PlatformTransactionManager](#1031-platformtransactionmanager)
+        - [10.3.2. TransactionStatus](#1032-transactionstatus)
+        - [10.3.3. 使用 jdbc 操作事务](#1033-使用-jdbc-操作事务)
+    - [10.4. 事务相关案例-转账](#104-事务相关案例-转账)
+        - [10.4.1. 准备](#1041-准备)
+        - [10.4.2. 手动开发事务](#1042-手动开发事务)
+        - [10.4.3. 半自动事务(生成代理)](#1043-半自动事务生成代理)
+        - [10.4.4. 全自动事务基于 xml](#1044-全自动事务基于-xml)
+        - [10.4.5. 全自动事务基于注解](#1045-全自动事务基于注解)
 - [11. spring web 开发](#11-spring-web-开发)
 - [12. 几种加载 xml 方式](#12-几种加载-xml-方式)
 - [13. spring 中的设计模式](#13-spring-中的设计模式)
 - [14. spring bean 生命周期](#14-spring-bean-生命周期)
 - [15. 常用的 spring bean 拓展接口](#15-常用的-spring-bean-拓展接口)
-  - [15.1. BeanNameAware、ApplicationContextAware 和 BeanFactoryAware](#151-beannameawareapplicationcontextaware-和-beanfactoryaware)
-  - [15.2. BeanPostProcessor 接口](#152-beanpostprocessor-接口)
-  - [15.3. InitialingBean 和 DisposableBean](#153-initialingbean-和-disposablebean)
-  - [15.4. FactoryBean 接口](#154-factorybean-接口)
-    - [15.4.1. FactoryBean 解释](#1541-factorybean-解释)
-    - [15.4.2. FactoryBean 接口的 api](#1542-factorybean-接口的-api)
-    - [15.4.3. FactoryBean 简单的使用示例](#1543-factorybean-简单的使用示例)
-    - [15.4.4. factoryBean 在 mabatis-spring 集成中的应用](#1544-factorybean-在-mabatis-spring-集成中的应用)
-    - [15.4.5. factoryBean 案例-dao 切换](#1545-factorybean-案例-dao-切换)
-  - [15.5. BeanFactory 接口](#155-beanfactory-接口)
-    - [15.5.1. BeanFactory 解释](#1551-beanfactory-解释)
-    - [15.5.2. api 有哪些](#1552-api-有哪些)
-  - [15.6. BeanFactoryPostProcessor](#156-beanfactorypostprocessor)
-  - [15.7. InstantiationAwareBeanPostProcessor](#157-instantiationawarebeanpostprocessor)
+    - [15.1. BeanNameAware、ApplicationContextAware 和 BeanFactoryAware](#151-beannameawareapplicationcontextaware-和-beanfactoryaware)
+    - [15.2. BeanPostProcessor 接口](#152-beanpostprocessor-接口)
+    - [15.3. InitialingBean 和 DisposableBean](#153-initialingbean-和-disposablebean)
+    - [15.4. FactoryBean 接口](#154-factorybean-接口)
+        - [15.4.1. FactoryBean 解释](#1541-factorybean-解释)
+        - [15.4.2. FactoryBean 接口的 api](#1542-factorybean-接口的-api)
+        - [15.4.3. FactoryBean 简单的使用示例](#1543-factorybean-简单的使用示例)
+        - [15.4.4. factoryBean 在 mabatis-spring 集成中的应用](#1544-factorybean-在-mabatis-spring-集成中的应用)
+        - [15.4.5. factoryBean 案例-dao 切换](#1545-factorybean-案例-dao-切换)
+    - [15.5. BeanFactory 接口](#155-beanfactory-接口)
+        - [15.5.1. BeanFactory 解释](#1551-beanfactory-解释)
+        - [15.5.2. api 有哪些](#1552-api-有哪些)
+    - [15.6. BeanFactoryPostProcessor](#156-beanfactorypostprocessor)
+    - [15.7. InstantiationAwareBeanPostProcessor](#157-instantiationawarebeanpostprocessor)
 - [16. 动态注册 bean](#16-动态注册-bean)
-  - [16.1. 动态注册场景](#161-动态注册场景)
-  - [16.2. 动态注册 api](#162-动态注册-api)
-  - [16.3. 怎么使用动态注册](#163-怎么使用动态注册)
-    - [16.3.1. 通过 BeanFactoryPostProcessor 实现动态注册](#1631-通过-beanfactorypostprocessor-实现动态注册)
-    - [16.3.2. 通过 BeanDefinitionRegistry 在普通 bean 中注册](#1632-通过-beandefinitionregistry-在普通-bean-中注册)
-    - [16.3.3. 通过 ImportBeanDefinitionRegistrar](#1633-通过-importbeandefinitionregistrar)
+    - [16.1. 动态注册场景](#161-动态注册场景)
+    - [16.2. 动态注册 api](#162-动态注册-api)
+    - [16.3. 怎么使用动态注册](#163-怎么使用动态注册)
+        - [16.3.1. 通过 BeanFactoryPostProcessor 实现动态注册](#1631-通过-beanfactorypostprocessor-实现动态注册)
+        - [16.3.2. 通过 BeanDefinitionRegistry 在普通 bean 中注册](#1632-通过-beandefinitionregistry-在普通-bean-中注册)
+        - [16.3.3. 通过 ImportBeanDefinitionRegistrar](#1633-通过-importbeandefinitionregistrar)
 - [17. 国际化 and 参数校验](#17-国际化-and-参数校验)
 - [18. spring5 新特性](#18-spring5-新特性)
 
@@ -2687,44 +2686,6 @@ Java 中我们平时用的最多的就是在 service 层的增删改方法上添
 
 然后在业务方法执行完后执行 commit 提交事务，当在执行业务方法的过程中发生异常时就会执行 rollback 来回滚事务。
 
-
-
-
-## 10.2. TransactionDefinition 事务传播
-
-@transaction(propagation=...)
-
-Spring 在 TransactionDefinition 接口中规定了 7 种类型的事务传播行为, <font color="red">它们规定了事务方法和事务方法发生嵌套调用时是否加入调用方的事务</font>
-
-传播行为：一个业务 A (事务方法A)，调用另一个业务 B (带有事务)，B是否加入 A 的事务
-
--   `PROPAGATION_REQUIRED` required 必须 （默认值）
-
-    如果 A 使用事务，那么 B 使用同一个事务 (此时 B 的事务配置都无效, 被 A 的事务覆盖了)。如果 A 没有事务，B 创建一个新的事务。
-
--   `PROPAGATION_REQUIRES_NEW` requires new 必须新的
-
-    无论 a 是否存在事务, b 都将创建新的事务
-
--   `PROPAGATION_NESTED` nested 嵌套
-
-    AB 使用嵌套事务，底层使用 Savepoint
-
--   PROPAGATION_SUPPORTS supports 支持
-
-    A 使用事务，B 使用同一个事务。A 没有事务，B 将以非事务执行
-
--   PROPAGATION_NOT_SUPPORTED not supported 不支持
-
-    无论 a 是否存在事务, b 都以非事务执行
-
--   PROPAGATION_NEVER never 从不
-
-    A 使用事务，B 将抛异常。A 没有事务，B 将以非事务执行
-
--   PROPAGATION_MANDATORY mandatory 强制
-
-    A 使用事务，B 使用同一个事务。A 没有事务，B 抛出异常
 
 
 ## 10.3. 事务相关 api

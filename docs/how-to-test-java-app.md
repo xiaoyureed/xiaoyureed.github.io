@@ -20,6 +20,7 @@ toc_max_heading_level: 5
 - JSONassert：JSON 断言库
 - JsonPath：JSON XPath
 - https://github.com/DiUS/java-faker  构造假数据
+    - https://github.com/jsonzou/jmockdata 中文说明
 
 <!--more-->
 
@@ -28,18 +29,18 @@ toc_max_heading_level: 5
 - [2. spring-boot-starter-test](#2-spring-boot-starter-test)
 - [3. AssertJ](#3-assertj)
 - [4. Mockito](#4-mockito)
-  - [4.1. 和 springboot 配合使用](#41-和-springboot-配合使用)
-  - [mock 静态方法](#mock-静态方法)
+    - [4.1. 和 springboot 配合使用](#41-和-springboot-配合使用)
+    - [mock 静态方法](#mock-静态方法)
 - [6. web层测试](#6-web层测试)
 - [7. 压测](#7-压测)
-  - [7.1. 性能指标](#71-性能指标)
-  - [7.2. siege](#72-siege)
-  - [7.3. Gatling](#73-gatling)
-  - [7.4. jmeter](#74-jmeter)
-  - [7.5. ab](#75-ab)
-  - [hey](#hey)
-  - [vegeta](#vegeta)
-  - [7.6. jmh 方法级别的性能测试](#76-jmh-方法级别的性能测试)
+    - [7.1. 性能指标](#71-性能指标)
+    - [7.2. siege](#72-siege)
+    - [7.3. Gatling](#73-gatling)
+    - [7.4. jmeter](#74-jmeter)
+    - [7.5. ab](#75-ab)
+    - [hey](#hey)
+    - [vegeta](#vegeta)
+    - [7.6. jmh 方法级别的性能测试](#76-jmh-方法级别的性能测试)
 - [8. Junit](#8-junit)
 - [9. ab test](#9-ab-test)
 - [10. 集成测试 Testcontainers](#10-集成测试-testcontainers)
@@ -70,6 +71,11 @@ toc_max_heading_level: 5
 需要排除掉 `junit-vintage-engine` (若不排除, 则测试类需要用 `@RunWith(SpringRunner.class)` 标注才能正常注入 bean)
 
 最新版现在使用只需要添加类注解 `@SpringBootTest` 即可
+
+如果你什么注解也不想用，既不想测试Data JPA 也不想测试 mvc，只是想注册几个bean，然后启动做些测试，那么也可以用下面两个类:
+- 可以用ApplicationContextRunner，该类是一个标准的，无web的环境。
+
+- 可以直接用ApplicationContext，该类是Spring为应用程序提供配置的核心接口，例如AnnotationConfigApplicationContext
 
 
 ## 3. AssertJ
@@ -216,8 +222,11 @@ demo: https://github.com/xiaoyureed/springboot-demos/tree/master/mockito-mybatis
 http://wiki.jikexueyuan.com/project/spring-boot-cookbook-zh/test-mockito.html
 
 ```java
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 ```
 
 ### 4.1. 和 springboot 配合使用
@@ -239,9 +248,6 @@ import static org.mockito.Mockito.when;
         </dependency>
 ```
 
-scenario1: 需要 mock 的对象成员如 RedisService 使用 @mock, 不需要 mock 的成员使用 @Spy @Autowired;  填充到目标测试对象 使用 @InjectMocks 标注目标对象, 每次测试前需要初始化 `@BeforeEach void xxx() {MockitoAnnotations.initMocks(this);}`
-
-scenario2: @MockBean 标注需要 mock 的成员, @Autowired 标注目标对象, 无需初始化, 但是这种方式造成 appContext 重启, 性能低
 
 
 if you would like using it without springboot, just:
@@ -264,6 +270,46 @@ if you would like using it without springboot, just:
         </dependency>
 
 ```
+
+```java
+
+// scenario1: @MockBean 标注需要 mock 的成员, @Autowired 标注目标对象, 无需初始化, 但是这种方式造成 appContext 重启, 性能低
+
+// scenario2: 需要 mock 的对象成员如 RedisService 使用 @mock, 不需要 mock 的成员使用 @Spy @Autowired;  填充到目标测试对象 使用 @InjectMocks 标注目标对象, 每次测试前需要初始化 `@BeforeEach void xxx() {MockitoAnnotations.initMocks(this);}`
+
+@WebMvcTest
+class QuestionRestControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private QuestionService questionService;
+
+    @Test
+    void should_return_ok_when_create_question() throws Exception {
+        String id = "hello";
+
+        BDDMockito.given(questionService.createQuestion(ArgumentMatchers.any(CreateQuestionCommand.class)))
+            .willReturn(new CreateQuestionResult().setId(id));
+
+        byte[] content = new ClassPathResource("request/question/create/single-one.json").getInputStream().readAllBytes();
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/questions/create")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(content)
+            )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.data.id").value(id));
+    }
+}
+
+
+
+
+```
+
 
 ### mock 静态方法
 

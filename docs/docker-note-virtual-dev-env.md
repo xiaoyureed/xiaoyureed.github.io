@@ -1952,7 +1952,7 @@ docker run -it --rm --network some-network mysql mysql -hsome-mysql -uexample-us
 一个是通过 `--link` (不推荐), docker run --link可以用来链接2个容器，使得源容器（被链接的容器）和接收容器（主动去链接的容器）之间可以互相通信，并且接收容器可以获取源容器的一些数据，如源容器的环境变量。
 
 ```sh
-#--link <container_name>:<link_name> 
+#--link <container_name>:<link_name> , link name 相当于 container 中的 hostname
 docker run -d --name node --link selenium_hub:hub selenium/node-chrome-debug
 docker exec -it node /bin/bash
 ping hub # 可以 ping 通

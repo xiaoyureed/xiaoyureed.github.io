@@ -45,6 +45,7 @@ But there are several weaknesses:
 ## get a better image layer
 
 
+https://github.com/wagoodman/dive
 
 ```dockerfile
 
@@ -70,31 +71,11 @@ ENV JVM_OPTS="-Xmx256m -Xms256m" \
     TZ=Asia/Shanghai
 
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
-    && echo $TZ > /etc/timezone \
+    && echo $TZ > /etc/timezone 
 
 EXPOSE 8080
 ENTRYPOINT ["sh", "-c", "java ${JVM_OPTS} -Djava.security.egd=file:/dev/./urandom org.springframework.boot.loader.JarLauncher ${0} ${@}"]
 
-
-FROM openjdk:17-jdk-slim-buster
-
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
-
-ARG DEPENDENCY=target/dependency
-# 复制依赖, 这部分变动不多, 放在 image 最底层
-COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
-# 下面两层是应用程序, 经常变动, 放在最上层 (这样每次重新 build image, 会最大程度利用 docker 镜像缓存)
-COPY ${DEPENDENCY}/META-INF /app/META-INF
-COPY ${DEPENDENCY}/BOOT-INF/classes /app
-
-# 直接使用主类来启动程序比  Spring Boot loader  启动速度更快。
-ENTRYPOINT ["java", "-cp", "app:app/lib/*", "com.example.demo.DemoApplication"]
-
-# 也可以将 Spring Boot loader 拷贝到容器里，使用 org.springframework.boot.loader.JarLauncher 来启动应用
-# 执行 java org.springframework.boot.loader.JarLauncher 启动
-
-# 使用 JarLauncher 启动应用的好处是不用再硬编码启动类，对于任意的 Spring Boot 项目都适用，而且还可以保证 classpath 的加载顺序，在 BOOT-INF 目录下可以看到一个 classpath.idx 文件，JarLauncher 就是用它来构建 classpath 的。
 ```
 
 ## modularize the project

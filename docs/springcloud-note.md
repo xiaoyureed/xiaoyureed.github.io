@@ -122,6 +122,7 @@ https://github.com/chillzhuang/SpringBlade 实例
 - [15. spring-cloud-data-flow](#15-spring-cloud-data-flow)
 - [16. 分布式事务](#16-分布式事务)
     - [16.1. seata](#161-seata)
+        - [Seata 基本介绍](#seata-基本介绍)
     - [16.2. 本地消息表](#162-本地消息表)
 - [17. spring cloud alibaba 配合 dubbo](#17-spring-cloud-alibaba-配合-dubbo)
 - [18. 实际设计案例 票务网站](#18-实际设计案例-票务网站)
@@ -1194,6 +1195,15 @@ public class FeignHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy 
 
 国内使用多
 
+```sh
+# 启动控制台
+# -Dcsp.sentinel.dashboard.server=consoleIp:port 指定控制台地址和端口, 将控制台自身信息注册到 dashboard
+# 若启动多个应用，则需要通过 -Dcsp.sentinel.api.port=xxxx 指定客户端监控 API 的端口（默认是 8719)
+java -Dserver.port=18888 -Dcsp.sentinel.dashboard.server=localhost:18888 -Dproject.name=sentinel-dashboard -Dsentinel.dashboard.auth.username=rain -Dsentinel.dashboard.auth.password=rain -Dserver.servlet.session.timeout=7200 -jar sentinel-dashboard-1.8.6.jar
+
+
+```
+
 ## 8.3. resilience4j
 
 国外使用多, 基于Java 8开发的，并且只使用了vavr库 
@@ -2159,6 +2169,28 @@ management.endpoints.web.exposure.include=*
 # 16. 分布式事务 
 
 ## 16.1. seata
+
+### Seata 基本介绍
+
+```sh
+支持 XA, AT, TCC, SAGA 模式
+    AT 模式是无侵入的分布式事务解决方案，适用于不希望对业务进行改造的场景，几乎0学习成本。
+    XA
+    TCC 模式是高性能分布式事务解决方案，适用于核心系统等对性能有很高要求的场景。
+    Saga 模式是长事务解决方案，适用于业务流程长且需要保证事务最终一致性的业务系统，Saga 模式一阶段就会提交本地事务，无锁，长流程情况下可以保证性能，多用于渠道层、集成层业务系统。事务参与者可能是其它公司的服务或者是遗留系统的服务，无法进行改造和提供 TCC 要求的接口，也可以使用 Saga 模式
+
+
+基本组件:
+- seata server, 服务后端, 用来做分布式事务的全局管理
+- 事务发起者, 就是分布式事务是从哪里发起的
+    比如一个接口A会调用其他服务 B, C, 那 a 就是事务发起者
+- 事务参与者 即上面的 B, C
+
+
+全局事务ID XID
+
+
+```
 
 ## 16.2. 本地消息表
 

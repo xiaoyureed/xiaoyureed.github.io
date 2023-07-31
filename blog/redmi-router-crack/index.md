@@ -6,6 +6,10 @@ authors: me
 keywords: [crack]
 ---
 
+This article details how I cracked redmi ax6000 router, including some details steps.
+
+<!-- truncate -->
+
 ## enable Telnet
 
 check http://192.168.31.1, login to the ui

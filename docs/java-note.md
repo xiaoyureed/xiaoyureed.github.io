@@ -1655,7 +1655,10 @@ METHOD,  方法
 PARAMETER,   参数
 CONSTRUCTOR, 构造器
  LOCAL_VARIABLE  局部变量
+ ANNOTATION_TYPE 标注在注解上
 })
+@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+
 
 //////////////////////////////
 //
@@ -1668,7 +1671,7 @@ CONSTRUCTOR, 构造器
 @Retention(RetentionPolicy.SOURCE)    //注解只在源码级别有效
 @Retention(RetentionPolicy.CLASS)      //注解在字节码级别有效(编译成字节码后还保留注解信息)
                                     // 默认值
-@Retention(RetentionPolicy.RUNTIME)   注解在运行时期有效(所以我们可以通过反射去获取注解信息, 常用)
+@Retention(RetentionPolicy.RUNTIME)   注解在运行时期仍然有效 (所以我们可以通过反射去获取注解信息, 常用)
 
 /////////////////////
 //
