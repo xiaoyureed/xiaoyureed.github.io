@@ -6,6 +6,7 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
+https://github.com/openobserve/openobserve 替代 es
 
 https://github.com/spujadas/elk-docker ekl 镜像
 
@@ -26,21 +27,19 @@ https://kalasearch.cn/blog/chapter3-elastic-search-and-lucene/ 卡拉搜索上�
 
 <!--more-->
 
-<!-- TOC -->
-
 - [ElasticSearch](#elasticsearch)
-  - [概念](#概念)
-  - [使用场景](#使用场景)
-  - [启动](#启动)
-  - [中文分词插件](#中文分词插件)
-  - [使用](#使用)
-    - [meta info api](#meta-info-api)
-    - [index api](#index-api)
-    - [document api](#document-api)
-    - [mapping api](#mapping-api)
-    - [search api](#search-api)
-    - [数据类型](#数据类型)
-  - [Java client](#java-client)
+    - [概念](#概念)
+    - [使用场景](#使用场景)
+    - [启动](#启动)
+    - [中文分词插件](#中文分词插件)
+    - [使用](#使用)
+        - [meta info api](#meta-info-api)
+        - [index api](#index-api)
+        - [document api](#document-api)
+        - [mapping api](#mapping-api)
+        - [search api](#search-api)
+        - [数据类型](#数据类型)
+    - [Java client](#java-client)
 - [logstash](#logstash)
 - [filebeat](#filebeat)
 - [kibana](#kibana)
@@ -48,7 +47,7 @@ https://kalasearch.cn/blog/chapter3-elastic-search-and-lucene/ 卡拉搜索上�
 - [利用 websocket 实现最简单的日志可视化](#利用-websocket-实现最简单的日志可视化)
 - [利用 spring boot admin 实现日志可视化](#利用-spring-boot-admin-实现日志可视化)
 
-<!-- /TOC -->
+
 
 ## ElasticSearch
 

@@ -31,8 +31,7 @@ https://github.com/MichaelCade/90DaysOfDevOps
 - [1. gitlab ci](#1-gitlab-ci)
     - [1.1. brief Intro](#11-brief-intro)
     - [1.2. 配置文件语法](#12-配置文件语法)
-    - [1.3. 设置触发条件](#13-设置触发条件)
-        - [典型 springboot 项目中使用](#典型-springboot-项目中使用)
+        - [1.3. 设置触发条件](#13-设置触发条件)
         - [1.3.1. 定义单个job](#131-定义单个job)
         - [1.3.2. 多个 stage 多个 job](#132-多个-stage-多个-job)
         - [1.3.3. 使用 Maven](#133-使用-maven)
@@ -71,16 +70,18 @@ Gitlab runner
 https://juejin.cn/post/7064906701941506061
 
 > 有固定名字: .gitlab-ci.yml
->
 
-### 1.3. 设置触发条件
+
+
+#### 1.3. 设置触发条件
 
 ```yml
 myjob:
 #   执行时机
-# except 不执行时机
   only:
     - master
+# except 不执行时机
+
 # 以上写法等同于
 myjob:
   only:
@@ -88,9 +89,23 @@ myjob:
     # $CI_COMMIT_REF_NAME是一个gitlab的预设变量，代表当前commit给哪个branch上了
     - $CI_COMMIT_REF_NAME == "master"
 
+
+
+
+build-job:
+  stage: build
+  script:
+    - mvn clean package -Dmaven.test.skip=true
+    - docker build -t 10.11.2.51:5201/${IMAGE_NAME} .
+  tags:
+    - $TAGS
+  rules:
+    # 触发条件: 当前 commit 包含一个 tag 或者 当前 commit 在develop 分支上
+    - if: $CI_COMMIT_TAG != null || $CI_COMMIT_REF_NAME == 'develop'
+
+
 ```
 
-#### 典型 springboot 项目中使用
 
 
 #### 1.3.1. 定义单个job

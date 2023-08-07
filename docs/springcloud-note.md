@@ -59,6 +59,7 @@ https://github.com/chillzhuang/SpringBlade 实例
         - [6.3.3. feign client interceptor](#633-feign-client-interceptor)
         - [6.3.4. 日志配置](#634-日志配置)
         - [6.3.5. feign Client 在生产者端还是在消费者端定义](#635-feign-client-在生产者端还是在消费者端定义)
+    - [Retrofit](#retrofit)
 - [7. 负载均衡](#7-负载均衡)
     - [7.1. 集中式负载均衡和客户端负载均衡](#71-集中式负载均衡和客户端负载均衡)
     - [7.2. ribbon](#72-ribbon)
@@ -587,13 +588,18 @@ https://github.com/xwjie/MyRestUtil
 `@FeignClient`(also support 'url', 用于无 eureka 的情况; fallback 为 class type , 是当前 client interface 的实现类, 需要 @component, 在实现的方法中做降级回调逻辑, configuration 当前 feign client 的配置类,可以自定义Feign的Encoder、Decoder、LogLevel、Contract ; path: 定义当前FeignClient的统一前缀)
 
 ```props
-# enable hystrix support, default to false, 也可以使用 @EnableCircuitBreaker 
+# enable hystrix support, default to false, 也可以使用 @EnableCircuitBreaker 开启
 feign.hystrix.enabled: true
 ```
 
 ### 6.3.1. 基本使用
 
-```java
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+
 
 
 ```
@@ -637,6 +643,16 @@ feign.hystrix.enabled=false //Feign是否启用断路器,默认为false
 feign.client.config.default.connectTimeout=10000 //Feign的连接建立超时时间，默认为10秒
 feign.client.config.default.readTimeout=60000 //Feign的请求处理超时时间，默认为60s
 feign.client.config.default.retryer=feign.Retryer.Default //Feign使用默认的超时配置，在该类源码中可见，默认单次请求最大时长1秒，重试5次
+# 服务实例缓存
+#LoadBalancer为了提高性能，不会在每次请求时去获取实例列表，而是将服务实例列表进行了本地缓存。
+spring:
+  cloud:
+    loadbalancer:
+      cache: # 负载均衡缓存配置
+        enabled: true # 开启缓存
+        ttl: 5s # 设置缓存时间
+        capacity: 256 # 设置缓存大小
+
 ```
 
 ### 6.3.3. feign client interceptor
@@ -757,19 +773,24 @@ class FeignConfig {
 
 ```
 
+## Retrofit
+
+类似 openfeign, 支持通过接口的方式发起HTTP请求
+
 # 7. 负载均衡
 
 ## 7.1. 集中式负载均衡和客户端负载均衡
 
-在 consumer 和 provider 间使用独立的设施, 如 nginx, 将请求以某种策略进行分发, 发送到多个 provider 实例 
-
 下面都是 client side LoadBalance
+
+或者叫 进程式负载均衡, 就是 将 负载均衡逻辑集成到consumer, consumer从注册中心的 client 端获知有那些地址可以用,然后自己再从这些地址中选择出一个合适的 provider
 
 ## 7.2. ribbon
 
+已经被弃用, 推荐 LoadBalancer
+
 进入  maintenance, 但是 spring cloud 官方还在用, 只是日志中会推荐使用 spring cloud loadbalancer
 
-或者叫 进程式负载均衡, 就是 将 负载均衡逻辑集成到consumer, consumer从注册中心的 client 端获知有那些地址可以用,然后自己再从这些地址中选择出一个合适的 provider
 
 Ribbon: (client side) load balancing; ribbon可以将请求均匀的分配到各个机器上, 必须和 注册中心一起使用 (eureka client 依赖包含了 ribbon 依赖)
 
@@ -920,6 +941,77 @@ private int incrementAndGetModulo(int modulo) {
 
 Spring Cloud Load Balancer并不是一个独立的项目，而是spring-cloud-commons其中的一个模块
 项目中用了Eureka以及相关的 starter，想完全剔除Ribbon的相关依赖基本是不可能的，Spring 社区的人也是看到了这一点，所以给出的做法是: 通过配置`spring.cloud.loadbalancer.ribbon.enabled=false`去关闭Ribbon, 自动就启用了 Spring-Cloud-LoadBalancer, 成为默认的负载均衡器。 (https://www.yht7.com/news/92837)
+
+
+openfeign 集成了, 推荐openfeign 来使用
+
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+</dependency>
+
+
+```
+
+```java
+
+/**
+ * RestTemplate相关配置
+ */
+@Configuration
+public class RestTemplateConfig {
+
+    /*
+    
+    rest:
+        template:
+            config: # RestTemplate调用超时配置
+                connectTimeout: 5000
+                readTimeout: 5000
+
+    */
+    @Bean
+    @ConfigurationProperties(prefix = "rest.template.config")
+    public HttpComponentsClientHttpRequestFactory customHttpRequestFactory() {
+        return new HttpComponentsClientHttpRequestFactory();
+    }
+
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate() {
+        return new RestTemplate(customHttpRequestFactory());
+    }
+}
+
+/**
+ * LoadBalancer相关配置
+ * 将ServiceInstance的instanceId放入到请求头X-InstanceId中；
+ */
+@Configuration
+public class LoadBalancerConfig {
+    @Bean
+    public LoadBalancerRequestTransformer transformer() {
+        return new LoadBalancerRequestTransformer() {
+            @Override
+            public HttpRequest transformRequest(HttpRequest request, ServiceInstance instance) {
+                return new HttpRequestWrapper(request) {
+                    @Override
+                    public HttpHeaders getHeaders() {
+                        HttpHeaders headers = new HttpHeaders();
+                        headers.putAll(super.getHeaders());
+                        headers.add("X-InstanceId", instance.getInstanceId());
+                        return headers;
+                    }
+                };
+            }
+        };
+    }
+}
+
+
+```
 
 # 8. 熔断器
 
@@ -1202,7 +1294,19 @@ public class FeignHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy 
 java -Dserver.port=18888 -Dcsp.sentinel.dashboard.server=localhost:18888 -Dproject.name=sentinel-dashboard -Dsentinel.dashboard.auth.username=rain -Dsentinel.dashboard.auth.password=rain -Dserver.servlet.session.timeout=7200 -jar sentinel-dashboard-1.8.6.jar
 
 
+
+@SentinelResource 的 blockHandler 和 fallback 区别
+    blockHandler 是针对限流降级的处理函数, 需要和 rules 配合使用( 规则触发),并且参数需要和原方法一致
+    fallback 是针对熔断降级的处理函数, 不需要定义规则,仅当请求抛出异常的时候才会触发(异常触发)。参数可以和原方法不一致。
+
+    限流降级 : 控制流量进入资源的速率, 防止服务流量过载
+        需要设置限流策略,如限流大小、排队长度等。
+    熔断降级: 拉闸限止流量进入,快速返回错误响应, 快速失败,避免请求积压导致雪崩效应。
+        需要设置熔断策略,主要是熔断开启的错误率阈值和恢复策略
+
 ```
+
+
 
 ## 8.3. resilience4j
 
@@ -2030,7 +2134,9 @@ https://www.extlight.com/sleuth-basic.html
 
 ## 10.2. skyWalking
 
-//todo
+SkyWalking是一个可观测性分析平台（Observability Analysis Platform 简称OAP）和应用性能管理系统（Application Performance Management 简称 APM）。
+
+
 
 
 # 11. 业务日志收集

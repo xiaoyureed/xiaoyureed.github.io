@@ -8,6 +8,8 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
+https://dunwu.github.io/linux-tutorial/#%F0%9F%93%96-%E5%86%85%E5%AE%B9 手册
+
 https://coolshell.cn/articles/19219.html shell 工作环境最佳实践
 
 Linux Note | references: [1](http://linux.vbird.org/); 各种命令使用实例: https://linuxtools-rst.readthedocs.io/zh_CN/latest/ ; 50个常用命令: https://gywbd.github.io/posts/2014/8/50-linux-commands.html ; 

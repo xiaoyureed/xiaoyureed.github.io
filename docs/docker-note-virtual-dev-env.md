@@ -160,7 +160,6 @@ https://github.com/docker/kitematic 可视化管理gui
     - [16.8. ubuntu镜像](#168-ubuntu镜像)
     - [16.9. zookeeper](#169-zookeeper)
     - [16.10. kafka](#1610-kafka)
-    - [16.11. rabbitmq](#1611-rabbitmq)
     - [16.12. zipkin](#1612-zipkin)
     - [16.13. nginx](#1613-nginx)
     - [16.14. mongodb](#1614-mongodb)
@@ -2891,6 +2890,17 @@ services:
     
 ```
 
+
+```sh
+# 带 management 的版本有 web 界面
+docker pull rabbitmq:3.8.3-management
+# 15672 为 web ui 端口, 登录 guest/guest
+docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.8.3-management
+
+docker run -d --name rabbitmq3.7.7 -p 5672:5672 -p 15672:15672 -v `pwd`/data:/var/lib/rabbitmq --hostname myRabbit -e RABBITMQ_DEFAULT_VHOST=my_vhost  -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin df80af9ca0c9
+
+```
+
 ## 16.7. redis镜像
 
 ```yml
@@ -3046,17 +3056,6 @@ services:
 
 ```
 
-## 16.11. rabbitmq
-
-```sh
-# 带 management 的版本有 web 界面
-docker pull rabbitmq:3.8.3-management
-# 15672 为 web ui 端口, 登录 guest/guest
-docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
-
-docker run -d --name rabbitmq3.7.7 -p 5672:5672 -p 15672:15672 -v `pwd`/data:/var/lib/rabbitmq --hostname myRabbit -e RABBITMQ_DEFAULT_VHOST=my_vhost  -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin df80af9ca0c9
-
-```
 
 ## 16.12. zipkin
 
