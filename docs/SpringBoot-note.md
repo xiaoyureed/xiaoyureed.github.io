@@ -34,12 +34,26 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
 - [1. 常用命令](#1-常用命令)
 - [2. 部署脚本](#2-部署脚本)
 - [3. 工具类](#3-工具类)
-    - [3.1. bean 复制 克隆](#31-bean-复制-克隆)
-    - [3.2. 字符串](#32-字符串)
-    - [3.3. 编解码](#33-编解码)
-    - [3.4. commons-lang3](#34-commons-lang3)
+    - [Apache common](#apache-common)
+        - [common-io](#common-io)
+        - [common-lang3](#common-lang3)
+        - [3.6. commons-collections4](#36-commons-collections4)
+        - [Commons FileUpload](#commons-fileupload)
+        - [Commons Codec](#commons-codec)
+        - [Commons Compress](#commons-compress)
+        - [Commons Configuration](#commons-configuration)
+        - [Commons Daemon](#commons-daemon)
+        - [Commons Exec](#commons-exec)
+        - [Commons Net](#commons-net)
+    - [Google guava](#google-guava)
+        - [集合工具类](#集合工具类)
+        - [Guava Cache](#guava-cache)
+        - [单机限流工具类 - RateLimiter#](#单机限流工具类---ratelimiter)
+    - [spring utils](#spring-utils)
+        - [3.1. bean 复制 克隆](#31-bean-复制-克隆)
+        - [3.2. 字符串](#32-字符串)
+        - [3.3. 编解码](#33-编解码)
     - [3.5. 文件操作](#35-文件操作)
-    - [3.6. commons-collections4](#36-commons-collections4)
 - [4. 和 react 一起打包](#4-和-react-一起打包)
 - [5. Spring Boot中的注解](#5-spring-boot中的注解)
     - [5.1. @ConfigurationProperties 和 @Value](#51-configurationproperties-和-value)
@@ -49,198 +63,200 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
     - [5.5. @SpringBootApplication](#55-springbootapplication)
     - [5.6. @Component和@Bean和@Configration区别](#56-component和bean和configration区别)
     - [5.7. @Import和@ImportResource和@PropertySource比较](#57-import和importresource和propertysource比较)
-- [6. context 上下文 手动注册bean](#6-context-上下文-手动注册bean)
-- [7. 实现事件驱动](#7-实现事件驱动)
-- [8. 优雅停机 关机](#8-优雅停机-关机)
-- [9. 静态注入](#9-静态注入)
-    - [9.1. set注入](#91-set注入)
-    - [9.2. @PostConstruct 注入](#92-postconstruct-注入)
-    - [9.3. 通过 ApplicationContext](#93-通过-applicationcontext)
-- [10. 使用starter](#10-使用starter)
-    - [10.1. 加载过程or原理](#101-加载过程or原理)
-    - [10.2. 自动配置类会用到的一些注解](#102-自动配置类会用到的一些注解)
-    - [10.3. 自动配置类的实例](#103-自动配置类的实例)
-        - [10.3.1. spring 动态代理](#1031-spring-动态代理)
-    - [10.4. @Conditional](#104-conditional)
-    - [10.5. 封装组合条件](#105-封装组合条件)
-    - [10.6. 创建自己的 starter](#106-创建自己的-starter)
-    - [10.7. 反爬虫 starter](#107-反爬虫-starter)
-    - [10.8. gprc starter](#108-gprc-starter)
-- [11. 监控 and 安全](#11-监控-and-安全)
-    - [11.1. spring-boot-actuator 监控](#111-spring-boot-actuator-监控)
-    - [11.2. spring boot admin 监控界面](#112-spring-boot-admin-监控界面)
-    - [11.3. spring-boot-starter-security](#113-spring-boot-starter-security)
-        - [11.3.1. security组件介绍](#1131-security组件介绍)
-        - [11.3.2. 基本使用 和 配置用户名密码](#1132-基本使用-和-配置用户名密码)
-        - [11.3.3. 禁用基本认证](#1133-禁用基本认证)
-        - [11.3.4. 配置中 WebSecurity 和 HttpSecurity 区别](#1134-配置中-websecurity-和-httpsecurity-区别)
-        - [11.3.5. 配置跨域](#1135-配置跨域)
-    - [11.4. oauth2](#114-oauth2)
-- [12. 日志](#12-日志)
-    - [12.1. Log4j2-Marker 写入到指定日志文件](#121-log4j2-marker-写入到指定日志文件)
-    - [12.2. logback](#122-logback)
-- [13. cqrs模式](#13-cqrs模式)
-- [14. 数据层](#14-数据层)
-    - [14.1. canal 订阅](#141-canal-订阅)
-    - [14.2. mybatis 自动建表插件](#142-mybatis-自动建表插件)
-    - [14.3. mybatis crud 增强插件](#143-mybatis-crud-增强插件)
-    - [14.4. 数据库迁移版本控制](#144-数据库迁移版本控制)
-        - [14.4.1. liquibase](#1441-liquibase)
-        - [14.4.2. Flyway](#1442-flyway)
-            - [14.4.2.1. working process 工作原理](#14421-working-process-工作原理)
-            - [14.4.2.2. how to verify the sql update 校验原理](#14422-how-to-verify-the-sql-update-校验原理)
-            - [14.4.2.3. how to use flyway](#14423-how-to-use-flyway)
-    - [14.5. 数据库连接字符串收集](#145-数据库连接字符串收集)
-    - [14.6. graphql集成](#146-graphql集成)
-    - [14.7. 启动执行 SQL](#147-启动执行-sql)
-        - [14.7.1. 利用 spring jdbc](#1471-利用-spring-jdbc)
-        - [14.7.2. 使用 jpa](#1472-使用-jpa)
-        - [14.7.3. DataSourceInitializer](#1473-datasourceinitializer)
-        - [14.7.4. maven-antrun-pluginn](#1474-maven-antrun-pluginn)
-        - [14.7.5. construct a script execution service manually](#1475-construct-a-script-execution-service-manually)
-    - [14.8. 整合 spring jdbc](#148-整合-spring-jdbc)
-    - [14.9. 整合 hibernate (即 jpa)](#149-整合-hibernate-即-jpa)
-        - [14.9.1. jpa注解总结](#1491-jpa注解总结)
-        - [14.9.2. 使用枚举](#1492-使用枚举)
-            - [14.9.2.1. the basic usage](#14921-the-basic-usage)
-            - [14.9.2.2. @Converter (推荐)](#14922-converter-推荐)
-            - [14.9.2.3. @PostLoad and @PrePersist](#14923-postload-and-prepersist)
-        - [14.9.3. jpa queryDsl 多表联查](#1493-jpa-querydsl-多表联查)
-        - [14.9.4. jpa 支持 java8 time](#1494-jpa-支持-java8-time)
-        - [14.9.5. 审计 createdDate](#1495-审计-createddate)
-        - [14.9.6. 执行原生 SQL](#1496-执行原生-sql)
-        - [14.9.7. 动态 SQL](#1497-动态-sql)
-        - [14.9.8. spring-data-rest 配合 spring-data-jpa](#1498-spring-data-rest-配合-spring-data-jpa)
-    - [14.10. 整合 mybatis-plus](#1410-整合-mybatis-plus)
-    - [14.11. 整合 mybatis](#1411-整合-mybatis)
-        - [14.11.1. 基本配置](#14111-基本配置)
-        - [14.11.2. 使用 拦截器 interceptor plugins](#14112-使用-拦截器-interceptor-plugins)
-            - [14.11.2.1. principle of plugins](#141121-principle-of-plugins)
-            - [14.11.2.2. use scenarios](#141122-use-scenarios)
-            - [14.11.2.3. how to use plugins](#141123-how-to-use-plugins)
-        - [14.11.3. typehandler](#14113-typehandler)
-        - [14.11.4. 全注解开发](#14114-全注解开发)
-        - [14.11.5. 动态定时刷新 SQL mapper 实现热加载](#14115-动态定时刷新-sql-mapper-实现热加载)
-        - [14.11.6. 自定义资源文件打包目录 and 开启占位符过滤](#14116-自定义资源文件打包目录-and-开启占位符过滤)
-    - [14.12. 事务](#1412-事务)
-        - [14.12.1. 事务基本使用](#14121-事务基本使用)
-            - [14.12.1.1. 手动编程实现](#141211-手动编程实现)
-            - [14.12.1.2. 注解声明式](#141212-注解声明式)
-        - [14.12.2. transaction not working](#14122-transaction-not-working)
-        - [14.12.3. spring 事务传播失效的坑](#14123-spring-事务传播失效的坑)
-        - [避免长事务](#避免长事务)
-        - [14.12.4. Transactional 注解](#14124-transactional-注解)
-    - [14.13. 缓存](#1413-缓存)
-        - [14.13.1. springboot-starter-cache](#14131-springboot-starter-cache)
-        - [14.13.2. caffeine](#14132-caffeine)
-    - [14.14. 配合 h2 数据库进行开发](#1414-配合-h2-数据库进行开发)
-        - [14.14.1. h2 和 spring data jpa 配合](#14141-h2-和-spring-data-jpa-配合)
-        - [14.14.2. 和 mybatis-plus 配合](#14142-和-mybatis-plus-配合)
-    - [14.15. 多数据源](#1415-多数据源)
-        - [14.15.1. 基本配置 全注解开发](#14151-基本配置-全注解开发)
-        - [14.15.2. AbstractRoutingDataSource 动态数据源切换](#14152-abstractroutingdatasource-动态数据源切换)
-    - [14.16. 多数据库类型 databaseIdProvider](#1416-多数据库类型-databaseidprovider)
-    - [14.17. spring kafka](#1417-spring-kafka)
-- [15. web 相关](#15-web-相关)
-    - [15.1. 加解密](#151-加解密)
-    - [15.2. springboot 发送 https 或者 http 客户端 client](#152-springboot-发送-https-或者-http-客户端-client)
-        - [15.2.1. 发送 http client](#1521-发送-http-client)
-        - [15.2.2. 发送 https client](#1522-发送-https-client)
-    - [15.3. RequestContextHolder](#153-requestcontextholder)
-    - [15.4. 解决 api 版本共存](#154-解决-api-版本共存)
-        - [15.4.1. RequestMappingHandlerMapping](#1541-requestmappinghandlermapping)
-        - [15.4.2. request matcher](#1542-request-matcher)
-        - [15.4.3. request condition](#1543-request-condition)
-    - [15.5. 接收参数相关的注解](#155-接收参数相关的注解)
-    - [15.6. 自定义接收参数类型](#156-自定义接收参数类型)
-    - [15.7. 返回图片](#157-返回图片)
-    - [15.8. rest api 文档](#158-rest-api-文档)
-        - [15.8.1. knife4j](#1581-knife4j)
-        - [15.8.2. springdoc-openapi](#1582-springdoc-openapi)
-        - [15.8.3. swagger3](#1583-swagger3)
-        - [15.8.4. 集成swagger2](#1584-集成swagger2)
-    - [15.9. 过滤器 和 拦截器](#159-过滤器-和-拦截器)
-        - [15.9.1. 区别](#1591-区别)
-        - [15.9.2. 使用 filter](#1592-使用-filter)
-        - [15.9.3. 使用 interceptor](#1593-使用-interceptor)
-            - [15.9.3.1. 基本使用拦截器](#15931-基本使用拦截器)
-            - [15.9.3.2. 基于 url 拦截](#15932-基于-url-拦截)
-            - [15.9.3.3. 基于注解拦截](#15933-基于注解拦截)
-    - [15.10. servlet Druid 监控](#1510-servlet-druid-监控)
-    - [15.11. aop 整合使用](#1511-aop-整合使用)
-        - [15.11.1. 基本使用](#15111-基本使用)
-        - [15.11.2. 切入点表达式](#15112-切入点表达式)
-    - [15.12. controllerAdvice 使用](#1512-controlleradvice-使用)
-        - [15.12.1. 全局异常处理 全局数据绑定 全局请求数据预处理](#15121-全局异常处理-全局数据绑定-全局请求数据预处理)
-    - [15.13. 利用 ResponseBodyAdvice requestbodyadvice](#1513-利用-responsebodyadvice-requestbodyadvice)
-        - [15.13.1. 进行 feign 响应数据解包](#15131-进行-feign-响应数据解包)
-        - [15.13.2. 请求响应加解密](#15132-请求响应加解密)
-    - [15.14. HttpServletRequest 的输入流只能读取一次的问题](#1514-httpservletrequest-的输入流只能读取一次的问题)
-    - [15.15. 路由处理](#1515-路由处理)
-        - [15.15.1. 静态资源映射 暴露静态资源](#15151-静态资源映射-暴露静态资源)
-        - [15.15.2. 添加 view controller](#15152-添加-view-controller)
-    - [15.16. spring-boot-starter-thymeleaf](#1516-spring-boot-starter-thymeleaf)
-- [16. 运维部署](#16-运维部署)
-    - [16.1. 支持 https ssl](#161-支持-https-ssl)
-        - [16.1.1. nginx 配置 https](#1611-nginx-配置-https)
-        - [16.1.2. 支持 https 访问](#1612-支持-https-访问)
-        - [16.1.3. http 请求自动转为 https](#1613-http-请求自动转为-https)
-        - [16.1.4. 同时支持 http https](#1614-同时支持-http-https)
-    - [16.2. 容器化部署](#162-容器化部署)
-    - [16.3. nginx 反向代理](#163-nginx-反向代理)
-    - [16.4. 内嵌 tomcat 调优](#164-内嵌-tomcat-调优)
-    - [16.5. 配置 war 包部署到 Tomcat](#165-配置-war-包部署到-tomcat)
-- [17. spring boot 中的并发](#17-spring-boot-中的并发)
-    - [17.1. 使用异步编程](#171-使用异步编程)
-        - [17.1.1. 配置线程池](#1711-配置线程池)
-        - [17.1.2. 有返回值 没有返回值](#1712-有返回值-没有返回值)
-        - [17.1.3. @Async失效](#1713-async失效)
-- [18. 实现乐观锁悲观锁](#18-实现乐观锁悲观锁)
-- [19. 移动端消息推送](#19-移动端消息推送)
-- [20. 即时通信 IM系统](#20-即时通信-im系统)
-- [21. 辅助工具](#21-辅助工具)
-    - [21.1. lombok notice](#211-lombok-notice)
-        - [21.1.1. 编译期代码生成原理](#2111-编译期代码生成原理)
-    - [21.2. devtools](#212-devtools)
-    - [21.3. maven wrapper](#213-maven-wrapper)
-- [22. 校验](#22-校验)
-    - [22.1. 校验配置文件](#221-校验配置文件)
-    - [22.2. 校验请求参数](#222-校验请求参数)
-    - [22.3. 自定义校验](#223-自定义校验)
-    - [22.4. @Validated和@Valid](#224-validated和valid)
-- [23. runner 获取命令行参数](#23-runner-获取命令行参数)
-    - [23.1. 获取命令行参数](#231-获取命令行参数)
-    - [23.2. `ApplicationRunner` or `CommandLineRunner`](#232-applicationrunner-or-commandlinerunner)
-- [24. 开发命令行应用](#24-开发命令行应用)
-- [25. 整合 grpc](#25-整合-grpc)
-- [26. 任务调度](#26-任务调度)
-    - [26.1. 整合 XXL-JOB 任务调度平台](#261-整合-xxl-job-任务调度平台)
-    - [26.2. 异步任务](#262-异步任务)
-    - [26.3. 定时任务](#263-定时任务)
-        - [26.3.1. springboot 内置](#2631-springboot-内置)
-        - [26.3.2. 集成 Quartz](#2632-集成-quartz)
-- [27. 配置文件 and 环境](#27-配置文件-and-环境)
-    - [27.1. 读取配置文件](#271-读取配置文件)
-        - [27.1.1. 几种读取配置文件的方法](#2711-几种读取配置文件的方法)
-        - [27.1.2. 注入复杂类型](#2712-注入复杂类型)
-    - [27.2. 配置文件优先级](#272-配置文件优先级)
-    - [27.3. 读取环境信息](#273-读取环境信息)
-    - [27.4. 两种引入 springboot 方式](#274-两种引入-springboot-方式)
-- [28. 国际化 i18n](#28-国际化-i18n)
-- [29. 序列化 反序列化](#29-序列化-反序列化)
-    - [29.1. 日期时间 json](#291-日期时间-json)
-    - [29.2. jackson 使用](#292-jackson-使用)
-        - [29.2.1. @JsonComponent](#2921-jsoncomponent)
-        - [29.2.2. Jackson 在 springboot 中的配置](#2922-jackson-在-springboot-中的配置)
-        - [29.2.3. jackson注解](#2923-jackson注解)
-        - [29.2.4. objectmapper 定制](#2924-objectmapper-定制)
-        - [29.2.5. objectmapper 使用](#2925-objectmapper-使用)
-- [30. 接入第三方支付](#30-接入第三方支付)
-- [31. 轻量级的技术栈](#31-轻量级的技术栈)
-    - [31.1. dagger2 编译器依赖注入](#311-dagger2-编译器依赖注入)
-- [32. 拾遗](#32-拾遗)
-    - [32.1. bean 懒加载](#321-bean-懒加载)
-    - [32.2. bean 循环依赖](#322-bean-循环依赖)
+- [6. 常用扩展点](#6-常用扩展点)
+- [7. context 上下文 手动注册bean](#7-context-上下文-手动注册bean)
+- [8. 实现事件驱动](#8-实现事件驱动)
+- [9. 优雅停机 关机](#9-优雅停机-关机)
+- [10. 静态注入](#10-静态注入)
+    - [10.1. set注入](#101-set注入)
+    - [10.2. @PostConstruct 注入](#102-postconstruct-注入)
+    - [10.3. 通过 ApplicationContext](#103-通过-applicationcontext)
+- [11. 使用starter](#11-使用starter)
+    - [11.1. 加载过程or原理](#111-加载过程or原理)
+    - [11.2. 自动配置类会用到的一些注解](#112-自动配置类会用到的一些注解)
+    - [11.3. 自动配置类的实例](#113-自动配置类的实例)
+        - [11.3.1. spring 动态代理](#1131-spring-动态代理)
+    - [11.4. @Conditional](#114-conditional)
+    - [11.5. 封装组合条件](#115-封装组合条件)
+    - [11.6. 创建自己的 starter](#116-创建自己的-starter)
+    - [11.7. 反爬虫 starter](#117-反爬虫-starter)
+    - [11.8. gprc starter](#118-gprc-starter)
+- [12. 监控 and 安全](#12-监控-and-安全)
+    - [12.1. spring-boot-actuator 监控](#121-spring-boot-actuator-监控)
+    - [12.2. spring boot admin 监控界面](#122-spring-boot-admin-监控界面)
+    - [12.3. spring-boot-starter-security](#123-spring-boot-starter-security)
+        - [12.3.1. security组件介绍](#1231-security组件介绍)
+        - [12.3.2. 基本使用 和 配置用户名密码](#1232-基本使用-和-配置用户名密码)
+        - [12.3.3. 禁用基本认证](#1233-禁用基本认证)
+        - [12.3.4. 配置中 WebSecurity 和 HttpSecurity 区别](#1234-配置中-websecurity-和-httpsecurity-区别)
+        - [12.3.5. 配置跨域](#1235-配置跨域)
+    - [12.4. oauth2](#124-oauth2)
+- [13. 日志](#13-日志)
+    - [13.1. Log4j2-Marker 写入到指定日志文件](#131-log4j2-marker-写入到指定日志文件)
+    - [13.2. logback](#132-logback)
+- [14. cqrs模式](#14-cqrs模式)
+- [15. 数据层](#15-数据层)
+    - [15.1. canal 订阅](#151-canal-订阅)
+    - [15.2. mybatis 自动建表插件](#152-mybatis-自动建表插件)
+    - [15.3. mybatis crud 增强插件](#153-mybatis-crud-增强插件)
+    - [15.4. 数据库迁移版本控制](#154-数据库迁移版本控制)
+        - [15.4.1. liquibase](#1541-liquibase)
+        - [15.4.2. Flyway](#1542-flyway)
+            - [15.4.2.1. working process 工作原理](#15421-working-process-工作原理)
+            - [15.4.2.2. how to verify the sql update 校验原理](#15422-how-to-verify-the-sql-update-校验原理)
+            - [15.4.2.3. how to use flyway](#15423-how-to-use-flyway)
+    - [15.5. 数据库连接字符串收集](#155-数据库连接字符串收集)
+    - [15.6. graphql集成](#156-graphql集成)
+    - [15.7. 启动执行 SQL](#157-启动执行-sql)
+        - [15.7.1. 利用 spring jdbc](#1571-利用-spring-jdbc)
+        - [15.7.2. 使用 jpa](#1572-使用-jpa)
+        - [15.7.3. DataSourceInitializer](#1573-datasourceinitializer)
+        - [15.7.4. maven-antrun-pluginn](#1574-maven-antrun-pluginn)
+        - [15.7.5. construct a script execution service manually](#1575-construct-a-script-execution-service-manually)
+    - [15.8. 整合 spring jdbc](#158-整合-spring-jdbc)
+    - [15.9. 整合 hibernate (即 jpa)](#159-整合-hibernate-即-jpa)
+        - [15.9.1. jpa注解总结](#1591-jpa注解总结)
+        - [15.9.2. 使用枚举](#1592-使用枚举)
+            - [15.9.2.1. the basic usage](#15921-the-basic-usage)
+            - [15.9.2.2. @Converter (推荐)](#15922-converter-推荐)
+            - [15.9.2.3. @PostLoad and @PrePersist](#15923-postload-and-prepersist)
+        - [15.9.3. jpa queryDsl 多表联查](#1593-jpa-querydsl-多表联查)
+        - [15.9.4. jpa 支持 java8 time](#1594-jpa-支持-java8-time)
+        - [15.9.5. 审计 createdDate](#1595-审计-createddate)
+        - [15.9.6. 执行原生 SQL](#1596-执行原生-sql)
+        - [15.9.7. 动态 SQL](#1597-动态-sql)
+        - [15.9.8. spring-data-rest 配合 spring-data-jpa](#1598-spring-data-rest-配合-spring-data-jpa)
+    - [15.10. 整合 mybatis-plus](#1510-整合-mybatis-plus)
+    - [15.11. 整合 mybatis](#1511-整合-mybatis)
+        - [15.11.1. 基本配置](#15111-基本配置)
+        - [15.11.2. 使用 拦截器 interceptor plugins](#15112-使用-拦截器-interceptor-plugins)
+            - [15.11.2.1. principle of plugins](#151121-principle-of-plugins)
+            - [15.11.2.2. use scenarios](#151122-use-scenarios)
+            - [15.11.2.3. how to use plugins](#151123-how-to-use-plugins)
+        - [15.11.3. typehandler](#15113-typehandler)
+        - [15.11.4. 全注解开发](#15114-全注解开发)
+        - [15.11.5. 动态定时刷新 SQL mapper 实现热加载](#15115-动态定时刷新-sql-mapper-实现热加载)
+        - [15.11.6. 自定义资源文件打包目录 and 开启占位符过滤](#15116-自定义资源文件打包目录-and-开启占位符过滤)
+    - [15.12. 事务](#1512-事务)
+        - [15.12.1. 事务基本使用](#15121-事务基本使用)
+            - [15.12.1.1. 手动编程实现](#151211-手动编程实现)
+            - [15.12.1.2. 注解声明式](#151212-注解声明式)
+        - [15.12.2. transaction not working](#15122-transaction-not-working)
+        - [15.12.3. spring 事务传播失效的坑](#15123-spring-事务传播失效的坑)
+        - [15.12.4. 避免长事务](#15124-避免长事务)
+        - [15.12.5. Transactional 注解](#15125-transactional-注解)
+    - [15.13. 缓存](#1513-缓存)
+        - [15.13.1. springboot-starter-cache](#15131-springboot-starter-cache)
+        - [15.13.2. caffeine](#15132-caffeine)
+    - [15.14. 配合 h2 数据库进行开发](#1514-配合-h2-数据库进行开发)
+        - [15.14.1. h2 和 spring data jpa 配合](#15141-h2-和-spring-data-jpa-配合)
+        - [15.14.2. 和 mybatis-plus 配合](#15142-和-mybatis-plus-配合)
+    - [15.15. 多数据源](#1515-多数据源)
+        - [15.15.1. 基本配置 全注解开发](#15151-基本配置-全注解开发)
+        - [15.15.2. AbstractRoutingDataSource 动态数据源切换](#15152-abstractroutingdatasource-动态数据源切换)
+    - [15.16. 多数据库类型 databaseIdProvider](#1516-多数据库类型-databaseidprovider)
+    - [15.17. spring kafka](#1517-spring-kafka)
+- [16. web 相关](#16-web-相关)
+    - [16.1. 加解密](#161-加解密)
+    - [16.2. springboot 发送 https 或者 http 客户端 client](#162-springboot-发送-https-或者-http-客户端-client)
+        - [16.2.1. 发送 http client](#1621-发送-http-client)
+        - [16.2.2. 发送 https client](#1622-发送-https-client)
+    - [16.3. RequestContextHolder](#163-requestcontextholder)
+    - [16.4. 解决 api 版本共存](#164-解决-api-版本共存)
+        - [16.4.1. RequestMappingHandlerMapping](#1641-requestmappinghandlermapping)
+        - [16.4.2. request matcher](#1642-request-matcher)
+        - [16.4.3. request condition](#1643-request-condition)
+    - [16.5. 接收参数相关的注解](#165-接收参数相关的注解)
+    - [16.6. 自定义接收参数类型](#166-自定义接收参数类型)
+    - [16.7. 返回图片](#167-返回图片)
+    - [16.8. rest api 文档](#168-rest-api-文档)
+        - [16.8.1. knife4j](#1681-knife4j)
+        - [16.8.2. springdoc-openapi](#1682-springdoc-openapi)
+        - [16.8.3. swagger3](#1683-swagger3)
+        - [16.8.4. 集成swagger2](#1684-集成swagger2)
+    - [16.9. 过滤器 和 拦截器](#169-过滤器-和-拦截器)
+        - [16.9.1. 区别](#1691-区别)
+        - [16.9.2. 使用 filter](#1692-使用-filter)
+        - [16.9.3. 使用 interceptor](#1693-使用-interceptor)
+            - [16.9.3.1. 基本使用拦截器](#16931-基本使用拦截器)
+            - [16.9.3.2. 基于 url 拦截](#16932-基于-url-拦截)
+            - [16.9.3.3. 基于注解拦截](#16933-基于注解拦截)
+    - [16.10. servlet Druid 监控](#1610-servlet-druid-监控)
+    - [16.11. aop 整合使用](#1611-aop-整合使用)
+        - [16.11.1. 基本使用](#16111-基本使用)
+        - [16.11.2. 切入点表达式](#16112-切入点表达式)
+    - [16.12. controllerAdvice 使用](#1612-controlleradvice-使用)
+        - [16.12.1. 全局异常处理 全局数据绑定 全局请求数据预处理](#16121-全局异常处理-全局数据绑定-全局请求数据预处理)
+    - [16.13. 利用 ResponseBodyAdvice requestbodyadvice](#1613-利用-responsebodyadvice-requestbodyadvice)
+        - [16.13.1. 进行 feign 响应数据解包](#16131-进行-feign-响应数据解包)
+        - [16.13.2. 请求响应加解密](#16132-请求响应加解密)
+    - [16.14. HttpServletRequest 的输入流只能读取一次的问题](#1614-httpservletrequest-的输入流只能读取一次的问题)
+    - [16.15. 路由处理](#1615-路由处理)
+        - [16.15.1. 静态资源映射 暴露静态资源](#16151-静态资源映射-暴露静态资源)
+        - [16.15.2. 添加 view controller](#16152-添加-view-controller)
+    - [16.16. spring-boot-starter-thymeleaf](#1616-spring-boot-starter-thymeleaf)
+- [17. 运维部署](#17-运维部署)
+    - [17.1. 支持 https ssl](#171-支持-https-ssl)
+        - [17.1.1. nginx 配置 https](#1711-nginx-配置-https)
+        - [17.1.2. 支持 https 访问](#1712-支持-https-访问)
+        - [17.1.3. http 请求自动转为 https](#1713-http-请求自动转为-https)
+        - [17.1.4. 同时支持 http https](#1714-同时支持-http-https)
+    - [17.2. 容器化部署](#172-容器化部署)
+    - [17.3. nginx 反向代理](#173-nginx-反向代理)
+    - [17.4. 内嵌 tomcat 调优](#174-内嵌-tomcat-调优)
+    - [17.5. 配置 war 包部署到 Tomcat](#175-配置-war-包部署到-tomcat)
+- [18. spring boot 中的并发](#18-spring-boot-中的并发)
+    - [18.1. 使用异步编程](#181-使用异步编程)
+        - [18.1.1. 配置线程池](#1811-配置线程池)
+        - [18.1.2. 有返回值 没有返回值](#1812-有返回值-没有返回值)
+        - [18.1.3. @Async失效](#1813-async失效)
+- [19. 实现乐观锁悲观锁](#19-实现乐观锁悲观锁)
+- [20. 移动端消息推送](#20-移动端消息推送)
+- [21. 即时通信 IM系统](#21-即时通信-im系统)
+- [22. 辅助工具](#22-辅助工具)
+    - [22.1. mapstruct](#221-mapstruct)
+    - [22.2. lombok notice](#222-lombok-notice)
+        - [22.2.1. 编译期代码生成原理](#2221-编译期代码生成原理)
+    - [22.3. devtools](#223-devtools)
+    - [22.4. maven wrapper](#224-maven-wrapper)
+- [23. 校验](#23-校验)
+    - [23.1. 校验配置文件](#231-校验配置文件)
+    - [23.2. 校验请求参数](#232-校验请求参数)
+    - [23.3. 自定义校验](#233-自定义校验)
+    - [23.4. @Validated和@Valid](#234-validated和valid)
+- [24. runner 获取命令行参数](#24-runner-获取命令行参数)
+    - [24.1. 获取命令行参数](#241-获取命令行参数)
+    - [24.2. `ApplicationRunner` or `CommandLineRunner`](#242-applicationrunner-or-commandlinerunner)
+- [25. 开发命令行应用](#25-开发命令行应用)
+- [26. 整合 grpc](#26-整合-grpc)
+- [27. 任务调度](#27-任务调度)
+    - [27.1. 整合 XXL-JOB 任务调度平台](#271-整合-xxl-job-任务调度平台)
+    - [27.2. 异步任务](#272-异步任务)
+    - [27.3. 定时任务](#273-定时任务)
+        - [27.3.1. springboot 内置](#2731-springboot-内置)
+        - [27.3.2. 集成 Quartz](#2732-集成-quartz)
+- [28. 配置文件 and 环境](#28-配置文件-and-环境)
+    - [28.1. 读取配置文件](#281-读取配置文件)
+        - [28.1.1. 几种读取配置文件的方法](#2811-几种读取配置文件的方法)
+        - [28.1.2. 注入复杂类型](#2812-注入复杂类型)
+    - [28.2. 配置文件优先级](#282-配置文件优先级)
+    - [28.3. 读取环境信息](#283-读取环境信息)
+    - [28.4. 两种引入 springboot 方式](#284-两种引入-springboot-方式)
+- [29. 国际化 i18n](#29-国际化-i18n)
+- [30. 序列化 反序列化](#30-序列化-反序列化)
+    - [30.1. 日期时间 json](#301-日期时间-json)
+    - [30.2. jackson 使用](#302-jackson-使用)
+        - [30.2.1. @JsonComponent](#3021-jsoncomponent)
+        - [30.2.2. Jackson 在 springboot 中的配置](#3022-jackson-在-springboot-中的配置)
+        - [30.2.3. jackson注解](#3023-jackson注解)
+        - [30.2.4. objectmapper 定制](#3024-objectmapper-定制)
+        - [30.2.5. objectmapper 使用](#3025-objectmapper-使用)
+- [31. 接入第三方支付](#31-接入第三方支付)
+- [32. 轻量级的技术栈](#32-轻量级的技术栈)
+    - [32.1. dagger2 编译器依赖注入](#321-dagger2-编译器依赖注入)
+- [33. 拾遗](#33-拾遗)
+    - [33.1. bean 懒加载](#331-bean-懒加载)
+    - [33.2. bean 循环依赖](#332-bean-循环依赖)
 
 
 
@@ -438,15 +454,351 @@ exit 0
 
 # 3. 工具类
 
-## 3.1. bean 复制 克隆
+## Apache common
+
+
+Apache Commons是对JDK的拓展
+
+http://commons.apache.org
+
+
+### common-io
 
 ```java
+FileUtils 文件操作工具类
+文件夹操作： 
+ copyDirectory/deleteDirectory/cleanDirectory/getTempDirectory/getTempDirectoryPath
+ moveDirectory/moveDirectoryToDirectory/moveFileToDirectory/moveToDirectory
+ forceMkdir/getUserDirectory/getUserDirectoryPath
+文件操作：
+	touch/copyFile/copyURLToFile/moveFile/deleteQuietly/forceDelete/forceDeleteOnExit
+	toFile/toFiles/toURLs
+	isFileNewer/isFileOlder
+	readLines/readFileToByteArray/readFileToString/lineIterator/openOutputStream
+	write/writeLines/writeByteArrayToFile/writeStringToFile/openInputStream
+其他操作：
+    iterateFiles/listFiles/contentEquals/sizeOf/sizeOfDirectory
+
+
+FilenameUtils 文件名工具类
+获取：
+	getName/getBaseName/getPrefix/getPrefixLength/getExtension
+	getPath/getFullPath/getFullPathNoEndSeparator/getPathNoEndSeparator
+判断：
+	isExtension/equals/equalsNormalized/equalsOnSystem
+其他操作：
+	removeExtension/indexOfExtension
+	separatorsToSystem/separatorsToUnix/separatorsToWindows
+	indexOfLastSeparator
+
+
+
+
+
+IOUtils 流操作工具类
+读操作：lineIterator/read/readLines
+写操作：write/writeLines
+转换： toInputStream/toBufferedInputStream/toByteArray/toCharArray/toString
+其他操作：copy/copyLarge/contentEquals/skip/skipFully/closeQuietly
+
+
+
+
+
+
+文件比较器：
+    CompositeFileComparator/DefaultFileComparator/DirectoryFileComparator
+    ExtensionFileComparator/LastModifiedFileComparator/NameFileComparator
+    PathFileComparator/PathFileComparator
+文件过滤器：
+    AgeFileFilter/AndFileFilter/CanReadFileFilter/CanWriteFileFilter
+    DelegateFileFilter/DirectoryFileFilter/EmptyFileFilter/FalseFileFilter/FileFileFilter
+    FileFilterUtils/HiddenFileFilter/MagicNumberFileFilter/NameFileFilter/NotFileFilter
+    OrFileFilter/PrefixFileFilter/RegexFileFilter/SizeFileFilter/SuffixFileFilter
+    TrueFileFilter/WildcardFileFilter/WildcardFilter
+
+```
+
+### common-lang3
+
+```java
+StringUtils:
+包含判断方法：contains/containsXXX 
+字符串替换方法：replace/replaceXXX 
+获取子串：substring/substringXXX 
+判断方法：
+1、isEmpty/isNotEmpty/isBlank/isNotBlank/isNumeric/isWhitespace
+2、sartsWith/startsWithAny/endsWith/endsWithIgnoreCase
+索引(index)：indexOf/indexOfXXX/tIndexOf/lastIndexOfXXX
+处理方法：
+    abbreviate 缩短 capitalise 首字母 repeat 重复 left/right/center 左右中间
+    removeXXX 移除 trimXXX 去空  reverseXXX 翻转 stripXXX 移除
+    defaultXXX 默认 lowerCase/upperCase deleteXXX 删除处理
+    splitXXX分解处理 join 拼接
+
+StringEscapeUtils 转义字符串工具类
+对html js xml sql 等代码进行转义来防止注入攻击
+escapeCsv/unescapeCsv/escapeHtml/unescapeHtml/escapeJava/unescapeJava
+escapeJavaScript/unescapeJavaScript/escapeXml/unescapeXml/escapeSql
+
+
+
+NumberUtils 数字工具类
+判断是否数字：isDigits/isNumber
+其他方法：compare,max,min,
+
+
+
+ArrayUtils 数组工具类
+添加移除:add,addAll，remove,removeElement,
+拷贝：clone
+判断：contains,isEmpty,isNotEmpty,isEquals,isSameLength,
+其他：getLength,indexOf,lastIndexOf,nullToEmpty,reverse,subArray,
+转换：toMap,toObject,toPrimitive,toString
+
+
+
+RandomUtils 随机数工具类
+nextBoolean/nextInt/nextLong/nextFloat/nextDouble
+
+
+
+EnumUtils 枚举工具类
+getEnum/getEnumIgnoreCase/getEnumList/getEnumMap
+iterator
+
+
+
+ClassUtils 类工具
+获取： 
+    1、类和接口 ：getClass/getAllInterfaces/getAllSuperclasses/getShortClassName
+    2、包：getPackageName/getPackageCanonicalName
+    3、方法：getPublicMethod
+转换：
+    1、toClass/convertClassesToClassNames/convertClassNamesToClasses/
+    2、primitivesToWrappers/primitiveToWrapper/wrappersToPrimitives/wrapperToPrimitive
+判断：isAssignable/isInnerClass
+
+MethodUtils
+getAccessibleMethod/getMatchingAccessibleMethod
+invokeMethod/invokeStaticMethod/invokeExactMethod/invokeExactStaticMethod
+
+FieldUtils
+getField/readField/writeField
+getDeclaredField/readDeclaredField/writeDeclaredField
+readDeclaredStaticField/readStaticField/writeDeclaredStaticField/writeStaticField
+
+ConstructorUtils
+getAccessibleConstructor/getMatchingAccessibleConstructor
+invokeConstructor/invokeExactConstructor
+
+
+
+
+
+ObjectUtils 对象工具类
+max/min/toString/identityToString/appendIdentityToString/defaultIfNull
+
+
+
+
+SystemUtils 系统属性工具类
+getJavaHome/getJavaIoTmpDir/getJavaVersion/getUserDir/getUserHome/
+isJavaAwtHeadless/isJavaVersionAtLeast
+
+
+
+
+
+LocaleUtils 本地工具类
+availableLocaleList/availableLocaleSet
+countriesByLanguage
+localeLookupList/toLocale/isAvailableLocale/languagesByCountry
+
+```
+
+### 3.6. commons-collections4
+
+```java
+CollectionUtils 集合工具类
+添加/删除:addAll/addIgnoreNull/retainAll/removeAll/
+获取：
+	find/get/containsAny/index/size/sizeIsEmpty/select/selectRejected/subtract
+	typedCollection
+判断： 
+	isEmpty/isNotEmpty/isFull/exists/isEqualCollection/
+	isSubCollection/isProperSubCollection 
+转换： 
+	collect/transform/transformedCollection/predicatedCollection
+	unmodifiableCollection/synchronizedCollection 
+计算：cardinality/countMatches/maxSize
+过滤：filter
+集合：intersection/union/disjunction  交集，并集，差集
+其他操作：
+   reverseArray  翻转  forAllDo 给每个元素执行闭包
+   getCardinalityMap 转成Map,key是元素，value是次数
+
+
+
+
+
+
+```
+
+### Commons FileUpload
+
+为Web应用程序或Servlet提供文件上传功能
+
+### Commons Codec
+
+提供常用的编码和解码方法，如DES、SHA1、MD5、Base64、URL和Soundx等。
+
+### Commons Compress
+
+是一个压缩、解压缩文件的组件，可以操作rar、cpio、Unix dump、tar、zip、gzip、XZ、Pack200和bzip2格式的压缩文件。
+
+### Commons Configuration
+
+可以从properties或者xml文件中加载配置信息。
+
+### Commons Daemon
+
+实现将普通的Java应用变成系统的后台服务,例如 Tomcat 就是利用这个项目来实现作为 Linux 和 Windows 的服务启动和停止的。
+
+### Commons Exec
+
+用来执行外部进程，如执行exe文件或命令行
+
+### Commons Net
+
+
+封装了各种网络协议的客户端，支持FTP、NNTP、SMTP、POP3、Telnet等协议。
+
+
+
+## Google guava
+
+### 集合工具类
+
+```java
+普通集合
+List<String> list = Lists.newArrayList();
+Set<String> set = Sets.newHashSet();
+Map<String, String> map = Maps.newHashMap();
+不可变集合(immutable)
+ImmutableList<Integer> iList = ImmutableList.of(12,54,87);
+ImmutableSet<Integer> iSet = ImmutableSet.of(354,54,764,354);
+ImmutableMap<String, Integer> iMap = ImmutableMap.of("k1", 453, "k2", 534);
+
+
+Set 取交集、并集、差集
+map 取交集、并集、差集也是类似
+Sets.union(setA, setB);
+Sets.difference(setA, setB);
+Sets.intersection(setA, setB);
+
+
+MultiSet: 无序+可重复
+Multimap ：key 可以重复的 map
+BiMap：双向 Map (Bidirectional Map) 键与值都不能重复 (这个稍稍正常一点。如果 key 重复了则会覆盖 key ，如果 value 重复了则会报错。)
+
+
+
+连接符(Joiner)和分隔符(Splitter)#
+String result = Joiner.skipNulls().on("-").join(list);
+String result = Joiner.on(",").withKeyValueSeparator("=").join(map);
+Map<String,String> map = Splitter.on(",").withKeyValueSeparator("=").split(str);
+
+List<String> list = Splitter.on("-").splitToList(str);
+
+构造比较器
+Comparator 的实现#
+Ordering<UserInfo> byOrdering = Ordering.natural().nullsFirst().onResultOf((Function<UserInfo, Comparable<Integer>>) input -> input.getGender());
+System.out.println(byOrdering.compare(build1, build));
+
+```
+
+### Guava Cache
+
+```java
+// LoadingCache是Cache的缓存实现
+LoadingCache<String, Object> cache = CacheBuilder.newBuilder()
+  //设置缓存大小
+  .maximumSize(1000)
+  //设置到期时间
+  .expireAfterWrite(10, TimeUnit.MINUTES)
+  //设置缓存里的值两分钟刷新一次
+  .refreshAfterWrite(2, TimeUnit.MINUTES)
+  //开启缓存的统计功能
+  .recordStats()
+  //构建缓存
+  .build(new CacheLoader<String, Object>() {
+    //此处实现如果根据key找不到value需要去如何获取
+    @Override
+    public Object load(String s) throws Exception {
+      return new Object();
+    }
+
+    //如果批量加载有比反复调用load更优的方法则重写这个方法
+    @Override
+    public Map<String, Object> loadAll(Iterable<? extends String> keys) throws Exception {
+      return super.loadAll(keys);
+    }
+  });
+
+
+
+
+cache.invalidateAll();//清除所有缓存项
+//清理的时机：在写操作时顺带做少量的维护工作，或者偶尔在读操作时做——如果写操作实在太少的话
+//如果想自己维护则可以调用Cache.cleanUp();
+cache.cleanUp();
+//另外有时候需要缓存中的数据做出变化重载一次,这个过程可以异步执行
+cache.refresh("key");
+```
+
+### 单机限流工具类 - RateLimiter#
+
+```java
+漏桶算法：
+    - 像一个漏斗一样，水一滴一滴的滴下去，流出是匀速的。
+    - 漏桶算法的实现依赖队列，一个处理器从队头依照固定频率取出数据进行处理
+    - 当访问量过大的时候这个漏斗就会积水, 如果请求量过大导致队列堆满那么新来的请求就会被抛弃
+
+
+令牌桶: 
+    - 令牌桶取出令牌的速度没限制，只要有令牌就能处理。所以令牌桶允许一定程度的突发，而漏桶主要目的是平滑流出。
+    - 初始给桶中添加固定容量令牌，当桶中令牌不够取出的时候则拒绝新的请求。
+
+RateLimiter 使用了令牌桶算法，提供两种限流的实现方案：
+平滑突发限流(SmoothBursty)
+RateLimiter r = RateLimiter.create(5); // 每秒放置的令牌数为 5 个
+while (true) {
+  System.out.println("get 1 tokens: " + r.acquire() + "s");
+}
+//输出：
+//基本 0.2s 一次符合每秒 5 个的设置。保证每秒不超过 5 个达到了平滑输出的效果
+get 1 tokens: 0.0s
+get 1 tokens: 0.197059s
+get 1 tokens: 0.195338s
+get 1 tokens: 0.196918s
+
+平滑预热限流(SmoothWarmingUp)
+```
+
+## spring utils
+
+### 3.1. bean 复制 克隆
+
 beancopier
+
+```java
+
 
 https://github.com/mapstruct/mapstruct
 ```
 
-## 3.2. 字符串
+### 3.2. 字符串
 
 ```java
 // >>> springboot 自带
@@ -456,7 +808,7 @@ StringUtils.isEmpty() 并非严格的空
 
 ```
 
-## 3.3. 编解码
+### 3.3. 编解码
 
 ```java
 // >>> springboot 自带
@@ -468,8 +820,6 @@ public static String getMD5(String str) {
     }
 
 ```
-
-## 3.4. commons-lang3
 
 ## 3.5. 文件操作
 
@@ -525,83 +875,7 @@ public R<SysFile> upload(@RequestPart(value = "file") MultipartFile file);
 
 ```
 
-## 3.6. commons-collections4
 
-```java
-isSubCollection(smallColl, bigColl)
-
-
-/**
-    * 1、除非元素为null，否则向集合添加元素
-    */
-CollectionUtils.addIgnoreNull(personList,null);
-
-
-// >>> 合并
-
-/**
-    * 2、将两个已排序的集合a和b合并为一个已排序的列表，以便保留元素的自然顺序
-    */
-CollectionUtils.collate(Iterable<? extends O> a, Iterable<? extends O> b)
-/**
-    * 3、将两个已排序的集合a和b合并到一个已排序的列表中，以便保留根据Comparator c的元素顺序。
-    */
-CollectionUtils.collate(Iterable<? extends O> a, Iterable<? extends O> b, Comparator<? super O> c)
-
-
-// >>> 判空
-
-/**
-    * 5、如果参数是null，则返回不可变的空集合，否则返回参数本身。（很实用 ,最终返回List EMPTY_LIST = new EmptyList<>()）
-    */
-CollectionUtils.emptyIfNull(Collection<T> collection)
-/**
-    * 6、空安全检查指定的集合是否为空
-    */
-CollectionUtils.isEmpty(Collection<?> coll)
-/**
-    * 7、 空安全检查指定的集合是否为空。
-    */
-CollectionUtils.isNotEmpty(Collection<?> coll)
-
-
-
-// >> 判断是否包含 
-
-/**
-    * 4、返回该个集合中是否含有至少有一个元素
-    */
-CollectionUtils.containsAny(Collection<?> coll1, T... coll2)
-
-
-// >>> 翻转
-
-/**
-    * 8、反转给定数组的顺序。
-    */
-CollectionUtils.reverseArray(Object[] array);
-
-
-
-/**
-    * 9、差集   or   chaList.removeAll(listB);
-    or          listA.stream().filter(item -> !listB.contains(item)).collect(toList());
-    */
-CollectionUtils.subtract(Iterable<? extends O> a, Iterable<? extends O> b)
-/**
-    * 10、并集    or     先 bingList.removeAll(listB), 再bingList.addAll(listB); ((先做差集再做添加所有）)
-    */
-CollectionUtils.union(Iterable<? extends O> a, Iterable<? extends O> b)
-/**
-    * 11、交集   也可用 jiaoList.retainAll(listB); 返回 Boolean, 会改变原有集合
-    or          listA.stream().filter(item -> listB.contains(item)).collect(toList())
-    */
-CollectionUtils.intersection(Collection a, Collection b) // 返回新集合
-/**
-    *12、 交集的补集（析取）
-    */
-CollectionUtils.disjunction(Collection a, Collection b)
-```
 
 # 4. 和 react 一起打包
 
@@ -751,7 +1025,24 @@ public class AppConfig
 
 ```
 
-# 6. context 上下文 手动注册bean
+# 6. 常用扩展点
+
+```
+BeanFactoryPostProcessor
+BeanPostProcessor
+Import
+Aware回调
+InitlizingBean
+FactoryBean
+SmartInitlizingSingleton
+ApplicationListener -- event事件
+Lifecycle 容器启动，停止回调
+HandlerInterceptor 请求处理前后统计，计算.
+
+```
+
+
+# 7. context 上下文 手动注册bean
 
 https://blog.csdn.net/qq_36628536/article/details/113753368 介绍
 
@@ -830,7 +1121,7 @@ public class ApplicationContextUtil implements ApplicationContextAware {
 
 ```
 
-# 7. 实现事件驱动
+# 8. 实现事件驱动
 
 ```java
 /*
@@ -904,7 +1195,7 @@ public class RegisterListener implements ApplicationListener<UserRegisterEvent>
 
 ```
 
-# 8. 优雅停机 关机
+# 9. 优雅停机 关机
 
 ，1、利用底层JVM Runtime.getRuntime().addShutdownHook() 添加自己的钩子函数。
 
@@ -996,11 +1287,11 @@ public WebServerFactoryCustomizer tomcatCustomizer(GracefulShutdown gracefulShut
 }
 ```
 
-# 9. 静态注入
+# 10. 静态注入
 
 为静态属性注入值, 使用通过 XXXClass.xxx 使用
 
-## 9.1. set注入
+## 10.1. set注入
 
 ```java
 @Component(value = "MongoConfig")
@@ -1016,7 +1307,7 @@ public class MongoConfig {
 }
 ```
 
-## 9.2. @PostConstruct 注入
+## 10.2. @PostConstruct 注入
 
 ```java
 @Component
@@ -1037,7 +1328,7 @@ public class ADUserUtils {
 } 
 ```
 
-## 9.3. 通过 ApplicationContext
+## 10.3. 通过 ApplicationContext
 
 得到静态的 context, 然后通过 getBean(xxx.class) ...
 
@@ -1055,7 +1346,7 @@ public class MockitoDemoApplication {
 }
 ```
 
-# 10. 使用starter
+# 11. 使用starter
 
 servlet request wrapper
 
@@ -1064,13 +1355,13 @@ https://www.cnblogs.com/JAYIT/p/10943155.html
 https://www.cnblogs.com/exmyth/p/10332328.html
 
 
-## 10.1. 加载过程or原理
+## 11.1. 加载过程or原理
 
 @SpringBootApplication包含了@EnableAutoConfiguration，这个注解又包含@Import(AutoConfigurationImportSelector.class)。
 
 spring boot启动时，会调用AutoConfigurationImportSelector的回调函数，让其解析所有包下的"META-INF/spring.factories" (位于项目结构的 `resources/META-INF/spring.factories` 下), 并把key为"...EnableAutoConfiguration"对应的value里的类都加载为Bean，而那些类基本都是注解了@Configuration的配置类。这便是spring boot能自动配置的原因。
 
-## 10.2. 自动配置类会用到的一些注解
+## 11.2. 自动配置类会用到的一些注解
 
 https://my.oschina.net/u/566591/blog/2250290
 
@@ -1117,9 +1408,9 @@ https://my.oschina.net/u/566591/blog/2250290
 
 ```
 
-## 10.3. 自动配置类的实例
+## 11.3. 自动配置类的实例
 
-### 10.3.1. spring 动态代理
+### 11.3.1. spring 动态代理
 
 https://lolico.me/2020/05/03/SpringBoot2-AOP-uses-cglib-proxy-by-default/
 
@@ -1154,7 +1445,7 @@ public class AopAutoConfiguration {
 }
 ```
 
-## 10.4. @Conditional
+## 11.4. @Conditional
 
 自动配置相关注解底层都是通过 @Conditional(OnClassCondition.class) 实现的
 
@@ -1162,7 +1453,7 @@ public class AopAutoConfiguration {
 
 https://my.oschina.net/u/566591/blog/2250290
 
-## 10.5. 封装组合条件
+## 11.5. 封装组合条件
 
 继承 AllNestedConditions 封装多条件 (and 关系)
 
@@ -1170,7 +1461,7 @@ AnyNestedCondition (or 关系)
 
 NoneNestedConditions (none 关系)
 
-## 10.6. 创建自己的 starter
+## 11.6. 创建自己的 starter
 
 [官方文档](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#boot-features-custom-starter)
 
@@ -1219,17 +1510,17 @@ com.mycorp.libx.autoconfigure.LibXAutoConfiguration,\
 com.mycorp.libx.autoconfigure.LibXWebAutoConfiguration
 ```
 
-## 10.7. 反爬虫 starter
+## 11.7. 反爬虫 starter
 
 https://www.cnblogs.com/zouhao/p/12175653.html 
 
 TODO
 
-## 10.8. gprc starter
+## 11.8. gprc starter
 
 https://github.com/yidongnan/grpc-spring-boot-starter
 
-# 11. 监控 and 安全
+# 12. 监控 and 安全
 
 密码加密 Argon2
 
@@ -1238,7 +1529,7 @@ Spring Vault，它为HashiCorp Vault添加抽象 -> 密码存储
 
 OWASP ZAP 渗透测试报告
 
-## 11.1. spring-boot-actuator 监控
+## 12.1. spring-boot-actuator 监控
 
 https://www.cnblogs.com/zwqh/p/11851300.html
 https://www.jianshu.com/p/8bfac9289c7e
@@ -1264,16 +1555,16 @@ ConfigurableApplicationContext context = SpringApplication.run(PaymentServiceApp
 
 ui展示: https://github.com/codecentric/spring-boot-admin
 
-## 11.2. spring boot admin 监控界面
+## 12.2. spring boot admin 监控界面
 
 https://www.jianshu.com/p/483adafc6b3a //todo
 
 
 
 
-## 11.3. spring-boot-starter-security
+## 12.3. spring-boot-starter-security
 
-### 11.3.1. security组件介绍
+### 12.3.1. security组件介绍
 
 [ref]](https://www.cnblogs.com/demingblog/p/10874753.html)
 
@@ -1298,7 +1589,7 @@ UserDetailsService - 可以用来获取UserDetails。我们会自定义一个Cus
 AuthenticationManager - 作用就是校验Authentication, 校验失败抛出 `BadCredentialsException`
 
 
-### 11.3.2. 基本使用 和 配置用户名密码
+### 12.3.2. 基本使用 和 配置用户名密码
 
 配合 starter  (spring-boot-starter-security), 可以零配置使用. 引入后依赖
 
@@ -1378,7 +1669,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 ```
 
-### 11.3.3. 禁用基本认证
+### 12.3.3. 禁用基本认证
 
 如果既想使用security又不想每次输入用户名密码，可以直接在Application文件中禁用自动配置 (方法 1)
 
@@ -1410,7 +1701,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 ```
 
-### 11.3.4. 配置中 WebSecurity 和 HttpSecurity 区别
+### 12.3.4. 配置中 WebSecurity 和 HttpSecurity 区别
 
 
 ```java
@@ -1472,12 +1763,12 @@ publicList listAllUsers() {
 @EnableGlobalMethodSecurity(jsr250Enabled=true)开启@RolesAllowed 注解过滤权限
 
 
-### 11.3.5. 配置跨域
+### 12.3.5. 配置跨域
 
 https://lolico.me/2020/04/26/Spring-Security-CORS/
 TODO
 
-## 11.4. oauth2
+## 12.4. oauth2
 
 spring security oauth2
 
@@ -1486,13 +1777,13 @@ check outline-about-authentication-oauth2.md
 
 
 
-# 12. 日志
+# 13. 日志
 
-## 12.1. Log4j2-Marker 写入到指定日志文件
+## 13.1. Log4j2-Marker 写入到指定日志文件
 
 https://www.jianshu.com/p/1ff824bc997a?utm_campaign
 
-## 12.2. logback
+## 13.2. logback
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1545,7 +1836,7 @@ https://www.jianshu.com/p/1ff824bc997a?utm_campaign
 
 ```
 
-# 13. cqrs模式 
+# 14. cqrs模式 
 
 类似 "读写分离"
 
@@ -1560,15 +1851,15 @@ https://www.jianshu.com/p/1ff824bc997a?utm_campaign
 事件溯源(Event Sourcing): 是一种用于记录系统状态变化的方法。在事件溯源模式中，系统的每一个状态变化都被记录为一个事件（Event），并且这些事件是不可变的。通过对事件的回放，可以还原出系统的任何一个历史状态。
 ```
 
-# 14. 数据层
+# 15. 数据层
 
-## 14.1. canal 订阅
+## 15.1. canal 订阅
 
 https://github.com/zendesk/maxwell 类似
 
 https://github.com/alibaba/otter
 
-## 14.2. mybatis 自动建表插件
+## 15.2. mybatis 自动建表插件
 
 https://github.com/zyf970617/mybatis-auto-create-table
 
@@ -1578,13 +1869,13 @@ https://gitee.com/sunchenbin/mybatis-enhance
 
 https://gitee.com/baomidou/mybatis-mate-examples?_from=gitee_search
 
-## 14.3. mybatis crud 增强插件
+## 15.3. mybatis crud 增强插件
 
 mybatis plus
 
 tk.mybatis
 
-## 14.4. 数据库迁移版本控制
+## 15.4. 数据库迁移版本控制
 
 两者差别不大，因功能多，个人“稍微”倾向 Liquibase; 一般我的倾向是小项目，整体变动不大的用Flyway，而大应用和企业应用用Liquibase更合适
 
@@ -1592,12 +1883,12 @@ https://github.com/bytebase/bytebase 新的更为全面的数据库 schema 管�
 
 > https://fastzhong.com/posts/db-migration/ 对比
 
-### 14.4.1. liquibase
+### 15.4.1. liquibase
 
 
-### 14.4.2. Flyway
+### 15.4.2. Flyway
 
-#### 14.4.2.1. working process 工作原理
+#### 15.4.2.1. working process 工作原理
 
 
 1. 项目启动，应用程序完成数据库连接池的建立后，Flyway自动运行。
@@ -1608,7 +1899,7 @@ https://github.com/bytebase/bytebase 新的更为全面的数据库 schema 管�
 
 3. 如果校验通过，则根据表中的sql成功记录最大版本号，忽略所有版本号小于该版本的脚本。再按照版本号从小到大，逐个执行其余脚本。
 
-#### 14.4.2.2. how to verify the sql update 校验原理
+#### 15.4.2.2. how to verify the sql update 校验原理
 
 如何校验文件?
 
@@ -1616,7 +1907,7 @@ Flyway获取 flyway_schema_history 中最新成功记录的版本号（基准ver
 
 对于修改已经执行过的sql脚本，Flyway也有预防，那就是checksum。每个sql脚本在执行前会将基本信息写入flyway_schema_history中，Flyway会把每个脚本作为输入，通过一系列算法输出一个整数值checksum来判断脚本是否有修改（哪怕是一个空格），Flyway在工作之前，会逐个脚本比对其数据库中的checksum值，如果计算结果不同，则会报mismatch的错误
 
-#### 14.4.2.3. how to use flyway
+#### 15.4.2.3. how to use flyway
 
 ```xml
 <dependency>
@@ -1764,7 +2055,7 @@ flyway.validate-on-migrate迁移时是否校验，默认为true.
 ```
 
 
-## 14.5. 数据库连接字符串收集
+## 15.5. 数据库连接字符串收集
 
 ```sh
 
@@ -1794,16 +2085,16 @@ postgresql://localhost/mydb?user=other&password=secret
 driver-class-name: org.postgresql.Driver
 ```
 
-## 14.6. graphql集成
+## 15.6. graphql集成
 
 https://www.awaimai.com/2876.html
 
 https://juejin.cn/post/6982083422567006245 入门
 https://graphql.cn/learn/queries/ 官网文档
 
-## 14.7. 启动执行 SQL
+## 15.7. 启动执行 SQL
 
-### 14.7.1. 利用 spring jdbc
+### 15.7.1. 利用 spring jdbc
 
 ```yml
 spring:
@@ -1843,7 +2134,7 @@ spring:
 
 ```
 
-### 14.7.2. 使用 jpa
+### 15.7.2. 使用 jpa
 
 1、SpringBoot根据脚本初始化
 
@@ -1895,7 +2186,7 @@ create/create-drop 在创建表时, 默认会扫描 classpath 下面（项目中
 
 ```
 
-### 14.7.3. DataSourceInitializer
+### 15.7.3. DataSourceInitializer
 
 ```java
 
@@ -1931,7 +2222,7 @@ public class CustomizeDataSourceInitializer {
 }
 ```
 
-### 14.7.4. maven-antrun-pluginn
+### 15.7.4. maven-antrun-pluginn
 
 ```xml
 
@@ -1958,20 +2249,20 @@ public class CustomizeDataSourceInitializer {
 </profile>
 ```
 
-### 14.7.5. construct a script execution service manually
+### 15.7.5. construct a script execution service manually
 
 https://mubasil-bokhari.medium.com/execute-sql-script-in-spring-boot-30636884a932
 todo
 
-## 14.8. 整合 spring jdbc
+## 15.8. 整合 spring jdbc
 
 https://www.cnblogs.com/liyihua/p/12333967.html
 
-## 14.9. 整合 hibernate (即 jpa)
+## 15.9. 整合 hibernate (即 jpa)
 
 https://github.com/raeperd/realworld-springboot-java
 
-### 14.9.1. jpa注解总结
+### 15.9.1. jpa注解总结
 
 ```java
 // anno on class
@@ -1990,9 +2281,9 @@ https://github.com/raeperd/realworld-springboot-java
     @Column(name = "id", length = 32)
 ```
 
-### 14.9.2. 使用枚举
+### 15.9.2. 使用枚举
 
-#### 14.9.2.1. the basic usage
+#### 15.9.2.1. the basic usage
 
 ```java
 public enum Rating {
@@ -2015,7 +2306,7 @@ public class Movie {
 }
 ```
 
-#### 14.9.2.2. @Converter (推荐)
+#### 15.9.2.2. @Converter (推荐)
 
 ```java
 public enum Category {
@@ -2053,7 +2344,7 @@ public class CategoryConverter implements AttributeConverter<Category, String> {
 }
 ```
 
-#### 14.9.2.3. @PostLoad and @PrePersist
+#### 15.9.2.3. @PostLoad and @PrePersist
 
 ```java
 @Entity
@@ -2082,14 +2373,14 @@ public class Article {
     }
 ```
 
-### 14.9.3. jpa queryDsl 多表联查
+### 15.9.3. jpa queryDsl 多表联查
 
 https://github.com/querydsl/querydsl
 
 https://zhongpan.tech/2020/07/20/034-best-practice-of-multi-table-joint-query-in-spring-data-jpa/
 https://www.baeldung.com/querydsl-with-jpa-tutorial
 
-### 14.9.4. jpa 支持 java8 time
+### 15.9.4. jpa 支持 java8 time
 
 
 ```
@@ -2099,12 +2390,12 @@ https://www.baeldung.com/jpa-java-time
 ```
 
 
-### 14.9.5. 审计 createdDate
+### 15.9.5. 审计 createdDate
 
 https://blog.csdn.net/a972669015/article/details/104778172
 TODO
 
-### 14.9.6. 执行原生 SQL
+### 15.9.6. 执行原生 SQL
 
 ```java
 /*
@@ -2164,7 +2455,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 
 ```
 
-### 14.9.7. 动态 SQL
+### 15.9.7. 动态 SQL
 
 https://www.cnblogs.com/kongxianghai/p/7575988.html
 
@@ -2175,7 +2466,7 @@ https://www.cnblogs.com/kongxianghai/p/7575988.html
 
 动态查询则需要用 Criteria API
 
-### 14.9.8. spring-data-rest 配合 spring-data-jpa
+### 15.9.8. spring-data-rest 配合 spring-data-jpa
 
 http://docs.jcohy.com/docs/spring-data-rest/3.2.8.RELEASE/html5/zh-cn/
 https://docs.spring.io/spring-data/rest/docs/3.4.5/reference/html/#Project
@@ -2229,7 +2520,7 @@ interface ReservationResources {
 
 
 
-## 14.10. 整合 mybatis-plus
+## 15.10. 整合 mybatis-plus
 
 mybatis-plus-boot-starter
 
@@ -2260,7 +2551,7 @@ AccountMapper.xml
 
 ```
 
-## 14.11. 整合 mybatis
+## 15.11. 整合 mybatis
 
 https://github.com/gothinkster/spring-boot-realworld-example-app
 
@@ -2271,7 +2562,7 @@ https://github.com/gothinkster/spring-boot-realworld-example-app
 
 也可以直接引入 mybatisplus-spring-boot-starter 通过 mybatis plus 使用
 
-### 14.11.1. 基本配置 
+### 15.11.1. 基本配置 
 
 ```yml
 server:
@@ -2294,17 +2585,17 @@ mybatis:
 
 ```
 
-### 14.11.2. 使用 拦截器 interceptor plugins
+### 15.11.2. 使用 拦截器 interceptor plugins
 
 
-#### 14.11.2.1. principle of plugins
+#### 15.11.2.1. principle of plugins
 
 基于插件机制，基本上可以控制SQL执行的各个阶段，如执行阶段，参数处理阶段，语法构建阶段，结果集处理阶段，具体可以根据项目业务来实现对应业务逻辑。
 
 设计模式：代理模式、责任链模式
 
 
-#### 14.11.2.2. use scenarios
+#### 15.11.2.2. use scenarios
 
 
 - paging 拦截StatementHandler类的prepare方法，改变要执行的SQL语句为分页语句即可；
@@ -2314,7 +2605,7 @@ mybatis:
 
 
 
-#### 14.11.2.3. how to use plugins
+#### 15.11.2.3. how to use plugins
 
 
 
@@ -2452,18 +2743,18 @@ TODO
 
 ```
 
-### 14.11.3. typehandler
+### 15.11.3. typehandler
 
 https://blog.csdn.net/m0_37735176/article/details/103107759
 https://www.cnblogs.com/haoliyou/p/13743698.html
 https://www.cnblogs.com/dyf-stu/p/10162301.html
 
-### 14.11.4. 全注解开发
+### 15.11.4. 全注解开发
 
 https://zhuanlan.zhihu.com/p/94554180
 TODO
 
-### 14.11.5. 动态定时刷新 SQL mapper 实现热加载
+### 15.11.5. 动态定时刷新 SQL mapper 实现热加载
 
 https://veevv.com/2015/09/30/mybatis-mapper-xml-reloader/
 
@@ -2606,7 +2897,7 @@ public class XMLMapperReloader implements ApplicationContextAware {
 
 ```
 
-### 14.11.6. 自定义资源文件打包目录 and 开启占位符过滤
+### 15.11.6. 自定义资源文件打包目录 and 开启占位符过滤
 
 mapper.xml 和 dao interface 放在一起: (开启资源文件过滤)
 
@@ -2650,11 +2941,11 @@ mapper.xml 和 dao interface 放在一起: (开启资源文件过滤)
 
 
 
-## 14.12. 事务
+## 15.12. 事务
 
-### 14.12.1. 事务基本使用
+### 15.12.1. 事务基本使用
 
-#### 14.12.1.1. 手动编程实现
+#### 15.12.1.1. 手动编程实现
 
 
 ```java
@@ -2690,7 +2981,7 @@ public void save(ArtisanDto artisanDto) {
 
 ```
 
-#### 14.12.1.2. 注解声明式
+#### 15.12.1.2. 注解声明式
 
 
 ```java
@@ -2795,7 +3086,7 @@ TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
 
 ```
 
-### 14.12.2. transaction not working 
+### 15.12.2. transaction not working 
 
 事务不生效, 可能是:
 
@@ -2825,7 +3116,7 @@ TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
 // https://blog.csdn.net/laoxilaoxi_/article/details/99896738 使用 cglib or jdk 动态代理 `@EnableTransactionManagement(proxyTargetClass = true)// 使用cglib`
 
 ```
-### 14.12.3. spring 事务传播失效的坑
+### 15.12.3. spring 事务传播失效的坑
 
 同一个 service bean 中的 事务方法互相调用, 如 a() 调用 b(), 只会使用 a() 的 事务, b 的无效, 因为事务本质是基于动态代理, 在同个 bean 中的方法互调, 发生在主动调用方 a() 的代理对象中, 所以只有 a() 的事务生效
 
@@ -2848,7 +3139,7 @@ public void a() {
 }
 ```
 
-### 避免长事务
+### 15.12.4. 避免长事务
 
 避免长事务最简单的方法就是不要使用声明式事务@Transactional，而是使用编程式事务手动控制事务的颗粒度, 将不需要事务的逻辑移动到事务外面
 
@@ -2880,7 +3171,7 @@ public class ArtisanService{
 
 
 
-### 14.12.4. Transactional 注解
+### 15.12.5. Transactional 注解
 
 事务超时
 
@@ -2891,9 +3182,9 @@ public class ArtisanService{
 
 @transaction(isolation=...)
 
-## 14.13. 缓存
+## 15.13. 缓存
 
-### 14.13.1. springboot-starter-cache
+### 15.13.1. springboot-starter-cache
 
 ```xml
  <dependency>
@@ -2976,15 +3267,15 @@ public class ArtisanService{
 - 读写加锁
 - canal 中间件
 
-### 14.13.2. caffeine
+### 15.13.2. caffeine
 
 Caffeine是使用Java8对Guava缓存的重写版本，在Spring Boot 2.0中将取代Guava
 
 
-## 14.14. 配合 h2 数据库进行开发
+## 15.14. 配合 h2 数据库进行开发
 
 
-### 14.14.1. h2 和 spring data jpa 配合
+### 15.14.1. h2 和 spring data jpa 配合
 
 无需任何配置文件
 
@@ -3063,7 +3354,7 @@ class Reservation {
 }
 ```
 
-### 14.14.2. 和 mybatis-plus 配合
+### 15.14.2. 和 mybatis-plus 配合
 
 [h2 和 mybatis-plus 配合](https://mp.baomidou.com/guide/quick-start.html):
 
@@ -3084,9 +3375,9 @@ spring:
 mapper extends BaseMapper
 
 
-## 14.15. 多数据源 
+## 15.15. 多数据源 
 
-### 14.15.1. 基本配置 全注解开发
+### 15.15.1. 基本配置 全注解开发
 
 启动类需要排除自动配置@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 
@@ -3221,12 +3512,12 @@ public interface MoneyDao {
 
 ```
 
-### 14.15.2. AbstractRoutingDataSource 动态数据源切换
+### 15.15.2. AbstractRoutingDataSource 动态数据源切换
 
 https://blog.csdn.net/qq_37502106/article/details/91044952
 https://www.cnblogs.com/wyb628/p/7240061.html
 
-## 14.16. 多数据库类型 databaseIdProvider
+## 15.16. 多数据库类型 databaseIdProvider
 
 https://www.cnblogs.com/valten/p/12083128.html# 配置 MySQL Oracle 共同使用
 
@@ -3384,15 +3675,15 @@ spring:
 </dependency>
 ```
 
-## 14.17. spring kafka
+## 15.17. spring kafka
 
 https://docs.spring.io/spring-kafka/docs/current/reference/html/#receiving-messages
 
 https://www.youtube.com/watch?v=SqVfCyfCJqw&t=9s
 
-# 15. web 相关
+# 16. web 相关
 
-## 15.1. 加解密
+## 16.1. 加解密
 
 https://github.com/Licoy/encrypt-body-spring-boot-starter web 层加密解密 加解密
 
@@ -3407,7 +3698,7 @@ https://www.javatt.com/p/22814
 https://blog.csdn.net/github_36086968/article/details/103424945
 https://jueee.github.io/2021/01/2021-01-06-SpringBoot%E5%AE%9E%E7%8E%B0API%E6%8E%A5%E5%8F%A3%E6%95%B0%E6%8D%AEAES%E5%8A%A0%E5%AF%86/
 
-## 15.2. springboot 发送 https 或者 http 客户端 client
+## 16.2. springboot 发送 https 或者 http 客户端 client
 
 https://blog.csdn.net/defonds/article/details/86594441 (https://prasans.info/making-https-call-using-apache-httpclient/)
 https://www.cnblogs.com/lfstudy/p/13793625.html
@@ -3422,12 +3713,12 @@ https://square.github.io/okhttp/https/
 https://www.zhihu.com/question/36963964
 https://www.jianshu.com/p/5bc866b9cbb9
 
-### 15.2.1. 发送 http client
+### 16.2.1. 发送 http client
 
 
 
 
-### 15.2.2. 发送 https client
+### 16.2.2. 发送 https client
 
 okhttp
 
@@ -3460,7 +3751,7 @@ public class JavaConfig {
 
 ```
 
-## 15.3. RequestContextHolder
+## 16.3. RequestContextHolder
 
 ```java
 ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
@@ -3469,16 +3760,16 @@ HttpServletRequest request = attributes.getRequest();
 
 ```
 
-## 15.4. 解决 api 版本共存
+## 16.4. 解决 api 版本共存
 
 https://blog.csdn.net/j903829182/article/details/81836551, https://www.cnblogs.com/huanshilang/p/12097048.html 放在 url
 TODO
 
-### 15.4.1. RequestMappingHandlerMapping
+### 16.4.1. RequestMappingHandlerMapping
 
 
 
-### 15.4.2. request matcher
+### 16.4.2. request matcher
 
 ```java
 private RequestMatcher matcherHtml = new AntPathRequestMatcher("/**", "GET");
@@ -3489,7 +3780,7 @@ private RequestMatcher matcherHtml = new AntPathRequestMatcher("/**", "GET");
 
 ```
 
-### 15.4.3. request condition
+### 16.4.3. request condition
 
 在 spring mvc 中，通过DispatchServlet接收客户端发起的一个请求之后，会通过 HanderMapping 来获取对应的请求处理器；而 HanderMapping 如何找到可以处理这个请求的处理器呢，这就需要 RequestCondition 来决定了
 
@@ -3529,7 +3820,7 @@ AbstractRequestCondition 实现了equals,hashCode和toString 通用方法, 还�
 - ProducesRequestCondition	可生成MIME匹配条件
 
 
-## 15.5. 接收参数相关的注解
+## 16.5. 接收参数相关的注解
 
 ```java
 @RequestParam 可以用于从query parameters, form data, 和parts in multipart requests中获取参数。
@@ -3581,7 +3872,7 @@ AbstractRequestCondition 实现了equals,hashCode和toString 通用方法, 还�
     }
 ```
 
-## 15.6. 自定义接收参数类型
+## 16.6. 自定义接收参数类型
 
 若果只是一个两个类型需要转换, 直接实现  org.springframework.core.convert.converter.Converter 然后标注 component 即可 (包含连个泛型, 第一个是请求中原始类型如 Integer, 第二个泛型是 希望转换后的类型如 enum),
 
@@ -3734,7 +4025,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 }
 ```
 
-## 15.7. 返回图片
+## 16.7. 返回图片
 
 ```java
 @Controller
@@ -3775,17 +4066,17 @@ public class ImageController {
 }
 ```
 
-## 15.8. rest api 文档
+## 16.8. rest api 文档
 
-### 15.8.1. knife4j
+### 16.8.1. knife4j
 
-### 15.8.2. springdoc-openapi
+### 16.8.2. springdoc-openapi
 
 https://springdoc.org/
 
 https://www.baeldung.com/spring-rest-openapi-documentation
 
-### 15.8.3. swagger3
+### 16.8.3. swagger3
 
 访问 /swagger-ui.html or /swagger-ui/index.html (springdoc.swagger-ui.path=/swagger-ui.html)
 
@@ -3834,7 +4125,7 @@ public class Swagger3Config {
 ```
 
 
-### 15.8.4. 集成swagger2 
+### 16.8.4. 集成swagger2 
 
 http://springfox.github.io/springfox/docs/snapshot/#springfox-spring-mvc-and-spring-boot
 
@@ -3998,9 +4289,9 @@ public class Swagger2Config {
 
 
 
-## 15.9. 过滤器 和 拦截器
+## 16.9. 过滤器 和 拦截器
 
-### 15.9.1. 区别
+### 16.9.1. 区别
 
 servlet filter和spring mvc Interceptor区别：
 
@@ -4015,7 +4306,7 @@ servlet filter和spring mvc Interceptor区别：
 ![](/img/filter-interceptor.png)
 
 
-### 15.9.2. 使用 filter
+### 16.9.2. 使用 filter
 
 ```java
 scenario 1:
@@ -4064,9 +4355,9 @@ OncePerRequestFilter    被用于继承实现并在每次请求时只执行一�
 
 ```
 
-### 15.9.3. 使用 interceptor
+### 16.9.3. 使用 interceptor
 
-#### 15.9.3.1. 基本使用拦截器
+#### 16.9.3.1. 基本使用拦截器
 
 https://www.baeldung.com/spring-mvc-handlerinterceptor
 
@@ -4102,14 +4393,14 @@ public class InterceptorConfig implements WebMvcConfigurer { // WebMvcConfigurer
 
 ```
 
-#### 15.9.3.2. 基于 url 拦截
+#### 16.9.3.2. 基于 url 拦截
 
 一种方式是 在配置中 registry.addInterceptor(interceptor).addPathPatterns("/api/**").exclude("...");
 
 一种是直接在 prehandle() 中处理 String path = request.getServletPath(), path.matches(Const.NO_INTERCEPTOR_PATH 就是基于正则匹配的url 
 
 
-#### 15.9.3.3. 基于注解拦截
+#### 16.9.3.3. 基于注解拦截
 
 interceptor 也属于 aop, 
 
@@ -4139,7 +4430,7 @@ public class AuthorityInterceptor extends HandlerInterceptorAdapter{
 
 ```
 
-## 15.10. servlet Druid 监控
+## 16.10. servlet Druid 监控
 
 ```java
 @Configuration
@@ -4187,9 +4478,9 @@ public class DruidConfig {
 
 ```
 
-## 15.11. aop 整合使用
+## 16.11. aop 整合使用
 
-### 15.11.1. 基本使用
+### 16.11.1. 基本使用
 
 通知执行顺序: around > before > around > after > afterReturning
 
@@ -4217,7 +4508,7 @@ public class ReqCheckAop {
 }
 ```
 
-### 15.11.2. 切入点表达式
+### 16.11.2. 切入点表达式
 
 用来指定增强哪些方法
 
@@ -4308,9 +4599,9 @@ https://www.cnblogs.com/ityangshuai/p/11923696.html
 -  可以使用 &&, ||, ! 运算符来定义切点表达式
 ```
 
-## 15.12. controllerAdvice 使用
+## 16.12. controllerAdvice 使用
 
-### 15.12.1. 全局异常处理 全局数据绑定 全局请求数据预处理
+### 16.12.1. 全局异常处理 全局数据绑定 全局请求数据预处理
 
 
 
@@ -4388,28 +4679,28 @@ public class MyGlobalExceptionHandler {
 
 ```
 
-## 15.13. 利用 ResponseBodyAdvice requestbodyadvice
+## 16.13. 利用 ResponseBodyAdvice requestbodyadvice
 
-### 15.13.1. 进行 feign 响应数据解包
+### 16.13.1. 进行 feign 响应数据解包
 
 https://blog.csdn.net/qq_44817900/article/details/123035228 实现ResponseBodyAdvice接口，其实是对加了@RestController(也就是@Controller+@ResponseBody)注解的处理器将要返回的值进行增强处理。其实也就是采用了AOP的思想，对返回值进行一次修改。
 
 https://www.cnblogs.com/melonOO/p/15349258.html
 
 
-### 15.13.2. 请求响应加解密
+### 16.13.2. 请求响应加解密
 
 https://www.jianshu.com/p/18f33cea8b8a
 
-## 15.14. HttpServletRequest 的输入流只能读取一次的问题
+## 16.14. HttpServletRequest 的输入流只能读取一次的问题
 
 https://www.cnblogs.com/JAYIT/p/10943155.html
 
 还是推荐使用 aop 去切 controller 更方便一点
 
-## 15.15. 路由处理
+## 16.15. 路由处理
 
-### 15.15.1. 静态资源映射 暴露静态资源
+### 16.15.1. 静态资源映射 暴露静态资源
 
 暴露图片资源
 
@@ -4455,7 +4746,7 @@ protected void addResourceHandlers(ResourceHandlerRegistry registry) {
 
 还有个例子, --> swagger 静态资源处理 (放行 相关的静态页面)
 
-### 15.15.2. 添加 view controller
+### 16.15.2. 添加 view controller
 
 ```java
 @Configuration
@@ -4478,7 +4769,7 @@ class MvcConfig implements WebMvcConfigurer {
 
 
 
-## 15.16. spring-boot-starter-thymeleaf
+## 16.16. spring-boot-starter-thymeleaf
 
 thymeleaf 和 spring security 配合使用 `sec` 标签: https://www.jianshu.com/p/bb3a3b388c4e
 
@@ -4535,12 +4826,12 @@ spring:
 ```
 
 
-# 16. 运维部署
+# 17. 运维部署
 
-## 16.1. 支持 https ssl 
+## 17.1. 支持 https ssl 
 
 
-### 16.1.1. nginx 配置 https
+### 17.1.1. nginx 配置 https
 
 Let's Encrypt 或者阿里云, 腾讯云 支持 面粉 ssl 证书 , 一年有效期, 过期再次申请 
 
@@ -4553,7 +4844,7 @@ https://blog.csdn.net/fenglin0429/article/details/81347634
 https://www.nonelonely.com/article/1584965619600 nginx 配置 http  转https, 代理 springboot
 https://ask.csdn.net/questions/701009
 
-### 16.1.2. 支持 https 访问
+### 17.1.2. 支持 https 访问
 
 
 ```java
@@ -4590,7 +4881,7 @@ server.ssl.keyAlias = tomcat
 
 ```
 
-### 16.1.3. http 请求自动转为 https
+### 17.1.3. http 请求自动转为 https
 
 ```java
 // 配置访问http  urL 时自动转到https。
@@ -4631,7 +4922,7 @@ class Config {
 
 ```
 
-### 16.1.4. 同时支持 http https
+### 17.1.4. 同时支持 http https
 
 
 用http请求时不再转换成https请求
@@ -4639,7 +4930,7 @@ class Config {
 只需要将代码中的connector.setSecure(false)中的false改成true就可以了
 
 
-## 16.2. 容器化部署
+## 17.2. 容器化部署
 
 https://rovo98.github.io/posts/39885a36/ SpringBoot + Docker + Nginx 负载均衡实现
 TODO
@@ -4647,11 +4938,11 @@ TODO
 
 https://github.com/GoogleContainerTools/jib 为 java 程序构造 docker 镜像 (https://www.cnblogs.com/felordcn/p/13201163.html)
 
-## 16.3. nginx 反向代理
+## 17.3. nginx 反向代理
 
 https://cloud.tencent.com/developer/article/1332603
 
-## 16.4. 内嵌 tomcat 调优
+## 17.4. 内嵌 tomcat 调优
 
 ```yml
 server:
@@ -4740,7 +5031,7 @@ public class WebServerConfiguration {
 
 
 
-## 16.5. 配置 war 包部署到 Tomcat
+## 17.5. 配置 war 包部署到 Tomcat
 
 ```java
 public class ServletInitializer extends SpringBootServletInitializer {
@@ -4780,14 +5071,14 @@ public class Application extends SpringBootServletInitializer {
 }
 ```
 
-# 17. spring boot 中的并发
+# 18. spring boot 中的并发
 
 https://www.e4developer.com/2018/03/30/introduction-to-concurrency-in-spring-boot/ //todo
 https://blog.csdn.net/qq_40606397/article/details/104945855
 
-## 17.1. 使用异步编程
+## 18.1. 使用异步编程
 
-### 17.1.1. 配置线程池
+### 18.1.1. 配置线程池
 
 ```java
 // 配置线程池
@@ -4818,7 +5109,7 @@ public class AsyncConfiguration {
 
 ```
 
-### 17.1.2. 有返回值 没有返回值
+### 18.1.2. 有返回值 没有返回值
 
 ```java
 
@@ -4906,7 +5197,7 @@ public class AsyncService {
 
 ```
 
-### 17.1.3. @Async失效
+### 18.1.3. @Async失效
 
 - 异步方法使用static关键词修饰
 - 异步类不是一个Spring容器的bean（一般使用注解@Component和@Service，并且能被Spring扫描到）；
@@ -4915,7 +5206,7 @@ public class AsyncService {
 
 >异步方法使用注解@Async的返回值只能为void或者Future及其子类，当返回结果为其他类型时，方法还是会异步执行，但是返回值都是null
 
-# 18. 实现乐观锁悲观锁
+# 19. 实现乐观锁悲观锁
 
 https://www.cnblogs.com/cloudfloating/p/11461530.html 
 
@@ -4924,20 +5215,166 @@ TODO
 
 
 
-# 19. 移动端消息推送
+# 20. 移动端消息推送
 
 https://juejin.im/post/6844903838495801357 
 https://crossoverjie.top/2018/09/25/netty/million-sms-push/
 https://juejin.im/post/6844903478200909837
 TODO
 
-# 20. 即时通信 IM系统
+# 21. 即时通信 IM系统
 
 https://github.com/tywo45
 
-# 21. 辅助工具
+# 22. 辅助工具
 
-## 21.1. lombok notice
+## 22.1. mapstruct
+
+```xml
+ <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <!--                <version>3.11.0</version>-->
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.5.5.Final</version>
+                        </path>
+
+                        <!-- working with lombok -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+```
+
+mapper 可以是 interface/Abstract class
+
+```java
+ // "public" is necessary
+@Mapper
+public interface SourceDestinationMapper {
+    SimpleDestination sourceToDest(SimpleSource source);
+    SimpleSource destToSource(SimpleDestination destination);
+
+    /**
+     * 字段名字不一样
+     */
+    @Mapping(target="employeeId", source="entity.id")
+    @Mapping(target="employeeName", source="entity.name")
+    EmployeeDTO employeeToEmployeeDTO(Employee entity);
+
+    @Mapping(target="id", source="dto.employeeId")
+    @Mapping(target="name", source="dto.employeeName")
+    Employee employeeDTOtoEmployee(EmployeeDTO dto);
+
+    /**
+     * 内嵌对象也可以复制, 需要声明内嵌的对象转换方法, mapstruct 会自动调用 
+     */
+
+    /*
+    * 时间格式 (employeeStartDt 为 string 类型, startDt 为 date 类型)
+    */
+   @Mapping(target="employeeStartDt", source = "entity.startDt",
+         dateFormat = "dd-MM-yyyy HH:mm:ss")
+}
+
+
+@Getter
+@Setter
+public static class SimpleSource {
+    private String name;
+    private String description;
+    // getters and setters
+}
+
+@Getter
+@Setter
+public static class SimpleDestination {
+    private String name;
+    private String description;
+    // getters and setters
+}
+
+```
+
+使用
+
+```java
+
+@Test
+void mstest() {
+    // 也可以将这里放到 mapper interface 内, 使用时这样: Xxxmapper.mapper.xxx()
+    SourceDestinationMapper mapper = Mappers.getMapper(SourceDestinationMapper.class);
+
+    SimpleSource simpleSource = new SimpleSource();
+    simpleSource.setName("a");
+    simpleSource.setDescription("d");
+    SimpleDestination simpleDestination = mapper.sourceToDest(simpleSource);
+
+    assertThat(simpleDestination.getName()).isEqualTo("a");
+    assertThat(simpleDestination.getDescription()).isEqualTo("d");
+}
+```
+
+在 map 前后, 做一些自定义处理:
+
+```java
+@Mapper
+public abstract class CarsMapper {
+    @BeforeMapping
+    protected void enrichDTOWithFuelType(Car car, @MappingTarget CarDTO carDto) {
+        if (car instanceof ElectricCar) {
+            carDto.setFuelType(FuelType.ELECTRIC);
+        }
+        if (car instanceof BioDieselCar) { 
+            carDto.setFuelType(FuelType.BIO_DIESEL);
+        }
+    }
+
+    @AfterMapping
+    protected void convertNameToUpperCase(@MappingTarget CarDTO carDto) {
+        carDto.setName(carDto.getName().toUpperCase());
+    }
+
+    public abstract CarDTO toCarDto(Car car);
+}
+Copy
+
+
+```
+
+
+## 22.2. lombok notice
 
 - @data <=> @Setter、@Getter、@RequiredArgsConstructor、@ToString、@EqualsAndHashCode, 
 
@@ -4963,7 +5400,7 @@ https://github.com/tywo45
 
   - 使用时, 类的 field 可以不带任何修饰符, 会自动被加上 private final
 
-### 21.1.1. 编译期代码生成原理
+### 22.2.1. 编译期代码生成原理
 
 https://www.cnblogs.com/exmyth/p/11396503.html
 
@@ -4971,7 +5408,7 @@ https://blog.csdn.net/Chinajash/article/details/1471081
 
 https://www.baeldung.com/java-annotation-processing-builder
 
-## 21.2. devtools
+## 22.3. devtools
 
 开发者组件, 修改了 thymeleaf 后, 重新编译修改的文件, 页面即可更新, 不必重启整个 app, 但是若修改了 Java config , 还是要重启
 
@@ -4981,7 +5418,7 @@ spring.devtools.restart.enabled=true
 ... additional-paths=src/main/java // 监听目录  
 ```
 
-## 21.3. maven wrapper
+## 22.4. maven wrapper
 
 wrapper：maven的包装器，通过mvnw命令替代mvn，简化mvn操作, 不需要在操作系统上安装Maven
 
@@ -4997,9 +5434,9 @@ mvnw第一次运行会检测$USER_HOME/.m2/wrapper/dists 目录下是否有maven
 
 
 
-# 22. 校验
+# 23. 校验
 
-## 22.1. 校验配置文件
+## 23.1. 校验配置文件
 
 任何添加@ConfigurationProperties的类，class上加 `@Validated` annotation, app都会进行属性校验, 确保引入了 JSR-303 javax.validation 规范的实现;
 使用校验规范JSR-303 javax.validation中的注解即可实现校验（介绍见这里https://www.ibm.com/developerworks/cn/java/j-lo-jsr303/）
@@ -5035,13 +5472,13 @@ public class FooProperties {
 
 spring-boot-actuator 模块有一个端点，对外暴露了所有的 @ConfigurationProperties beans。浏览器中访问 /configprops 即可
 
-## 22.2. 校验请求参数
+## 23.2. 校验请求参数
 
 https://blog.csdn.net/mzh_cn/article/details/80637015
 
-## 22.3. 自定义校验
+## 23.3. 自定义校验
 
-## 22.4. @Validated和@Valid
+## 23.4. @Validated和@Valid
 
 @Valid是 JSR-303 规范, hibernate-validation实现了这一规范
 
@@ -5052,9 +5489,9 @@ https://blog.csdn.net/mzh_cn/article/details/80637015
 
 
 
-# 23. runner 获取命令行参数
+# 24. runner 获取命令行参数
 
-## 23.1. 获取命令行参数
+## 24.1. 获取命令行参数
 
 注入一个`org.springframework.boot.ApplicationArguments `bean
 
@@ -5075,7 +5512,7 @@ public class MyBean {
 
 Spring Boot will also register a `CommandLinePropertySource` with the Spring `Environment`. This allows you to also inject single application arguments using the `@Value` annotation.
 
-## 23.2. `ApplicationRunner` or `CommandLineRunner`
+## 24.2. `ApplicationRunner` or `CommandLineRunner`
 
 `ApplicationRunner` or `CommandLineRunner`接口都有run()待实现(在SpringApplication.run(…​)完成之前调用)但是参数不同, 具体如下:
 
@@ -5121,7 +5558,7 @@ implements ApplicationRunner
 
 * 使用`org.springframework.core.annotation.Order`注解 eg: @Order(num), num为Int, 0优先级最高
 
-# 24. 开发命令行应用
+# 25. 开发命令行应用
 
 加入开发一个工具 ab.jar, 希望这么使用:
 
@@ -5195,19 +5632,19 @@ public class RabbitAmqpTutorialsRunner implements CommandLineRunner {
 
 
 
-# 25. 整合 grpc
+# 26. 整合 grpc
 
 https://github.com/ChinaSilence/spring-boot-starter-grpc
 
 
 
-# 26. 任务调度
+# 27. 任务调度
 
-## 26.1. 整合 XXL-JOB 任务调度平台
+## 27.1. 整合 XXL-JOB 任务调度平台
 
 https://www.tianheyu.top/archives/springboot-xxl-job-executor
 
-## 26.2. 异步任务
+## 27.2. 异步任务
 
 ```java
 @Configuration
@@ -5270,9 +5707,9 @@ public class FutureService {
 }
 ```
 
-## 26.3. 定时任务
+## 27.3. 定时任务
 
-### 26.3.1. springboot 内置
+### 27.3.1. springboot 内置
 
 SpringBoot为我们内置了@Scheduled定时任务 (spring task), @EnableScheduling 开启
 
@@ -5310,14 +5747,14 @@ public class SchedulerConfig implements SchedulingConfigurer {
 
 ```
 
-### 26.3.2. 集成 Quartz
+### 27.3.2. 集成 Quartz
 
 
-# 27. 配置文件 and 环境
+# 28. 配置文件 and 环境
 
-## 27.1. 读取配置文件
+## 28.1. 读取配置文件
 
-### 27.1.1. 几种读取配置文件的方法
+### 28.1.1. 几种读取配置文件的方法
 
 1. 使用 @Value("${property}") 读取比较简单的配置信息
 
@@ -5327,7 +5764,7 @@ public class SchedulerConfig implements SchedulingConfigurer {
 
 4. @PropertySource("classpath:website.properties") 读取指定 properties 文件
 
-### 27.1.2. 注入复杂类型
+### 28.1.2. 注入复杂类型
 
 对于 properties 格式的配置文件:
 
@@ -5425,13 +5862,13 @@ public class MapConfig {
 }
 ```
 
-## 27.2. 配置文件优先级
+## 28.2. 配置文件优先级
 
 配置文件加载优先级: 命令行 > ${user.dir}/config/xxx > ${user.dir}/xxx (usr.dir 即为命令执行的当前目录) > classpath:config/xxx > classpath:xxx
 
 --spring.profiles.active=prod,,,, --spring.config.location=target/application.properties
 
-## 27.3. 读取环境信息
+## 28.3. 读取环境信息
 
 ```java
 /**
@@ -5496,7 +5933,7 @@ class DemoController {
 
 ```
 
-## 27.4. 两种引入 springboot 方式
+## 28.4. 两种引入 springboot 方式
 
 一种是通过 设置 parent 为 spring boot starter parent
 
@@ -5652,23 +6089,23 @@ class DemoController {
     </build>
 ```
 
-# 28. 国际化 i18n
+# 29. 国际化 i18n
 
 如果我们需要获取客户端的语言，本地化（国际化 i18n）参数，我们可以借助 Spring 提供的 LocaleContextHolder API 进行获取，比如： 1、获取语言：LocaleContextHolder.getLocale().getLanguage() 2、获取时区：LocaleContextHolder.getLocale().getTimeZone() 等等。
 
-# 29. 序列化 反序列化
+# 30. 序列化 反序列化
 
-## 29.1. 日期时间 json
+## 30.1. 日期时间 json
 
 https://www.cnblogs.com/carrychan/p/9883172.html
 https://blog.csdn.net/z69183787/article/details/109356584
 
-## 29.2. jackson 使用
+## 30.2. jackson 使用
 
 springboot web starter 中包含了 Jackson-databind 依赖, 可以直接注入 objectmapper, 若自己定制:
 
 
-### 29.2.1. @JsonComponent
+### 30.2.1. @JsonComponent
 
 用于对特定属性定制序列化
 
@@ -5725,7 +6162,7 @@ public class UserCombinedSerializer {
 }
 ```
 
-### 29.2.2. Jackson 在 springboot 中的配置
+### 30.2.2. Jackson 在 springboot 中的配置
 
 ```
 spring.jackson.date-format指定日期格式，比如yyyy-MM-dd HH:mm:ss，或者具体的格式化类的全限定名
@@ -5751,7 +6188,7 @@ spring.jackson.serialization-inclusion指定序列化时属性的inclusion方式
 spring.jackson.time-zone指定日期格式化时区，比如America/Los_Angeles或者GMT+10
 ```
 
-### 29.2.3. jackson注解
+### 30.2.3. jackson注解
 
 ```java
 @JsonIgnore 此注解用于属性上，作用是进行JSON操作时忽略该属性。
@@ -5766,7 +6203,7 @@ spring.jackson.time-zone指定日期格式化时区，比如America/Los_Angeles�
 @JsonRawValue on json string field to serialize raw json string
 ```
 
-### 29.2.4. objectmapper 定制
+### 30.2.4. objectmapper 定制
 
 https://www.kancloud.cn/ahutchen/spring-boot-reference-guide/333370
 
@@ -5829,7 +6266,7 @@ https://www.kancloud.cn/ahutchen/spring-boot-reference-guide/333370
 
 ```
 
-### 29.2.5. objectmapper 使用
+### 30.2.5. objectmapper 使用
 
 ```java
 
@@ -5850,7 +6287,7 @@ JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.c
 List<Person> persons3 = objectMapper.readValue(personStr, javaType);
 ```
 
-# 30. 接入第三方支付
+# 31. 接入第三方支付
 
 https://github.com/Javen205/IJPay
 
@@ -5868,11 +6305,11 @@ https://github.com/roncoo/roncoo-pay
 https://github.com/Exrick/xpay 个人收款
 
 
-# 31. 轻量级的技术栈
+# 32. 轻量级的技术栈
 
 java8,guice,javalin(写 rest api),nashorn(js engine),arangodb (多模型数据库, 支持图,键值对,...)
 
-## 31.1. dagger2 编译器依赖注入
+## 32.1. dagger2 编译器依赖注入
 
 There are many methods can be used to perform dependency injection, such as
 
@@ -5886,13 +6323,13 @@ For dagger2, it reach the goal by using annotation, and it works in the compilin
 
 
 
-# 32. 拾遗
+# 33. 拾遗
 
-## 32.1. bean 懒加载
+## 33.1. bean 懒加载
 
 一般情况下，Spring容器在启动时会创建所有的Bean对象，使用@Lazy注解 (和 @Component 共同使用) 可以将Bean对象的创建延迟到第一次使用Bean的时候
 
-## 32.2. bean 循环依赖
+## 33.2. bean 循环依赖
 
 什么是循环依赖 ? 
 

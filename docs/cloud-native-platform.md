@@ -26,3 +26,11 @@ ebs (elastic block store) 数据卷/硬盘, 分离硬盘数据存储和计算实
 
 rds (relational database service)
 ```
+
+
+# 免费方案
+
+```
+https://www.backblaze.com/ 对象存储免费 10g
+
+```

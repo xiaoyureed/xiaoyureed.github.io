@@ -20,12 +20,12 @@ https://github.com/521xueweihan/git-tips
 - [4. 上传本地项目到远程](#4-上传本地项目到远程)
 - [5. 常用命令](#5-常用命令)
 - [6. 时光机](#6-时光机)
-  - [6.1. git checkout](#61-git-checkout)
-  - [6.2. git reset](#62-git-reset)
-  - [6.3. git revert](#63-git-revert)
-  - [6.4. git rebase](#64-git-rebase)
-  - [6.5. 典型场景的综合用法](#65-典型场景的综合用法)
-  - [6.6. git restore](#66-git-restore)
+    - [6.1. git checkout](#61-git-checkout)
+    - [6.2. git reset](#62-git-reset)
+    - [6.3. git revert](#63-git-revert)
+    - [6.4. git rebase](#64-git-rebase)
+    - [6.5. 典型场景的综合用法](#65-典型场景的综合用法)
+    - [6.6. git restore](#66-git-restore)
 - [7. 删除指定 commit](#7-删除指定-commit)
 - [8. 远程仓库](#8-远程仓库)
 - [9. 分支](#9-分支)
@@ -37,8 +37,8 @@ https://github.com/521xueweihan/git-tips
 - [15. LF 和 CRLF](#15-lf-和-crlf)
 - [16. git hooks](#16-git-hooks)
 - [17. git 子模块](#17-git-子模块)
-  - [17.1. git subtree 子仓库](#171-git-subtree-子仓库)
-  - [17.2. git submodule](#172-git-submodule)
+    - [17.1. git subtree 子仓库](#171-git-subtree-子仓库)
+    - [17.2. git submodule](#172-git-submodule)
 - [18. husky](#18-husky)
 - [19. svn](#19-svn)
 - [20. git workflow 分支模型](#20-git-workflow-分支模型)
@@ -568,10 +568,12 @@ git push origin master:master
 类似 branch, 但是不可移动, 就好像有名字的 commit
 
 ```sh
-# 创建标签
-git tag -a v1.0.0 -m "内容：v1.0.0"
-# 标签默认打在最新的 commit 上 
+
+# 标签默认打在最新的 commit 上
 git tag <tag_name> [commit_id]
+
+# 创建标签
+git tag -a v1.0.0 [-m "内容：v1.0.0"] [commit]
 
 # show all tags
 git tag
@@ -589,8 +591,11 @@ git push origin --tags
 # 先删除本地
 git tag -d v1.0.0
 # 再删除远程的
-git push origin :refs/tags/v1.0.0
+# git push origin :refs/tags/v1.0.0
+git push origin :<tag name>
 
+# 根据 tag 创建分支
+git checkout -b <branch name> <tag name>
 
 ```
 

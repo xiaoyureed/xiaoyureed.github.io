@@ -2136,7 +2136,24 @@ https://www.extlight.com/sleuth-basic.html
 
 SkyWalking是一个可观测性分析平台（Observability Analysis Platform 简称OAP）和应用性能管理系统（Application Performance Management 简称 APM）。
 
+```sh
+两个功能:
 
+- metrics
+
+- tracing (日志追踪)
+
+
+组件:
+
+- agent : 负责从应用中，收集链路信息，发送给 SkyWalking OAP 服务器。目前支持 SkyWalking、Zikpin、Jaeger 等提供的 Tracing 数据信息。而我们目前采用的是，SkyWalking Agent 收集 SkyWalking Tracing 数据，传递给服务器
+
+- SkyWalking OAP ：负责接收 Agent 发送的 Tracing 数据信息，然后进行分析(Analysis Core) , 存储到外部存储器( Storage )，最终提供查询( Query )功能。
+
+-  Storage ：Tracing 数据存储。目前支持 ES、MySQL、Sharding Sphere、TiDB、H2 多种存储器.
+
+- SkyWalking UI ：负责提供控台，查看链路等等
+```
 
 
 # 11. 业务日志收集

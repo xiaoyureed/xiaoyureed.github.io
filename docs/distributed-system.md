@@ -263,6 +263,8 @@ https://mwhittaker.github.io/blog/an_illustrated_proof_of_the_cap_theorem/
 
 用于替代 paxos 算法, paxos 太复杂了
 
+http://thesecretlivesofdata.com/raft/ 动画
+
 https://www.cnblogs.com/xybaby/p/10124083.html
 
 动图演示: https://raft.github.io/raftscope/index.html

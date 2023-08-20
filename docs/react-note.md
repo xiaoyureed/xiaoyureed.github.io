@@ -243,6 +243,7 @@ https://github.com/qiu-deqing/FE-interview , https://github.com/markyun/My-blog/
         - [33.2.10. 空类型](#33210-空类型)
     - [33.3. 为样式文件编写 types](#333-为样式文件编写-types)
     - [33.4. 配置 css 跳转](#334-配置-css-跳转)
+- [vuejs](#vuejs)
 - [34. 开源库](#34-开源库)
     - [34.1. How to search the scaffold (boilerplate) on github 脚手架](#341-how-to-search-the-scaffold-boilerplate-on-github-脚手架)
     - [34.2. command-line app ui](#342-command-line-app-ui)
@@ -4925,6 +4926,12 @@ https://www.zhihu.com/question/350961609 声明全局类型 无需导入
 ## 33.4. 配置 css 跳转
 
 https://www.jianshu.com/p/641bcac7754b
+
+
+# vuejs
+
+https://github.com/bencodezen/vue-enterprise-boilerplate
+
 
 
 # 34. 开源库

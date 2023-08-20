@@ -9,6 +9,8 @@ toc_max_heading_level: 5
 
 <div align="center">
 
+https://github.com/m1k1o/neko 容器中的浏览器
+
 https://github.com/yeasy/docker_practice
 
 https://vuepress.mirror.docker-practice.com/
@@ -392,7 +394,8 @@ docker commit \                                                 # 提交修改�
         
 docker history nginx:v2                 查看指定镜像的历史提交记录
 
-docker rename <old容器名>  <new容器名> 修改容器名称
+
+docker rename <old容器名>  <new容器名> 修改容器名称 重命名
 
 
 
@@ -3302,9 +3305,63 @@ https://fuckcloudnative.io/posts/netwnetwork-virtualization-macvlan/
 
 # 20. Multipass
 
-类似 vagrant, 快速获取 Linux 环境
+类似 vagrant, 快速获取 Linux 环境, 基于 KVM 虚拟化技术，支持 Linux、macOS 和 Windows 平台
 
-https://www.chenmo.com.cn/402492
+https://multipass.run/, it's easy to install on mac: `brew install multipass --cask`
+
+
+```sh
+# 查看可供下载的 Ubuntu 镜像
+multipass find 
+
+multipass fetch # 命令下载镜像
+
+# launch a local virtual linux 
+multipass launch
+multipass launch  --name=test1 --cpus=1 --mem=2048MiB
+# -n：名称
+# -c：cpu核数
+# -d：磁盘大小
+# -m：内存
+multipass launch -n node-1 -c 1 -d 10G  -m 1G
+
+# 
+multipass list 
+
+multipass info # 命令，即可查看当前运行的虚拟机信息
+
+
+multipass delete <instance name>
+multipass purge # 清空所有 deleted instances
+
+multipass stop/start
+
+# 连接到虚拟机的命令行界面
+multipass shell <name>
+
+multipass exec <name> [cmd] # 命令在虚拟机中执行命令。
+
+# 挂载数据卷
+multipass mount <宿主机目录>  <实例名>:<虚拟机目录>
+#卸载数据卷
+multipass umount 容器名
+
+# 将宿主机的文件，发送到虚拟机内部
+multipass transfer 主机文件 容器名:容器目录
+
+
+
+
+# 通过配置文件初始化
+multipass launch --name ubuntu --cloud-init config.yaml
+# config.yml, 必须 #cloud-config 开头, 这是cloud-init识别它的方式。
+#cloud-config
+runcmd:
+  - curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+  - sudo apt-get install -y nodejs
+
+```
+
 
 
 # 21. drone

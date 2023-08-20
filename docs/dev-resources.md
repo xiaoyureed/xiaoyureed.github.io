@@ -28,6 +28,10 @@ atob('SGVsbG8gV29ybGQh'); // Hello World!
     - [前端类库](#前端类库)
     - [后端类库](#后端类库)
 - [开发工具](#开发工具)
+    - [前端开发工具](#前端开发工具)
+    - [后端开发工具](#后端开发工具)
+    - [mac](#mac)
+    - [linux](#linux)
     - [在线开发环境](#在线开发环境)
 - [有用的插件](#有用的插件)
     - [vs code](#vs-code)
@@ -69,6 +73,7 @@ atob('SGVsbG8gV29ybGQh'); // Hello World!
     - [分支](#分支)
     - [环境](#环境)
     - [发布](#发布)
+    - [整体流程](#整体流程)
 
 
 # 技术站点
@@ -113,6 +118,8 @@ js插件
 
 https://github.com/AEPKILL/devtools-detector 前端开发中如何在 JS 文件中检测用户浏览器是否打开了调试面板
 
+https://github.com/kamranahmedse/driver.js 用户引导(下一步, 下一步...)
+
 
 ## 后端类库
 
@@ -121,7 +128,7 @@ https://github.com/AEPKILL/devtools-detector 前端开发中如何在 JS 文件�
 
 # 开发工具
 
-前端开发工具
+## 前端开发工具
 
 - [JSBin](http://jsbin.com) , [Codepen](https://codepen.io/) , [jsfiddle](http://jsfiddle.net/) (无需登录) , [pastebin](https://pastebin.com/) (粘贴分享代码, 无需注册), [codesandbox](https://codesandbox.io/dashboard/recent)
 - [gif效果](https://photomosh.com/)
@@ -130,7 +137,7 @@ https://github.com/AEPKILL/devtools-detector 前端开发中如何在 JS 文件�
 - [oktools](https://oktools.net/)
 - [性能分析](https://github.com/GoogleChrome/lighthouse)
 
-后端开发工具
+## 后端开发工具
 
 - [工具合集(json, xml 编辑/格式化, ip lookup, port scan, base64编解码)](https://www.tutorialspoint.com/online_dev_tools.htm)
 - [hutool util 工具包](https://hutool.cn/)
@@ -141,7 +148,7 @@ https://github.com/AEPKILL/devtools-detector 前端开发中如何在 JS 文件�
 - [idea](https://zhile.io/), [idea](https://www.jiweichengzhu.com/article/eb340e382d1d456c84a1d190db12755c), [idea](http://idea.medeming.com/)
 
 
-mac:
+## mac
 
 - [sequel pro 数据库连接管理工具](http://www.sequelpro.com/)
 
@@ -149,6 +156,19 @@ mac:
 
  - https://github.com/docsifyjs/docsify
  - https://github.com/squidfunk/mkdocs-material
+
+## linux
+
+```
+nasm,neovim ，xsel ，frp ，besttrace
+
+htop tmux
+
+CROC,CHISEL,BROOK
+
+https://www.v2ex.com/t/962612#reply10
+
+```
 
 ## 在线开发环境
 
@@ -839,10 +859,15 @@ https://linear.app/
 
 ```
 https://www.cloudflare.com/  cdn, 域名注册托管, pages静态资源
+    dns record type:
+        A 域名的IPv4地址
+        AAAA Record: 域名的IPv6地址。
+        CNAME Record: 域名的别名
 
 freeSLL 申请 ssl 证书
 
 namesale 国外免备案域名
+
 ```
 
 ## 静态页面部署托管
@@ -863,6 +888,13 @@ heroku
 爱发电
 
 面包多
+
+https://github.com/vercel/nextjs-subscription-payments 订阅价格页面模板
+
+https://github.com/assimon/dujiaoka 收款 , 发卡系统
+理论上， 你不需要改代码， 直接找个服务器部署独角数系统， 买个域名指向服务器， 然后把支付宝当面付得证书复制过去就能用了
+但是他这个发卡是那种提前生成好得码， 比如什么充值码， 或者 chatgpt 账号之类的
+
 ```
 
 # 企业级开发规范最佳实践
@@ -870,9 +902,9 @@ heroku
 ## 分支
 
 ```sh
-main
+main 生产可用, 仅用来发布版本
 
-dev 开发主分支
+dev 开发主分支, 新功能开发围绕 dev 分支进行
 
 feat (feature)  用于新功能的开发
     - 从 dev 拉出, 完成后, merge 到 dev
@@ -889,10 +921,10 @@ Dev 开发环境，该环境是程序猿们专门用于开发的环境，配置�
 
 Test 测试环境，该环境一般为测试人员所用，主要验证我们所实现的功能是否满足我们业务所要求的规格。
 
-stage 预发布环境，该环境一般是生产环境的镜像环境, 一般用来给客户验收(如果资源富裕, 可以将这个单独抽一个环境: uat), 还有 测试人员在Staging 环境上对新版本做最后一轮验证
+stage 预发布环境，该环境一般是生产环境的镜像环境, 一般用来给客户验收(如果资源富裕, 可以将这个验收单独抽一个环境: uat), 还有 测试人员在Staging 环境上对新版本做最后一轮验证
 
 prod
-    而Staging环境和Prd环境，对应的是基于master分支拉出的版本分支。
+    对应的是基于master分支拉出的版本分支。
 ```
 
 ## 发布
@@ -900,5 +932,16 @@ prod
 ```sh
 版本号:
     一般来说，版本分支有三位版本号，如1.3.0，第一位代表重大变更，例如涉及到代码框架替换这种级别的变更，改第一位。每次功能发布，改第二位。每次有紧急BugFix版本，改第三位
+
+```
+
+## 整体流程
+
+```sh
+1.开发完成部署到 dev 环境自测。
+2.自测通过部署到 test 环境，发邮件给产品验收。
+3.验收通过产品发邮件给测试。
+4.测试完这个迭代的所有需求后部署到stage env 进行预发布测试。
+5.预发布测试通过部署到prod线上，进行线上测试。
 
 ```
