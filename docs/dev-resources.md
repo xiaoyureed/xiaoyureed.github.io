@@ -28,6 +28,7 @@ atob('SGVsbG8gV29ybGQh'); // Hello World!
     - [前端类库](#前端类库)
     - [后端类库](#后端类库)
 - [开发工具](#开发工具)
+    - [远程连接工具](#远程连接工具)
     - [前端开发工具](#前端开发工具)
     - [后端开发工具](#后端开发工具)
     - [mac](#mac)
@@ -127,6 +128,12 @@ https://github.com/kamranahmedse/driver.js 用户引导(下一步, 下一步...)
 - [Lombok](https://projectlombok.org/)
 
 # 开发工具
+
+## 远程连接工具
+
+https://github.com/aploium/shootback 基于 Python
+
+todesk 免费连两台机器 (teamviewer 不推荐了), rustdesk, QQ
 
 ## 前端开发工具
 
