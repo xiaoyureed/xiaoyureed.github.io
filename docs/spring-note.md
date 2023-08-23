@@ -282,13 +282,50 @@ ExceptionHandler    方法上; 全局处理控制器里的异常
 
 # 2. 认识
 
-spring 的体系结构
+spring 功能模块
 
-先看看 spring3 的:
+```sh
+- data Access
+    jdbc
+    orm
+    jms
+    oxm
 
-spring4: (去掉了 spring3 的 struts，添加了 messaging 和 websocket，其他模块保持不变)
+- web
+    websocket
+    servlet
+    web
+    portlet
 
-至于 spring5 的新特性, 参见: https://www.ibm.com/developerworks/cn/java/j-whats-new-in-spring-framework-5-theedom/index.html
+- core container
+    bean
+    core
+    context
+    SpEL
+
+    container interface
+        - BeanFactory : the  root interface, 定义了容器基本动作, 能够管理任何对象
+            和 FactoryBean 接口区别: FactoryBean 是工厂对象的规范, 内部 getObject() 会生产对象, 常用在:
+                - 复杂对象创建
+                - 代理类创建
+                - 第三方框架整合
+        - ApplicationContext 子接口, 扩展了一些功能
+
+    container implementation
+        - ClassPathXmlApplicationContext 配置文件 xml, 位于 class path 下
+            - 可以创建时指定配置文件
+            - 可以先创建, 再 set, 再 refresh()
+        - FileSystemXmlApplicationContext
+        - AnnotationConfigApplicationContext 通过读取 java 配置类创建容器
+        - WebApplicationContext 专为 web准备, 基于 web 环境创建容器, 并将对象存入 ServletContext
+
+
+- aop, aspects
+- instrumentation (仪表化)
+- messaging
+
+
+```
 
 ## 2.1. core 部分
 

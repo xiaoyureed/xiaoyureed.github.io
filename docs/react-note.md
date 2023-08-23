@@ -245,6 +245,7 @@ https://github.com/qiu-deqing/FE-interview , https://github.com/markyun/My-blog/
     - [33.4. 配置 css 跳转](#334-配置-css-跳转)
 - [vuejs](#vuejs)
 - [34. 开源库](#34-开源库)
+    - [auth ui](#auth-ui)
     - [34.1. How to search the scaffold (boilerplate) on github 脚手架](#341-how-to-search-the-scaffold-boilerplate-on-github-脚手架)
     - [34.2. command-line app ui](#342-command-line-app-ui)
     - [34.3. satori 生成 svg pdf](#343-satori-生成-svg-pdf)
@@ -258,6 +259,8 @@ https://github.com/qiu-deqing/FE-interview , https://github.com/markyun/My-blog/
 
 ```
 2023
+
+    https://www.v2ex.com/t/967560
 
   前端 Next.js TypeScript Zustand(状态管理) Axios React-Query classnames Tailwindcss Styled-Components / emotion
   BackEnd: Nest.js prisma PostgreSQL
@@ -4935,6 +4938,10 @@ https://github.com/bencodezen/vue-enterprise-boilerplate
 
 
 # 34. 开源库
+
+## auth ui
+
+https://github.com/supabase/auth-ui
 
 ## 34.1. How to search the scaffold (boilerplate) on github 脚手架
 

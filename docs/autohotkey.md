@@ -11,9 +11,19 @@ toc_max_heading_level: 5
 autohotkey note & 我的脚本集
 https://greyli.com/autohotkey-automate-your-life/
 开机启动文件夹 # r ---> shell:startup
+
+https://github.com/lifei/autohotkey-mac-keyboard/blob/master/MacKeyboard.ahk
+https://github.com/stevenilsen123/mac-keyboard-behavior-in-windows/blob/main/mac.ahk
 </div>
 
 <!--more-->
+
+- [quickstart](#quickstart)
+- [demo](#demo)
+- [my scripts](#my-scripts)
+- [优秀脚本收集](#优秀脚本收集)
+
+
 
 # quickstart
 

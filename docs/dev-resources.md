@@ -843,6 +843,10 @@ https://mp.weixin.qq.com/s?__biz=Mzg4MzE5MjEyOQ==&mid=2247483671&idx=1&sn=bfe60f
 supabase
 
 https://planetscale.com/pricing
+
+tidb free 5g
+
+https://neon.tech/ 基于 pg
 ```
 
 ## web 开发
