@@ -34,26 +34,26 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
 - [1. 常用命令](#1-常用命令)
 - [2. 部署脚本](#2-部署脚本)
 - [3. 工具类](#3-工具类)
-    - [Apache common](#apache-common)
-        - [common-io](#common-io)
-        - [common-lang3](#common-lang3)
-        - [3.6. commons-collections4](#36-commons-collections4)
-        - [Commons FileUpload](#commons-fileupload)
-        - [Commons Codec](#commons-codec)
-        - [Commons Compress](#commons-compress)
-        - [Commons Configuration](#commons-configuration)
-        - [Commons Daemon](#commons-daemon)
-        - [Commons Exec](#commons-exec)
-        - [Commons Net](#commons-net)
-    - [Google guava](#google-guava)
-        - [集合工具类](#集合工具类)
-        - [Guava Cache](#guava-cache)
-        - [单机限流工具类 - RateLimiter#](#单机限流工具类---ratelimiter)
-    - [spring utils](#spring-utils)
-        - [3.1. bean 复制 克隆](#31-bean-复制-克隆)
-        - [3.2. 字符串](#32-字符串)
-        - [3.3. 编解码](#33-编解码)
-    - [3.5. 文件操作](#35-文件操作)
+    - [3.1. Apache common](#31-apache-common)
+        - [3.1.1. common-io](#311-common-io)
+        - [3.1.2. common-lang3](#312-common-lang3)
+        - [3.1.3. commons-collections4](#313-commons-collections4)
+        - [3.1.4. Commons FileUpload](#314-commons-fileupload)
+        - [3.1.5. Commons Codec](#315-commons-codec)
+        - [3.1.6. Commons Compress](#316-commons-compress)
+        - [3.1.7. Commons Configuration](#317-commons-configuration)
+        - [3.1.8. Commons Daemon](#318-commons-daemon)
+        - [3.1.9. Commons Exec](#319-commons-exec)
+        - [3.1.10. Commons Net](#3110-commons-net)
+    - [3.2. Google guava](#32-google-guava)
+        - [3.2.1. 集合工具类](#321-集合工具类)
+        - [3.2.2. Guava Cache](#322-guava-cache)
+        - [3.2.3. 单机限流工具类 - RateLimiter#](#323-单机限流工具类---ratelimiter)
+    - [3.3. spring utils](#33-spring-utils)
+        - [3.3.1. bean 复制 克隆](#331-bean-复制-克隆)
+        - [3.3.2. 字符串](#332-字符串)
+        - [3.3.3. 编解码](#333-编解码)
+    - [3.4. 文件操作](#34-文件操作)
 - [4. 和 react 一起打包](#4-和-react-一起打包)
 - [5. Spring Boot中的注解](#5-spring-boot中的注解)
     - [5.1. @ConfigurationProperties 和 @Value](#51-configurationproperties-和-value)
@@ -141,6 +141,7 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
         - [15.12.1. 事务基本使用](#15121-事务基本使用)
             - [15.12.1.1. 手动编程实现](#151211-手动编程实现)
             - [15.12.1.2. 注解声明式](#151212-注解声明式)
+            - [15.12.1.3. 事务同步](#151213-事务同步)
         - [15.12.2. transaction not working](#15122-transaction-not-working)
         - [15.12.3. spring 事务传播失效的坑](#15123-spring-事务传播失效的坑)
         - [15.12.4. 避免长事务](#15124-避免长事务)
@@ -454,7 +455,7 @@ exit 0
 
 # 3. 工具类
 
-## Apache common
+## 3.1. Apache common
 
 
 Apache Commons是对JDK的拓展
@@ -462,7 +463,7 @@ Apache Commons是对JDK的拓展
 http://commons.apache.org
 
 
-### common-io
+### 3.1.1. common-io
 
 ```java
 FileUtils 文件操作工具类
@@ -519,7 +520,7 @@ IOUtils 流操作工具类
 
 ```
 
-### common-lang3
+### 3.1.2. common-lang3
 
 ```java
 StringUtils:
@@ -617,7 +618,7 @@ localeLookupList/toLocale/isAvailableLocale/languagesByCountry
 
 ```
 
-### 3.6. commons-collections4
+### 3.1.3. commons-collections4
 
 ```java
 CollectionUtils 集合工具类
@@ -645,40 +646,40 @@ CollectionUtils 集合工具类
 
 ```
 
-### Commons FileUpload
+### 3.1.4. Commons FileUpload
 
 为Web应用程序或Servlet提供文件上传功能
 
-### Commons Codec
+### 3.1.5. Commons Codec
 
 提供常用的编码和解码方法，如DES、SHA1、MD5、Base64、URL和Soundx等。
 
-### Commons Compress
+### 3.1.6. Commons Compress
 
 是一个压缩、解压缩文件的组件，可以操作rar、cpio、Unix dump、tar、zip、gzip、XZ、Pack200和bzip2格式的压缩文件。
 
-### Commons Configuration
+### 3.1.7. Commons Configuration
 
 可以从properties或者xml文件中加载配置信息。
 
-### Commons Daemon
+### 3.1.8. Commons Daemon
 
 实现将普通的Java应用变成系统的后台服务,例如 Tomcat 就是利用这个项目来实现作为 Linux 和 Windows 的服务启动和停止的。
 
-### Commons Exec
+### 3.1.9. Commons Exec
 
 用来执行外部进程，如执行exe文件或命令行
 
-### Commons Net
+### 3.1.10. Commons Net
 
 
 封装了各种网络协议的客户端，支持FTP、NNTP、SMTP、POP3、Telnet等协议。
 
 
 
-## Google guava
+## 3.2. Google guava
 
-### 集合工具类
+### 3.2.1. 集合工具类
 
 ```java
 普通集合
@@ -718,7 +719,7 @@ System.out.println(byOrdering.compare(build1, build));
 
 ```
 
-### Guava Cache
+### 3.2.2. Guava Cache
 
 ```java
 // LoadingCache是Cache的缓存实现
@@ -757,7 +758,7 @@ cache.cleanUp();
 cache.refresh("key");
 ```
 
-### 单机限流工具类 - RateLimiter#
+### 3.2.3. 单机限流工具类 - RateLimiter#
 
 ```java
 漏桶算法：
@@ -786,9 +787,9 @@ get 1 tokens: 0.196918s
 平滑预热限流(SmoothWarmingUp)
 ```
 
-## spring utils
+## 3.3. spring utils
 
-### 3.1. bean 复制 克隆
+### 3.3.1. bean 复制 克隆
 
 beancopier
 
@@ -798,7 +799,7 @@ beancopier
 https://github.com/mapstruct/mapstruct
 ```
 
-### 3.2. 字符串
+### 3.3.2. 字符串
 
 ```java
 // >>> springboot 自带
@@ -808,7 +809,7 @@ StringUtils.isEmpty() 并非严格的空
 
 ```
 
-### 3.3. 编解码
+### 3.3.3. 编解码
 
 ```java
 // >>> springboot 自带
@@ -821,7 +822,7 @@ public static String getMD5(String str) {
 
 ```
 
-## 3.5. 文件操作
+## 3.4. 文件操作
 
 ```java
 // springboot 原生 文件下载
@@ -3010,6 +3011,11 @@ public void save(ArtisanDto artisanDto) {
 // 如果想自己捕获异常, 不抛出异常, 然后回滚, 可以在 catch 里面拿到当前的事务设置回滚:
 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
 
+```
+
+#### 15.12.1.3. 事务同步
+
+```java
 
 
 
@@ -3052,6 +3058,43 @@ TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
     }
 
 
+```
+
+### 15.12.2. transaction not working 
+
+事务不生效, 可能是:
+
+```java
+- 可能是数据库引擎不支持事务
+    mysql默认引擎INNODB是支持的，但MYISAM是不支持的；
+
+- 如果是非 spring boot 项目, 没有启动自动配置, 这是可能的原因是
+    - 没有配置 transaction manager 实例, 
+    - 没引入 aop 相关的依赖
+
+- 如果是 spring boot 项目, 可能是
+    - 自定义了 trasaction manager, 但是没有在 @transaction 注解上配置manager 名字
+
+- 编码上的写法错误
+    - 事务方法不是 public 的 (因为事务底层是动态代理, 非 public 方法无法被代理)
+    - 使用了 this 调用了事务方法, 即 this.xxxTransactionalMethod(...) , (this 是原始对象, 而不是生成的代理对象)
+    - 抛出的异常为 exception.class, 但是没有在 @trasactional 显式声明 rollbackfor (默认只 rollback runtime exception)
+
+
+  还可能异常被某个 aop 切面捕获了, 没法触发回滚
+
+4. 同一个类中的方法嵌套调用: 如普通方法 a() call annotatied method B(), the transaction for B() will not trigger (this is also easy to explain: the calling to B() can be refered to as this.B(), which means the calling is not from a proxy object)
+
+5. 多线程环境, 此时数据库连接都不是同一个, 肯定不在同一个事务了
+
+// https://blog.csdn.net/laoxilaoxi_/article/details/99896738 使用 cglib or jdk 动态代理 `@EnableTransactionManagement(proxyTargetClass = true)// 使用cglib`
+
+```
+
+### 15.12.3. spring 事务传播失效的坑
+
+```java
+
 // 事务传播
 // 它们规定了事务方法和事务方法发生嵌套调用时是否加入调用方的事务
 传播行为：一个业务 A (事务方法A)，调用另一个业务 B (带有事务)，B是否加入 A 的事务
@@ -3085,38 +3128,6 @@ TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
     A 使用事务，B 使用同一个事务。A 没有事务，B 抛出异常
 
 ```
-
-### 15.12.2. transaction not working 
-
-事务不生效, 可能是:
-
-```java
-- 可能是数据库引擎不支持事务
-    mysql默认引擎INNODB是支持的，但MYISAM是不支持的；
-
-- 如果是非 spring boot 项目, 没有启动自动配置, 这是可能的原因是
-    - 没有配置 transaction manager 实例, 
-    - 没引入 aop 相关的依赖
-
-- 如果是 spring boot 项目, 可能是
-    - 自定义了 trasaction manager, 但是没有在 @transaction 注解上配置manager 名字
-
-- 编码上的写法错误
-    - 事务方法不是 public 的 (因为事务底层是动态代理, 非 public 方法无法被代理)
-    - 使用了 this 调用了事务方法, 即 this.xxxTransactionalMethod(...) , (this 是原始对象, 而不是生成的代理对象)
-    - 抛出的异常为 exception.class, 但是没有在 @trasactional 显式声明 rollbackfor (默认只 rollback runtime exception)
-
-
-  还可能异常被某个 aop 切面捕获了, 没法触发回滚
-
-4. 同一个类中的方法嵌套调用: 如普通方法 a() call annotatied method B(), the transaction for B() will not trigger (this is also easy to explain: the calling to B() can be refered to as this.B(), which means the calling is not from a proxy object)
-
-5. 多线程环境, 此时数据库连接都不是同一个, 肯定不在同一个事务了
-
-// https://blog.csdn.net/laoxilaoxi_/article/details/99896738 使用 cglib or jdk 动态代理 `@EnableTransactionManagement(proxyTargetClass = true)// 使用cglib`
-
-```
-### 15.12.3. spring 事务传播失效的坑
 
 同一个 service bean 中的 事务方法互相调用, 如 a() 调用 b(), 只会使用 a() 的 事务, b 的无效, 因为事务本质是基于动态代理, 在同个 bean 中的方法互调, 发生在主动调用方 a() 的代理对象中, 所以只有 a() 的事务生效
 

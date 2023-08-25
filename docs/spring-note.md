@@ -309,6 +309,8 @@ spring 功能模块
                 - 复杂对象创建
                 - 代理类创建
                 - 第三方框架整合
+                    例如 Mybatis 和 springboot 的集成包: 有一个 SqlSessionFactoryBean, 负责创建复杂对象 SqlSession: 
+                        new SqlSesstionFactoryBuilder().build(getResourceAsStream("mybatisConfig.xml")).opensession()
         - ApplicationContext 子接口, 扩展了一些功能
 
     container implementation
