@@ -44,7 +44,7 @@ toc_max_heading_level: 5
         - [6.2.1. using pod directly](#621-using-pod-directly)
         - [6.2.2. using deployment](#622-using-deployment)
 - [7. 集群结构 underlying infrastructure 基础设施](#7-集群结构-underlying-infrastructure-基础设施)
-- [8. api 管理的各种资源](#8-api-管理的各种资源)
+- [8. 管理的各种资源](#8-管理的各种资源)
     - [8.1. 各种资源的关系](#81-各种资源的关系)
     - [8.2. 3 common properties](#82-3-common-properties)
         - [8.2.1. metadata](#821-metadata)
@@ -1453,7 +1453,7 @@ computer machines (计算节点 Node): Also known as Node, designed to run the r
   gui 管理插件: dashboard
 ```
 
-## 8. api 管理的各种资源
+## 8. 管理的各种资源
 
 即各种 api object,
 
@@ -2214,7 +2214,7 @@ Pod 通过 label 键值对与 Service 上的 label selector 相关联。Service 
 可为 Service 提供外部可访问的域名绑定(默认端口 80, 通过域名进行流量转发)、负载均衡、 SSL/TLS 
 
 > 和 Service 区别: 
-> service 毕竟只是内部使用的负载均衡, 无法提供给外界访问; Service 工作在网络传输层, 只能识别 ip 和端口来处理网络流量
+> service 毕竟只是内部使用的负载均衡, 无法提供给外界访问(虽然也能通过 node port 类型来暴露给外界, 但不经不是专门用来干这个的); Service 工作在网络传输层, 只能识别 ip 和端口来处理网络流量
 > ingress 则用于将外部网络流量路由到适当的Service上; ingress 工作在应用层, 能识别 http协议, 更细的路由控制
 
 > 为什么需要? - NodePort的方式有个问题，每个 working node 端口65535个，总有用完的时候，要是暴露的服务特别多，65535就不够用了，所以还是得上nginx这样的反向代理，因此K8S还有个Ingress的东西。避免了对外暴露集群节点端口
