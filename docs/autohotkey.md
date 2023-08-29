@@ -12,6 +12,10 @@ autohotkey note & 我的脚本集
 https://greyli.com/autohotkey-automate-your-life/
 开机启动文件夹 # r ---> shell:startup
 
+https://www.autohotkey.com/boards/viewtopic.php?t=70379 映射window alt tab -> ctrl tab
+
+https://wyagd001.github.io/zh-cn/docs/Hotkeys.htm 中文文档
+
 https://github.com/lifei/autohotkey-mac-keyboard/blob/master/MacKeyboard.ahk
 https://github.com/stevenilsen123/mac-keyboard-behavior-in-windows/blob/main/mac.ahk
 </div>

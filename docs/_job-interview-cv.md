@@ -46,6 +46,7 @@ https://github.com/0voice/interview_internal_reference
 - [5. 整活](#5-整活)
 - [6. 生产实践 案例](#6-生产实践-案例)
 - [软考](#软考)
+- [外企外包](#外企外包)
 
 
 # 1. 简历
@@ -240,3 +241,18 @@ https://crossoverjie.top/2019/03/12/troubleshoot/thread-gone/
 616925768 QQ 群
 
 https://docs.qq.com/sheet/DY2xrbXVYb0xBc1N4?tab=BB08J2 资料 (https://wangsy.me/2023/ruankao/)
+
+# 外企外包
+
+accenture
+TCS
+Infosys
+IBM Consulting
+Capgemini
+NTT DATA
+Cognizant
+HCLTech
+Wipro
+Fujitsu
+
+https://brandirectory.com/rankings/it-services/table 排名
