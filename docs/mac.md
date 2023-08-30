@@ -89,6 +89,8 @@ https://github.com/Louiszhai/tool
         - [vscode配合](#vscode配合)
         - [docker](#docker)
     - [windows terminal](#windows-terminal)
+    - [package manager](#package-manager)
+        - [choco](#choco)
 
 
 # 1. 系统快捷键
@@ -1375,5 +1377,55 @@ install oh my zsh
     plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
 
     source ~/.zshrc
+
+```
+
+## package manager
+
+chocolatey 权限混乱，自定义目录麻烦，包依赖太多, 不推荐
+
+> 所有的包都来自一个由用户自发维护的源，更新还是蛮快的。坏处就是不挂梯子这个源相当慢......不过还是很全的
+
+
+Scoop  开源的， github 社区维护， 会自动添加环境变量，对开发友好，所有包都是干净的，一般是便携版，exe 的也会提取出来，所有软件安装到一个指定目录，方便管理; 还可以自己添加 添加bucket
+
+> scoop 不接收不干净的包， 如国内的 qq 等软件，虽然可以自己新建 bucket 然后编写这些软件的 Manifest 文件，但是麻烦
+
+
+winget-cli 微软自家的 (https://github.com/microsoft/winget-cli)
+
+### choco
+
+https://community.chocolatey.org/packages
+
+```sh
+choco install <packagename> [-y]
+cinst <packagename> [-y]
+choco install jdk8
+choco install nodejs.install # 最新版
+choco install nodejs-lts  # lts 版本
+choco install git.install
+choco install googlechrome
+choco install vscode
+choco install 7zip.install
+choco install intellijidea-community //社区版
+choco install intellijidea-ultimate  //旗舰版
+
+# 快速生效环境变量。
+refreshenv
+```
+
+团队统一环境:
+
+`dev-tools.config`
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+    <packages>
+      <package id="jdk8" />
+      <package id="googlechrome" version="71.0.3578.98" />
+      <package id="vscode" />
+      <package id="7zip" />
+    </packages>
 
 ```
