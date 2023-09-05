@@ -1293,6 +1293,9 @@ tasklist|findstr "2448"
 
 # 杀进程
 taskkill -pid xxx -f
+
+# 在资源管理器中打开文件夹
+start .
 ```
 
 ## wsl2

@@ -244,6 +244,7 @@ https://github.com/qiu-deqing/FE-interview , https://github.com/markyun/My-blog/
     - [33.3. 为样式文件编写 types](#333-为样式文件编写-types)
     - [33.4. 配置 css 跳转](#334-配置-css-跳转)
 - [34. 开源库](#34-开源库)
+    - [可视化库](#可视化库)
     - [auth ui](#auth-ui)
     - [34.1. How to search the scaffold (boilerplate) on github 脚手架](#341-how-to-search-the-scaffold-boilerplate-on-github-脚手架)
     - [34.2. command-line app ui](#342-command-line-app-ui)
@@ -4932,6 +4933,24 @@ https://www.jianshu.com/p/641bcac7754b
 
 
 # 34. 开源库
+
+## 可视化库
+
+```sh
+
+G6 来自 antv 的图可视化引擎 (关系数据可视化)
+    antv 下还包括 G2 ...
+
+ECharts  简单易用, 来自百度, 封装性更高 (ECharts<G2<D3)
+
+D3 灵活性超高的可视化图表
+
+threejs 绘制三维图形的，它属于WebGL技术, 需要 OpenGL相关知识
+
+
+场景：画三维图用Three，三维地图AntV的L7|L7Plot也可以做到，画二维图用ECharts或者G2、G2Plot均可
+```
+
 
 ## auth ui
 
