@@ -34,3 +34,107 @@ https://github.com/jetlinks/rule-engine
 <!--more-->
 
 
+## activity7 
+
+### brief intro
+
+#### 使用中的关键步骤
+
+```sh
+
+- process definition
+
+    Create .bpmn file  (generally by using dedicated design tool)
+
+    BPMN 规范
+
+        指定流程定义key
+        圆圈是起点终点事件
+        方框是节点
+            指定节点负责人 assignee
+
+- deploy the process definition file (.bpmn file) by using the api provided by activity
+
+    it's similar to load a java Class file
+
+- start a ProcessInstance
+
+    类比 创建Java类的实例
+
+    会在act_ru_execution流程实例的执行表中存储 businesskey (业务标识，通常为业务表的主键，业务标识和流程实例一一对应)
+
+- query the todo task of current login user
+
+- handling my task
+
+```
+
+#### database tables
+
+Activiti 的表都以 ACT_开头。 第二部分是表示表的用途的两个字母标识。 用途也和服务的 API 对应。
+
+```sh
+ACT_RE_*: RE表示 repository。 这个前缀的表包含了流程定义和流程静态资源 （图片，规则，等等）。
+
+ACT_RU_*: RU表示 runtime。 这些运行时的表，包含流程实例，任务，变量，异步任务，等运行中的数据。 Activiti 只在流程实例执行过程中保存这些数据， 在流程结束时就会删除这些记录。 这样运行时表可以一直很小速度很快。
+
+    act_ru_execution 流程实例执行表，记录当前流程实例的执行情况
+        id
+        proc_inst_id 流程实例 id
+
+        如果流程定义只有一个分支时，则一个流程实例在这里只有一条记录且此执行表的主键 id 和流程实例 id 相同
+        如果流程定义当前有多个分支正在运行，则该执行表中有多条记录，表示一个流程实例当前有多个正在运行的分支
+        不论当前有几个分支，总会有一条记录的执行表的主键和流程实例 id 相同。
+        一个流程实例运行完成，此表中与流程实例相关的记录删除
+    
+    act_ru_task 任务执行表，记录当前执行的任务
+        id
+        proc_inst_id
+
+        启动流程实例，流程当前执行到第一个任务结点，此表会插入一条记录表示当前任务的执行情况，如果任务完成则记录删除。
+
+    act_ru_identitylink 任务参与者，记录当前参与任务的用户或组
+        id
+        type
+        task_id
+        user_id
+        proc_inst_id
+
+ACT_HI_*: HI表示 history。 这些表包含历史数据，比如历史流程实例， 变量，任务等等。
+
+    act_hi_procinst 流程实例历史表
+        id
+        proc_inst_id
+        business_key
+        start_time
+        end_time
+
+        流程实例启动，会在此表插入一条记录，流程实例运行完成记录也不会删除。
+
+ACT_GE_*: GE 表示 general。 通用数据， 用于不同场景下。
+https://blog.csdn.net/qq_33417321/article/details/105004510
+```
+
+#### 类结构图
+
+```sh
+
+ProcessEngineConfiguration 加载 activiti.cfg.xml
+
+    ProcessEngine
+
+        RepositoryService
+            Deploy process definition
+
+        TaskService
+            query task info
+
+        RuntimeService
+            查询流程执行信息
+
+        ManagementService
+
+        HistoryService
+```
+
+### spring boot 集成

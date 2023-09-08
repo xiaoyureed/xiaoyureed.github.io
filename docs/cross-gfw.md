@@ -26,46 +26,49 @@ https://program-think.blogspot.com/2009/05/how-to-break-through-gfw.html
 
 <!--more-->
 
-- [科学上网介绍](#科学上网介绍)
-- [GFW封锁手段](#gfw封锁手段)
-    - [DNS相关](#dns相关)
-        - [DNS劫持](#dns劫持)
-        - [DNS污染（DNS欺骗）](#dns污染dns欺骗)
-    - [IP封锁（IP黑名单）](#ip封锁ip黑名单)
-    - [敏感字过滤](#敏感字过滤)
-    - [CNNIC的CA证书造成中间人攻击](#cnnic的ca证书造成中间人攻击)
-- [应对手段](#应对手段)
-    - [修改DNS服务器](#修改dns服务器)
-    - [修改本机hosts文件](#修改本机hosts文件)
-    - [HTTPS 的加密 web 代理](#https-的加密-web-代理)
-    - [vpn 代理软件](#vpn-代理软件)
-        - [clash](#clash)
-        - [shadowsockets](#shadowsockets)
-        - [pac 规则](#pac-规则)
-        - [自己搭建](#自己搭建)
-        - [通过 代理科学上网 step by step](#通过-代理科学上网-step-by-step)
-        - [代理的客户端下载](#代理的客户端下载)
-    - [其他方法](#其他方法)
-- [vps](#vps)
-- [内网穿透](#内网穿透)
+- [1. 科学上网介绍](#1-科学上网介绍)
+- [2. GFW封锁手段](#2-gfw封锁手段)
+    - [2.1. DNS相关](#21-dns相关)
+        - [2.1.1. DNS劫持](#211-dns劫持)
+        - [2.1.2. DNS污染（DNS欺骗）](#212-dns污染dns欺骗)
+    - [2.2. IP封锁（IP黑名单）](#22-ip封锁ip黑名单)
+    - [2.3. 敏感字过滤](#23-敏感字过滤)
+    - [2.4. CNNIC的CA证书造成中间人攻击](#24-cnnic的ca证书造成中间人攻击)
+- [3. 应对手段](#3-应对手段)
+    - [3.1. 修改DNS服务器](#31-修改dns服务器)
+    - [3.2. 修改本机hosts文件](#32-修改本机hosts文件)
+    - [3.3. HTTPS 的加密 web 代理](#33-https-的加密-web-代理)
+    - [3.4. vpn 代理软件](#34-vpn-代理软件)
+        - [3.4.1. clash](#341-clash)
+            - [shell clash](#shell-clash)
+        - [3.4.2. shadowsocks](#342-shadowsocks)
+            - [3.4.2.1. 搭建脚本](#3421-搭建脚本)
+            - [3.4.2.2. 通过一键脚本](#3422-通过一键脚本)
+            - [3.4.2.3. pac 规则](#3423-pac-规则)
+        - [v2ray](#v2ray)
+        - [苹果系客户端](#苹果系客户端)
+        - [安卓模拟器](#安卓模拟器)
+    - [3.5. 其他方法](#35-其他方法)
+- [4. vps](#4-vps)
+- [5. 内网穿透](#5-内网穿透)
 
 
 
-# 科学上网介绍
+# 1. 科学上网介绍
 
 https://www.triadprogram.com/is-it-illegal-to-use-vpn-in-china/ 违法吗
 
-# GFW封锁手段
+# 2. GFW封锁手段
 
-## DNS相关
+## 2.1. DNS相关
 
-### DNS劫持
+### 2.1.1. DNS劫持
 
 DNS 服务器上的DNS缓存里的记录被人为修改成错误的，浏览器查询到IP自然就是错误的     
 
 最有可能干这事的呢，就是国内的ISP  
 
-### DNS污染（DNS欺骗）
+### 2.1.2. DNS污染（DNS欺骗）
 
 又有如下叫法，都是一个意思：  
 
@@ -92,15 +95,15 @@ GFW的设备部署在每个国际出口，如果你用的DNS server 在国外，
 
 
 
-## IP封锁（IP黑名单）
+## 2.2. IP封锁（IP黑名单）
 
 直接屏蔽掉某些IP地址，简单粗暴。  
 
-## 敏感字过滤
+## 2.3. 敏感字过滤
 
 GFW会维护一个长长的敏感词列表，并且经常更新，如果网页中包含敏感词，会被屏蔽。  
 
-## CNNIC的CA证书造成中间人攻击
+## 2.4. CNNIC的CA证书造成中间人攻击
 
 CA 是“Certificate Authority”的缩写
 CA 证书，顾名思义，就是CA颁发的证书。
@@ -111,9 +114,9 @@ CA 证书，顾名思义，就是CA颁发的证书。
 所以CA 证书对于 https 协议的重要性（可以防止攻击者伪造虚假网站）不言而喻；
 中间人攻击：各个公司的软件的根证书中包含了cnnic的ca证书后，配合GFW进行DNS域名污染
 
-# 应对手段
+# 3. 应对手段
 
-## 修改DNS服务器
+## 3.1. 修改DNS服务器
 
 应对【域名劫持】，但是对域名污染无效  
 
@@ -139,7 +142,7 @@ OpenDNS：
     203.80.96.9
     203.80.96.10
 
-## 修改本机hosts文件
+## 3.2. 修改本机hosts文件
 
 应对域名污染----且只能用于影响力巨大的网站  
 
@@ -160,7 +163,7 @@ Linux 在这个文件里： /etc/hosts
 
 修改完成后, 保存, 输入命令“ipconfig /flushdns” 刷新DNS缓存
 
-## HTTPS 的加密 web 代理
+## 3.3. HTTPS 的加密 web 代理
 
 对抗IP封锁  
 
@@ -168,9 +171,9 @@ Linux 在这个文件里： /etc/hosts
 
 但是有个明显的缺点，就是用的人一多就容易引起GFW注意，自然就挂掉了，所以需要自个找到好用的代理  
 
-## vpn 代理软件
+## 3.4. vpn 代理软件
 
-### clash
+### 3.4.1. clash
 
 ```sh
 
@@ -192,49 +195,22 @@ https://github.com/openRunner/clash-freenode
 
 https://github.com/WilliamStar007/ClashX-V2Ray-TopFreeProxy
 
+
+使用 Go 语言编写，基于规则的跨平台代理软件, (基于规则的隧道，无需服务器和虚拟主机), 支持 SS / VMess 协议
+Clash for Windows 是目前在 Windows 上最好用的图形化分支。通过 Clash API 来配置和控制 Clash 核心程序，降低了 Clash 的使用成本
 ```
 
-### shadowsockets
+#### shell clash
 
-
-### pac 规则
-
-https://adblockplus.org/en/filter-cheatsheet
+```sh
+运行在路由器中
 
 ```
 
-通配符支持。
-比如*.example.com/*实际书写时可省略*， 如.example.com/， 和*.example.com/*效果一样
+### 3.4.2. shadowsocks
 
-正则支持, 以\开始结束
-\xxxx\
-\[\w]+:\/\/example.com\
+#### 3.4.2.1. 搭建脚本
 
-标记走代理的域名 (同时覆盖 http 和 https, ftp 协议)
-^ 符号，意思是要么在这个符号的地方结束，要么后面跟着?,/等字符。
-    表示除了字母、数字或者 _ – . % 之外的任何字符。如 http://example.com^ ，http://example.com/ 和 http://example.com:8000/ 均满足条件，而 http://example.com.ar/ 不满足条件。
-||github.com^,
-||youtube.com,
-
-注释
-!comment
-
-标记例外的域名 (指定域名不走代理)
-存疑?    也可能是 @@@xxx.com
-@@||baidu.com,
-
-标记开头 (以指定字符串开头的 url 走代理)
-|http://xxx,
-
-标记结尾 (指定字符串结尾的 url 走代理)
-xxx.com|,
-```
-
-### 自己搭建
-
-一类是有运营商提供服务端的代理, 如 (赛风，蓝灯... ) 
-
-一类是可以自己搭建 server 的 代理: 
 
 shadowsocks， windows客户端在[这里](https://github.com/shadowsocks/shadowsocks-windows/releases), 可以自己租用国外vps搭建server端， 也可以使用好心人分享的搭建好的帐号：[1](https://free-ss.site/) (host添加 “104.18.18.18    free-ss.site” 访问), [2](https://freessr.win/), [3](https://shadowsocks-share.herokuapp.com/); macos 客户端: Shadowsocks-NG
 
@@ -691,7 +667,7 @@ install_prepare(){
 install_main
 ```
 
-### 通过 代理科学上网 step by step
+#### 3.4.2.2. 通过一键脚本
 
 一键 ss
 
@@ -752,22 +728,85 @@ sysctl net.ipv4.tcp_available_congestion_control
 
 ```
 
-### 代理的客户端下载
+#### 3.4.2.3. pac 规则
 
-https://shadowsocks.org/en/download/clients.html 官方下载
-https://github.com/shadowsocks
+https://adblockplus.org/en/filter-cheatsheet
+
+```
+
+通配符支持。
+比如*.example.com/*实际书写时可省略*， 如.example.com/， 和*.example.com/*效果一样
+
+正则支持, 以\开始结束
+\xxxx\
+\[\w]+:\/\/example.com\
+
+标记走代理的域名 (同时覆盖 http 和 https, ftp 协议)
+^ 符号，意思是要么在这个符号的地方结束，要么后面跟着?,/等字符。
+    表示除了字母、数字或者 _ – . % 之外的任何字符。如 http://example.com^ ，http://example.com/ 和 http://example.com:8000/ 均满足条件，而 http://example.com.ar/ 不满足条件。
+||github.com^,
+||youtube.com,
+
+注释
+!comment
+
+标记例外的域名 (指定域名不走代理)
+存疑?    也可能是 @@@xxx.com
+@@||baidu.com,
+
+标记开头 (以指定字符串开头的 url 走代理)
+|http://xxx,
+
+标记结尾 (指定字符串结尾的 url 走代理)
+xxx.com|,
+```
 
 
+### v2ray
 
-## 其他方法
+```sh
+
+是 Project V 下的一个工具。Project V 是一个包含一系列构建特定网络环境工具的项目，而 V2Ray 属于最核心的一个
+
+```
+
+### 苹果系客户端
+
+```sh
+ios:
+
+Spectre
+Potatso
+Cyberoket
+Quantumult X
+Shadowrocket
+surge
+
+
+macos:
+
+clashx pro
+```
+
+### 安卓模拟器
+
+https://doc.miyun.app/android-emulator-proxy/
+
+```sh
+MuMu模拟器设置代理
+
+夜神模拟器
+
+```
+
+## 3.5. 其他方法
 
 内网穿透：比较典型的是ZeroTier，
 
-V2Ray：V2Ray 是 Project V 下的一个工具。Project V 是一个包含一系列构建特定网络环境工具的项目，而 V2Ray 属于最核心的一个
 
 
 
-# vps 
+# 4. vps 
 
 国内: 阿里云, 腾讯云    , 华为云/京东云/七牛云/ucloud
 
@@ -786,7 +825,7 @@ ThemeForest 全球最大网站主题库
 
 SeaFile、ownCloud、BTSync 云网盘
 
-# 内网穿透
+# 5. 内网穿透
 
 https://github.com/qiweiview/jndc java 方案
 
