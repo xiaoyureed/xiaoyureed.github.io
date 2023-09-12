@@ -39,6 +39,7 @@ https://program-think.blogspot.com/2009/05/how-to-break-through-gfw.html
     - [3.2. 修改本机hosts文件](#32-修改本机hosts文件)
     - [3.3. HTTPS 的加密 web 代理](#33-https-的加密-web-代理)
     - [3.4. vpn 代理软件](#34-vpn-代理软件)
+        - [trojan](#trojan)
         - [3.4.1. clash](#341-clash)
             - [shell clash](#shell-clash)
         - [3.4.2. shadowsocks](#342-shadowsocks)
@@ -172,6 +173,10 @@ Linux 在这个文件里： /etc/hosts
 但是有个明显的缺点，就是用的人一多就容易引起GFW注意，自然就挂掉了，所以需要自个找到好用的代理  
 
 ## 3.4. vpn 代理软件
+
+### trojan
+
+https://p4gefau1t.github.io/trojan-go/basic/trojan/
 
 ### 3.4.1. clash
 

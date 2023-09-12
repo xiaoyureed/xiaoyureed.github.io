@@ -35,6 +35,7 @@ K8s, Kafka, prometheus, grafana, splunk
         - [Retention Policy（RP） 数据保留策略](#retention-policyrp-数据保留策略)
         - [Shard Group 数据切片组](#shard-group-数据切片组)
     - [数据模型](#数据模型)
+    - [spring boot 集成使用](#spring-boot-集成使用)
 - [prometheus](#prometheus)
 - [hbase](#hbase)
 
@@ -174,25 +175,15 @@ CREATE RETENTION POLICY "one_day_only" ON "water_database" DURATION 1d REPLICATI
 
 ```
 
+- database：数据库
+
+
+
 - 度量 Metric 或者 Measurement, 类似关系型数据库里的表（Table），代表一系列同类时序数据的集合
 
   例如为空气质量传感器建立一个 Table，存储所有传感器的监测数据。
 
-- 标签 Tag：描述数据源的特征，通常不随时间变化
 
-  (Tag 由 Tag Key、Tag Value 组成，两者均为 String 类型), 
-  
-  可类比加上索引的表字段 (可能多个字段都是 tag), 会作为记录的主键, Tags组合用来唯一标识 metric
-
-- 时间戳 Timestamp：Timestamp代表数据产生的时间点，可以写入时指定，也可由系统自动生成；
-
-  类比表字段, 插入一条记录, 变化一个值
-
-- 量测值 Field：Field描述数据源的量测指标，通常随着时间不断变化，类比 MySQL 的 表字段
-
-  例如传感器设备包含温度、湿度等Field；
-
-  类比表字段
 
 - 数据点Data Point: 数据源在某个时间产生的某个量测指标值（Field Value）称为一个数据点，
 
@@ -200,12 +191,35 @@ CREATE RETENTION POLICY "one_day_only" ON "water_database" DURATION 1d REPLICATI
 
   数据库查询、写入时按数据点数来作为统计指标；
 
+    有三个组成部分:
+
+    - 标签 Tag：描述数据源的特征，不随时间变化
+
+        (Tag 由 Tag Key、Tag Value 组成，两者均为 String 类型), 
+    
+        可类比加上索引的表字段 (值为常量的表字段) (可能多个字段都是 tag), 会作为记录的主键, Tags组合用来唯一标识 metric
+
+
+    - 时间戳 Timestamp：Timestamp代表数据产生的时间点，可以写入时指定，也可由系统自动生成；
+
+        类比表字段
+
+    - 量测值 Field：Field描述数据源的量测指标，通常随着时间不断变化，类比 MySQL 的 表字段
+
+        例如传感器设备包含温度、湿度等Field；
+
+        类比表字段
+
+
 - 时间线 Time Series ：数据源的某一个指标随时间变化，形成时间线，Metric + Tags + 某个Field 组合确定一条时间线
 
 
 ```
 
 时序查询一般是这样: 通过 metric + tags 确定 查那个数据源的 series (时间线), 通过 field 确定查数据源的哪个属性的时间线
+
+## spring boot 集成使用
+
 
 
 # prometheus

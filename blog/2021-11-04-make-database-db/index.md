@@ -32,3 +32,6 @@ https://www.zhihu.com/question/27677011/answer/240670571
 https://www.zhihu.com/question/36571460/answer/68880015
 https://www.zhihu.com/question/35382593/answer/102269843
 https://zhuanlan.zhihu.com/p/29401694
+
+https://cstack.github.io/db_tutorial/ 教程 (https://github.com/cstack/db_tutorial)
+《数据密集型应用系统设计》
