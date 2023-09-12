@@ -9,15 +9,13 @@ https://my.oschina.net/huangyong/blog/158380
 <!-- truncate -->
 
 
-<!-- TOC -->
+- [Action](#action)
+- [Action分发机制](#action分发机制)
+- [entity实体](#entity实体)
+- [技术选型](#技术选型)
+- [Java热插拔](#java热插拔)
 
-- [1. Action](#1-action)
-- [2. Action分发机制](#2-action%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6)
-- [3. entity实体](#3-entity%E5%AE%9E%E4%BD%93)
-- [4. 技术选型](#4-%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B)
-- [5. Java热插拔](#5-java%E7%83%AD%E6%8F%92%E6%8B%94)
 
-<!-- /TOC -->
 
 # Action
 
@@ -51,6 +49,3 @@ CGLib：用于动态代理。
 
 TODO
 
-https://blog.csdn.net/tonyhuang_google_com/article/details/49702291 通过 Java spi
- https://blog.csdn.net/javierhui111/article/details/3830833 通过 osgi
- https://segmentfault.com/q/1010000005736656 通过spring依赖注入

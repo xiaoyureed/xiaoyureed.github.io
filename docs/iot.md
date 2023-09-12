@@ -28,7 +28,6 @@ https://github.com/iegomez/mosquitto-go-auth
 
 https://github.com/IoT-Technology/IoT-Technical-Guide
 
-<!-- more -->
 
 https://github.com/HQarroum/awesome-iot
 
@@ -44,4 +43,85 @@ https://zditect.com/main/iot-internet-of-things/iot-internet-of-things.html
 精通主流的物联通讯协议 WiFi/BlueTooth/NFC/RS485/……， 熟练使用 Java/C#/C++ 等语言进行开发集成。
 具备芯片级集成开发经验 STM32/ESP8266/HX711/ATGM336H/74HC595/……
 
-https://github.com/Amazingwujun/mqttx 学习项目
+https://github.com/Amazingwujun/mqttx
+
+<!-- truncate -->
+
+## iot brief intro
+
+
+### mqtt 协议
+
+MQTT（Message Queuing Telemetry Transport，消息队列遥测传输协议），是一种基于发布/订阅（publish/subscribe）模式的“轻量级”即时通讯协议，该协议构建于TCP/IP协议上
+
+低开销、低带宽占用等优点, 特别适合用来当做物联网的通信协议
+
+场景:
+
+-（1）消息推送： 如PC端的推送公告，比如安卓的推送服务，还有一些即时通信软件如微信、易信等也是采用的推送技术。
+-（2）智能点餐： 通过MQTT消息队列产品，消费者可在餐桌上扫码点餐，并与商家后端系统连接实现自助下单、支付。
+-（3）信息更新： 实现商场超市等场所的电子标签、公共场所的多媒体屏幕的显示更新管理。
+-（4）扫码出站： 最常见的停车场扫码缴费，自动起竿；地铁闸口扫码进出站。
+
+
+```sh
+
+MQTT Client
+
+MQTT Broker
+
+MQTT Connection
+    参数:
+    - ClientId
+    - Clean Session
+    - Username/Password
+    - Will Message
+    - KeepAlive
+    - QOS 此数字表示消息的服务质量 (QoS)。有三个级别：0、1 和 2
+        QoS 0（最多一次）：消息发布完全依赖底层 TCP/IP 网络。会发生消息丢失或重复。这个级别可用于如下情况，环境传感器数据，丢失一次数据无所谓，因为不久后还会有第二次发送。
+        QoS 1（至少一次）：确保消息到达，但消息重复可能会发生。
+        QoS 2（只有一次）：确保消息到达一次。这个级别可用于如下情况，在计费系统中，消息重复或丢失会导致不正确的结果。
+    - Payload 每条消息的实际内容。MQTT 是数据无关性的。可以发送任何文本、图像、加密数据以及二进制数据。
+    - timeout：MQTT会尝试接收数据，直到timeout时间到后才会退出。
+
+```
+
+### mqtt broker 服务端选型
+
+https://blog.csdn.net/emqx_broker/article/details/120017095
+
+```sh
+
+https://www.emqx.com/zh emqx
+
+https://learnku.com/articles/46174 rabbitmq
+
+```
+
+桌面客户端 https://github.com/emqx/MQTTX
+
+## 基于 spring boot
+
+### 功能划分
+
+### 集成mqtt
+
+https://developer.aliyun.com/article/1150694
+https://blog.csdn.net/beibei3321/article/details/124187758
+
+```xml
+
+<dependency>
+  <groupId>org.springframework.integration</groupId>
+  <artifactId>spring-integration-mqtt</artifactId>
+</dependency>
+
+```
+
+## 经验之谈
+
+```sh
+
+https://v2ex.com/t/946848
+
+```
