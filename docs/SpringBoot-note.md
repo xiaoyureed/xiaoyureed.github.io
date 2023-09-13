@@ -96,6 +96,7 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
     - [13.2. logback](#132-logback)
 - [14. cqrs模式](#14-cqrs模式)
 - [15. 数据层](#15-数据层)
+    - [集成 influxdb](#集成-influxdb)
     - [15.1. canal 订阅](#151-canal-订阅)
     - [15.2. mybatis 自动建表插件](#152-mybatis-自动建表插件)
     - [15.3. mybatis crud 增强插件](#153-mybatis-crud-增强插件)
@@ -1853,6 +1854,88 @@ https://www.jianshu.com/p/1ff824bc997a?utm_campaign
 ```
 
 # 15. 数据层
+
+## 集成 influxdb
+
+这里以 1.x 为例
+
+```xml
+<!-- https://mvnrepository.com/artifact/org.influxdb/influxdb-java -->
+<dependency>
+    <groupId>org.influxdb</groupId>
+    <artifactId>influxdb-java</artifactId>
+    <version>2.23</version>
+</dependency>
+
+<!-- 还有 2.x 的 Client -->
+
+```
+
+```sh
+# enter the cmd window
+influx -port 8086
+
+# InfluxDB 默认管理员账号：admin，密码为空
+show users
+create user "username" with password 'password'
+create user "username" with password 'password' with all privileges
+drop user "username"
+
+
+# InfluxQL与SQL命令语法类似
+CREATE DATABASE weiz_tes
+SHOW DATABASES
+DROP DATABASE weiz_test
+USE weiz_test
+SHOW MEASUREMENTS
+DROP MEASUREMENT "measurementName"
+
+# 查看 tag 
+show tag keys from device_temperature
+show tag values from test with key="app"
+
+# measurement为host_cpu_usage_total, tag为host_name,cpu_core, field为cpu_usage,cpu_idle。
+# field如果是string类型，需要加引号, tag都是string类型，不需要引号将value包裹
+insert host_cpu_usage_total,host_name=host1,cpu_core=core1 cpu_usage=0.26,cpu_idle=0.76
+
+# 条件查询, 等号两边不能有空格
+# 排序, time 字段名字是默认的
+select * from host_cpu_usage_total [where xxx='yyy'] [order by time desc/asc]
+
+# distinct的字段仅是field 不能是tag
+select distinct(count) from test
+
+# group by仅是tag 不能是field
+select * from test group by app
+
+
+# InfluxDB没有专门的创建表的命令，当插入一条数据point至某A表时，此A表会自动创建，并且表的格式、字段名、字段类型也由此条插入命令决定
+# InfluxDB没有修改表的命令，但当插入一条新数据point至表A时，如果此point中的字段多于原A表的字段，会自动修改A表与此条插入数据的格式字段等一致。
+#       如果新插入数据字段与表A完全不同则会插入失败。 
+
+# 模糊查询
+
+## =~/给定字符/ 包含指定字符的      =~/^给定字段/ 以指定字段开始的      =~/给定字段$/ 以指定字段结尾的
+> select * from test where monitor_name =~/app/
+
+# 分页
+select * from test limit 2 offset 2
+
+# 没有in的操作，但是有or
+select * from test where monitor_name = 'test' or monitor_name ='app1'
+
+
+
+
+# 聚合函数
+
+# count(field key) 返回一个（field）字段中的非空值的数量
+select count(humidity) from weather
+
+https://blog.51cto.com/stefanxfy/4722268
+https://www.cnblogs.com/Bluebells/p/14120368.html
+```
+
 
 ## 15.1. canal 订阅
 
