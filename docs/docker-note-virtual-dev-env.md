@@ -3155,12 +3155,10 @@ $ docker run -p 2379:2379 -e ALLOW_NO_AUTH=yes --name Etcd bitnami/etcd
 ## 16.17. influxdb
 
 ```sh
-docker run -d \
-    --name influxdb \
-    -p 8086:8086 \
-    --volume $PWD:/var/lib/influxdb2 \
-    influxdb:latest
+docker run -it --rm --name influxdb -p 8086:8086 influxdb:1.8.10
 
+# 管理 gui
+docker run -p 8085:80 -it --link influxdb:influxdb timeseriesadmin/timeseriesadmin:latest
 ```
 
 
