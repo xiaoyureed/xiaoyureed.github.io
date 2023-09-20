@@ -296,6 +296,11 @@ apt-get autoremove              # 自动删除不需要的包
 
 ### 1.3.4. centos 软件相关
 
+```sh
+
+yum
+
+```
 
 
 ## 1.4. 系统 
@@ -632,29 +637,35 @@ curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh
 ### 1.5.5. 防火墙
 
 ```sh
+
+-----------------  centos
+
+
 # 查看firewalld状态
 systemctl status firewalld
 firewall-cmd --state
 
-# 启动/关闭/重启 防火墙
+# 启动/关闭/重载配置 防火墙
 systemctl start firewalld
-systemctl stop firewalld
-systemctl reload firewalld
+systemctl stop firewalld[.service]
 
 ## 禁止开机启动
 systemctl disable firewalld.service
 
-#重启防火墙
-systemctl reload firewalld
-
 # 查看已经开放的端口
-firewall-cmd --list-ports
+firewall-cmd --zone=public --list-ports
 
 #开放端口
 firewall-cmd --zone=public --add-port=80/tcp --permanent
+# close port
+firewall-cmd --zone=public --remove-port=5672/tcp --permanent
+
 #重新载入
 firewall-cmd --reload
+systemctl reload firewalld
 
+# check if the port is exposed
+firewall-cmd --zone=public --query-port=8080/tcp
 
 ```
 

@@ -36,6 +36,7 @@ K8s, Kafka, prometheus, grafana, splunk
     - [Shard Group 数据切片组](#shard-group-数据切片组)
     - [指令语法](#指令语法)
         - [管理相关命令](#管理相关命令)
+        - [写入语法](#写入语法)
         - [查询语法](#查询语法)
         - [基本计算](#基本计算)
         - [aggregation聚合函数](#aggregation聚合函数)
@@ -285,6 +286,17 @@ SHOW SERIES ON NOAA_water_database
 # InfluxDB没有修改表的命令，但当插入一条新数据point至表A时，如果此point中的字段多于原A表的字段，会自动修改A表与此条插入数据的格式字段等一致。
 #       如果新插入数据字段与表A完全不同则会插入失败。 
 
+```
+
+### 写入语法
+
+```sh
+# 新增一条数据，measurement为add_test, tag为name,phone, field为user_id,email
+insert add_test,name=YiHui,phone=110 user_id=20,email="bangzewu@126.com"
+
+
+
+
 
 将查询结果写入measurement
 
@@ -303,8 +315,8 @@ https://help.aliyun.com/document_detail/172144.html?spm=a2c4g.172139.0.0.6d84357
 
 ```sh
 # 查看 tag 
-show tag keys from device_temperature
-show tag values from test with key="app"
+show tag/field keys from device_temperature
+show tag/field values from test with key="app"
 
 
 SELECT "<field_key>","<field_key>"

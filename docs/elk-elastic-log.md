@@ -8,6 +8,8 @@ toc_max_heading_level: 5
 
 https://github.com/openobserve/openobserve 替代 es
 
+https://github.com/paradedb/paradedb 基于 postgres 的搜索引擎
+
 https://github.com/spujadas/elk-docker ekl 镜像
 
 loki + promtail 轻量的多，更适合日志查询

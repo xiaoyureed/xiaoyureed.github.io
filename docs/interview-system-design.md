@@ -6,6 +6,8 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
+https://github.com/donnemartin/system-design-primer/blob/master/README-zh-Hans.md
+
 https://www.bilibili.com/video/BV1s54y1L7VU?p=2 高并发优化
 
 https://soulmachine.gitbooks.io/system-design/content/cn/distributed-id-generator.html
@@ -260,6 +262,18 @@ https://github.com/0voice
 - 用户可能有分类 根据业务不通, 区分个人用户/企业用户
 - 如果涉及到实人认证, 那还需要引入区别于用户系统的客户概念, 客户对应于真实世界中的人(个人/公司), 一个客户可以拥有多个用户
 
+http://www.uml.org.cn/sjms/2023021044.asp
+
+https://developer.aliyun.com/article/1143467
+
+https://www.cnblogs.com/tylercao/p/8053404.html
+
+
+https://www.zhihu.com/question/25400195
+
+https://www.woshipm.com/pd/5240805.html
+
+https://juejin.cn/post/7025208474493517831
 
 # 3. 用户流失召回
 
