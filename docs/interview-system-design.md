@@ -6,6 +6,8 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
+https://bugstack.cn/
+
 https://github.com/donnemartin/system-design-primer/blob/master/README-zh-Hans.md
 
 https://www.bilibili.com/video/BV1s54y1L7VU?p=2 高并发优化

@@ -21,4 +21,4 @@ spring boot + nextjs
 
 ## 设计
 
-- 自动转账
+- 自动转账 

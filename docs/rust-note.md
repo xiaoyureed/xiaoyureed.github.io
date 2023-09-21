@@ -11466,6 +11466,8 @@ https://github.com/wooorm/markdown-rs
 
 https://github.com/tauri-apps/tauri
 
+https://github.com/oscartbeaumont/tauri-specta
+
 ## 21.4. 视频处理
 
 https://github.com/larksuite/rsmpeg 飞书团队出品 ffmpeg 的 rust binding
