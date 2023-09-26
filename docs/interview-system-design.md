@@ -6,6 +6,8 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
+https://www.thebyte.com.cn/
+
 https://bugstack.cn/
 
 https://github.com/donnemartin/system-design-primer/blob/master/README-zh-Hans.md

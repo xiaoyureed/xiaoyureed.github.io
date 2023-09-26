@@ -22,6 +22,8 @@ toc_max_heading_level: 5
 - https://github.com/DiUS/java-faker  构造假数据
     - https://github.com/jsonzou/jmockdata 中文说明
 
+https://testerhome.com/
+
 <!--more-->
 
 
@@ -46,6 +48,7 @@ toc_max_heading_level: 5
 - [10. 集成测试 Testcontainers](#10-集成测试-testcontainers)
 - [11. 优化测试编写体验](#11-优化测试编写体验)
 - [12. talend api tester 浏览器插件](#12-talend-api-tester-浏览器插件)
+- [自动化测试](#自动化测试)
 
 
 ## 1. Testcontainers
@@ -503,3 +506,23 @@ groovy + spock
 类似 postman, 更轻量
 
 https://www.bilibili.com/video/av90263035/ 
+
+## 自动化测试
+
+
+Playwright
+
+https://seleniumbase.io/
+
+cypress 
+
+https://github.com/metersphere/metersphere 接口测试
+
+casperjs 前端自动化测试方案
+
+https://www.bilibili.com/video/BV1nh411974p?p=8
+
+`不过无论什么时候，都应该是大量的做单元测试，大量的做 API 自动化测试，根据具体项目情况，少量或中等强度的做前端自动化`
+
+https://zhuanlan.zhihu.com/p/410559730 jvm-sandbox-repeater 流量录制
+https://juejin.cn/post/7280429214607736890 降噪

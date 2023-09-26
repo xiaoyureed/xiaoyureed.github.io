@@ -67,7 +67,7 @@ https://github.com/docker/kitematic 可视化管理gui
     - [7.5. commit容器成为镜像(不推荐)](#75-commit容器成为镜像不推荐)
     - [7.6. 从压缩包导入](#76-从压缩包导入)
     - [7.7. docker save 和 docker load](#77-docker-save-和-docker-load)
-    - [构建多平台镜像](#构建多平台镜像)
+    - [7.8. 构建多平台镜像](#78-构建多平台镜像)
 - [8. Dockerfile](#8-dockerfile)
     - [8.1. from](#81-from)
     - [8.2. 镜像的构建上下文context](#82-镜像的构建上下文context)
@@ -108,22 +108,22 @@ https://github.com/docker/kitematic 可视化管理gui
     - [10.1. dockerhub](#101-dockerhub)
         - [10.1.1. publish by using github action](#1011-publish-by-using-github-action)
     - [10.2. 私有仓库](#102-私有仓库)
-        - [allow http](#allow-http)
-        - [harbor(推荐)](#harbor推荐)
-            - [k8s 配置harbor](#k8s-配置harbor)
-        - [Nexus](#nexus)
-        - [docker-registry](#docker-registry)
+        - [10.2.1. allow http](#1021-allow-http)
+        - [10.2.2. harbor(推荐)](#1022-harbor推荐)
+            - [10.2.2.1. k8s 配置harbor](#10221-k8s-配置harbor)
+        - [10.2.3. Nexus](#1023-nexus)
+        - [10.2.4. docker-registry](#1024-docker-registry)
 - [11. docker数据管理](#11-docker数据管理)
     - [11.1. 数据卷](#111-数据卷)
     - [11.2. 挂载主机目录](#112-挂载主机目录)
     - [11.3. volume 的共享](#113-volume-的共享)
 - [12. 网络互联](#12-网络互联)
     - [12.1. docker 默认初始创建3 个网络](#121-docker-默认初始创建3-个网络)
-    - [12.4. 创建固定ip](#124-创建固定ip)
-    - [12.5. 查看container的ip](#125-查看container的ip)
-    - [12.6. 外部访问容器](#126-外部访问容器)
-    - [12.7. 容器互联](#127-容器互联)
-    - [12.8. 配置dns 和 主机名 hostname](#128-配置dns-和-主机名-hostname)
+    - [12.2. 创建固定ip](#122-创建固定ip)
+    - [12.3. 查看container的ip](#123-查看container的ip)
+    - [12.4. 外部访问容器](#124-外部访问容器)
+    - [12.5. 容器互联](#125-容器互联)
+    - [12.6. 配置dns 和 主机名 hostname](#126-配置dns-和-主机名-hostname)
 - [13. docker-compose](#13-docker-compose)
     - [13.1. some significant materials](#131-some-significant-materials)
     - [13.2. compose简介](#132-compose简介)
@@ -154,31 +154,32 @@ https://github.com/docker/kitematic 可视化管理gui
 - [14. docker-machine](#14-docker-machine)
 - [15. docker-swarm,swarm-mode](#15-docker-swarmswarm-mode)
 - [16. docker实践](#16-docker实践)
-    - [nacos](#nacos)
-    - [16.1. 搭建持续集成系统](#161-搭建持续集成系统)
-    - [16.2. docker和springboot](#162-docker和springboot)
-    - [16.3. oracle11g](#163-oracle11g)
-    - [16.4. 使用 mysql 镜像](#164-使用-mysql-镜像)
-    - [16.5. 使用postgres镜像](#165-使用postgres镜像)
-    - [16.6. 使用 rabbitmq镜像](#166-使用-rabbitmq镜像)
-    - [16.7. redis镜像](#167-redis镜像)
-    - [16.8. ubuntu镜像](#168-ubuntu镜像)
-    - [16.9. zookeeper](#169-zookeeper)
-    - [16.10. kafka](#1610-kafka)
+    - [16.1. nacos](#161-nacos)
+    - [16.2. 搭建持续集成系统](#162-搭建持续集成系统)
+    - [16.3. docker和springboot](#163-docker和springboot)
+    - [16.4. oracle11g](#164-oracle11g)
+    - [16.5. 使用 mysql 镜像](#165-使用-mysql-镜像)
+    - [16.6. 使用postgres镜像](#166-使用postgres镜像)
+    - [16.7. 使用 rabbitmq镜像](#167-使用-rabbitmq镜像)
+    - [16.8. redis镜像](#168-redis镜像)
+    - [16.9. ubuntu镜像](#169-ubuntu镜像)
+    - [16.10. zookeeper](#1610-zookeeper)
+    - [16.11. kafka](#1611-kafka)
     - [16.12. zipkin](#1612-zipkin)
     - [16.13. nginx](#1613-nginx)
     - [16.14. mongodb](#1614-mongodb)
     - [16.15. gitlab](#1615-gitlab)
     - [16.16. etcd](#1616-etcd)
     - [16.17. influxdb](#1617-influxdb)
-- [17. vagrant](#17-vagrant)
-    - [17.1. 基本使用](#171-基本使用)
-    - [17.2. vagrant 设置 ip](#172-vagrant-设置-ip)
-    - [17.3. VirtualBox四种网络模式](#173-virtualbox四种网络模式)
-- [18. kali](#18-kali)
-- [19. 虚拟网卡 macvlan](#19-虚拟网卡-macvlan)
-- [20. Multipass](#20-multipass)
-- [21. drone](#21-drone)
+- [17. kali](#17-kali)
+- [18. 虚拟网卡 macvlan](#18-虚拟网卡-macvlan)
+- [19. 虚拟机管理工具](#19-虚拟机管理工具)
+    - [19.1. vagrant](#191-vagrant)
+        - [19.1.1. 基本使用](#1911-基本使用)
+        - [19.1.2. vagrant 设置 ip](#1912-vagrant-设置-ip)
+        - [19.1.3. VirtualBox四种网络模式](#1913-virtualbox四种网络模式)
+    - [19.2. Multipass](#192-multipass)
+- [20. drone](#20-drone)
 
 
 # 1. 常用指令
@@ -796,7 +797,7 @@ Docker 还提供了 docker load 和 docker save 命令，用以将镜像保存�
 `docker save <镜像名> | bzip2 | pv | ssh <用户名>@<主机名> 'cat | docker load'`从一个机器将镜像迁移到另一个机器，并且带进度条的功能
 
 
-## 构建多平台镜像
+## 7.8. 构建多平台镜像
 
 https://zhuanlan.zhihu.com/p/639663364
 
@@ -1598,7 +1599,7 @@ todo
 
 ## 10.2. 私有仓库
 
-### allow http 
+### 10.2.1. allow http 
 
 
 想让本网段的其他主机也能把镜像推送到私有仓库。你就得把例如 192.168.199.100:5000 这样的内网地址作为私有仓库地址，这时你会发现无法成功推送镜像。这是因为 Docker 默认不允许非 HTTPS 方式推送镜像。我们可以通过 Docker 的配置选项来取消这个限制:
@@ -1617,7 +1618,7 @@ todo
 }
 ```
 
-### harbor(推荐)
+### 10.2.2. harbor(推荐)
 
 https://github.com/goharbor/harbor , 带 gui, user management
 
@@ -1626,7 +1627,7 @@ https://github.com/goharbor/harbor , 带 gui, user management
 从私服拉取镜像: 先登录 ` docker login -u admin -p xxx <harbor ip>`, 再拉取 `docker pull 182.168.xxx.xxx/org_name/img_name:v`
 
 
-#### k8s 配置harbor
+#### 10.2.2.1. k8s 配置harbor
 
 在任意节点 docker 登录 harbor 后, `/root/.docker/config.json` 能查看密码, 将 json 内容 base64 编码 `cat /root/.docker/config.json | base64 -w O`, 创建 secret.yml:
 
@@ -1659,11 +1660,11 @@ kind: Deployment
           - name: login
 ```
 
-### Nexus
+### 10.2.3. Nexus
 
 多用于 搭建 Maven repo, 也能存储 docker image
 
-### docker-registry
+### 10.2.4. docker-registry
 
 docker hub 提供, 一个镜像即可拉起来, 没有 gui, 但是社区有 gui
 
@@ -1841,7 +1842,7 @@ NETWORK ID     NAME        DRIVER       SCOPE
 
 ```
 
-## 12.4. 创建固定ip
+## 12.2. 创建固定ip
 
 自己创建一个新的bridge网络bridge1，在创建bridge1的时候同时创建子网，那么在创建容器的时候指定网络为bridge1并指定ip即可
 
@@ -1855,7 +1856,7 @@ docker run -itd --name my-container --network my-network --ip 172.18.0.10 my-ima
         * --ip 172.17.0.10指定ip
 ```
 
-## 12.5. 查看container的ip
+## 12.3. 查看container的ip
 
 ```sh
 # 查看docker0的网络(宿主机上操作)
@@ -1866,7 +1867,7 @@ ip addr show eth0
 docker inspect <id,container_name> | grep "IPAddress"
 ```
 
-## 12.6. 外部访问容器
+## 12.4. 外部访问容器
 
 如果是 bridge network, 可使用 -p 暴露接口
 
@@ -1911,7 +1912,7 @@ $ docker port <container name> [port]
 127.0.0.1:49155
 ```
 
-## 12.7. 容器互联
+## 12.5. 容器互联
 
 一个是通过 docker network
 
@@ -1969,7 +1970,7 @@ ping hub # 可以 ping 通
 
 更方便的容器互联使用[ Docker Compose](#docker-compose)
 
-## 12.8. 配置dns 和 主机名 hostname
+## 12.6. 配置dns 和 主机名 hostname
 
 Docker 利用虚拟文件来挂载容器的 3 个相关配置文件。
 
@@ -2711,7 +2712,7 @@ Docker Swarm 是 Docker 官方三剑客项目之一，提供 Docker 容器集群
 
 https://github.com/wenshunbiao/docker
 
-## nacos
+## 16.1. nacos
 
 https://hub.docker.com/r/nacos/nacos-server
 
@@ -2722,7 +2723,7 @@ docker run -d -p 8848:8848 --env MODE=standalone  --name nacos  zhusaidong/nacos
 
 ```
 
-## 16.1. 搭建持续集成系统
+## 16.2. 搭建持续集成系统
 
 ```sh
 # 查看端口占用
@@ -2785,19 +2786,19 @@ networks:
 自动部署需要jenkins的插件 Publish over SSH;
 
 
-## 16.2. docker和springboot
+## 16.3. docker和springboot
 
 老外的一篇博文: https://www.callicoder.com/spring-boot-docker-example/, 先没有使用maven工具, 然后引入maven插件, 两种实现
 
 使用了 maven 插件: http://www.ityouknow.com/springboot/2018/03/19/spring-boot-docker.html
 
 
-## 16.3. oracle11g
+## 16.4. oracle11g
 
 https://blog.csdn.net/qq_33982232/article/details/83133870
 https://www.35youth.cn/685.html (https://registry.hub.docker.com/r/jaspeen/oracle-11g)
 
-## 16.4. 使用 mysql 镜像
+## 16.5. 使用 mysql 镜像
 
 ```sh
 docker pull mysql
@@ -2856,7 +2857,7 @@ services:
 
 root, root 登陆
 
-## 16.5. 使用postgres镜像
+## 16.6. 使用postgres镜像
 
 `docker run -d --name Postgres -p 5432:5432 [-e POSTGRES_USER=dev] -e POSTGRES_PASSWORD=dev123 postgres:alpine`
 
@@ -2886,7 +2887,7 @@ volumes:
 
 ref: https://stackoverflow.com/questions/49148754/docker-container-shuts-down-giving-data-directory-has-wrong-ownership-error-wh
 
-## 16.6. 使用 rabbitmq镜像
+## 16.7. 使用 rabbitmq镜像
 
 ```yml
 version: "3"
@@ -2910,7 +2911,7 @@ docker run -d --name rabbitmq3.7.7 -p 5672:5672 -p 15672:15672 -v `pwd`/data:/va
 
 ```
 
-## 16.7. redis镜像
+## 16.8. redis镜像
 
 ```yml
 version: "3"
@@ -2978,7 +2979,7 @@ redis-commander: 提供 redis web 管理界面
 
 
 
-## 16.8. ubuntu镜像
+## 16.9. ubuntu镜像
 
 ```sh
 docker pull ubuntu
@@ -2994,7 +2995,7 @@ apt install git
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ```
 
-## 16.9. zookeeper
+## 16.10. zookeeper
 
 ```sh
 docker run --name some-zookeeper -d -p 2181:2181 zookeeper
@@ -3010,7 +3011,7 @@ get /zookeeper
 
 ```
 
-## 16.10. kafka
+## 16.11. kafka
 
 https://github.com/lensesio/fast-data-dev
 
@@ -3162,7 +3163,28 @@ docker run -p 8085:80 -it --link influxdb:influxdb timeseriesadmin/timeseriesadm
 ```
 
 
-# 17. vagrant
+
+
+# 17. kali
+
+http://uni.mirrors.163.com/kali-images/kali-2020.4/
+http://mirrors.ustc.edu.cn/kali-images/
+http://old.kali.org/kali-images/kali-2020.4/
+
+
+https://www.kali.org/docs/virtualization/install-virtualbox-guest-vm/
+
+默认用户名是 root，默认密码是 toor
+kali/kali
+
+
+# 18. 虚拟网卡 macvlan
+
+https://fuckcloudnative.io/posts/netwnetwork-virtualization-macvlan/
+
+# 19. 虚拟机管理工具
+
+## 19.1. vagrant
 
 
 https://github.com/hashicorp/vagrant
@@ -3172,7 +3194,7 @@ https://github.com/utmapp/UTM ios 平台, mac 平台
  firecracker, kata 之类新轻量虚拟机
 
 
-## 17.1. 基本使用
+### 19.1.1. 基本使用
 
 https://www.vagrantup.com/downloads.html 下载
 https://www.virtualbox.org/wiki/Downloads virtualbox 下载
@@ -3219,7 +3241,7 @@ vagrant package
 vagrant upload xxx_file [dest_path]
 ```
 
-## 17.2. vagrant 设置 ip
+### 19.1.2. vagrant 设置 ip
 
 配置虚拟机为固定 ip: 修改 vagrantfile , 配置为私有网络 (需要先使用 virtualbox 的主机网络管理器配置新增 hostonly 网络)
 
@@ -3282,32 +3304,13 @@ config.vm.network "public_network", :bridge => 'en1: Wi-Fi (AirPort)'
 
 ```
 
-## 17.3. VirtualBox四种网络模式
+### 19.1.3. VirtualBox四种网络模式
 
 https://blog.csdn.net/qq_28513801/article/details/90138491
 
 
 
-
-# 18. kali
-
-http://uni.mirrors.163.com/kali-images/kali-2020.4/
-http://mirrors.ustc.edu.cn/kali-images/
-http://old.kali.org/kali-images/kali-2020.4/
-
-
-https://www.kali.org/docs/virtualization/install-virtualbox-guest-vm/
-
-默认用户名是 root，默认密码是 toor
-kali/kali
-
-
-# 19. 虚拟网卡 macvlan
-
-https://fuckcloudnative.io/posts/netwnetwork-virtualization-macvlan/
-
-
-# 20. Multipass
+## 19.2. Multipass
 
 类似 vagrant, 快速获取 Linux 环境, 基于 KVM 虚拟化技术，支持 Linux、macOS 和 Windows 平台
 
@@ -3368,6 +3371,6 @@ runcmd:
 
 
 
-# 21. drone
+# 20. drone
 
 基于 docker 的持续集成 ci/cd 工具

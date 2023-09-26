@@ -10,6 +10,15 @@ This article details how I cracked redmi ax6000 router, including some details s
 
 <!-- truncate -->
 
+- [enable Telnet](#enable-telnet)
+- [enable ssh](#enable-ssh)
+- [vps 搭建 v2ray](#vps-搭建-v2ray)
+- [install shellclash](#install-shellclash)
+- [adg home](#adg-home)
+- [references](#references)
+
+
+
 ## enable Telnet
 
 check http://192.168.31.1, login to the ui
@@ -131,6 +140,14 @@ curl -O -# -s https://raw.github.com/xiaoyureed/rain-cloud/main/clashdb.tar.gz
 # scp -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa dashboard/clashdb.tar.gz root@192.168.31.1:/data/clash/ui
 tar -zxf
 ```
+
+## adg home
+
+AdGuard Home  https://sspai.com/post/63088#!
+
+https://www.right.com.cn/forum/thread-8256739-1-1.html
+
+https://umi.im/redmi-ax6000-adguard-home-openclash/
 
 ## references
 

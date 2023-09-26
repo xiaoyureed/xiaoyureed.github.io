@@ -75,6 +75,7 @@ atob('SGVsbG8gV29ybGQh'); // Hello World!
     - [环境](#环境)
     - [发布](#发布)
     - [整体流程](#整体流程)
+- [self learning](#self-learning)
 
 
 # 技术站点
@@ -956,3 +957,9 @@ prod
 5.预发布测试通过部署到prod线上，进行线上测试。
 
 ```
+
+# self learning
+
+https://github.com/PKUFlyingPig/cs-self-learning
+
+https://github.com/Lemonadeccc/Awesome-Events

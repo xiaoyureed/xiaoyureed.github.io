@@ -10,6 +10,10 @@ toc_max_heading_level: 5
 
 - [1. 面试问题](#1-面试问题)
 - [2. 开发调试工具](#2-开发调试工具)
+- [基础设施即代码 IaC](#基础设施即代码-iac)
+    - [Terraform](#terraform)
+    - [opentofu](#opentofu)
+    - [IBM Cloud Schematics](#ibm-cloud-schematics)
 - [3. deploying springcloud](#3-deploying-springcloud)
     - [3.1. using configMap](#31-using-configmap)
     - [3.2. 部署到 k8s 后还是有缺点](#32-部署到-k8s-后还是有缺点)
@@ -43,6 +47,7 @@ toc_max_heading_level: 5
     - [6.2. 以 go 为例](#62-以-go-为例)
         - [6.2.1. using pod directly](#621-using-pod-directly)
         - [6.2.2. using deployment](#622-using-deployment)
+- [operator](#operator)
 - [7. 集群结构 underlying infrastructure 基础设施](#7-集群结构-underlying-infrastructure-基础设施)
 - [8. 管理的各种资源](#8-管理的各种资源)
     - [8.1. 各种资源的关系](#81-各种资源的关系)
@@ -181,6 +186,20 @@ toc_max_heading_level: 5
   `kubectl port-forward <generated target pod name> <local port>:<target port>` 这里 pod name 名字不固定, 更好的办法是指定 deployment
   `kubectl port-forward deployment/<your pod name> <local post>:<target port>` 更好
   或者 deployment 替换为 rs/svc
+
+## 基础设施即代码 IaC
+
+Infrastructure as Code : 通过编写简单的声明式语言来描述他们需要的基础架构资源，然后 Terraform 会自动完成创建、更新和删除等操作，从而简化了基础架构管理的过程
+
+### Terraform
+
+Terraform 支持多种基础架构提供商，例如 Amazon Web Services（AWS）、Microsoft Azure、Google Cloud Platform（GCP）、OpenStack、VMware 等，以及多种基础架构资源，例如虚拟机、网络、存储、负载均衡、数据库等。用户可以在一个 Terraform 配置文件中定义他们需要的资源，然后使用 Terraform 命令行工具来执行这些操作。
+
+可以用来管理 kubernetes
+
+### opentofu
+
+### IBM Cloud Schematics
 
 ## 3. deploying springcloud
 
@@ -334,6 +353,18 @@ k8s 下的 springcloud 可配置, 可观测特性还有待加强 --> istio
 - 水平伸缩: 自动检测业务的负载情况, 如果 CPU 负载太高, 或者相应时间太长, 会自动进行扩容
 
 只需要告诉 k8s 要做什么 (比如保持某个 pod 有三个副本), 而不必告诉它怎么做, 就像 sql 只告诉 数据库要查询那些数据, 而没有告诉数据库怎么查数据
+
+
+```sh
+
+Kubernetes就是一个“数据库”(数据实际持久存储在etcd中)；
+其API就是“sql语句”；
+API设计采用基于resource的Restful风格, resource type是API的端点(endpoint)；
+每一类resource(即Resource Type)是一张“表”，Resource Type的spec对应“表结构”信息(schema)；
+每张“表”里的一行记录就是一个resource，即该表对应的Resource Type的一个实例(instance)；
+Kubernetes这个“数据库”内置了很多“表”，比如Pod、Deployment、DaemonSet、ReplicaSet等；
+
+```
 
 ### 4.2. 为什么使用:
 
@@ -1415,6 +1446,11 @@ kc get pods
 # Try to delete a pod, and then you will find that the pod number recovers after a moment
 kc delete pod hello-k8s-deployment-6bb465758-5d8lk
 ```
+
+## operator
+
+https://tonybai.com/2022/08/15/developing-kubernetes-operators-in-go-part1/
+
 
 
 ## 7. 集群结构 underlying infrastructure 基础设施
