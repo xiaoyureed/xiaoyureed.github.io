@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[5558],{50568:function(t){t.exports=JSON.parse('{"label":"quant","permalink":"/en/docs/tags/quant","allTagsPath":"/en/docs/tags","count":1,"items":[{"id":"quant-money","title":"\u91cf\u5316\u4ea4\u6613","description":"https://github.com/thuquant/awesome-quant","permalink":"/en/docs/quant-money"}]}')}}]);
