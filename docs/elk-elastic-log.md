@@ -30,6 +30,9 @@ https://kalasearch.cn/blog/chapter3-elastic-search-and-lucene/ 卡拉搜索上�
 <!--more-->
 
 - [ElasticSearch](#elasticsearch)
+- [开源替代](#开源替代)
+- [开源工具](#开源工具)
+    - [dump备份](#dump备份)
     - [概念](#概念)
     - [使用场景](#使用场景)
     - [启动](#启动)
@@ -57,6 +60,18 @@ https://www.elastic.co/guide/en/elasticsearch/reference/index.html
 
 https://github.com/medcl 中文大牛
 https://elasticsearch.cn/ 中文社区
+
+## 开源替代
+
+https://github.com/opensearch-project/OpenSearch
+
+https://github.com/opensearch-project/OpenSearch-Dashboards
+
+## 开源工具
+
+### dump备份
+
+https://github.com/elasticsearch-dump/elasticsearch-dump
 
 ### 概念
 

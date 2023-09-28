@@ -11903,6 +11903,8 @@ https://www.zhihu.com/question/30511494
 
 # 23. 参考链接
 
+https://github.com/johnthagen/min-sized-rust 减少 缩小二进制包体积
+
 https://fasterthanli.me/articles/a-half-hour-to-learn-rust
 
 libp2p  

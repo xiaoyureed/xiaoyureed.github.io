@@ -860,3 +860,7 @@ https://www.skysilk.com/cloud/pricing/#classId=Basic&section=1
 https://www.vultr.com/
 
 
+还有商用方案 ngrok, ZeroTier(个人免费,  tailscale 和 zerotier,搭 moon 节点)
+
+https://github.com/netbirdio/netbird
+

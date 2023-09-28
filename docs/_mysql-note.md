@@ -23,6 +23,7 @@ https://github.com/ThinkingHan/Java-review-gudie/blob/master/%E9%9D%A2%E8%AF%95%
 
 - [开源工具](#开源工具)
     - [在线ddl](#在线ddl)
+    - [索引优化建议](#索引优化建议)
 - [1. 命令行](#1-命令行)
     - [1.1. 怎么在命令行执行sql呢](#11-怎么在命令行执行sql呢)
     - [1.2. 数据迁移](#12-数据迁移)
@@ -130,6 +131,10 @@ https://github.com/ThinkingHan/Java-review-gudie/blob/master/%E9%9D%A2%E8%AF%95%
 ## 在线ddl
 
 https://github.com/github/gh-ost
+
+## 索引优化建议
+
+https://github.com/Meituan-Dianping/SQLAdvisor
 
 # 1. 命令行
 

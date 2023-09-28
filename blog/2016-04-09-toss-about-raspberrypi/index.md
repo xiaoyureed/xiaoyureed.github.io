@@ -249,15 +249,6 @@ GatewayPorts yes
 
 意思是，SSH 隧道监听的服务的 IP 是对外开放的 0.0.0.0，而不是只对本机的 127.0.0.1。
 
-### 内网穿透
-
-frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议
-
-frp 比 SSH 隧道功能更多，配置项更多；
-frp 也需要一台外网服务器，并且需要在外网服务器上安装 frps，在本地开发机上安装 frpc
-
-还有商用方案 ngrok, ZeroTier(个人免费,  tailscale 和 zerotier,搭 moon 节点)
-
 ## 连接上 WiFi 但无法上网
 
 ```sh

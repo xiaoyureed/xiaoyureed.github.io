@@ -331,6 +331,7 @@ FROM <database_name>..<measurement_name>从用户指定的一个数据库并使�
 
 
 # (或者是 time（1d）也行， 按照间隔一天进行分组聚合, time(5m) 间隔5分钟分组) 
+# 默认会统计到当前时间之前的记录
 GROUP BY time(1h) # 间隔一小时分组聚合
 GROUP BY *按所有tag对查询结果进行分组。
 GROUP BY <tag_key>按指定的一个tag对查询结果进行分组。

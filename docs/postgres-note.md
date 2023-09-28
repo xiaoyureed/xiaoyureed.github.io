@@ -51,6 +51,7 @@ https://github.com/PostgREST/postgrest - postgresql to rest api
 - [5. docker 中启动 postgres](#5-docker-中启动-postgres)
 - [开源库 插件](#开源库-插件)
     - [restapi](#restapi)
+    - [分库分表](#分库分表)
 
 
 
@@ -647,3 +648,7 @@ docker run -d --rm --name postgresql -e POSTGRES_USER=dbuser -e POSTGRES_DB=test
 ## restapi
 
 https://github.com/PostgREST/postgrest
+
+## 分库分表
+
+ citus 插件

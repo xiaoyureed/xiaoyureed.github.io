@@ -6,6 +6,8 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
+https://github.com/thuquant/awesome-quant
+
 https://github.com/leiguorui/programming-video-tutorials 视频教程
 
 https://github.com/We-Hack-Studio/nuts 坚果量化 - 数字货币量化交易系统。
