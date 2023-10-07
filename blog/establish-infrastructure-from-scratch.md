@@ -7,6 +7,7 @@ keywords: [infrastructure]
 draft: false
 ---
 
+https://github.com/qiangmzsx/Software-Engineering-at-Google 谷歌的软件工程可参考
 
 <!-- truncate -->
 

@@ -330,9 +330,11 @@ FROM <database_name>.<retention_policy_name>.<measurement_name>
 FROM <database_name>..<measurement_name>从用户指定的一个数据库并使用默认保留策略的measurement中返回数据
 
 
-# (或者是 time（1d）也行， 按照间隔一天进行分组聚合, time(5m) 间隔5分钟分组) 
+# group by仅是tag 不能是field
+select * from test group by app
+
 # 默认会统计到当前时间之前的记录
-GROUP BY time(1h) # 间隔一小时分组聚合
+GROUP BY time(1h) # 间隔一小时分组聚合, # (或者是 time（1d）也行， 按照间隔一天进行分组聚合, time(5m) 间隔5分钟分组) 
 GROUP BY *按所有tag对查询结果进行分组。
 GROUP BY <tag_key>按指定的一个tag对查询结果进行分组。
 
@@ -360,12 +362,26 @@ select * from test group by app
 # h小时
 # d天
 # w星期
+
 WHERE time >= '2018-06-18T12:00:00Z' AND time <= '2018-06-19T04:35:00Z'
 
 # 时间计算 (注意空格)
 WHERE time > '2015-09-18T21:24:00Z' + 6m
 
 WHERE time > now() - 1h
+
+
+秒级：
+select * from disk where time >= 1542954639s and time <= 1542964713s
+ 
+毫秒级:
+select * from disk where time >= 1542954639000ms and time <= 1542964714000ms
+ 
+纳秒级：
+select * from disk where time >= 1542954639000000000ms and time <= 1542964714000000000ms
+
+调整时区查询（北京时间）
+select * from disk where time >= '2018-11-23 14:30:39' and time <= '2018-11-23 14:32:32' tz('Asia/Shanghai')
 
 
 # 模糊查询
