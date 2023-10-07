@@ -47,6 +47,7 @@ https://github.com/0voice/interview_internal_reference
 - [6. 生产实践 案例](#6-生产实践-案例)
 - [软考](#软考)
 - [外企外包](#外企外包)
+- [remote working](#remote-working)
 
 
 # 1. 简历
@@ -258,3 +259,42 @@ Wipro
 Fujitsu
 
 https://brandirectory.com/rankings/it-services/table 排名
+
+# remote working
+
+```sh
+
+Atlassian jira
+
+https://www.atlassian.com/company/careers
+https://www.atlassian.com/engineering
+https://www.atlassian.com/company/careers/resources
+
+Automattic (wordpress)
+
+Buffer
+
+Glitch、Github、Zapier、Invision
+
+gitlab
+
+
+https://github.com/LinuxSuRen/remote-jobs-in-china
+
+https://github.com/alinebastos/remote
+
+https://github.com/xubaifuCode/CN.Remote.Jobs
+
+https://github.com/georgemandis/remote-working-list
+
+https://github.com/greatghoul/remote-working
+
+https://github.com/apachecn/awesome-indie-zh
+
+https://www.zhihu.com/question/21274834
+
+https://sspai.com/post/73284
+
+https://github.com/search?q=%E8%BF%9C%E7%A8%8B&ref=opensearch&type=repositories&p=13
+
+```

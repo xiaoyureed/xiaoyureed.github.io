@@ -57,6 +57,8 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
 - [4. 和 react 一起打包](#4-和-react-一起打包)
 - [5. Spring Boot中的注解](#5-spring-boot中的注解)
     - [5.1. @ConfigurationProperties 和 @Value](#51-configurationproperties-和-value)
+        - [基本使用-注入值](#基本使用-注入值)
+        - [ConfigurationProperties 和 Bean 配合使用](#configurationproperties-和-bean-配合使用)
     - [5.2. @EnableConfigurationProperties](#52-enableconfigurationproperties)
     - [5.3. @EnableAutoConfiguration](#53-enableautoconfiguration)
     - [5.4. @ComponentScan](#54-componentscan)
@@ -889,7 +891,10 @@ TODO
 
 ## 5.1. @ConfigurationProperties 和 @Value
 
+### 基本使用-注入值
+
 @Value 是core container的feature。不支持宽松绑定，不支持Meta-data。但支持spELl。
+
 @ConfigurationProperties 则支持宽松绑定，支持Meta-data。但不支持spELl。
 
 @ConfigurationProperties一般只用来处理环境信息，不用来注入自定义属性（这段不知道翻译得准不准，原文如下：Even if the configuration above will create a regular bean for FooProperties, we recommend that @ConfigurationProperties only deal with the environment and in particular does not inject other beans from the context. Having said that, The @EnableConfigurationProperties annotation is also automatically applied to your project so that any existing bean annotated with @ConfigurationProperties will be configured from the Environment.）   
@@ -928,15 +933,24 @@ public class MyProps {
 }
 ```
 
+### ConfigurationProperties 和 Bean 配合使用
+
 除了可以使用@ConfigurationProperties注解一个类，还可以在@Bean方法上使用；需要绑定属性到不受你控制的第三方组件时，这种方式非常有用。  
 
-为了从环境属性配置一个bean，将@ConfigurationProperties添加到它的bean注册过程,任何以foo为前缀的属性定义都会被映射到FooComponent上：  
-
 ```java
+// 为了从环境属性配置一个bean，将@ConfigurationProperties添加到它的bean注册过程,任何以foo为前缀的属性定义都会被映射到FooComponent上：  
+// 
 @ConfigurationProperties(prefix = "foo")
 @Bean
 public FooComponent fooComponent() {
 ...
+}
+
+// DataSource 是第三方类库, 如下绑定值就非常方便
+ @Bean
+@ConfigurationProperties(prefix="spring.datasource")
+public DataSource druid() {
+    return new DruidDataSource();
 }
 ```
 

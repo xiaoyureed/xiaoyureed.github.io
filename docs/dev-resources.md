@@ -848,6 +848,13 @@ https://planetscale.com/pricing
 tidb free 5g
 
 https://neon.tech/ 基于 pg
+
+
+内嵌数据库 embedded database
+h2, sqlite
+https://github.com/chdb-io/chdb   SQL OLAP Engine, powered by ClickHouse
+
+https://github.com/jbellis/jvector 向量搜索引擎
 ```
 
 ## web 开发
