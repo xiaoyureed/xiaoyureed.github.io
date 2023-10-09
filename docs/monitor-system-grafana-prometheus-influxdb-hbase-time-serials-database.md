@@ -101,19 +101,26 @@ ELK + Telegraf + Grafana
 
 ### 开源方案
 
+
+- InfluxDB, 单机开源的时序数据库,由Go语言编写(v3 版本转到rust了), 分布式需要付费, 通过 grafana 进行仪表盘展示
+
+    Influxdata的组合有：telegraf+Influxdb+Kapacitor+Chronograf
+
+- TimescaleDB , 固定Schema，底层基于PG
+
+- mongodb 分布式方案成熟
+    - https://www.mongodb.com/blog/post/schema-design-for-time-series-data-in-mongodb 官方教程
+
+- 涛思
+
+- Clickhouse 不成熟
+
 - OpenTSDB ,底层采用HBase作为存储
 
 - Prometheus, 保存在内存数据库中，并且定时保存到硬盘上。需要远端存储来保证可靠和扩展性
 
     Promethues的组合有：exporter+prometheus server+AlertManager+Grafana
 
-- InfluxDB, 单机开源的时序数据库,由Go语言编写, 分布式需要付费, 通过 grafana 进行仪表盘展示
-
-    Influxdata的组合有：telegraf+Influxdb+Kapacitor+Chronograf
-
-- Timescale, 固定Schema，底层基于PG
-
-- Clickhouse
 
 
 ### influxdb 和 promethus 区别

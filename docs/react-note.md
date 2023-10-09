@@ -81,6 +81,12 @@ http://huziketang.mangojuice.top/books/react/ 实战
 https://github.com/helloqingfeng/Awsome-Front-End-learning-resource 大前端
 https://github.com/qiu-deqing/FE-interview , https://github.com/markyun/My-blog/tree/master/Front-end-Developer-Questions 面试题
 
+https://github.com/fouber/blog
+
+https://github.com/mqyqingfeng/Blog
+
+https://github.com/yygmind/blog
+
 </div>
 
 <!--more-->
