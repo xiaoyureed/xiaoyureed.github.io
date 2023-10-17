@@ -2549,6 +2549,10 @@ yum groupinstall "Development Tools"
 https://www.zsythink.net/archives/1199
 
 
+Netfilter/Iptables 是Linux系统自带的防火墙，Iptables管理规则，Netfilter则是规则的执行者，它们一起实现Linux下安全防护
+
+如 Centos 下的 Firewalld 和 Ubuntu 下的ufw, 是对 iptables 的包装
+
 
 
 

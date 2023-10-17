@@ -699,4 +699,10 @@ pnpm <cmd>
 pnpm update/up/upgrade
 
 pnpm remove/rm/uninstall/un <xxx> [-g/--global]
+
+
+
+pnpm exec jest # npx jest
+
+pnpm dlx create-react-app my-app # npx create-react-app my-app
 ```

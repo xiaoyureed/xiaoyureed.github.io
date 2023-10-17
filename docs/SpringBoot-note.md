@@ -98,6 +98,9 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
     - [13.2. logback](#132-logback)
 - [14. cqrs模式](#14-cqrs模式)
 - [15. 数据层](#15-数据层)
+    - [集成 elasticSearch es](#集成-elasticsearch-es)
+        - [基于 spring boot data](#基于-spring-boot-data)
+        - [基于原生 es 客户端](#基于原生-es-客户端)
     - [集成 influxdb](#集成-influxdb)
     - [15.1. canal 订阅](#151-canal-订阅)
     - [15.2. mybatis 自动建表插件](#152-mybatis-自动建表插件)
@@ -1868,6 +1871,378 @@ https://www.jianshu.com/p/1ff824bc997a?utm_campaign
 ```
 
 # 15. 数据层
+
+## 集成 elasticSearch es
+
+### 基于 spring boot data
+
+```xml
+<!-- 这个依赖会包含Elasticsearch的Java API和Spring Data Elasticsearch模块。Spring Data Elasticsearch模块提供了一组实用的工具和方法来简化数据访问层的开发 -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+</dependency>
+
+```
+
+```yml
+spring:
+  data:
+    elasticsearch:
+      cluster-name: my-cluster-name
+      cluster-nodes: 127.0.0.1:9300
+
+```
+
+```java
+// 通过ElasticsearchRepository提供的方法，我们可以轻松实现索引的增删改查操作
+public interface ArticleRepository extends ElasticsearchRepository<Article, Long> {
+}
+
+
+
+// specify the index name (db name) and doc type(table name)
+@Document(indexName = "article_index", type = "article")
+public class Article {
+ 
+    @Id
+    private Long id;
+​
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
+    private String title;
+​
+    @Field(type = FieldType.Keyword)
+    private String author;
+​
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
+    private String content;
+​
+    @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
+    
+    // 省略getter/setter方法
+}
+
+
+
+// save data
+articleRepository.save(article);
+// delete
+articleRepository.deleteById(1L);
+// update
+Optional<Article> optional = articleRepository.findById(1L);
+if (optional.isPresent()) {
+    Article article = optional.get();
+    article.setContent("Spring Data Elasticsearch is powerful.");
+    articleRepository.save(article);
+}
+
+
+
+// query by id
+Optional<Article> optional = articleRepository.findById(1L);
+
+
+// 根据关键词查询数据
+Pageable pageable = PageRequest.of(0, 10);
+String keyword = "easy";
+HighlightBuilder.Field titleField = new HighlightBuilder.Field("title")
+        .preTags("<em>").postTags("</em>");
+SearchQuery searchQuery = new NativeSearchQueryBuilder()
+// NativeSearchQueryBuilder提供了丰富的方法来构建各种查询语句，例如termQuery、rangeQuery、boolQuery等
+        .withQuery(QueryBuilders.matchQuery("title", keyword))
+        .withPageable(pageable)
+        // 高亮显示搜索结果
+       .withHighlightFields(titleField); 
+        // 使用过滤器筛选数据
+       .withFilter(FilterBuilders.termFilter("author", "binjie09"))
+        .build();
+Page<Article> articlePage = articleRepository.search(searchQuery);
+List<Article> articleList = articlePage.getContent();
+for (Article article : articleList) {
+    String title = article.getTitle();
+    if (article.getHighlights().size() > 0) {
+        title = article.getHighlights().get(0).getFragments()[0].toString();
+    }
+    System.out.println(title);
+}
+
+
+
+```
+
+
+### 基于原生 es 客户端
+
+```xml
+
+<!-- ES 客户端 -->
+<dependency>
+    <groupId>org.elasticsearch.client</groupId>
+    <artifactId>elasticsearch-rest-high-level-client</artifactId>
+    <version>${elasticsearch.version}</version>
+</dependency>
+<!-- ES 版本 -->
+<dependency>
+    <groupId>org.elasticsearch</groupId>
+    <artifactId>elasticsearch</artifactId>
+    <version>${elasticsearch.version}</version>
+</dependency>
+
+```
+
+
+```java
+@Configuration
+public class ESConfig {
+    @Value("${yunshangxue.elasticsearch.hostlist}")
+    private String hostlist; // 127.0.0.1:9200
+ 
+    @Bean // 高版本客户端
+    public RestHighLevelClient restHighLevelClient() {
+        // 解析 hostlist 配置信息。假如以后有多个，则需要用 ， 分开
+        String[] split = hostlist.split(",");
+        // 创建 HttpHost 数组，其中存放es主机和端口的配置信息
+        HttpHost[] httpHostArray = new HttpHost[split.length];
+        for (int i = 0; i < split.length; i++) {
+            String item = split[i];
+            httpHostArray[i] = new HttpHost(item.split(":")[0], Integer.parseInt(item.split(":")[1]), "http");
+        }
+        // 创建RestHighLevelClient客户端
+        return new RestHighLevelClient(RestClient.builder(httpHostArray));
+    }
+ 
+    // 项目主要使用 RestHighLevelClient，对于低级的客户端暂时不用
+    @Bean
+    public RestClient restClient() {
+        // 解析hostlist配置信息
+        String[] split = hostlist.split(",");
+        // 创建HttpHost数组，其中存放es主机和端口的配置信息
+        HttpHost[] httpHostArray = new HttpHost[split.length];
+        for (int i = 0; i < split.length; i++) {
+            String item = split[i];
+            httpHostArray[i] = new HttpHost(item.split(":")[0], Integer.parseInt(item.split(":")[1]), "http");
+        }
+        return RestClient.builder(httpHostArray).build();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+// 删除索引
+// 操作索引的对象
+    IndicesClient indices = client.indices();
+    // 删除索引的请求
+    DeleteIndexRequest deleteIndexRequest = new DeleteIndexRequest("ysx_course");
+    // 删除索引
+    DeleteIndexResponse response = indices.delete(deleteIndexRequest);
+    // 得到响应
+    boolean b = response.isAcknowledged()
+
+
+
+
+// 创建
+// 操作索引的对象
+    IndicesClient indices = client.indices();
+    // 创建索引的请求
+    CreateIndexRequest request = new CreateIndexRequest("ysx_course");
+    // 指定 ES 库分片的数量和副本的数量
+    request.settings(Settings.builder().put("number_of_shards", "1").put("number_of_replicas", "0"));
+    // 创建映射
+    // 在创建索引的时候可以将映射一起指定了
+    // "doc" 是 type (相当于 table name)
+    request.mapping("doc", "{\n" +
+            "                \"properties\": {\n" +
+            "                    \"description\": {\n" +
+            "                        \"type\": \"text\",\n" +
+            "                        \"analyzer\": \"ik_max_word\",\n" +
+            "                        \"search_analyzer\": \"ik_smart\"\n" +
+            "                    },\n" +
+            "                    \"name\": {\n" +
+            "                        \"type\": \"text\",\n" +
+            "                        \"analyzer\": \"ik_max_word\",\n" +
+            "                        \"search_analyzer\": \"ik_smart\"\n" +
+            "                    },\n" +
+            "\"pic\":{                    \n" +
+            "\"type\":\"text\",                        \n" +
+            "\"index\":false                        \n" +
+            "},                    \n" +
+            "                    \"price\": {\n" +
+            "                        \"type\": \"float\"\n" +
+            "                    },\n" +
+            "                    \"studymodel\": {\n" +
+            "                        \"type\": \"keyword\"\n" +
+            "                    },\n" +
+            "                    \"timestamp\": {\n" +
+            "                        \"type\": \"date\",\n" +
+            "                        \"format\": \"yyyy-MM‐dd HH:mm:ss||yyyy‐MM‐dd||epoch_millis\"\n" +
+            "                    }\n" +
+            "                }\n" +
+            "            }", XContentType.JSON);
+ 
+ 
+    // 执行创建操作
+    CreateIndexResponse response = indices.create(request);
+    // 得到响应
+    boolean b = response.isAcknowledged()
+{
+    "properties": {
+        "description": { // 课程描述
+            "type": "text", // String text 类型
+            "analyzer": "ik_max_word", // 存入的分词模式：细粒度
+            "search_analyzer": "ik_smart" // 查询的分词模式：粗粒度
+        },
+        "name": { // 课程名称
+            "type": "text",
+            "analyzer": "ik_max_word",
+            "search_analyzer": "ik_smart"
+        },
+        "pic":{ // 图片地址
+            "type":"text", 
+            "index":false // 地址不用来搜索，因此不为它构建索引
+        },
+        "price": { // 价格
+         "type": "scaled_float", // 有比例浮点
+         "scaling_factor": 100 // 比例因子 100
+        },
+        "studymodel": {
+            "type": "keyword" // 不分词，全关键字匹配
+        },
+        "timestamp": {
+            "type": "date",
+            "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        }
+    }
+}
+
+
+
+
+
+
+// 查询
+// 搜索请求对象
+    SearchRequest searchRequest = new SearchRequest("ysx_course"); // 指定 index name
+    // 指定类型
+    searchRequest.types("doc");
+    // 搜索源构建对象
+    SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+
+
+    // 搜索方式
+    // 
+    // matchAllQuery搜索全部
+    searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+    // 
+    // 精确查询 TermQuery
+    // 在搜索时会整体匹配关键字，不再将请求中的关键字分词
+    searchSourceBuilder.query(QueryBuilders.termQuery("studymodel", "201002"));
+    // 根据 id 查
+    searchSourceBuilder.query(QueryBuilders.termQuery("_id", "1"));
+    searchSourceBuilder.query(QueryBuilders.termsQuery("_id", "1"));
+    // 
+    // MatchQuery 即全文检索，会对关键字进行分词后匹配词条。
+    searchSourceBuilder.query(QueryBuilders.matchQuery("description", "Spring开发框架")
+        // 匹配占比
+        // 设置"minimum_should_match": "80%"表示，三个词在文档的匹配占比为80%，即3*0.8=2.4，向下取整得2，表示至少有两个词在文档中要匹配成功。
+        .minimumShouldMatch("70%"));
+    // 
+    // 多字段联合搜索 MultiQuery
+    // 假如用户输入了某关键字，我们在查找的时候并不知道他输入的是 name 还是 description，这时我们用什么都不合适，而 MultiQuery 的出现解决了这个问题
+    searchSourceBuilder.query(QueryBuilders.multiMatchQuery("Spring开发框架", "name", "description").minimumShouldMatch("70%"))
+        .field("name", 10)); // 设置 name 10倍权重, 比重越高的域当他符合条件时计算的得分越高，相应的该记录也更靠前。
+    // 
+    // 布尔查询 BoolQuery
+    // 如果我们既要对一些字段进行分词查询，同时要对另一些字段进行精确查询，就需要使用布尔查询来实现了
+    // 有三个可选的参数：
+    // must：文档必须匹配must所包括的查询条件，相当于 “AND”
+    // should：文档应该匹配should所包括的查询条件其中的一个或多个，相当于 "OR"
+    // must_not：文档不能匹配must_not所包括的该查询条件，相当于“NOT”
+    //
+    // 首先构造多关键字查询条件
+    MultiMatchQueryBuilder matchQueryBuilder = QueryBuilders.multiMatchQuery("Spring开发框架", "name", "description").field("name", 10);
+    // 然后构造精确匹配查询条件
+    TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("studymodel", "201002");
+    // 组合两个条件，组合方式为 must 全满足
+    BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+    boolQueryBuilder.must(matchQueryBuilder);
+    boolQueryBuilder.must(termQueryBuilder);
+    // 定义过滤器查询，是在原本查询结果的基础上对数据进行筛选
+    // 推荐尽量使用过虑器去实现查询
+    // 过滤器在布尔查询中使用
+    // 注意：range和term一次只能对一个Field设置范围过虑。
+    boolQueryBuilder.filter(QueryBuilders.termQuery("studymodel", "201001"));
+    boolQueryBuilder.filter(QueryBuilders.rangeQuery("price").gte(60).lte(100));
+    // 将查询条件封装给查询对象
+    searchSourceBuilder.query(boolQueryBuilder);
+
+
+
+    // 设置源字段过虑,第一个参数结果集包括哪些字段，第二个参数表示结果集不包括哪些字段
+    searchSourceBuilder.fetchSource(new String[]{"name","studymodel","price","timestamp"},new String[]{});
+
+    // 分页
+    int page = 2; // 页码
+    int size = 1; // 每页显示的条数
+    int index = (page - 1) * size;
+    searchSourceBuilder.from(index);
+    searchSourceBuilder.size(1);
+
+
+    // 排序
+    // 我们可以在查询的结果上进行二次排序，支持对 keyword、date、float 等类型添加排序，text类型的字段不允许排序
+    searchSourceBuilder.sort("studymodel", SortOrder.DESC); // 第一排序规则
+    searchSourceBuilder.sort("price", SortOrder.ASC); // 第二排序规则
+
+
+    // 高亮查询
+    HighlightBuilder highlightBuilder = new HighlightBuilder();
+    highlightBuilder.preTags("<em>"); // 高亮前缀
+    highlightBuilder.postTags("</em>"); // 高亮后缀
+    highlightBuilder.fields().add(new HighlightBuilder.Field("name")); // 高亮字段
+    // 添加高亮查询条件到搜索源
+    searchSourceBuilder.highlighter(highlightBuilder);
+
+
+    
+    // 向搜索请求对象中设置搜索源
+    searchRequest.source(searchSourceBuilder);
+
+    SearchResponse searchResponse = client.search(searchRequest);
+    SearchHits hits = searchResponse.getHits();
+    // 匹配到的总记录数
+    long totalHits = hits.getTotalHits();
+    // 得到匹配度高的文档
+    SearchHit[] searchHits = hits.getHits();
+    for(SearchHit hit:searchHits){
+        // 文档的主键
+        String id = hit.getId();
+        // 源文档内容
+        Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+        String name = (String) sourceAsMap.get("name");
+        // 由于前边设置了源文档字段过虑，这时description是取不到的
+        String description = (String) sourceAsMap.get("description");
+        String studymodel = (String) sourceAsMap.get("studymodel");
+        Double price = (Double) sourceAsMap.get("price");
+        Date timestamp = dateFormat.parse((String) sourceAsMap.get("timestamp"));
+
+        // 高亮文本
+        Map<String, HighlightField> highlightFields = hit.getHighlightFields();
+
+    }
+
+
+```
 
 ## 集成 influxdb
 

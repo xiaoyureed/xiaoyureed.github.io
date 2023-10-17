@@ -8,6 +8,9 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
+https://github.com/PostgresApp/PostgresApp mac 独立 app
+https://github.com/TablePlus/dbngin
+
 https://www.zhihu.com/question/20010554
 https://juejin.cn/post/6959903781366530079
 

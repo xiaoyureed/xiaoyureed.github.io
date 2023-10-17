@@ -373,6 +373,41 @@ https://www.cnblogs.com/betterwgo/p/11571275.html
 
 - nested , 防止 数组内的对象扁平化存储, 检索时出 bug
 
+```sh
+
+（1）字符串类型： text, keyword
+
+（2）数字类型：long, integer, short, byte, double, float, half_float, scaled_float
+
+（3）日期：date
+
+（4）日期 纳秒：date_nanos
+
+（5）布尔型：boolean
+
+（6）Binary：binary
+
+（7）Range: integer_range, float_range, long_range, double_range, date_range
+
+
+数组类型
+        在Elasticsearch中，数组不需要一个特定的数据类型，任何字段都默认可以包含一个或多个值，当然，这多个值都必须是字段指定的数据类型。
+
+
+复杂数据类型
+（1）Object: object(for single JSON objects)
+
+（2）Nested: nested (for arrays of JSON objects)
+     防止 数组内的对象扁平化存储, 检索时出 bug
+
+
+
+地理数据类型
+（1）Geo-point： geo_point （for lat/lon points）
+
+（2）Geo-shape: geo_shape (for complex shapes like polygons)
+```
+
 ### Java client
 
 

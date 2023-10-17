@@ -6,13 +6,15 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
+https://coolshell.cn/articles/19219.html
+https://github.com/Bash-it/bash-it
 
 https://www.bilibili.com/video/BV14L4y157Bv?p=19&vd_source=c2f975abf353677cb814e38e073b6a75
 
 https://github.com/wangdoc/bash-tutorial
 https://github.com/jaywcjlove/shell-tutorial
 
-<!-- more -->
+<!-- truncate -->
 
 
 - [1. shell script](#1-shell-script)

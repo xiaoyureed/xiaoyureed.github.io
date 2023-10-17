@@ -7,6 +7,7 @@ toc_max_heading_level: 5
 ---
 
 开发相关 资源 & 链接
+https://github.com/ripienaar/free-for-dev 免费云资源
 
 https://github.com/jhaddix/pentest-bookmarks 高质量书签集合
 TODO

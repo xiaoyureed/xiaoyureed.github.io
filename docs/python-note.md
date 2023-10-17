@@ -130,71 +130,77 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [2.9.6. 枚举](#296-枚举)
         - [2.9.7. 实例方法 类方法 静态方法](#297-实例方法-类方法-静态方法)
     - [2.10. 错误异常处理](#210-错误异常处理)
-- [工程化](#工程化)
-    - [包管理](#包管理)
-    - [日志](#日志)
-    - [单元测试](#单元测试)
-- [5. 多进程](#5-多进程)
-- [6. 异步](#6-异步)
-- [7. 内建模块](#7-内建模块)
-    - [7.1. 日期处理](#71-日期处理)
-    - [7.2. 集合](#72-集合)
-- [8. 编写命令行程序](#8-编写命令行程序)
-    - [8.1. 命令行自动补全](#81-命令行自动补全)
-- [9. 类型系统 type-hint](#9-类型系统-type-hint)
-- [10. 调试](#10-调试)
-    - [10.1. 断言](#101-断言)
-    - [10.2. 设置断点 pdb](#102-设置断点-pdb)
-- [11. jinja2 模板](#11-jinja2-模板)
-- [12. 路径问题](#12-路径问题)
-    - [12.1. 文件路径 and 终端路径](#121-文件路径-and-终端路径)
-    - [12.2. 获取脚本位置](#122-获取脚本位置)
-- [13. shutil 使用](#13-shutil-使用)
-- [14. venv 虚拟环境](#14-venv-虚拟环境)
-- [15. web 开发](#15-web-开发)
-    - [15.1. fastapi](#151-fastapi)
-    - [15.2. Django](#152-django)
-    - [15.3. flask](#153-flask)
-        - [15.3.1. flask解决跨域问题](#1531-flask解决跨域问题)
-        - [15.3.2. 保护 flask api](#1532-保护-flask-api)
-        - [15.3.3. 命令行or idea 启动](#1533-命令行or-idea-启动)
-        - [15.3.4. rest api](#1534-rest-api)
-        - [15.3.5. 数据库交互](#1535-数据库交互)
-        - [15.3.6. flask 中的日志](#1536-flask-中的日志)
-        - [15.3.7. blueprint蓝图 模块化开发](#1537-blueprint蓝图-模块化开发)
-        - [15.3.8. 上下文对象](#1538-上下文对象)
-    - [15.4. fastapi](#154-fastapi)
-- [16. db 驱动 问题](#16-db-驱动-问题)
-- [17. 代替 shell 运维](#17-代替-shell-运维)
-    - [17.1. 实用脚本](#171-实用脚本)
-        - [17.1.1. 命令行参数解析](#1711-命令行参数解析)
-        - [17.1.2. 路径](#1712-路径)
-        - [17.1.3. 文件操作](#1713-文件操作)
-        - [17.1.4. sh 命令执行](#1714-sh-命令执行)
-    - [17.2. 传递命令行参数](#172-传递命令行参数)
-    - [17.3. shell 调用 Python](#173-shell-调用-python)
-        - [17.3.1. shel 读取 Python 函数返回值](#1731-shel-读取-python-函数返回值)
-        - [17.3.2. 统计出现次数](#1732-统计出现次数)
-        - [17.3.3. 读取 csv 文件](#1733-读取-csv-文件)
-    - [17.4. Python 调用 shell](#174-python-调用-shell)
-        - [17.4.1. subprocess](#1741-subprocess)
-        - [17.4.2. os.system](#1742-ossystem)
-        - [17.4.3. os.popen](#1743-ospopen)
-        - [17.4.4. system](#1744-system)
-        - [17.4.5. sh](#1745-sh)
-        - [17.4.6. paramiko](#1746-paramiko)
-    - [17.5. 部署 springboot](#175-部署-springboot)
-- [18. 开源库](#18-开源库)
-    - [变声 语音合成](#变声-语音合成)
-    - [18.1. 系统运维](#181-系统运维)
-    - [18.2. 声音](#182-声音)
-    - [18.3. 图像](#183-图像)
-    - [18.4. 数据模型定义](#184-数据模型定义)
-    - [18.5. 序列化反序列化](#185-序列化反序列化)
-    - [web 框架](#web-框架)
-- [19. jython](#19-jython)
-- [20. 调用 rust](#20-调用-rust)
-- [cffi 绑定](#cffi-绑定)
+- [3. 工程化](#3-工程化)
+    - [cookiecutter 项目模板](#cookiecutter-项目模板)
+    - [3.1. 包管理](#31-包管理)
+        - [poetry](#poetry)
+    - [格式化](#格式化)
+    - [代码检测](#代码检测)
+    - [3.2. 日志](#32-日志)
+    - [生成文档](#生成文档)
+    - [任务自动化](#任务自动化)
+    - [3.3. 单元测试](#33-单元测试)
+- [4. 多进程](#4-多进程)
+- [5. 异步](#5-异步)
+- [6. 内建模块](#6-内建模块)
+    - [6.1. 日期处理](#61-日期处理)
+    - [6.2. 集合](#62-集合)
+- [7. 编写命令行程序](#7-编写命令行程序)
+    - [7.1. 命令行自动补全](#71-命令行自动补全)
+- [8. 类型系统 type-hint](#8-类型系统-type-hint)
+- [9. 调试](#9-调试)
+    - [9.1. 断言](#91-断言)
+    - [9.2. 设置断点 pdb](#92-设置断点-pdb)
+- [10. jinja2 模板](#10-jinja2-模板)
+- [11. 路径问题](#11-路径问题)
+    - [11.1. 文件路径 and 终端路径](#111-文件路径-and-终端路径)
+    - [11.2. 获取脚本位置](#112-获取脚本位置)
+- [12. shutil 使用](#12-shutil-使用)
+- [13. venv 虚拟环境](#13-venv-虚拟环境)
+- [14. web 开发](#14-web-开发)
+    - [14.1. fastapi](#141-fastapi)
+    - [14.2. Django](#142-django)
+    - [14.3. flask](#143-flask)
+        - [14.3.1. flask解决跨域问题](#1431-flask解决跨域问题)
+        - [14.3.2. 保护 flask api](#1432-保护-flask-api)
+        - [14.3.3. 命令行or idea 启动](#1433-命令行or-idea-启动)
+        - [14.3.4. rest api](#1434-rest-api)
+        - [14.3.5. 数据库交互](#1435-数据库交互)
+        - [14.3.6. flask 中的日志](#1436-flask-中的日志)
+        - [14.3.7. blueprint蓝图 模块化开发](#1437-blueprint蓝图-模块化开发)
+        - [14.3.8. 上下文对象](#1438-上下文对象)
+    - [14.4. fastapi](#144-fastapi)
+- [15. db 驱动 问题](#15-db-驱动-问题)
+- [16. 代替 shell 运维](#16-代替-shell-运维)
+    - [16.1. 实用脚本](#161-实用脚本)
+        - [16.1.1. 命令行参数解析](#1611-命令行参数解析)
+        - [16.1.2. 路径](#1612-路径)
+        - [16.1.3. 文件操作](#1613-文件操作)
+        - [16.1.4. sh 命令执行](#1614-sh-命令执行)
+    - [16.2. 传递命令行参数](#162-传递命令行参数)
+    - [16.3. shell 调用 Python](#163-shell-调用-python)
+        - [16.3.1. shel 读取 Python 函数返回值](#1631-shel-读取-python-函数返回值)
+        - [16.3.2. 统计出现次数](#1632-统计出现次数)
+        - [16.3.3. 读取 csv 文件](#1633-读取-csv-文件)
+    - [16.4. Python 调用 shell](#164-python-调用-shell)
+        - [16.4.1. subprocess](#1641-subprocess)
+        - [16.4.2. os.system](#1642-ossystem)
+        - [16.4.3. os.popen](#1643-ospopen)
+        - [16.4.4. system](#1644-system)
+        - [16.4.5. sh](#1645-sh)
+        - [16.4.6. paramiko](#1646-paramiko)
+    - [16.5. 部署 springboot](#165-部署-springboot)
+- [17. 开源库](#17-开源库)
+    - [17.1. 变声 语音合成](#171-变声-语音合成)
+    - [17.2. 系统运维](#172-系统运维)
+    - [17.3. 声音](#173-声音)
+    - [17.4. 图像](#174-图像)
+    - [17.5. 数据模型定义](#175-数据模型定义)
+    - [17.6. 序列化反序列化](#176-序列化反序列化)
+    - [17.7. web 框架](#177-web-框架)
+- [18. jython](#18-jython)
+- [19. 调用 rust](#19-调用-rust)
+- [20. cffi 绑定](#20-cffi-绑定)
 - [21. web应用部署](#21-web应用部署)
     - [21.1. 生成依赖清单](#211-生成依赖清单)
     - [21.2. gunicorn](#212-gunicorn)
@@ -2029,9 +2035,21 @@ def error_handling():
 
 ```
 
-# 工程化
+# 3. 工程化
 
-## 包管理
+## cookiecutter 项目模板
+
+https://github.com/cookiecutter/cookiecutter
+
+```sh
+
+pip3 install -U cookiecutter
+
+cookiecutter https://github.com/pyloong/cookiecutter-pythonic-project
+
+```
+
+## 3.1. 包管理
 
 ```sh
 
@@ -2045,7 +2063,29 @@ https://github.com/mitsuhiko/rye
 
 ```
 
-## 日志
+### poetry
+
+```sh
+# 安装最新版 pip
+# -m pip: 使用Python模块的方式来调用pip，即通过pip模块来执行操作。
+# -U: 选项表示要更新已安装的包。如果已经安装了pip，使用-U选项可以将其升级到最新版本。
+python3 -m pip install -U pip
+pip install -U poetry
+
+```
+
+
+## 格式化
+
+https://pycqa.github.io/isort/
+
+## 代码检测
+
+https://www.pylint.org/
+
+## 3.2. 日志
+
+
 
 ```py
 def log_handling():
@@ -2060,9 +2100,22 @@ def log_handling():
 
 ```
 
-## 单元测试
 
-pytest 更灵活方便:
+## 生成文档
+
+https://www.mkdocs.org/
+
+https://squidfunk.github.io/mkdocs-material/ 主题
+
+## 任务自动化
+
+https://tox.wiki/en/latest/
+
+## 3.3. 单元测试
+
+pytest 更灵活方便 (prefered):
+
+https://github.com/pytest-dev/pytest-cov 覆盖率
 
 ```py
 https://www.cnblogs.com/wxcx/p/13709570.html
@@ -2180,7 +2233,7 @@ def doc_test():
 ```
 
 
-# 5. 多进程
+# 4. 多进程
 
 https://jeremyxu2010.github.io/2020/09/python%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%AE%9E%E6%88%98/ 自带方式
 
@@ -2319,7 +2372,7 @@ def muti_thread():
 ```
 
 
-# 6. 异步
+# 5. 异步
 
 ```py
 
@@ -2432,9 +2485,9 @@ def async_io():
 ```
 
 
-# 7. 内建模块
+# 6. 内建模块
 
-## 7.1. 日期处理
+## 6.1. 日期处理
 
 ```py
 def builtin_module():
@@ -2461,7 +2514,7 @@ def builtin_module():
 
 ```
 
-## 7.2. 集合
+## 6.2. 集合
 
 
 ```py
@@ -2509,11 +2562,11 @@ from collections import defaultdict
 
 
 
-# 8. 编写命令行程序
+# 7. 编写命令行程序
 
 https://www.jianshu.com/p/005ecf9cf8aa TODO
 
-## 8.1. 命令行自动补全
+## 7.1. 命令行自动补全
 
 https://www.cnblogs.com/lgh344902118/p/8521437.html
 
@@ -2521,7 +2574,7 @@ https://www.cnblogs.com/lgh344902118/p/8521437.html
 
 
 
-# 9. 类型系统 type-hint
+# 8. 类型系统 type-hint
 
 https://www.zhihu.com/question/265003581/answer/461562594
 https://zhuanlan.zhihu.com/p/56863684
@@ -2557,9 +2610,9 @@ https://docs.python.org/zh-cn/3/library/typing.html
 ```
 
 
-# 10. 调试
+# 9. 调试
 
-## 10.1. 断言
+## 9.1. 断言
 
 类似 print, 
 
@@ -2583,7 +2636,7 @@ Traceback (most recent call last):
 ZeroDivisionError: division by zero
 ```
 
-## 10.2. 设置断点 pdb
+## 9.2. 设置断点 pdb
 
 启动Python的调试器pdb `python -m pdb err.py`, 输入命令l来查看代码, 输入命令n可以单步执行代码, 何时候都可以输入命令p 变量名来查看变量, 输入命令q结束调试，退出程序
 
@@ -2613,7 +2666,7 @@ ZeroDivisionError: division by zero
 
 
 
-# 11. jinja2 模板
+# 10. jinja2 模板
 
 渲染使用：
 
@@ -2731,13 +2784,13 @@ template.render(name='daxin',age=18)   # 渲染
 
 ```
 
-# 12. 路径问题
+# 11. 路径问题
 
-## 12.1. 文件路径 and 终端路径
+## 11.1. 文件路径 and 终端路径
 
 需要用命令行操作的时候，也就有参数 argv的时候，我们要求终端路径和Python文件路径一致。命令行运行程序的格式是：python+Python文件名+参数
 
-## 12.2. 获取脚本位置
+## 11.2. 获取脚本位置
 
 ```py
 if __name__ == '__main__':
@@ -2775,7 +2828,7 @@ if __name__ == '__main__':
 
 ```
 
-# 13. shutil 使用
+# 12. shutil 使用
 
 TODO
 
@@ -2798,7 +2851,7 @@ shutil.move('原文件夹/原文件名','目标文件夹/目标文件名')
 
 ```
 
-# 14. venv 虚拟环境
+# 13. venv 虚拟环境
 
 推荐 venv (virtualenv 过时了):
 
@@ -2898,7 +2951,7 @@ source .venv/bin/activate
 
 
 
-# 15. web 开发
+# 14. web 开发
 
 https://www.zhihu.com/question/20706333/answer/24927602 有哪些框架
 https://www.zhihu.com/question/41564604/answer/660256963 对比
@@ -2913,13 +2966,13 @@ https://www.zhihu.com/question/41564604/answer/660256963 对比
 
     内嵌了HTTP服务器
 
-## 15.1. fastapi
+## 14.1. fastapi
 
 开发 rest api 非常方便 https://juejin.cn/post/6844904051327369224
 
 https://github.com/nsidnev/fastapi-realworld-example-app
 
-## 15.2. Django
+## 14.2. Django
 
 ```sh
 # 升级 pip 到 v21
@@ -2953,24 +3006,24 @@ python manage.py shell
 ```
 
 
-## 15.3. flask
+## 14.3. flask
 
 
 https://github.com/humiaozuzu/awesome-flask
 
 https://github.com/yangyuexiong/Flask_BestPractices 中文
 
-### 15.3.1. flask解决跨域问题
+### 14.3.1. flask解决跨域问题
 
 https://blog.csdn.net/h18208975507/article/details/102551339
 
-### 15.3.2. 保护 flask api
+### 14.3.2. 保护 flask api
 
 https://blog.miguelgrinberg.com/post/restful-authentication-with-flask
 https://geekflare.com/securing-flask-api-with-jwt/
 
 
-### 15.3.3. 命令行or idea 启动
+### 14.3.3. 命令行or idea 启动
 
 
 ```sh
@@ -2989,7 +3042,7 @@ flask run [--host=0.0.0.0]
 
 若希望走 main 方法, 需要手动配置 启动 configuration
 
-### 15.3.4. rest api
+### 14.3.4. rest api
 
 https://www.jianshu.com/p/a25357f2d930 jsonify 相比直接返回 dict/json.dump({}) 的好处
 
@@ -3017,7 +3070,7 @@ def get_data():
 
 https://blog.csdn.net/pineapple_C/article/details/113339718 拦截器
 
-### 15.3.5. 数据库交互
+### 14.3.5. 数据库交互
 
 
 
@@ -3103,7 +3156,7 @@ https://stackoverflow.com/questions/17972020/how-to-execute-raw-sql-in-flask-sql
 
 
 
-### 15.3.6. flask 中的日志
+### 14.3.6. flask 中的日志
 
 https://www.jianshu.com/p/daf5c9e57c65
 
@@ -3210,11 +3263,11 @@ if __name__ == '__main__':
     app.run()
 ```
 
-### 15.3.7. blueprint蓝图 模块化开发
+### 14.3.7. blueprint蓝图 模块化开发
 
 https://realpython.com/flask-blueprint/
 
-### 15.3.8. 上下文对象
+### 14.3.8. 上下文对象
 
 https://sentry.io/answers/working-outside-of-application-context/ current_app 使用 (`RuntimeError: working outside of application context`报错)
 
@@ -3227,13 +3280,13 @@ https://zhuanlan.zhihu.com/p/26097310
 https://www.zhihu.com/question/33970027
 
 
-## 15.4. fastapi
+## 14.4. fastapi
 
 
 https://github.com/tiangolo/fastapi
 
 
-# 16. db 驱动 问题
+# 15. db 驱动 问题
 
 mac 无法安装 postgres 驱动
 
@@ -3242,7 +3295,7 @@ mac 无法安装 postgres 驱动
 如果还是不行 `pip install psycopg2-binary==2.8.3` ([参考](https://stackoverflow.com/questions/34304833/failed-building-wheel-for-psycopg2-macosx-using-virtualenv-and-pip))
 
 
-# 17. 代替 shell 运维
+# 16. 代替 shell 运维
 
 https://www.oschina.net/translate/python-scripts-replacement-bash-utility-scripts
 https://blog.51cto.com/dashui/2334754
@@ -3251,12 +3304,12 @@ https://www.cnblogs.com/jacktian-it/articles/10222930.html
 https://github.com/lalor/python_for_linux_system_administration 书籍
 
 
-## 17.1. 实用脚本
+## 16.1. 实用脚本
 
 https://zhuanlan.zhihu.com/p/85728888
 TODO
 
-### 17.1.1. 命令行参数解析
+### 16.1.1. 命令行参数解析
 
 ```py
 # $# 取参数数量
@@ -3269,7 +3322,7 @@ sys.argv[0]
 
 ```
 
-### 17.1.2. 路径
+### 16.1.2. 路径
 
 ```py
 # 获取脚本所在路径
@@ -3287,7 +3340,7 @@ for name in glob.glob('dir/*'):
     print (name)
 ```
 
-### 17.1.3. 文件操作
+### 16.1.3. 文件操作
 
 推荐 shutil 模块, 代替很多shell的文件操作命令，可以避免特殊情况字符转义带来的困扰
 
@@ -3314,7 +3367,7 @@ for path,dir_list,file_list in g:
         print(os.path.join(path, file_name))        
 ```
 
-### 17.1.4. sh 命令执行
+### 16.1.4. sh 命令执行
 
 ```py
 # system命令同步执行命令，返回值为程序退出码
@@ -3340,7 +3393,7 @@ rootfs_dirs = res.strip().split('\n')
 # todo: 使用第三方sh模块 http://amoffat.github.io/sh/
 ```
 
-## 17.2. 传递命令行参数
+## 16.2. 传递命令行参数
 
 通过 sys.stdin, sys.stdout
 
@@ -3371,9 +3424,9 @@ if __name__ == "__main__":
 
 `cat names.log | python namescount.py | sort -rn`
 
-## 17.3. shell 调用 Python 
+## 16.3. shell 调用 Python 
 
-### 17.3.1. shel 读取 Python 函数返回值
+### 16.3.1. shel 读取 Python 函数返回值
 
 ```py
 
@@ -3385,7 +3438,7 @@ if __name__ == "__main__":
 
 ```
 
-### 17.3.2. 统计出现次数
+### 16.3.2. 统计出现次数
 
 ```py
 #!/usr/bin/env python
@@ -3413,7 +3466,7 @@ if __name__ == "__main__":
 `cat names.log | ./xxx.py`
 
 
-### 17.3.3. 读取 csv 文件
+### 16.3.3. 读取 csv 文件
 
 获取指定列
 
@@ -3444,10 +3497,10 @@ if __name__ == "__main__":
 ```
 
 
-## 17.4. Python 调用 shell
+## 16.4. Python 调用 shell
 
 
-### 17.4.1. subprocess 
+### 16.4.1. subprocess 
 
 推荐
 
@@ -3509,7 +3562,7 @@ print(stdout)
 
 ```
 
-### 17.4.2. os.system
+### 16.4.2. os.system
 
 
 ```py
@@ -3560,7 +3613,7 @@ retval = os.getcwd()
 
 ```
 
-### 17.4.3. os.popen
+### 16.4.3. os.popen
 
 
 ```py
@@ -3578,7 +3631,7 @@ output.close()
 
 ```
 
-### 17.4.4. system
+### 16.4.4. system
 
 ```py
 def cd(dir): system.command('cd {}'.format(dir))
@@ -3587,13 +3640,13 @@ def cd(dir): system.command('cd {}'.format(dir))
 
 
 
-### 17.4.5. sh
+### 16.4.5. sh
 
 ```py
 # 使用 sh 包
 ```
 
-### 17.4.6. paramiko
+### 16.4.6. paramiko
 
 https://github.com/paramiko/paramiko
 https://www.cnblogs.com/xiao-apple36/p/9144092.html
@@ -3734,7 +3787,7 @@ sftp.get(remotepath, localpath)
 tran.close()
 ```
 
-## 17.5. 部署 springboot
+## 16.5. 部署 springboot
 
 ```py
 #!/usr/bin/python
@@ -3808,35 +3861,35 @@ else:
 
 
 
-# 18. 开源库
+# 17. 开源库
 
 https://www.zhihu.com/question/24590883
 TODO
 
 https://pypi.org/
 
-## 变声 语音合成
+## 17.1. 变声 语音合成
 
 https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI
 
-## 18.1. 系统运维
+## 17.2. 系统运维
 
 ```
 https://github.com/giampaolo/psutil 获取系统信息, 硬盘, 内存 ...
 ```
 
-## 18.2. 声音
+## 17.3. 声音
 
 https://github.com/CorentinJ/Real-Time-Voice-Cloning 克隆声音
 
-## 18.3. 图像
+## 17.4. 图像
 
 - Matplotlib 可视化库，可以用来绘制高质量的 2D 折线图、散点图、柱状图，或者用来显示图像
 - pil 图像处理库, 适用于 Python2, py3 则安装 pillow
 - opencv-python `import cv2`
 - Removebg 抠图
 
-## 18.4. 数据模型定义
+## 17.5. 数据模型定义
 
 https://github.com/samuelcolvin/pydantic/ 使得实例化数据 model 对象更方便
 
@@ -3851,11 +3904,11 @@ https://github.com/bauerji/flask_pydantic 校验请求参数
 https://medium.com/swlh/parsing-rest-api-payload-and-query-parameters-with-flask-better-than-marshmallow-aa79c889e3ca
 
 
-## 18.5. 序列化反序列化
+## 17.6. 序列化反序列化
 
 pickle
 
-## web 框架
+## 17.7. web 框架
 
 Django 大一统解决方案
 
@@ -3865,7 +3918,7 @@ https://github.com/pynecone-io/pynecone 纯 py 实现 web
 
 https://streamlit.io/       为脚本制作 ui 界面
 
-# 19. jython
+# 18. jython
 
 相互调用
 
@@ -3929,7 +3982,7 @@ public class App {
 ```
 
 
-# 20. 调用 rust 
+# 19. 调用 rust 
 
 https://www.v2ex.com/t/757216
 
@@ -3938,7 +3991,7 @@ https://blog.csdn.net/m0_37696990/article/details/96876692
 https://blog.csdn.net/muzico425/article/details/103331676
 
 
-# cffi 绑定
+# 20. cffi 绑定
 
 https://github.com/yifeikong/curl_cffi 例子
 
