@@ -100,6 +100,11 @@ v2ray
 # ip
 v2ray ip
 
+# vps ip 发生变化, 可以通过
+v2ray # 进入菜单, 选择 3-查看配置, 查看新的 vmess 链接
+# 然后在 shellclash
+clash # 选择 6-导入配置文件 ...
+
 ```
 
 
@@ -109,6 +114,7 @@ v2ray ip
 sudo -i #切换到root用户，如果需要密码，请输入密码
 bash #如已处于bash环境可跳过
 
+# 一键安装
 #GitHub源(可能需要代理)
 export url='https://raw.githubusercontent.com/juewuy/ShellClash/master' && sh -c "$(curl -kfsSl $url/install.sh)" && source /etc/profile &> /dev/null
 # or
