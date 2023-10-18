@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[6158],{42643:function(l){l.exports=JSON.parse('{"label":"shell","permalink":"/docs/tags/shell","allTagsPath":"/docs/tags","count":1,"items":[{"id":"shell-bash-note","title":"shell-bash\u811a\u672c\u6536\u96c6","description":"https://coolshell.cn/articles/19219.html","permalink":"/docs/shell-bash-note"}]}')}}]);
