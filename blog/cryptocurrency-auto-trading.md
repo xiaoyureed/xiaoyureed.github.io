@@ -19,6 +19,22 @@ https://academy.binance.com/zh/articles/what-are-decentralized-applications-dapp
 
 spring boot + nextjs
 
+## project initialization
+
+```sh
+# frontend
+
+pnpm dlx create-next-app@latest
+# or
+pnpm create next-app antd-demo
+
+pp i antd -S
+pnpm install @ant-design/cssinjs --save
+
+
+# backend
+```
+
 ## 设计
 
 - 自动转账 

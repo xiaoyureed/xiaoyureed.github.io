@@ -16,6 +16,8 @@ https://ui.shadcn.com/
 https://v0.dev/
 
 https://github.com/merakiui/merakiui tailwindcss 组件
+https://github.com/htmlstreamofficial/preline 
+
 https://nextui.org/
 https://daisyui.com/
 https://www.radix-ui.com/

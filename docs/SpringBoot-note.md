@@ -53,7 +53,6 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
         - [3.3.1. bean 复制 克隆](#331-bean-复制-克隆)
         - [3.3.2. 字符串](#332-字符串)
         - [3.3.3. 编解码](#333-编解码)
-    - [3.4. 文件操作](#34-文件操作)
 - [4. 和 react 一起打包](#4-和-react-一起打包)
 - [5. Spring Boot中的注解](#5-spring-boot中的注解)
     - [5.1. @ConfigurationProperties 和 @Value](#51-configurationproperties-和-value)
@@ -173,6 +172,7 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
         - [16.4.1. RequestMappingHandlerMapping](#1641-requestmappinghandlermapping)
         - [16.4.2. request matcher](#1642-request-matcher)
         - [16.4.3. request condition](#1643-request-condition)
+    - [http文件传输操作](#http文件传输操作)
     - [16.5. 接收参数相关的注解](#165-接收参数相关的注解)
     - [16.6. 自定义接收参数类型](#166-自定义接收参数类型)
     - [16.7. 返回图片](#167-返回图片)
@@ -824,60 +824,6 @@ public static String getMD5(String str) {
         String base = str + "/" + salt;
         String md5 = DigestUtils.md5DigestAsHex(base.getBytes());
         return md5;
-    }
-
-```
-
-## 3.4. 文件操作
-
-```java
-// springboot 原生 文件下载
-
-@GetMapping("/download")
-public ResponseEntity<Resource> download(HttpServletResponse httpServletResponse,
-                                            @RequestParam("id") String objId) throws Exception {
-    final MongoSysFileServiceImpl.DownloadFileVo downloadFileVo = sysFileService.downloadFile(objId);
-    if (downloadFileVo == null) {
-        throw new RuntimeException("指定文件不存在, objId = " + objId);
-    }
-
-    return ResponseEntity.ok()
-            .contentType(MediaType.parseMediaType("application/octet-stream"))
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + downloadFileVo.getFilename() + "\"")
-            .body(new InputStreamResource(downloadFileVo.getIs()));
-
-}
-
-//上传
- @PostMapping(value = "upload")
-public R<SysFile> upload(@RequestPart("file") MultipartFile file)
-{
-    try
-    {
-        // 上传并返回访问地址
-        final MongoSysFileServiceImpl.UploadFileResp uploadFileResp = sysFileService.uploadFile(file);
-        SysFile sysFile = new SysFile();
-        sysFile.setObjId(uploadFileResp.getObjId());
-        sysFile.setName(uploadFileResp.getGeneratedName());
-        return R.ok(sysFile);
-    }
-    catch (Exception e)
-    {
-        log.error("上传文件失败", e);
-        return R.fail(e.getMessage());
-    }
-}
-//feign client 远程调用
-@PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-public R<SysFile> upload(@RequestPart(value = "file") MultipartFile file);
-
-
-
-// 传递 文件 , 同时传递请求参数
-@PostMapping("/add")
-    public AjaxResult add( EstimateFile estimateFile, @RequestPart("files") MultipartFile[] files)
-    { //@RequestPart("estimateFile")
-        return toAjax(estimateFileService.insertEstimateFile(estimateFile, files));
     }
 
 ```
@@ -2524,8 +2470,10 @@ com.mysql.cj.jdbc.Driver
 
 oracle:
 1.使用service_name,配置方式: jdbc:oracle:thin:@//:1521/helowin
-2.使用SID，配置方式：         jdbc:oracle:thin:@//:1521/helowin
-3.使用SID，配置方式：         jdbc:oracle:thin:@:1521:helowin
+                            jdbc:oracle:thin:@localhost:1521:XE
+                            jdbc:oracle:thin:@//10.20.32.19:1521/ORCLPDB1?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+2.使用SID，配置方式(@后没'//')：        jdbc:oracle:thin:@localhost:1521/helowin
+3.使用oci，配置方式：         jdbc:oracle:oci:@localhost:1521:XE
 oracle.jdbc.driver.OracleDriver
 
 
@@ -4286,9 +4234,67 @@ AbstractRequestCondition 实现了equals,hashCode和toString 通用方法, 还�
 - ProducesRequestCondition	可生成MIME匹配条件
 
 
+
+## http文件传输操作
+
+```java
+// springboot 原生 文件下载
+
+@GetMapping("/download")
+public ResponseEntity<Resource> download(HttpServletResponse httpServletResponse,
+                                            @RequestParam("id") String objId) throws Exception {
+    final MongoSysFileServiceImpl.DownloadFileVo downloadFileVo = sysFileService.downloadFile(objId);
+    if (downloadFileVo == null) {
+        throw new RuntimeException("指定文件不存在, objId = " + objId);
+    }
+
+    return ResponseEntity.ok()
+            .contentType(MediaType.parseMediaType("application/octet-stream"))
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + downloadFileVo.getFilename() + "\"")
+            .body(new InputStreamResource(downloadFileVo.getIs()));
+
+}
+
+//上传
+ @PostMapping(value = "upload")
+public R<SysFile> upload(@RequestPart("file") MultipartFile file)
+{
+    try
+    {
+        // 上传并返回访问地址
+        final MongoSysFileServiceImpl.UploadFileResp uploadFileResp = sysFileService.uploadFile(file);
+        SysFile sysFile = new SysFile();
+        sysFile.setObjId(uploadFileResp.getObjId());
+        sysFile.setName(uploadFileResp.getGeneratedName());
+        return R.ok(sysFile);
+    }
+    catch (Exception e)
+    {
+        log.error("上传文件失败", e);
+        return R.fail(e.getMessage());
+    }
+}
+//feign client 远程调用
+@PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+public R<SysFile> upload(@RequestPart(value = "file") MultipartFile file);
+
+
+
+// 传递 文件 , 同时传递请求参数
+@PostMapping("/add")
+    public AjaxResult add( EstimateFile estimateFile, @RequestPart("files") MultipartFile[] files)
+    { //@RequestPart("estimateFile")
+        return toAjax(estimateFileService.insertEstimateFile(estimateFile, files));
+    }
+
+```
+
+
 ## 16.5. 接收参数相关的注解
 
 ```java
+// 
+// https://blog.csdn.net/u012894692/article/details/115875674
 @RequestParam 可以用于从query parameters, form data, 和parts in multipart requests中获取参数。
 
 即GET请求和POST（application/x-www-form-urlencoded ，multipart/form-data）请求的参数都可以使用@RequestParam

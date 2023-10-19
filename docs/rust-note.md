@@ -11894,6 +11894,8 @@ https://github.com/jonhoo/flurry  A port of Java's ConcurrentHashMap to Rust
 
 https://github.com/boa-dev/boa js JavaScript 引擎
 
+https://github.com/RustPython/RustPython python 引擎
+
 # 22. 开源项目
 
 https://zhuanlan.zhihu.com/p/62325234
@@ -11953,6 +11955,7 @@ https://github.com/TaKO8Ki/awesome-alternatives-in-rust
 
 
 https://github.com/pingcap/talent-plan 课程
+https://github.com/google/comprehensive-rust
 
 https://github.com/meilisearch/MeiliSearch 搜索引擎, 类似 algolia, 不过是开源的
 
