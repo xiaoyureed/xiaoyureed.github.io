@@ -50,6 +50,7 @@ https://github.com/Amazingwujun/mqttx
 - [iot brief intro](#iot-brief-intro)
 - [mqtt 协议](#mqtt-协议)
     - [mqtt broker 服务端选型](#mqtt-broker-服务端选型)
+- [硬件设备协议](#硬件设备协议)
 - [网络接入选型](#网络接入选型)
 - [基于 Java 生态的物联网系统](#基于-java-生态的物联网系统)
     - [功能划分](#功能划分)
@@ -134,6 +135,14 @@ https://learnku.com/articles/46174 rabbitmq
 ```
 
 桌面客户端 https://github.com/emqx/MQTTX
+
+## 硬件设备协议
+
+ModbusTcp，PLC，TCP/ip, opcServer
+
+M2M协议、工业协议
+
+熟悉无线传感网络、以太网、现场总线等通讯技术，了解RFID、ZigBee、Wi-Fi、WIA-PA、蓝牙4.0、UWB等技术，掌握主流传感器应用方案
 
 ## 网络接入选型
 
