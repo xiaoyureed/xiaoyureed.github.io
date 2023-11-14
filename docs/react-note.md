@@ -269,6 +269,7 @@ https://github.com/yygmind/blog
     - [33.3. 为样式文件编写 types](#333-为样式文件编写-types)
     - [33.4. 配置 css 跳转](#334-配置-css-跳转)
 - [34. 开源库](#34-开源库)
+    - [效率开发](#效率开发)
     - [可视化库](#可视化库)
     - [auth ui](#auth-ui)
     - [34.1. How to search the scaffold (boilerplate) on github 脚手架](#341-how-to-search-the-scaffold-boilerplate-on-github-脚手架)
@@ -4428,6 +4429,8 @@ https://blog.csdn.net/andy_zhang2007/article/details/89393005 和 webjars
 
 # 33. 和 typescript 一起使用
 
+https://github.com/labs42io/clean-code-typescript
+
 https://github.com/jkchao/typescript-book-chinese
 https://www.v2ex.com/t/948292#reply52
 
@@ -4958,6 +4961,10 @@ https://www.jianshu.com/p/641bcac7754b
 
 
 # 34. 开源库
+
+## 效率开发
+
+https://github.com/payloadcms/payload 快速创还能 crud, 可视化组合各种技术栈
 
 ## 可视化库
 

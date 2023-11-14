@@ -63,6 +63,8 @@ https://elasticsearch.cn/ 中文社区
 
 ## 开源替代
 
+https://www.v2ex.com/t/983693#reply16
+
 https://github.com/opensearch-project/OpenSearch
 
 https://github.com/opensearch-project/OpenSearch-Dashboards
