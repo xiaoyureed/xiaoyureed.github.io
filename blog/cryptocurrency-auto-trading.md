@@ -24,6 +24,7 @@ spring boot + nextjs
 ```sh
 # frontend
 
+# pnpm dlx 等价 pnpx
 pnpm dlx create-next-app@latest
 # or
 pnpm create next-app antd-demo

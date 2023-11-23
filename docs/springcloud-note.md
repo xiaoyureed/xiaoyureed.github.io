@@ -657,6 +657,8 @@ spring:
 
 ### 6.3.3. feign client interceptor
 
+https://www.cnblogs.com/keeya/p/13559151.html#feignclient-%E6%B3%A8%E8%A7%A3%E5%8F%82%E6%95%B0
+
 ```java
 public class FeignBasicAuthRequestInterceptor implements RequestInterceptor {
 

@@ -27,7 +27,7 @@ https://github.com/wangdoc/javascript-tutorial/tree/master/docs
 <!-- TOC -->
 
 - [1. 常用的命令](#1-常用的命令)
-    - [1.1. 升级 node](#11-升级-node)
+    - [1.1. 升级 node/npm](#11-升级-nodenpm)
     - [1.2. 国内源 国内镜像](#12-国内源-国内镜像)
     - [1.3. yarn 命令](#13-yarn-命令)
     - [1.4. npm 基本使用](#14-npm-基本使用)
@@ -59,22 +59,34 @@ https://github.com/wangdoc/javascript-tutorial/tree/master/docs
 
 # 1. 常用的命令
 
-## 1.1. 升级 node
+## 1.1. 升级 node/npm
 
 ```shell
 # 升级node (https://blog.csdn.net/hl449006540/article/details/79698905)
+# 升级npm 需要先升级node
 # 先清除 npm cache
 npm cache clean -f
+npm view node versions # node所有版本
 # 通过 n 来管理版本
 npm install -g n
-npm view node versions # node所有版本
 # 升级到最新稳定版
 sudo n stable
 # 最新版
 sudo n latest
 # 指定版本
 n 15.0.0
+# 删除版本
+n rm 7.10.0 
 
+
+
+# or
+# 用NVM来升级nodejs
+nvm --version
+nvm install 7.10.0
+nvm install lastest
+nvm install stable
+nvm install node --lts
 ```
 
 ## 1.2. 国内源 国内镜像
