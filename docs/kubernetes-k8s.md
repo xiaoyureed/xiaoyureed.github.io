@@ -3862,6 +3862,9 @@ arkade info - the post-install screen for an app
 
 ## 21. reference materials
 
+https://github.com/chaseSpace/k8s-tutorial-cn/tree/main
+https://github.com/guangzhengli/k8s-tutorials
+https://jp.v2ex.com/t/821329
 
 https://github.com/techiescamp/kubernetes-learning-path
 https://github.com/guangzhengli/k8s-tutorials
