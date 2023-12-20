@@ -2660,7 +2660,65 @@ todo
 
 ## 15.8. 整合 spring jdbc
 
-https://www.cnblogs.com/liyihua/p/12333967.html
+```java
+定义映射类:
+
+- @Table：映射自定义的表名。非JPA注解
+- @Column：映射自定义的列名，非JPA注解
+- @Id：修饰标识属性，非JPA注解
+- @PersistenceConstructor：修饰主构造器。当你的映射类中有多个构造器时，
+                           你希望Spring Data JDBC用哪个构造器来创建对象，
+                           就用该注解来修饰该构造器。
+
+在DAO接口中让DAO接口继承CrudRepository或PagingAndSortingRepository。
+
+    定义方法名关键字查询、
+        findByNameLike(xxx)
+        findByAgeGreaterThan
+        findByAgeLessThan
+        findByAgeBetween
+
+    
+    @Query查询、
+        @query("select * from user_info where password like :pwd")
+        List<User> findBySql(String pwd);
+
+        @query("update xxx set name = :name where age between :startAge and :endAge")
+        @Modifying
+        int updateNamebyAge(int startAge, int endAge, String name);
+    
+    完全自定义查询
+        即可用DataSource，也用JdbcTemplate。
+        //创建数据库连接
+        Connection connection = this.dataSource.getConnection();
+        //创建 PreparedStatement 预处理语句
+        PreparedStatement pstmt = connection.prepareStatement("select * from user_inf where name like ?");
+        pstmt.setString(1, namePattern);
+        //执行查询
+        ResultSet rs = pstmt.executeQuery();
+        List<User> userList = new ArrayList<>();
+        //遍历结果集，封装对象
+        while (rs.next())
+        {
+            userList.add(new User(
+                    rs.getInt("user_id"),
+                    rs.getString("name"),
+                    rs.getString("password"),
+                    rs.getInt("age")
+            ));
+        }
+
+
+
+         //直接执行查询
+        List<User> userList = this.jdbcTemplate.query(
+                "select user_id as id,name ,password,age from user_inf where name like ?",
+                //把查询的结果封装起来
+                new BeanPropertyRowMapper<>(User.class),
+                namePattern
+        );
+
+```
 
 ## 15.9. 整合 hibernate (即 jpa)
 

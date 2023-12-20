@@ -43,9 +43,12 @@ https://github.com/jetlinks/rule-engine
         - [launch](#launch)
         - [query definition](#query-definition)
         - [delete definition](#delete-definition)
-    - [query instance](#query-instance)
+        - [query nodes ordered](#query-nodes-ordered)
+        - [query instance](#query-instance)
         - [query history activity](#query-history-activity)
         - [query history task](#query-history-task)
+        - [query todo task](#query-todo-task)
+        - [complete task](#complete-task)
 
 
 
@@ -363,7 +366,67 @@ for (ProcessDefinition processDefinition : list) {
 				//repositoryService.deleteDeployment(deploymentId, true)
 ```
 
-### query instance
+#### query nodes ordered
+
+```java
+/**
+   * 获取流程节点
+   *
+   * @param definitionId 流程定义ID
+   * @param processId 流程ID（可能为子流程），也就是流程定义Key
+   * @return
+   */
+  protected List<FlowElement> getProcessDefinitionNodes(String definitionId, String processId) {
+    BpmnModel bpmnModel = repositoryService.getBpmnModel(definitionId);
+    List<Process> processes = Lists.newArrayList();
+    if (StrUtil.isNotEmpty(processId)) {
+      processes.add(bpmnModel.getProcessById(processId));
+    } else {
+      processes = bpmnModel.getProcesses();
+    }
+    List<FlowElement> flowElements = Lists.newArrayList();
+    processes.forEach(process -> flowElements.addAll(process.getFlowElements()));
+    return flowElements;
+  }  
+
+
+
+
+
+
+
+  // 获取流程定义的XML文件
+
+String processDefinitionId = "myProcess:1:4";
+
+BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
+
+String xmlContent = new String(new BpmnXMLConverter().convertToXML(bpmnModel), "UTF-8");
+
+
+
+// 解析XML文件，获取流程图节点信息
+
+Document document = DocumentHelper.parseText(xmlContent);
+
+Element root = document.getRootElement();
+
+List<Element> flowElements = root.element("process").elements();
+
+
+
+// 获取节点信息
+
+for (Element element : flowElements) {
+
+String id = element.attributeValue("id");
+
+String name = element.attributeValue("name");
+
+String type = element.getName();
+```
+
+#### query instance
 
 ```java
 //获取流程引擎
@@ -433,3 +496,47 @@ for (ProcessDefinition processDefinition : list) {
 				System.out.println("=======================================");
 			}
 ```
+
+#### query todo task
+
+```java
+//        任务负责人
+        String assignee = "zhangsan";
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+//        创建TaskService
+        TaskService taskService = processEngine.getTaskService();
+//        根据流程key 和 任务负责人 查询任务
+        List<Task> list = taskService.createTaskQuery()
+                .processDefinitionKey("myEvection") //流程Key
+                .taskAssignee(assignee)//只查询该任务负责人的任务
+                .list();
+
+        for (Task task : list) {
+
+            System.out.println("流程实例id：" + task.getProcessInstanceId());
+            System.out.println("任务id：" + task.getId());
+            System.out.println("任务负责人：" + task.getAssignee());
+            System.out.println("任务名称：" + task.getName());
+
+        }
+```
+
+#### complete task
+
+```java
+//        获取引擎
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+//        获取taskService
+        TaskService taskService = processEngine.getTaskService();
+
+//        根据流程key 和 任务的负责人 查询任务
+//        返回一个任务对象
+        Task task = taskService.createTaskQuery()
+                .processDefinitionKey("myEvection") //流程Key
+                .taskAssignee("zhangsan")  //要查询的负责人
+                .singleResult();
+
+//        完成任务,参数：任务id
+        taskService.complete(task.getId());
+```
+

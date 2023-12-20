@@ -29,6 +29,8 @@ https://testerhome.com/
 
 - [1. Testcontainers](#1-testcontainers)
 - [2. spring-boot-starter-test](#2-spring-boot-starter-test)
+    - [基本用法](#基本用法)
+    - [参数化测试](#参数化测试)
 - [3. AssertJ](#3-assertj)
 - [4. Mockito](#4-mockito)
     - [4.1. 和 springboot 配合使用](#41-和-springboot-配合使用)
@@ -55,6 +57,8 @@ https://testerhome.com/
 
 ## 2. spring-boot-starter-test
 
+### 基本用法
+
 用于 spring boot 单元测试
 
 ```xml
@@ -79,6 +83,97 @@ https://testerhome.com/
 - 可以用ApplicationContextRunner，该类是一个标准的，无web的环境。
 
 - 可以直接用ApplicationContext，该类是Spring为应用程序提供配置的核心接口，例如AnnotationConfigApplicationContext
+
+
+### 参数化测试
+
+```java
+@ParameterizedTest(name = "第 {index} 次测试，参数：{0}")  // 默认的测试执行名称格式为[序号]参数1=XXX, 参数2=YYY...，可以通过修改name属性自定义测试执行名称。如果每次测试参数有多个，则依次为：{0}、{1}、{2}...
+@ValueSource(ints = { 1, 10, 100 })  // @ValueSource(ins=xxx, strings=xxx, ....)
+                            // 在使用字符串作为入参时，有时可能会用到null，不能直接将null写入@ValueSource注解的strings数组中（编译器会报错）。可使用@NullSource注解, 将空值注入参数集合中
+                            //同@NullSource类似，使用字符串作为入参时如果需要使用空字符串，可以使用@EmptySource。
+                            //类似的 @NullAndEmptySource注解
+@EnumSource是枚举数据源, JUnit 根据测试方法参数类型判断使用哪个枚举
+@CsvSource 可以处理多个参数的测试方法
+@CsvFileSource
+@MethodSource("paramProvider") // 同个类下的静态方法
+@MethodSource("com.example.demo.DemoUnitTest#paramProvider") // 其他类的方法
+@ArgumentsSource(CustomArgumentsProvider.class) 自定义
+public void test(int value) {
+    Assertions.assertTrue(value < 100);
+}
+
+
+// 参数转换 JavaTimeConversionPattern
+@ParameterizedTest
+@ValueSource(strings = { "2021/12/01", "2021/12/10" })
+public void test(@JavaTimeConversionPattern("yyyy/MM/dd") LocalDate date) {
+    System.out.println(date);
+}
+// 自定义参数转换器
+@ParameterizedTest
+@ValueSource(strings = { "1", "10", "100" })
+public void test(@ConvertWith(CustomConversionPattern.class) Integer value) {
+    System.out.println(value);
+}
+
+// 聚合器。
+// 每行记录有多个column
+@ParameterizedTest
+@CsvSource({
+        "2021/12/01, Wednesday, Sunny",
+        "2021/12/10, Friday, Rainy",
+        "2021/12/13, Monday, Chilly"
+})
+public void test(ArgumentsAccessor argumentsAccessor) {
+    LocalDate date = LocalDate.parse(argumentsAccessor.getString(0), DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+    String dayOfWeek = argumentsAccessor.getString(1);
+    String weather = argumentsAccessor.getString(2);
+    System.out.println(date + " -- " + dayOfWeek + " -- " + weather);
+}
+
+// 自定义
+@ParameterizedTest
+    @CsvSource({
+            "2021/12/01, Wednesday, Sunny",
+            "2021/12/10, Friday, Rainy",
+            "2021/12/13, Monday, Chilly"
+    })
+    public void test(@AggregateWith(TestDataAggregator.class) TestData testData) {
+        System.out.println(testData.getDate() + " -- " + testData.getDayOfWeek() + " -- " + testData.getWeather());
+    }
+
+public class TestDataAggregator implements ArgumentsAggregator {
+
+    @Override
+    public Object aggregateArguments(ArgumentsAccessor arg0, ParameterContext arg1)
+            throws ArgumentsAggregationException {
+        TestData testData = new TestData();
+        testData.setDate(LocalDate.parse(arg0.getString(0), DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+        testData.setDayOfWeek(arg0.getString(1));
+        testData.setWeather(arg0.getString(2));
+        return testData;
+    }
+}
+
+
+// 将上一步中@AggregateWith(TestDataAggregator.class)封装成自定义注解。
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.PARAMETER)
+@AggregateWith(TestDataAggregator.class)
+public @interface CsvToTestData {
+}
+
+@ParameterizedTest
+@CsvSource({
+        "2021/12/01, Wednesday, Sunny",
+        "2021/12/10, Friday, Rainy",
+        "2021/12/13, Monday, Chilly"
+})
+public void test(@CsvToTestData TestData testData) {
+    System.out.println(testData.getDate() + " -- " + testData.getDayOfWeek() + " -- " + testData.getWeather());
+}
+```
 
 
 ## 3. AssertJ
