@@ -320,9 +320,10 @@ toc_max_heading_level: 5
     - [21.5. 图片处理](#215-图片处理)
     - [21.6. 游戏开发三方库](#216-游戏开发三方库)
     - [21.7. 系统信息](#217-系统信息)
-    - [21.8. web 开发发](#218-web-开发发)
+    - [21.8. web 开发](#218-web-开发)
         - [21.8.1. swagger openapi 生成](#2181-swagger-openapi-生成)
         - [21.8.2. web框架](#2182-web框架)
+    - [i18n](#i18n)
         - [21.8.3. orm](#2183-orm)
         - [21.8.4. http client](#2184-http-client)
     - [21.9. 序列化反序列化](#219-序列化反序列化)
@@ -351,6 +352,7 @@ toc_max_heading_level: 5
     - [21.25. 分发工具](#2125-分发工具)
     - [21.26. 并发编程](#2126-并发编程)
     - [21.27. gui 图形库](#2127-gui-图形库)
+    - [可视化库](#可视化库)
     - [21.28. 底层网络 api](#2128-底层网络-api)
     - [21.29. 正则](#2129-正则)
     - [21.30. 随机](#2130-随机)
@@ -11491,7 +11493,7 @@ bevy
 https://github.com/GuillaumeGomez/sysinfo
 
 
-## 21.8. web 开发发
+## 21.8. web 开发
 
 ### 21.8.1. swagger openapi 生成
 
@@ -11518,6 +11520,10 @@ https://github.com/yewstack/yew 使用 jsx 语法写 wasm
 对比选型 http://jiagoushi.pro/book/export/html/334
 
 Zola 静态网站
+
+## i18n
+
+https://github.com/unicode-org/icu4x 可用于资源受限的系统
 
 ### 21.8.3. orm
 
@@ -11835,6 +11841,9 @@ https://github.com/PistonDevelopers/conrod 2d
 
 https://github.com/DioxusLabs/dioxus Fullstack GUI library for desktop, web, mobile, and more.
 
+## 可视化库
+
+https://github.com/yuankunzhang/charming 类似 echarts
 
 ## 21.28. 底层网络 api
 
