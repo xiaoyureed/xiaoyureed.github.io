@@ -17,39 +17,8 @@ caddy 代替 NGINX
 references: [1](https://www.zhihu.com/question/32212996), [2](https://blog.csdn.net/zhongyanpingzzz/article/details/50353111),
 
 </div>
+<!-- TOC -->
 
-<!--more-->
-
-- [比较](#比较)
-    - [Tomcat和jetty](#tomcat和jetty)
-    - [Apache http server和Nginx](#apache-http-server和nginx)
-- [nginx](#nginx)
-    - [使用场景](#使用场景)
-    - [常用命令](#常用命令)
-    - [nginx 无法停止 无法重启](#nginx-无法停止-无法重启)
-    - [nginx.conf 配置文件](#nginxconf-配置文件)
-        - [最简配置](#最简配置)
-        - [配置语法](#配置语法)
-            - [location](#location)
-            - [proxy\_pass](#proxy_pass)
-        - [反向代理配置](#反向代理配置)
-        - [负载均衡配置](#负载均衡配置)
-        - [gzip 压缩](#gzip-压缩)
-        - [websocket 配置](#websocket-配置)
-        - [搭建谷歌镜像站](#搭建谷歌镜像站)
-        - [上 https](#上-https)
-        - [组成元素](#组成元素)
-    - [搭配 docker 使用](#搭配-docker-使用)
-    - [负载均衡配置demo](#负载均衡配置demo)
-    - [nginx和lua脚本](#nginx和lua脚本)
-    - [tengine](#tengine)
-    - [nginx 模块开发](#nginx-模块开发)
-    - [nginx-lua 开发高并发服务](#nginx-lua-开发高并发服务)
-    - [nginx面试题](#nginx面试题)
-        - [nginx是如何实现高并发的](#nginx是如何实现高并发的)
-        - [nginx 和 apache 区别](#nginx-和-apache-区别)
-        - [fastcgi 与 cgi 的区别](#fastcgi-与-cgi-的区别)
-    - [NGINX 配置调优](#nginx-配置调优)
 - [jetty](#jetty)
     - [部署 app 到 jetty 内部](#部署-app-到-jetty-内部)
     - [jetty支持servlet3.0注解](#jetty支持servlet30注解)
@@ -69,61 +38,7 @@ references: [1](https://www.zhihu.com/question/32212996), [2](https://blog.csdn.
         - [Chain of responsibility](#chain-of-responsibility)
     - [Tomcat 优化](#tomcat-优化)
 
-
-# 比较
-
-## Tomcat和jetty
-
-* jetty和Tomcat类似, 均为servlet容器 - 他们都支持标准的servlet规范和JavaEE的规范
-
-* jetty比Tomcat轻量级
-
-* Jetty比tomcat更容易扩展
-
-    * jetty的架构是基于Handler来实现的，主要的扩展功能都可以用Handler来实现，扩展简单. Tomcat的架构是基于容器设计的，进行扩展是需要了解Tomcat的整体设计结构，不易扩展。
-
-    * jetty是使用java编写的，他的api是一组以jar包的形式发布，开发人员可以将jetty容器实例化成一个对象，可以迅速为一些独立（stand-alone）的java应用提供网络和web链接
-
-* 主攻方向不同:
-
-    * jetty可以利用 Continuation 机制来处理大量的用户请求以及时间比较长的连接, 适合于web聊天应用等等,像淘宝的 web 旺旺就是用 Jetty 作为 Servlet 引擎; 
-    
-    * Tomcat适合处理少数非常繁忙的链接，也就是说链接生命周期短的话，Tomcat的总体性能更高
-
-* Tomcat默认采用BIO处理I/O请求，在处理静态资源时，性能较差。Jetty默认采用NIO在处理I/O请求上更占优势，在处理静态资源时，性能较高
-
-* Jetty更满足公有云的分布式环境的需求 ,比如 Google app engine ，而Tomcat更符合企业级环境
-
-## Apache http server和Nginx
-
-* Nginx类似于Apache http server, 不像Tomcat可以支持生成动态页面，但它们可以通过其他模块来支持（例如通过Shell、PHP、Python脚本程序来动态生成内容）
-
-* Tomcat通常和Nginx配合使用
-
-    * 动静态资源分离——运用Nginx的反向代理功能分发请求：所有动态资源的请求交给Tomcat，而静态资源的请求（例如图片、视频、CSS、JavaScript文件等）则直接由Nginx返回到浏览器，这样能大大减轻Tomcat的压力。
-
-    * 负载均衡，当业务压力增大时，可能一个Tomcat的实例不足以处理，那么这时可以启动多个Tomcat实例进行水平扩展，而Nginx的负载均衡功能可以把请求通过算法分发到各个不同的实例进行处理
-
-* Nginx相对于Apache的优点: 轻量级; 抗并发(nginx 处理请求是异步非阻塞的，而apache 则是阻塞型的); 高度模块化的设计，编写模块相对简单; 提供负载均衡;
-
-* Apache优点: apache的 rewrite 比nginx 的强大; 性能稳定，而nginx相对bug较多; Apache 对 PHP 支持比较简单，Nginx 需要配合其他后端用
-
-    * apache rewrite -> http://httpd.apache.org/docs/current/rewrite/, 主要的功能就是实现URL的跳转
-
-
-# nginx
-
-https://www.zhihu.com/question/266535644?sort=created
-http://openresty.org/en/   nginx 和 lua
-
-https://github.com/jaywcjlove/nginx-tutorial
-
-https://docshome.gitbook.io/nginx-docs/ 中文文档
-
-https://github.com/dunwu/nginx-tutorial 入门
-
-
-https://github.com/caddyserver/caddy 替代 nginx , 自动支持 https
+<!-- /TOC -->
 
 ## 使用场景
 
@@ -411,6 +326,10 @@ server {
 ```
 
 ### websocket 配置
+
+https://www.nginx.com/blog/websocket-nginx/
+https://tutorials.tinkink.net/zh-hans/nginx/nginx-websocket-reverse-proxy.html#%E9%85%8D%E7%BD%AE-websocket-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86
+https://www.cnblogs.com/kevingrace/p/9512287.html
 
 ```conf
 ; 可以在 浏览器 console 中测试 new WebSocket('ws://www.example.com/wx');

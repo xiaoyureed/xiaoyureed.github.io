@@ -323,7 +323,7 @@ toc_max_heading_level: 5
     - [21.8. web 开发](#218-web-开发)
         - [21.8.1. swagger openapi 生成](#2181-swagger-openapi-生成)
         - [21.8.2. web框架](#2182-web框架)
-    - [i18n](#i18n)
+        - [i18n](#i18n)
         - [21.8.3. orm](#2183-orm)
         - [21.8.4. http client](#2184-http-client)
     - [21.9. 序列化反序列化](#219-序列化反序列化)
@@ -11521,7 +11521,7 @@ https://github.com/yewstack/yew 使用 jsx 语法写 wasm
 
 Zola 静态网站
 
-## i18n
+### i18n
 
 https://github.com/unicode-org/icu4x 可用于资源受限的系统
 
@@ -11529,6 +11529,9 @@ https://github.com/unicode-org/icu4x 可用于资源受限的系统
 
 Diesel ORM
 
+https://github.com/SeaQL/sea-orm SeaORM
+
+https://github.com/oobot/cherry
 
 ### 21.8.4. http client
 
@@ -11914,6 +11917,8 @@ https://www.zhihu.com/question/30511494
 
 
 # 23. 参考链接
+
+https://write.yiransheng.com/vpn 实现简单vpn
 
 https://github.com/johnthagen/min-sized-rust 减少 缩小二进制包体积
 

@@ -18,9 +18,13 @@ https://www.cnblogs.com/williamjie/p/9448904.html
 
 https://coolshell.cn/articles/21589.html 陈浩 分享
 
-K8s, Kafka, prometheus, grafana, splunk
+K8s, Kafka, prometheus, grafana, splunk   
 
-<!-- more -->
+micrometer  埋点
+https://blog.csdn.net/xionglangs/article/details/132623053
+https://blog.csdn.net/stormjun/article/details/133413030
+
+<!-- truncate -->
 
 - [Spring Boot Actuator 整合 Prometheus](#spring-boot-actuator-整合-prometheus)
 - [grafana](#grafana)

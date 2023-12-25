@@ -21,17 +21,19 @@ http://zhaoda.net/webpack-handbook/module-system.html
 
 - [构建工具简介](#构建工具简介)
 - [vite](#vite)
+    - [chrome 插件编写](#chrome-插件编写)
 - [esbuild](#esbuild)
 - [rollup](#rollup)
 - [webpack](#webpack)
-  - [webpack介绍](#webpack介绍)
-  - [为什么需要 webpack](#为什么需要-webpack)
-  - [webpack安装](#webpack安装)
-  - [webpack.config.js](#webpackconfigjs)
-  - [Loader](#loader)
-  - [命令行](#命令行)
-  - [插件](#插件)
+    - [webpack介绍](#webpack介绍)
+    - [为什么需要 webpack](#为什么需要-webpack)
+    - [webpack安装](#webpack安装)
+    - [webpack.config.js](#webpackconfigjs)
+    - [Loader](#loader)
+    - [命令行](#命令行)
+    - [插件](#插件)
 
+<!-- /TOC -->
 <!-- /TOC -->
 
 # 构建工具简介
@@ -48,6 +50,11 @@ no bundle类主要代表： snowpack, vite.
 
 
 底层使用 esbuild
+
+## chrome 插件编写
+
+https://github.com/crxjs/chrome-extension-tools 一个 vite 插件
+
 
 # esbuild
 

@@ -9,6 +9,8 @@ toc_max_heading_level: 5
 <<图解物联网>>
 
 https://github.com/microsoft/IoT-For-Beginners
+https://iot-book.github.io/1_%E7%89%A9%E8%81%94%E7%BD%91%E6%A6%82%E8%BF%B0/
+https://pdf.dfcfw.com/pdf/H3_AP202202071545436398_1.pdf 2022 行业报告
 
 
 2、熟悉视频编解码及图像处理原理，了解RTPRTCP、rtmp、rtsp等协议
@@ -17,37 +19,15 @@ https://github.com/microsoft/IoT-For-Beginners
 5、有基于开源 IoT平台相关二次开发使用经验;
 6、有边缘-云互通编程开发经验，熟悉AWS greengrass、Service mesh 等开发框架;
 7、有openTSDB 和influxDB等时序数据库实际开发经验;
-8、良好的逻辑思维能力，熟悉业务抽象和数据模型设计，具有很强的分析问题和解决问题的能力
-9 需熟悉modbus、opc、websocket等物联网通信协议，需有过消防监控、视频监控、通信广播、电力监控等物联网对接经验。
-4、熟悉MQTT、COAP/LwM2M、BLE、Modbus等IoT常见通信协议；
-5、熟练使用JProfiler/VisualVM等Java性能优化工具，熟悉Java的IO/内存/数据库性能优化；
-熟悉物联网平台架构设计，熟悉MQTT/CoAP等主流物联网通信协议
-有时空数据库、规则引擎、设备接入管理、边缘计算等物联网服务研发经验者优先
 
-https://github.com/iegomez/mosquitto-go-auth
-
-https://github.com/IoT-Technology/IoT-Technical-Guide
-
-
-https://github.com/HQarroum/awesome-iot
-
-https://github.com/phodal/designiot/
-
-https://www.v2ex.com/t/250870 入门
-
-https://github.com/microsoft/IoT-For-Beginners
-
-https://zditect.com/main/iot-internet-of-things/iot-internet-of-things.html
 
 熟悉消费级物联网的技术生态， 能独立完成物联网系统的设备选型、方案设计、硬件调试和控制软件开发。
 精通主流的物联通讯协议 WiFi/BlueTooth/NFC/RS485/……， 熟练使用 Java/C#/C++ 等语言进行开发集成。
 具备芯片级集成开发经验 STM32/ESP8266/HX711/ATGM336H/74HC595/……
 
-https://github.com/Amazingwujun/mqttx
-
-<!-- truncate -->
-
 - [iot brief intro](#iot-brief-intro)
+    - [定义](#定义)
+    - [场景-行业-厂商](#场景-行业-厂商)
 - [mqtt 协议](#mqtt-协议)
     - [mqtt broker 服务端选型](#mqtt-broker-服务端选型)
 - [硬件设备协议](#硬件设备协议)
@@ -55,17 +35,35 @@ https://github.com/Amazingwujun/mqttx
 - [基于 Java 生态的物联网系统](#基于-java-生态的物联网系统)
     - [功能划分](#功能划分)
     - [集成mqtt](#集成mqtt)
-- [经验之谈](#经验之谈)
+- [八卦谈资](#八卦谈资)
+
+
+
+https://github.com/Amazingwujun/mqttx
+
+<!-- truncate -->
+
+- [iot brief intro](#iot-brief-intro)
+    - [定义](#定义)
+    - [场景-行业-厂商](#场景-行业-厂商)
+- [mqtt 协议](#mqtt-协议)
+    - [mqtt broker 服务端选型](#mqtt-broker-服务端选型)
+- [硬件设备协议](#硬件设备协议)
+- [网络接入选型](#网络接入选型)
+- [基于 Java 生态的物联网系统](#基于-java-生态的物联网系统)
+    - [功能划分](#功能划分)
+    - [集成mqtt](#集成mqtt)
+- [八卦谈资](#八卦谈资)
 
 
 
 ## iot brief intro
 
-物联网（ IoT ）平台是连接设备、传感器、网络和软件应用程序的基础设施，以便收集、存储、分析和交换数据。近年来，物联网领域出现了许多颠覆性创新，这些创新正在改变我们的生活和工作方式。以下是一些颠覆性的物联网创新：
+### 定义
+
+物联网（ IoT ）平台是连接设备、传感器、网络和软件应用程序的基础设施，以便收集、存储、分析和交换数据
 
 物联网应用，不限于家居、矿山、电力、智慧城市、环境、交通等。
-
-https://www.v2ex.com/t/946848?p=2 调研
 
 ```sh
 
@@ -84,6 +82,44 @@ https://www.v2ex.com/t/946848?p=2 调研
 
 无人机和自主机器人：无人机和自主机器人正在与物联网技术相结合，以实现自动巡检、远程监控、物流配送和灾害救援等应用。这些自主设备可以与物联网平台进行实时通信，以实现智能调度和协同作业
 
+```
+
+### 场景-行业-厂商
+
+```sh
+
+工业物联网
+
+    https://www.neuseer.com/ 寄云科技
+
+智慧物流
+    京东物流, 菜鸟网络, G7, 易流科技
+
+能源
+    国家电网, 远景能源
+
+地产/物业
+    云智易, 德立云
+
+社区/园区
+    特斯联
+
+智能家居
+    涂鸦智能, 小米AIot平台
+
+车联网
+
+智慧零售
+
+智慧医疗
+
+农业养殖
+    极飞科技, 托普云农
+
+    自动灌溉, ai自动培育草莓
+
+安全
+    奇虎科技, 青莲云, 梆梆安全,
 ```
 
 ## mqtt 协议
@@ -186,10 +222,19 @@ https://blog.csdn.net/beibei3321/article/details/124187758
 
 ```
 
-## 经验之谈
+
+## 八卦谈资
 
 ```sh
 
-https://v2ex.com/t/946848
+"智慧园区，智慧城市，各种智慧，其实技术上不会有很大难度，重要的是有资源不是，先得有渠道有人采购再做才对，哪个细分领域基本都没有空白市场了，偏传统的行业并不在意差异化和创新，拼的还是人脉资源"
+
+"既然是小城市，就做好地头蛇, 比如细分行业细分场景, 地方产业地方特色, 小地方人脉和客户群比做什么做怎样更重要"
+
+"独一无二的硬件 + 基于硬件构建的全家桶解决方案"
+
+"物联网最大的问题是找不到合适的应用场景，目前在用的物联网场景，大多不是刚需, 大多数也就是个监测，整个数据大屏看看曲线而已，但是这些监测数据 99%都是垃圾，没有人关心, 所以物联网做到最后，基本上就变成了 toG 的生意，甲方主要是 zf 和国企，他们才有预算去做这些面子工程"
+
+做平价智能家居然后协议兼容米家和 homekit 
 
 ```
