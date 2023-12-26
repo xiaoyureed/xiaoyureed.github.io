@@ -19,6 +19,7 @@ https://github.com/jaywcjlove/shell-tutorial
 
 - [1. shell script](#1-shell-script)
     - [1.1. 片段收集](#11-片段收集)
+        - [封装日志函数](#封装日志函数)
         - [处理输入参数](#处理输入参数)
         - [简单ui界面](#简单ui界面)
         - [远程服务器运行本地脚本](#远程服务器运行本地脚本)
@@ -95,6 +96,26 @@ https://github.com/jaywcjlove/shell-tutorial
 https://zhuanlan.zhihu.com/p/264346586
 
 ## 1.1. 片段收集
+
+### 封装日志函数
+
+```sh
+
+#!/bin/bash
+
+set -eu
+
+log() {
+        local prefix="[$(date +%Y/%m/%d\ %H:%M:%S)]:"
+        echo "${prefix} $@" >&2
+}
+
+log "info" "a message"
+
+
+# output
+[2023/12/26 16:47:52]: info a message
+```
 
 ### 处理输入参数
 
@@ -776,8 +797,19 @@ $_ #上次命令传递的最后一个参数
 ### 严格模式 tips
 
 ```sh
-使用 -e 参数，如：set -e 或是 #!/bin/sh -e，这样设置会让你的脚本出错就会停止运行，这样一来可以防止你的脚本在出错的情况下还在拼拿地干活停不下来。
-使用 -u 参数，如： set -eu，这意味着，如果你代码中有变量没有定义，就会退出。
+使用 -e 参数，
+    如：set -e 或是 #!/bin/sh -e，
+    这样设置会让你的脚本出错就会停止运行，这样一来可以防止你的脚本在出错的情况下还在拼拿地干活停不下来。
+使用 -u 参数，如： set -u，这意味着，如果你代码中有变量没有定义，就会退出。
+
+#!/bin/bash
+set -o nounset
+set -o errexit
+# 简写
+set -eu
+
+
+
 
 对一些变理，你可以使用默认值。如：${FOO:-'default'}
 
