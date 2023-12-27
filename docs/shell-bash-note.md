@@ -102,7 +102,7 @@ https://zhuanlan.zhihu.com/p/264346586
 ```sh
 
 #!/bin/bash
-
+  
 set -eu
 
 log() {
