@@ -7,42 +7,40 @@ toc_max_heading_level: 5
 ---
 
 
-<!--more-->
+<!--truncate-->
 
-<!-- TOC -->
+- [basic intro](#basic-intro)
+    - [basic concept](#basic-concept)
+    - [结构组成](#结构组成)
+    - [11g 和 12c 区别](#11g-和-12c-区别)
+    - [Oracle 在 windows 下的服务](#oracle-在-windows-下的服务)
+- [how to use](#how-to-use)
+    - [登录断开](#登录断开)
+    - [用户 和 权限](#用户-和-权限)
+    - [特有的 SQL 语法](#特有的-sql-语法)
+    - [数据类型](#数据类型)
+        - [number](#number)
+        - [char](#char)
+        - [varchar2](#varchar2)
+        - [clob](#clob)
+        - [blob](#blob)
+        - [date](#date)
+        - [TIMESTAMP](#timestamp)
+    - [序列](#序列)
+    - [管理表](#管理表)
+        - [创建表](#创建表)
+        - [修改表结构](#修改表结构)
+        - [删除表](#删除表)
+    - [管理数据](#管理数据)
+        - [插入数据](#插入数据)
+        - [删除数据](#删除数据)
+    - [查询数据](#查询数据)
+        - [内联查询](#内联查询)
+        - [左连接](#左连接)
+        - [右连接](#右连接)
+        - [伪列](#伪列)
 
-- [1. basic intro](#1-basic-intro)
-    - [1.1. basic concept](#11-basic-concept)
-    - [1.2. 结构组成](#12-%E7%BB%93%E6%9E%84%E7%BB%84%E6%88%90)
-    - [1.3. g 和 12c 区别](#13-g-%E5%92%8C-12c-%E5%8C%BA%E5%88%AB)
-    - [1.4. Oracle 在 windows 下的服务](#14-oracle-%E5%9C%A8-windows-%E4%B8%8B%E7%9A%84%E6%9C%8D%E5%8A%A1)
-- [2. how to use](#2-how-to-use)
-    - [2.1. 登录断开](#21-%E7%99%BB%E5%BD%95%E6%96%AD%E5%BC%80)
-    - [2.2. 用户 和 权限](#22-%E7%94%A8%E6%88%B7-%E5%92%8C-%E6%9D%83%E9%99%90)
-    - [2.3. 特有的 SQL 语法](#23-%E7%89%B9%E6%9C%89%E7%9A%84-sql-%E8%AF%AD%E6%B3%95)
-    - [2.4. 数据类型](#24-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B)
-        - [2.4.1. number](#241-number)
-        - [2.4.2. char](#242-char)
-        - [2.4.3. varchar2](#243-varchar2)
-        - [2.4.4. clob](#244-clob)
-        - [2.4.5. blob](#245-blob)
-        - [2.4.6. date](#246-date)
-        - [2.4.7. TIMESTAMP](#247-timestamp)
-    - [2.5. 序列](#25-%E5%BA%8F%E5%88%97)
-    - [2.6. 管理表](#26-%E7%AE%A1%E7%90%86%E8%A1%A8)
-        - [2.6.1. 创建表](#261-%E5%88%9B%E5%BB%BA%E8%A1%A8)
-        - [2.6.2. 修改表结构](#262-%E4%BF%AE%E6%94%B9%E8%A1%A8%E7%BB%93%E6%9E%84)
-        - [2.6.3. 删除表](#263-%E5%88%A0%E9%99%A4%E8%A1%A8)
-    - [2.7. 管理数据](#27-%E7%AE%A1%E7%90%86%E6%95%B0%E6%8D%AE)
-        - [2.7.1. 插入数据](#271-%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE)
-        - [2.7.2. 删除数据](#272-%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE)
-    - [2.8. 查询数据](#28-%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE)
-        - [2.8.1. 内联查询](#281-%E5%86%85%E8%81%94%E6%9F%A5%E8%AF%A2)
-        - [2.8.2. 左连接](#282-%E5%B7%A6%E8%BF%9E%E6%8E%A5)
-        - [2.8.3. 右连接](#283-%E5%8F%B3%E8%BF%9E%E6%8E%A5)
-        - [2.8.4. 伪列](#284-%E4%BC%AA%E5%88%97)
 
-<!-- /TOC -->
 
 # basic intro
 
@@ -279,6 +277,17 @@ SELECT
   sysdate
 FROM
   dual;
+
+
+
+instr 替代MySQL的find_in_set
+
+select * from base_user where instr(','|| roleId ||',' , ','|| 1 || ',') <> 0; 
+或
+select * from base_user where instr(','|| roleId ||',' , ',1,') > 0;
+-- 将1,4转为 ,1,4, 然后找出 ,1,的位置
+将1转为 ,1, 然后找出 ,1,的位置
+则<>0 或 >0 的即为存在，返回记录
 ```
 
 ## 数据类型
