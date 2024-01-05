@@ -321,6 +321,7 @@ toc_max_heading_level: 5
     - [21.6. 游戏开发三方库](#216-游戏开发三方库)
     - [21.7. 系统信息](#217-系统信息)
     - [21.8. web 开发](#218-web-开发)
+        - [数据库迁移](#数据库迁移)
         - [21.8.1. swagger openapi 生成](#2181-swagger-openapi-生成)
         - [21.8.2. web框架](#2182-web框架)
         - [i18n](#i18n)
@@ -11495,6 +11496,10 @@ https://github.com/GuillaumeGomez/sysinfo
 
 ## 21.8. web 开发
 
+### 数据库迁移
+
+https://github.com/rust-db/refinery
+
 ### 21.8.1. swagger openapi 生成
 
 https://github.com/GREsau/okapi
@@ -11567,7 +11572,7 @@ fn main() {
 ### 21.9.2. json
 
 serde_json 是基于 serde 实现的
-
+    
 ## 21.10. 读写数据
 
 bytes
