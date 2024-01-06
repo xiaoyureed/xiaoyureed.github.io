@@ -5338,6 +5338,7 @@ http://www.javacoder.cn/?p=274
 https://github.com/jboss-javassist/javassist
 https://www.cnblogs.com/rickiyang/p/11336268.html
 
+byte-buddy-agent
 
 # 20. 前沿
 
