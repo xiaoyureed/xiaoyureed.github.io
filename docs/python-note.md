@@ -79,7 +79,7 @@ https://bramblexu.com/posts/b1c0cc4f/#toc-heading-5 vscode 配置
 
 https://www.zhihu.com/question/19827960 指的关注的社区
 
-<!--more-->
+<!--truncate-->
 
 - [1. 介绍](#1-介绍)
     - [1.1. python 特点](#11-python-特点)
