@@ -103,6 +103,7 @@ https://github.com/0voice
     - [26.1. 撮合交易引擎](#261-撮合交易引擎)
     - [26.2. Hazelcast](#262-hazelcast)
     - [26.3. disruptor](#263-disruptor)
+- [推荐系统](#推荐系统)
 
 
 
@@ -877,3 +878,9 @@ https://xueqiu.com/8121449782/139412894
 https://www.modb.pro/db/323266 和 redis 区别
 
 ## 26.3. disruptor
+
+
+# 推荐系统
+
+https://github.com/recommenders-team/recommenders
+https://github.com/chyikwei/recommend
