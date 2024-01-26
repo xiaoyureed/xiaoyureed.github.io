@@ -53,8 +53,13 @@ https://github.com/PostgREST/postgrest - postgresql to rest api
 - [4. crontab 定时操作 postgresql](#4-crontab-定时操作-postgresql)
 - [5. docker 中启动 postgres](#5-docker-中启动-postgres)
 - [开源库 插件](#开源库-插件)
-    - [restapi](#restapi)
+    - [rest api 直接生成api](#rest-api-直接生成api)
     - [分库分表](#分库分表)
+    - [开源发行版](#开源发行版)
+    - [地理位置](#地理位置)
+    - [时序数据库](#时序数据库)
+    - [流式计算](#流式计算)
+    - [缓存](#缓存)
 
 
 
@@ -648,10 +653,40 @@ docker run -d --rm --name postgresql -e POSTGRES_USER=dbuser -e POSTGRES_DB=test
 
 # 开源库 插件
 
-## restapi
+https://pgxn.org/ 插件搜索
+
+## rest api 直接生成api
 
 https://github.com/PostgREST/postgrest
 
+pgrest
+
+https://github.com/graphile/crystal 直接生成 graphql
+
 ## 分库分表
 
- citus 插件
+ citus 插件, greenplum
+
+## 开源发行版
+
+https://github.com/Vonng/pigsty
+
+## 地理位置
+
+PostGIS
+
+## 时序数据库
+
+https://www.timescale.com/
+
+## 流式计算
+
+https://github.com/Vonng/hbase_fdw 在pg 中操作hbase 的数据
+
+## 缓存
+
+https://github.com/pg-redis-fdw/redis_fdw 使用redis_fdw进行缓存更新推送
+
+使用mongo_fdw完成从mongo到pg的数据迁移
+
+使用mysql_fdw读取MySQL数据并存入数仓

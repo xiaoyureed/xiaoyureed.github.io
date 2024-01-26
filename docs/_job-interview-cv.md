@@ -234,6 +234,9 @@ https://gitee.com/wells2333/sg-exam?_from=gitee_search#http://two.404forever.com
 
 https://frostming.com/2020/03-10/open-source/ 开源加分
 
+
+亮点不是一定要说技术有多牛逼，有些是你遇到的困难，你用一种什么思路去解决。这里面能够体现出你的能力。比如说代码很糟糕，你如何在限定时间内把代码重构同时保证正常迭代。比如你重复劳动很多，你是如何把他自动化起来，或者做成配置方式。比如你沟通很多，比如你需求不明确，比如你合作者非常糟糕。这都是你表现的机会，一是看你当时是如何解决的，一个是看你面试之前如何总结的
+
 # 6. 生产实践 案例
 
 https://crossoverjie.top/2019/03/12/troubleshoot/thread-gone/

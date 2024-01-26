@@ -134,6 +134,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [cookiecutter 项目模板](#cookiecutter-项目模板)
     - [3.1. 包管理](#31-包管理)
         - [poetry](#poetry)
+        - [rye](#rye)
     - [格式化](#格式化)
     - [代码检测](#代码检测)
     - [3.2. 日志](#32-日志)
@@ -2073,6 +2074,10 @@ python3 -m pip install -U pip
 pip install -U poetry
 
 ```
+
+### rye
+
+https://github.com/mitsuhiko/rye
 
 
 ## 格式化

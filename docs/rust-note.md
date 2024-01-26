@@ -330,6 +330,7 @@ toc_max_heading_level: 5
     - [21.9. 序列化反序列化](#219-序列化反序列化)
         - [21.9.1. toml](#2191-toml)
         - [21.9.2. json](#2192-json)
+        - [rkyv](#rkyv)
     - [21.10. 读写数据](#2110-读写数据)
     - [21.11. 增强工具](#2111-增强工具)
     - [21.12. 授权 Authorization](#2112-授权-authorization)
@@ -11573,6 +11574,11 @@ fn main() {
 
 serde_json 是基于 serde 实现的
     
+
+### rkyv
+
+https://github.com/rkyv/rkyv
+
 ## 21.10. 读写数据
 
 bytes

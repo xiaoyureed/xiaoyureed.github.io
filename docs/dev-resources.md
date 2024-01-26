@@ -446,8 +446,11 @@ https://github.com/0voice/from_coder_to_expert
 
 云计算: 《计算机组成原理》《深度时间KVM》《云计算架构技术与实践》《让云落地 云计算服务模式》
 
-数据密集型应用系统设计
+数据密集型应用系统设计 ddia   https://www.cnblogs.com/fuxuemingzhu/p/15435722.html
+https://stream.nosdn.127.net/kids/1625672349182/%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%EF%BC%88%E4%B8%AD%E6%96%87%E7%89%88%E4%B9%A6%EF%BC%89.pdf
+
 凤凰架构： http://icyfenix.cn/
+
 领域驱动设计
 
 the little schemer
@@ -473,8 +476,6 @@ the little schemer
 https://mp.weixin.qq.com/s/O-2L-i4SdaV0btvVnoK17A
 
 《松本行弘：编程语言的设计与实现》
-
-《数据密集型应用系统设计》
 
 
 数据结构与算法

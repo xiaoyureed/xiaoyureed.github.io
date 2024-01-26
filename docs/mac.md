@@ -253,6 +253,8 @@ sudo rm -rf Karabiner-EventViewer.app
 
 ```
 
+https://github.com/Vonng/Capslock 案件映射 大写锁定
+
 ## 6.1. 自定义 rule 配置
 
 也可以自己定义, 放在 ~~`~/.config/karabiner/assets/complex_modifications `~~  `~/.config/karabiner/karabiner.json `

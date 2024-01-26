@@ -182,10 +182,12 @@ toc_max_heading_level: 5
 
 - https://github.com/alibaba/kt-connect 阿里出品
 - https://github.com/telepresenceio/telepresence windows 系统上安装复杂
+- https://github.com/nocalhost/nocalhost
 - 利用 kubectl forward在本地建立 k8s 中服务的代理
   `kubectl port-forward <generated target pod name> <local port>:<target port>` 这里 pod name 名字不固定, 更好的办法是指定 deployment
   `kubectl port-forward deployment/<your pod name> <local post>:<target port>` 更好
   或者 deployment 替换为 rs/svc
+-  springcloud+nacos 的方案，网关根据 nacos 注册的标识来分流
 
 ## 基础设施即代码 IaC
 

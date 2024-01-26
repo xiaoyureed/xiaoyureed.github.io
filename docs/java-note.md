@@ -153,6 +153,8 @@ https://github.com/Snailclimb/awesome-java#%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F 
     - [12.6. 新的垃圾回收器](#126-新的垃圾回收器)
 - [13. java17](#13-java17)
     - [13.1. record class](#131-record-class)
+- [Java21](#java21)
+    - [虚拟线程](#虚拟线程)
 - [14. classloader 类加载器](#14-classloader-类加载器)
     - [14.1. classloader 的概念](#141-classloader-的概念)
     - [14.2. 层级结构](#142-层级结构)
@@ -210,6 +212,9 @@ https://github.com/Snailclimb/awesome-java#%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F 
 
 # 1. 各个版本
 
+```java
+long-term support: jdk8, 11, 17, 21
+
 -   jdk5: 自动装箱/拆箱, 枚举, 静态导入(不实用), 可变长参数("String... params"), 泛型, for-each 循环, 并发库(Concurrent)
 
 -   jdk6: compiler api(动态编译运行文本形式的 Java 代码), console 增强(编写命令行程序, 不实用), Desktop 类(打开浏览器, 文件等等方法)和 SystemTray 类, Http server api, script engine
@@ -218,7 +223,19 @@ https://github.com/Snailclimb/awesome-java#%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F 
 
 -   jdk8: lambda express/函数式接口(@FunctionalInterface), 接口默认方法, 接口静态方法, base64 增强, Datetime 增强, Optional(防 null), Stream,
 
-long-term support: jdk8, 11, 17
+-   jdk17:
+
+    - 类型匹配转换, switch 增强 
+        
+    - record 类, 类似于使用 class 定义类，同时使用了 lombok 插件，并打上了@Getter,@ToString,@EqualsAndHashCode注解。
+
+    - sealed 类 , public abstract sealed class Person permits Employee, Manager 抽象类 Person 只允许 Employee 和 Manager 继承
+        任何扩展密封类的类本身都必须声明为 sealed、non-sealed 或 final
+
+-   jdk21: 
+
+    - 虚拟线程 : 是 JDK 而不是 OS 实现的轻量级线程(Lightweight Process，LWP），由 JVM 调度
+```
 
 # 2. 注释
 
@@ -4915,6 +4932,37 @@ public record Data(int x, int y) {
     }
 }
 
+```
+
+# Java21
+
+## 虚拟线程
+
+```java
+// 如何创建
+
+// Thread.ofVirtual()和Thread.ofPlatform()是创建虚拟和平台线程的新API
+Thread thread = Thread.ofVirtual(() -> {...})
+                      .start();
+// or
+Thread thread = Thread.startVirtualThread(() -> {
+  // your code here
+});
+
+// or
+// 该 ExecutorService 为每个任务创建一个新的虚拟线程：
+var executorService = Executors.newVirtualThreadPerTaskExecutor();
+executorService.submit(() -> {
+  // your code here
+});
+
+// or
+// 获取线程工厂类
+ThreadFactory factory = Thread.ofVirtual().factory();
+// 创建虚拟线程
+Thread thread = factory.newThread(() -> {...});
+// 启动线程
+thread.start();
 ```
 
 # 14. classloader 类加载器
