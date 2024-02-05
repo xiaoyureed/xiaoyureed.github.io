@@ -1,10 +1,17 @@
 ---
-title: Chatgpt Usage Tips
+title: Chatgpt Usage Tips & LLM
 tags: [chatgpt]
 date: 2023-04-17
 toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
+
+- [Prompt tips](#prompt-tips)
+    - [询问观点](#询问观点)
+    - [了解未知行业](#了解未知行业)
+    - [通用](#通用)
+- [LLM large language model](#llm-large-language-model)
+
 
 ## Prompt tips
 
@@ -70,3 +77,5 @@ toc_max_heading_level: 5
 
 https://gofurther.feishu.cn/docx/Enofdl25BotoVrxth8ec4rNBn5c
 https://mojidoc.com/08z7y-e43hjtkw3rglpkfnsqrgkuyyey-00b
+
+https://github.com/morsoli/llm-books

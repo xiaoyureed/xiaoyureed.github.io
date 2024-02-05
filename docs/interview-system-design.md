@@ -88,6 +88,7 @@ https://github.com/0voice
 - [20. 流程引擎系统](#20-流程引擎系统)
 - [21. 权限系统](#21-权限系统)
 - [22. 日志采集系统](#22-日志采集系统)
+    - [轻量级的收集方式](#轻量级的收集方式)
 - [23. 开放 api 平台](#23-开放-api-平台)
 - [24. SaaS 平台](#24-saas-平台)
     - [24.1. 概念](#241-概念)
@@ -743,6 +744,20 @@ https://www.bilibili.com/video/BV1Df4y1C7o5?p=5
 log agent -> kafka -> transfer -> es (storm/Hadoop) -> kibana -> browser
 
 (使用  etcd 管理配置)
+
+
+## 轻量级的收集方式
+
+推荐 clickhouse, 类 sql 查询支持 , ELK 的套件 非中大公司不太推荐 ，集群，容灾，一堆一堆的问题，虽然资料相对多
+
+想轻量就不要采集原始的日志，直接在客户端从原始日志里抽出关心的指标，然后随便搞个时序数据库存着就好了
+
+https://github.com/valeriansaliou/sonic 替代 es
+
+
+阿里云的日志服务
+
+
 
 # 23. 开放 api 平台 
 
