@@ -269,6 +269,7 @@ https://github.com/yygmind/blog
     - [33.3. 为样式文件编写 types](#333-为样式文件编写-types)
     - [33.4. 配置 css 跳转](#334-配置-css-跳转)
 - [34. 开源库](#34-开源库)
+    - [开发框架](#开发框架)
     - [效率开发](#效率开发)
     - [可视化库](#可视化库)
     - [auth ui](#auth-ui)
@@ -4962,6 +4963,12 @@ https://www.jianshu.com/p/641bcac7754b
 
 # 34. 开源库
 
+## 开发框架
+
+nextjs
+
+https://github.com/t3-oss/create-t3-app 生成 nextjs 脚手架
+
 ## 效率开发
 
 https://github.com/payloadcms/payload 快速创还能 crud, 可视化组合各种技术栈
@@ -4987,6 +4994,7 @@ threejs 绘制三维图形的，它属于WebGL技术, 需要 OpenGL相关知识
 ## auth ui
 
 https://github.com/supabase/auth-ui
+
 
 ## 34.1. How to search the scaffold (boilerplate) on github 脚手架
 

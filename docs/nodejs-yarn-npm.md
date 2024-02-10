@@ -4,6 +4,7 @@ tags:
   - node
   - yarn
   - npm
+  - pnpm
 date: 2019-07-25 19:55:53
 toc_min_heading_level: 2
 toc_max_heading_level: 5
@@ -24,17 +25,13 @@ https://github.com/wangdoc/javascript-tutorial/tree/master/docs
 
 <!--more-->
 
-<!-- TOC -->
-
-- [1. 常用的命令](#1-常用的命令)
-    - [1.1. 升级 node/npm](#11-升级-nodenpm)
-    - [1.2. 国内源 国内镜像](#12-国内源-国内镜像)
-    - [1.3. yarn 命令](#13-yarn-命令)
-    - [1.4. npm 基本使用](#14-npm-基本使用)
+- [1. 常用命令](#1-常用命令)
 - [2. what is nodejs](#2-what-is-nodejs)
 - [3. why we need nodejs](#3-why-we-need-nodejs)
-- [4. nodejs技术选型](#4-nodejs技术选型)
-- [5. 使用模板引擎进行代码生成](#5-使用模板引擎进行代码生成)
+- [nodejs 语法规则](#nodejs-语法规则)
+- [4. nodejs 生态选型](#4-nodejs-生态选型)
+- [实战应用](#实战应用)
+    - [5. 使用模板引擎进行代码生成](#5-使用模板引擎进行代码生成)
 - [6. deno](#6-deno)
 - [7. npm](#7-npm)
     - [7.1. 开发自定义库发布到 npm](#71-开发自定义库发布到-npm)
@@ -54,109 +51,14 @@ https://github.com/wangdoc/javascript-tutorial/tree/master/docs
 - [9. web 后台技术栈](#9-web-后台技术栈)
 - [10. 配合 rust](#10-配合-rust)
 - [11. pnpm](#11-pnpm)
-
-<!-- /TOC -->
-
-# 1. 常用的命令
-
-## 1.1. 升级 node/npm
-
-```shell
-# 升级node (https://blog.csdn.net/hl449006540/article/details/79698905)
-# 升级npm 需要先升级node
-# 先清除 npm cache
-npm cache clean -f
-npm view node versions # node所有版本
-# 通过 n 来管理版本
-npm install -g n
-# 升级到最新稳定版
-sudo n stable
-# 最新版
-sudo n latest
-# 指定版本
-n 15.0.0
-# 删除版本
-n rm 7.10.0 
+- [和 Python 互操作 interoperation](#和-python-互操作-interoperation)
 
 
 
-# or
-# 用NVM来升级nodejs
-nvm --version
-nvm install 7.10.0
-nvm install lastest
-nvm install stable
-nvm install node --lts
-```
-
-## 1.2. 国内源 国内镜像
-
-```sh
-# // 查询源
-npm config get registry
-
-// 更换国内源
-npm config set registry https://registry.npmmirror.com
-
-// 恢复官方源
-npm config set registry https://registry.npmjs.org
-
-#
-# 临时使用
-npm install koa --registry=https://registry.npm.taobao.org
-
-# 看看是否配置成功
-npm config get registry
-
-
-# 持久使用也可以这样
-# 编辑 ~/.npmrc
-registry=https://registry.npm.taobao.org
-
-
-# Just for yarn
-yarn config set registry https://registry.npm.taobao.org/
-# 恢复官方源
-yarn config set registry https://registry.yarnpkg.com
-# // 删除注册表
-yarn config delete registry
-
-
-
-
-```
-
-## 1.3. yarn 命令
-
-```sh
-yarn global remove create-react-app
-```
-
-## 1.4. npm 基本使用
+# 1. 常用命令
 
 ```sh
 
-
-npm bin                     # 返回当前项目模块路径, 使用: `npm bin`/eslint --init
-
-npm -v                      # node版本
-
-
-npm search express          # 搜索
-
-
-# "install" can be replaced with "i"
-npm install npm -g                              # 升级 npm
-
-npm install <Module Name>                       # 安装模块 ,包就放在了工程目录下的 node_modules 目录中
-npm install -S <module name>                    # -S表示--save, 安装同时, 写入package.json中的"dependencies" 中
-npm install -D <module name>                    # -D: --save-dev, 会存在package.json的devDependencies这个里面
-
-npm install gulp --save-exact                   # 精确安装(指定)版本, package.json中版本号前没有 "^" 了
-# or
-npm install gulp -E
-
-npm i -g webpack webpack-dev-server             # i 表示install, -g 全局
 npm install                                     # 根据package.json安装
 
 
@@ -217,7 +119,9 @@ npm uninstall -g vue-cli    # 卸载全局
 
 事件驱动的异步编程, 适合用于频繁 i/o 操作的应用
 
-# 4. nodejs技术选型
+# nodejs 语法规则
+
+# 4. nodejs 生态选型
 
 strapi：Node.js版的Headless CMS实现，能够快速定制数据结构+api+运营后台的神器
 
@@ -227,7 +131,12 @@ moleculer：Node.js版的微服务框架，实现微服务架构。
 > 前端到后端的适配层是非常 dirty 的一层代码，经常要加入各种特殊处理，使用脚本开发成本低。并且这一层由于基本上就是做各种对象到对象的翻译，不太会出现难以排查的错误，就算有这样的错误，强类型语言对避免这种错误也没什么帮助。同时，这一层属于典型的无状态 IO 密集型模块，非常适合吞吐能力巨大的 node.js 开发，用 java 开发也不会带来什么额外的性能优势。
 前端对这一层的变动需求，要比后端多得多，本着“谁用谁维护，谁爽谁负责”的原则，这一层应该由前端维护，使用 node.js 编写这一层对前端来说更友好
 
-# 5. 使用模板引擎进行代码生成
+https://github.com/nodejs-mobile/nodejs-mobile-react-native nodejs 在移动端
+
+
+# 实战应用
+
+## 5. 使用模板引擎进行代码生成
 
 ```js
 import fs from 'fs'
@@ -717,4 +626,97 @@ pnpm remove/rm/uninstall/un <xxx> [-g/--global]
 pnpm exec jest # npx jest
 
 pnpm dlx create-react-app my-app # npx create-react-app my-app
+```
+
+# 和 Python 互操作 interoperation
+
+
+```sh
+
+## Python 调用 nodejs
+
+https://github.com/sqreen/PyMiniRacer python 中的 v8 运行时, can be used to call js inside python context 
+
+    pyexecjs
+
+nodejs 里 console.log 输出“返回值”, python 里读这个子进程的 stdout 内容, 即 nodejs --> stdout --> python
+    p = subprocess.run(['command'], stdout=subprocess.PIPE)
+    res = p.stdout 
+
+
+
+## nodejs 调用 Python
+# https://www.qinglite.cn/doc/37006476ceaa523e4
+# 这种方式执行python脚本不能传输中文字符
+# 读取python的标准输出不是即时的，而是会一次读取多个结果，比如python的print输出十个a，一次读取可能读取到5个a，第二次再读取5个a
+# 任务管理器中会显示一个cmd或者bash的进程
+
+可以用 nodejs 中的 child_process 模块，具体可以使用 spawn 或 exec 或 execFile 。
+require('child_process').exec('python xxx.py -a -b -c')
+    # or
+    const spawn = require('child_process').spawn
+    spawn('python3', ['script.py'])
+
+    # send params
+    const msg = "Hello"
+    spawn('python3', ['script.py', msg])
+
+
+    # py script
+    import sys, json
+    def main():
+        msg = sys.argv[1]
+        doSometing(msg)
+    if __name__ == '__main__':
+        main()
+
+
+# 传递复杂参数
+const spawn = require('child_process').spawn,
+const py = spawn('python3', ['script.py'])
+const data = {
+    msg: "Hello"
+}
+py.stdin.write(JSON.stringify(data)) 
+//we have to send data as a string, so we are using JSON.stringify
+py.stdin.end()
+
+# py script
+import sys, json
+def main():
+    lines = sys.stdin.readlines()
+    data = json.loads(lines)
+    doSometing(data['msg'])
+if __name__ == '__main__':
+    main()
+
+
+
+
+# 接收 Python 传递的数据
+const spawn = require('child_process').spawn
+const py = spawn('python3', ['cscript.py'])
+
+py.stdout.on('data', function(res){
+   let data = JSON.parse(res.toString())
+   console.log(data)
+})
+
+# 在 py 中传递数据
+import sys
+# You will have your own implementation of get data. In this case lets assume it returns a dict/json
+res = getData()
+print(json.dumps(data))
+
+sys.stdout.flush()
+
+
+
+
+
+
+
+
+# node-pyrunner 
+https://github.com/supercoderlee/node-pyrunner
 ```

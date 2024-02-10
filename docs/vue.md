@@ -4,6 +4,13 @@ tags: [vue]
 date: 2023-08-27
 ---
 
+- [basic](#basic)
+    - [init a project](#init-a-project)
+    - [how the components communicate](#how-the-components-communicate)
+- [开源](#开源)
+    - [组件库](#组件库)
+
+
 
 ## basic 
 
@@ -19,47 +26,14 @@ pnpm create vue@latest
 pnpm i eslint -D
 npm init @eslint/config # generate eslint config file, 
     eslint <folder> [--fix]
-touch .eslintignore
+<!-- TOC -->
 
-# package.json 
-"lint": "eslint src"
-"fix": "eslint src --fix"
+- [.1. basic](#1-basic)
+    - [.1.1. init a project](#11-init-a-project)
+    - [.1.2. how the components communicate](#12-how-the-components-communicate)
+- [.2. 开源](#2-%E5%BC%80%E6%BA%90)
 
-# init prettier
-# eslint-plugin-prettier eslint-config-prettier 解决和 prettier 冲突
-pnpm i prettier eslint-plugin-prettier eslint-config-prettier -D
-echo {}> .prettierrc.json
-touch .prettierignore
-# add some configs
-{
-    "singleQuote": true,
-    "semi": false,
-    "bracketSpacing": true,
-    "htmlWhitespaceSensitivity": "ignore",
-    "endOfLine": "auto",
-    "trailingComma": "all",
-    "tabWidth": 2
-  }
-# update the eslint config file to 集成 prettier 的规则
-# extends 下添加 'plugin:prettier/recommended'
-
-# init stylelint
-
-# stylelint 插件提供扩展规则，不提供预设配置
-# stylelint-config-recommended-scss 做 scss 规则检查。stylelint-scss 提供了 n 多条规则，stylelint-config-recommended-scss 内开启了部分配置
-# stylelint-config-recess-order stylelint-order 重排和重绘
-# stylelint-config-prettier 可以解决和 prettier 冲突
-pp i -D sass sass-loader stylelint postcss postcss-scss postcss-html stylelint-config-prettier stylelint-config-recess-order stylelint-config-recommended-scss stylelint-config-standard stylelint-config-standard-vue stylelint-scss stylelint-order stylelint-config-standard-scss stylelint-config-recommended-vue stylelint-config-html
-touch .stylelintrc.js
-// @see https://stylelint.bootcss.com/
-
-module.exports = {
-  extends: [
-    'stylelint-config-standard', // 配置stylelint拓展插件
-    'stylelint-config-html/vue', // 配置 vue 中 template 样式格式化
-    'stylelint-config-standard-scss', // 配置stylelint scss插件
-    'stylelint-config-recommended-vue/scss', // 配置 vue 中 scss 样式格式化
-    'stylelint-config-recess-order', // 配置stylelint css属性书写顺序插件,
+<!-- /TOC -->t-config-recess-order', // 配置stylelint css属性书写顺序插件,
     'stylelint-config-prettier', // 配置stylelint和prettier兼容
   ],
   overrides: [
@@ -162,3 +136,12 @@ ref - 父组件组件获取子组件实例
 
 slot - 插槽, 实现父子通信
 ```
+
+
+
+## 开源
+
+### 组件库
+
+
+https://github.com/primefaces/primevue
