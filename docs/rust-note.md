@@ -11855,6 +11855,8 @@ https://github.com/PistonDevelopers/conrod 2d
 
 https://github.com/DioxusLabs/dioxus Fullstack GUI library for desktop, web, mobile, and more.
 
+https://github.com/RibirX/Ribir
+
 ## 可视化库
 
 https://github.com/yuankunzhang/charming 类似 echarts
