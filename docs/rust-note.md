@@ -486,7 +486,8 @@ rustc --test dry.rs && ./dry
 
 
 # 管理 rust 版本, 
-
+rustup upgrade 升级到最新版本
+//or
 rustup update
 
 # rust 有 stable (默认)、nightly 版本之分
@@ -9211,6 +9212,8 @@ cargo run -p <xxx>
 
 # 运行当前项目(rust_tools)下的 bin 文件夹下的 chat_server.rs 可执行文件
 cargo run --package rust_tools --bin chat_server
+# 若 bin 名字 algo 和 package 名字一样, 运行的是 src 下的 main.rs
+cargo run --package algo --bin algo
 
 
 
