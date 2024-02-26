@@ -6,6 +6,8 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
+
+
 开发相关 资源 & 链接
 https://github.com/ripienaar/free-for-dev 免费云资源
 
@@ -77,6 +79,7 @@ atob('SGVsbG8gV29ybGQh'); // Hello World!
     - [发布](#发布)
     - [整体流程](#整体流程)
 - [self learning](#self-learning)
+- [开发资源](#开发资源)
 
 
 # 技术站点
@@ -972,3 +975,8 @@ prod
 https://github.com/PKUFlyingPig/cs-self-learning
 
 https://github.com/Lemonadeccc/Awesome-Events
+
+# 开发资源
+
+https://github.com/JoeanAmier/XHS-Downloader 小红书下载
+https://github.com/JoeanAmier/TikTokDownloader tiktok 下载
