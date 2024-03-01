@@ -4969,6 +4969,8 @@ nextjs
 
 https://github.com/t3-oss/create-t3-app 生成 nextjs 脚手架
 
+https://github.com/alibaba/ice 飞冰 同时支持移动端 , 桌面端
+
 ## 效率开发
 
 https://github.com/payloadcms/payload 快速创还能 crud, 可视化组合各种技术栈

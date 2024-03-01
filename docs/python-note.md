@@ -4016,6 +4016,8 @@ https://medium.com/swlh/parsing-rest-api-payload-and-query-parameters-with-flask
 
 pickle
 
+https://github.com/ICRAR/ijson 高性能解析 json
+
 ## 17.7. web 框架
 
 Django 大一统解决方案

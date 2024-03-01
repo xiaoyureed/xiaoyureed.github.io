@@ -81,6 +81,7 @@ toc_max_heading_level: 5
         - [5.8.5. 静态生命周期注释](#585-静态生命周期注释)
         - [5.8.6. 生命周期约束](#586-生命周期约束)
     - [5.9. 引用](#59-引用)
+        - [引用和指针区别](#引用和指针区别)
         - [5.9.1. 引用基本介绍](#591-引用基本介绍)
         - [5.9.2. 不可变引用](#592-不可变引用)
         - [5.9.3. 可变引用](#593-可变引用)
@@ -136,6 +137,7 @@ toc_max_heading_level: 5
         - [5.15.3. 默认泛型参数 and 关联类型](#5153-默认泛型参数-and-关联类型)
         - [5.15.4. 空约束](#5154-空约束)
         - [5.15.5. turbofish 操作符 and 返回值自动推导](#5155-turbofish-操作符-and-返回值自动推导)
+        - [Associated Type 关联类型](#associated-type-关联类型)
     - [5.16. trait](#516-trait)
         - [5.16.1. trait 概念](#5161-trait-概念)
             - [5.16.1.1. trait 基本使用](#51611-trait-基本使用)
@@ -151,6 +153,8 @@ toc_max_heading_level: 5
                 - [5.16.1.8.3. impl trait](#516183-impl-trait)
             - [5.16.1.9. trait的类型转换](#51619-trait的类型转换)
         - [5.16.2. 可自动推导的trait](#5162-可自动推导的trait)
+            - [Clone 和 Copy](#clone-和-copy)
+            - [Debug](#debug)
         - [5.16.3. 运算符重载相关的trait](#5163-运算符重载相关的trait)
         - [5.16.4. From 和 Into](#5164-from-和-into)
         - [5.16.5. DerefMut 和 Deref](#5165-derefmut-和-deref)
@@ -174,7 +178,7 @@ toc_max_heading_level: 5
         - [5.18.5. 案例 彩色命令行输出](#5185-案例-彩色命令行输出)
     - [5.19. 枚举](#519-枚举)
         - [5.19.1. 枚举基本使用](#5191-枚举基本使用)
-        - [5.19.2. Option](#5192-option)
+        - [5.19.2. Option 结构体](#5192-option-结构体)
         - [5.19.3. c 风格的枚举](#5193-c-风格的枚举)
         - [5.19.4. 案例 彩色命令行输出优化](#5194-案例-彩色命令行输出优化)
         - [5.19.5. 实例 创建链表](#5195-实例-创建链表)
@@ -315,7 +319,6 @@ toc_max_heading_level: 5
 - [21. 第三方 crates](#21-第三方-crates)
     - [21.1. 事实上的标准库](#211-事实上的标准库)
     - [21.2. markdown](#212-markdown)
-    - [21.3. 桌面开发](#213-桌面开发)
     - [21.4. 视频处理](#214-视频处理)
     - [21.5. 图片处理](#215-图片处理)
     - [21.6. 游戏开发三方库](#216-游戏开发三方库)
@@ -341,7 +344,7 @@ toc_max_heading_level: 5
     - [21.14. 文本解析器 parser](#2114-文本解析器-parser)
     - [21.15. lazy static 延迟初始化](#2115-lazy-static-延迟初始化)
     - [21.16. 电子书](#2116-电子书)
-    - [21.17. 命令行程序](#2117-命令行程序)
+    - [21.17. 命令行程序 tui](#2117-命令行程序-tui)
         - [21.17.1. structopt](#21171-structopt)
         - [21.17.2. clap](#21172-clap)
     - [21.18. 异步编程](#2118-异步编程)
@@ -364,8 +367,6 @@ toc_max_heading_level: 5
     - [其他语言引擎](#其他语言引擎)
 - [22. 开源项目](#22-开源项目)
 - [23. 参考链接](#23-参考链接)
-
-
 
 
 # 1. 简单介绍
@@ -2468,6 +2469,44 @@ fn foo<’a>(s: &’a str, t: &’a str) -> &’a str
 
 ## 5.9. 引用
 
+### 引用和指针区别
+
+```rust
+指针和引用都可以用来指向内存中的某个值
+
+引用（Reference）：引用是 Rust 中的一种安全指针。它们通过借用检查器来保证安全性，确保在引用的整个生命周期内，它所指向的值都是有效的
+    - 可变引用 &mut T
+        只允许一个可变引用指向值, 不能存在其他引用, 无论这个其他引用是可变/不可变
+    - 不可变 &T
+        允许多个不可变引用指向值
+
+指针（Pointer）：指针是 Rust 中的一种不安全指针(实际就是裸指针)。它们没有生命周期保证，也不受借用检查器的保护。
+    - 常量指针 *const T
+    - 可变指针 *mut T
+    常量指针和可变指针都可以指向任意内存地址，但解引用它们是不安全的操作，需要在 unsafe 块中进行
+
+
+
+let mut x = 10;
+let r1 = &x; // 创建一个共享引用
+let r2 = &x; // 创建另一个共享引用, 可以存在多个不可变引用
+println!("r1 = {}, r2 = {}", r1, r2);
+
+let r3 = &mut x; // 创建一个可变引用
+*r3 += 1; // 通过可变引用修改 x 的值
+println!("x = {}", x);
+
+let p1: *const i32 = &x as *const i32; // 创建一个常量指针
+let p2: *mut i32 = &mut x as *mut i32; // 创建一个可变指针
+
+unsafe {
+    // 解引用指针需要在 unsafe 块中进行
+    println!("*p1 = {}", *p1);
+    *p2 += 1;
+    println!("x = {}", x);
+}
+
+```
 
 ### 5.9.1. 引用基本介绍
 
@@ -4883,6 +4922,85 @@ fn generic() {
 
 ```
 
+### Associated Type 关联类型
+
+```rust
+Associated Type 是泛型的一个子概念。在 Rust 里 Associated Type 和 Trait 绑定在一起，指定输出类型 (output type)。
+如:
+pub trait Iterator {
+    type Item;
+    fn next(&mut self) -> Option<Self::Item>;
+}
+
+impl Iterator for Counter {
+    type Item = u32;
+
+    fn next(&mut self) -> Option<Self::Item> {}
+}
+
+
+// 已经有了泛型, 还要关联类型干什么? 存在的意义是什么?
+// https://fengliang.io/RustWHY/engineering_features/why_associated_type.html
+- 普通泛型可以用于 Trait, Struct和函数，但是 Associated Type 只能与 Trait 绑定( 也就是只能和 trait一起定义使用)。
+- 带有 Associated Type 的 Trait 只能被一个类型impl 一次，所以可以避免一个类型有多个impl。
+    - 带有普通泛型的 Trait 可以有多个impl
+- Associated Type 可以当做 Output Type
+- Associated Type 带来工程上的便利
+
+
+
+#![allow(unused)]
+fn main() {
+// 普通泛型 + Trait
+pub trait GiveMeSomething<T: Clone> {
+    fn get_something(&self) -> T;
+}
+
+// Associated Type + Trait
+pub trait GiveMeData {
+    type Data;
+    fn get_some_data(&self) -> Self::Data;
+}
+
+// 普通泛型 + Struct
+pub struct Something<T: Clone> {
+    data: T,
+}
+
+// 一个 struct 可以有多个 GiveMeSomething<T> 的 impl
+impl<T: Clone> GiveMeSomething<u8> for Something<T> {
+    fn get_something(&self) -> u8 {
+        1
+    }
+}
+
+impl<T: Clone> GiveMeSomething<i32> for Something<T> {
+    fn get_something(&self) -> i32 {
+        -1
+    }
+}
+
+
+impl<T: Clone> Something<T> {
+    // 普通泛型 + 函数
+    pub fn get_data(&self) -> T {
+        self.data.clone()
+    }
+}
+
+// 一个 struct 只能有一个 GiveMeData 的 impl
+impl GiveMeData for Something<u8> {
+    type Data = u8;
+
+    fn get_some_data(&self) -> Self::Data {
+        self.data
+    }
+}
+}
+
+
+```
+
 
 ## 5.16. trait
 
@@ -5358,7 +5476,7 @@ let a: i64 = 11 as i64
 
     Hash，从 &T 计算哈希值（hash）。
 
-    Debug，使用 {:?} formatter 来格式化一个值
+    Debug ，使用 {:?} formatter 来格式化一个值
 
     Serialize Deserialize
    */
@@ -5401,6 +5519,10 @@ let a: i64 = 11 as i64
     let _this_is_true = (_one_second == _one_second);
 
 ```
+
+#### Clone 和 Copy
+
+#### Debug
 
 ### 5.16.3. 运算符重载相关的trait
 
@@ -5716,14 +5838,18 @@ impl Drop for FruitBox {
 
 #### 5.16.9.1. Send 和 Sync
 
-一般编译器帮我们自动实现了
 
 ```rs
 // 可以安全地跨线程传递和访 问 的类型用 Send 和 Sync 标记，否则用! Send 和!Sync 标记 , 这样编译器在编译时就能检出数据竞争的隐患， 而不需要等到运行时再排查
 
 // 实现了 Send 的类型 ，可以安全地在线程间传递所有权, 即可以跨线程移动
+//      若类型 T 能够跨线程传递所有权 -> T 实现了 Send
 // 实现了 Sync 的类型 ，可以跨线程安全地传递不可变引用 , 即可以跨线程共享。
-// 
+//      若类型 T 的不可变引用 &T 实现了 send -> T 实现了 Sync
+//      如:
+//      &i32 是 send 的, 所以 i32 是 sync
+//      &Rc<T>不是 send 的, 所以 Rc<T> 不是sync
+//
 
 // 之所以可以正常地move变量，也是因为数组x中的元素均为原生数据类型， 默认都实现了 Send 和 Sync 标签 trait，所以它们跨线程传递和访问都很安全
 let mut x=vec![1, 2, 3, 4] ;
@@ -5817,6 +5943,9 @@ fn xxx<T: ?Sized> (t: T);// t 为 编译期间不可知大小的类型 or 为 �
 ### 5.16.10. Default trait
 
 ```rs
+&T 和 Box<T> 类型不支持 Default trait。
+
+
 // 为 struct 提供默认值
 struct ColoredString {
     input: String,
@@ -5833,7 +5962,21 @@ impl Default for ColoredString {
     }
 }
 
+#[derive(Default)]
+struct MyStruct {
+    x: i32,
+    y: String,
+}
+fn main() {
+    let my_struct = MyStruct::default();
+
+    println!("x: {}", my_struct.x); // 0
+    println!("y: {}", my_struct.y); // ""
+}
+
+
 ```
+
 
 ### 5.16.11. Extend trait
 
@@ -6350,7 +6493,7 @@ fn enum_demo() {
 
 ```
 
-### 5.19.2. Option 
+### 5.19.2. Option 结构体
 
 
 ```rust
@@ -6401,6 +6544,19 @@ fn enum_demo() {
             println!("opt is nothing");
         }
     }
+
+    // 
+    // as_ref() 将Option中的值作为一个引用返回，如果Option实例中的值是可变的，则返回一个可变的引用
+    // as_deref() 将Option内部值先deref后再加上&返回。 这意味着，如果Option实例中的值是引用类型，as_deref会返回该引用类型的内容，如果是值类型，会返回原始值。
+    let option_name: Option<String> = Some("Alice".to_owned());
+    let r: Option<&String> = option_name.as_ref();
+    let r2: Option<&str> = option_name.as_deref();
+    // as_deref 将 Option<String> 转换成 Option<&str>，配合 unwrap_or 的返回值也是 &str，统一了返回值类型
+    let r3 = option_name.as_deref().unwrap_or("undefined");
+
+    let a: Option<Box<i32>> = Some(Box::new(1));
+    let var_name: Option<&Box<i32>> = a.as_ref();
+    let deref: Option<&i32> = a.as_deref();
 
 
     // 
@@ -7159,8 +7315,12 @@ fn io_demo() {
     //arg: target/debug/hello
     //arg: main.rs
 
+    // 命令本身, 拿到参数要两个 args.next()
     args.next().unwrap();
-    let arg0 = args.next().unwrap();// 命令本身, 拿到参数要两个 args.next()
+    let arg0 = args.next().unwrap();
+
+    // or
+    let args = args.skip(1); // 跳过命令本身, 获取参数集合
 
     // 或者一步到位
     let pattern = std::env::args().nth(1).expect("no pattern given");
@@ -9643,12 +9803,13 @@ https://github.com/nvzqz/divan 性能测试框架
 ```rust
 /// 单元测试
 /// 
-/// 使用 cargo test 运行
+/// 使用 cargo test 运行所有测试
+/// cargo test -- --include-ignored 运行所有, 不管是否忽略
 /// 
 /// 运行某个特定的测试方法 cargo test test_any_panic
-/// 
 /// cargo test panic 方法名中含有 panic 的测试方法会运行
 /// 
+///cargo test --test integration_test 运行某个集成测试文件中的所有测试方法
 
 
 #[cfg(test)]// 条件编译 ， 告诉编译器只在运行测试( cargo test 命令)时才编译执行
@@ -9659,22 +9820,44 @@ mod tests {
     #[test]
     fn test_xx() {
         println!("hello unit test");
+        assert_eq!(result, 4); // 不等则会 panic, 测试失败
+        assert_ne!()
+        assert!(bool值) // 为 false 则会 panic, 测试失败
+        // 自定义错误信息
+        assert!(
+            result.contains("Carol"),
+            "Greeting did not contain name, value was `{}`", 
+            result
+        );
     }
 
     // 测试 panic
     #[test]
-    #[ignore] // 忽略测试, 或者使用 cargo test -- --ignored 命令来运行它们。
-    #[should_panic(expected = "assertion failed")] // 倒置我们的测试结果 (如果发生错误测试将会成功并且如果没有错误会失败), 一般 和 `(expected = "assertion failed")` 一起使用
+    #[ignore] // 忽略测试, 或者使用 cargo test -- --ignored 命令来运行它们(被忽略的测试)。
+    #[should_panic(expected = "assertion failed")] // 用于测试会 panic 的方法, expected 可以省略, expected的值如果存在, 会和方法中 panic 的 message 比对, 看看是否是其子串, 如果不是则测试不通过
     fn test_any_panic() {
         divide_non_zero_result(1, 0);
     }
-
-    // 测试 带有输出文本的panic
-    #[test]
-    #[should_panic(expected = "Divide result is zero")]
-    fn test_specific_panic() {
-        divide_non_zero_result(1, 10);
     
+
+
+    // 将 Result<T, E> 用于测试
+    // 测试通过时返回 Ok(())，在测试失败时返回带有 String 的 Err
+    // 不能对这些使用 Result<T, E> 的测试使用 #[should_panic] 注解。为了断言一个操作返回 Err 成员，不要使用对 Result<T, E> 值使用问号表达式（?）。而是使用 assert!(value.is_err())。
+    #[test]
+    fn it_works() -> Result<(), String> {
+        if 2 + 2 == 4 {
+            Ok(())
+        } else {
+            Err(String::from("two plus two does not equal four"))
+        }
+    }
+
+    // 测试默认并行多线程运行
+    // cargo test -- --test-threads=1 指定单线程顺序运行
+    // cargo test -- --help 帮助
+    // cargo test -- --show-output 测试通过默认不打印控制台输出, 不通过的才会打印, 这命令指定测试打印所有控制台输出
+    // 可以将一部分命令行参数传递给 cargo test，而将另外一部分传递给生成的测试二进制文件。为了分隔这两种参数，需要先列出传递给 cargo test 的参数，接着是分隔符 --，再之后是传递给测试二进制文件的参数。
 }
 
 
@@ -11470,11 +11653,6 @@ https://github.com/raphlinus/pulldown-cmark 简单
 https://github.com/kivikakk/comrak 复杂, 强大
 https://github.com/wooorm/markdown-rs
 
-## 21.3. 桌面开发
-
-https://github.com/tauri-apps/tauri
-
-https://github.com/oscartbeaumont/tauri-specta
 
 ## 21.4. 视频处理
 
@@ -11733,7 +11911,10 @@ fn main() {
 
 mdBook 生成电子书
 
-## 21.17. 命令行程序
+## 21.17. 命令行程序 tui
+
+https://github.com/ratatui-org/ratatui
+
 
 indicatif 进度条
 
@@ -11857,8 +12038,18 @@ rsRust
 https://github.com/PistonDevelopers/conrod 2d
 
 https://github.com/DioxusLabs/dioxus Fullstack GUI library for desktop, web, mobile, and more.
+    https://github.com/marc2332/freya
+    https://github.com/DioxusLabs/example-projects
 
 https://github.com/RibirX/Ribir
+
+
+https://github.com/tauri-apps/tauri
+    https://github.com/oscartbeaumont/tauri-specta
+
+https://github.com/DioxusLabs/blitz High performance HTML and CSS renderer powered by WGPU
+
+https://github.com/DioxusLabs/taffy A high performance rust-powered UI layout library
 
 ## 可视化库
 

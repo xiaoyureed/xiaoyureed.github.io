@@ -27,6 +27,7 @@ https://github.com/Louiszhai/tool
 - [10. 自启动管理](#10-自启动管理)
 - [11. 浏览器 多线程下载](#11-浏览器-多线程下载)
 - [12. 开发环境配置](#12-开发环境配置)
+    - [代码助手](#代码助手)
     - [12.1. ifconfig 详解](#121-ifconfig-详解)
     - [12.2. chrome](#122-chrome)
         - [12.2.1. 开启非安全模式](#1221-开启非安全模式)
@@ -57,40 +58,40 @@ https://github.com/Louiszhai/tool
     - [12.22. 安装 Aria2 下载工具](#1222-安装-aria2-下载工具)
     - [12.23. docker 安装](#1223-docker-安装)
         - [12.23.1. 容器和宿主机网络互通](#12231-容器和宿主机网络互通)
-    - [colima 代替 orbstack](#colima-代替-orbstack)
-    - [12.24. orbstack 代替 docker](#1224-orbstack-代替-docker)
-    - [12.25. vscode 安装配置](#1225-vscode-安装配置)
-        - [12.25.1. vscode插件](#12251-vscode插件)
-            - [12.25.1.1. editorconfig](#122511-editorconfig)
-        - [12.25.2. 创建文件文件夹 快捷键](#12252-创建文件文件夹-快捷键)
-        - [12.25.3. 使用 debugger for Chrome](#12253-使用-debugger-for-chrome)
-        - [12.25.4. snippets](#12254-snippets)
-        - [12.25.5. code copilot 插件使用快捷键](#12255-code-copilot-插件使用快捷键)
-    - [12.26. 修改 hosts 文件](#1226-修改-hosts-文件)
-    - [12.27. idea](#1227-idea)
-        - [12.27.1. idea 无法启动 missing essential plugins](#12271-idea-无法启动-missing-essential-plugins)
-        - [12.27.2. vm 配置文件路径](#12272-vm-配置文件路径)
-        - [12.27.3. 完全卸载](#12273-完全卸载)
-        - [12.27.4. 插件无法搜索](#12274-插件无法搜索)
-        - [12.27.5. ideavim](#12275-ideavim)
-        - [12.27.6. 自定义堆内存](#12276-自定义堆内存)
-    - [12.28. tmux 多会话管理](#1228-tmux-多会话管理)
-    - [12.29. htop 替代 top](#1229-htop-替代-top)
-    - [12.30. 安装 visualvm](#1230-安装-visualvm)
+    - [12.24. colima 代替 orbstack](#1224-colima-代替-orbstack)
+    - [12.25. orbstack 代替 docker](#1225-orbstack-代替-docker)
+    - [12.26. vscode 安装配置](#1226-vscode-安装配置)
+        - [12.26.1. vscode插件](#12261-vscode插件)
+            - [12.26.1.1. editorconfig](#122611-editorconfig)
+        - [12.26.2. 创建文件文件夹 快捷键](#12262-创建文件文件夹-快捷键)
+        - [12.26.3. 使用 debugger for Chrome](#12263-使用-debugger-for-chrome)
+        - [12.26.4. snippets](#12264-snippets)
+        - [12.26.5. code copilot 插件使用快捷键](#12265-code-copilot-插件使用快捷键)
+    - [12.27. 修改 hosts 文件](#1227-修改-hosts-文件)
+    - [12.28. idea](#1228-idea)
+        - [12.28.1. idea 无法启动 missing essential plugins](#12281-idea-无法启动-missing-essential-plugins)
+        - [12.28.2. vm 配置文件路径](#12282-vm-配置文件路径)
+        - [12.28.3. 完全卸载](#12283-完全卸载)
+        - [12.28.4. 插件无法搜索](#12284-插件无法搜索)
+        - [12.28.5. ideavim](#12285-ideavim)
+        - [12.28.6. 自定义堆内存](#12286-自定义堆内存)
+    - [12.29. tmux 多会话管理](#1229-tmux-多会话管理)
+    - [12.30. htop 替代 top](#1230-htop-替代-top)
+    - [12.31. 安装 visualvm](#1231-安装-visualvm)
 - [13. 空格预览插件](#13-空格预览插件)
 - [14. 拼音输入法](#14-拼音输入法)
 - [15. 视频](#15-视频)
-- [windows 系统](#windows-系统)
-    - [windows 常用命令](#windows-常用命令)
-    - [wsl2](#wsl2)
-        - [wsl 命令](#wsl-命令)
-        - [安装](#安装)
-        - [MySQL](#mysql)
-        - [vscode配合](#vscode配合)
-        - [docker](#docker)
-    - [windows terminal](#windows-terminal)
-    - [package manager](#package-manager)
-        - [choco](#choco)
+- [16. windows 系统](#16-windows-系统)
+    - [16.1. windows 常用命令](#161-windows-常用命令)
+    - [16.2. wsl2](#162-wsl2)
+        - [16.2.1. wsl 命令](#1621-wsl-命令)
+        - [16.2.2. 安装](#1622-安装)
+        - [16.2.3. MySQL](#1623-mysql)
+        - [16.2.4. vscode配合](#1624-vscode配合)
+        - [16.2.5. docker](#1625-docker)
+    - [16.3. windows terminal](#163-windows-terminal)
+    - [16.4. package manager](#164-package-manager)
+        - [16.4.1. choco](#1641-choco)
 
 
 # 1. 系统快捷键
@@ -326,6 +327,14 @@ Edge 新版浏览器，地址栏输入并回车：edge://flags/#enable-parallel-
 
 
 # 12. 开发环境配置
+
+## 代码助手
+
+https://github.com/fauxpilot/fauxpilot Github copilot alternative
+https://github.com/TabbyML/tabby
+
+https://codeium.com/ free for individuals
+https://github.com/Exafunction/codeium.vim vim插件
 
 ## 12.1. ifconfig 详解
 
@@ -902,11 +911,11 @@ https://www.jianshu.com/p/e63bd5d0cc1e
 https://www.cnblogs.com/huaxiaoyao/p/12088948.html
 
 
-## colima 代替 orbstack
+## 12.24. colima 代替 orbstack
 
 https://github.com/abiosoft/colima, 免费
 
-## 12.24. orbstack 代替 docker
+## 12.25. orbstack 代替 docker
 
 ```sh
 # edit config.json
@@ -928,7 +937,7 @@ docker context use orbstack
 docker context use desktop-linux
 ```
 
-## 12.25. vscode 安装配置
+## 12.26. vscode 安装配置
 
 配置 mac 命令行即可启动vscode：打开命令面板 (shift + cmmand + P) ，输入 shell command’，找到: “Install ‘code’ command in PATH”，点击就可以了
 
@@ -936,9 +945,9 @@ docker context use desktop-linux
 
 https://blog.csdn.net/qq_43827595/article/details/104277051 vim 插件按键映射
 
-### 12.25.1. vscode插件
+### 12.26.1. vscode插件
 
-#### 12.25.1.1. editorconfig
+#### 12.26.1.1. editorconfig
 
 ```conf
 # http://editorconfig.org
@@ -965,14 +974,14 @@ trim_trailing_whitespace = false
 
 ```
 
-### 12.25.2. 创建文件文件夹 快捷键
+### 12.26.2. 创建文件文件夹 快捷键
 
 https://blog.csdn.net/u011511756/article/details/85058990
 
 new file, new folder -> explorerResourceIsFolder && !inputFocus
 
 
-### 12.25.3. 使用 debugger for Chrome
+### 12.26.3. 使用 debugger for Chrome
 
 .vscode 配置文件中的专有变量:
 
@@ -998,7 +1007,7 @@ ${lineNumber}:当前文件光标所在的行号
 ${env:PATH}:系统中的环境变量
 ```
 
-### 12.25.4. snippets
+### 12.26.4. snippets
 
 https://github.com/microsoft/vscode/issues/89700 当前文件夹名字
 
@@ -1023,7 +1032,7 @@ https://github.com/microsoft/vscode/issues/89700 当前文件夹名字
 	},
 ```
 
-### 12.25.5. code copilot 插件使用快捷键
+### 12.26.5. code copilot 插件使用快捷键
 
 ```
 
@@ -1035,7 +1044,7 @@ https://github.com/microsoft/vscode/issues/89700 当前文件夹名字
 触发行内Copilot：Alt/Option + \ （Coplit还没有给出建议或者建议被拒绝了，希望手工触发它提供建议）
 ```
 
-## 12.26. 修改 hosts 文件
+## 12.27. 修改 hosts 文件
 
 ```sh
 sodu vim /etc/hosts
@@ -1049,10 +1058,10 @@ Mac 命令：sudo killall -HUP mDNSResponder
 
 ```
 
-## 12.27. idea 
+## 12.28. idea 
 
 
-### 12.27.1. idea 无法启动 missing essential plugins 
+### 12.28.1. idea 无法启动 missing essential plugins 
 
 ```
 删除以下文件夹中的idea和jetbrains文件：
@@ -1075,12 +1084,12 @@ rm -rf/Users/xxx/Library/Logs/JetBrains
 ```
 
 
-### 12.27.2. vm 配置文件路径
+### 12.28.2. vm 配置文件路径
 
 /Users/xiaoyu/Library/Application Support/JetBrains/IntelliJIdea2020.3
 
 
-### 12.27.3. 完全卸载
+### 12.28.3. 完全卸载
 
 ```
 进入 cd Users/xiaoyu/Library/
@@ -1096,11 +1105,11 @@ rm -rf Caches/IntelliJIdeaxxx
 把～/下的.idea/也删掉
 ```
 
-### 12.27.4. 插件无法搜索
+### 12.28.4. 插件无法搜索
 
 可能是 idea 代理设置不正确, 如果实在不行, 可以: 官网下载 , 导入  -> http://plugins.jetbrains.com/
 
-### 12.27.5. ideavim
+### 12.28.5. ideavim
 
 http://einverne.github.io/post/2017/10/vim-config-map.html vimrc 按键映射
 http://einverne.github.io/post/2020/07/idea-vim-usage.html ideavim 内置了插件
@@ -1122,14 +1131,14 @@ set timeoutlen=300
 
 ```
 
-### 12.27.6. 自定义堆内存
+### 12.28.6. 自定义堆内存
 
 https://www.jianshu.com/p/2fa801238a1d
 https://www.jianshu.com/p/c858e6a988b9
 
 `/Users/xiaoyu/Library/Application Support/JetBrains/IntelliJIdea2020.2/idea.vmoptions`
 
-## 12.28. tmux 多会话管理
+## 12.29. tmux 多会话管理
 
 http://www.ruanyifeng.com/blog/2019/10/tmux.html
 
@@ -1250,9 +1259,9 @@ tmux source-file ~/.tmux.conf
 ```
 
 
-## 12.29. htop 替代 top
+## 12.30. htop 替代 top
 
-## 12.30. 安装 visualvm
+## 12.31. 安装 visualvm
 
 https://github.com/oracle/visualvm
 
@@ -1282,9 +1291,9 @@ https://github.com/haokaiyang/Mac-QuickLook
 http://blog.codinglabs.org/articles/using-mplayer-for-coursera.html 命令行视频播放器
 
 
-# windows 系统
+# 16. windows 系统
 
-##  windows 常用命令
+##  16.1. windows 常用命令
 
 ```sh
 # windows 查看端口占用, 
@@ -1300,9 +1309,9 @@ taskkill -pid xxx -f
 start .
 ```
 
-## wsl2
+## 16.2. wsl2
 
-### wsl 命令
+### 16.2.1. wsl 命令
 
 ```sh
 # 打开PowerShell (admin): win+x, a
@@ -1314,7 +1323,7 @@ ubuntu1804.exe config --default-user root # 修改默认用户
 
 ```
 
-### 安装
+### 16.2.2. 安装
 
 [激活 Windows10 professional](https://03k.org/kms.html)
 
@@ -1330,24 +1339,24 @@ Ubuntu的默认root密码是随机的, 可以自己修改root密码: `sudo passw
 
 wsl2 没有启 systemd、systemctl 等等
 
-### MySQL
+### 16.2.3. MySQL
 
 安装 MySQL : https://blog.csdn.net/weixin_39345384/article/details/80860060
 
 安装好后需要新建 user, 无法用root远程登陆: https://blog.csdn.net/hyl999/article/details/77777184
 连接参数: localhost, 3306, newUser, 123456
 
-### vscode配合
+### 16.2.4. vscode配合
 
 vscode 在 wsl 中打开后 无法移动文件, 重命名文件 (wsl2 已经没有这个问题了): https://code.visualstudio.com/docs/remote/wsl#_i-see-eaccess-permission-denied-error-trying-to-rename-a-folder-in-the-open-workspace
 
-### docker
+### 16.2.5. docker
 
 [配置 wsl2 一条龙开发环境](https://www.cnblogs.com/dmego/p/12082013.html)
 
 [Windows 连接 wsl2 中 docker 的 mysql 还有bug](https://blog.csdn.net/weixin_44008092/article/details/98254833), 如使用 navicat 无法连接, 使用 idea 连的时候, 需要查 wsl2 的 ip, 不能使用 localhost 连接
 
-## windows terminal
+## 16.3. windows terminal
 
 https://www.seepine.com/git/oh-my-zsh/ 配置 zsh
 
@@ -1385,7 +1394,7 @@ install oh my zsh
 
 ```
 
-## package manager
+## 16.4. package manager
 
 chocolatey 权限混乱，自定义目录麻烦，包依赖太多, 不推荐
 
@@ -1399,7 +1408,7 @@ Scoop  开源的， github 社区维护， 会自动添加环境变量，对开�
 
 winget-cli 微软自家的 (https://github.com/microsoft/winget-cli)
 
-### choco
+### 16.4.1. choco
 
 https://community.chocolatey.org/packages
 
