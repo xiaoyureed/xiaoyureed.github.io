@@ -359,12 +359,18 @@ toc_max_heading_level: 5
     - [21.27. gui 图形库](#2127-gui-图形库)
     - [可视化库](#可视化库)
     - [21.28. 底层网络 api](#2128-底层网络-api)
+    - [网络协议](#网络协议)
+        - [quic](#quic)
+        - [tls](#tls)
+        - [dns](#dns)
     - [21.29. 正则](#2129-正则)
     - [21.30. 随机](#2130-随机)
         - [21.30.1. rand 随机数字](#21301-rand-随机数字)
     - [21.31. 搜索引擎](#2131-搜索引擎)
     - [21.32. 开源集合容器](#2132-开源集合容器)
     - [其他语言引擎](#其他语言引擎)
+    - [日期库](#日期库)
+    - [模板](#模板)
 - [22. 开源项目](#22-开源项目)
 - [23. 参考链接](#23-参考链接)
 
@@ -7295,6 +7301,7 @@ assert!(result.is_err());
 ### 5.21.7. 第三方库处理异常
 
 anyhow + thiserror
+https://github.com/dtolnay
 
 https://github.com/rust-cli/human-panic
 
@@ -8591,6 +8598,7 @@ fn main(){
 
 #### 5.26.4.1. 过程宏基本使用规则
 
+https://github.com/dtolnay/proc-macro-workshop
 
 ```rust
 
@@ -11916,9 +11924,19 @@ mdBook 生成电子书
 https://github.com/ratatui-org/ratatui
 
 
+https://github.com/console-rs/console  is a library for Rust that provides access to various terminal features so you can build nicer looking command line interfaces
+
+https://github.com/atanunq/viuer show image in the terminal
+
+https://github.com/console-rs/dialoguer 工具类
+
 indicatif 进度条
 
 clap 命令行参数解析
+
+https://github.com/ratatui-org/ratatui 终端图形库
+
+https://github.com/console-rs/indicatif 进度条
 
 
 借助第三方解析库:
@@ -12055,10 +12073,25 @@ https://github.com/DioxusLabs/taffy A high performance rust-powered UI layout li
 
 https://github.com/yuankunzhang/charming 类似 echarts
 
+
+
 ## 21.28. 底层网络 api
 
 libpnet, 如 `pnet = "0.25.0"`
 
+## 网络协议
+
+### quic
+
+https://github.com/quinn-rs/quinn
+
+### tls
+
+https://github.com/rustls/rustls
+
+### dns
+
+https://github.com/hickory-dns/hickory-dns
 
 ## 21.29. 正则
 
@@ -12115,6 +12148,16 @@ https://github.com/jonhoo/flurry  A port of Java's ConcurrentHashMap to Rust
 https://github.com/boa-dev/boa js JavaScript 引擎
 
 https://github.com/RustPython/RustPython python 引擎
+
+## 日期库
+
+https://github.com/chronotope/chrono
+
+## 模板
+
+https://github.com/djc/askama
+
+https://github.com/mitsuhiko/minijinja
 
 # 22. 开源项目
 
