@@ -1,5 +1,5 @@
 ---
-title: 移动端技术选型
+title: 移动端&跨平台技术选型
 tags: [mobile]
 authors: me
 ---

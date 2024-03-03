@@ -79,6 +79,8 @@ https://learnku.com/articles/23010/teach-you-to-read-the-python-open-source-proj
         - [2.9.7. 实例方法 类方法 静态方法](#297-实例方法-类方法-静态方法)
     - [2.10. 错误异常处理](#210-错误异常处理)
 - [3. 工程化](#3-工程化)
+    - [发布自定义库](#发布自定义库)
+    - [linter 工具](#linter-工具)
     - [cookiecutter 项目模板](#cookiecutter-项目模板)
     - [3.1. 包管理](#31-包管理)
         - [poetry](#poetry)
@@ -235,6 +237,8 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [2.9.7. 实例方法 类方法 静态方法](#297-实例方法-类方法-静态方法)
     - [2.10. 错误异常处理](#210-错误异常处理)
 - [3. 工程化](#3-工程化)
+    - [发布自定义库](#发布自定义库)
+    - [linter 工具](#linter-工具)
     - [cookiecutter 项目模板](#cookiecutter-项目模板)
     - [3.1. 包管理](#31-包管理)
         - [poetry](#poetry)
@@ -2143,6 +2147,18 @@ def error_handling():
 
 # 3. 工程化
 
+## 发布自定义库
+
+https://github.com/pypa/twine Twine is a utility for publishing Python packages on PyPI.
+
+
+
+## linter 工具
+
+关注这个公司 https://astral.sh/
+
+https://github.com/astral-sh/ruff 可以指出无用的引入, 自动修复, 有 vscode 插件 (https://github.com/astral-sh/ruff-vscode)
+
 ## cookiecutter 项目模板
 
 https://github.com/cookiecutter/cookiecutter
@@ -2166,6 +2182,8 @@ https://github.com/pdm-project/pdm 不需要虚拟环境 , 像 pnpm 一样的中
     国人作者https://github.com/frostming - https://frostming.com/2020/02-28/pdm-introduction/
 
 https://github.com/mitsuhiko/rye
+
+https://github.com/astral-sh/uv 
 
 ```
 

@@ -18,6 +18,7 @@ toc_max_heading_level: 5
     - [2.3. IDE](#23-ide)
     - [2.4. 配置国内镜像](#24-配置国内镜像)
 - [3. 标准库](#3-标准库)
+    - [日志](#日志)
     - [3.1. path 路径](#31-path-路径)
     - [3.2. 时间](#32-时间)
 - [4. 对比 2018](#4-对比-2018)
@@ -209,7 +210,7 @@ toc_max_heading_level: 5
     - [5.25. 反射](#525-反射)
     - [5.26. 宏](#526-宏)
         - [5.26.1. 宏基本介绍](#5261-宏基本介绍)
-        - [5.26.2. 声明宏](#5262-声明宏)
+        - [5.26.2. 声明宏 or 卫生宏](#5262-声明宏-or-卫生宏)
             - [5.26.2.1. 创建宏](#52621-创建宏)
             - [5.26.2.2. 重复循环匹配](#52622-重复循环匹配)
             - [5.26.2.3. 实际案例](#52623-实际案例)
@@ -317,6 +318,13 @@ toc_max_heading_level: 5
     - [19.2. socket 代理](#192-socket-代理)
 - [20. 开发微信小程序-web 游戏](#20-开发微信小程序-web-游戏)
 - [21. 第三方 crates](#21-第三方-crates)
+    - [io开源库](#io开源库)
+    - [usb 设备支持](#usb-设备支持)
+    - [时间处理](#时间处理)
+    - [数字处理](#数字处理)
+    - [测试](#测试)
+        - [性能测试](#性能测试)
+        - [mocking](#mocking)
     - [21.1. 事实上的标准库](#211-事实上的标准库)
     - [21.2. markdown](#212-markdown)
     - [21.4. 视频处理](#214-视频处理)
@@ -324,6 +332,7 @@ toc_max_heading_level: 5
     - [21.6. 游戏开发三方库](#216-游戏开发三方库)
     - [21.7. 系统信息](#217-系统信息)
     - [21.8. web 开发](#218-web-开发)
+        - [rest api](#rest-api)
         - [数据库迁移](#数据库迁移)
         - [21.8.1. swagger openapi 生成](#2181-swagger-openapi-生成)
         - [21.8.2. web框架](#2182-web框架)
@@ -337,7 +346,8 @@ toc_max_heading_level: 5
     - [21.10. 读写数据](#2110-读写数据)
     - [21.11. 增强工具](#2111-增强工具)
     - [21.12. 授权 Authorization](#2112-授权-authorization)
-    - [21.13. 日志系统](#2113-日志系统)
+    - [21.13. 日志处理](#2113-日志处理)
+        - [slog](#slog)
         - [21.13.1. tracing](#21131-tracing)
         - [21.13.2. env\_logger](#21132-env_logger)
         - [21.13.3. log4rs and log](#21133-log4rs-and-log)
@@ -350,7 +360,6 @@ toc_max_heading_level: 5
     - [21.18. 异步编程](#2118-异步编程)
     - [21.19. websocket](#2119-websocket)
     - [21.20. 缩小体积](#2120-缩小体积)
-    - [21.21. http client](#2121-http-client)
     - [21.22. 容错运行时](#2122-容错运行时)
     - [21.23. 监控](#2123-监控)
     - [21.24. 电子邮件](#2124-电子邮件)
@@ -358,17 +367,25 @@ toc_max_heading_level: 5
     - [21.26. 并发编程](#2126-并发编程)
     - [21.27. gui 图形库](#2127-gui-图形库)
     - [可视化库](#可视化库)
+    - [图形处理](#图形处理)
     - [21.28. 底层网络 api](#2128-底层网络-api)
     - [网络协议](#网络协议)
         - [quic](#quic)
         - [tls](#tls)
         - [dns](#dns)
-    - [21.29. 正则](#2129-正则)
+    - [拼写检查](#拼写检查)
+    - [文本搜索](#文本搜索)
+    - [文本解析库](#文本解析库)
+        - [21.29. 正则表达式](#2129-正则表达式)
+        - [解析器组合框架 nom](#解析器组合框架-nom)
+        - [rust-peg](#rust-peg)
     - [21.30. 随机](#2130-随机)
         - [21.30.1. rand 随机数字](#21301-rand-随机数字)
     - [21.31. 搜索引擎](#2131-搜索引擎)
     - [21.32. 开源集合容器](#2132-开源集合容器)
     - [其他语言引擎](#其他语言引擎)
+    - [机器学习 ai](#机器学习-ai)
+    - [编译解析](#编译解析)
     - [日期库](#日期库)
     - [模板](#模板)
 - [22. 开源项目](#22-开源项目)
@@ -589,6 +606,9 @@ space_example = ["run", "--release", "--", "\"command list\""]
 
 # 3. 标准库
 
+## 日志
+
+https://github.com/rust-lang/log 提供标准 api, 写 lib 无需具体实现, 只需要这个 api, 写应用时除此 api 外还需要具体实现库
 
 
 ## 3.1. path 路径
@@ -4857,12 +4877,15 @@ fn generic() {
 ```rust
 
 
-    // 默认泛型参数, 如 std中的 Add trait:
+    // 默认泛型参数,  如 std中的 Add trait, 如下:
+    // 
     // (为什么要使用关联类型的方式而不在泛型中指定两个参数呢?
     //      使用单泛型参数更灵活, 可传可不传, 使得代码更精简)
     //
-    // sometype 表示符号右边的类型
-    trait Add<SomeType=Self> {// Self 表示为泛型参数指定默认值 Self (Self是每个trait都带有的隐式类型参数, 代表实现当前 trait 的具体类型); 若实现 add 方法没有指定具体泛型, 则默认为 Self
+    // 这里 sometype 表示加号符号右边的类型
+    // Self 表示为泛型参数指定的默认值 (Self是每个trait都带有的隐式类型参数, 代表实现当前 trait 的具体类型); 
+    //      这里表示若实现 add 方法没有指定具体泛型, 则默认为 Self
+    trait Add<SomeType=Self> {
         type Output; // 关联类型
         fn add(self, xx: SomeType) -> Self::Output ;
     }
@@ -4881,11 +4904,12 @@ fn generic() {
 
 
     // 空约束
+    // 
+    trait Red {}
+    trait Blue {}
     struct Cardinal;
     struct BlueJay;
     struct Turkey;
-    trait Red {}
-    trait Blue {}
     impl Red for Cardinal {}
     impl Blue for BlueJay {}
     // 这些函数只对实现了相应的 trait 的类型有效。
@@ -8267,7 +8291,7 @@ panic!
 
 ```
 
-### 5.26.2. 声明宏
+### 5.26.2. 声明宏 or 卫生宏
 
 #### 5.26.2.1. 创建宏
 
@@ -11639,7 +11663,30 @@ https://s0docs0rs.icopy.site/
 
 https://rust-lang-nursery.github.io/rust-cookbook/
 
-https://github.com/crate-ci/typos 拼写检查
+
+## io开源库
+
+https://github.com/tokio-rs/mio 非阻塞
+
+## usb 设备支持
+
+https://github.com/kevinmehall/nusb
+
+## 时间处理
+
+https://github.com/time-rs/time
+
+## 数字处理
+
+https://github.com/rust-num/num
+
+## 测试
+
+### 性能测试
+
+### mocking
+
+https://github.com/LukeMathWalker/wiremock-rs HTTP mocking 
 
 ## 21.1. 事实上的标准库
 
@@ -11686,6 +11733,10 @@ https://github.com/GuillaumeGomez/sysinfo
 
 ## 21.8. web 开发
 
+### rest api
+
+https://github.com/rwf2/Rocket
+
 ### 数据库迁移
 
 https://github.com/rust-db/refinery
@@ -11695,6 +11746,8 @@ https://github.com/rust-db/refinery
 https://github.com/GREsau/okapi
 
 ### 21.8.2. web框架
+
+https://github.com/tokio-rs/axum 基于 tokio
 
 https://github.com/leptos-rs/leptos 类似 react
 
@@ -11716,6 +11769,8 @@ https://github.com/yewstack/yew 使用 jsx 语法写 wasm
 
 Zola 静态网站
 
+https://github.com/LukeMathWalker/pavex restful api
+
 ### i18n
 
 https://github.com/unicode-org/icu4x 可用于资源受限的系统
@@ -11733,6 +11788,9 @@ https://github.com/oobot/cherry
 http - HTTP标准相关的基础类型，如`Request<T> 、Response<T>`以及StatusCode和常用的Header
 
 hyper -  HTTP底层库，它封装了HTTP的报文解析、报文编码处理、连接控制
+
+chttp
+
 
 
 ## 21.9. 序列化反序列化
@@ -11782,13 +11840,15 @@ time
 
 oso
 
-## 21.13. 日志系统
+## 21.13. 日志处理
 
 日志 https://segmentfault.com/a/1190000021681959
 
 log 提供 api, 如果只是开发一个 lib , 无需导入实现, 如果是在一个可执行程序里, 必须有实现才能打印
 
 具体实现有多种
+
+### slog
 
 ### 21.13.1. tracing
 
@@ -12014,10 +12074,6 @@ apt install -y pkg-config
 
 cargo-bloat
 
-## 21.21. http client
-
-chttp
-
 ## 21.22. 容错运行时
 
 bastion
@@ -12073,6 +12129,12 @@ https://github.com/DioxusLabs/taffy A high performance rust-powered UI layout li
 
 https://github.com/yuankunzhang/charming 类似 echarts
 
+## 图形处理
+
+https://github.com/glium/glium OpenGL 绑定
+
+https://github.com/dimforge/nalgebra 线性代数库, 生成图形用
+
 
 
 ## 21.28. 底层网络 api
@@ -12092,11 +12154,40 @@ https://github.com/rustls/rustls
 ### dns
 
 https://github.com/hickory-dns/hickory-dns
+## 拼写检查
 
-## 21.29. 正则
+https://github.com/crate-ci/typos 拼写检查 英文
+
+## 文本搜索
+
+https://github.com/BurntSushi/ripgrep
+
+## 文本解析库
+
+### 21.29. 正则表达式
 
 - regex 官方实现, 不支持环视 ( look-around ) 和 反向引用 ( backreference)
+    https://github.com/rust-lang/regex
+
 - fancy-regex , 支持 支持环视 ( look-around ) 和 反向引用 ( backreference)
+
+### 解析器组合框架 nom
+
+https://github.com/rust-bakery/nom, 
+
+https://www.5axxw.com/wiki/content/v1znu9 使用
+
+
+
+- 写 sql 解析器 https://blog.csdn.net/suozhaoyu0530/article/details/104025963
+- 解析 redis 协议 https://zhuanlan.zhihu.com/p/115017849 todo
+- 解析json
+- 解析binlog
+- 解析 http response 消息 https://blog.51cto.com/u_15127658/2783249
+
+### rust-peg
+
+https://github.com/kevinmehall/rust-peg 类似 nom
 
 ## 21.30. 随机
 
@@ -12149,6 +12240,14 @@ https://github.com/boa-dev/boa js JavaScript 引擎
 
 https://github.com/RustPython/RustPython python 引擎
 
+## 机器学习 ai
+
+https://github.com/rust-ml/linfa
+
+## 编译解析
+
+https://github.com/tree-sitter/tree-sitter
+
 ## 日期库
 
 https://github.com/chronotope/chrono
@@ -12168,6 +12267,10 @@ https://www.zhihu.com/question/30511494
 
 # 23. 参考链接
 
+https://llever.com/gentle-intro/readme.zh.html
+
+https://github.com/rust-lang/rustlings 练习
+
 https://write.yiransheng.com/vpn 实现简单vpn
 
 https://github.com/johnthagen/min-sized-rust 减少 缩小二进制包体积
@@ -12183,7 +12286,7 @@ https://github.com/rustlang-cn/rusty-book 开源库
 
 https://github.com/search?q=algorithm+language%3ARust&type=Repositories&ref=advsearch&l=Rust&l= 算法
 
-https://github.com/rust-unofficial/patterns 规范
+https://github.com/rust-unofficial/patterns 设计模式 反模式
 
 https://github.com/lapce/lapce 编辑器, ui
 
@@ -12220,7 +12323,7 @@ https://github.com/TaKO8Ki/awesome-alternatives-in-rust
 
 
 https://github.com/pingcap/talent-plan 课程
-https://github.com/google/comprehensive-rust
+https://github.com/google/comprehensive-rust 谷歌出品
 
 https://github.com/meilisearch/MeiliSearch 搜索引擎, 类似 algolia, 不过是开源的
 
@@ -12251,11 +12354,12 @@ https://github.com/ramsayleung
 
 
 https://github.com/warycat/rustgym 算法
+https://github.com/TheAlgorithms/Rust
 https://github.com/aylei/leetcode-rust 算法实现
 https://github.com/sunface/rust-algos
 https://github.com/dxx/datastructure-algorithm
 
-https://github.com/rust-unofficial/awesome-rust
+https://github.com/rust-unofficial/awesome-rust 资源收集
 https://github.com/rust-lang-nursery/rust-cookbook
 
 https://play.integer32.com/
@@ -12286,8 +12390,9 @@ https://doc.rust-lang.org/stable/reference/introduction.html
 https://doc.rust-lang.org/stable/rust-by-example/macros/dsl.html example
 https://books.budshome.com/rust-by-example/testing/unit_testing.html 中文
 
-https://rust-unofficial.github.io/too-many-lists/ another tutorial
-https://github.com/rust-unofficial/too-many-lists
+https://github.com/rust-unofficial/too-many-lists 链表实现
+
+https://github.com/rust-unofficial/rust-practise-questions 问答
 
 https://cheats.rs/#data-structures 速查表 cheatsheet
 
