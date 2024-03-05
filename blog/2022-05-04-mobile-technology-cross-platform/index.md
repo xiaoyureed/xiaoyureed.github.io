@@ -35,6 +35,15 @@ https://github.com/didi/DoraemonKit 移动端 app 测试工具包
 
 ## react native
 
+https://github.com/expo/expo
+
+使用技术
+- React Native
+- Redux Toolkit
+- RTK Query
+- Expo Router
+- NativeWind
+
 使用react-native可以维护多种平台（Web，Android和IOS）, 原理是将 js 转为 平台对应的组件
 
 react-native的优点：不用webview,摆脱了webview的交互和性能问题；有较强的扩展性，java端提供了基础控件，js可以自由组合使用也可以自定义组合控件；
