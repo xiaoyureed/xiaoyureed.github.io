@@ -104,6 +104,11 @@ toc_max_heading_level: 5
             - [5.11.6.2. RefCell](#51162-refcell)
         - [5.11.7. Rc Box RefCell Cell 几种指针的区别对比 组合使用](#5117-rc-box-refcell-cell-几种指针的区别对比-组合使用)
         - [5.11.8. Pin 和 Unpin](#5118-pin-和-unpin)
+            - [what is Pin](#what-is-pin)
+                - [Pin 原理](#pin-原理)
+            - [why need Pin](#why-need-pin)
+            - [how to use Pin](#how-to-use-pin)
+            - [how to use Unpin](#how-to-use-unpin)
         - [5.11.9. Cow 写时复制](#5119-cow-写时复制)
     - [5.12. 函数](#512-函数)
         - [5.12.1. 函数基本语法](#5121-函数基本语法)
@@ -164,14 +169,14 @@ toc_max_heading_level: 5
         - [5.16.8. Drop 资源释放](#5168-drop-资源释放)
         - [5.16.9. 标签 trait](#5169-标签-trait)
             - [5.16.9.1. Send 和 Sync](#51691-send-和-sync)
-            - [5.16.9.2. Copy trait](#51692-copy-trait)
+            - [5.16.9.2. Copy trait (和 Clone 区别)](#51692-copy-trait-和-clone-区别)
             - [5.16.9.3. Sized trait  和 动态类型DST](#51693-sized-trait--和-动态类型dst)
         - [5.16.10. Default trait](#51610-default-trait)
         - [5.16.11. Extend trait](#51611-extend-trait)
         - [5.16.12. Any trait](#51612-any-trait)
         - [5.16.13. 和比较排序相关的trait](#51613-和比较排序相关的trait)
     - [5.17. 元组](#517-元组)
-    - [5.18. 结构体](#518-结构体)
+    - [5.18. 结构体 struct](#518-结构体-struct)
         - [5.18.1. 结构体基本使用](#5181-结构体基本使用)
         - [5.18.2. 元组结构体 and 单元结构体](#5182-元组结构体-and-单元结构体)
         - [5.18.3. 结构体方法](#5183-结构体方法)
@@ -936,15 +941,16 @@ fn basic_types() {
     // 整型
 
     // 占据 8 bit
-    const A: i8 = -2; // 有符号
-    const B: u8 = 2; // 无符号
+    const A: i8 = -2; // 有符号 [-128, 127]
+    const B: u8 = 2; // 无符号 [0, 255]       (无符号整数类型的最大值是 2^n - 1，其中 n 是该类型的位数。)
                      // const b: u8 = -2; // 错误
 
     // 占据 16 bit
-    // i16 u16
+    // i16  -32768 ~ 32767
+    // u16  0 ~ 65535
 
     // 占据 32 bit
-    // i32 u32
+    // i32(默认) u32    亿级别
 
     // 64 bit
     // i64 u64
@@ -952,7 +958,7 @@ fn basic_types() {
     // 128
     // i128 u128
 
-    // arch 类型
+    // arch 类型 (同机器字长)
     // isize	usize
     //长度取决于所运行的目标平台，如果是 32 位架构的处理器将使用 32 位位长度整型。
 
@@ -3474,22 +3480,93 @@ println!("{:?}", shared_vec.borrow());
 
 ### 5.11.8. Pin 和 Unpin
 
-```rs
-/// 使用 Pin<P> 则代表将数据的内存位置牢牢地“钉”在原地，不让它移动 。(作用的类型是指针) 
 
+#### what is Pin
+
+```rs
+
+/// 使用 Pin<P> , 代表指针 P 指向的数据禁止移动, 作用的对象是指针
+//      Pin 包裹后, 并不能一定保证数据不可移动, rust 根据指针指向的 T 是否实现 !Unpin 来决定, 
+//          - 实现了!Unpin则无法返回 T 的可变引用, 数据不可移动
+//          - 没有实现, 则可以通过 deref_mut()返回可变引用, 数据仍然可以移动 (所有类型默认都是 Unpin 的)
+//      底层实现实际是一个 struct
+//
+
+pub struct Pin<P> {
+    pub pointer: P,
+}
+// 为pin 实现获取可变引用的方法
+//有限定条件: P 指针需要能够 deref_mut, 且指针指向的数据是 Unpin 类型
+impl<P: DerefMut<Target: Unpin>> DerefMut for Pin<P> {
+    fn deref_mut(&mut self) -> &mut P::Target {
+        Pin::get_mut(Pin::as_mut(self))
+    }
+}
+```
+
+##### Pin 原理
+
+```rs
+
+let mut x1 = Box::new(3);
+let mut x2 = Box::new(4);
+let x1_mut = x1.as_mut();
+let x2_mut = x2.deref_mut();
+
+println!("x1_mut: {:?}, x2_mut: {:?}", x1_mut, x2_mut); // 3, 4
+// swap the value for the two mut reference
+std::mem::swap(x1_mut, x2_mut);
+println!("x1_mut: {:?}, x2_mut: {:?}", x1_mut, x2_mut); // 4, 3
+
+// swap 能够成功, 归根到底, 需要能够输入两个可变引用
+// Pin 实现的原理就是, 如果一个指针 被pin包住, 该指针就不可能通过任何方法返回可变引用
+let mut x1_pinned: Pin<Box<i32>> = Pin::new(x1);
+let x1_pinned_mut: Pin<&mut i32> = x1_pinned.as_mut();
+// error:
+//expected mutable reference `&mut {integer}`
+// found struct `Pin<&mut {integer}>`
+std::mem::swap(x1_pinned_mut, x2_mut);
+
+// 此时, 这种方式能够获取可变引用, 因为 i32 是 unpin 类型(unpin 是 auto trait)
+let x1_pinned_mut2 = x1_pinned.deref_mut();
+
+
+
+
+ #[derive(Debug, Clone)]
+struct A<'a> {
+    name: String,
+    a: &'a String,
+    // phantomPinned 是 !unpin , 所以 A 也是 !unpin 的, 不可移动不可复制
+    b: PhantomPinned,
+}
+let a = A {
+    name: "a".to_string(),
+    a: &"a".to_string(),
+    b: Default::default(),
+};
+// a pinned box
+let mut a_pinned_box = Box::pin(a);
+// 此时就不行了
+//error:
+//the method `deref_mut` exists for struct `Pin<Box<A<'_>>>`, but its trait bounds were not satisfied
+// the following trait bounds were not satisfied:
+// `A<'_>: Unpin`
+// which is required by `Pin<Box<A<'_>>>: DerefMut`
+a_pinned_box.deref_mut();
+```
+
+#### why need Pin
+
+```rs
+
+
+// 为什么需要 pin?
 //    是为了解决自我引用的数据结构( 典型如: 内部包含指针 p 和数据 data, p 指向 data)在内存中做地址移动后, p 的值还是原来的值, 但是 data 有了新的地址, 因此整个数据结构就不能使用了, 如在做 swap 操作时容易出现循环引用 (类比 "刻舟求剑"的故事)
 //  (
 // 自引用结构有啥用处啊?
 // 主要是为了支持Rust的异步编程
 // )
-
-// Unpin 则正好和 Pin 的解药， 代表被“钉”住的数据，可以安全地移动。大多数类型都自动实现了 Unpin。
-
-//      若 P 是 !Unpin 类型, Pin<P> 无法 deref_mut, 也就是无法拿到 P 的可变引用
-
-//      Unpin 是 auto trait, 会自动实现
-
-//      impl Future 是 !Unpin 类型, 因为 Future 是典型的 自引用结构 
 
 
 
@@ -3497,8 +3574,60 @@ println!("{:?}", shared_vec.borrow());
 // tokio 下的 AsyncRead AsyncWrite
 
 // futures 下的 Stream 和 Sink
+
 ```
 
+#### how to use Pin
+
+```rs
+// a pinned box
+let a_pinned_box = Box::pin(a);
+
+let a_boxed = Box::new(a);
+let a_pinned_box2 = Box::into_pin(a_boxed);
+
+
+```
+
+#### how to use Unpin
+
+```rs
+
+
+
+// Unpin 则正好和 Pin 的解药， 标识数据可以安全地移动。
+// Unpin 是 auto trait, 内部是空的, 就是一个标记,  
+//      auto 意思是编译器会默认为所有类型自动实现 unpin, 除非手动为类型实现了 !Unpin , 即(impl !Unpin for xxxStruct {}), 那么该类型不会自动实现 Unpin了
+
+//      若 P 是 !Unpin 类型, Pin<P> 无法 deref_mut, 也就是无法拿到 P 的可变引用
+
+
+//      impl Future 是 !Unpin 类型, 因为 Future 是典型的 自引用结构 
+
+
+
+// 如何将自定义结构标识为 !Unpin 不可移动
+
+// scenario1: 包含一个 PhantomPinned 字段
+#[derive(Debug, Clone)]
+struct A<'a> {
+    name: String,
+    a: &'a String,
+    // phantomPinned 是 !unpin , 所以 A 也是 !unpin 的, 不可移动不可复制
+    b: PhantomPinned,
+}
+let a = A {
+    name: "a".to_string(),
+    a: &"a".to_string(),
+    b: Default::default(),
+};
+
+// scenario2: 
+impl !Unpin for A {}
+
+
+
+```
 
 ### 5.11.9. Cow 写时复制
 
@@ -5895,7 +6024,7 @@ thread::spawn( move || x[1]);
 // 对于自定义的数据类型，如果其成员类型全部实现 Send 和 Sync，此类型才会被自 动实现 Send 和 Sync
 ```
 
-#### 5.16.9.2. Copy trait
+#### 5.16.9.2. Copy trait (和 Clone 区别)
 
 区分值语义和引用语义
 
@@ -6109,7 +6238,7 @@ println!("{}", s);//Hello Rust
 ```
 
 
-## 5.18. 结构体
+## 5.18. 结构体 struct
 
 ### 5.18.1. 结构体基本使用
 
@@ -12266,6 +12395,8 @@ https://www.zhihu.com/question/30511494
 
 
 # 23. 参考链接
+
+https://github.com/sunface/rust-by-practice 练习
 
 https://llever.com/gentle-intro/readme.zh.html
 

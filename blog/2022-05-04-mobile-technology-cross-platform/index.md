@@ -9,7 +9,16 @@ https://github.com/didi/DoraemonKit 移动端 app 测试工具包
 
 <!-- truncate -->
 
-# 移动端选型
+
+- [原生 native](#原生-native)
+- [react native](#react-native)
+- [flutter](#flutter)
+- [h5 hybird 混合开发](#h5-hybird-混合开发)
+- [web app](#web-app)
+- [jetpack](#jetpack)
+- [kotlin + compose](#kotlin--compose)
+
+
 
 ## 原生 native
 
@@ -82,3 +91,10 @@ cons (disadvantage/weakness):
 - 临时性入口,用户留存率低这既是它的优点,也是缺点,优点是无需安装,确定是用完后有时候很难再找到,或者说很难专门为某个web app留存一个入口
 
 ## jetpack
+
+
+## kotlin + compose
+
+支持 ios 安卓
+
+https://github.com/msasikanth/twine 例子

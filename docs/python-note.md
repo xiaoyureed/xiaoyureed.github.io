@@ -148,7 +148,7 @@ https://learnku.com/articles/23010/teach-you-to-read-the-python-open-source-proj
     - [17.4. 图像](#174-图像)
     - [17.5. 数据模型定义](#175-数据模型定义)
     - [17.6. 序列化反序列化](#176-序列化反序列化)
-    - [17.7. web 框架](#177-web-框架)
+    - [17.7. 做 web 开发](#177-做-web-开发)
 - [18. jython](#18-jython)
 - [19. 调用 rust](#19-调用-rust)
 - [20. cffi 绑定](#20-cffi-绑定)
@@ -306,7 +306,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [17.4. 图像](#174-图像)
     - [17.5. 数据模型定义](#175-数据模型定义)
     - [17.6. 序列化反序列化](#176-序列化反序列化)
-    - [17.7. web 框架](#177-web-框架)
+    - [17.7. 做 web 开发](#177-做-web-开发)
 - [18. jython](#18-jython)
 - [19. 调用 rust](#19-调用-rust)
 - [20. cffi 绑定](#20-cffi-绑定)
@@ -4038,7 +4038,9 @@ pickle
 
 https://github.com/ICRAR/ijson 高性能解析 json
 
-## 17.7. web 框架
+## 17.7. 做 web 开发
+
+https://github.com/pydantic/FastUI 生成 基于 react 的页面
 
 Django 大一统解决方案
 

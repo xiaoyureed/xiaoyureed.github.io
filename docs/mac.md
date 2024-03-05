@@ -67,6 +67,7 @@ https://github.com/Louiszhai/tool
         - [12.26.3. 使用 debugger for Chrome](#12263-使用-debugger-for-chrome)
         - [12.26.4. snippets](#12264-snippets)
         - [12.26.5. code copilot 插件使用快捷键](#12265-code-copilot-插件使用快捷键)
+        - [注释后自动下一行](#注释后自动下一行)
     - [12.27. 修改 hosts 文件](#1227-修改-hosts-文件)
     - [12.28. idea](#1228-idea)
         - [12.28.1. idea 无法启动 missing essential plugins](#12281-idea-无法启动-missing-essential-plugins)
@@ -1042,6 +1043,25 @@ https://github.com/microsoft/vscode/issues/89700 当前文件夹名字
 下一条建议：Alt/Option + ]
 上一条建议：Alt/Option + [
 触发行内Copilot：Alt/Option + \ （Coplit还没有给出建议或者建议被拒绝了，希望手工触发它提供建议）
+```
+
+### 注释后自动下一行
+
+command 搜 Open Keyboard Shutcuts (JSON), 将以下代码加到末尾
+
+```json
+ {
+        "key": "ctrl+/",
+        "command": "runCommands",
+        "args": {
+            "commands": [
+                "editor.action.commentLine",
+                "cursorDown"
+            ]
+        },
+        "when": "editorTextFocus && !editorReadonly"
+    },
+
 ```
 
 ## 12.27. 修改 hosts 文件
