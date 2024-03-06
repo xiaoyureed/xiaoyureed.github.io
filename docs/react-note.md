@@ -12,7 +12,7 @@ toc_max_heading_level: 5
 <div align="center">
 ui 设计
 https://www.freeuid.com/free/ui
-https://ui.shadcn.com/
+https://ui.shadcn.com/  https://github.com/shadcn-ui/ui 组件库
 https://v0.dev/
 
 https://github.com/merakiui/merakiui tailwindcss 组件
