@@ -256,6 +256,7 @@ toc_max_heading_level: 5
         - [8.5.1. cargo 基本命令](#851-cargo-基本命令)
         - [8.5.2. 文件布局结构](#852-文件布局结构)
         - [8.5.3. Cargo.toml](#853-cargotoml)
+        - [cargo edit 自动管理依赖](#cargo-edit-自动管理依赖)
         - [8.5.4. cargo.lock](#854-cargolock)
         - [8.5.5. workspace](#855-workspace)
         - [8.5.6. 依赖的版本号规则](#856-依赖的版本号规则)
@@ -266,7 +267,9 @@ toc_max_heading_level: 5
         - [8.7.3. 执行子目录中的 module](#873-执行子目录中的-module)
         - [8.7.4. 导入自定义 module](#874-导入自定义-module)
         - [8.7.5. 导入第三方 crate](#875-导入第三方-crate)
-- [9. 单元测试](#9-单元测试)
+- [测试](#测试)
+    - [9. 单元测试](#9-单元测试)
+    - [性能测试](#性能测试)
 - [10. 交叉编译 and 条件编译](#10-交叉编译-and-条件编译)
 - [11. 并发](#11-并发)
     - [11.1. 通用概念](#111-通用概念)
@@ -327,8 +330,8 @@ toc_max_heading_level: 5
     - [usb 设备支持](#usb-设备支持)
     - [时间处理](#时间处理)
     - [数字处理](#数字处理)
-    - [测试](#测试)
-        - [性能测试](#性能测试)
+    - [测试](#测试-1)
+        - [性能测试](#性能测试-1)
         - [mocking](#mocking)
     - [21.1. 事实上的标准库](#211-事实上的标准库)
     - [21.2. markdown](#212-markdown)
@@ -9760,7 +9763,28 @@ lto= # 连接时间优化
 ```
 
 
+### cargo edit 自动管理依赖
 
+cargo 现在已经支持 add, rm  了
+
+https://github.com/killercup/cargo-edit
+
+```sh
+
+cargo install cargo-edit
+# If you wish to use a bundled version of openssl:
+cargo install cargo-edit --features vendored-openssl
+
+
+cargo add <crate> -F <feature>
+cargo add serde -F serde/derive serde_json
+
+cargo rm
+
+cargo upgrade
+
+
+```
 
 
 ### 8.5.4. cargo.lock
@@ -9955,9 +9979,9 @@ extern crate linked_list，
 ```
 
 
+# 测试
 
-
-# 9. 单元测试
+## 9. 单元测试
 
 https://github.com/nvzqz/divan 性能测试框架
 
@@ -10027,6 +10051,10 @@ mod tests {
 
 
 
+
+## 性能测试
+
+https://github.com/awslabs/shuttle 测试并发代码
 
 # 10. 交叉编译 and 条件编译
 
