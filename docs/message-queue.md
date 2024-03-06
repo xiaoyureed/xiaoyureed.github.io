@@ -578,6 +578,8 @@ public class RabbitMQConfig {
 
 ### 5.4.2. 发送
 
+支持延迟消息, 单位毫秒
+
 使用默认的 exchange
 
 ```java
@@ -603,6 +605,8 @@ private final AmqpTemplate template;
 public void sendMessage(String msg) {
   // 注意MessageBuilder 不是带泛型的那个
     template.send(MessageBuilder.withBody(msg.getBytes(StandardCharsets.UTF_8)).build());
+
+    // 可以使用 convertAndSend() 直接发送对象 
 }
 
 /**
@@ -672,7 +676,7 @@ public void sendWithTopic(String msg, String routingKey) {
 @Component
 public class Receiver2 {
     @RabbitListener(queues = "queue_2")
-    public void process(String msg) {
+    public void process(String msg) { // 接收参数也可以是对象, will auto deserialize
         System.out.println("receiver2: " + msg);
     }
 
