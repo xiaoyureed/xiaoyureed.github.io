@@ -67,12 +67,17 @@ atob('SGVsbG8gV29ybGQh'); // Hello World!
         - [搜索引擎](#搜索引擎)
 - [羊毛自动化](#羊毛自动化)
 - [个人项目的低成本方案](#个人项目的低成本方案)
+    - [ecs 云主机](#ecs-云主机)
     - [白嫖数据库](#白嫖数据库)
     - [web 开发](#web-开发)
     - [项目管理](#项目管理)
-    - [域名](#域名)
+    - [域名 https](#域名-https)
+    - [cdn 和对象存储](#cdn-和对象存储)
     - [静态页面部署托管](#静态页面部署托管)
     - [收款](#收款)
+- [other free resources](#other-free-resources)
+    - [免费内网穿透](#免费内网穿透)
+    - [组内网 vpn](#组内网-vpn)
 - [企业级开发规范最佳实践](#企业级开发规范最佳实践)
     - [分支](#分支)
     - [环境](#环境)
@@ -843,6 +848,23 @@ https://mp.weixin.qq.com/s?__biz=Mzg4MzE5MjEyOQ==&mid=2247483671&idx=1&sn=bfe60f
 
 # 个人项目的低成本方案
 
+https://free-for.dev/#/
+https://www.xugj520.cn/archives/free-for-dev.html
+
+
+## ecs 云主机
+
+```sh
+Oracle Always Free ECS (oracle 的 arm 服务器)
+
+racknerd
+
+
+telegram 的机器人
+
+000webhost 托管 php 网站，结合 freecron 自动化脚本，实现网站内容的更新
+```
+
 ## 白嫖数据库
 
 ```
@@ -879,18 +901,34 @@ https://linear.app/
     使用方法论 https://linear.app/method
 ```
 
-## 域名
+## 域名 https
 
 ```
-https://www.cloudflare.com/  cdn, 域名注册托管, pages静态资源
+https://www.cloudflare.com/  cdn, 域名注册托管
     dns record type:
         A 域名的IPv4地址
         AAAA Record: 域名的IPv6地址。
         CNAME Record: 域名的别名
 
 freeSLL 申请 ssl 证书
+    let's encrypt 的证书
 
 namesale 国外免备案域名
+
+Google app script 的自动脚本
+
+
+```
+
+## cdn 和对象存储
+
+```sh
+
+七牛云 cdn/云存储
+
+cloudflare cdn/r2
+
+https://www.bitiful.com/ 代替七牛云
 
 ```
 
@@ -899,12 +937,15 @@ namesale 国外免备案域名
 ```
 github pages  (百度收录不好)
 
-vercel  (还能不熟 php)
+vercel  (can also be used to deploy php)
 
-netlify
+netlify ( which is more comfortable to the visitor from China)
 
 heroku
+
+CloudFlare Workers/Pages/
 ```
+
 
 ## 收款
 
@@ -918,6 +959,26 @@ https://github.com/vercel/nextjs-subscription-payments 订阅价格页面模板
 https://github.com/assimon/dujiaoka 收款 , 发卡系统
 理论上， 你不需要改代码， 直接找个服务器部署独角数系统， 买个域名指向服务器， 然后把支付宝当面付得证书复制过去就能用了
 但是他这个发卡是那种提前生成好得码， 比如什么充值码， 或者 chatgpt 账号之类的
+
+```
+
+# other free resources
+
+## 免费内网穿透
+
+```sh
+
+https://freefrp.net/
+
+```
+
+## 组内网 vpn
+
+```sh
+
+tailscale ，比手动组 wireguard 方便得多, 有免费额度
+
+Zerotier  有免费额度
 
 ```
 

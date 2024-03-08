@@ -93,6 +93,7 @@ https://blog.csdn.net/jiaowo_ccc/article/details/93893715 usage scenario
             - [6.3.5.8. 消息转发](#6358-消息转发)
         - [6.3.6. 总结:消息送达的情况](#636-总结消息送达的情况)
     - [6.4. 参数调优](#64-参数调优)
+    - [开源生态](#开源生态)
 - [7. 即时通讯 MQTT协议](#7-即时通讯-mqtt协议)
 
 
@@ -2282,6 +2283,9 @@ public class KafkaConsumer {
 
 https://blog.csdn.net/hanjibing1990/article/details/51673540 消息体大小
 
+## 开源生态
+
+https://github.com/zalando/nakadi 通过restful api 也kafka交互
 
 
 # 7. 即时通讯 MQTT协议

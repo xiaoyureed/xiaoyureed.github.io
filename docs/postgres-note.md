@@ -60,6 +60,7 @@ https://github.com/PostgREST/postgrest - postgresql to rest api
     - [时序数据库](#时序数据库)
     - [流式计算](#流式计算)
     - [缓存](#缓存)
+    - [实现高可用](#实现高可用)
 
 
 
@@ -690,3 +691,7 @@ https://github.com/pg-redis-fdw/redis_fdw 使用redis_fdw进行缓存更新推�
 使用mongo_fdw完成从mongo到pg的数据迁移
 
 使用mysql_fdw读取MySQL数据并存入数仓
+
+## 实现高可用
+
+https://github.com/zalando/patroni

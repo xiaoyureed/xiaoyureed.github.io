@@ -53,7 +53,6 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
         - [3.3.1. bean 复制 克隆](#331-bean-复制-克隆)
         - [3.3.2. 字符串](#332-字符串)
         - [3.3.3. 编解码](#333-编解码)
-- [4. 和 react 一起打包](#4-和-react-一起打包)
 - [5. Spring Boot中的注解](#5-spring-boot中的注解)
     - [5.1. @ConfigurationProperties 和 @Value](#51-configurationproperties-和-value)
         - [基本使用-注入值](#基本使用-注入值)
@@ -262,6 +261,7 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
 - [31. 接入第三方支付](#31-接入第三方支付)
 - [32. 轻量级的技术栈](#32-轻量级的技术栈)
     - [32.1. dagger2 编译器依赖注入](#321-dagger2-编译器依赖注入)
+- [spring-boot 初始化工作](#spring-boot-初始化工作)
 - [33. 拾遗](#33-拾遗)
     - [33.1. bean 懒加载](#331-bean-懒加载)
     - [33.2. bean 循环依赖](#332-bean-循环依赖)
@@ -830,12 +830,6 @@ public static String getMD5(String str) {
 ```
 
 
-
-# 4. 和 react 一起打包
-
-https://github.com/arpan-banerjee7/demo-spring-react-maven-plugin
-
-TODO
 
 # 5. Spring Boot中的注解
 
@@ -6856,7 +6850,24 @@ for the two ways, there are too mach sacaffold code need devs to finish, but luc
 
 For dagger2, it reach the goal by using annotation, and it works in the compiling duration
 
+# spring-boot 初始化工作
 
+https://github.com/ok1996/ok-system-simple
+
+```java
+
+做好 mdc 上下文(比如添加操作人信息), 自定义日志配置.
+异步线程池&定时任务设置好配置
+自定义异常&异常处理器
+Jackson ObjectMapper 自定义配置
+OkHttp3 Client 及日志拦截器配置
+引入 CommonsRequestLoggingFilter 打印请求,非常好用推荐 (要分环境, prod 就不打印了)        无法记录response
+    或者: spring：mvc: log-request-details: true , 打印 org .springframwork.web 下的 trace 级别日志就能自动把请求和返回的信息全序列化到日志里
+针对 dubbo 的话可以进行一个 filter 打印请求和返回情况
+加 mybatis sql 拦截器 , 统计耗时,手动加个 mdc,方便根据 sql 中的 mdc 查找到代码的上下文 (分环境)
+Redisson 、Jedis Client 配置
+
+```
 
 # 33. 拾遗
 

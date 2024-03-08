@@ -343,6 +343,9 @@ Then we can start the backend with the debug/start button offered by ide or by u
 
 ## reference materials
 
+https://github.com/arpan-banerjee7/demo-spring-react-maven-plugin
+
+
 https://github.com/xiaoyureed/next-boot
 
 https://github.com/tisonkun/springboot-nextjs-demo

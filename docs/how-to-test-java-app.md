@@ -307,6 +307,8 @@ assertThatExceptionOfType(IndexOutOfBoundsException.class)
 
 ## 4. Mockito
 
+https://github.com/ccmjga/mjga-scaffold 实例
+
 https://blog.xiayf.cn/2019/06/17/mockito/ 两种风格
 
 https://github.com/alibaba/testable-mock ali出品 mock 框架

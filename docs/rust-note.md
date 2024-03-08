@@ -876,9 +876,7 @@ fn variables() {
     // 能够被二次赋值
     let mut b = 10;
     b = 33;
-    println!("b = {}", b);
-    // 这是不行的, 因为 b 已经被使用过了
-    // b = "bb";
+   
 
     // 手动指定类型, 无符号 64 位整型变量
     // 如果没有声明类型，i 将自动被判断为有符号 32 位整型变量
@@ -1463,6 +1461,24 @@ fn str_string() {
 ### 5.4.3. 字符串转换
 
 ```rs
+&str    -> String  | String::from(s) or s.to_string() or s.to_owned()
+&str    -> &[u8]   | s.as_bytes()
+&str    -> Vec<u8> | s.as_bytes().to_vec() or s.as_bytes().to_owned()
+String  -> &str    | &s if possible* else s.as_str()
+String  -> &[u8]   | s.as_bytes()
+String  -> Vec<u8> | s.into_bytes()
+&[u8]   -> &str    | s.to_vec() or s.to_owned()
+&[u8]   -> String  | std::str::from_utf8(s).unwrap(), but don't**
+&[u8]   -> Vec<u8> | String::from_utf8(s).unwrap(), but don't**
+Vec<u8> -> &str    | &s if possible* else s.as_slice()
+Vec<u8> -> String  | std::str::from_utf8(&s).unwrap(), but don't**
+Vec<u8> -> &[u8]   | String::from_utf8(s).unwrap(), but don't**
+
+* target should have explicit type (i.e., checker can't infer that)
+
+** handle the error properly instead
+
+
  //
     //
     // 复杂类型的类型转换 相互转换 互转
@@ -12138,7 +12154,10 @@ mdBook 生成电子书
 
 ## 21.17. 命令行程序 tui
 
-https://github.com/ratatui-org/ratatui
+https://github.com/adsnaider/qshell 在代码中执行外部命令
+https://docs.rs/sh/latest/sh/
+
+https://github.com/ratatui-org/ratatui 构建丰富界面
 
 
 https://github.com/console-rs/console  is a library for Rust that provides access to various terminal features so you can build nicer looking command line interfaces
