@@ -159,22 +159,27 @@ toc_max_heading_level: 5
                 - [5.16.1.8.3. impl trait](#516183-impl-trait)
             - [5.16.1.9. trait的类型转换](#51619-trait的类型转换)
         - [5.16.2. 可自动推导的trait](#5162-可自动推导的trait)
-            - [Clone 和 Copy](#clone-和-copy)
+            - [Clone](#clone)
+            - [Copy](#copy)
             - [Debug](#debug)
+            - [Default](#default)
         - [5.16.3. 运算符重载相关的trait](#5163-运算符重载相关的trait)
-        - [5.16.4. From 和 Into](#5164-from-和-into)
+        - [5.16.4. From 和 Into 和 TryFrom](#5164-from-和-into-和-tryfrom)
+        - [Clone 和 Copy](#clone-和-copy)
         - [5.16.5. DerefMut 和 Deref](#5165-derefmut-和-deref)
         - [5.16.6. AsRef AsMut](#5166-asref-asmut)
         - [5.16.7. Borrow trait](#5167-borrow-trait)
         - [5.16.8. Drop 资源释放](#5168-drop-资源释放)
+        - [Sized trait 和 动态类型DST](#sized-trait-和-动态类型dst)
         - [5.16.9. 标签 trait](#5169-标签-trait)
             - [5.16.9.1. Send 和 Sync](#51691-send-和-sync)
-            - [5.16.9.2. Copy trait (和 Clone 区别)](#51692-copy-trait-和-clone-区别)
-            - [5.16.9.3. Sized trait  和 动态类型DST](#51693-sized-trait--和-动态类型dst)
-        - [5.16.10. Default trait](#51610-default-trait)
+            - [5.16.9.2. Copy 标签 trait](#51692-copy-标签-trait)
+            - [5.16.9.3. Sized 标签trait](#51693-sized-标签trait)
+        - [5.16.10. Default trait (可自动推导)](#51610-default-trait-可自动推导)
         - [5.16.11. Extend trait](#51611-extend-trait)
         - [5.16.12. Any trait](#51612-any-trait)
         - [5.16.13. 和比较排序相关的trait](#51613-和比较排序相关的trait)
+        - [Send Sync](#send-sync)
     - [5.17. 元组](#517-元组)
     - [5.18. 结构体 struct](#518-结构体-struct)
         - [5.18.1. 结构体基本使用](#5181-结构体基本使用)
@@ -196,6 +201,7 @@ toc_max_heading_level: 5
         - [5.21.2. panic 和 Abort](#5212-panic-和-abort)
         - [5.21.3. Result  和 问号操作符](#5213-result--和-问号操作符)
         - [5.21.4. 错误装箱 自定义异常](#5214-错误装箱-自定义异常)
+        - [自定义异常enum](#自定义异常enum)
         - [5.21.5. 捕获异常](#5215-捕获异常)
         - [5.21.6. 错误处理进化过程](#5216-错误处理进化过程)
         - [5.21.7. 第三方库处理异常](#5217-第三方库处理异常)
@@ -220,7 +226,7 @@ toc_max_heading_level: 5
             - [5.26.2.2. 重复循环匹配](#52622-重复循环匹配)
             - [5.26.2.3. 实际案例](#52623-实际案例)
         - [5.26.3. 宏调试](#5263-宏调试)
-        - [5.26.4. 过程宏](#5264-过程宏)
+        - [5.26.4. 过程宏 proc\_macro](#5264-过程宏-proc_macro)
             - [5.26.4.1. 过程宏基本使用规则](#52641-过程宏基本使用规则)
             - [5.26.4.2. 自定义属性宏](#52642-自定义属性宏)
             - [5.26.4.3. 函数调用宏](#52643-函数调用宏)
@@ -5651,15 +5657,7 @@ let a: i64 = 11 as i64
    /*
     Eq, PartialEq, Ord, PartialOrd (比较类的 trait)
 
-    Clone, 用来从 &T 创建副本 T。当处理资源时，默认的行为是在赋值或函数调用的同时将它们转移。但是我们有时候也需要 把资源复制一份。
-
-        - 包括 clone, colon_from 方法
-        - 如果一个类型是 Copy的， 它的clone方法仅需要返回*self即可 
-        - 使用需要显式调用 clone(), 若希望rust 碰到 等号赋值了就自动隐式调用 clone() , 需要给结构体加上 derive(Clone, Copy), 
-
-    Copy，使类型具有 “复制语义”（copy semantics）而非 “移动语义”（move semantics）。
-
-        copy trait 无法单独使用, 必须在 Clone trait 存在的情况下才能使用
+  
 
     Hash，从 &T 计算哈希值（hash）。
 
@@ -5707,9 +5705,13 @@ let a: i64 = 11 as i64
 
 ```
 
-#### Clone 和 Copy
+#### Clone
+
+#### Copy
 
 #### Debug
+
+#### Default
 
 ### 5.16.3. 运算符重载相关的trait
 
@@ -5788,7 +5790,7 @@ let a: i64 = 11 as i64
 
 ```
 
-### 5.16.4. From 和 Into 
+### 5.16.4. From 和 Into 和 TryFrom
 
 ```rust
 // 定义于 std::convert 模块中的两个 trait。 它们定义了 from 和 into 两个方 法，这两个方法互为反操作
@@ -5807,13 +5809,64 @@ impl Person {
 
 // 如果类型 U实现了 From<T>，则 T类型实例调用 into方 法就可以转换为类型 U (rust 自动帮我们实现了 Into)
 // impl<T, U> Into<U> for T where U: From<T> {}
-// 所以 ， 一般情况下 ， 只需要实现 From 即可 ， 除非 From 不容易实现，才需要考虑实 现 Into
+// 所以 ， 一般情况下 ， 只需要实现 From 即可 ， 除非 From 不容易实现，才需要考虑实现 Into
 let a = "hello";
 let b:String = a.into();//String 类型实现了 From<&str>，所以可以使用 into 方法将 &str 转换为 String
 
 
 
 // TryFrom 和 TryInto 两种 trait，是 From 和 Into 的错误处理版本
+
+```
+
+
+### Clone 和 Copy
+
+```rs
+
+Clone, 用来从 &T 创建副本 T。当处理资源时，默认的行为是在赋值或函数调用的同时将它们转移。但是我们有时候也需要 把资源复制一份。
+
+    - 包括 clone, colon_from 方法
+    - 如果一个类型是 Copy的， 它的clone方法仅需要返回*self即可 
+    - 使用需要显式调用 clone(), 若希望rust 碰到 等号赋值了就自动隐式调用 clone() , 需要给结构体加上 derive(Clone, Copy), 
+
+Copy，使类型具有 “复制语义”（copy semantics）而非 “移动语义”（move semantics）。
+
+    copy trait 无法单独使用, 必须在 Clone trait 存在的情况下才能使用
+
+
+
+
+区分值语义和引用语义
+
+// Copy trait，用来标识 可 以按位 复制其值 的类型
+// Copy 告诉编译器这个类型默认采用 copy 语义，而不是 move 语义; 在执行变量绑定、函数参数传递、函数返回等场景下, 执行的是内存拷贝操作
+
+// 引用类型无法实现 copy trait, 虽然引用语义类型不能实现 Copy， 但可以实现 Clone 的 clone 方法， 以 实现深复制
+
+// Copy trait继承自 Clone trait, 要实现 Copy trait 的类型，必须实现 Clone trait 中定义的方法
+//  Rust 提供了更方便的 derive 属性供我们完成这项重复的工作
+#[derive (Copy , Clone)]
+struct xxx {}
+// 某个类型标注为 Copy后, 就不能随便实现 Clone 的 clone 方法了, 调用 t.clone() 时, 执行的操作必须等同于“简单内存拷贝”;
+// 所以 一般使用 #[derive(Copy, Clone)] 这种方式，这种情况下它们俩最好一起出现，避免手工实现 Clone 导致错误
+
+
+
+// Rust 为很多基本数据类型实现了 Copy trait，比如常用的数字类型、字符( Char)、布尔 类型、单元值、不可变引用等
+// 检测哪些类型实现 了 Copy trait:
+fn test copy<T: Copy>(t : T) { //如果实现了Copy trait的类型， 则可以正常编译: 如果没有实现，则会报错。
+    println(”hhh”);
+}
+
+
+
+
+// 并非所有类型都可以 实现 Copy trait。 
+// 对于自定义类型来说，必须让所有的成员都实现 了 Copy trait， 这个类型才有资格 实现 Copy trait。
+// 如果是数组类型 ， 且其内部元素都是 Copy 类型， 则数组本身就是 Copy 类型;
+// 如果是元组类型，且其内部元素都是 Copy 类型， 则该元 组会自动实现Copy
+
 
 ```
 
@@ -6019,77 +6072,7 @@ impl Drop for FruitBox {
 ```
 
 
-### 5.16.9. 标签 trait
-
-即 内部没有任何内容的 trait, 只是作为一个标签, 起到标识作用
-
-#### 5.16.9.1. Send 和 Sync
-
-
-```rs
-// 可以安全地跨线程传递和访 问 的类型用 Send 和 Sync 标记，否则用! Send 和!Sync 标记 , 这样编译器在编译时就能检出数据竞争的隐患， 而不需要等到运行时再排查
-
-// 实现了 Send 的类型 ，可以安全地在线程间传递所有权, 即可以跨线程移动
-//      若类型 T 能够跨线程传递所有权 -> T 实现了 Send
-// 实现了 Sync 的类型 ，可以跨线程安全地传递不可变引用 , 即可以跨线程共享。
-//      若类型 T 的不可变引用 &T 实现了 send -> T 实现了 Sync
-//      如:
-//      &i32 是 send 的, 所以 i32 是 sync
-//      &Rc<T>不是 send 的, 所以 Rc<T> 不是sync
-//
-
-// 之所以可以正常地move变量，也是因为数组x中的元素均为原生数据类型， 默认都实现了 Send 和 Sync 标签 trait，所以它们跨线程传递和访问都很安全
-let mut x=vec![1, 2, 3, 4] ;
-thread::spawn(move || x.push(1));
-
-// error
-//Rc 没有实 现 Send 和 Sync，所以不能在线程之间传递变 量 x
-// 因为 Rc是用于引用计数的智能指针， 如果把 Rc类型的变量 x传递到另一个线程中，会 导致不同线程的 Rc 变量引用同一块数据， Rc 内 部实现并没有做任何线程同步的处理
-let x = Rc::new(vec! [1, 2, 3, 4]);//
-thread::spawn( move || x[1]);
-
-
-// 对于自定义的数据类型，如果其成员类型全部实现 Send 和 Sync，此类型才会被自 动实现 Send 和 Sync
-```
-
-#### 5.16.9.2. Copy trait (和 Clone 区别)
-
-区分值语义和引用语义
-
-```rs
-// Copy trait，用来标识 可 以按位 复制其值 的类型
-// Copy 告诉编译器这个类型默认采用 copy 语义，而不是 move 语义; 在执行变量绑定、函数参数传递、函数返回等场景下, 执行的是内存拷贝操作
-
-// 引用类型无法实现 copy trait, 虽然引用语义类型不能实现 Copy， 但可以实现 Clone 的 clone 方法， 以 实现深复制
-
-// Copy trait继承自 Clone trait, 要实现 Copy trait 的类型，必须实现 Clone trait 中定义的方法
-//  Rust 提供了更方便的 derive 属性供我们完成这项重复的工作
-#[derive (Copy , Clone)]
-struct xxx {}
-// 某个类型标注为 Copy后, 就不能随便实现 Clone 的 clone 方法了, 调用 t.clone() 时, 执行的操作必须等同于“简单内存拷贝”;
-// 所以 一般使用 #[derive(Copy, Clone)] 这种方式，这种情况下它们俩最好一起出现，避免手工实现 Clone 导致错误
-
-
-
-// Rust 为很多基本数据类型实现了 Copy trait，比如常用的数字类型、字符( Char)、布尔 类型、单元值、不可变引用等
-// 检测哪些类型实现 了 Copy trait:
-fn test copy<T: Copy>(t : T) { //如果实现了Copy trait的类型， 则可以正常编译: 如果没有实现，则会报错。
-    println(”hhh”);
-}
-
-
-
-
-// 并非所有类型都可以 实现 Copy trait。 
-// 对于自定义类型来说，必须让所有的成员都实现 了 Copy trait， 这个类型才有资格 实现 Copy trait。
-// 如果是数组类型 ， 且其内部元素都是 Copy 类型， 则数组本身就是 Copy 类型;
-// 如果是元组类型，且其内部元素都是 Copy 类型， 则该元 组会自动实现Copy
-
-
-```
-
-
-#### 5.16.9.3. Sized trait  和 动态类型DST
+### Sized trait 和 动态类型DST
 
 
 
@@ -6127,7 +6110,22 @@ fn xxx<T: ?Sized> (t: T);// t 为 编译期间不可知大小的类型 or 为 �
 
 ```
 
-### 5.16.10. Default trait
+
+### 5.16.9. 标签 trait
+
+即 内部没有任何内容的 trait, 只是作为一个标签, 起到标识作用
+
+#### 5.16.9.1. Send 和 Sync
+
+
+#### 5.16.9.2. Copy 标签 trait
+
+
+
+#### 5.16.9.3. Sized 标签trait 
+
+
+### 5.16.10. Default trait (可自动推导)
 
 ```rs
 &T 和 Box<T> 类型不支持 Default trait。
@@ -6224,6 +6222,34 @@ println!("{}", s);//Hello Rust
     assert!(v == [1.2, 2.5, 3.4, 4.1, 5.0]);
     v.sort_by(|a, b| b.partial_cmp(a).unwrap());
     assert!(v == [5.0, 4.1, 3.4, 2.5, 1.2]);
+```
+
+### Send Sync
+
+```rs
+// 可以安全地跨线程传递和访 问 的类型用 Send 和 Sync 标记，否则用! Send 和!Sync 标记 , 这样编译器在编译时就能检出数据竞争的隐患， 而不需要等到运行时再排查
+
+// 实现了 Send 的类型 ，可以安全地在线程间传递所有权, 即可以跨线程移动
+//      若类型 T 能够跨线程传递所有权 -> T 实现了 Send
+// 实现了 Sync 的类型 ，可以跨线程安全地传递不可变引用 , 即可以跨线程共享。
+//      若类型 T 的不可变引用 &T 实现了 send -> T 实现了 Sync
+//      如:
+//      &i32 是 send 的, 所以 i32 是 sync
+//      &Rc<T>不是 send 的, 所以 Rc<T> 不是sync
+//
+
+// 之所以可以正常地move变量，也是因为数组x中的元素均为原生数据类型， 默认都实现了 Send 和 Sync 标签 trait，所以它们跨线程传递和访问都很安全
+let mut x=vec![1, 2, 3, 4] ;
+thread::spawn(move || x.push(1));
+
+// error
+//Rc 没有实 现 Send 和 Sync，所以不能在线程之间传递变 量 x
+// 因为 Rc是用于引用计数的智能指针， 如果把 Rc类型的变量 x传递到另一个线程中，会 导致不同线程的 Rc 变量引用同一块数据， Rc 内 部实现并没有做任何线程同步的处理
+let x = Rc::new(vec! [1, 2, 3, 4]);//
+thread::spawn( move || x[1]);
+
+
+// 对于自定义的数据类型，如果其成员类型全部实现 Send 和 Sync，此类型才会被自 动实现 Send 和 Sync
 ```
 
 
@@ -7404,6 +7430,28 @@ fn error_handling() {
 
 ```
 
+### 自定义异常enum
+
+```rs
+
+#[derive(Error, Debug)]
+enum DataSourceError {
+    #[error("data source disconnect")]
+    Disconnect(#[from]io::Error),
+    #[error("the data for key `{0}` is not available")]
+    NotFound(String),
+    #[error("invalid header (expected {expected:?} found {found:?})")]
+    Redaction(String),
+    InvalidHeader {
+        expected: String,
+        found: String
+    },
+    #[error("unknown data source error")]
+    Unknown
+}
+
+```
+
 ### 5.21.5. 捕获异常
 
 ```rs
@@ -8393,7 +8441,12 @@ fn sub_process_command() {
 
 ![rust macro process](/img/rust_macro_process.png)
 
+![rust macro process](/img/rust_macro_process02.png)
+
 ```rs
+
+
+
 
 
 /// 可进行元编程（metaprogramming）
@@ -8436,9 +8489,9 @@ panic!
 
 
 
-#[derive(Debug)] 调试打印 struct
+#[derive(Debug)] //调试打印 struct
 
-#[allow(dead_code)] 用于屏蔽对未使用代码的警告
+#[allow(dead_code)] //用于屏蔽对未使用代码的警告
 
 
 // 通过这个属性屏蔽警告。
@@ -8775,7 +8828,7 @@ fn main(){
 
 
 
-### 5.26.4. 过程宏
+### 5.26.4. 过程宏 proc_macro
 
 #### 5.26.4.1. 过程宏基本使用规则
 
@@ -8793,7 +8846,7 @@ https://github.com/dtolnay/proc-macro-workshop
 ```
 
 
-```t
+```sh
 # 过程宏，必须写在单独的lib类型的crate中, `cargo new --lib xxx`, 
 
     # 为什么不能在同一个 crate 里同时定义&使用 procedual macro ?
@@ -8810,10 +8863,6 @@ proc_macro = true
 ```
 
 #### 5.26.4.2. 自定义属性宏
-
-Rust 自身有很多内置的属性 ， 比如条件编译属性 `#[cfgOJ和测试属性#[test]`
-
-过程宏实现自定义属性的功能还未稳定。在 该版本稳定之前，必须在 Nightly 版本下使用 `#![feature(custom_attribute)]`特性, 当前版本不需要了
 
 定义宏:
 
@@ -8836,7 +8885,7 @@ pub fn attr_with_args(args: TokenStream, _input: TokenStream) -> TokenStream {
 #[test]
 fn tt() {
     #[attr_with_args("Hello attr macro.")]
-    fn foo() {}
+    fn foo() {} 
     println!("{:?}", foo());//"Hello attr macro."
 }
 ```
