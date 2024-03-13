@@ -18,7 +18,6 @@ toc_max_heading_level: 5
     - [2.3. IDE](#23-ide)
     - [2.4. 配置国内镜像](#24-配置国内镜像)
 - [3. 标准库](#3-标准库)
-    - [日志](#日志)
     - [3.1. path 路径](#31-path-路径)
     - [3.2. 时间](#32-时间)
 - [4. 对比 2018](#4-对比-2018)
@@ -92,17 +91,17 @@ toc_max_heading_level: 5
         - [5.11.1. 智能指针介绍 工作机制](#5111-智能指针介绍-工作机制)
         - [5.11.2. RAII机制 实现内存回收](#5112-raii机制-实现内存回收)
         - [5.11.3. 自定义智能指针 自动解引用 Deref 和 Drop](#5113-自定义智能指针-自动解引用-deref-和-drop)
-        - [5.11.4. Box 无痛使用堆内存](#5114-box-无痛使用堆内存)
+        - [5.11.4. Box NonNull 无痛使用堆内存](#5114-box-nonnull-无痛使用堆内存)
             - [5.11.4.1. Box基本使用](#51141-box基本使用)
             - [5.11.4.2. 包装动态大小类型 DST](#51142-包装动态大小类型-dst)
-        - [5.11.5. Rc 和 Weak 共享堆内存](#5115-rc-和-weak-共享堆内存)
-            - [5.11.5.1. Rc 强引用](#51151-rc-强引用)
+            - [NonNull 非空指针](#nonnull-非空指针)
+        - [5.11.5. Rc 和 Weak 共享堆内存 线程不安全](#5115-rc-和-weak-共享堆内存-线程不安全)
+            - [5.11.5.1. Rc 共享所有权 线程不安全](#51151-rc-共享所有权-线程不安全)
             - [5.11.5.2. 构造链表](#51152-构造链表)
-            - [5.11.5.3. Weak 弱引用](#51153-weak-弱引用)
-        - [5.11.6. RefCell 和 Cell 提供内部可变性](#5116-refcell-和-cell-提供内部可变性)
-            - [5.11.6.1. Cell](#51161-cell)
-            - [5.11.6.2. RefCell](#51162-refcell)
-        - [5.11.7. Rc Box RefCell Cell 几种指针的区别对比 组合使用](#5117-rc-box-refcell-cell-几种指针的区别对比-组合使用)
+            - [5.11.5.3. Weak 弱引用 避免循环引用内存泄露](#51153-weak-弱引用-避免循环引用内存泄露)
+        - [5.11.6. RefCell 和 Cell 提供内部可变性 线程不安全](#5116-refcell-和-cell-提供内部可变性-线程不安全)
+            - [5.11.6.1. Cell 获取内层数据的不可变引用](#51161-cell-获取内层数据的不可变引用)
+            - [5.11.6.2. RefCell 获取内层数据的可变引用](#51162-refcell-获取内层数据的可变引用)
         - [5.11.8. Pin 和 Unpin](#5118-pin-和-unpin)
             - [what is Pin](#what-is-pin)
                 - [Pin 原理](#pin-原理)
@@ -149,12 +148,12 @@ toc_max_heading_level: 5
             - [5.16.1.1. trait 基本使用](#51611-trait-基本使用)
             - [5.16.1.2. 孤儿规则 通过fundamental规避](#51612-孤儿规则-通过fundamental规避)
             - [5.16.1.3. 特化 Specialization](#51613-特化-specialization)
+            - [5.16.1.6. trait 继承 菱形继承](#51616-trait-继承-菱形继承)
             - [5.16.1.4. trait 作为参数 需要 impl 前缀](#51614-trait-作为参数-需要-impl-前缀)
             - [5.16.1.5. trait 作为 返回值 返回动态类型](#51615-trait-作为-返回值-返回动态类型)
-            - [5.16.1.6. trait 继承](#51616-trait-继承)
             - [5.16.1.7. 静态分发 动态分发](#51617-静态分发-动态分发)
             - [5.16.1.8. 使用抽象类型](#51618-使用抽象类型)
-                - [5.16.1.8.1. trait对象](#516181-trait对象)
+                - [5.16.1.8.1. trait对象 trait object](#516181-trait对象-trait-object)
                 - [5.16.1.8.2. trait对象安全问题 Sized trait](#516182-trait对象安全问题-sized-trait)
                 - [5.16.1.8.3. impl trait](#516183-impl-trait)
             - [5.16.1.9. trait的类型转换](#51619-trait的类型转换)
@@ -243,6 +242,7 @@ toc_max_heading_level: 5
             - [6.3.3.1. 在 rust 中调用 C 函数](#6331-在-rust-中调用-c-函数)
             - [6.3.3.2. 在 rust调用 cpp](#6332-在-rust调用-cpp)
             - [6.3.3.3. 在 c 中调用 rust](#6333-在-c-中调用-rust)
+        - [和 golang 交互](#和-golang-交互)
         - [6.3.4. 和 Python 交互](#634-和-python-交互)
         - [6.3.5. 和 Swift](#635-和-swift)
         - [6.3.6. 和 js JavaScript nodejs 交互](#636-和-js-javascript-nodejs-交互)
@@ -273,9 +273,10 @@ toc_max_heading_level: 5
         - [8.7.3. 执行子目录中的 module](#873-执行子目录中的-module)
         - [8.7.4. 导入自定义 module](#874-导入自定义-module)
         - [8.7.5. 导入第三方 crate](#875-导入第三方-crate)
-- [测试](#测试)
-    - [9. 单元测试](#9-单元测试)
-    - [性能测试](#性能测试)
+- [测试 test](#测试-test)
+    - [9. 单元测试 unittest](#9-单元测试-unittest)
+    - [性能测试 benchmark](#性能测试-benchmark)
+    - [mocking framework](#mocking-framework)
 - [10. 交叉编译 and 条件编译](#10-交叉编译-and-条件编译)
 - [11. 并发](#11-并发)
     - [11.1. 通用概念](#111-通用概念)
@@ -331,40 +332,46 @@ toc_max_heading_level: 5
     - [19.1. http 代理](#191-http-代理)
     - [19.2. socket 代理](#192-socket-代理)
 - [20. 开发微信小程序-web 游戏](#20-开发微信小程序-web-游戏)
-- [21. 第三方 crates](#21-第三方-crates)
+- [21. 第三方 crates 开源库](#21-第三方-crates-开源库)
     - [io开源库](#io开源库)
     - [usb 设备支持](#usb-设备支持)
     - [时间处理](#时间处理)
     - [数字处理](#数字处理)
-    - [测试](#测试-1)
-        - [性能测试](#性能测试-1)
-        - [mocking](#mocking)
-    - [21.1. 事实上的标准库](#211-事实上的标准库)
     - [21.2. markdown](#212-markdown)
-    - [21.4. 视频处理](#214-视频处理)
-    - [21.5. 图片处理](#215-图片处理)
     - [21.6. 游戏开发三方库](#216-游戏开发三方库)
     - [21.7. 系统信息](#217-系统信息)
+    - [数据库相关 database](#数据库相关-database)
+        - [数据库迁移](#数据库迁移)
+        - [postgresql 插件](#postgresql-插件)
+        - [connection pool](#connection-pool)
+        - [database driver](#database-driver)
+        - [orm](#orm)
     - [21.8. web 开发](#218-web-开发)
         - [rest api](#rest-api)
-        - [数据库迁移](#数据库迁移)
         - [21.8.1. swagger openapi 生成](#2181-swagger-openapi-生成)
         - [21.8.2. web框架](#2182-web框架)
         - [i18n](#i18n)
-        - [21.8.3. orm](#2183-orm)
         - [21.8.4. http client](#2184-http-client)
-    - [21.9. 序列化反序列化](#219-序列化反序列化)
+    - [云原生 cloud native](#云原生-cloud-native)
+    - [21.9. 序列化反序列化 serialize deserialize 编解码](#219-序列化反序列化-serialize-deserialize-编解码)
+        - [通用 serde](#通用-serde)
         - [21.9.1. toml](#2191-toml)
+        - [yaml](#yaml)
         - [21.9.2. json](#2192-json)
+        - [xml](#xml)
+        - [csv](#csv)
+        - [MsgPack](#msgpack)
+        - [protocol buffer](#protocol-buffer)
         - [rkyv](#rkyv)
     - [21.10. 读写数据](#2110-读写数据)
     - [21.11. 增强工具](#2111-增强工具)
     - [21.12. 授权 Authorization](#2112-授权-authorization)
-    - [21.13. 日志处理](#2113-日志处理)
+    - [21.13. 日志处理 logging](#2113-日志处理-logging)
         - [slog](#slog)
         - [21.13.1. tracing](#21131-tracing)
         - [21.13.2. env\_logger](#21132-env_logger)
         - [21.13.3. log4rs and log](#21133-log4rs-and-log)
+    - [视频流 流媒体](#视频流-流媒体)
     - [21.14. 文本解析器 parser](#2114-文本解析器-parser)
     - [21.15. lazy static 延迟初始化](#2115-lazy-static-延迟初始化)
     - [21.16. 电子书](#2116-电子书)
@@ -372,21 +379,25 @@ toc_max_heading_level: 5
         - [21.17.1. structopt](#21171-structopt)
         - [21.17.2. clap](#21172-clap)
     - [21.18. 异步编程](#2118-异步编程)
-    - [21.19. websocket](#2119-websocket)
     - [21.20. 缩小体积](#2120-缩小体积)
     - [21.22. 容错运行时](#2122-容错运行时)
     - [21.23. 监控](#2123-监控)
-    - [21.24. 电子邮件](#2124-电子邮件)
+    - [21.24. 电子邮件 email](#2124-电子邮件-email)
     - [21.25. 分发工具](#2125-分发工具)
     - [21.26. 并发编程](#2126-并发编程)
     - [21.27. gui 图形库](#2127-gui-图形库)
     - [可视化库](#可视化库)
-    - [图形处理](#图形处理)
-    - [21.28. 底层网络 api](#2128-底层网络-api)
-    - [网络协议](#网络协议)
+    - [视频音频 音视频处理](#视频音频-音视频处理)
+    - [图片处理](#图片处理)
+    - [网络协议 network](#网络协议-network)
+        - [底层网络 api](#底层网络-api)
         - [quic](#quic)
         - [tls](#tls)
         - [dns](#dns)
+        - [mqtt](#mqtt)
+        - [ws websocket](#ws-websocket)
+        - [rpc框架](#rpc框架)
+        - [grpc](#grpc)
     - [拼写检查](#拼写检查)
     - [文本搜索](#文本搜索)
     - [文本解析库](#文本解析库)
@@ -395,13 +406,14 @@ toc_max_heading_level: 5
         - [rust-peg](#rust-peg)
     - [21.30. 随机](#2130-随机)
         - [21.30.1. rand 随机数字](#21301-rand-随机数字)
-    - [21.31. 搜索引擎](#2131-搜索引擎)
     - [21.32. 开源集合容器](#2132-开源集合容器)
     - [其他语言引擎](#其他语言引擎)
     - [机器学习 ai](#机器学习-ai)
     - [编译解析](#编译解析)
     - [日期库](#日期库)
     - [模板](#模板)
+    - [搜索库](#搜索库)
+    - [开发工具库](#开发工具库)
 - [22. 开源项目](#22-开源项目)
 - [23. 参考链接](#23-参考链接)
 
@@ -575,9 +587,6 @@ rustup component add clippy
 
 ## 2.4. 配置国内镜像
 
-https://www.cnblogs.com/dhcn/p/12100675.html
-
-
 ```t
 [registry]
 token = "xxx crate.io token" # 注册账号后由网站颁发, 用于发布包
@@ -619,10 +628,6 @@ space_example = ["run", "--release", "--", "\"command list\""]
 
 
 # 3. 标准库
-
-## 日志
-
-https://github.com/rust-lang/log 提供标准 api, 写 lib 无需具体实现, 只需要这个 api, 写应用时除此 api 外还需要具体实现库
 
 
 ## 3.1. path 路径
@@ -2582,7 +2587,7 @@ unsafe {
 /// 引用不会获得值的所有权, 引用只能租借（Borrow）值的所有权, 所以 变量 a 的值被借用为 b 时，a 本身仍然有效。
 /// 
 /// 解引用 使用 * ---- 在等号右边 (会获得原始值的所有权)
-/// 取地址 使用 & ---- 在等右边
+/// 取地址(获取引用) 使用 & ---- 在等右边
 /// 解构 使用 & --- 在等号左边
 /// 
 /// match的模式匹配的匹配项上只能使用 ref，
@@ -2591,10 +2596,6 @@ unsafe {
 /// 一个引用的作用域从声明的地方开始一直持续到最后一次使用为止
 /// 
 /// 在任意给定时间，要么 只能有一个可变引用，要么 只能有多个不可变引用
-
-// 
-/// 分为可变, 不可变引用
-// 
 // 一个原始值, 存在可变借用, 就无法存在其他借用了, 无论是可变借用还是不可变借用 (可变借用具有独占性)
 // 存在不可变借用, 还能存在其他不可变借用 (相当于内存的读写锁 ，同一时刻，只能 拥有一个写锁，或者多个读锁，不能同时拥有)
 /// 
@@ -2980,6 +2981,9 @@ fn main() {
 ### 5.11.1. 智能指针介绍 工作机制
 
 
+
+```rs
+
 智能指针就是一个结构体，其行为类似于引用, 指向一块内存的地址, 此外还有存储的有附带的元数据
 
 智能指针区别于常规结构体的特性在于，它实现了 Deref (所以有了指针语义, 而且使用时, 可以自动解引用) 和 Drop (所以能够自动管理内存释放) ; 比如: String 和 Vec 类型 也是一种智能指针, 它们也都实现了 Deref和Drop (这就是智能指针智能的所在)
@@ -2989,12 +2993,38 @@ fn main() {
 - 线程安全的: Arc, RwLock, Mutex
 - 线程不安全的: Box , Cell, RefCell, Rc
 
-```rs
-let x =Box::new(”hello”);
-let y = x;
-// error, 因为智能指针拥有原始值的所有权, x已经被转移了
-// 对于box<T>, 若包含的 T是移动语义, 则box 也是, 若T是复制语义, 则box 也是复制语义
-println1(”(:?}”, x);
+
+
+
+
+
+
+/// 区别:
+/// - owner 个数: Rc<T> 允许数据有多个所有者；Box<T> 和 RefCell<T>/Cell 只能允许有单一所有者。
+// 
+/// - borrow checker 时期: Box<T> 在编译时执行借用检查；Rc<T>也在编译时执行借用检查；RefCell<T> 允许在运行时执行借用检查
+// 
+// - 运行时开销: Cell<T>无运行 时开销，并且永远不会在运行 时引发 panic 错误。 refcell 要在运行时执行借用检查，所以有运行时开销
+// 
+// - 提供内部可变性
+//  - Cell<T>使用 set/get 方法直接操作包裹的值 (底层是将内部值拷贝出, 修改后在拷贝进去, 适合于实现Copy的类型即复制语义类型)
+//  - RefCell<T>通过 borrow/borrow_mut 返回 包装过的引用 Ref<T>和 RefMut<T>来操作包裹的值 (适合没有实现Copy的类型, 即移动语义类型。)
+// 
+// 
+
+// 
+// 如果遇到要实现一个同时存在多个不同所有者，但每个所有者又可以随时修改其内容，且这个内容类型 T 没有实现 Copy 的情况该怎么办
+let shared_vec: Rc<RefCell<_>> = Rc::new(RefCell::new(Vec::new()));
+// Output: []
+println!("{:?}", shared_vec.borrow());
+{
+    let b = Rc::clone(&shared_vec);
+    b.borrow_mut().push(1);
+    b.borrow_mut().push(2);
+}
+shared_vec.borrow_mut().push(3);
+// Output: [1, 2, 3]
+println!("{:?}", shared_vec.borrow());
 ```
 
 ### 5.11.2. RAII机制 实现内存回收
@@ -3010,7 +3040,7 @@ RAII , 智能指针, 均起源于现代 C++
 
 ```rs
 
-手动显式解引用: *x  <=>   *(x.deref()), deref() 是编译器帮忙加的 (deref() 返回内部数据的引用)
+手动显式解引用: *x  <=>   *(x.deref()), 其中 deref() 是编译器帮忙加的 (deref() 返回内部数据的引用)
 
 "."调用 or 在函数参数位置上, 会对x 自动解引用, 等价于 x.deref()
     
@@ -3054,13 +3084,13 @@ RAII , 智能指针, 均起源于现代 C++
 
 
 
-### 5.11.4. Box 无痛使用堆内存
+### 5.11.4. Box NonNull 无痛使用堆内存
 
 #### 5.11.4.1. Box基本使用
 
 类似 cpp 的 unique_ptr;
 
-通过 Box，用于在堆上分配值
+通过 Box，用于在堆上分配值, 并拥有值的所有权
 
 ```rust
 // 
@@ -3080,6 +3110,13 @@ fn box_demo() {
     let b = Box::new(5);//使用 box 在堆上储存一个 i32 值
     println!("b = {}", b);//5
     println!("*b = {}", *b);//5
+
+    
+    let x =Box::new(”hello”);
+    let y = x;
+    // error,  x已经被转移了, 类比 Sing
+    println1(”(:?}”, x); // error
+
 
     // 尝试构造链表
     enum List {
@@ -3135,9 +3172,15 @@ fn box_demo() {
 
 ```
 
-### 5.11.5. Rc 和 Weak 共享堆内存
+#### NonNull 非空指针
 
-#### 5.11.5.1. Rc 强引用
+
+
+### 5.11.5. Rc 和 Weak 共享堆内存 线程不安全
+
+#### 5.11.5.1. Rc 共享所有权 线程不安全
+
+强引用
 
 类似 cpp 的 shared_ptr
 
@@ -3165,7 +3208,7 @@ let x =Rc::new(45)
 let yl = x .clone() ; //增加强引用计数, 并非 克隆, 只是增加计数, 然后返回一个引用 (即共享所有权)
 let y2 = x.clone(); //增加强引用计数
 priηtln!(”{:?}”, Rc::strong_count(&x));//3
-letw= Rc::downgrade(&x); //增加弱引用计数
+let w= Rc::downgrade(&x); //增加弱引用计数
 println!(” {:?) ”, Rc : :weak_count(&x));
 let y3 = &*x; //不增加计数
 ```
@@ -3212,7 +3255,7 @@ let c = Cons(4, Rc::clone(&a));
 /// - get_mut() 需要做一个“唯一引用”的检查，也就是没有任何的共享才能修改
 ///- make_mut() 则是会把当前的引用给clone出来，再也不共享了， 是一份全新的
 // 更好的修改方法:
-/// RefCell<T> 能够在对象被认为是不可变的情况下修改内部字段; (并非编译器检查, 二是运行期进行检查, 不是很好)
+/// RefCell<T> 能够在对象被认为是不可变的情况下修改内部字段; (并非编译器检查, 而是运行期进行检查, 不是很好)
 /// Cell<T>，它类似 RefCell<T> 但有一点除外：它并非提供内部值的引用，而是把值拷贝进和拷贝出 Cell<T>。
 ///
 /// 
@@ -3233,7 +3276,7 @@ if let Some(val) = Rc::get_mut(&mut strong) {
 
 
 
-#### 5.11.5.3. Weak 弱引用
+#### 5.11.5.3. Weak 弱引用 避免循环引用内存泄露
 
 类似 cpp 的 weak_ptr
 
@@ -3315,25 +3358,29 @@ fn main() {
 ```
 
 
-### 5.11.6. RefCell 和 Cell 提供内部可变性
+### 5.11.6. RefCell 和 Cell 提供内部可变性 线程不安全
 
-内部可变性: 将可变的数据包装在不可变的结构中, 而无需显式声明 mut
+内部可变性: 将可变的数据包装在不可变的结构中, 而无需显式声明外层结构为 mut, 即可对内层数据进行修改
 
 需要注意的是 Cell 和 RefCell 不是线程安全的。在多线程下，需要使用Mutex进行互斥。
 
-#### 5.11.6.1. Cell
+#### 5.11.6.1. Cell 获取内层数据的不可变引用
 
 ```rust
-// Cell<T>
+// Cell<T> 可以对内部数据整体替换 (从而实现修改)
 // 
-// 规避 borrow check: Cell<T> 其实和 Box<T> 很像，但后者同时不允许存在多个对其的可变引用，如果我们真的很想做这样的操作，在需要的时候随时改变其内部的数据，而不去考虑 Rust 中的不可变引用约束，就可以使用 Cell<T>。Cell<T> 允许多个共享引用对其内部值进行更改，实现了「内部可变性」
-// 
-// 提供了一种内部可变性, 如, 某个 struct 是不可变的, 但是 内部某个字段需要可变
+// 它是零开销的，但它的修改只能整体地修改，不能通过&self拿到内部的&mut T
 
+    // 使用 Cell 存储不可变值
+    let mut x = Cell::new(5);
+    // 修改值
+    x.set(10);
+
+// 如, 某个 struct 是不可变的, 但是 内部某个字段需要可变
     #[derive(Debug)]
     struct P {
         x: i32,
-        y: Cell<i32>,// 这里定义的是 Cell的不可变类型, 但是 内部的数确实可以修改的, 合法的避开的借用检查
+        y: Cell<i32>,
     }
     let p = P { x: 0, y: Cell::new(11)};
     println!("{:?}", p);
@@ -3344,13 +3391,16 @@ fn main() {
 
 ```
 
-#### 5.11.6.2. RefCell
+#### 5.11.6.2. RefCell 获取内层数据的可变引用
 
 
 ```rs
 
-/// RefCell<T>
+/// RefCell<T> 可以获取内部数据的可变引用(从而实现修改)
+// 
 /// 它类似 Cell<T>,  但有一点除外：提供内部值的引用, 而不是拷贝了, 因此对于内部数据的类型没有 copy trait 要求 (Cell 的内部数据有 copy trait 要求)
+// 
+// 它是有运行时开销的，内部会记录当前的借用状态, 进行借用检查
 // 
 // 既然不能在读写数据时简单的 Copy 出来进去了，该咋保证内存安全呢?
 // 
@@ -3362,7 +3412,15 @@ fn main() {
 // borrow(), 获取不可变引用 (Mut<T>)
 // 
 // refcell 更常用, 省内存, cell 的 get() 是获取拷贝, 浪费内存
+
+    let mut x = RefCell::new(5);
+    // 获取可变借用
+    let mut y = x.borrow_mut();
+    // 修改值
+    *y = 10;
 // 
+
+
     let v = RefCell::new(vec![1]);
     println!("{:?}", v.borrow());//1
     v.borrow_mut().push(1);
@@ -3375,7 +3433,7 @@ fn main() {
         let mut my_ref = x.borrow_mut();
         my_ref.push(1);
     }
-    // 若上面的可变借用不另开一个 作用域, 这里报错: 可变借用后, 不允许再次不可变借用了
+    // 若上面的可变借用不另开一个 作用域, 这里报错: 可变借用后, 不允许再次借用了(不论是否是可变借用)
     // 另开一个作用域的效果: my_ref 这个可变借用到这里的时候已经被释放了
     println!("{:?}", *x.borrow()); //[1, 2, 3, 4, 1]
 
@@ -3470,38 +3528,6 @@ fn main() {
 ```
 
 
-### 5.11.7. Rc Box RefCell Cell 几种指针的区别对比 组合使用
-
-
-```rs
-
-/// 区别:
-/// - owner 个数: Rc<T> 允许数据有多个所有者；Box<T> 和 RefCell<T> 只能允许有单一所有者。
-// 
-/// - borrow checker 时期: Box<T> 在编译时执行借用检查；Rc<T>也在编译时执行借用检查；RefCell<T> 允许在运行时执行借用检查
-// 
-// - 运行时开销: Cell<T>无运行 时开销，并且永远不会在运行 时引发 panic 错误。 refcell 要在运行时执行借用检查，所以有运行时开销
-// 
-// - 提供内部可变性
-//  - Cell<T>使用 set/get 方法直接操作包裹的值 (底层是将内部值拷贝出, 修改后在拷贝进去, 适合于实现Copy的类型即复制语义类型)
-//  - RefCell<T>通过 borrow/borrow_mut 返回 包装过的引用 Ref<T>和 RefMut<T>来操作包裹的值 (适合没有实现Copy的类型, 即移动语义类型。)
-// 
-// 
-
-// 
-// 如果遇到要实现一个同时存在多个不同所有者，但每个所有者又可以随时修改其内容，且这个内容类型 T 没有实现 Copy 的情况该怎么办
-let shared_vec: Rc<RefCell<_>> = Rc::new(RefCell::new(Vec::new()));
-// Output: []
-println!("{:?}", shared_vec.borrow());
-{
-    let b = Rc::clone(&shared_vec);
-    b.borrow_mut().push(1);
-    b.borrow_mut().push(2);
-}
-shared_vec.borrow_mut().push(3);
-// Output: [1, 2, 3]
-println!("{:?}", shared_vec.borrow());
-```
 
 ### 5.11.8. Pin 和 Unpin
 
@@ -5288,11 +5314,84 @@ y.swim();
 ```
 
 
+#### 5.16.1.6. trait 继承 菱形继承
+
+```rust
+    // 
+    //
+    trait Person1 {
+        fn name(&self) -> String;
+    }
+    // Implementing Student requires you to also impl Person.
+    trait Student: Person1 {
+        fn university(&self) -> String;
+    }
+    trait Programmer {
+        fn fav_language(&self) -> String;
+    }
+    trait CompSciStudent: Programmer + Student {
+        fn git_username(&self) -> String;
+    }
+    fn comp_sci_student_greeting(student: &dyn CompSciStudent) -> String {
+        format!(
+            "My name is {} and I attend {}. My Git username is {}",
+            student.name(),
+            student.university(),
+            student.git_username()
+        )
+    }
+    //
+    //
+    // 菱形继承问题: 某个 struct 实现两个 trait, 需要实现两个同名方法
+    //
+    // 完全限定语法
+    <Descriptive as Person>::xxx_fn() //类似于强制转换
+    //
+    // 看例子
+    trait UsernameWidget {
+        fn get(&self) -> String;
+    }
+    trait AgeWidget {
+        fn get(&self) -> u8;
+    }
+    struct Form {
+        username: String,
+        age: u8,
+    }
+    impl UsernameWidget for Form {
+        fn get(&self) -> String {
+            self.username.clone()
+        }
+    }
+    impl AgeWidget for Form {
+        fn get(&self) -> u8 {
+            self.age
+        }
+    }
+    let form = Form{
+        username: "rustacean".to_owned(),
+        age: 28,
+    };
+    // error, "multiple `get` found". Because, after all, there are multiple methods named `get`.
+    println!("{}", form.get());
+    //ok
+    let username = <Form as UsernameWidget>::get(&form);
+    assert_eq!("rustacean".to_owned(), username);
+    let age = <Form as AgeWidget>::get(&form);
+    assert_eq!(28, age);
+    
+
+}
+
+```
+
+
 #### 5.16.1.4. trait 作为参数 需要 impl 前缀
 
 ```rust
 //
-// 特性做参数
+// 特性做参数, 表示参数必须实现指定trait
+// 类比 Java中的多态
 //
 fn print(p: impl Descriptive) {
     println!("{}", p.describe())
@@ -5367,8 +5466,8 @@ println!("maximum of arr is {}", max(&arr));
         }
     }
 
+    
     // 在同一个函数中所有可能的返回值类型必须完全一样
-    //如果希望返回不同的struct, 使用  Box<dyn Animal> 作为返回值 ----- 多态
 // 
     // 错误, 因为 A, B 虽然都实现了 Descriptive, 但是 A B 是不同的类型
     fn some_function(bool bl) -> impl Descriptive {
@@ -5378,9 +5477,37 @@ println!("maximum of arr is {}", max(&arr));
             return B {};
         }
     }
+
+    // 为什么不用 fn x() -> Trait 的形式呢? 
+    //
+    //虽然 trait object 在实现上可以确定大小 
+    //          (Rust 的 trait object 使用了与 c++ 类似的 vtable 实现, trait object 含有1个指向实际类型的 data 指针, 和一个指向实际类型实现 trait 函数的 vtable, 以此实现动态分发), 
+    // 但在逻辑上, 因为 Trait 代表类型的集合, 其大小无法确定. 允许 fn x() -> Trait 会导致语义上的不和谐.
+
+
+
+    // 那 fn x() -> &Trait 呢? 
+    // 当然可以! 但鉴于这种场景下都是在函数中创建然后返回该值的引用, 显然需要加上生命周期
+    fn some_fn(param1: i32, param2: i32) -> &'static View {
+        if param1 > param2 {
+            // do something...
+            return &Button {};
+        } else {
+            // do something...
+            return &TextView {};
+        }
+    }
+    // 但是生命周期标识实在麻烦 可以用拥有所有权的 Box 智能指针避免烦人的生命周期
+    fn some_fn(param1: i32, param2: i32) -> Box<View> {}
+
+    // 此时编译器会有提示, 建议加上 dyn 关键字
+    // 理论上来说, Box<Animal> 完全满足要求了, 为什么 rust 要添加 dyn 关键字形成 Box<dyn Animal> 呢?
+    // 
+    // RFC-2113 明确说明了引入 dyn 的原因, 即语义模糊, 令人困惑, 原因在于没有 dyn 让 Trait 和 trait objects 看起来完全一样
+
     //
     // 那么如何返回不同的 struct?
-    //使用 Box<dyn xxx>, box 是一种数据结构, 效果类似引用,
+    //使用 Box<dyn xxx>, box 是一种数据结构, 效果类似引用, dyn 表示返回值是 trait object 类型
     //
     fn random_animal(random_number: f64) -> Box<dyn Animal> {// 返回类型内存大小确定了, 编译可以通过
         if random_number < 0.5 {
@@ -5391,79 +5518,12 @@ println!("maximum of arr is {}", max(&arr));
     }
 
 
-```
 
-
-#### 5.16.1.6. trait 继承
-
-```rust
-    // 
-    //
-    trait Person1 {
-        fn name(&self) -> String;
-    }
-    // Implementing Student requires you to also impl Person.
-    trait Student: Person1 {
-        fn university(&self) -> String;
-    }
-    trait Programmer {
-        fn fav_language(&self) -> String;
-    }
-    trait CompSciStudent: Programmer + Student {
-        fn git_username(&self) -> String;
-    }
-    fn comp_sci_student_greeting(student: &dyn CompSciStudent) -> String {
-        format!(
-            "My name is {} and I attend {}. My Git username is {}",
-            student.name(),
-            student.university(),
-            student.git_username()
-        )
-    }
-    //
-    //
-    // 菱形继承问题: 某个 struct 实现两个 trait, 需要实现两个同名方法
-    //
-    // 完全限定语法
-    <Descriptive as Person>::xxx_fn() //类似于强制转换
-    //
-    // 看例子
-    trait UsernameWidget {
-        fn get(&self) -> String;
-    }
-    trait AgeWidget {
-        fn get(&self) -> u8;
-    }
-    struct Form {
-        username: String,
-        age: u8,
-    }
-    impl UsernameWidget for Form {
-        fn get(&self) -> String {
-            self.username.clone()
-        }
-    }
-    impl AgeWidget for Form {
-        fn get(&self) -> u8 {
-            self.age
-        }
-    }
-    let form = Form{
-        username: "rustacean".to_owned(),
-        age: 28,
-    };
-    // error, "multiple `get` found". Because, after all, there are multiple methods named `get`.
-    println!("{}", form.get());
-    //ok
-    let username = <Form as UsernameWidget>::get(&form);
-    assert_eq!("rustacean".to_owned(), username);
-    let age = <Form as AgeWidget>::get(&form);
-    assert_eq!(28, age);
     
 
-}
-
 ```
+
+
 
 #### 5.16.1.7. 静态分发 动态分发
 
@@ -5488,11 +5548,23 @@ impl Trait代表静 态分发 ， dyn Trait 代表动态分发 。
         }
     }
     // 使用泛型, 定义静态分发的函数
-    // 编译阶段, 泛型已经被展开 为具体类型的代码, 没有抽象开销
+    // 编译阶段, 泛型已经被展开 为具体类型的代码 , 消除了泛型, 没有抽象开销,  但大量使用有可能造成二进制文件膨胀
     // or 可以使用 impl trait 改写
     fn fly_static<T: Fly>(t: &T) -> bool {
         t.can_fly()
     }
+
+    // 所谓 '展开'
+    //就是
+    // 假设 Foo 和 Bar 都实现了 Noop 特性, Rust 会把函数
+    fn x(...) -> impl Noop
+    // 展开为
+    fn x_for_foo(...) -> Foo
+    fn x_for_bar(...) -> Bar
+
+
+
+
     // 使用 dyn 定义动态分发的函数
     // 运行期决定到底是什么类型, 有额外开销
     fn fly_dyn(t: &dyn Fly) -> bool { // 抽象类型是 trait object, 是有要求的
@@ -5509,14 +5581,16 @@ impl Trait代表静 态分发 ， dyn Trait 代表动态分发 。
 #### 5.16.1.8. 使用抽象类型
 
 
-##### 5.16.1.8.1. trait对象
+##### 5.16.1.8.1. trait对象 trait object
 
 
 
 ```rs
 // AbstractType ExistentialType
 // 相对于具体类型而言，抽象类型无法直接实例化， 但是它的每个实例都 是具体类型的实例
-// 编译器可能无法确定其确切的功能和所占的空间大 小 。 所以 Rust 目前有两种方法来处理抽象类型: trait 对象和 impl Trait
+// 编译器可能无法确定其确切的功能和所占的空间大 小 。 所以 Rust 目前有两种方法来处理抽象类型:
+// 
+//  trait 对象和 impl Trait
 
 // 方式 1: trait 对象
 #[derive(Debug)]
@@ -5541,7 +5615,7 @@ dynamic_dispatch(&foo);
 // 为什么 将 trait对象称为动态 分发?
 // 
 // std 中  为 trait object 定义了一个 struct
-// 包含连个指针:
+// 包含2个指针:
 // 1. data ptr
 //          指向 类型数据
 // 2. vtable ptr
@@ -5562,7 +5636,6 @@ dynamic_dispatch(&foo);
 // Rust 中大部分类型都默认是可确定大小的类型，也就是<T: Sized>，这也是泛型代 码可以正常编译的原因 
 // 
 // 当 trait对象在运行期进行动态分发，也必须确定大小，否则无法为其正确分配内存空 间 。所 以必须同时满足以下两条规则的 trait 才可以作为 trait 对象使用
-//  trait对象 能够编译通过的要求是, trait 必须是对象安全的, 满足:
 // 1.  trait 的 Self类型参数不能被限定为 Sized, 必须是 默认的 ?Sized (因为 trait objec 在编译期无法确定具体类型, 大小未知)
 // 2.  trait 中所有的方 法都必须是对象安全的, 满足三点之一
 //          - 方法受 Self: Sized 约束
@@ -5615,7 +5688,7 @@ trait Foo {
 可 以静态分发的抽象类型 impl Trait, 可以用来替代泛型约束, 可以使用加号 (impl Fly+Debug)
 
 
-目前 impl Trait 只可以在输入的参敬和返回值这两个位置使用
+目前 impl Trait 只可以在输入的参数和返回值这两个位置使用
 
 ```rs
 // ’static 是一种生命周期参数 ， 它限定了 impl Fly+Debug 抽象类 型不可能是引用类型
@@ -9253,6 +9326,9 @@ fn main() {
 
 #### 6.3.3.3. 在 c 中调用 rust
 
+### 和 golang 交互
+
+libloading 将Go或其他c-lib库混合到Rust前端  
 
 ### 6.3.4. 和 Python 交互
 
@@ -10048,11 +10124,11 @@ extern crate linked_list，
 ```
 
 
-# 测试
+# 测试 test
 
-## 9. 单元测试
+## 9. 单元测试 unittest
 
-https://github.com/nvzqz/divan 性能测试框架
+proptest 基于属性的测试库   
 
 ```rust
 /// 单元测试
@@ -10121,9 +10197,19 @@ mod tests {
 
 
 
-## 性能测试
+## 性能测试 benchmark
+
+https://github.com/bheisler/criterion.rs 事实上的性能测试标准框架
 
 https://github.com/awslabs/shuttle 测试并发代码
+
+https://github.com/nvzqz/divan 性能测试框架
+
+
+## mocking framework 
+
+https://github.com/LukeMathWalker/wiremock-rs HTTP mocking 
+
 
 # 10. 交叉编译 and 条件编译
 
@@ -11884,7 +11970,7 @@ https://github.com/gwuhaolin/blog/issues/12
 https://github.com/planet0104
 
 
-# 21. 第三方 crates
+# 21. 第三方 crates 开源库
 
 https://crates.io/
 https://s0docs0rs.icopy.site/
@@ -11908,27 +11994,6 @@ https://github.com/time-rs/time
 
 https://github.com/rust-num/num
 
-## 测试
-
-### 性能测试
-
-### mocking
-
-https://github.com/LukeMathWalker/wiremock-rs HTTP mocking 
-
-## 21.1. 事实上的标准库
-
-clap  
-serde  
-reqwest  http client  
-hyper  快速HTTP实现   , 经常使用Actix而不是Hyper    
-rayon 数据并行  
-slog and log  
-itertools  
-PyO3  包装 rust lib 在 Python 中使用  (https://github.com/ijl/orjson, https://github.com/mre/hyperjson)     
-proptest 基于属性的测试库   
-libloading 将Go或其他c-lib库混合到Rust前端  
-regex   正则    
 
 ## 21.2. markdown
 
@@ -11937,15 +12002,6 @@ https://github.com/kivikakk/comrak 复杂, 强大
 https://github.com/wooorm/markdown-rs
 
 
-## 21.4. 视频处理
-
-https://github.com/larksuite/rsmpeg 飞书团队出品 ffmpeg 的 rust binding
-
-https://github.com/gyroflow/gyroflow 视频防抖
-
-## 21.5. 图片处理
-
-https://github.com/Aloxaf/silicon
 
 
 ## 21.6. 游戏开发三方库
@@ -11959,15 +12015,57 @@ bevy
 https://github.com/GuillaumeGomez/sysinfo
 
 
+## 数据库相关 database
+
+### 数据库迁移
+
+https://github.com/rust-db/refinery
+
+### postgresql 插件
+
+https://github.com/pgcentralfoundation/pgrx
+https://hoverbear.org/tags/postgresql/ 作者
+
+### connection pool
+
+```rs
+https://github.com/sfackler/r2d2
+
+```
+
+### database driver
+
+```rs
+https://github.com/blackbeam/rust-mysql-simple
+
+https://github.com/sfackler/rust-postgres
+
+https://github.com/rusqlite/rusqlite
+
+https://github.com/redis-rs/redis-rs
+
+https://github.com/mongodb/mongo-rust-driver
+```
+
+### orm
+
+https://github.com/launchbadge/sqlx 异步实现、高性能、纯Rust代码的SQL库，支持PostgreSQL, MySQL, SQLite,和 MSSQL.
+
+
+Diesel ORM   支持MySQL、PostgreSQL、SQLite
+
+https://github.com/rbatis/rbatis 国内团队开发的ORM，异步、性能高、简单易上手
+
+https://github.com/SeaQL/sea-orm SeaORM
+
+https://github.com/oobot/cherry
+
 ## 21.8. web 开发
 
 ### rest api
 
 https://github.com/rwf2/Rocket
 
-### 数据库迁移
-
-https://github.com/rust-db/refinery
 
 ### 21.8.1. swagger openapi 生成
 
@@ -11978,6 +12076,12 @@ https://github.com/GREsau/okapi
 https://github.com/tokio-rs/axum 基于 tokio
 
 https://github.com/leptos-rs/leptos 类似 react
+
+
+https://github.com/DioxusLabs/dioxus Fullstack GUI library for desktop, web, mobile, and more. 类似 react
+    https://github.com/marc2332/freya
+    https://github.com/DioxusLabs/example-projects
+
 
 https://hardocs.com/d/rustprimer/quickstart/quickstart.html
 
@@ -11993,7 +12097,6 @@ warp
 
 https://github.com/yewstack/yew 使用 jsx 语法写 wasm
 
-对比选型 http://jiagoushi.pro/book/export/html/334
 
 Zola 静态网站
 
@@ -12003,15 +12106,10 @@ https://github.com/LukeMathWalker/pavex restful api
 
 https://github.com/unicode-org/icu4x 可用于资源受限的系统
 
-### 21.8.3. orm
-
-Diesel ORM
-
-https://github.com/SeaQL/sea-orm SeaORM
-
-https://github.com/oobot/cherry
 
 ### 21.8.4. http client
+
+https://github.com/seanmonstar/reqwest 最流行
 
 http - HTTP标准相关的基础类型，如`Request<T> 、Response<T>`以及StatusCode和常用的Header
 
@@ -12021,9 +12119,37 @@ chttp
 
 
 
-## 21.9. 序列化反序列化
+## 云原生 cloud native
+
+```rs
+
+https://github.com/fermyon/spin 使用 WebAssembly 构建微服务
+    https://github.com/fermyon/bartholomew 例子
+
+
+https://github.com/bytecodealliance/wasmtime wasm 编译器
+https://github.com/wasmerio/wasmer 在服务器上执行 WebAssembly 的开源运行时
+
+
+https://github.com/drifting-in-space/plane 分布式hasmap, 存储 websocket, 允许用户通过 API 启动任何使用 HTTP 的容器的实例
+    会话后端: https://driftingin.space/posts/session-lived-application-backends 
+    即，1.  在服务器上为每个用户启动一个专用进程，并在该进程中维护状态。为前端提供与其专用进程的持久连接，并在用户关闭应用程序时关闭该进程。生产中的案例包括 GitHub Codespaces 和 Figma 实时多人管理应用 
+    演示: https://www.youtube.com/watch?v=aGsxxcQRKa4
+    (Plane 弃用 Docker 而采用 fermyon  spin  是不是更轻量呢？)
+
+https://github.com/railwayapp/nixpacks 构建镜像
+```
+
+
+## 21.9. 序列化反序列化 serialize deserialize 编解码
+
+### 通用 serde
+
+https://github.com/serde-rs/serde 通用序列化/反序列化框架，可以跟多种协议的库联合使用，实现统一编解码格式
 
 ### 21.9.1. toml
+
+https://github.com/alexcrichton/toml-rs 可配合 serde 使用
 
 ```rs
 use std::env::args;
@@ -12045,10 +12171,31 @@ fn main() {
 
 ```
 
+### yaml
+
+https://github.com/dtolnay/serde-yaml 使用serde编解码YAML格式的数据
+
 ### 21.9.2. json
 
-serde_json 是基于 serde 实现的
-    
+https://github.com/serde-rs/json serde_json 是基于 serde 实现的, 你也可以使用它的大哥Serde，一个更通用的序列化/反序列化库
+
+### xml
+
+https://github.com/tafia/quick-xml 可以配合serde使用
+
+### csv
+
+https://github.com/BurntSushi/rust-csv 高性能CSV读写库，支持Serde
+
+### MsgPack
+
+https://github.com/3Hren/msgpack-rust MessagePack编解码协议
+
+### protocol buffer
+
+https://github.com/tokio-rs/prost tokio 出品
+
+https://github.com/stepancheg/rust-protobuf
 
 ### rkyv
 
@@ -12068,13 +12215,26 @@ time
 
 oso
 
-## 21.13. 日志处理
+## 21.13. 日志处理 logging
 
-日志 https://segmentfault.com/a/1190000021681959
 
-log 提供 api, 如果只是开发一个 lib , 无需导入实现, 如果是在一个可执行程序里, 必须有实现才能打印
 
-具体实现有多种
+```rs
+
+https://github.com/rust-lang/log 提供标准 api, 写 lib 无需具体实现, 只需要这个 api, 写应用时除此 api 外还需要具体实现库
+
+
+https://docs.rs/env_logger/latest/env_logger/ 推荐一个具体实现
+
+https://github.com/estk/log4rs 类比 log4j   (https://segmentfault.com/a/1190000021681959)
+
+https://github.com/tokio-rs/tracing 带分布式追踪的日志实现, 相较于标准库, 更强大
+
+https://github.com/open-telemetry/opentelemetry-rust collect metrics/logs/traces, and write to promethus/jaeger/kafka
+https://github.com/vectordotdev/vector
+
+
+```
 
 ### slog
 
@@ -12116,15 +12276,34 @@ log4rs = "0.13.0"
 log4rs.yml
 
 ```yml
+# log4rs.yaml
+# 检查配置文件变动的时间间隔
 refresh_rate: 30 seconds
+
+# appender 负责将日志收集到控制台或文件, 可配置多个
 appenders:
   stdout:
+    # console, file 和 rolling_file
     kind: console
-  requests:
+    # optional
+    target: stdout # 或者 stderr
+  requests: # 自定义标识
     kind: file
     path: "log/requests.log" # 相对于项目根目录
+    append: true # 追加模式, 即每次在已有文件末尾添加日志, 默认为 true
     encoder:
+      #   目前有2个 encoder pattern 和 json
+      kind: pattern
+        # d, data 日期, 默认为 ISO 9601 格式, 可以通过 {d(%Y-%m-%d %H:%M:%S)} 这种方式改变日期格式
+        # l log 级别
+        # L, line log消息所在行数
+        # m, message log 消息
+        # M, Module log 消息所在模块
+        # X, mdc 映射诊断环境
+      #如果要在 log 消息中使用 "{}()" 字符, 需要进行转义, log4rs 可以通过重复字符转义, 如 '{{' -> '{', 或者通过添加 '' 进行转义, 如 '{' -> '{'.
       pattern: "{d} - {m}{n}"
+
+# 对全局 log 进行配置
 root:
   level: debug
   appenders:
@@ -12132,14 +12311,35 @@ root:
     - requests
 
 #loggers:
-#  app::backend::db:
-#    level: info
+#  level: info
+#  app::backend::db:   # # logger 名称必须与模块名相同, 如 app::request::db, 第一个应该为 crate 名称
+#    level: debug
 #  app::requests:
 #    level: info
 #    appenders:
 #      - requests
-#    additive: false
+#    additive: false   # 因为 log4rs 默认会把子 logger 的信息也收集起来, 可以将 additivity 设置为 false, 这样子模块的 log 就不会输出到父模块上.
 
+
+
+
+
+
+log_file:
+    kind: rolling_file
+    # ...
+    policy:
+      kind: compound # 默认值, 即使用所有 policy
+      trigger: # 当文件超过10mb 时触发 rotate
+        kind: size
+        limit: 10mb
+      roller: # rotate 类型
+        kind: delete # 直接原有文件
+        # 或者用 fixed_window
+        kind: fixed_window
+        pattern: "compressed-log-{}-.log" # 注意, 需要至少包含 "{}" 用于插入索引值
+        base: 0 # 压缩日志索引值起点
+        count: 2 # 最大保存压缩文件数
 ```
 
 ```rs
@@ -12155,7 +12355,9 @@ fn main() {
 
 ```
 
+## 视频流 流媒体
 
+https://github.com/KallDrexx/mmids
 
 
 ## 21.14. 文本解析器 parser
@@ -12288,19 +12490,6 @@ fn main() {
 
 tokio
 
-## 21.19. websocket
-
-https://github.com/websockets-rs/rust-websocket
-
-wsl 中可能 build 失败, 如下解决:
-
-```sh
-apt install -y openssl
-apt install -y libssl-dev
-apt install -y pkg-config
-
-```
-
 ## 21.20. 缩小体积
 
 cargo-bloat
@@ -12313,9 +12502,11 @@ bastion
 
 sentry 错误监控
 
-## 21.24. 电子邮件
+## 21.24. 电子邮件 email
 
 tera
+
+https://github.com/lettre/lettre
 
 ## 21.25. 分发工具
 
@@ -12340,11 +12531,11 @@ rsRust
 
 ## 21.27. gui 图形库
 
-https://github.com/PistonDevelopers/conrod 2d
+https://github.com/DioxusLabs/dioxus
 
-https://github.com/DioxusLabs/dioxus Fullstack GUI library for desktop, web, mobile, and more.
-    https://github.com/marc2332/freya
-    https://github.com/DioxusLabs/example-projects
+https://github.com/fzyzcjy/flutter_rust_bridge flutter bindings
+
+https://github.com/PistonDevelopers/conrod 2d
 
 https://github.com/RibirX/Ribir
 
@@ -12360,21 +12551,43 @@ https://github.com/DioxusLabs/taffy A high performance rust-powered UI layout li
 
 https://github.com/yuankunzhang/charming 类似 echarts
 
-## 图形处理
 
 https://github.com/glium/glium OpenGL 绑定
 
 https://github.com/dimforge/nalgebra 线性代数库, 生成图形用
 
+## 视频音频 音视频处理
+
+```rs
+https://github.com/tesselode/kira 游戏音频处理
+
+https://github.com/SamiPerttu/fundsp 音频处理, 专注可用性
+
+https://github.com/chaosprint/glicol        用代码编写音乐
 
 
-## 21.28. 底层网络 api
+
+https://github.com/larksuite/rsmpeg 飞书团队出品 ffmpeg 的 rust binding
+
+https://github.com/gyroflow/gyroflow 视频防抖
+
+```
+
+
+## 图片处理
+
+https://github.com/Aloxaf/silicon
+
+
+## 网络协议 network
+
+### 底层网络 api
 
 libpnet, 如 `pnet = "0.25.0"`
 
-## 网络协议
-
 ### quic
+
+https://github.com/cloudflare/quiche
 
 https://github.com/quinn-rs/quinn
 
@@ -12385,6 +12598,40 @@ https://github.com/rustls/rustls
 ### dns
 
 https://github.com/hickory-dns/hickory-dns
+
+### mqtt
+
+```rs
+https://github.com/bytebeamio/rumqtt
+
+```
+
+### ws websocket
+
+```rs
+
+https://github.com/snapview/tokio-tungstenite
+
+https://github.com/snapview/tungstenite-rs 更底层, 轻量级
+
+
+https://github.com/websockets-rs/rust-websocket
+wsl 中可能 build 失败, 如下解决:
+apt install -y openssl
+apt install -y libssl-dev
+apt install -y pkg-config
+
+```
+
+
+### rpc框架
+
+https://github.com/cloudwego/volo
+
+### grpc
+
+https://github.com/hyperium/tonic
+
 ## 拼写检查
 
 https://github.com/crate-ci/typos 拼写检查 英文
@@ -12454,12 +12701,6 @@ fn main() {
 
 ```
 
-## 21.31. 搜索引擎
-
-https://github.com/valeriansaliou/sonic
-https://github.com/tantivy-search/tantivy
-https://artem.krylysov.com/blog/2020/07/28/lets-build-a-full-text-search-engine/ 实现原理
-
 
 ## 21.32. 开源集合容器
 
@@ -12473,7 +12714,17 @@ https://github.com/RustPython/RustPython python 引擎
 
 ## 机器学习 ai
 
-https://github.com/rust-ml/linfa
+```rs
+
+https://github.com/rust-ml/linfa  类似于 python scikit-learn 的机器学习工具包。 它通过 NumPy, SciPy 和 Matplotlib 等 python 数值计算的库实现高效的算法应用，并且涵盖了几乎所有主流机器学习算法。
+
+https://github.com/tracel-ai/burn
+https://github.com/rust-ndarray/ndarray
+
+https://github.com/LaurentMazare/tch-rs Rust bindings for the C++ api of PyTorch
+
+https://github.com/huggingface/tokenizers 分词
+```
 
 ## 编译解析
 
@@ -12488,6 +12739,33 @@ https://github.com/chronotope/chrono
 https://github.com/djc/askama
 
 https://github.com/mitsuhiko/minijinja
+
+## 搜索库
+
+https://github.com/lnx-search/lnx 类比 es
+
+https://github.com/quickwit-oss/tantivy 类比 Lucene , 更加底层, 可用于构建本地搜索库, 不可分布式
+https://artem.krylysov.com/blog/2020/07/28/lets-build-a-full-text-search-engine/ 实现原理
+
+
+https://github.com/quickwit-oss/quickwit 用于日志管理和分析的云原生搜索引擎, 对标ElasticSearch，一个通用目的的分布式搜索平台，目前还在起步阶段
+
+
+https://github.com/valeriansaliou/sonic
+
+https://github.com/meilisearch/MeiliSearch 轻量级搜索平台，不适用于数据量大时的搜索目的。总之，如果你需要在网页端或者APP为用户提供一个搜索条，然后支持输入容错、前缀搜索时，就可以使用它。
+
+## 开发工具库
+
+https://github.com/metalbear-co/mirrord 把本地进程完全封装在 Kubernetes 集群上下文中, 将本地代码运行到线上云环境
+
+https://github.com/orhun/git-cliff 根据 commit 记录生成 changelog
+
+https://github.com/Barre/privaxy 去广告
+
+https://github.com/zellij-org/zellij tmux alternative
+
+https://github.com/Byron/gitoxide git altrnative
 
 # 22. 开源项目
 

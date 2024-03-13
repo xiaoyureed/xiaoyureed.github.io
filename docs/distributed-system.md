@@ -330,6 +330,8 @@ base 和 acid 区别:
 
 # 6. 分布式事务
 
+https://www.zhihu.com/question/64921387
+
 
 ## 6.1. 开源方案 分布式事务
 
