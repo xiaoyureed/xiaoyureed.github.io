@@ -933,6 +933,8 @@ public class AckTempalte {
 
 # 6. kafka
 
+https://github.com/redpanda-data/redpanda 代替 kafka
+
 ## 6.1. kafka 基本概念
 
 https://www.bilibili.com/video/BV1jt4y1C7PZ?p=49

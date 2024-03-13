@@ -19,7 +19,7 @@ toc_max_heading_level: 5
     - [2.4. 配置国内镜像](#24-配置国内镜像)
 - [3. 标准库](#3-标准库)
     - [3.1. path 路径](#31-path-路径)
-    - [3.2. 时间](#32-时间)
+    - [3.2. 时间 time](#32-时间-time)
 - [4. 对比 2018](#4-对比-2018)
     - [4.1. nll](#41-nll)
     - [4.2. Raw identifier](#42-raw-identifier)
@@ -87,8 +87,8 @@ toc_max_heading_level: 5
         - [5.9.3. 可变引用](#593-可变引用)
         - [5.9.4. 垂悬引用问题（Dangling References)](#594-垂悬引用问题dangling-references)
     - [5.10. 裸指针](#510-裸指针)
-    - [5.11. 智能指针](#511-智能指针)
-        - [5.11.1. 智能指针介绍 工作机制](#5111-智能指针介绍-工作机制)
+    - [5.11. 智能指针 smart points](#511-智能指针-smart-points)
+        - [5.11.1. 智能指针综合介绍 工作机制](#5111-智能指针综合介绍-工作机制)
         - [5.11.2. RAII机制 实现内存回收](#5112-raii机制-实现内存回收)
         - [5.11.3. 自定义智能指针 自动解引用 Deref 和 Drop](#5113-自定义智能指针-自动解引用-deref-和-drop)
         - [5.11.4. Box NonNull 无痛使用堆内存](#5114-box-nonnull-无痛使用堆内存)
@@ -195,12 +195,11 @@ toc_max_heading_level: 5
     - [5.20. match 模式匹配](#520-match-模式匹配)
         - [5.20.1. 模式匹配简单使用](#5201-模式匹配简单使用)
         - [5.20.2. if lef while let 语法糖](#5202-if-lef-while-let-语法糖)
-    - [5.21. 错误处理](#521-错误处理)
+    - [5.21. 错误处理 error handling](#521-错误处理-error-handling)
         - [5.21.1. 断言](#5211-断言)
         - [5.21.2. panic 和 Abort](#5212-panic-和-abort)
         - [5.21.3. Result  和 问号操作符](#5213-result--和-问号操作符)
         - [5.21.4. 错误装箱 自定义异常](#5214-错误装箱-自定义异常)
-        - [自定义异常enum](#自定义异常enum)
         - [5.21.5. 捕获异常](#5215-捕获异常)
         - [5.21.6. 错误处理进化过程](#5216-错误处理进化过程)
         - [5.21.7. 第三方库处理异常](#5217-第三方库处理异常)
@@ -216,6 +215,8 @@ toc_max_heading_level: 5
             - [5.23.5.1. 建造者模式](#52351-建造者模式)
             - [5.23.5.2. 访问者模式](#52352-访问者模式)
             - [5.23.5.3. raii模式](#52353-raii模式)
+            - [类型状态模式 typestate pattern](#类型状态模式-typestate-pattern)
+                - [交通信号灯的例子](#交通信号灯的例子)
     - [5.24. 子进程](#524-子进程)
     - [5.25. 反射](#525-反射)
     - [5.26. 宏](#526-宏)
@@ -335,11 +336,10 @@ toc_max_heading_level: 5
 - [21. 第三方 crates 开源库](#21-第三方-crates-开源库)
     - [io开源库](#io开源库)
     - [usb 设备支持](#usb-设备支持)
-    - [时间处理](#时间处理)
-    - [数字处理](#数字处理)
+    - [区块链相关库 block chain](#区块链相关库-block-chain)
     - [21.2. markdown](#212-markdown)
     - [21.6. 游戏开发三方库](#216-游戏开发三方库)
-    - [21.7. 系统信息](#217-系统信息)
+    - [21.7. 系统信息 system info](#217-系统信息-system-info)
     - [数据库相关 database](#数据库相关-database)
         - [数据库迁移](#数据库迁移)
         - [postgresql 插件](#postgresql-插件)
@@ -364,7 +364,6 @@ toc_max_heading_level: 5
         - [protocol buffer](#protocol-buffer)
         - [rkyv](#rkyv)
     - [21.10. 读写数据](#2110-读写数据)
-    - [21.11. 增强工具](#2111-增强工具)
     - [21.12. 授权 Authorization](#2112-授权-authorization)
     - [21.13. 日志处理 logging](#2113-日志处理-logging)
         - [slog](#slog)
@@ -372,10 +371,16 @@ toc_max_heading_level: 5
         - [21.13.2. env\_logger](#21132-env_logger)
         - [21.13.3. log4rs and log](#21133-log4rs-and-log)
     - [视频流 流媒体](#视频流-流媒体)
-    - [21.14. 文本解析器 parser](#2114-文本解析器-parser)
-    - [21.15. lazy static 延迟初始化](#2115-lazy-static-延迟初始化)
+    - [21.15. rust 增强 enhancement](#2115-rust-增强-enhancement)
+        - [smallvac](#smallvac)
+        - [once cell](#once-cell)
+        - [lazy static 延迟初始化](#lazy-static-延迟初始化)
+        - [iter utils](#iter-utils)
+        - [enum string 工具](#enum-string-工具)
+        - [写入临时文件](#写入临时文件)
     - [21.16. 电子书](#2116-电子书)
-    - [21.17. 命令行程序 tui](#2117-命令行程序-tui)
+    - [键盘按键绑定 keyboard bindings](#键盘按键绑定-keyboard-bindings)
+    - [21.17. 命令行程序 tui terminal](#2117-命令行程序-tui-terminal)
         - [21.17.1. structopt](#21171-structopt)
         - [21.17.2. clap](#21172-clap)
     - [21.18. 异步编程](#2118-异步编程)
@@ -404,6 +409,8 @@ toc_max_heading_level: 5
         - [21.29. 正则表达式](#2129-正则表达式)
         - [解析器组合框架 nom](#解析器组合框架-nom)
         - [rust-peg](#rust-peg)
+        - [pest pom](#pest-pom)
+        - [unicode 切分](#unicode-切分)
     - [21.30. 随机](#2130-随机)
         - [21.30.1. rand 随机数字](#21301-rand-随机数字)
     - [21.32. 开源集合容器](#2132-开源集合容器)
@@ -675,8 +682,9 @@ fn path_demo() {
 ```
 
 
-## 3.2. 时间
+## 3.2. 时间 time
 
+https://github.com/time-rs/time 
 
 ```rust
 
@@ -948,6 +956,9 @@ https://stackoverflow.com/questions/41034635/how-do-i-convert-between-string-str
 ### 5.3.4. 数字
 
 ```rust
+https://github.com/rust-num/num 数字处理
+
+
 /// 对于 基本数据类型, 数据的克隆, 移动都是在栈上, 无需存储到堆中
 fn basic_types() {
     // 整型
@@ -2976,9 +2987,9 @@ fn main() {
 }
 ```
 
-## 5.11. 智能指针
+## 5.11. 智能指针 smart points
 
-### 5.11.1. 智能指针介绍 工作机制
+### 5.11.1. 智能指针综合介绍 工作机制
 
 
 
@@ -3002,7 +3013,7 @@ fn main() {
 /// 区别:
 /// - owner 个数: Rc<T> 允许数据有多个所有者；Box<T> 和 RefCell<T>/Cell 只能允许有单一所有者。
 // 
-/// - borrow checker 时期: Box<T> 在编译时执行借用检查；Rc<T>也在编译时执行借用检查；RefCell<T> 允许在运行时执行借用检查
+/// - borrow checker 时期: Box<T> 在编译时执行借用检查；Rc<T>也在编译时执行借用检查；RefCell<T> 允许在运行时执行借用检查, Cell 没有借用检查
 // 
 // - 运行时开销: Cell<T>无运行 时开销，并且永远不会在运行 时引发 panic 错误。 refcell 要在运行时执行借用检查，所以有运行时开销
 // 
@@ -3012,6 +3023,7 @@ fn main() {
 // 
 // 
 
+// 如:
 // 
 // 如果遇到要实现一个同时存在多个不同所有者，但每个所有者又可以随时修改其内容，且这个内容类型 T 没有实现 Copy 的情况该怎么办
 let shared_vec: Rc<RefCell<_>> = Rc::new(RefCell::new(Vec::new()));
@@ -7271,9 +7283,8 @@ fn match_demo() {
 
 
 
-## 5.21. 错误处理
+## 5.21. 错误处理 error handling
 
-https://www.v2ex.com/t/843118#reply6
 
 ### 5.21.1. 断言
 
@@ -7441,6 +7452,7 @@ fn error_handling() {
 ### 5.21.4. 错误装箱 自定义异常
 
 ```rust
+//  手动实现
     
 
     //
@@ -7496,12 +7508,14 @@ fn error_handling() {
 }
 
 
-```
+// 借助第三方库实现
 
-### 自定义异常enum
+https://github.com/lovasoa/custom_error 借助此库提供的宏快速自定义错误
 
-```rs
+https://github.com/shepmaster/snafu
 
+
+// 借助 anyhow 的例子
 #[derive(Error, Debug)]
 enum DataSourceError {
     #[error("data source disconnect")]
@@ -7597,8 +7611,8 @@ assert!(result.is_err());
 
 ### 5.21.7. 第三方库处理异常
 
-anyhow + thiserror
-https://github.com/dtolnay
+anyhow + thiserror, lib 用 thiserror ，bin 用 anyhow
+
 
 https://github.com/rust-cli/human-panic
 
@@ -8119,83 +8133,6 @@ impl CircleBuilder {
 // Serde的架构是访问者模式
 
 
-use std::any::Any;
-trait HouseElement {
-    fn accept(&self, visitor: &HouseElementVisitor);
-    fn as_any(&self) -> &Any;
-}
-trait HouseElementVisitor {
-    fn visit(&self, element: &HouseElement);
-}
-struct House {
-    components: Vec<Box<HouseElement>>,
-}
-impl House {
-    fn new() -> Self {
-        House {
-            components: vec![Box::new(Livingroom::new())],
-        }
-    }
-}
-impl HouseElement for House {
-    fn accept(&self, visitor: &HouseElementVisitor) {
-        for component in self.components.iter() {
-            component.accept(visitor);
-        }
-        visitor.visit(self);
-    }
-    fn as_any(&self) -> &Any { self }
-}
-
-struct Livingroom;
-impl Livingroom {
-    fn new() -> Self { Livingroom }
-}
-impl HouseElement for Livingroom {
-    fn accept(&self, visitor: &HouseElementVisitor) {
-        visitor.visit(self);
-    }
-    fn as_any(&self) -> &Any { self }
-}
-
-struct HouseElementListVisitor;
-impl HouseElementListVisitor {
-    fn new() -> Self { HouseElementListVisitor }
-}
-
-impl HouseElementVisitor for  HouseElementListVisitor {
-    fn visit(&self, element: &HouseElement) {
-        match element.as_any() {
-            house if house.is::<House>() => println!("Visiting the house..."),
-            living if living.is::<Livingroom>() => println!("Visiting the Living room..."),
-            _ => {}
-        }
-    }
-}
-struct HouseElementDemolishVisitor;
-impl HouseElementDemolishVisitor {
-    pub fn new() -> Self {
-        HouseElementDemolishVisitor
-    }
-}
-impl HouseElementVisitor for HouseElementDemolishVisitor {
-    fn visit(&self, element: &HouseElement) {
-        match element.as_any() {
-            house if house.is::<House>() => println!("Annihilating the house...!!!"),
-            living if living.is::<Livingroom>() => println!("Bombing the Living room...!!!"),
-            _ => {}
-        }
-    }
-}
-
-fn main() {
-    let house = House::new();
-    // simply print out the house elements
-    house.accept(&HouseElementListVisitor::new());
-    println!();
-    // do something with the elements of a house
-    house.accept(&HouseElementDemolishVisitor::new());
-}
 ```
 
 
@@ -8339,7 +8276,53 @@ pub fn builder_pattern(){
 }
 ```
 
+#### 类型状态模式 typestate pattern
 
+##### 交通信号灯的例子
+
+```rs
+//! red -> green -> yellow -> red
+
+use std::marker::PhantomData;
+
+pub trait State {}
+pub struct Red;
+pub struct Yellow;
+pub struct Green;
+pub struct Fault;
+impl State for Red {}
+impl State for Green {}
+impl State for Yellow {}
+impl State for Fault {}
+
+pub struct TrafficSignal<S: State> {
+    // 在 struct 内如果不使用 S, 编译不通过,
+    // 这里使用一下 S
+    // 0 大小类型, 不占用内存, 用来帮助我们满足编译检查
+    _useless: PhantomData<S>,
+}
+
+impl<S: State> TrafficSignal<S> {
+    // 根据签名里的返回 S 决定构造什么值
+    fn transition() -> TrafficSignal<S> {
+        TrafficSignal {
+            _useless: PhantomData,
+        }
+    }
+
+    fn fault(self) -> TrafficSignal<Fault> {
+        TrafficSignal::transition()
+    }
+}
+
+impl TrafficSignal<Red> {
+    fn next(self) -> TrafficSignal<Green> {
+        TrafficSignal::transition()
+    }
+}
+
+
+```
 
 ## 5.24. 子进程
 
@@ -9249,6 +9232,8 @@ Cbindgen
 
 autocxx -> c++
 
+https://github.com/dtolnay/cxx
+
 #### 6.3.3.1. 在 rust 中调用 C 函数
 
 
@@ -9834,7 +9819,13 @@ serde = { version = "1.0.118", features = ["derive"] }
 # 禁用默认打开的 feature
 flate2 = { version = "1.0.3", default-features = false, features = ["zlib"] }
 
+# 分不同平台引入依赖
+[target.'cfg(unix)'.dependencies]
+lfs-core = "0.11.0"
+uzers = "0.11.3"
 
+[target.'cfg(windows)'.dependencies]
+is_executable = "1.0.1"
 
 # 条件编译功能 (选择性地编 译 代 码)
 # 通过命令行 --features "foo bar"
@@ -11972,6 +11963,8 @@ https://github.com/planet0104
 
 # 21. 第三方 crates 开源库
 
+https://blessed.rs/crates 第三方的事实上的标准库
+
 https://crates.io/
 https://s0docs0rs.icopy.site/
 
@@ -11986,14 +11979,17 @@ https://github.com/tokio-rs/mio 非阻塞
 
 https://github.com/kevinmehall/nusb
 
-## 时间处理
 
-https://github.com/time-rs/time
 
-## 数字处理
+## 区块链相关库 block chain
 
-https://github.com/rust-num/num
+parity-rocksdb 数据库
 
+大数库  numext bigint
+
+p2p rustlib-p2p   
+
+签名算法   libsm 
 
 ## 21.2. markdown
 
@@ -12010,9 +12006,19 @@ https://github.com/rust-gamedev/arewegameyet
 
 bevy
 
-## 21.7. 系统信息
+## 21.7. 系统信息 system info
+
 
 https://github.com/GuillaumeGomez/sysinfo
+
+https://github.com/dirs-dev/dirs-rs 用户文件夹地址目录
+https://crates.io/crates/directories 封装
+
+https://github.com/Freaky/rust-filesize 文件大小
+
+https://github.com/Byron/trash-rs 移动文件到回收站
+
+https://github.com/harryfei/which-rs 查找命令路径
 
 
 ## 数据库相关 database
@@ -12128,7 +12134,10 @@ https://github.com/fermyon/spin 使用 WebAssembly 构建微服务
 
 
 https://github.com/bytecodealliance/wasmtime wasm 编译器
+
 https://github.com/wasmerio/wasmer 在服务器上执行 WebAssembly 的开源运行时
+
+https://github.com/WasmEdge/WasmEdge 运行时
 
 
 https://github.com/drifting-in-space/plane 分布式hasmap, 存储 websocket, 允许用户通过 API 启动任何使用 HTTP 的容器的实例
@@ -12205,11 +12214,6 @@ https://github.com/rkyv/rkyv
 
 bytes
 
-## 21.11. 增强工具
-
-itertools
-
-time
 
 ## 21.12. 授权 Authorization
 
@@ -12360,16 +12364,18 @@ fn main() {
 https://github.com/KallDrexx/mmids
 
 
-## 21.14. 文本解析器 parser
 
-https://github.com/Geal/nom
-https://zhuanlan.zhihu.com/p/115017849
+## 21.15. rust 增强 enhancement
 
-pest
+### smallvac
 
-pom
+https://github.com/servo/rust-smallvec 存储少量数据, 并且频繁增删
 
-## 21.15. lazy static 延迟初始化
+### once cell
+
+https://github.com/matklad/once_cell
+
+### lazy static 延迟初始化
 
 可以把定义全局静态变量延迟到运行时，而非编译时
 
@@ -12403,16 +12409,40 @@ fn main() {
 
 ```
 
+### iter utils
 
+https://docs.rs/itertools/latest/itertools/
+
+### enum string 工具
+
+https://github.com/Peternator7/strum 通过字符串用附加信息扩充枚举的库
+
+### 写入临时文件
+
+https://github.com/Stebalien/tempfile
 
 ## 21.16. 电子书
 
 mdBook 生成电子书
 
-## 21.17. 命令行程序 tui
+## 键盘按键绑定 keyboard bindings
+
+https://github.com/Canop/crokey 和 crossterm 配合使用, 
+
+https://github.com/obv-mikhail/InputBot 为按键绑定特殊功能
+
+## 21.17. 命令行程序 tui terminal
+
+https://github.com/mgeisler/textwrap 文本换行&缩进
+
+https://github.com/matklad/xshell 执行 bash 命令
 
 https://github.com/adsnaider/qshell 在代码中执行外部命令
 https://docs.rs/sh/latest/sh/
+
+https://github.com/rust-cli/rexpect 交互式运行命令 , pexpect 的移植
+
+https://github.com/crossterm-rs/crossterm 命令行操作库
 
 https://github.com/ratatui-org/ratatui 构建丰富界面
 
@@ -12649,9 +12679,13 @@ https://github.com/BurntSushi/ripgrep
 
 - fancy-regex , 支持 支持环视 ( look-around ) 和 反向引用 ( backreference)
 
+- lazy-regex
+
 ### 解析器组合框架 nom
 
 https://github.com/rust-bakery/nom, 
+https://zhuanlan.zhihu.com/p/115017849
+
 
 https://www.5axxw.com/wiki/content/v1znu9 使用
 
@@ -12666,6 +12700,18 @@ https://www.5axxw.com/wiki/content/v1znu9 使用
 ### rust-peg
 
 https://github.com/kevinmehall/rust-peg 类似 nom
+
+
+### pest pom
+
+pest
+
+pom
+
+### unicode 切分
+
+https://github.com/unicode-rs/unicode-segmentation
+
 
 ## 21.30. 随机
 
