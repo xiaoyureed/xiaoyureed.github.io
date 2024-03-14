@@ -32,8 +32,7 @@ toc_max_heading_level: 5
         - [5.2.1. 默认是不可变的](#521-默认是不可变的)
         - [5.2.2. 字面量](#522-字面量)
     - [5.3. 基本数据类型](#53-基本数据类型)
-        - [5.3.1. convert](#531-convert)
-        - [5.3.2. 值类型 and 引用类型](#532-值类型-and-引用类型)
+        - [5.3.2. 值语义 and 引用语义](#532-值语义-and-引用语义)
         - [5.3.3. 常量 静态变量](#533-常量-静态变量)
         - [5.3.4. 数字](#534-数字)
         - [5.3.5. 布尔值 字符 字节](#535-布尔值-字符-字节)
@@ -89,8 +88,8 @@ toc_max_heading_level: 5
     - [5.10. 裸指针](#510-裸指针)
     - [5.11. 智能指针 smart points](#511-智能指针-smart-points)
         - [5.11.1. 智能指针综合介绍 工作机制](#5111-智能指针综合介绍-工作机制)
-        - [5.11.2. RAII机制 实现内存回收](#5112-raii机制-实现内存回收)
-        - [5.11.3. 自定义智能指针 自动解引用 Deref 和 Drop](#5113-自定义智能指针-自动解引用-deref-和-drop)
+        - [5.11.2. RAII机制 Drop trait 实现内存回收](#5112-raii机制-drop-trait-实现内存回收)
+        - [5.11.3. 自定义智能指针 自动解引用 Deref](#5113-自定义智能指针-自动解引用-deref)
         - [5.11.4. Box NonNull 无痛使用堆内存](#5114-box-nonnull-无痛使用堆内存)
             - [5.11.4.1. Box基本使用](#51141-box基本使用)
             - [5.11.4.2. 包装动态大小类型 DST](#51142-包装动态大小类型-dst)
@@ -170,7 +169,9 @@ toc_max_heading_level: 5
         - [5.16.7. Borrow trait](#5167-borrow-trait)
         - [5.16.8. Drop 资源释放](#5168-drop-资源释放)
         - [Sized trait 和 动态类型DST](#sized-trait-和-动态类型dst)
-        - [5.16.9. 标签 trait](#5169-标签-trait)
+        - [Any trait](#any-trait)
+        - [5.16.9. 标签 trait 标记 tag](#5169-标签-trait-标记-tag)
+            - [Unpin](#unpin)
             - [5.16.9.1. Send 和 Sync](#51691-send-和-sync)
             - [5.16.9.2. Copy 标签 trait](#51692-copy-标签-trait)
             - [5.16.9.3. Sized 标签trait](#51693-sized-标签trait)
@@ -268,6 +269,7 @@ toc_max_heading_level: 5
         - [8.5.5. workspace](#855-workspace)
         - [8.5.6. 依赖的版本号规则](#856-依赖的版本号规则)
     - [8.6. build.rs](#86-buildrs)
+    - [cross platform 跨平台](#cross-platform-跨平台)
     - [8.7. 项目管理案例](#87-项目管理案例)
         - [8.7.1. 导出自定义宏](#871-导出自定义宏)
         - [8.7.2. 导入自定义 crate](#872-导入自定义-crate)
@@ -279,22 +281,23 @@ toc_max_heading_level: 5
     - [性能测试 benchmark](#性能测试-benchmark)
     - [mocking framework](#mocking-framework)
 - [10. 交叉编译 and 条件编译](#10-交叉编译-and-条件编译)
-- [11. 并发](#11-并发)
+- [11. 并发 concurrency](#11-并发-concurrency)
     - [11.1. 通用概念](#111-通用概念)
         - [11.1.1. 进程 and 线程](#1111-进程-and-线程)
         - [11.1.2. 事件回调实现的异步并发](#1112-事件回调实现的异步并发)
     - [11.2. 线程基本使用](#112-线程基本使用)
         - [11.2.1. 创建线程](#1121-创建线程)
-        - [11.2.2. 自定义配置线程](#1122-自定义配置线程)
+        - [11.2.2. 自定义配置线程 捕获panic](#1122-自定义配置线程-捕获panic)
         - [11.2.3. 线程本地变量](#1123-线程本地变量)
         - [11.2.4. 手动阻塞唤醒](#1124-手动阻塞唤醒)
     - [11.3. 线程同步](#113-线程同步)
         - [11.3.1. 错误示例](#1131-错误示例)
-        - [11.3.2. 锁](#1132-锁)
+        - [11.3.2. 锁 mutex lock](#1132-锁-mutex-lock)
         - [11.3.3. 原子类型](#1133-原子类型)
         - [11.3.4. channel](#1134-channel)
         - [11.3.5. tokio 中的各种 channel 实现](#1135-tokio-中的各种-channel-实现)
     - [11.4. 多线程小例子](#114-多线程小例子)
+        - [传递闭包](#传递闭包)
         - [11.4.1. 实现线程池](#1141-实现线程池)
         - [11.4.2. 实现 map-reduce 算法](#1142-实现-map-reduce-算法)
         - [11.4.3. 多线程统计和](#1143-多线程统计和)
@@ -923,15 +926,34 @@ fn variables() {
 
 ## 5.3. 基本数据类型
 
-### 5.3.1. convert
+### 5.3.2. 值语义 and 引用语义
 
-https://stackoverflow.com/questions/41034635/how-do-i-convert-between-string-str-vecu8-and-u8
+```rs
 
-### 5.3.2. 值类型 and 引用类型
+值语义类型是指数据直接存储在栈中的数据类型, 大小确定
+    - 对值类型的操作效率一般比较高，使用完立即会被回收
+    - 一些原生类型，比如数值 、布尔值、结构体, 枚举等都是值类型。, 这些基本类型标记实现了 Copy trait, 赋值语句中会执行拷贝
 
-值类型是指数据直接存储在栈中的数据类型 ，一些原生类型，比如数值 、布尔值、结构体, 枚举等都是值类型。因此对值类型的操作效率一般比较高，使用完立即会被回收, 这些基本类型实现了 Copy trait, 赋值语句中会执行拷贝
+引用语义类型将数据存储在堆中，而栈中只存放指向堆中数据的地址, 
+    - 如数组, 字符串String; 因此对引用类型的操作效率一般比较低, 未标记 copy trait, 赋值语句会转移所有权
 
-引用类型将数据存储在堆中，而栈中只存放指向堆中数据的地址, 如数组, 字符串; 因此对引用类型的操作效率一般比较低
+    // 值语义
+    let a = 1;
+    let aa = a;
+    println!("{}, {}", aa, a);
+
+    // 值语义类型
+    let s = "he";
+    let ss = s;
+    println!("{}, {}", ss, s);
+
+    // 引用语义类型
+    let b = "hell".to_string();
+    let bb = b;
+    // error
+    // b 所有权被转移, 无法再次使用
+    println!("{}, {}", bb, b);
+```
 
 ### 5.3.3. 常量 静态变量
 
@@ -2327,7 +2349,7 @@ fn ownership() {
 
 ### 5.7.7. 多所有权
 
-需要使用智能指针
+需要使用智能指针 Rc
 
 ```rust
      
@@ -3021,6 +3043,9 @@ fn main() {
 //  - Cell<T>使用 set/get 方法直接操作包裹的值 (底层是将内部值拷贝出, 修改后在拷贝进去, 适合于实现Copy的类型即复制语义类型)
 //  - RefCell<T>通过 borrow/borrow_mut 返回 包装过的引用 Ref<T>和 RefMut<T>来操作包裹的值 (适合没有实现Copy的类型, 即移动语义类型。)
 // 
+//  - 提供线程安全
+//  Arc<T> : 线程安全的 Rc<T>, 允许多线程下共享所有权
+/// Mutex<T> : 线程安全的 RefCell, 提供多线程下内部数据的可变引用
 // 
 
 // 如:
@@ -3039,7 +3064,7 @@ shared_vec.borrow_mut().push(3);
 println!("{:?}", shared_vec.borrow());
 ```
 
-### 5.11.2. RAII机制 实现内存回收
+### 5.11.2. RAII机制 Drop trait 实现内存回收
 
 RAII: 智能指针在堆内存上开辟空间存储数据, 自身存储在栈上, 在函数调用结束时, 指针变量被清理, 指针执行自身的drop方法, 来释放智 能指针所管理的堆内存 空间
 
@@ -3047,7 +3072,7 @@ RAII , 智能指针, 均起源于现代 C++
 
 
 
-### 5.11.3. 自定义智能指针 自动解引用 Deref 和 Drop
+### 5.11.3. 自定义智能指针 自动解引用 Deref
 
 
 ```rs
@@ -5900,17 +5925,19 @@ let b:String = a.into();//String 类型实现了 From<&str>，所以可以使用
 ```
 
 
-### Clone 和 Copy
+### Clone 和 Copy 
 
 ```rs
 
-Clone, 用来从 &T 创建副本 T。当处理资源时，默认的行为是在赋值或函数调用的同时将它们转移。但是我们有时候也需要 把资源复制一份。
+Clone, 使类型具有 “复制语义”, 用来从 &T 创建副本 T。
+    可由用户实现, 当处理资源时，默认的行为是在赋值或函数调用的同时将它们转移。但是我们有时候也需要 把资源复制一份。
 
     - 包括 clone, colon_from 方法
     - 如果一个类型是 Copy的， 它的clone方法仅需要返回*self即可 
     - 使用需要显式调用 clone(), 若希望rust 碰到 等号赋值了就自动隐式调用 clone() , 需要给结构体加上 derive(Clone, Copy), 
 
 Copy，使类型具有 “复制语义”（copy semantics）而非 “移动语义”（move semantics）。
+    只是一个标记 , 用来告诉编译器，该类型可以直接通过memcpy复制，而无需其他动作。Copy通常用于原生类型及其组合类型（结构体、元组、枚举等）。
 
     copy trait 无法单独使用, 必须在 Clone trait 存在的情况下才能使用
 
@@ -5953,9 +5980,15 @@ fn test copy<T: Copy>(t : T) { //如果实现了Copy trait的类型， 则可以
 
 ### 5.16.5. DerefMut 和 Deref
 
-用于自定义解除引用运算符(*)的行为
 
 ```rust
+// 用于自定义解除引用运算符(*)的行为
+
+// Deref是解引用语义，结合Rust中的自动解引用机制，可允许自定义包装类型如智能指针等变量像内部变量一样使用，但使用仅限于取&self，如果要取&mut self则需要DerefMut这个trait
+
+
+
+
   let a = 11;  
   let b = Box::new(a);  
   print!("Value of *b is {}",*b); //11, box 可以像普通引用一样解引用
@@ -6169,7 +6202,7 @@ impl Drop for FruitBox {
     // 如[T],  未知类型的数组
     // 如 包含 DST 的 struct/tuple
 
-// 所以为了能够编译通过, 必须将动态类型放到指针背后, 指针时 "fat pointe"
+// 所以为了能够编译通过, 必须将动态类型放到指针背后, 指针是 "fat point"
 
 //
 // compiler默认为 类型加上了 Sized trait, 如:
@@ -6190,10 +6223,19 @@ fn xxx<T: ?Sized> (t: T);// t 为 编译期间不可知大小的类型 or 为 �
 
 ```
 
+### Any trait
 
-### 5.16.9. 标签 trait
+```rs
+// 提供了一种简单的动态反射机制，要求类型必须具有'static的生命周期。在运行时可以downcast到任意类型，但若实际类型与要转换的类型不一致时，将返回Err
+
+```
+
+
+### 5.16.9. 标签 trait 标记 tag
 
 即 内部没有任何内容的 trait, 只是作为一个标签, 起到标识作用
+
+#### Unpin
 
 #### 5.16.9.1. Send 和 Sync
 
@@ -6307,6 +6349,23 @@ println!("{}", s);//Hello Rust
 ### Send Sync
 
 ```rs
+
+Send 表示该类型的值可以安全的在多线程中传递/转移 ownership (表示跨线程 move);
+
+    几乎所有的Rust类型都是Send的，但是例外：例如Rc<T>是不能Send的。
+
+    任何完全由Send类型组成的类型也会自动被标记为Send
+
+Sync 表示类型可以安全的在多个线程中拥有其值的引用 (表示跨线程 share data, 可以被安全的 borrow)
+
+    即，对于任意类型T，如果&T（T 的引用）是Send的话T就是Sync的，这意味着其引用就可以安全的发送到另一个线程
+
+原生数据类型， 默认都实现了 Send 和 Sync 标签 trait
+
+对于自定义的数据类型，如果其成员类型全部实现 Send 和 Sync，此类型才会被自 动实现 Send 和 Sync
+
+手动实现Send和Sync是不安全的。通常并不需要手动实现Send和Sync trait，因为由Send和Sync的类型组成的类型，自动就是Send和Sync的。因为他们是标记trait，甚至都不需要实现任何方法
+
 // 可以安全地跨线程传递和访 问 的类型用 Send 和 Sync 标记，否则用! Send 和!Sync 标记 , 这样编译器在编译时就能检出数据竞争的隐患， 而不需要等到运行时再排查
 
 // 实现了 Send 的类型 ，可以安全地在线程间传递所有权, 即可以跨线程移动
@@ -6329,7 +6388,6 @@ let x = Rc::new(vec! [1, 2, 3, 4]);//
 thread::spawn( move || x[1]);
 
 
-// 对于自定义的数据类型，如果其成员类型全部实现 Send 和 Sync，此类型才会被自 动实现 Send 和 Sync
 ```
 
 
@@ -8885,6 +8943,8 @@ fn main(){
 
 https://github.com/dtolnay/proc-macro-workshop
 
+cargo-expand 宏调试
+
 ```rust
 
 // 可以用来:
@@ -9979,6 +10039,10 @@ fn main() {
 }
 ```
 
+## cross platform 跨平台
+
+https://github.com/cross-rs/cross 编译工具
+
 ## 8.7. 项目管理案例
 
 ### 8.7.1. 导出自定义宏
@@ -10254,7 +10318,8 @@ fn condition_compile() {
 
 
 
-# 11. 并发
+# 11. 并发 concurrency
+
 
 ## 11.1. 通用概念
 
@@ -10265,6 +10330,8 @@ fn condition_compile() {
 可以使用多进程来提供并发，比如 Master-Worker 模式，由 Master 进程来管理 Worker 子进程， Worker 子进程执行任务 。 Master 和 Worker 之间通常使用 Socket 来进行进程间通信好处是程序健壮, 缺点是耗费资源
 
 使用线程提供并发, 占用资源少, 但是编程调试相当复杂
+
+使用 协程提供并发, 较少线程并发由于频繁的上下文切换引起的性能损耗 ------即后面介绍的异步并发
 
 ### 11.1.2. 事件回调实现的异步并发
 
@@ -10330,7 +10397,7 @@ fn concurrent() {
     //
     
     // let s = "hello"; // 若是 &str 类型, 则 move 执行的是 copy, 闭包外层 s 还是有效的
-    let s = "hello".to_owned();// 若为 String, 则 move 执行 移动语义, s 失效
+    let s = "hello".to_owned();// 若为 String, 则 move 执行 移动(所有权)语义, s 失效
    
     let handle = thread::spawn(move || {// 一定要加 move
         println!("sub thread, s = {}", s);
@@ -10344,7 +10411,7 @@ fn concurrent() {
 
 ```
 
-### 11.2.2. 自定义配置线程
+### 11.2.2. 自定义配置线程 捕获panic
 
 
 ```rs
@@ -10392,6 +10459,7 @@ fn main() {
 use std::cell::RefCell;
 use std::thread;
 fn main() {
+    // thread_local!{xxx} 亦可
     thread_local!(static FOO: RefCell<u32> = RefCell::new(1));
     FOO.with(|f| {
         assert_eq!(*f.borrow(), 1);
@@ -10443,14 +10511,25 @@ fn main() {
 // 在线程间传递可变字符串
 // 
 
+    let mut s = "hello".to_string();
+    let f = move || {
+        // s 需要为可变的
+        // 此闭包所在线程可能比主线程还活得长, 需要保证即使 主线程结束, s 仍然有效, 所以闭包要拥有s所有权, 得用 move
+        s.push_str(" world");
+    };
+    let handle = thread::spawn(f);
+    let _ = handle.join();
+    // error
+    // borrow of moved value
+    println!("{}", s);
 
-
-// 直接使用 String
+// 另一个类似的错误
 use std::thread::spawn;
 fn main() {
     let s = String::from("hello");
     for _i in 0..3 {
         // error
+        // use of moved value: `s`
         spawn(move || {
             s.push_str("xxx");
         });
@@ -10458,11 +10537,13 @@ fn main() {
 }
 
 
+
+
 // 使用 Rc
 use std::{rc::Rc, thread::spawn};
 fn main() {
-    // 想在多个线程中共享s，则需要使用。 
-    // Rc实现了!Send, 不可在线程间传递所有权
+    // 想要共享所有权, 首先想到 Rc。 
+    // 但 Rc实现了!Send, 不可在线程间传递所有权
     let mut s = Rc::new(String::from("hello"));
     for _i in 0..3 {
         let mut s_clone = s.clone();
@@ -10511,7 +10592,7 @@ fn main() {
 // 
 use std::{sync::{Arc, Mutex}, thread::spawn};
 fn main() {
-    // Arc 用于支持安全的多引用
+    // Arc 用于支持安全的共享所有权
     // Mutex 用于安全的提供内部可变性
     let s = Arc::new(Mutex::new(String::from("hello")));
     let mut ths = vec![];
@@ -10532,18 +10613,17 @@ fn main() {
 ```
 
 
-### 11.3.2. 锁 
+### 11.3.2. 锁 mutex lock
 
 ```rs
-// Mutex<T> 互斥锁: 支持跨线程安全共享可变变量的容器, 同时只允许一个线程访问内部 可变数据, 类似 线程安全版本的 RefCell
+// Mutex<T> 互斥锁: 支持跨线程安全共享可变变量的容器, 同时只允许一个线程访问内部数据, 类似 线程安全版本的 RefCell
 /// - lock() 返回内部数据的可变引用(阻塞当前线程, 直到拿到锁)
 //      返回值 LockResult<MutexGuard<T>>, 超出作用域会自动释放锁
-// - try_lock() 获取 锁的时候不会阻塞当前线程, 如果得到锁 ， 就返回 MutexGuard<T>; 如果得不到锁，就返回 Err。
+//  - try_lock() 获取 锁的时候不会阻塞当前线程, 如果得到锁 ， 就返回 MutexGuard<T>; 如果得不到锁，就返回 Err。
 // 
-/// RefCell<T>: 使得内部数据可变
-//  Rc<T>: 原子引用计数 , 允许多引用
+//  - 通常实践是在外面加上原子引用计数 Arc 变成 Arc<Mutex<T>>，来减少 Mutex 拷贝的开销。对于多读少写的场景，可以用 RwLock 提高并发
 // 
-//  Arc<T> : 线程安全的 Rc<T>, 允许多线程下的多引用
+//  Arc<T> : 线程安全的 Rc<T>, 允许多线程下共享所有权
 /// Mutex<T> : 线程安全的 RefCell, 提供多线程下内部数据的可变引用
 ///
 
@@ -10619,7 +10699,7 @@ fn lock_demo() {
 
 
     // 读写锁
-    // RwLock<T> 支持多个读线程和一个写线程同时访问 (不像 Mutex<T>只能线程独占访问)
+    // RwLock<T> 支持多个读线程 或者 一个写线程同时访问 (不像 Mutex<T>只能线程独占访问)
     // 
     // 只要线程没有拿到写锁 ， RwLock<T>就 允许任意数量 的读线程获得读锁
     // 
@@ -10645,6 +10725,7 @@ fn lock_demo() {
 
 // 屏障 (类似 java 的 CountDownLatch)
 // 
+// 场景: 用于在某个需要若干线程 都完成 前置操作后再开始计算
 use std::sync::{Arc, Barrier};
 use std::thread;
 fn main() {
@@ -10654,7 +10735,7 @@ fn main() {
         let c = barrier.clone();
         handles.push(thread::spawn(move|| {
             println!("before wait");
-            // 使得当前子线程阻塞, 知道 clone 5 次后 barrie 归零后, 线程恢复执行
+            // 使得当前子线程阻塞, 直到 barrier.clone() 5 次后 barrie 归零后, 线程恢复执行
            c.wait();
            println!("after wait");
        }));
@@ -10665,11 +10746,12 @@ fn main() {
 }
 
 // 条件变量
-// 满足指定条件之前阻塞某一个得到互斥锁的线程 
+// 满足指定条件之前阻塞某一个得到互斥锁的线程 , 并使得该线程在等待事件时不需要消耗 CPU 时间
 // 条件变量需要配合互斥锁才能使用
 // 
 // - 每个条件变量每次只能和一个互斥体一起使用
-// - 使用场景: 当状态成立时通知互斥体
+// - 通常会与放进互斥锁 布尔型的预言值（状态值）关联使用，在状态值发生变化时通知条件变量
+// - 使用场景: 当子线程满足某条件时, 通知主线程继续往下走
 use std::sync::{Arc, Condvar, Mutex};
 use std::thread;
 fn main() {
@@ -10687,7 +10769,7 @@ fn main() {
    let mut started = lock.lock().unwrap();
    while !*started {
        println!("{}", started); // false
-        //阻塞当前线程(主线程), 直到收到条件变量的通知
+        //阻塞当前线程(主线程)即使已经拿到互斥锁了, 直到收到条件变量的通知
        started = cvar.wait(started).unwrap();
        println!("{}", started); // true
    }
@@ -10713,8 +10795,10 @@ fn main() {
         // 同时指定内存顺序
         spinlock_clone.store(0, Ordering::SeqCst);
     });
+
     // 若不为 0, 则自旋
    while spinlock.load(Ordering::SeqCst) != 0 {}
+
 //    阻塞主线程, 等待子线程完成
    if let Err(panic) = thread.join() {
        println!("Thread had an error: {:?}", panic);
@@ -10841,6 +10925,15 @@ async/await : 和 sync channel 类似, 但是 waker 不同
 
 
 ## 11.4. 多线程小例子
+
+### 传递闭包
+
+```rs
+Box<dyn(Fn() + Send + 'static)> 的表达式的意思，
+    我说是做并发用的，‘static 是静态生命周期，因为在多线程的时候很可能主线程结束了，多线程仍然在跑，没有 'static 的话生命周期会随着主线程 drop， Send 是用来标记可以把其所有权传递到线程中，Fn() 表示用 &self 当做参数，dyn 是因为在编译期不知道大小，需要动态派发，Box 是用来包裹 dyn 生成的胖指针的。
+
+
+```
 
 ### 11.4.1. 实现线程池
 
@@ -11266,21 +11359,7 @@ fn main() {
 
 ## 11.10. Send 和 Sync trait
 
-```
-
-Send 表示该类型的值可以安全的在多线程中传递, 转移 ownership (表示跨线程 move);
-
-    几乎所有的Rust类型都是Send的，但是例外：例如Rc<T>是不能Send的。
-
-    任何完全由Send类型组成的类型也会自动被标记为Send
-
-Sync 表示类型可以安全的在多个线程中拥有其值的引用 (表示跨线程 share data, 可以被安全的 borrow)
-
-    即，对于任意类型T，如果&T（T 的引用）是Send的话T就是Sync的，这意味着其引用就可以安全的发送到另一个线程
-
-
-手动实现Send和Sync是不安全的。通常并不需要手动实现Send和Sync trait，因为由Send和Sync的类型组成的类型，自动就是Send和Sync的。因为他们是标记trait，甚至都不需要实现任何方法
-```
+check #trait 下内容
 
 # 12. 异步并发
 
@@ -12133,7 +12212,7 @@ https://github.com/fermyon/spin 使用 WebAssembly 构建微服务
     https://github.com/fermyon/bartholomew 例子
 
 
-https://github.com/bytecodealliance/wasmtime wasm 编译器
+https://github.com/bytecodealliance/wasmtime wasm 运行时, 提出了 wasi 标准
 
 https://github.com/wasmerio/wasmer 在服务器上执行 WebAssembly 的开源运行时
 
