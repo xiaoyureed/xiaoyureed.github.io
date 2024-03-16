@@ -1,5 +1,5 @@
 ---
-title: Iot 物联网平台
+title: Iot 物联网平台 & 嵌入式
 tags: [iot]
 date: 2020-06-06
 toc_min_heading_level: 2
@@ -45,6 +45,7 @@ https://github.com/imKeYan/IoTPlatform 国内外物联网平台列表
     - [项目初始化](#项目初始化)
         - [集成mqtt](#集成mqtt)
 - [八卦谈资](#八卦谈资)
+- [rust 嵌入式](#rust-嵌入式)
 
 
 
@@ -69,6 +70,7 @@ https://github.com/Amazingwujun/mqttx
     - [项目初始化](#项目初始化)
         - [集成mqtt](#集成mqtt)
 - [八卦谈资](#八卦谈资)
+- [rust 嵌入式](#rust-嵌入式)
 
 
 
@@ -464,5 +466,19 @@ https://blog.csdn.net/beibei3321/article/details/124187758
 "物联网最大的问题是找不到合适的应用场景，目前在用的物联网场景，大多不是刚需, 大多数也就是个监测，整个数据大屏看看曲线而已，但是这些监测数据 99%都是垃圾，没有人关心, 所以物联网做到最后，基本上就变成了 toG 的生意，甲方主要是 zf 和国企，他们才有预算去做这些面子工程"
 
 做平价智能家居然后协议兼容米家和 homekit 
+
+```
+
+
+## rust 嵌入式
+
+```rs
+esp-rs
+
+rustsbi
+
+bl808-pac
+
+awesome-embedded-rust
 
 ```

@@ -69,6 +69,7 @@ https://github.com/xtaci/algorithms cpp 中文
 - [6. 树](#6-树)
     - [6.1. 树的基本概念and一般结构](#61-树的基本概念and一般结构)
     - [6.2. 二叉查找树](#62-二叉查找树)
+        - [遍历方式](#遍历方式)
         - [6.2.1. 非平衡二叉查找树](#621-非平衡二叉查找树)
             - [6.2.1.1. BST(Binary Search Tree)-查找树的一般结构](#6211-bstbinary-search-tree-查找树的一般结构)
             - [6.2.1.2. Splay Tree 伸展树](#6212-splay-tree-伸展树)
@@ -535,6 +536,18 @@ N叉树(N-ary Tree)
 图示:
 
 ## 6.2. 二叉查找树
+
+### 遍历方式
+
+```rs
+先序(先根)遍历: 即 root -> left son -> right son
+
+中序(中根)遍历: left son -> root -> right son
+
+后序(后根)遍历: left son -> right son -> root
+
+层次遍历: 每一层一次读取 , 利用队列
+```
 
 ### 6.2.1. 非平衡二叉查找树
 
@@ -1779,6 +1792,8 @@ where
 ## 10.2. 归并排序(merge sort)
 
 复杂度: O(n*log n)
+
+思路: 先拆分, 后合并, 合并时进行排序 
 
 
 ```
