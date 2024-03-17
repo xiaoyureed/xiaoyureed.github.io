@@ -27,7 +27,7 @@ toc_max_heading_level: 5
     - [4.4. main 函数可以返回 Result](#44-main-函数可以返回-result)
     - [4.5. impl trait 抽象类型](#45-impl-trait-抽象类型)
 - [5. 语法](#5-语法)
-    - [5.1. 注释](#51-注释)
+    - [5.1. 注释 文档生成](#51-注释-文档生成)
     - [5.2. 变量赋值](#52-变量赋值)
         - [5.2.1. 默认是不可变的](#521-默认是不可变的)
         - [5.2.2. 字面量](#522-字面量)
@@ -150,8 +150,8 @@ toc_max_heading_level: 5
             - [5.16.1.3. 特化 Specialization](#51613-特化-specialization)
             - [5.16.1.6. trait 继承 菱形继承](#51616-trait-继承-菱形继承)
             - [5.16.1.4. trait 作为参数 需要 impl 前缀](#51614-trait-作为参数-需要-impl-前缀)
-            - [5.16.1.5. trait 作为 返回值 返回动态类型](#51615-trait-作为-返回值-返回动态类型)
-            - [5.16.1.7. 静态分发 动态分发](#51617-静态分发-动态分发)
+            - [5.16.1.5. trait 作为 返回值 返回动态类型 dyn](#51615-trait-作为-返回值-返回动态类型-dyn)
+            - [5.16.1.7. 静态分发 动态分发 展开(单态化 monomorphization)](#51617-静态分发-动态分发-展开单态化-monomorphization)
             - [5.16.1.8. 使用抽象类型](#51618-使用抽象类型)
                 - [5.16.1.8.1. trait对象 trait object](#516181-trait对象-trait-object)
                 - [5.16.1.8.2. trait对象安全问题 Sized trait](#516182-trait对象安全问题-sized-trait)
@@ -164,9 +164,11 @@ toc_max_heading_level: 5
             - [Default](#default)
         - [5.16.3. 运算符重载相关的trait](#5163-运算符重载相关的trait)
         - [5.16.4. From 和 Into 和 TryFrom](#5164-from-和-into-和-tryfrom)
+        - [Borrow trait](#borrow-trait)
         - [Clone 和 Copy](#clone-和-copy)
         - [5.16.5. DerefMut 和 Deref](#5165-derefmut-和-deref)
         - [5.16.6. AsRef AsMut](#5166-asref-asmut)
+        - [Deref Asref 包装类型 (wrapper type) 实现继承](#deref-asref-包装类型-wrapper-type-实现继承)
         - [5.16.7. Borrow trait](#5167-borrow-trait)
         - [5.16.8. Drop 资源释放](#5168-drop-资源释放)
         - [Sized trait 和 动态类型DST](#sized-trait-和-动态类型dst)
@@ -181,9 +183,11 @@ toc_max_heading_level: 5
         - [5.16.12. Any trait](#51612-any-trait)
         - [5.16.13. 和比较排序相关的trait](#51613-和比较排序相关的trait)
         - [Send Sync](#send-sync)
-        - [实现常用的 trait](#实现常用的-trait)
+        - [实现常用的 trait (implement common used trait)](#实现常用的-trait-implement-common-used-trait)
+        - [trait desing pattern (设计准则)](#trait-desing-pattern-设计准则)
     - [5.17. 元组](#517-元组)
     - [5.18. 结构体 struct](#518-结构体-struct)
+        - [避免破坏性修改 non\_exhaustive](#避免破坏性修改-non_exhaustive)
         - [5.18.1. 结构体基本使用](#5181-结构体基本使用)
         - [5.18.2. 元组结构体 and 单元结构体](#5182-元组结构体-and-单元结构体)
         - [5.18.3. 结构体方法](#5183-结构体方法)
@@ -214,12 +218,14 @@ toc_max_heading_level: 5
         - [5.23.2. 多态](#5232-多态)
         - [5.23.3. 向下转型](#5233-向下转型)
         - [5.23.4. 各种self区分使用](#5234-各种self区分使用)
-        - [5.23.5. 设计模式](#5235-设计模式)
+        - [5.23.5. 设计模式 dsign pattern](#5235-设计模式-dsign-pattern)
             - [5.23.5.1. 建造者模式](#52351-建造者模式)
             - [5.23.5.2. 访问者模式](#52352-访问者模式)
             - [5.23.5.3. raii模式](#52353-raii模式)
             - [类型状态模式 typestate pattern](#类型状态模式-typestate-pattern)
                 - [交通信号灯的例子](#交通信号灯的例子)
+                - [火箭发射的例子](#火箭发射的例子)
+            - [封闭 trait  (Sealed trait)](#封闭-trait--sealed-trait)
     - [5.24. 子进程](#524-子进程)
     - [5.25. 反射](#525-反射)
     - [5.26. 宏](#526-宏)
@@ -332,7 +338,6 @@ toc_max_heading_level: 5
 - [15. 消息中间件](#15-消息中间件)
 - [16. 游戏开发](#16-游戏开发)
 - [17. 爬虫](#17-爬虫)
-- [18. rpc 框架](#18-rpc-框架)
 - [19. 编写代理](#19-编写代理)
     - [19.1. http 代理](#191-http-代理)
     - [19.2. socket 代理](#192-socket-代理)
@@ -355,7 +360,6 @@ toc_max_heading_level: 5
         - [21.8.1. swagger openapi 生成](#2181-swagger-openapi-生成)
         - [21.8.2. web框架](#2182-web框架)
         - [i18n](#i18n)
-        - [21.8.4. http client](#2184-http-client)
     - [云原生 cloud native](#云原生-cloud-native)
     - [21.9. 序列化反序列化 serialize deserialize 编解码](#219-序列化反序列化-serialize-deserialize-编解码)
         - [通用 serde](#通用-serde)
@@ -406,7 +410,7 @@ toc_max_heading_level: 5
         - [mqtt](#mqtt)
         - [ws websocket](#ws-websocket)
         - [rpc框架](#rpc框架)
-        - [grpc](#grpc)
+        - [21.8.4. http client](#2184-http-client)
     - [拼写检查](#拼写检查)
     - [文本搜索](#文本搜索)
     - [文本解析库](#文本解析库)
@@ -840,7 +844,7 @@ fn main() {
 
 # 5. 语法
 
-## 5.1. 注释
+## 5.1. 注释 文档生成
 
 ```rust
 //! Hello Demo
@@ -857,10 +861,14 @@ use std::fs::File;
 ///
 ///
 /// main 方法的注释
+/// 支持 md
 ///
 /// ```
-/// 支持 md
+/// 测试代码
 /// ```
+#[doc(hidden)] // 生成文档时隐藏
+#[doc(cfg(feat = "foo"))]  // 仅在特定配置下生成到文档中
+#[doc(alias = "xxx")]  // 允许用户在生成的文档中以别名搜索到类型/方法
 fn main() {
     println!("Hello, world!");
 
@@ -3732,7 +3740,10 @@ let a_pinned_box2 = Box::into_pin(a_boxed);
 #### how to use Unpin
 
 ```rs
-
+个人感觉这样理解 !Unpin 可能会比较简单：
+Pin = 用钉子钉住， Unpin = 拔下钉子
+!Pin = 不让钉住，!Unpin = 不让你拔下钉子
+所以准确来说不是“让他变成pin”，而是“不让他做unpin操作”
 
 
 // Unpin 则正好和 Pin 的解药， 标识数据可以安全地移动。
@@ -5343,6 +5354,13 @@ fn trait_demo() {
     println!("{}", p.fn1());
 
 
+定义 trait 时最好提供泛型的下列全局实现
+- 引用 (可变, 不可变) 
+    &T where T: Trait
+    &mut T where T: Trait
+- box指针 
+    Box<T> where T: trait
+
 ```
 
 
@@ -5540,7 +5558,7 @@ println!("maximum of arr is {}", max(&arr));
 
 ```
 
-#### 5.16.1.5. trait 作为 返回值 返回动态类型
+#### 5.16.1.5. trait 作为 返回值 返回动态类型 dyn
 
 
 ```rust
@@ -5614,7 +5632,7 @@ println!("maximum of arr is {}", max(&arr));
 
 
 
-#### 5.16.1.7. 静态分发 动态分发
+#### 5.16.1.7. 静态分发 动态分发 展开(单态化 monomorphization)
 
 
 impl Trait代表静 态分发 ， dyn Trait 代表动态分发 。
@@ -5643,7 +5661,7 @@ impl Trait代表静 态分发 ， dyn Trait 代表动态分发 。
         t.can_fly()
     }
 
-    // 所谓 '展开'
+    // 所谓 '展开' (单态化 monomorphization)
     //就是
     // 假设 Foo 和 Bar 都实现了 Noop 特性, Rust 会把函数
     fn x(...) -> impl Noop
@@ -5717,11 +5735,10 @@ dynamic_dispatch(&foo);
 
 ##### 5.16.1.8.2. trait对象安全问题 Sized trait
 
-对象安全的本质就是为 了让 trait 对象可以安全地调用相应的方法
+对象安全的本质就是为 了让 trait Object 可以安全地调用相应的方法
 
 ```rs
 // 并不是每个 trait都可以作为 trait对象被使用
-//每个 trait, Self默认有一个隐式的 trait 限定 ?Sized, 形如<Self: ?Sized> , ?Sized trait 包括了所有的动态大小类型和所有可确定大小 的类型。
 // Rust 中大部分类型都默认是可确定大小的类型，也就是<T: Sized>，这也是泛型代 码可以正常编译的原因 
 // 
 // 当 trait对象在运行期进行动态分发，也必须确定大小，否则无法为其正确分配内存空 间 。所 以必须同时满足以下两条规则的 trait 才可以作为 trait 对象使用
@@ -5738,6 +5755,59 @@ dynamic_dispatch(&foo);
 trait Foo: Sized {...}//表示要为某类型实现 Foo，必须先实现 Sized, Foo 中 的隐式 Self被设定为是 Sized 的
 
 
+// 看一个例子
+
+trait Animal {
+    fn name(&self) -> &str;
+    fn speak(&self);
+
+    // 一旦加上此方法, 本 trait 就不是对象安全的了
+    // 因为: Dog, Cat 通过 trait object 调用本方法时, 编译器无法准确知道返回的具体是哪个类型
+    fn clone(&self) -> Self;
+}
+
+struct Doc {
+    name: String
+}
+
+impl Animal for Doc {
+    fn name(&self) -> &str {
+        &self.name
+    }
+    fn speak(&self) {
+        println!("{}: I'm a dog", self.name);
+    }
+    
+}
+
+struct Cat {
+    name: String
+}
+
+impl Animal for Cat {
+    fn name(&self) -> &str {
+        &self.name
+    }
+    fn speak(&self) {
+        println!("{}: I'm a cat", self.name);
+    }
+    
+}
+
+#[test]
+fn it_works() {
+    let dog = Doc { name: String::from("dog") };
+    let cat = Cat { name: String::from("cat") };
+    // 如果 animal 是对象安全的 trait, 那么:
+    // 可使用一个统一的类型 &dyn animal 来表示不同类型的动物, 并通过 trait object 调用方法
+    let v: Vec<&dyn Animal> = vec![&dog, &cat];
+    for ani in v {
+        println!("{}", ani.name());
+        ani.speak();
+    }
+}
+
+
 
 
 // 标准的对象安全的 trait
@@ -5749,7 +5819,7 @@ trait Bar {
 
 // 典型的对象不安全的 trait
 // 
-// 对象不安全的 trait
+// 对象不安全的 trait, 存在方法返回了 Self
 trait Foo {
     fn bad<T>(&self, x: T);
     fn new() -> Self;
@@ -5763,8 +5833,9 @@ trait Bar:Foo {
     fn new() -> Self;
 }
 
-//对象安全的trait，使用where子句
-// 只不过在 traitFoo作为 trait对象且有?Sized限定时， 不允许调用该 new方法
+// or
+//使用where子句, 限定 Self 为 Sized 类型 (也就是限定返回的必须是具体类型, 不能是动态trait object)
+//      也就是, new() 方法只能在具体类型上调用, 不可在 trait object 上调用
 trait Foo {
     fn bad<T>(&self, x: T);
     fn new() -> Self where Self: Sized;
@@ -5976,6 +6047,9 @@ let b:String = a.into();//String 类型实现了 From<&str>，所以可以使用
 
 ```
 
+### Borrow trait
+
+
 
 ### Clone 和 Copy 
 
@@ -6120,6 +6194,28 @@ match &x {//手动解引用把& String 类型转换成& str
  可以将值分别转换为不可变引用和 可变引用
 
  AsRef和标准库的另外一个 Borrow trait功能有些类似，但是 AsRef比较轻量级， 它只是简单地将值转换为引用，而 Borrow trait 可以用来将某个复合类型抽象为拥有借用语义 的类型
+
+### Deref Asref 包装类型 (wrapper type) 实现继承
+
+```rs
+rust 没有继承, 
+可通过 Deref / Asref 实现类似继承的东西
+    一般是通过 Deref 来实现, 只有内部类型不存在复杂低效的逻辑, 才实现 Asref    
+具体来说就是, 如果有类型 T, 满足 T: Deref<Target=U> 那么可以在 T 上调用 U 的方法
+
+struct MyVec(Vec<i32>)
+impl Deref for Myvec {
+    type Target = Vec
+    
+    fn deref(&self) -> &Target {
+        &self.0
+    }
+}
+
+let myvec = Myvec(vec![1, 2]);
+let len = myvec.len();
+let one = myvec[0];
+```
 
 ### 5.16.7. Borrow trait
 
@@ -6460,7 +6556,7 @@ thread::spawn(move || {
 
 ```
 
-### 实现常用的 trait
+### 实现常用的 trait (implement common used trait)
 
 ```rs
 // 哪些 trait 再自定义 structure 时应该尽量实现呢
@@ -6469,8 +6565,31 @@ thread::spawn(move || {
     - 手动实现, 利用 Formatter 提供的各种 debug_struct, debug_tuple, debug_list ... 方法
 - Send, Sync (Unpin)   以允许发送到另外的线程
 - Clone (clone 存在时才可标记 copy trait)
+    为什么不建议实现 copy?
+    - 如果希望得到副本, 用户通常是希望通过 Clone 而不是 copy
+    - 如果实现了 copy, 那么会改变 struct 值移动时的语义, 即移动时变成了复制
+    - 一旦给 struct 加上了 copy, 后续开发中会受到很多限制, 如: 给 struct 添加了 String 字段或其他非 copy 类型的字段, 那么该 struct 将不得不移除 copy trait
 - default
 - PartialEq, Eq, PartialOrd, Ord, Hash
+    - PartialEq 尤其有用, 因为通常用户希望对你定义的 struct 比较是否相等
+    - PartialOrd 必须实现, 如果希望 struct 作为 map 中的 key 的话
+    - Hash 必须实现, 如果希望 struct 在集合中去重, 如 hashset
+- 建议实现 serde_derive (第三方库) 的 Serialize, Deserialize
+    具体做法: 为你的裤提供一个 feature "serde", 只有用户自己启用该 feature, 才会添加对serde 的支持
+        即: 将 serde 依赖声明为 optional=true, 然后 [features] 增加 serde = ["serde"], 别人使用就是这样: mylib={features=["serde"]}
+
+- 包装类型 (类似 struct Myvec(Vec) 这种), 考虑实现 Deref , From<InnerType> / Into<InnerType>
+```
+
+### trait desing pattern (设计准则)
+
+https://www.bilibili.com/video/BV1Pu4y1Z7dT/?spm_id_from=333.999.0.0&vd_source=c2f975abf353677cb814e38e073b6a75
+
+```rs
+- 放宽参数/返回 类型的限制
+    fn xxx(s: String) -> String
+    ==> fn xxx(s:&str) -> Cow<'_, str>   返回字符串引用或一个拥有的 String
+    ==> fn xxx<S: impl Asref<str>>(s: S) -> S     只要能转换为 字符串引用的参数, 都符合要求
 ```
 
 
@@ -6514,6 +6633,29 @@ thread::spawn(move || {
 
 
 ## 5.18. 结构体 struct
+
+### 避免破坏性修改 non_exhaustive
+
+```rs
+#[non_exahustive] 用于 struct, enum 表示将来可能会添加更多字段或变体
+
+若提供一个 lib 别人使用, 你在lib 中提供了
+struct A;
+别人这样使用:
+let a = A    // 即直接通过类型隐式构造
+// or
+let a = A {} // 即没有通过 ".." 进行穷尽模式匹配
+
+
+那么, 如果你对 A 进行了修改, 增加了字段
+struct A {
+    name: String
+}
+别人的代码会报错
+
+
+解决办法是为 以后可能增减字段的类型添加 #[non_exahustive] 注解, 这样别人像上面那样使用你的 A , 编译器会提示报错
+```
 
 ### 5.18.1. 结构体基本使用
 
@@ -6656,6 +6798,7 @@ fn main(){
 
 当一个元组结构体只有一个字段的时候，称之为 New Type 模式
 
+https://www.bilibili.com/video/BV1Pu4y1Z7dT?p=4&vd_source=c2f975abf353677cb814e38e073b6a75
 
 ```rust
 // 使用场景:
@@ -8214,9 +8357,11 @@ mut self        不常用 ..... 操作完成被丢弃
 ```
 
 
-### 5.23.5. 设计模式
+### 5.23.5. 设计模式 dsign pattern
 
 #### 5.23.5.1. 建造者模式
+
+https://github.com/colin-kiegel/rust-derive-builder 可使用开源库
 
 ```rs
 // std::process::Command 就使用了 建造者模式
@@ -8419,10 +8564,12 @@ pub fn builder_pattern(){
 
 #### 类型状态模式 typestate pattern
 
+利用 "零大小" 类型 来设置约束以满足现实世界需求
+
 ##### 交通信号灯的例子
 
 ```rs
-//! red -> green -> yellow -> red
+//! 实现类型接口, 约束: 状态变化只能是 red -> green -> yellow -> red
 
 use std::marker::PhantomData;
 
@@ -8464,6 +8611,61 @@ impl TrafficSignal<Red> {
 
 
 ```
+
+##### 火箭发射的例子
+
+```rs
+
+struct Grounded;
+struct Launched;
+// use the default generic param represent this rocket stage
+struct Rocket<Stage = Grounded> {
+    _stage: std::marker::PhantomData<Stage>
+}
+
+// 任何状态的火箭都能调用这些方法
+impl<Stage> Rocket<Stage> {
+    fn aa() {
+        
+    }
+
+    fn bb() {
+        
+    }
+}
+
+// 表示只有发动以后, 火箭才能被加速/减速
+impl Rocket<Launched> {
+    fn accelerate() {
+        
+    }
+    fn decelerate() {
+        
+    }
+}
+
+// only the rocket which is grounded can be launched
+impl Rocket<Grounded> {
+    fn launch() -> Self {
+        Self { _stage: Default::default() }
+    }
+}
+
+// the init rocket is grounded, not launched
+impl Default for Rocket<Grounded> {
+    fn default() -> Self {
+        Self { _stage: Default::default() }
+    }
+}
+
+
+
+```
+
+#### 封闭 trait  (Sealed trait)
+
+构造这种 trait 目的是: 让 trait 尽可被使用, 不可被用户自定义类型实现
+
 
 ## 5.24. 子进程
 
@@ -9733,7 +9935,29 @@ fn mod_package_crate() {
 
 ## 8.2. 可见性管理
 
-pub use T 导出了 T，T 可以被其他 crate 使用；pub (crate) use T 只把 T 导出到当前的 crate，其他 crate 访问不了
+```rs
+pub use T 导出了 T，T 可以被其他 crate 使用；
+pub (crate) use T 只把 T 导出到当前的 crate，其他 crate 访问不了
+
+
+
+pub mod outer_mod {
+    pub mod inner_mod {
+        // 在 outer_mod 这个指定 mod 可见
+        pub(in crate::outer_mod) fn outer_mod_visible() {}
+
+        // 在整个 crate 内都可见
+        pub(crate) fn crate_visible()
+
+        // 在父 mod 即 outer_mod 可见
+        pub(super) fn super_mod_visible()
+
+        // 在当前 mod 可见, 也就是 私有的方法, 可以省略 pub(self)
+        pub(self) fn self_mod_visible()
+    }
+}
+
+```
 
 ## 8.3. 编译器版本管理
 
@@ -10267,6 +10491,8 @@ extern crate linked_list，
 ## 9. 单元测试 unittest
 
 proptest 基于属性的测试库   
+
+https://github.com/rust-pretty-assertions/rust-pretty-assertions 带颜色带 diff 的 assert_eq
 
 ```rust
 /// 单元测试
@@ -11442,6 +11668,8 @@ check #trait 下内容
 
 # 12. 异步并发
 
+https://www.bilibili.com/video/BV16r4y187P4/?spm_id_from=333.999.0.0&vd_source=c2f975abf353677cb814e38e073b6a75
+
 
 ## 12.1. 异步概念
 
@@ -12070,9 +12298,6 @@ select :基于html5ever 的html解析库，类似于python的 beautifulsoap http
 crates.io https://crates.io/crates/select
 附：https：//github.com/carllerche/curl-rust
 
-# 18. rpc 框架
-
-https://zhuanlan.zhihu.com/p/36528189
 
 # 19. 编写代理
 
@@ -12162,7 +12387,9 @@ https://github.com/wooorm/markdown-rs
 
 https://github.com/rust-gamedev/arewegameyet
 
-bevy
+bevy 
+https://bevy-cheatbook.github.io/platforms/wasm.html 
+https://github.com/bevyengine/bevy_github_ci_template
 
 ## 21.7. 系统信息 system info
 
@@ -12213,14 +12440,17 @@ https://github.com/mongodb/mongo-rust-driver
 
 ### orm
 
-https://github.com/launchbadge/sqlx 异步实现、高性能、纯Rust代码的SQL库，支持PostgreSQL, MySQL, SQLite,和 MSSQL.
+https://github.com/SeaQL/sea-orm SeaORM
+
+prisma，巨好用。配合 graphQL(apollo框架) 无敌。
+
+https://github.com/launchbadge/sqlx 异步实现、高性能、纯Rust代码的SQL库，支持PostgreSQL, MySQL, SQLite,和 MSSQL. 手动挡, 西药自个写 sql
 
 
 Diesel ORM   支持MySQL、PostgreSQL、SQLite
 
 https://github.com/rbatis/rbatis 国内团队开发的ORM，异步、性能高、简单易上手
 
-https://github.com/SeaQL/sea-orm SeaORM
 
 https://github.com/oobot/cherry
 
@@ -12270,16 +12500,6 @@ https://github.com/LukeMathWalker/pavex restful api
 
 https://github.com/unicode-org/icu4x 可用于资源受限的系统
 
-
-### 21.8.4. http client
-
-https://github.com/seanmonstar/reqwest 最流行
-
-http - HTTP标准相关的基础类型，如`Request<T> 、Response<T>`以及StatusCode和常用的Header
-
-hyper -  HTTP底层库，它封装了HTTP的报文解析、报文编码处理、连接控制
-
-chttp
 
 
 
@@ -12832,9 +13052,22 @@ apt install -y pkg-config
 
 https://github.com/cloudwego/volo
 
-### grpc
 
-https://github.com/hyperium/tonic
+https://github.com/hyperium/tonic grpc
+
+https://zhuanlan.zhihu.com/p/36528189
+
+
+### 21.8.4. http client
+
+https://github.com/seanmonstar/reqwest 最流行
+
+http - HTTP标准相关的基础类型，如`Request<T> 、Response<T>`以及StatusCode和常用的Header
+
+hyper -  HTTP底层库，它封装了HTTP的报文解析、报文编码处理、连接控制
+
+chttp
+
 
 ## 拼写检查
 
