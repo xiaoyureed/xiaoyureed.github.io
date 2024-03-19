@@ -136,6 +136,8 @@ toc_max_heading_level: 5
             - [5.13.5.4. 自定义迭代器](#51354-自定义迭代器)
             - [5.13.5.5. 自定义适配器 收集器](#51355-自定义适配器-收集器)
     - [5.14. 条件循环](#514-条件循环)
+        - [loop basic](#loop-basic)
+        - [loop and lifetime](#loop-and-lifetime)
     - [5.15. 泛型](#515-泛型)
         - [5.15.1. 单态化](#5151-单态化)
         - [5.15.2. 多重约束 加号](#5152-多重约束-加号)
@@ -156,6 +158,7 @@ toc_max_heading_level: 5
                 - [5.16.1.8.1. trait对象 trait object](#516181-trait对象-trait-object)
                 - [5.16.1.8.2. trait对象安全问题 Sized trait](#516182-trait对象安全问题-sized-trait)
                 - [5.16.1.8.3. impl trait](#516183-impl-trait)
+                - [接收闭包](#接收闭包)
             - [5.16.1.9. trait的类型转换](#51619-trait的类型转换)
         - [5.16.2. 可自动推导的trait](#5162-可自动推导的trait)
             - [Clone](#clone)
@@ -193,7 +196,7 @@ toc_max_heading_level: 5
         - [5.18.3. 结构体方法](#5183-结构体方法)
         - [5.18.4. new type 模式 和 类型别名 Self别名](#5184-new-type-模式-和-类型别名-self别名)
         - [5.18.5. 案例 彩色命令行输出](#5185-案例-彩色命令行输出)
-    - [5.19. 枚举](#519-枚举)
+    - [5.19. 枚举 enum](#519-枚举-enum)
         - [5.19.1. 枚举基本使用](#5191-枚举基本使用)
         - [5.19.2. Option 结构体](#5192-option-结构体)
         - [5.19.3. c 风格的枚举](#5193-c-风格的枚举)
@@ -3287,7 +3290,7 @@ fn box_demo() {
 // 
 /// 允许 "不可变数据" 有多个所有者, 数据本身无法修改 (将多个所有权共享给多个变量)
 // 
-// 内部维护着一个引用计数器，每clone一次(共享一次)， 计数器加1, 返回不可变引用， 当它们都离开作用域肘， 计 数器会被清零，对应的堆内存也会被自动释放。
+// 内部维护着一个引用计数器，每clone一次(共享一次)， 计数器加1, 返回不可变引用 (返回一个 Rc<T>)， 当它们都离开作用域肘， 计 数器会被清零，对应的堆内存也会被自动释放。
 // 
 // 常用方法:
 // 
@@ -5018,6 +5021,8 @@ fn main() {
 
 ## 5.14. 条件循环
 
+### loop basic
+
 ```rust
 
 
@@ -5081,6 +5086,59 @@ fn condition_loop() {
 }
 
 
+```
+
+
+### loop and lifetime
+
+```rs
+
+enum Tile {
+    Empty
+}
+
+fn random_empty_tile(arr: &mut [Tile]) -> &mut Tile {
+    loop {
+        let i = seed() % 10;
+        //error
+        // cannot borrow `arr[_]` as mutable more than once at a time, 
+        // 时可变借用&mut arr[i]也应该随着每次循环的结束而结束，为什么会前后两次循环会因为同一处的引用而报错？ 奇怪
+        let tile = &mut arr[i];
+        if let Tile::Empty = *tile {
+            return tile;
+        }
+    }
+   
+    panic!();
+}
+
+// 解决方案:
+
+//scenario1: 去掉 tile 这个中间变量, 没error了
+loop {
+    let i = seed() % 10;
+    if let Tile::Empty =  arr[i] {
+        return &mut arr[i];
+    }
+}
+
+// scenario2: 和消除代码分支
+
+
+// scenaria3: 将部分引用移到循环外面
+fn random_empty_tile(arr: &mut [Tile]) -> &mut Tile {
+    let mut index = 0;
+    loop {
+        let i = seed() % 10;
+        let tile = &mut arr[i]; 
+        if let Tile::Empty =  arr[i] {
+            index = i;
+            break;  
+        }
+    }
+   
+    &mut arr[index]
+}
 ```
 
 
@@ -5853,6 +5911,29 @@ trait Foo {
 ```rs
 // ’static 是一种生命周期参数 ， 它限定了 impl Fly+Debug 抽象类 型不可能是引用类型
 fn dyn_can_fly( s : impl Fly+Debug+ ’static) -> Box<dyn Fly> {}
+```
+
+##### 接收闭包
+
+```rs
+
+struct Container<'a> {
+    name: &'a str,
+    callback: Option<Box<dyn Fn(&str) -> &str>>
+}
+
+impl<'a> Container<'a> {
+    fn new(name: &'a str) -> Self {
+        Container { name: name, callback: None }
+    }
+
+    // 特征对象隐式的具有'static生命周期。
+    // 所以此处要用 trait object 接收闭包, 必须吧闭包类型注明 static 生命周期
+    fn callback(&mut self, callback: impl Fn(&str) -> &str + 'static) {
+        self.callback = Some(Box::new(callback));
+    }
+}
+
 ```
 
 #### 5.16.1.9. trait的类型转换
@@ -6995,7 +7076,7 @@ impl Display for ColorString {
 
 
 
-## 5.19. 枚举
+## 5.19. 枚举 enum
 
 ### 5.19.1. 枚举基本使用
 
@@ -7143,6 +7224,7 @@ fn enum_demo() {
     // map()
     // map_or() 可以为 None 指定默认值
     // map_or_else()
+    // Option::transpose 将一个 Option<Option<T>> 类型转换为 Option<T> 类型
     //
     // 接受一个函数f, 返回一个option, 这个函数f:
     //  - 参数为option包含的元素, 返回值为处理后的元素
@@ -7669,7 +7751,7 @@ fn error_handling() {
         };
     }
     // 更好的写法: 
-    //? 符的实际作用是将 Result 类非异常的值直接取出，如果有异常就将异常 Result 返回出去。所以，? 符仅用于返回值类型为 Result<T, E> 的函数
+    //? 符的实际作用是将 Result 类非异常的值直接取出，如果有异常就将异常 Result 返回出去。所以，? 问号符仅用于返回值类型为 Result<T, E> 的函数
     //?号 是 “要么 unwrap 要么 return Err(From::from(err))”。
     //
     // 会为函数产生返回值
@@ -7729,6 +7811,9 @@ fn error_handling() {
     }
 
     //
+
+    Result::transpose //将一个 Result<Result<T, E>, F> 类型转换为 Result<T, F> 类型。如果内部的 Result 为 Ok，则将其值提取出来并返回。如果内部的 Result 为 Err，则将其错误值返回
+
 ```
 
 
@@ -12850,6 +12935,8 @@ https://github.com/rust-cli
 
 
 ansi_term 彩色输出
+colored 带颜色
+
 
 https://github.com/fdehau/tui-rs
 

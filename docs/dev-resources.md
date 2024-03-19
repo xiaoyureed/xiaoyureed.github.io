@@ -846,6 +846,8 @@ https://www.huxiu.com/article/319329.html
 
 https://mp.weixin.qq.com/s?__biz=Mzg4MzE5MjEyOQ==&mid=2247483671&idx=1&sn=bfe60fdec5479d8ed8090c5b07e4eba2&chksm=cf4a7939f83df02fd8738a48967df1a655e7b574fcce08e6ded563e012350089ece77b46fa21&scene=21#wechat_redirect
 
+我有朋友专门混网赚圈子是比较资深的这种，现在是什么玩法我不太了解，早年听说他做过淘宝/蘑菇街分享女装引流，成交和曝光都可以拿佣金，他开发系统自动从淘宝选品，自动发内容，做海量矩阵号，后来做过百家号和微信群控导流这类，都是类似比较垃圾的内容，但是浏览量很高，都是系统自动化，基本不需要人工，偶尔系统有问题才介入，一个号一个月几百到一千多的收益，都是几十个号一起，有高有低
+
 # 个人项目的低成本方案
 
 https://free-for.dev/#/
