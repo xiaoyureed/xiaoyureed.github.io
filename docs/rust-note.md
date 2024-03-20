@@ -103,8 +103,7 @@ toc_max_heading_level: 5
             - [5.11.6.2. RefCell 获取内层数据的可变引用](#51162-refcell-获取内层数据的可变引用)
         - [Arc 共享所有权 线程安全](#arc-共享所有权-线程安全)
         - [5.11.8. Pin 和 Unpin](#5118-pin-和-unpin)
-            - [what is Pin](#what-is-pin)
-                - [Pin 原理](#pin-原理)
+            - [what is Pin 原理](#what-is-pin-原理)
             - [why need Pin](#why-need-pin)
             - [how to use Pin](#how-to-use-pin)
             - [how to use Unpin](#how-to-use-unpin)
@@ -3633,7 +3632,7 @@ fn main() {
 ### 5.11.8. Pin 和 Unpin
 
 
-#### what is Pin
+#### what is Pin 原理
 
 ```rs
 
@@ -3644,6 +3643,7 @@ fn main() {
 //      底层实现实际是一个 struct
 //
 
+// 原理
 pub struct Pin<P> {
     pub pointer: P,
 }
@@ -3654,12 +3654,9 @@ impl<P: DerefMut<Target: Unpin>> DerefMut for Pin<P> {
         Pin::get_mut(Pin::as_mut(self))
     }
 }
-```
+// 遮样就保证了, 如果一个指针 被pin包住, 该指针就不可能通过任何方法返回可变引用
 
-##### Pin 原理
-
-```rs
-
+// 看个例子
 let mut x1 = Box::new(3);
 let mut x2 = Box::new(4);
 let x1_mut = x1.as_mut();
@@ -3669,9 +3666,8 @@ println!("x1_mut: {:?}, x2_mut: {:?}", x1_mut, x2_mut); // 3, 4
 // swap the value for the two mut reference
 std::mem::swap(x1_mut, x2_mut);
 println!("x1_mut: {:?}, x2_mut: {:?}", x1_mut, x2_mut); // 4, 3
-
 // swap 能够成功, 归根到底, 需要能够输入两个可变引用
-// Pin 实现的原理就是, 如果一个指针 被pin包住, 该指针就不可能通过任何方法返回可变引用
+
 let mut x1_pinned: Pin<Box<i32>> = Pin::new(x1);
 let x1_pinned_mut: Pin<&mut i32> = x1_pinned.as_mut();
 // error:
@@ -12647,6 +12643,7 @@ fn main() {
 ### yaml
 
 https://github.com/dtolnay/serde-yaml 使用serde编解码YAML格式的数据
+https://github.com/Ethiraric/yaml-rust2
 
 ### 21.9.2. json
 

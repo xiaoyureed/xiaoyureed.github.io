@@ -269,6 +269,7 @@ https://github.com/yygmind/blog
     - [33.3. 为样式文件编写 types](#333-为样式文件编写-types)
     - [33.4. 配置 css 跳转](#334-配置-css-跳转)
 - [34. 开源库](#34-开源库)
+    - [邮件](#邮件)
     - [开发框架](#开发框架)
     - [效率开发](#效率开发)
     - [可视化库](#可视化库)
@@ -4962,6 +4963,10 @@ https://www.jianshu.com/p/641bcac7754b
 
 
 # 34. 开源库
+
+## 邮件
+
+https://github.com/resend/react-email
 
 ## 开发框架
 
