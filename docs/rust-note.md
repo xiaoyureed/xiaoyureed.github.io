@@ -9759,6 +9759,7 @@ neon -> 和 node 交互
 https://github.com/napi-rs/napi-rs
 
 https://rustwasm.github.io/ webassembly
+https://github.com/jat001/rust-wasm wasm调试
 
 
 ### 6.3.7. 和 java 交互
@@ -12542,6 +12543,9 @@ https://github.com/oobot/cherry
 
 https://github.com/rwf2/Rocket
 
+https://github.com/shenghui0779/api-tpl-rs?tab=readme-ov-file 脚手架
+
+https://github.com/loco-rs/loco Ruby on rails liked framework
 
 ### 21.8.1. swagger openapi 生成
 
