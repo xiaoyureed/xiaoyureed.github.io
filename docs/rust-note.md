@@ -7727,6 +7727,7 @@ fn error_handling() {
 ```rust
 
 /// 可恢复错误, 用 Result<T, E> 类来处理，,类比 java 中 的 exception
+// 不可恢复错误, 可以直接 panic!(xxx)
 /// //在 Rust 标准库中可能产生异常的函数的返回值都是 Result 类型的
 /// enum Result<T, E> { 
 ///   Ok(T),
