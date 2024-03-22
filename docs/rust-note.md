@@ -306,6 +306,7 @@ toc_max_heading_level: 5
         - [11.3.3. 原子类型](#1133-原子类型)
         - [11.3.4. channel](#1134-channel)
         - [11.3.5. tokio 中的各种 channel 实现](#1135-tokio-中的各种-channel-实现)
+        - [利用Chanel实现变量共享](#利用chanel实现变量共享)
     - [11.4. 多线程小例子](#114-多线程小例子)
         - [传递闭包](#传递闭包)
         - [11.4.1. 实现线程池](#1141-实现线程池)
@@ -357,17 +358,22 @@ toc_max_heading_level: 5
         - [connection pool](#connection-pool)
         - [database driver](#database-driver)
         - [orm](#orm)
+    - [加密解密加解密](#加密解密加解密)
+    - [uuid](#uuid)
     - [21.8. web 开发](#218-web-开发)
+        - [validate](#validate)
+        - [jwt库](#jwt库)
         - [rest api](#rest-api)
         - [21.8.1. swagger openapi 生成](#2181-swagger-openapi-生成)
         - [21.8.2. web框架](#2182-web框架)
         - [i18n](#i18n)
-    - [云原生 cloud native](#云原生-cloud-native)
+    - [云原生 cloud native and wasm webassembly](#云原生-cloud-native-and-wasm-webassembly)
     - [21.9. 序列化反序列化 serialize deserialize 编解码](#219-序列化反序列化-serialize-deserialize-编解码)
         - [通用 serde](#通用-serde)
         - [21.9.1. toml](#2191-toml)
         - [yaml](#yaml)
         - [21.9.2. json](#2192-json)
+        - [dotenv 文件](#dotenv-文件)
         - [xml](#xml)
         - [csv](#csv)
         - [MsgPack](#msgpack)
@@ -428,7 +434,6 @@ toc_max_heading_level: 5
     - [其他语言引擎](#其他语言引擎)
     - [机器学习 ai](#机器学习-ai)
     - [编译解析](#编译解析)
-    - [日期库](#日期库)
     - [模板](#模板)
     - [搜索库](#搜索库)
     - [开发工具库](#开发工具库)
@@ -696,6 +701,9 @@ fn path_demo() {
 ## 3.2. 时间 time
 
 https://github.com/time-rs/time 
+
+https://github.com/chronotope/chrono
+
 
 ```rust
 
@@ -972,25 +980,28 @@ fn variables() {
 ```rust
 
 // 常量, 静态变量: 在全局声明常量 or 变量
-    // 需要手动指定类型
-    // 区别/异同:
-    // - 都是在编译期求值的，所以不能用于存储需要动态分配内存的类型，比如 HashMap, vec
-    // 
-    // - 静态变量有固定的内存地址 (分配在静态存储区), 可以是可变的 (用 mut 修饰), 可能有内存安全问题, 所以修改需要在 unsafe 中; 
-    // - 常量没有固定的内存地址, 不可变 (会被内联, 在被用到的地方会被复制过去, 用不到内存地址)
+// 需要手动指定类型
+// 区别/异同:
+// - 都是在编译期求值的，所以不能用于存储需要动态分配内存的类型，比如 HashMap, vec
+// 
+// - 静态变量有固定的内存地址 (分配在静态存储区), 可以是可变的 (用 mut 修饰), 可能有内存安全问题, 所以修改需要在 unsafe 中; 
+// - 常量没有固定的内存地址, 不可变 (会被内联, 在被用到的地方会被复制过去, 用不到内存地址)
 
-    // 普通常量 不能引用 静态变量
+// 普通常量 不能引用 静态变量
 
-    // 使用场景:
-    // 在存储的数据比较大、需要引用地址或具有可变性的情况下使用静态变量;否则，应该 优先使用普通常量
-    const MAX_POINTS: u32 = 100_000;
-    static LANGUAGE: &'static str = "Rust";//"string" 字面量默认生命周期就是 static 的
+// 使用场景:
+// 在存储的数据比较大、需要引用地址或具有可变性的情况下使用静态变量;否则，应该 优先使用普通常量
+const MAX_POINTS: u32 = 100_000;
+static LANGUAGE: &'static str = "Rust";//"string" 字面量默认生命周期就是 static 的
 ```
 
 ### 5.3.4. 数字
 
 ```rust
 https://github.com/rust-num/num 数字处理
+
+https://github.com/paupino/rust-decimal 浮点数精确运算
+https://github.com/akubera/bigdecimal-rs 类似
 
 
 /// 对于 基本数据类型, 数据的克隆, 移动都是在栈上, 无需存储到堆中
@@ -6578,6 +6589,8 @@ println!("{}", s);//Hello Rust
 
 Send 表示该类型的值可以安全的在多线程中传递/转移 ownership (表示跨线程 move);
 
+    如果类型T实现了Send类型，那说明这个类型的变量在不同的线程中传递所有权是安全的。
+
     几乎所有的Rust类型都是Send的，但是例外：例如Rc<T>是不能Send的。
 
     任何完全由Send类型组成的类型也会自动被标记为Send
@@ -6585,6 +6598,8 @@ Send 表示该类型的值可以安全的在多线程中传递/转移 ownership 
     非 Send 类型, 无法 放入 Mutex
 
 Sync 表示类型可以安全的在多个线程中拥有其值的引用 (表示跨线程 share data, 可以被安全的 borrow)
+
+    如果类型T实现了Sync类型，那说明在不同的线程中使用&T访问同一个变量是安全的。
 
     即，对于任意类型T，如果&T（T 的引用）是Send的话T就是Sync的，这意味着其引用就可以安全的发送到另一个线程
 
@@ -11248,12 +11263,12 @@ fn channel_demo() {
 
     // 接收
     // 
-    //这个方法会阻塞主线程执行直到从通道中接收一个值, 
-    //当通道发送端关闭，recv 会返回一个错误表明不会再有新的值到来了
     //
     //try_recv 不会阻塞，相反它立刻返回一个 Result<T, E>：Ok 值包含可用的信息，而 Err 值代表此时没有任何消息
     //可以编写一个循环来频繁调用 try_recv，在有可用消息时进行处理，其余时候则处理一会其他工作直到再次检查
     //
+     //这个方法会阻塞主线程执行直到从通道中接收一个值, 
+    //当通道发送端关闭，recv 会返回一个错误表明不会再有新的值到来了
     let received = rx.recv().unwrap();
     println!("Got: {}", received);
 
@@ -11316,6 +11331,152 @@ rendezvous: 容量为 0, 用于线程间同步
 oneshot: 只允许发送一次数据
 
 async/await : 和 sync channel 类似, 但是 waker 不同
+
+```
+
+### 利用Chanel实现变量共享
+
+```rs
+//全局 channel tx
+static TX: OnceCell<Mutex<Sender<Method>>> = OnceCell::new(); 
+
+/// 传输任务
+#[derive(Clone)]
+#[derive(Debug)]
+pub struct TranTask
+{
+    ///scp本地路径
+    pub local_path: String,     
+    ///scp远端路径
+    pub remote_path:String,     
+    ///true上传 false下载
+    pub is_up:      bool,
+    ///已传输字节数
+    pub trans_size: u64,  
+}
+
+enum Method
+{
+    New  	    //创建传输任务
+    {
+        task_id:    String,
+        task:       TranTask,
+    },
+    AppendTranSize  //附加传输字节数
+    {
+        task_id:    String,
+        size:       u64,
+    },
+    GetTask         //获得传输任务
+    {
+        task_id:    String,
+        rsp:        Sender<Option<TranTask>>,
+    },
+}
+
+/// 接口：创建任务
+pub fn new(task_id: &str, task: TranTask)
+{
+    if let Some(mutex) = TX.get()
+    {
+        if let Ok(tx) = mutex.lock()
+        {
+            let tx = tx.clone();
+
+            let task_id = String::from(task_id);
+            let method = Method::New{task_id, task};
+
+            let _ = tx.send(method);      //发送
+        }
+    }
+}
+
+/// 接口： 附加传输字节数
+pub fn append_tran_size(task_id: &str, size: u64)
+{
+    if let Some(mutex) = TX.get()
+    {
+        if let Ok(tx) = mutex.lock()
+        {
+            let tx = tx.clone();
+
+            let task_id = String::from(task_id);
+            let method = Method::AppendTranSize { task_id, size };
+
+            let _ = tx.send(method);      //发送
+        }
+    }
+}
+
+/// 接口： 获得任务
+pub fn get_task(task_id: &str) -> Option<TranTask>
+{
+    let (rsp_tx, rsp_rx) = mpsc::channel();
+    if let Some(mutex) = TX.get()
+    {
+        if let Ok(tx) = mutex.lock()
+        {
+            let tx = tx.clone();
+
+            let task_id = String::from(task_id);
+            let method = Method::GetTask { task_id, rsp: rsp_tx };
+            let _ = tx.send(method);      //发送
+
+            if let Ok(curr_file) = rsp_rx.recv()   //接收
+            {
+                return curr_file;
+            }
+        }
+    }
+
+    None
+}
+
+/// 初始化缓存
+pub fn init()
+{
+    //全局变量，key：task_id
+    let mut _cache: HashMap<String, TranTask> = HashMap::new();
+    //初始化channel tx rx
+    let (tx, rx) = mpsc::channel();
+    //初始化全局TX
+    TX.get_or_init(||{
+        Mutex::new(tx)
+    });
+
+    //接收线程 ---------------
+    thread::spawn(move ||{
+
+        while let Ok(method) = rx.recv()
+        {
+            match method
+            {
+                Method::New { task_id, task } =>  //创建任务
+                {
+                    _cache.insert(task_id, task);
+                }
+                Method::AppendTranSize { task_id, size } => //附加传输字节数
+                {
+                    if let Some(task) = _cache.get_mut(&task_id)
+                    {
+                        task.trans_size += size;
+                    }
+                }
+                Method::GetTask { task_id, rsp } =>  //获得任务
+                {
+                    if let Some(task) = _cache.get(&task_id)
+                    {
+                        let _ = rsp.send(Some(task.clone()));
+                    }
+                    else 
+                    {
+                        let _ = rsp.send(None);
+                    }
+                }
+            }
+        }
+    });
+}
 
 ```
 
@@ -12538,7 +12699,31 @@ https://github.com/rbatis/rbatis 国内团队开发的ORM，异步、性能高�
 
 https://github.com/oobot/cherry
 
+## 加密解密加解密
+
+```rs
+https://github.com/Keats/rust-bcrypt Easily hash and verify passwords using Bcrypt
+
+```
+
+## uuid
+
+```rs
+https://github.com/uuid-rs/uuid
+
+https://github.com/nikolay-govorov/nanoid 随机字符串
+
+```
+
 ## 21.8. web 开发
+
+### validate
+
+https://github.com/Keats/validator 
+
+### jwt库
+
+https://github.com/Keats/jsonwebtoken
 
 ### rest api
 
@@ -12590,9 +12775,11 @@ https://github.com/unicode-org/icu4x 可用于资源受限的系统
 
 
 
-## 云原生 cloud native
+## 云原生 cloud native and wasm webassembly
 
 ```rs
+
+https://github.com/trunk-rs/trunk 再web构建wasm
 
 https://github.com/fermyon/spin 使用 WebAssembly 构建微服务
     https://github.com/fermyon/bartholomew 例子
@@ -12653,6 +12840,10 @@ https://github.com/Ethiraric/yaml-rust2
 ### 21.9.2. json
 
 https://github.com/serde-rs/json serde_json 是基于 serde 实现的, 你也可以使用它的大哥Serde，一个更通用的序列化/反序列化库
+
+### dotenv 文件
+
+dotenv
 
 ### xml
 
@@ -12839,7 +13030,8 @@ https://github.com/servo/rust-smallvec 存储少量数据, 并且频繁增删
 
 ### once cell
 
-https://github.com/matklad/once_cell
+https://github.com/matklad/once_cell OnceCell是允许且只允许赋值一次的cell, 
+替代 lazy_static!()
 
 ### lazy static 延迟初始化
 
@@ -13002,9 +13194,8 @@ sentry 错误监控
 
 ## 21.24. 电子邮件 email
 
-tera
 
-https://github.com/lettre/lettre
+https://github.com/lettre/lettre , 再配合模板引擎tera
 
 ## 21.25. 分发工具
 
@@ -13220,7 +13411,7 @@ https://github.com/unicode-rs/unicode-segmentation
 
 
 ```rs
-
+//  利用 rand 库
 use rand::prelude::*;
 
 fn main() {
@@ -13244,6 +13435,30 @@ fn main() {
     if rand::random() {
         println!("rand bool from random()");
     }
+}
+
+
+
+
+
+
+
+// or
+// 
+
+
+fn main() -> Result<(), Box<dyn Error>> {
+    // 随机10 以内数字
+    println!("{}", seed() % 10); // 7
+
+    Ok(())
+}
+
+fn seed() -> usize {
+    let now = SystemTime::now();
+    let since_the_epoch = now.duration_since(SystemTime::UNIX_EPOCH).unwrap();
+    let random_number: usize = (since_the_epoch.as_secs() * 1000 + (since_the_epoch.subsec_nanos() / 1_000_000) as u64) as usize;
+    return random_number;
 }
 
 ```
@@ -13277,15 +13492,16 @@ https://github.com/huggingface/tokenizers 分词
 
 https://github.com/tree-sitter/tree-sitter
 
-## 日期库
 
-https://github.com/chronotope/chrono
 
 ## 模板
+
+https://github.com/Keats/tera
 
 https://github.com/djc/askama
 
 https://github.com/mitsuhiko/minijinja
+
 
 ## 搜索库
 
