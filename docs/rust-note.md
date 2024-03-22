@@ -279,7 +279,8 @@ toc_max_heading_level: 5
         - [8.5.5. workspace](#855-workspace)
         - [8.5.6. 依赖的版本号规则](#856-依赖的版本号规则)
     - [8.6. build.rs](#86-buildrs)
-    - [cross platform 跨平台](#cross-platform-跨平台)
+    - [cross platform 跨平台 交叉编译](#cross-platform-跨平台-交叉编译)
+    - [内嵌静态资源 embed static files](#内嵌静态资源-embed-static-files)
     - [8.7. 项目管理案例](#87-项目管理案例)
         - [8.7.1. 导出自定义宏](#871-导出自定义宏)
         - [8.7.2. 导入自定义 crate](#872-导入自定义-crate)
@@ -609,6 +610,38 @@ rustup component add clippy
 
 
 ## 2.4. 配置国内镜像
+
+1、进入 $HOME/.cargo 文件夹中。
+
+2、删除一个名为 .package-cache 的文件
+
+3、创建一个名为 config 的文件，注意不要后缀
+
+4、编辑 config 文件，将下面内容添加进去后，保存退出即可
+
+```t
+[source.crates-io]
+replace-with = 'sjtu' # 指定使用下面哪个源，修改为source.后面的内容即可
+
+# 中国科学技术大学
+[source.ustc]
+registry = "https://mirrors.ustc.edu.cn/crates.io-index"
+
+# 上海交通大学
+[source.sjtu]
+registry = "https://mirrors.sjtug.sjtu.edu.cn/git/crates.io-index/"
+
+# 清华大学
+[source.tuna]
+registry = "https://mirrors.tuna.tsinghua.edu.cn/git/crates.io-index.git"
+
+# rustcc社区
+[source.rustcc]
+registry = "https://code.aliyun.com/rustcc/crates.io-index.git"
+
+```
+
+or
 
 ```t
 [registry]
@@ -10445,9 +10478,31 @@ fn main() {
 }
 ```
 
-## cross platform 跨平台
+## cross platform 跨平台 交叉编译
 
-https://github.com/cross-rs/cross 编译工具
+https://github.com/cross-rs/cross 需要docker（在win10下就要linux虚拟机了）
+
+https://github.com/rust-cross/cargo-zigbuild
+
+## 内嵌静态资源 embed static files
+
+```rs
+
+const HELLO: &[u8] = include_bytes!("hello.txt");
+
+fn main() {
+    println!("{}", String::from_utf8_lossy(HELLO));
+}
+
+
+
+
+// or
+
+https://github.com/pyrossh/rust-embed
+
+```
+
 
 ## 8.7. 项目管理案例
 
@@ -13020,6 +13075,7 @@ fn main() {
 
 https://github.com/KallDrexx/mmids
 
+https://github.com/harlanc/xiu
 
 
 ## 21.15. rust 增强 enhancement
