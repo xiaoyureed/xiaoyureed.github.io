@@ -281,6 +281,7 @@ toc_max_heading_level: 5
     - [8.6. build.rs](#86-buildrs)
     - [cross platform 跨平台 交叉编译](#cross-platform-跨平台-交叉编译)
     - [内嵌静态资源 embed static files](#内嵌静态资源-embed-static-files)
+    - [根据项目模板生成 template](#根据项目模板生成-template)
     - [8.7. 项目管理案例](#87-项目管理案例)
         - [8.7.1. 导出自定义宏](#871-导出自定义宏)
         - [8.7.2. 导入自定义 crate](#872-导入自定义-crate)
@@ -422,6 +423,7 @@ toc_max_heading_level: 5
         - [21.8.4. http client](#2184-http-client)
     - [拼写检查](#拼写检查)
     - [文本搜索](#文本搜索)
+    - [二进制文件](#二进制文件)
     - [文本解析库](#文本解析库)
         - [文本 diff](#文本-diff)
         - [21.29. 正则表达式](#2129-正则表达式)
@@ -10503,6 +10505,13 @@ https://github.com/pyrossh/rust-embed
 
 ```
 
+## 根据项目模板生成 template
+
+```sh
+# https://github.com/cargo-generate/cargo-generate
+cargo install cargo-generate
+
+```
 
 ## 8.7. 项目管理案例
 
@@ -10641,6 +10650,8 @@ extern crate linked_list，
 
 
 # 测试 test
+
+推荐 cargo nextest
 
 ## 9. 单元测试 unittest
 
@@ -13187,6 +13198,7 @@ https://github.com/rust-cli
 
 ansi_term 彩色输出
 colored 带颜色
+https://github.com/jam1garner/owo-colors
 
 
 https://github.com/fdehau/tui-rs
@@ -13413,6 +13425,10 @@ https://github.com/crate-ci/typos 拼写检查 英文
 ## 文本搜索
 
 https://github.com/BurntSushi/ripgrep
+
+## 二进制文件
+
+https://github.com/jam1garner/binrw 解析为 struct
 
 ## 文本解析库
 

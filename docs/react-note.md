@@ -280,6 +280,7 @@ https://github.com/yygmind/blog
     - [34.4. 组件库](#344-组件库)
     - [34.5. 动画](#345-动画)
     - [34.6. css 框架](#346-css-框架)
+    - [tailwindcss 资源](#tailwindcss-资源)
     - [34.7. 图表库](#347-图表库)
 
 
@@ -5046,7 +5047,7 @@ https://github.com/useAnimations/react-useanimations 会动的图标
 
 Bootstrap 使用最广泛的, 不定制的话 网站外观千篇一律
 
-Bulma 后起之秀
+Bulma 后起之秀, 类似 tailwindcss, 更语义化
 
 Pure.css 轻量级, 可以使用其栅格设计和菜单创建高度响应式的页面布局
 
@@ -5057,6 +5058,13 @@ Tailwind 高度可定制
 NES.css 像素风格
 
 Paper Css 手写风格
+
+```
+
+## tailwindcss 资源
+
+```sh
+https://github.com/markmead/hyperui 组件, 直接复制粘贴即可使用
 
 ```
 
