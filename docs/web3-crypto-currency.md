@@ -6,7 +6,26 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
+https://decert.me/tutorial/blockchain-basic/blockchains
+
+《精通比特币》
+
+http://zhenxiao.com/blockchain/
+https://www.bilibili.com/video/av37065233/?from=search&seid=10142609027487181062
+
+https://github.com/chaseSpace/learn_blockchain
+
+
 <!--truncate-->
+
+- [web3 terms](#web3-terms)
+- [和 rust](#和-rust)
+- [加密算法](#加密算法)
+- [共识算法](#共识算法)
+- [p2p 协议](#p2p-协议)
+- [智能合约](#智能合约)
+
+
 
 ## web3 terms
 
@@ -102,7 +121,7 @@ ABI: 类似于传统的 api, 为了与链上合约进行交互而提供的接口
 ## 和 rust
 
 ```rs
-Substrate
+Substrate subtrate 框架 波卡生态的应用链开发框架，rust 语言的
 
 Polkadot
 
@@ -123,3 +142,21 @@ Sui
 
 
 ```
+
+## 加密算法
+
+
+## 共识算法
+
+## p2p 协议
+
+
+## 智能合约
+
+归属于应用层开发, 又细分 NFT/DEFI 方向
+
+https://www.youtube.com/watch?v=M576WGiDBdQ&embeds_referring_euri=https%3A%2F%2Fwww.v2ex.com%2Ft%2F835692&feature=emb_imp_woyt solidity 基于以太坊
+
+相关开发生态（ remix/truffle/hardhat 等）
+
+

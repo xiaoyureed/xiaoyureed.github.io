@@ -291,7 +291,7 @@ toc_max_heading_level: 5
 - [测试 test](#测试-test)
     - [9. 单元测试 unittest](#9-单元测试-unittest)
     - [性能测试 benchmark](#性能测试-benchmark)
-    - [mocking framework](#mocking-framework)
+    - [mocking framework \& fake dummy data](#mocking-framework--fake-dummy-data)
 - [10. 交叉编译 and 条件编译](#10-交叉编译-and-条件编译)
 - [11. 并发 concurrency](#11-并发-concurrency)
     - [11.1. 通用概念](#111-通用概念)
@@ -390,6 +390,7 @@ toc_max_heading_level: 5
         - [21.13.3. log4rs and log](#21133-log4rs-and-log)
     - [视频流 流媒体](#视频流-流媒体)
     - [21.15. rust 增强 enhancement](#2115-rust-增强-enhancement)
+        - [不可变对象 struct](#不可变对象-struct)
         - [smallvac](#smallvac)
         - [once cell](#once-cell)
         - [lazy static 延迟初始化](#lazy-static-延迟初始化)
@@ -10482,6 +10483,8 @@ fn main() {
 
 ## cross platform 跨平台 交叉编译
 
+https://github.com/japaric/rust-cross
+
 https://github.com/cross-rs/cross 需要docker（在win10下就要linux虚拟机了）
 
 https://github.com/rust-cross/cargo-zigbuild
@@ -10735,9 +10738,13 @@ https://github.com/awslabs/shuttle 测试并发代码
 https://github.com/nvzqz/divan 性能测试框架
 
 
-## mocking framework 
+## mocking framework & fake dummy data
 
 https://github.com/LukeMathWalker/wiremock-rs HTTP mocking 
+
+https://github.com/asomers/mockall mock objects
+
+https://github.com/cksac/fake-rs
 
 
 # 10. 交叉编译 and 条件编译
@@ -12753,7 +12760,7 @@ https://github.com/mongodb/mongo-rust-driver
 
 https://github.com/SeaQL/sea-orm SeaORM
 
-prisma，巨好用。配合 graphQL(apollo框架) 无敌。
+https://github.com/Brendonovich/prisma-client-rust prisma，巨好用。配合 graphQL(apollo框架) 无敌。
 
 https://github.com/launchbadge/sqlx 异步实现、高性能、纯Rust代码的SQL库，支持PostgreSQL, MySQL, SQLite,和 MSSQL. 手动挡, 西药自个写 sql
 
@@ -12769,6 +12776,8 @@ https://github.com/oobot/cherry
 
 ```rs
 https://github.com/Keats/rust-bcrypt Easily hash and verify passwords using Bcrypt
+
+https://github.com/sfackler/rust-openssl
 
 ```
 
@@ -12806,6 +12815,8 @@ https://github.com/GREsau/okapi
 ### 21.8.2. web框架
 
 https://github.com/tokio-rs/axum 基于 tokio
+
+https://github.com/poem-web/poem 国内团队
 
 https://github.com/leptos-rs/leptos 类似 react
 
@@ -13090,6 +13101,10 @@ https://github.com/harlanc/xiu
 
 
 ## 21.15. rust 增强 enhancement
+
+### 不可变对象 struct
+
+https://github.com/dtolnay/readonly 使得struct 的filed 在 mod 外只读
 
 ### smallvac
 
