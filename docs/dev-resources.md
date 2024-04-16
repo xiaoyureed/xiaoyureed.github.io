@@ -75,6 +75,7 @@ atob('SGVsbG8gV29ybGQh'); // Hello World!
     - [cdn 和对象存储](#cdn-和对象存储)
     - [静态页面部署托管](#静态页面部署托管)
     - [收款](#收款)
+    - [初期种子用户](#初期种子用户)
 - [other free resources](#other-free-resources)
     - [免费内网穿透](#免费内网穿透)
     - [组内网 vpn](#组内网-vpn)
@@ -963,6 +964,11 @@ https://github.com/assimon/dujiaoka 收款 , 发卡系统
 但是他这个发卡是那种提前生成好得码， 比如什么充值码， 或者 chatgpt 账号之类的
 
 ```
+
+## 初期种子用户
+
+https://github.com/naxiaoduo/1000UserGuide
+小红书
 
 # other free resources
 
