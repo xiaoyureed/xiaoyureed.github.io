@@ -178,10 +178,12 @@ toc_max_heading_level: 5
 
 ## 2. 开发调试工具
 
+https://github.com/GoogleContainerTools/skaffold
+
 一般来说k8s使用的容器网络与开发者的所在的办公网络并不能直接连通，如何在本地开发环境访问服务器上的k8s的服务?
 
 - https://github.com/alibaba/kt-connect 阿里出品
-- https://github.com/telepresenceio/telepresence windows 系统上安装复杂
+- https://github.com/telepresenceio/telepresence windows 系统上安装复杂, 但是很推荐 (它能让你的本机直接访问到 k8s 集群内的服务，也可以将集群内的请求流量劫持到本机进行处理，这样就不需要在开发调试中反复进行构建镜像，推送镜像，部署服务的流程了，直接在本地一站式完成，比较方便)
 - https://github.com/nocalhost/nocalhost
 - 利用 kubectl forward在本地建立 k8s 中服务的代理
   `kubectl port-forward <generated target pod name> <local port>:<target port>` 这里 pod name 名字不固定, 更好的办法是指定 deployment

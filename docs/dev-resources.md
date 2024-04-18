@@ -986,7 +986,13 @@ https://freefrp.net/
 
 tailscale ，比手动组 wireguard 方便得多, 有免费额度
 
-Zerotier  有免费额度
+Zerotier  有免费额度, ，zt 打洞成功率高于 ts
+    zerotier 开源可以搭自己的私服，Tailscale 不开源
+    zt 还有一个优势就是可以手动指定 IP 地址（且能多个），方便不同地域主机的识别. ts 只能任由中控分配
+    两者都是传输协议 udp 协议，应用层协议 zt 为自研 ts 为 wireguard
+
+结论：zt 是手动挡 ts 是自动挡
+
 
 ```
 

@@ -390,6 +390,7 @@ toc_max_heading_level: 5
         - [21.13.3. log4rs and log](#21133-log4rs-and-log)
     - [视频流 流媒体](#视频流-流媒体)
     - [21.15. rust 增强 enhancement](#2115-rust-增强-enhancement)
+        - [允许返回不同类型](#允许返回不同类型)
         - [不可变对象 struct](#不可变对象-struct)
         - [smallvac](#smallvac)
         - [once cell](#once-cell)
@@ -3680,6 +3681,8 @@ fn main() {
 
 
 #### what is Pin 原理
+
+https://github.com/taiki-e/pin-project 简化 异步编程中 涉及 pin 的部分
 
 ```rs
 
@@ -10654,7 +10657,11 @@ extern crate linked_list，
 
 # 测试 test
 
+https://github.com/taiki-e/cargo-hack 测试/ci 子命令
+
 推荐 cargo nextest
+
+https://github.com/mitsuhiko/insta A snapshot testing library for rust
 
 ## 9. 单元测试 unittest
 
@@ -13102,6 +13109,10 @@ https://github.com/harlanc/xiu
 
 ## 21.15. rust 增强 enhancement
 
+### 允许返回不同类型
+
+https://github.com/taiki-e/auto_enums
+
 ### 不可变对象 struct
 
 https://github.com/dtolnay/readonly 使得struct 的filed 在 mod 外只读
@@ -13617,6 +13628,8 @@ https://github.com/zellij-org/zellij tmux alternative
 
 https://github.com/Byron/gitoxide git altrnative
 
+https://github.com/indygreg/apple-platform-rs apple 苹果平台开发工具支持
+
 # 22. 开源项目
 
 https://zhuanlan.zhihu.com/p/62325234
@@ -13625,6 +13638,13 @@ https://www.zhihu.com/question/30511494
 
 
 # 23. 参考链接
+
+
+https://github.com/pretzelhammer/rust-blog
+
+https://github.com/ctjhoa/rust-learning?tab=readme-ov-file#ci--testing
+
+https://github.com/alexpusch/rust-magic-patterns
 
 https://github.com/sunface/rust-by-practice 练习
 

@@ -4972,6 +4972,7 @@ https://github.com/resend/react-email
 ## 开发框架
 
 nextjs
+https://github.com/i18next/next-i18next
 
 https://github.com/t3-oss/create-t3-app 生成 nextjs 脚手架
 
@@ -5038,6 +5039,8 @@ https://github.com/ant-design/ant-design/
 react framer motion
 
 https://github.com/useAnimations/react-useanimations 会动的图标
+
+https://github.com/jscottsmith/react-scroll-parallax 视差滚动效果
 
 ```
 
