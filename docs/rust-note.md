@@ -278,6 +278,7 @@ toc_max_heading_level: 5
         - [8.5.4. cargo.lock](#854-cargolock)
         - [8.5.5. workspace](#855-workspace)
         - [8.5.6. 依赖的版本号规则](#856-依赖的版本号规则)
+        - [build docker images](#build-docker-images)
     - [8.6. build.rs](#86-buildrs)
     - [cross platform 跨平台 交叉编译](#cross-platform-跨平台-交叉编译)
     - [内嵌静态资源 embed static files](#内嵌静态资源-embed-static-files)
@@ -10471,6 +10472,10 @@ lib 类型类型需要将新建的 module (即rs文件) 在 lib.rs 中声明 `pu
 // 手动指定， 通过 >, <, =, >=, <= 来指定版本号 。
 
 ```
+
+### build docker images
+
+https://github.com/LukeMathWalker/cargo-chef
 
 ## 8.6. build.rs
 

@@ -23,82 +23,82 @@ https://openjdk.java.net/projects/panama/ - 和cpp交互, native 方法
 # 1. 为什么要有jmm
 - [1. 为什么要有jmm](#1-为什么要有jmm)
 - [2. jvm内存区域模型](#2-jvm内存区域模型)
-  - [2.1. Method Area](#21-method-area)
-  - [2.2. Heap](#22-heap)
-  - [2.3. JVM Stack](#23-jvm-stack)
-  - [2.4. Native Method Stack](#24-native-method-stack)
-  - [2.5. PC Register(程序计数器)](#25-pc-register程序计数器)
+    - [2.1. Method Area](#21-method-area)
+    - [2.2. Heap](#22-heap)
+    - [2.3. JVM Stack](#23-jvm-stack)
+    - [2.4. Native Method Stack](#24-native-method-stack)
+    - [2.5. PC Register(程序计数器)](#25-pc-register程序计数器)
 - [3. gc 垃圾回收](#3-gc-垃圾回收)
-  - [3.1. 垃圾收集器](#31-垃圾收集器)
-  - [3.2. 如何判断对象是否应该回收](#32-如何判断对象是否应该回收)
-    - [3.2.1. 引用计数法 reference counting](#321-引用计数法-reference-counting)
-    - [3.2.2. 可达性分析算法 reachability analysis](#322-可达性分析算法-reachability-analysis)
-    - [3.2.3. reference 分类](#323-reference-分类)
-  - [3.3. 垃圾回收算法](#33-垃圾回收算法)
-    - [3.3.1. 标记-清除 算法](#331-标记-清除-算法)
-    - [3.3.2. 复制算法](#332-复制算法)
-    - [3.3.3. 标记-整理 算法](#333-标记-整理-算法)
-    - [3.3.4. 分代收集算法](#334-分代收集算法)
+    - [3.1. 垃圾收集器](#31-垃圾收集器)
+    - [3.2. 如何判断对象是否应该回收](#32-如何判断对象是否应该回收)
+        - [3.2.1. 引用计数法 reference counting](#321-引用计数法-reference-counting)
+        - [3.2.2. 可达性分析算法 reachability analysis](#322-可达性分析算法-reachability-analysis)
+        - [3.2.3. reference 分类](#323-reference-分类)
+    - [3.3. 垃圾回收算法](#33-垃圾回收算法)
+        - [3.3.1. 标记-清除 算法](#331-标记-清除-算法)
+        - [3.3.2. 复制算法](#332-复制算法)
+        - [3.3.3. 标记-整理 算法](#333-标记-整理-算法)
+        - [3.3.4. 分代收集算法](#334-分代收集算法)
 - [4. Java的代码执行机制](#4-java的代码执行机制)
-  - [4.1. 类编译](#41-类编译)
-  - [4.2. 类加载](#42-类加载)
-    - [4.2.1. classloader类加载器](#421-classloader类加载器)
-    - [4.2.2. 装载(load)](#422-装载load)
-    - [4.2.3. 链接(Link)](#423-链接link)
-    - [4.2.4. 初始化(Initialize)](#424-初始化initialize)
-  - [4.3. 类执行](#43-类执行)
-    - [4.3.1. 字节码解释执行and编译执行并存如何分界](#431-字节码解释执行and编译执行并存如何分界)
-    - [4.3.2. 字节码解释执行](#432-字节码解释执行)
-      - [4.3.2.1. 方法相关的jvm指令](#4321-方法相关的jvm指令)
-      - [4.3.2.2. jvm指令怎么解释执行](#4322-jvm指令怎么解释执行)
-    - [4.3.3. 字节码编译执行](#433-字节码编译执行)
-      - [4.3.3.1. client compiler](#4331-client-compiler)
-      - [4.3.3.2. server compiler](#4332-server-compiler)
-    - [4.3.4. 反射执行](#434-反射执行)
+    - [4.1. 类编译](#41-类编译)
+    - [4.2. 类加载](#42-类加载)
+        - [4.2.1. classloader类加载器](#421-classloader类加载器)
+        - [4.2.2. 装载(load)](#422-装载load)
+        - [4.2.3. 链接(Link)](#423-链接link)
+        - [4.2.4. 初始化(Initialize)](#424-初始化initialize)
+    - [4.3. 类执行](#43-类执行)
+        - [4.3.1. 字节码解释执行and编译执行并存如何分界](#431-字节码解释执行and编译执行并存如何分界)
+        - [4.3.2. 字节码解释执行](#432-字节码解释执行)
+            - [4.3.2.1. 方法相关的jvm指令](#4321-方法相关的jvm指令)
+            - [4.3.2.2. jvm指令怎么解释执行](#4322-jvm指令怎么解释执行)
+        - [4.3.3. 字节码编译执行](#433-字节码编译执行)
+            - [4.3.3.1. client compiler](#4331-client-compiler)
+            - [4.3.3.2. server compiler](#4332-server-compiler)
+        - [4.3.4. 反射执行](#434-反射执行)
 - [5. java中的关键字和内存的关系](#5-java中的关键字和内存的关系)
-  - [5.1. final](#51-final)
-  - [5.2. volatile](#52-volatile)
-  - [5.3. synchronized](#53-synchronized)
-  - [5.4. static](#54-static)
+    - [5.1. final](#51-final)
+    - [5.2. volatile](#52-volatile)
+    - [5.3. synchronized](#53-synchronized)
+    - [5.4. static](#54-static)
 - [6. java的内存泄露](#6-java的内存泄露)
-  - [6.1. 会造成哪些溢出](#61-会造成哪些溢出)
-  - [6.2. Java内存泄露引起原因](#62-java内存泄露引起原因)
+    - [6.1. 会造成哪些溢出](#61-会造成哪些溢出)
+    - [6.2. Java内存泄露引起原因](#62-java内存泄露引起原因)
 - [7. jvm 中的 object](#7-jvm-中的-object)
-  - [7.1. 对象的创建过程(内存怎么分配)](#71-对象的创建过程内存怎么分配)
-  - [7.2. 对象的访问](#72-对象的访问)
-    - [7.2.1. 对象的2种访问方式](#721-对象的2种访问方式)
-    - [7.2.2. thread具体怎么访问对象中的值呢以及volatile关键字](#722-thread具体怎么访问对象中的值呢以及volatile关键字)
-  - [7.3. 对象回收(内存怎么释放)](#73-对象回收内存怎么释放)
+    - [7.1. 对象的创建过程(内存怎么分配)](#71-对象的创建过程内存怎么分配)
+    - [7.2. 对象的访问](#72-对象的访问)
+        - [7.2.1. 对象的2种访问方式](#721-对象的2种访问方式)
+        - [7.2.2. thread具体怎么访问对象中的值呢以及volatile关键字](#722-thread具体怎么访问对象中的值呢以及volatile关键字)
+    - [7.3. 对象回收(内存怎么释放)](#73-对象回收内存怎么释放)
 - [8. 有哪些虚拟机](#8-有哪些虚拟机)
 - [9. java线上问题诊断排查](#9-java线上问题诊断排查)
-  - [9.1. 日志检索](#91-日志检索)
-  - [9.2. 查看数据库连接](#92-查看数据库连接)
-  - [9.3. 查看CPU 负载](#93-查看cpu-负载)
-    - [9.3.1. CPU User高 and  CPU Load 高](#931-cpu-user高-and--cpu-load-高)
-      - [9.3.1.1. 代码中存在非常消耗 CPU 的操作](#9311-代码中存在非常消耗-cpu-的操作)
-      - [9.3.1.2. 频繁gc](#9312-频繁gc)
-    - [9.3.2. CPU System 高 and CPU Load 高](#932-cpu-system-高-and-cpu-load-高)
-    - [9.3.3. CPU Wait高 and CPU Load高 and CPU利用率低](#933-cpu-wait高-and-cpu-load高-and-cpu利用率低)
-  - [9.4. 查内存](#94-查内存)
-  - [9.5. 排查垃圾回收问题](#95-排查垃圾回收问题)
-  - [9.6. 网络问题](#96-网络问题)
+    - [9.1. 日志检索](#91-日志检索)
+    - [9.2. 查看数据库连接](#92-查看数据库连接)
+    - [9.3. 查看CPU 负载](#93-查看cpu-负载)
+        - [9.3.1. CPU User高 and  CPU Load 高](#931-cpu-user高-and--cpu-load-高)
+            - [9.3.1.1. 代码中存在非常消耗 CPU 的操作](#9311-代码中存在非常消耗-cpu-的操作)
+            - [9.3.1.2. 频繁gc](#9312-频繁gc)
+        - [9.3.2. CPU System 高 and CPU Load 高](#932-cpu-system-高-and-cpu-load-高)
+        - [9.3.3. CPU Wait高 and CPU Load高 and CPU利用率低](#933-cpu-wait高-and-cpu-load高-and-cpu利用率低)
+    - [9.4. 查内存](#94-查内存)
+    - [9.5. 排查垃圾回收问题](#95-排查垃圾回收问题)
+    - [9.6. 网络问题](#96-网络问题)
 - [10. jdk 自带命令行工具](#10-jdk-自带命令行工具)
-  - [10.1. java 启动 javac 编译 javap 反编译](#101-java-启动-javac-编译-javap-反编译)
-  - [10.2. jstack](#102-jstack)
-  - [10.3. jcmd](#103-jcmd)
-  - [10.4. jps](#104-jps)
-  - [10.5. jstat](#105-jstat)
-  - [10.6. jvisualvm](#106-jvisualvm)
-  - [10.7. jconsole](#107-jconsole)
-  - [10.8. jhat](#108-jhat)
-  - [10.9. jmap](#109-jmap)
-  - [10.10. jrunscript](#1010-jrunscript)
-  - [10.11. jinfo](#1011-jinfo)
-  - [10.12. jprofile](#1012-jprofile)
+    - [10.1. java 启动 javac 编译 javap 反编译](#101-java-启动-javac-编译-javap-反编译)
+    - [10.2. jstack](#102-jstack)
+    - [10.3. jcmd](#103-jcmd)
+    - [10.4. jps](#104-jps)
+    - [10.5. jstat](#105-jstat)
+    - [10.6. jvisualvm](#106-jvisualvm)
+    - [10.7. jconsole](#107-jconsole)
+    - [10.8. jhat](#108-jhat)
+    - [10.9. jmap](#109-jmap)
+    - [10.10. jrunscript](#1010-jrunscript)
+    - [10.11. jinfo](#1011-jinfo)
+    - [10.12. jprofile](#1012-jprofile)
 - [11. 阿里 arthas](#11-阿里-arthas)
 - [12. jvm 性能调优 and 实用参数](#12-jvm-性能调优-and-实用参数)
-  - [12.1. 有哪些参数](#121-有哪些参数)
-  - [12.2. 配置方式](#122-配置方式)
+    - [12.1. 有哪些参数](#121-有哪些参数)
+    - [12.2. 配置方式](#122-配置方式)
 
 
 JMM可以屏蔽掉各种硬件和操作系统的内存访问差异，以实现让java程序在各种平台下都能达到一致的内存访问效果。
@@ -1526,6 +1526,104 @@ http://ifeve.com/useful-jvm-flags/
 ## 12.1. 有哪些参数
 
 ```
+
+8C16G参考配置:
+
+-server
+-Xmx12288m
+-Xms12288m
+-XX:ParallelGCThreads=8
+-XX:ConcGCThreads=2
+-XX:+UseConcMarkSweepGC
+-XX:+CMSClassUnloadingEnabled
+-XX:+CMSIncrementalMode
+-XX:+CMSScavengeBeforeRemark
+-XX:+UseCMSInitiatingOccupancyOnly
+-XX:CMSInitiatingOccupancyFraction=70
+-XX:MaxGCPauseMillis=100
+-XX:+ExplicitGCInvokesConcurrent
+-XX:+ExplicitGCInvokesConcurrentAndUnloadsClasses
+
+以下根据需要配置
+-XX:+PrintGCTimeStamps
+-XX:+PrintGCDetails
+-XX:+PrintGCDateStamps
+
+
+
+
+4C8G参考配置:
+
+-server
+-Xmx6144m
+-Xms6144m
+-XX:ParallelGCThreads=4
+-XX:ConcGCThreads=1
+-XX:+UseConcMarkSweepGC
+-XX:+CMSClassUnloadingEnabled
+-XX:+CMSScavengeBeforeRemark
+-XX:+UseCMSInitiatingOccupancyOnly
+-XX:CMSInitiatingOccupancyFraction=70
+-XX:MaxGCPauseMillis=100
+-XX:+ExplicitGCInvokesConcurrent
+-XX:+ExplicitGCInvokesConcurrentAndUnloadsClasses
+
+以下根据需要配置
+-XX:+PrintGCTimeStamps
+-XX:+PrintGCDetails
+-XX:+PrintGCDateStamps
+
+
+
+
+2C4G参考配置:
+
+-server
+-Xmx3072m
+-Xms3072m
+-XX:ParallelGCThreads=2
+-XX:ConcGCThreads=1
+-XX:+UseConcMarkSweepGC
+-XX:+CMSClassUnloadingEnabled
+-XX:+CMSScavengeBeforeRemark
+-XX:+UseCMSInitiatingOccupancyOnly
+-XX:CMSInitiatingOccupancyFraction=70
+-XX:MaxGCPauseMillis=100
+-XX:+ExplicitGCInvokesConcurrent
+-XX:+ExplicitGCInvokesConcurrentAndUnloadsClasses
+
+以下根据需要配置
+-XX:+PrintGCTimeStamps
+-XX:+PrintGCDetails
+-XX:+PrintGCDateStamps
+
+
+
+参数配置说明：
+-server：设置为Server模式，特点是启动速度比较慢，但运行时性能和内存管理效率很高，适用于生产环境
+-Xmx：设置JVM最大堆内存
+-Xms：设置JVM初始堆内存
+-Xmn：设置年轻代内存
+-Xss：设置每个线程的堆栈大小，JDK5及以后是1M，之前是256K，理论上设置得小可以创建更多的线程
+-XX:ParallelGCThreads：定义CMS过程并行收集的线程数
+-XX:ConcGCThreads：GC线程和业务线程并发执行时使用的GC线程数（一般较小）
+-XX:+UseConcMarkSweepGC：打开CMS GC回收器
+-XX:+CMSClassUnloadingEnabled：对永久代进行回收（需要则打开，默认关闭）
+-XX:+UseCMSInitiatingOccupancyOnly：配置后，参数CMSInitiatingOccupancyFraction才会生效，两者配合使用
+-XX:CMSInitiatingOccupancyFraction：代表老年代堆空间的使用率，默认值为98，达到98%才会收集（JDK 1.6及以后的版本）
+-XX:MaxGCPauseMillis：设置GC回收时候暂停的时间，默认200ms，不宜设置过小，根据业务情况定
+-XX:+ExplicitGCInvokesConcurrent：启用后表示不管系统什么时候调用GC，都是CMS GC，不会是FULL GC
+-XX:+ExplicitGCInvokesConcurrentAndUnloadsClasses：启用后表示，当系统有GC调用时，将永久代也包含进来回收
+
+
+-XX:+PrintGCTimeStamps：GC时，打印进程启动到现在经历的时间
+-XX:+PrintGCDetails：打印GC的详细信息
+-XX:+PrintGCDateStamps：输出GC的时间戳（以日期的形式，如 2013-05-04T21:53:59.234+0800）
+
+
+
+
+
 -XX:MetaspaceSize=128m （元空间默认大小）
 -XX:MaxMetaspaceSize=128m （元空间最大大小）
 -Xms1024m （堆默认大小）

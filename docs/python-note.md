@@ -27,143 +27,6 @@ https://learnku.com/docs/python-guide/2018/structure/3260#f294d6
 
 https://learnku.com/articles/23010/teach-you-to-read-the-python-open-source-project-code 代码阅读
 
-<!-- TOC -->
-
-- [1. 介绍](#1-介绍)
-    - [1.1. python 特点](#11-python-特点)
-    - [1.2. python 安装](#12-python-安装)
-    - [1.3. python升级](#13-python升级)
-    - [1.4. vscode 环境配置](#14-vscode-环境配置)
-    - [1.5. 设置国内pip源](#15-设置国内pip源)
-    - [1.6. 解释器](#16-解释器)
-    - [1.7. kite 插件使用](#17-kite-插件使用)
-- [2. 语法](#2-语法)
-    - [2.1. 输入输出 打印 main魔法变量](#21-输入输出-打印-main魔法变量)
-    - [2.2. 基本数据类型](#22-基本数据类型)
-        - [2.2.1. 字符串](#221-字符串)
-            - [2.2.1.1. 多行 不可变 比较](#2211-多行-不可变-比较)
-            - [2.2.1.2. 编码 字符处理](#2212-编码-字符处理)
-            - [2.2.1.3. 格式化](#2213-格式化)
-            - [2.2.1.4. 字符串方法](#2214-字符串方法)
-        - [2.2.2. 字节 bytes](#222-字节-bytes)
-        - [2.2.3. 数字](#223-数字)
-        - [2.2.4. 布尔值 空值](#224-布尔值-空值)
-        - [2.2.5. 集合](#225-集合)
-            - [2.2.5.1. 有序可变 list](#2251-有序可变-list)
-            - [2.2.5.2. 切片 slices](#2252-切片-slices)
-            - [2.2.5.3. 有序不可变列表 tuple](#2253-有序不可变列表-tuple)
-            - [2.2.5.4. 无序不可重复 set](#2254-无序不可重复-set)
-        - [2.2.6. 键值存储 字典 dict](#226-键值存储-字典-dict)
-        - [2.2.7. 列表推导式](#227-列表推导式)
-        - [2.2.8. 生成器 generator](#228-生成器-generator)
-        - [2.2.9. 迭代器](#229-迭代器)
-    - [2.3. 条件循环](#23-条件循环)
-    - [2.4. 比较判断](#24-比较判断)
-    - [2.5. 函数](#25-函数)
-        - [2.5.1. 参数检查](#251-参数检查)
-        - [2.5.2. 多种参数](#252-多种参数)
-        - [2.5.3. 递归](#253-递归)
-        - [2.5.4. 高阶函数](#254-高阶函数)
-    - [2.6. 文件处理](#26-文件处理)
-        - [2.6.1. 创建文件](#261-创建文件)
-        - [2.6.2. 读写文件数据](#262-读写文件数据)
-    - [2.7. 装饰器](#27-装饰器)
-    - [2.8. 模块 作用域](#28-模块-作用域)
-    - [2.9. 面向对象](#29-面向对象)
-        - [2.9.1. 类](#291-类)
-        - [2.9.2. 继承 鸭子类型](#292-继承-鸭子类型)
-        - [2.9.3. 判断类型信息](#293-判断类型信息)
-        - [2.9.4. 动态操作](#294-动态操作)
-        - [2.9.5. 魔术方法](#295-魔术方法)
-        - [2.9.6. 枚举](#296-枚举)
-        - [2.9.7. 实例方法 类方法 静态方法](#297-实例方法-类方法-静态方法)
-    - [2.10. 错误异常处理](#210-错误异常处理)
-- [3. 工程化](#3-工程化)
-    - [发布自定义库](#发布自定义库)
-    - [linter 工具](#linter-工具)
-    - [cookiecutter 项目模板](#cookiecutter-项目模板)
-    - [3.1. 包管理](#31-包管理)
-        - [poetry](#poetry)
-        - [rye](#rye)
-    - [格式化](#格式化)
-    - [代码检测](#代码检测)
-    - [3.2. 日志](#32-日志)
-    - [生成文档](#生成文档)
-    - [任务自动化](#任务自动化)
-    - [3.3. 单元测试](#33-单元测试)
-- [4. 多进程](#4-多进程)
-- [5. 异步](#5-异步)
-- [6. 内建模块](#6-内建模块)
-    - [6.1. 日期处理](#61-日期处理)
-    - [6.2. 集合](#62-集合)
-- [7. 编写命令行程序](#7-编写命令行程序)
-    - [7.1. 命令行自动补全](#71-命令行自动补全)
-- [8. 类型系统 type-hint](#8-类型系统-type-hint)
-- [9. 调试](#9-调试)
-    - [9.1. 断言](#91-断言)
-    - [9.2. 设置断点 pdb](#92-设置断点-pdb)
-- [10. jinja2 模板](#10-jinja2-模板)
-- [11. 路径问题](#11-路径问题)
-    - [11.1. 文件路径 and 终端路径](#111-文件路径-and-终端路径)
-    - [11.2. 获取脚本位置](#112-获取脚本位置)
-- [12. shutil 使用](#12-shutil-使用)
-- [13. venv 虚拟环境](#13-venv-虚拟环境)
-- [14. web 开发](#14-web-开发)
-    - [14.1. fastapi](#141-fastapi)
-    - [14.2. Django](#142-django)
-    - [14.3. flask](#143-flask)
-        - [14.3.1. flask解决跨域问题](#1431-flask解决跨域问题)
-        - [14.3.2. 保护 flask api](#1432-保护-flask-api)
-        - [14.3.3. 命令行or idea 启动](#1433-命令行or-idea-启动)
-        - [14.3.4. rest api](#1434-rest-api)
-        - [14.3.5. 数据库交互](#1435-数据库交互)
-        - [14.3.6. flask 中的日志](#1436-flask-中的日志)
-        - [14.3.7. blueprint蓝图 模块化开发](#1437-blueprint蓝图-模块化开发)
-        - [14.3.8. 上下文对象](#1438-上下文对象)
-    - [14.4. fastapi](#144-fastapi)
-- [15. db 驱动 问题](#15-db-驱动-问题)
-- [16. 代替 shell 运维](#16-代替-shell-运维)
-    - [16.1. 实用脚本](#161-实用脚本)
-        - [16.1.1. 命令行参数解析](#1611-命令行参数解析)
-        - [16.1.2. 路径](#1612-路径)
-        - [16.1.3. 文件操作](#1613-文件操作)
-        - [16.1.4. sh 命令执行](#1614-sh-命令执行)
-    - [16.2. 传递命令行参数](#162-传递命令行参数)
-    - [16.3. shell 调用 Python](#163-shell-调用-python)
-        - [16.3.1. shel 读取 Python 函数返回值](#1631-shel-读取-python-函数返回值)
-        - [16.3.2. 统计出现次数](#1632-统计出现次数)
-        - [16.3.3. 读取 csv 文件](#1633-读取-csv-文件)
-    - [16.4. Python 调用 shell](#164-python-调用-shell)
-        - [16.4.1. subprocess](#1641-subprocess)
-        - [16.4.2. os.system](#1642-ossystem)
-        - [16.4.3. os.popen](#1643-ospopen)
-        - [16.4.4. system](#1644-system)
-        - [16.4.5. sh](#1645-sh)
-        - [16.4.6. paramiko](#1646-paramiko)
-    - [16.5. 部署 springboot](#165-部署-springboot)
-- [17. 开源库](#17-开源库)
-    - [17.1. 变声 语音合成](#171-变声-语音合成)
-    - [17.2. 系统运维](#172-系统运维)
-    - [17.3. 声音](#173-声音)
-    - [17.4. 图像](#174-图像)
-    - [17.5. 数据模型定义](#175-数据模型定义)
-    - [17.6. 序列化反序列化](#176-序列化反序列化)
-    - [17.7. 做 web 开发](#177-做-web-开发)
-- [18. jython](#18-jython)
-- [19. 调用 rust](#19-调用-rust)
-- [20. cffi 绑定](#20-cffi-绑定)
-- [21. web应用部署](#21-web应用部署)
-    - [21.1. 生成依赖清单](#211-生成依赖清单)
-    - [21.2. gunicorn](#212-gunicorn)
-    - [21.3. supervisord 管理 daemon](#213-supervisord-管理-daemon)
-    - [pm2](#pm2)
-- [22. setup.py](#22-setuppy)
-- [23. wheel](#23-wheel)
-- [24. 自动抢购脚本](#24-自动抢购脚本)
-- [25. 运维工具](#25-运维工具)
-- [26. 打包可执行文件](#26-打包可执行文件)
-
-<!-- /TOC -->
 https://github.com/HT524/500LineorLess_CN 实现简单系统
 
 https://github.com/iswbm/pycharm-guide
@@ -237,18 +100,24 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [2.9.7. 实例方法 类方法 静态方法](#297-实例方法-类方法-静态方法)
     - [2.10. 错误异常处理](#210-错误异常处理)
 - [3. 工程化](#3-工程化)
-    - [发布自定义库](#发布自定义库)
-    - [linter 工具](#linter-工具)
     - [cookiecutter 项目模板](#cookiecutter-项目模板)
+    - [Setuptools: 管理依赖、构建和发布](#setuptools-管理依赖构建和发布)
+    - [虚拟环境](#虚拟环境)
+    - [devops 构建流水线](#devops-构建流水线)
+    - [发布自定义库](#发布自定义库)
+    - [项目结构](#项目结构)
+    - [模块引入 import原理](#模块引入-import原理)
+    - [类型检车 type hints](#类型检车-type-hints)
+    - [linter 工具](#linter-工具)
+    - [依赖安全性检查](#依赖安全性检查)
+    - [代码风格 格式化](#代码风格-格式化)
+    - [配置文件管理](#配置文件管理)
+    - [测试test](#测试test)
+        - [单元测试 unittest](#单元测试-unittest)
+        - [集成测试 integration test](#集成测试-integration-test)
     - [3.1. 包管理](#31-包管理)
-        - [poetry](#poetry)
-        - [rye](#rye)
-    - [格式化](#格式化)
-    - [代码检测](#代码检测)
     - [3.2. 日志](#32-日志)
     - [生成文档](#生成文档)
-    - [任务自动化](#任务自动化)
-    - [3.3. 单元测试](#33-单元测试)
 - [4. 多进程](#4-多进程)
 - [5. 异步](#5-异步)
 - [6. 内建模块](#6-内建模块)
@@ -300,6 +169,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [16.4.6. paramiko](#1646-paramiko)
     - [16.5. 部署 springboot](#165-部署-springboot)
 - [17. 开源库](#17-开源库)
+    - [爬虫 crawler](#爬虫-crawler)
     - [17.1. 变声 语音合成](#171-变声-语音合成)
     - [17.2. 系统运维](#172-系统运维)
     - [17.3. 声音](#173-声音)
@@ -307,7 +177,9 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [17.5. 数据模型定义](#175-数据模型定义)
     - [17.6. 序列化反序列化](#176-序列化反序列化)
     - [17.7. 做 web 开发](#177-做-web-开发)
-- [18. jython](#18-jython)
+- [调Java](#调java)
+    - [jpype](#jpype)
+    - [18. jython](#18-jython)
 - [19. 调用 rust](#19-调用-rust)
 - [20. cffi 绑定](#20-cffi-绑定)
 - [21. web应用部署](#21-web应用部署)
@@ -2147,17 +2019,10 @@ def error_handling():
 
 # 3. 工程化
 
-## 发布自定义库
+https://zhuanlan.zhihu.com/p/509167266
+https://pythonguidecn.readthedocs.io/zh/latest/writing/structure.html
+https://www.qin.news/python/
 
-https://github.com/pypa/twine Twine is a utility for publishing Python packages on PyPI.
-
-
-
-## linter 工具
-
-关注这个公司 https://astral.sh/
-
-https://github.com/astral-sh/ruff 可以指出无用的引入, 自动修复, 有 vscode 插件 (https://github.com/astral-sh/ruff-vscode)
 
 ## cookiecutter 项目模板
 
@@ -2171,11 +2036,166 @@ cookiecutter https://github.com/pyloong/cookiecutter-pythonic-project
 
 ```
 
+## Setuptools: 管理依赖、构建和发布
+
+## 虚拟环境
+
+```sh
+docker 应用级别的隔离 (适合生产)
+
+virtualenv 会在项目路径下新建一个venv目录用于存储独立的python解释器及其第三方依赖库，但项目之间会共享操作系统的环境变量、文件系统等。
+
+conda 隔离能力最弱，提供系统环境级别的隔离。Conda可以创建多个虚拟环境，每个环境都可以由多个项目共享。(适合开发)
+    因为手上的项目之前彼此依赖、且同时在迭代开发，将多个项目安装在同一环境中，可以减少配置、测试、编译所需的时间。
+```
+
+## devops 构建流水线
+
+```sh
+
+Fabric+Invoke
+
+```
+
+## 发布自定义库
+
+https://github.com/pypa/twine Twine is a utility for publishing Python packages on PyPI.
+
+## 项目结构
+
+```sh
+Dockerfile
+docs
+pyproject.toml 基于 PEP518 规范的配置文件，保存了项目介绍、作者联系方式、所依赖的包、使用的构建工具
+{project_name} 放实际项目代码的文件夹 之所以不用 src 是因为你在编写测试用例、或者把它作为 python 的包给其它项目用时会更方便
+{project_name}-stubs 存放 mypy 生成的类型描述文件。mypy 会自动读取这个项目中的类型描述，方便做类型判断。
+tests
+tox.ini tox 的配置文件。
+
+
+```
+
+## 模块引入 import原理
+
+```sh
+
+一个文件就是一个模块
+
+模块名称要短、使用小写，并避免使用特殊符号, 如".", "?"... (就 my.spam.py 来说，Python 认为需要在 my 文件夹 中找到 spam.py 文件，实际并不是这样), 可使用"_" 但不推荐
+
+import modu 语句将 寻找合适的文件，即调用目录下的 modu.py 文件（如果该文件存在）。如果没有 找到这份文件，Python 解释器递归地在 "PYTHONPATH" 环境变量中查找该文件，如果仍没 有找到，将抛出 ImportError 异常
+    一旦找到 modu.py，Python 解释器将在隔离的作用域内执行这个模块。所有顶层 语句都会被执行，包括其他的引用。方法与类的定义将会存储到模块的字典中。然后，这个 模块的变量、方法和类通过命名空间暴露给调用方，
+
+如果引用自己项目的的模块时，你的项目叫 my，模块叫 modu，那么不建议使用 from my import modu来引用，强烈推荐使用 from . import modu。
+
+文件夹也可被是为一个模块, 需要加入 __init__.py 文件
+```
+
+## 类型检车 type hints
+
+```sh
+
+自 python3.5 开始，PEP484 为 python 引入了类型注解 (type hints) ----------   Mypy 是 Python 中的静态类型检查器
+
+在 vscode 中你可以安装 mypy 的插件
+
+```
+
+
+## linter 工具
+
+```sh
+
+
+关注这个公司 https://astral.sh/
+
+    https://github.com/astral-sh/ruff 可以指出无用的引入, 自动修复, 有 vscode 插件 (https://github.com/astral-sh/ruff-vscode)
+
+https://www.pylint.org/
+
+
+```
+
+## 依赖安全性检查
+
+```sh
+https://github.com/pyupio/safety
+https://github.com/PyCQA/bandit
+
+```
+
+## 代码风格 格式化
+
+```sh
+
+Python 官方同时推出了一个检查代码风格是否符合 PEP8 的工具，名字也叫 pep8。不推荐了
+
+更推荐
+Black 自称“零妥协代码格式化工具（The uncompromising code formatter）”。之所以成为“不妥协”是因为它检测到不符合规范的代码风格直接就帮你全部格式化好，根本不需要你确定，直接替你做好决定
+    速度更快
+    更少的可配置项
+
+
+https://pycqa.github.io/isort/ sort imports
+
+https://github.com/asottile/pyupgrade 升级语法
+
+Flake8: 使用Flake8检查代码是否已格式化
+
+```
+
+## 配置文件管理
+
+```sh
+https://github.com/dynaconf/dynaconf Dynaconf 动态配置体系 
+
+
+```
+
+
+## 测试test
+
+### 单元测试 unittest
+
+```sh
+Pytest 
+    在 unittest 的基础上 增加了大量语法糖，让测试更加简便和灵活。并且带有插件功能，方便集成其他功能。
+    能兼容其他大多数测试框架
+
+tox 是通用的虚拟环境管理和测试命令行工具。tox 能够让我们在同一个 Host 上自定义出多套相互独立且隔离的 python 环境，如果你的项目需要兼容多个 python 版本的话强烈推荐使用它
+
+
+
+https://github.com/pytest-dev/pytest-cov 覆盖率
+
+https://www.cnblogs.com/wxcx/p/13709570.html
+https://www.osgeo.cn/pytest/contents.html
+
+
+
+```
+
+### 集成测试 integration test
+
+```sh
+
+Selenium、Pytest-Selenium、Robot Framework
+
+```
+
+    
+
+
 ## 3.1. 包管理
 
 ```sh
 
 https://github.com/python-poetry/poetry 类似 Pipevn, 基于虚拟环境, 主要是为了隔离项目开发环境，但如果涉及到虚拟 环境嵌套虚拟环境，问题就难搞了，经常会出现问题
+    # 安装最新版 pip
+    # -m pip: 使用Python模块的方式来调用pip，即通过pip模块来执行操作。
+    # -U: 选项表示要更新已安装的包。如果已经安装了pip，使用-U选项可以将其升级到最新版本。
+    python3 -m pip install -U pip
+    pip install -U poetry
 
 https://github.com/pdm-project/pdm 不需要虚拟环境 , 像 pnpm 一样的中心化安装缓存，节省磁盘空间
     https://zhuanlan.zhihu.com/p/468445226
@@ -2183,33 +2203,11 @@ https://github.com/pdm-project/pdm 不需要虚拟环境 , 像 pnpm 一样的中
 
 https://github.com/mitsuhiko/rye
 
+
 https://github.com/astral-sh/uv 
 
 ```
 
-### poetry
-
-```sh
-# 安装最新版 pip
-# -m pip: 使用Python模块的方式来调用pip，即通过pip模块来执行操作。
-# -U: 选项表示要更新已安装的包。如果已经安装了pip，使用-U选项可以将其升级到最新版本。
-python3 -m pip install -U pip
-pip install -U poetry
-
-```
-
-### rye
-
-https://github.com/mitsuhiko/rye
-
-
-## 格式化
-
-https://pycqa.github.io/isort/
-
-## 代码检测
-
-https://www.pylint.org/
 
 ## 3.2. 日志
 
@@ -2231,134 +2229,12 @@ def log_handling():
 
 ## 生成文档
 
+Mkdocs: 以 Markdown 风格编写文档
+
 https://www.mkdocs.org/
 
 https://squidfunk.github.io/mkdocs-material/ 主题
 
-## 任务自动化
-
-https://tox.wiki/en/latest/
-
-## 3.3. 单元测试
-
-pytest 更灵活方便 (prefered):
-
-https://github.com/pytest-dev/pytest-cov 覆盖率
-
-```py
-https://www.cnblogs.com/wxcx/p/13709570.html
-https://www.osgeo.cn/pytest/contents.html
-```
-
-
-
-unittest
-
-```py
-
-def unit_test():
-    # 编写一个Dict类，这个类的行为和dict一致，但是可以通过属性来访问
-    class Dict(dict):
-
-        def __init__(self, **kw):
-            super().__init__(**kw)
-
-        def __getattr__(self, key):
-            try:
-                return self[key]
-            except KeyError:
-                raise AttributeError(r"'Dict' object has no attribute '%s'" % key)
-
-        def __setattr__(self, key, value):
-            self[key] = value
-            
-    import unittest
-
-    class TestDict(unittest.TestCase): # 从unittest.TestCase继承
-
-        # 两个特殊的setUp()和tearDown()方法。这两个方法会分别在每调用一个测试方法的前后分别被执行
-        def setUp(self):
-            print('setUp...')
-
-        def tearDown(self):
-            print('tearDown...')
-
-        # 以test开头的方法就是测试方法，不以test开头的方法不被认为是测试方法，测试的时候不会被执行。
-        def test_init(self):
-            d = Dict(a=1, b='test')
-            self.assertEqual(d.a, 1)
-            self.assertEqual(d.b, 'test')
-            self.assertTrue(isinstance(d, dict))
-
-        def test_key(self):
-            d = Dict()
-            d['key'] = 'value'
-            self.assertEqual(d.key, 'value')
-
-        def test_attr(self):
-            d = Dict()
-            d.key = 'value'
-            self.assertTrue('key' in d)
-            self.assertEqual(d['key'], 'value')
-
-        def test_keyerror(self):
-            d = Dict()
-            # 期待抛出指定类型的Error，
-            with self.assertRaises(KeyError):
-                value = d['empty']
-
-        def test_attrerror(self):
-            d = Dict()
-            with self.assertRaises(AttributeError):
-                value = d.empty
-    # 运行测试, 或者 命令行 python -m unittest mydict_test
-    unittest.main()
-
-
-def doc_test():
-    """
-    文档测试 doctest
-    """
-    class Dict(dict):
-        '''
-        Simple dict but also support access as x.y style.
-        >>> d1 = Dict()
-        >>> d1['x'] = 100
-        >>> d1.x
-        100
-        >>> d1.y = 200
-        >>> d1['y']
-        200
-        >>> d2 = Dict(a=1, b=2, c='3')
-        >>> d2.c
-        '3'
-        >>> d2['empty']
-        Traceback (most recent call last):
-            ...
-        KeyError: 'empty'
-        >>> d2.empty
-        Traceback (most recent call last):
-            ...
-        AttributeError: 'Dict' object has no attribute 'empty'
-        '''
-        def __init__(self, **kw):
-            super(Dict, self).__init__(**kw)
-
-        def __getattr__(self, key):
-            try:
-                return self[key]
-            except KeyError:
-                raise AttributeError(r"'Dict' object has no attribute '%s'" % key)
-
-        def __setattr__(self, key, value):
-            self[key] = value
-
-    import doctest
-    doctest.testmod()
-
-
-
-```
 
 
 # 4. 多进程
@@ -3996,6 +3872,11 @@ TODO
 
 https://pypi.org/
 
+
+## 爬虫 crawler
+
+https://github.com/ultrafunkamsterdam/undetected-chromedriver 一个经过优化的 Selenium WebDriver 补丁，专门用于防止浏览器自动化过程中，触发反机器人机制。它能够隐藏浏览器特征（指纹），使用起来十分方便，就像一个 Python 的第三方库一样
+
 ## 17.1. 变声 语音合成
 
 https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI
@@ -4050,7 +3931,13 @@ https://github.com/pynecone-io/pynecone 纯 py 实现 web
 
 https://streamlit.io/       为脚本制作 ui 界面
 
-# 18. jython
+# 调Java
+
+## jpype
+
+https://github.com/jpype-project/jpype
+
+## 18. jython
 
 相互调用
 

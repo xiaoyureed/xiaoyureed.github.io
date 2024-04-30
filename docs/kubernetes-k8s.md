@@ -3475,6 +3475,9 @@ kubeadm join <master_id:port> # add a node to cluster
 
 ## 16. cka ckad 证书考试
 
+https://xiaozhou.net/tips-to-pass-the-ckad-exam-2020-09-26.html ckad 备考指南
+https://github.com/dgkanatsios/CKAD-exercises
+
 https://blog.csdn.net/vic_qxz/article/details/108338442 https://zhuanlan.zhihu.com/p/139052135 备考 cka ckad
 
 https://training.linuxfoundation.cn/certificate/details/1 中国区
