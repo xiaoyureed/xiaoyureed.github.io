@@ -4432,6 +4432,9 @@ https://blog.csdn.net/andy_zhang2007/article/details/89393005 和 webjars
 
 # 33. 和 typescript 一起使用
 
+https://www.totaltypescript.com/tsconfig-cheat-sheet
+https://tsconfig.guide/ 配置解释 可视化工具
+
 https://github.com/labs42io/clean-code-typescript
 
 https://github.com/jkchao/typescript-book-chinese
