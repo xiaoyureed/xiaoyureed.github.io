@@ -6,6 +6,8 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
+https://github.com/VinciGit00/Scrapegraph-ai 基于 ai 爬虫
+
 https://github.com/crazyguitar/pysheeet?tab=readme-ov-file py 实现的小功能
 
 https://github.com/vinta/awesome-python
