@@ -8,7 +8,6 @@ toc_max_heading_level: 5
 
 <div align="center">
 
-https://github.com/puppeteer/puppeteer 无头浏览器, 爬虫工具, 自动化
 
 https://github.com/sczhengyabin/Image-Downloader 三大引擎图片下载
 
@@ -36,7 +35,6 @@ TODO
 
 [设计爬虫框架](https://blog.csdn.net/qq_42677001/article/details/95625920)
 
-https://github.com/code4craft java 爬虫国产作者
 
 https://juejin.im/post/6844903697047257101 总结
 
@@ -47,20 +45,21 @@ https://github.com/microsoft/playwright-python
 
 <!--more-->
 
-<!-- TOC -->
 
-- [1. 主要步骤](#1-%E4%B8%BB%E8%A6%81%E6%AD%A5%E9%AA%A4)
-- [2. 技术选型](#2-%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B)
-- [3. Puppeteer](#3-puppeteer)
-  - [3.1. 和 selenium 区别](#31-%E5%92%8C-selenium-%E5%8C%BA%E5%88%AB)
-  - [3.2. 使用](#32-%E4%BD%BF%E7%94%A8)
-- [4. phantomjs](#4-phantomjs)
-- [5. 抓包工具](#5-%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7)
-  - [5.1. fiddler](#51-fiddler)
-  - [5.2. Charles](#52-charles)
-  - [5.3. wireshark](#53-wireshark)
+- [主要步骤](#主要步骤)
+- [技术选型](#技术选型)
+    - [python生态](#python生态)
+    - [java生态](#java生态)
+    - [js生态](#js生态)
+- [Puppeteer](#puppeteer)
+    - [和 selenium 区别](#和-selenium-区别)
+    - [使用](#使用)
+- [抓包工具](#抓包工具)
+    - [fiddler](#fiddler)
+    - [Charles](#charles)
+    - [wireshark](#wireshark)
 
-<!-- /TOC -->
+
 
 # 主要步骤
 
@@ -96,13 +95,34 @@ https://github.com/microsoft/playwright-python
 
 # 技术选型
 
+## python生态
+
+```sh
+
+- requests 库
+- playwright-python 库
+    https://blog.csdn.net/m0_51156601/article/details/126886040
+
+```
+
+## java生态
+
 - HtmlUnit是一个无界面浏览器Java程序, 根据配置的不同模拟Chrome、Firefox或Internet Explorer等浏览器。
 
     对于一个静态的html页面来说，使用httpClient足够。但是对于现在越来越多的动态网页来说，数据是通过异步JS代码获取并渲染到的，最开始的html页面是不包含这部分数据的。 
 
     但是本质上是自动化测试工具, 不是用来爬数据的, 页面兼容性不好
 
-- phantomjs 爬取异步加载数据, 坑太多, 推荐 Puppeteer
+- Jsoup 连接 url, 形成 Document, 解析 xml
+
+
+## js生态
+
+- playwright 
+
+- puppeteer 无头浏览器, chrome 的nodejs api
+
+- phantomjs 爬取异步加载数据, 坑太多, 且停止维护了, 推荐 Puppeteer
 
     需要编写 js 代码 来使用 phantomjs
 
@@ -110,14 +130,13 @@ https://github.com/microsoft/playwright-python
 
     https://www.jianshu.com/p/96220e239c35
 
-- Jsoup 连接 url, 形成 Document, 解析 xml
 
 
 # Puppeteer 
 
 Headless Chrome Node.js API 无界面浏览器, 完全可以替换 selenium / phantomjs
 
-https://github.com/puppeteer/puppeteer
+https://github.com/puppeteer/puppeteer Node.js API for Chrome
 
 
 ## 和 selenium 区别
@@ -132,14 +151,6 @@ puppeteer 仅仅支持 js, webdriver 是一个大而全的解决方案，可以�
 
 https://zhuanlan.zhihu.com/p/76237595 - 使用
 
-TODO
-
-
-# phantomjs
-
-https://github.com/ariya/phantomjs
-
-停止维护了, 
 
 
 # 抓包工具
@@ -167,3 +178,19 @@ macos 下简单的工具, 适用于 移动端抓包
 重量级工具, macos, win 支持
 
 适用于 tcp, udp, 无法 https
+<!-- TOC -->
+
+- [主要步骤](#主要步骤)
+- [技术选型](#技术选型)
+    - [python生态](#python生态)
+    - [java生态](#java生态)
+    - [js生态](#js生态)
+- [Puppeteer](#puppeteer)
+    - [和 selenium 区别](#和-selenium-区别)
+    - [使用](#使用)
+- [抓包工具](#抓包工具)
+    - [fiddler](#fiddler)
+    - [Charles](#charles)
+    - [wireshark](#wireshark)
+
+<!-- /TOC -->
