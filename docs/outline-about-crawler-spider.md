@@ -178,19 +178,3 @@ macos 下简单的工具, 适用于 移动端抓包
 重量级工具, macos, win 支持
 
 适用于 tcp, udp, 无法 https
-<!-- TOC -->
-
-- [主要步骤](#主要步骤)
-- [技术选型](#技术选型)
-    - [python生态](#python生态)
-    - [java生态](#java生态)
-    - [js生态](#js生态)
-- [Puppeteer](#puppeteer)
-    - [和 selenium 区别](#和-selenium-区别)
-    - [使用](#使用)
-- [抓包工具](#抓包工具)
-    - [fiddler](#fiddler)
-    - [Charles](#charles)
-    - [wireshark](#wireshark)
-
-<!-- /TOC -->
