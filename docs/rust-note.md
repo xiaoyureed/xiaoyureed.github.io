@@ -370,7 +370,9 @@ toc_max_heading_level: 5
         - [21.8.1. swagger openapi 生成](#2181-swagger-openapi-生成)
         - [21.8.2. web框架](#2182-web框架)
         - [i18n](#i18n)
+        - [导出类型到其他语言](#导出类型到其他语言)
     - [云原生 cloud native and wasm webassembly](#云原生-cloud-native-and-wasm-webassembly)
+    - [部署云平台](#部署云平台)
     - [21.9. 序列化反序列化 serialize deserialize 编解码](#219-序列化反序列化-serialize-deserialize-编解码)
         - [通用 serde](#通用-serde)
         - [21.9.1. toml](#2191-toml)
@@ -10113,6 +10115,8 @@ cargo 全局配置 : /.cargo/confg
 
 ## 8.5. 依赖管理 cargo
 
+https://github.com/taiki-e 发布rust打包
+
 ### 8.5.1. cargo 基本命令
 
 ```sh
@@ -12861,7 +12865,9 @@ https://github.com/LukeMathWalker/pavex restful api
 
 https://github.com/unicode-org/icu4x 可用于资源受限的系统
 
+### 导出类型到其他语言
 
+https://github.com/oscartbeaumont/specta
 
 
 ## 云原生 cloud native and wasm webassembly
@@ -12890,6 +12896,9 @@ https://github.com/drifting-in-space/plane 分布式hasmap, 存储 websocket, �
 https://github.com/railwayapp/nixpacks 构建镜像
 ```
 
+## 部署云平台
+
+https://github.com/shuttle-hq/shuttle 有免费额度
 
 ## 21.9. 序列化反序列化 serialize deserialize 编解码
 
@@ -12983,6 +12992,10 @@ https://github.com/tokio-rs/tracing 带分布式追踪的日志实现, 相较于
 https://github.com/open-telemetry/opentelemetry-rust collect metrics/logs/traces, and write to promethus/jaeger/kafka
 https://github.com/vectordotdev/vector
 
+
+
+
+https://github.com/davidB/tracing-opentelemetry-instrumentation-sdk    Middlewares and tools to integrate axum + tracing + opentelemetry
 
 ```
 
@@ -13193,7 +13206,7 @@ https://github.com/mgeisler/textwrap 文本换行&缩进
 
 https://github.com/matklad/xshell 执行 bash 命令
 
-https://github.com/adsnaider/qshell 在代码中执行外部命令
+https://github.com/adsnaider/qshell 在代码中执行外部shell命令
 https://docs.rs/sh/latest/sh/
 
 https://github.com/rust-cli/rexpect 交互式运行命令 , pexpect 的移植
@@ -13814,3 +13827,5 @@ https://www.zhihu.com/question/352420716/answer/973279231
 https://www.zhihu.com/question/30511494/answer/649921526 值得关注
 
 https://github.com/rajasekarv/vega spark 替代
+
+https://github.com/KipData/FnckSQL 数据库实现

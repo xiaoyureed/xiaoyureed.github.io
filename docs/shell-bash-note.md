@@ -6,6 +6,8 @@ toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
 
+https://github.com/Ph0enixKM/Amber bash alternative
+
 https://coolshell.cn/articles/19219.html
 https://github.com/Bash-it/bash-it
 
@@ -17,8 +19,32 @@ https://github.com/jaywcjlove/shell-tutorial
 <!-- truncate -->
 
 
-- [1. shell script](#1-shell-script)
-    - [1.1. 片段收集](#11-片段收集)
+- [1. 常用命令](#1-常用命令)
+    - [1.1. sed ack](#11-sed-ack)
+    - [1.2. ssh config](#12-ssh-config)
+    - [1.3. 软件包相关](#13-软件包相关)
+        - [1.3.1. 启动 and 任务管理](#131-启动-and-任务管理)
+        - [1.3.2. 压缩解压](#132-压缩解压)
+        - [1.3.3. ubuntu 软件相关](#133-ubuntu-软件相关)
+        - [1.3.4. centos 软件相关](#134-centos-软件相关)
+    - [1.4. 系统](#14-系统)
+        - [1.4.1. 系统信息](#141-系统信息)
+        - [1.4.2. 搜索相关](#142-搜索相关)
+        - [1.4.3. 进程id pid](#143-进程id-pid)
+        - [1.4.4. fuser 查看使用指定文件的所有进程](#144-fuser-查看使用指定文件的所有进程)
+    - [1.5. 网络相关](#15-网络相关)
+        - [1.5.1. 系统网络](#151-系统网络)
+        - [1.5.2. 文件下载上传](#152-文件下载上传)
+        - [1.5.3. web 访问](#153-web-访问)
+        - [1.5.4. 执行远程脚本](#154-执行远程脚本)
+        - [1.5.5. 防火墙](#155-防火墙)
+    - [1.6. 文件相关](#16-文件相关)
+    - [1.7. 文本相关](#17-文本相关)
+        - [1.7.1. 命令行文本命令](#171-命令行文本命令)
+    - [1.1. =============脚本片段收集======================](#11-脚本片段收集)
+        - [帮助函数](#帮助函数)
+        - [渲染颜色](#渲染颜色)
+        - [处理命令行参数](#处理命令行参数)
         - [封装日志函数](#封装日志函数)
         - [处理输入参数](#处理输入参数)
         - [简单ui界面](#简单ui界面)
@@ -91,11 +117,607 @@ https://github.com/jaywcjlove/shell-tutorial
 
 
 
-# 1. shell script
+# 1. 常用命令
 
-https://zhuanlan.zhihu.com/p/264346586
+## 1.1. sed ack
 
-## 1.1. 片段收集
+```sh
+# 替换 文件中的 xxx 为 yyy, 支持正则
+sed -i 's/xxx/yyy/' <file_path>
+
+```
+
+
+## 1.2. ssh config
+
+```sh
+Host kn1 
+    HostName 192.168.56.102
+    Port 22
+    User root
+    # optional, private key
+    IdentityFile ~/.ssh/id_rsa
+    
+
+Host kn2 
+    HostName 192.168.56.103
+    Port 22
+    User root
+
+Host kn3 
+    HostName 192.168.56.104
+    Port 22
+    User root
+
+```
+
+ssh kn1 即可登录
+
+
+## 1.3. 软件包相关
+
+### 1.3.1. 启动 and 任务管理
+
+```sh
+# 查服务是否启动
+pidof mysqld                    # 返回进程id
+
+# 启动程序
+# https://wangchujiang.com/linux-command/c/nohup.html
+# nohub是保证后台启动, 默认将日志打印到 ./nohup.out, 这里是指定打印日志到 xxx.file
+# 若当前目录的 nohup.out 文件不可写，输出重定向到$HOME/nohup.out文件中
+# & 产生作业编号就是那个 [1] 19649,nohup要和&一起用才能保证关闭窗口程序任然在运行
+nohup <cmd> xxx.file 2>&1 &
+nohup ./start > log.log 2>&1 &
+
+# 用jobs命令查看后台运行，fg + 编号调到前台来
+jobs
+fg 1
+
+# 根据进程名称杀进程
+pkill startxx
+```
+
+
+
+### 1.3.2. 压缩解压
+
+```sh
+
+# 压缩/解压
+zip < new zip file name> <file1 > [file2...]
+# zip name 可以和 folder name 不同
+zip -r <zip_file_name> <folder1> [foder2...] 
+
+unzip [-d <dest_dir>]  xxx.zip
+
+
+# 使用 gzip (-z) 或 biz2 (-j) 解压缩 (-x) 压缩(-c)
+tar [-C output_dir] -zxvf xxx
+
+
+```
+
+
+
+### 1.3.3. ubuntu 软件相关
+
+```sh
+# ubuntu
+
+dpkg -l | grep <httpd>          # 查看程序是否安装
+dpkg -L | grep <httpd>          # 查看程序安装路径
+aptitude show <httpd>           # 查看软件版本
+
+# 搜索
+
+apt-cache search package        # 搜索包
+apt-cache show package          # 获取包的相关信息，如说明、大小、版本等
+
+# 安装
+
+apt-get install package [-y]        # 安装包[ 默认yes ]
+
+# 卸载
+
+apt-get remove package [--purge]          # 删除包[同时删除配置文件]
+apt-get autoremove              # 自动删除不需要的包
+
+
+```
+
+### 1.3.4. centos 软件相关
+
+```sh
+
+yum
+
+```
+
+
+## 1.4. 系统 
+
+### 1.4.1. 系统信息 
+
+```sh
+# 配置环境变量可能 吧 path 配置错误, 这时 vim 命令需要使用全路径, sudo 路径类似
+# /usr/bin/vim , /usr/share/vim , /usr/share/man/man1/vim.1.gz
+
+
+# system version info 系统版本
+cat /proc/version
+uname -a # kernel 版本
+uname -r
+
+# 发行版本 distribution version
+    # 著名的distribution: red hat的rhel(服务器), suse(服务器), ubuntu(桌面), fedora(桌面), debian(桌面), openSuse(桌面)
+lsb_release -a
+
+# centos release version 发行版本
+cat /etc/redhat-release
+
+# 中文乱码
+echo $LANG 显示当前语系. `LANG=en_US` 设置语系(暂时的, 再次登录会失效)
+
+
+# >>> ps 
+
+# 正在运行的程序
+ps -ef | grep docker
+ps -aux | grep docker
+
+
+# >>> 磁盘占用
+
+du -sh #查看当前目录所占空间大小
+du -sh * #查看当前目录下文件、子目录所占空间大小
+1.查寻磁盘剩余空间：df -h
+2.查询某个目录下占用最大的子目录：
+    cd /your_path
+    du -sh * | sort -n 排序
+    找到占用上G的目录：du -h --max-depth=1 |grep 'G' |sort
+
+
+# 内存总数
+cat /proc/meminfo | grep MemTotal
+
+# cpu 信息
+# 个数
+cat /proc/cpuinfo | grep "physical id" | uniq | wc -l
+# 核数
+cat /proc/cpuinfo | grep "cpu cores" | uniq
+
+# 硬盘大小
+fdisk -l | grep Disk
+
+
+# 系统 cpu 负载
+# 按数字 1，可以查看CPU的核数和每个CPU的使用情况。
+# 按下 f 键盘可以调出更多pid进程显示选项。按esc键返回top显示页
+# P 按CPU使用排序
+# M 按内存使用排序
+# H 显示线程
+# Z 以多色彩显示top。
+top
+# 输出如下: (https://www.cnblogs.com/54chensongxia/p/12518705.html)
+# top - 15:34:12 up 127 days, 10:23,  2 users,        load average: 0.04, 0.03, 0.00
+#      系统时间    启动多久了          几个用户登录       过去 1， 5， 15 mins 内负载情况, 即运行队列中(在CPU上运行或者等待运行的有多少进
+#                                                       程)的平均进程数 (单核cpu 0~1正常, >=1就需要优化了)
+#                                                        (多核cpu, 负载数值/CPU核数 在0.00-1.00之间表示正常)
+# Tasks: 291 total,   1 running, 290 sleeping,   0 stopped,   0 zombie
+#       总任务                                                 僵尸状态
+# Cpu(s):  0.0%us,                   0.3%sy,                0.0%ni,      98.3%id,       1.3%wa,             0.0%hi,  0.0%si,  0.0%st
+#  用户模式下所花费 CPU 时间占比      内核进程占用cpu时间比              cpu空闲时间比   io等待占用cpu时间比
+#    us + sy的参考值为80%, 超过说明cpu不足                                              (>30%则io严重)
+# Mem:   1792312k total,   288300k used,  1504012k free,    10384k buffers
+# Swap:  6291452k total,     5380k used,  6286072k free,    14128k cached
+# 效果等同 free -ah -s 2 -c 2 显示所有的内存信息，每隔两秒显示一次，一共显示两次
+
+# PID    USER  PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND           
+# 372007 root  20   0 15160 1336  888 R  0.3  0.1   0:00.33 top                                   
+#      1 root  20   0 19356  236   88 S  0.0  0.0   0:16.06 init 
+
+# ... 下面省略...
+
+# cpu 负载: 在一段时间内, cpu正在处理和等待处理的进程个数
+# cpu 使用率: 进程真正使用cpu运算的时间/进程占用cpu时间 (进程占用cpu不代表正在使用cpu运算, 比如进程可能在进行  io操作)
+
+# 高CPU负载 低CPU使用率：可能系统中较多的文件IO和网络IO操作。
+# 高CPU负载 高CPU使用率：CPU资源不足
+# 低CPU负载 低CPU使用率：系统CPU资源良好，道路非常顺畅；
+# 低CPU负载 高CPU使用率：这种情况一般都是程序的问题，比如程序中代码进入死循环，有很多自旋操作等。CPU使用率一直过高对CPU伤害比较大。
+
+
+# 系统内存负载 
+# 显示所有的内存信息，每隔两秒显示一次，一共显示两次
+free -h -s 2 -c 2
+#              total       used       free     shared    buffers     cached  available
+# Mem:          6.6G       5.5G       1.0G       1.1M       247M       3.5G         0B
+# -/+ buffers/cache:       1.8G       4.8G 
+# Swap:         5.0G       106M       4.9G 
+
+# Men表示具体的物理内存
+# Swap: 交换空间(swap space),是磁盘上的一块区域，可以是一个分区，也可以是一个文件.当系统物理内存吃紧时, Linux 会将内存中不常访问的数据保存到 swap 上. 但是它需要读写磁盘数据，所以性能不是很高。
+# total：总计物理内存的大小。
+# used：已使用的物理内存的大小。包括实际被程序吃掉的内存 + 缓存
+# free：可用物理内存有多少。
+# shared：多个进程共享的内存总额
+# buffers：写盘内存缓冲区的大小; cached: 读盘内存缓冲大小
+# -buffers/cache: 表示被程序实实在在吃掉的内存
+# +buffers/cache：表示应用程序还可以可以申请的内存总数。
+# free参数和available参数的区别: free 是真正尚未被使用的物理内存数量, 而 available 是从应用程序的角度看到的可用内存数量
+
+
+# >>> 查找命令路径
+
+# 查找命令当前使用的 path
+which python3 # /usr/local/bin/python3
+
+# 查找命令所有路径
+where python3 
+# /usr/local/bin/python3 这个是链接
+# /usr/bin/python3
+
+# >>> 查配置文件位置
+
+rpm -qc bash
+```
+
+### 1.4.2. 搜索相关
+
+
+```sh
+
+# 查找命令
+
+find . -name 'docker*' # 当前目录下, docker 开头的文件
+find . -name 'my*' -ls # 同上, 并且显示详细信息
+find . -type f -mmin -10 # 过去10分钟中更新过的普通文件, (不加-type f参数，则搜索普通文件+特殊文件+目录)
+
+locate -i /etc/sh # 类似 "find -name", 但是更快 (原因在于它不搜索具体目录，而是搜索一个数据库, 一般先 updatedb 一下)
+    -i 忽略大小写
+
+whereis grep # whereis命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）、man说明文件（参数-m）和源代码文件（参数-s）。如果省略参数，则返回所有信息
+
+which grep # 在PATH路径中，搜索系统命令的位置，并且返回第一个结果 (可以看到某个系统命令是否存在，以及执行的到底是哪一个位置的命令)
+
+type cd # 系统会提示，cd是shell的自带命令（build-in）  (用来区分到底是shell自带, 还是shell外部的独立二进制文件提供的)
+type -p grep # 系统会提示，grep是一个外部命令，并显示该命令的路径
+
+
+```
+
+### 1.4.3. 进程id pid
+
+```sh
+pgrep <name> # eg: pgrep gunicorn, 显示所有 进程 id
+
+pstree -ap|grep gunicorn # 查看进程树 ; 安装: apt-get install psmisc
+
+
+```
+
+### 1.4.4. fuser 查看使用指定文件的所有进程
+
+```sh
+# 要列出使用/etc/passwd文件的本地进程的进程号，请输入：
+fuser /etc/passwd
+
+# 列出使用/etc/filesystems文件的进程的进程号和用户登录名
+fuser -u /etc/filesystems
+
+fuser -k 80/tcp # 终止 使用指定文件/网络socket 的所有进程 (用于停止某个端口下的所有进程)
+
+```
+
+## 1.5. 网络相关
+
+### 1.5.1. 系统网络
+
+```sh
+# 查看 ip 地址
+
+ifconfig # 查看所有网卡信息
+# 查看网络信息
+ip addr show docker0 # 查看网卡 docker0 的信息
+ip addr
+
+netstat -nap | grep <pid> # 根据进程id查看进程占用端口
+netstat -tunlp | grep 8080 # 根据端口查看对应进程
+
+ps -aux | grep <httpd>          # 查看各个进程的资源占用, 顺便可以看看是否正在运行
+ps -ef | grep <pid>     # 根据进程id查看进程信息
+
+# 网络状态, 端口号
+lsof -i tcp:<port>
+# or
+lsof -i:<port>                  #查看端口占用情况
+netstat -tunlp | grep <xxx>     # 查看端口号 安装包为 net-tools:  yum  -y  install  net-tools
+netstat -an | grep <8080>
+# 杀死进程
+kill -9 <pid>
+
+# window os
+netstat -ano | findstr "8761"   # 查看端口占用 (第二列看端口，最后一列是pid) Windows
+    tasklist | findstr 9268    # 查看进程号
+    tskill pid # 杀死进程(win8)
+    taskkill -PID 进程号 -F # 杀死进程(win10)
+
+
+ifconfig eth0 down //关闭网卡
+ifconfig eth0 up //启动网卡
+ifconfig eth0 hw ether 00:AA:BB:CC:DD:EE //修改MAC地址
+# 设置 ip
+ifconfig eth0 172.16.20.56 netmask 255.255.255.0 broadcast 172.16.20.255
+ifconfig eth0 arp //开启arp协议
+ifconfig eth0 -arp //关闭arp协议
+
+# 重启网络接口
+ifdown eth0 && ifup eth0
+
+# 防火墙
+# http://blog.chinaunix.net/uid-26495963-id-3279216.html
+# close firewall
+systemctl stop firewalld
+systemctl disable firewalld
+```
+
+### 1.5.2. 文件下载上传
+
+```sh
+# 下载文件
+
+# 推荐替代品 https://github.com/jakubroztocil/httpie/
+# -L location
+#  -o / --output 输出写到指定文件
+curl -L <source_url> > --output <target_file_name> 
+# -O/--remote-name 不指定文件名(保留远程文件的文件名),
+#  -# / --progress-bar 进度条, -s/--silent 静默下载
+curl -O -# -s <url> 
+# 分块下载
+curl -r 0-100 -o dodo1_part1.JPG http://www.linux.com/dodo1.JPG
+curl -r 100-200 -o dodo1_part2.JPG http://www.linux.com/dodo1.JPG
+curl -r 200- -o dodo1_part3.JPG http://www.linux.com/dodo1.JPG
+cat dodo1_part* > dodo1.JPG
+# 断点续传
+curl -C -O http://www.linux.com/dodo1.JPG
+
+wget [-O wordpress.zip] http://www.jsdig.com/download.aspx?id=1080
+
+# ftp 下载
+curl -O -u 用户名:密码 ftp://www.linux.com/dodo1.JPG
+curl -O ftp://用户名:密码@www.linux.com/dodo1.JPG
+
+
+
+
+# 文件上传
+# 上传
+curl -T dodo1.JPG -u 用户名:密码 ftp://www.linux.com/img/
+# -T/--upload-file <file>                  上传文件
+# -u/--user <user[:password]>      设置服务器的用户和密码
+
+
+```
+
+### 1.5.3. web 访问
+
+
+```sh
+# 获取 response code
+curl -o /dev/null -s -w %{http_code} www.linux.com
+
+# 重定向功能保存访问的网页
+curl http://www.linux.com >> linux.html
+# or
+curl -o linux.html http://www.linux.com
+
+
+# 发送 http 请求: get/post/delete/put 
+curl -X/--request [GET|POST|PUT|DELETE] {"https://xxx/"} # 加引号防止路径异常
+    -v/--verbose 输出详细信息
+    -X/--request [GET|POST|PUT|DELETE|…]  默认 发送 get 请求
+    -H/--header        設定request裡的header, 如 -H "Content-Type: application/json"
+    -i/--include                          顯示response的header 和网页,  -I 只显示 头信息
+    -d/--data        設定 http parameters , 如 -d "param1=value1&param2=value2" 或者  -d "param1=value1" -d "param2=value2"; 发送json则将url参数让在url中, -d 只用于 json, 用引号包裹, 需要请求头 Content-Type:application/json
+    -u/--user                             使用者帳號、密碼, 如 --user username:password
+    -b/--cookie           添加 cookie  , 如: --header 'sessionid:1234567890987654321'; 或 从存档读取 cookie:  -b ~/cookie.txt
+    -c    将 返回的 cookie 存档 如 -c  ~/cookie.txt
+# 如
+# 测试网页 resp code
+curl -o /dev/null -s -w %{http_code} www.linux.com
+# 设置代理
+curl -x 192.168.100.100:1080 http://www.linux.com
+# 保存 resp cookie
+curl -c cookiec.txt http://www.linux.com
+# 保存 header
+curl -D cookied.txt http://www.linux.com
+# 使用 cookie
+curl -b cookiec.txt http://www.linux.com
+
+# curl 配合 jq 解析 json 
+# 如 : {"name": "han","age": "20"}
+curl -s -d 'user=aa&pass=cc' http://www.example.com | jq '.name' >> file.txt
+cat file.txt # han
+
+# 模仿浏览器IE8.0
+curl -A "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.0)" http://www.linux.com
+
+# 伪造referer请求头（盗链）
+curl -e "www.linux.com" http://mail.linux.com
+
+# 指定proxy服务器以及其端口上网
+curl -x 192.168.100.100:1080 http://www.linux.com
+```
+
+### 1.5.4. 执行远程脚本
+
+```sh
+
+# 执行远程 shell脚本
+curl -L <script url> | sh
+# -s/--silent 静默
+# -S/--show-error                显示错误
+# -L 自动跳转 (有的网址是自动跳转的, 使用 -L 参数，curl 就会跳转到新的网址)
+# -f/--fail                                          连接失败时不显示http错误
+curl -sSLf https://spacevim.org/cn/install.sh | bash
+
+curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
+
+# 使用GitHub 代理网站
+curl -fsSL https://fastly.jsdelivr.net/gh/hellodigua/code996/bin/code996.sh | bash
+```
+
+### 1.5.5. 防火墙
+
+```sh
+
+-----------------  centos
+
+
+# 查看firewalld状态
+systemctl status firewalld
+firewall-cmd --state
+
+# 启动/关闭/重载配置 防火墙
+systemctl start firewalld
+systemctl stop firewalld[.service]
+
+## 禁止开机启动
+systemctl disable firewalld.service
+
+# 查看已经开放的端口
+firewall-cmd --zone=public --list-ports
+
+#开放端口
+firewall-cmd --zone=public --add-port=80/tcp --permanent
+# close port
+firewall-cmd --zone=public --remove-port=5672/tcp --permanent
+
+#重新载入
+firewall-cmd --reload
+systemctl reload firewalld
+
+# check if the port is exposed
+firewall-cmd --zone=public --query-port=8080/tcp
+
+```
+
+## 1.6. 文件相关
+
+```sh
+# 文件大小
+du -h xxx_file # 递归累出目录中所有文件
+du -sh xxx_file # 仅仅列出总大小
+ls -lh [xxx_file] # 目录的大小不包括内部文件, 仅仅是目录本身所占的空间
+
+```
+
+## 1.7. 文本相关
+
+### 1.7.1. 命令行文本命令
+
+```sh
+# 查看文本文件
+less -N <file name> # [b] 上一页，[d] 下一页
+
+# read from stdin and send to file/stdout
+#  -a append
+# -i 忽略中断信号。
+tee file1 file2  # 从键盘输入
+# <<- 可以省掉 -
+# eof 可以小写, 去掉引号
+tee /etc/docker/daemon.json <<- 'EOF'
+{
+    "register-mirrors": [
+        "https://registry.docker-cn.com"
+    ]
+}
+EOF
+
+# grep 按照指定文件类型搜索
+grep -inr --include \*.h --include \*.cpp hello_world /your/search/path
+-i :ignore 不区分大小写。
+-n : line number 行号
+-r : recursively 递归
+--include：指定搜索的文件类型。
+
+# 从指定文件夹中搜索指定文件。
+find /search/path -name file_name
+#例如,从/home目录下搜索名为a.txt的文件
+find /home -name a.txt
+
+```
+
+## 1.1. =============脚本片段收集======================
+
+### 帮助函数
+
+```sh
+
+Help()
+{
+   echo "你也可以使用自定义参数进行指定查询"
+   echo
+   echo "格式: bash $0 [2022-01-01] [2022-04-04] [author]"
+   echo "示例: bash code996.sh 2022-01-01 2022-12-31 digua"
+   echo "参数:"
+   echo "1st     分析的起始时间."
+   echo "2nd     分析的结束时间."
+   echo "3rd     指定提交用户，可以是 name 或 email."
+   echo
+}
+
+```
+
+### 渲染颜色
+
+```sh
+
+
+RED='\033[1;91m'
+NC='\033[0m' # No Color
+
+echo -e "${RED}统计时间范围：$time_start 至 $time_end"
+
+
+```
+
+### 处理命令行参数
+
+```sh
+
+
+
+if [ "$1" == "--help" ]
+    then
+        Help
+        exit 0
+elif [ "$1" == "-h" ]
+    then
+        Help
+        exit 0
+fi
+
+if [ -z $1 ]
+    then
+        time_start="2022-01-01"
+fi
+
+time_end=$2
+if [ -z $2 ]
+    then
+        time_end=$(date "+%Y-%m-%d")
+fi
+
+author=$3
+if [ -z $3 ]
+    then
+        author=""
+fi
+
+
+```
 
 ### 封装日志函数
 
@@ -359,26 +981,42 @@ fi
 
 ```sh
 
-# OS specific support.  $var _must_ be set to either true or false.
-cygwin=false;
-darwin=false;
-mingw=false
-case "`uname`" in
-  CYGWIN*) cygwin=true ;;
-  MINGW*) mingw=true;;
-  Darwin*) darwin=true
-    # Use /usr/libexec/java_home if available, otherwise fall back to /Library/Java/Home
-    # See https://developer.apple.com/library/mac/qa/qa1170/_index.html
-    if [ -z "$JAVA_HOME" ]; then
-      if [ -x "/usr/libexec/java_home" ]; then
-        export JAVA_HOME="`/usr/libexec/java_home`"
-      else
-        export JAVA_HOME="/Library/Java/Home"
-      fi
-    fi
-    ;;
-esac
 
+
+
+
+OS_DETECT()
+{
+   # Detect OS
+    case "$(uname -s)" in
+
+    Linux)
+        # echo 'Linux'
+        open_url="xdg-open"
+        ;;
+
+    Darwin)
+        # echo 'macOS'
+        open_url="open"
+        ;;
+
+    CYGWIN*|MINGW32*|MSYS*|MINGW*)
+        # echo 'Windows'
+        open_url="start"
+        ;;
+
+    *)
+        echo 'Other OS'
+        echo "trying to use xdg-open to open the url"
+        open_url="xdg-open"
+        ;;
+    esac
+
+}
+OS_DETECT
+
+# 根据系统不同, 自动打开指定url
+$open_url "$github_url"
 ```
 
 ### 1.1.8. mvnw wrapper
@@ -793,6 +1431,10 @@ $_ #上次命令传递的最后一个参数
 ```
 
 ## 1.6. 语法
+
+
+https://zhuanlan.zhihu.com/p/264346586
+
 
 ### 严格模式 tips
 

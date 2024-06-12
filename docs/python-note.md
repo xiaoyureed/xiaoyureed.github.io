@@ -117,6 +117,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [配置文件管理](#配置文件管理)
     - [测试test](#测试test)
         - [单元测试 unittest](#单元测试-unittest)
+        - [性能压测](#性能压测)
         - [集成测试 integration test](#集成测试-integration-test)
     - [3.1. 包管理](#31-包管理)
         - [rye 使用](#rye-使用)
@@ -141,6 +142,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
 - [12. shutil 使用](#12-shutil-使用)
 - [13. venv 虚拟环境](#13-venv-虚拟环境)
 - [14. web 开发](#14-web-开发)
+    - [litestar](#litestar)
     - [14.1. fastapi](#141-fastapi)
     - [14.2. Django](#142-django)
     - [14.3. flask](#143-flask)
@@ -152,7 +154,6 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [14.3.6. flask 中的日志](#1436-flask-中的日志)
         - [14.3.7. blueprint蓝图 模块化开发](#1437-blueprint蓝图-模块化开发)
         - [14.3.8. 上下文对象](#1438-上下文对象)
-    - [14.4. fastapi](#144-fastapi)
 - [15. db 驱动 问题](#15-db-驱动-问题)
 - [16. 代替 shell 运维](#16-代替-shell-运维)
     - [16.1. 实用脚本](#161-实用脚本)
@@ -2179,6 +2180,10 @@ https://www.osgeo.cn/pytest/contents.html
 
 ```
 
+### 性能压测
+
+https://github.com/locustio/locust
+
 ### 集成测试 integration test
 
 ```sh
@@ -3026,7 +3031,14 @@ https://www.zhihu.com/question/41564604/answer/660256963 对比
 
     内嵌了HTTP服务器
 
+
+## litestar
+
+https://github.com/litestar-org/litestar  和 fastapi 类似的定位和功能，但提供更多的日常开发组件，更健康的社区贡献构成，长期看好
+
+
 ## 14.1. fastapi
+
 
 开发 rest api 非常方便 https://juejin.cn/post/6844904051327369224
 
@@ -3334,16 +3346,11 @@ https://sentry.io/answers/working-outside-of-application-context/ current_app �
 https://github.com/tiangolo/fastapi/issues/81 使用 app 上下文存储数据
 
 
-g 每次 请求都是新的(蕾西 java 的 threadlocal), app 是真个应用全局生命周期的
+每次 请求都是新的(蕾西 java 的 threadlocal), app 是真个应用全局生命周期的
 
 https://zhuanlan.zhihu.com/p/26097310
 https://www.zhihu.com/question/33970027
 
-
-## 14.4. fastapi
-
-
-https://github.com/tiangolo/fastapi
 
 
 # 15. db 驱动 问题

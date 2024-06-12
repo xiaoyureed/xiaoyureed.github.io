@@ -9,6 +9,7 @@ date: 2023-08-27
     - [how the components communicate](#how-the-components-communicate)
 - [开源](#开源)
     - [组件库](#组件库)
+    - [监控埋点方案](#监控埋点方案)
 
 
 
@@ -145,3 +146,8 @@ slot - 插槽, 实现父子通信
 
 
 https://github.com/primefaces/primevue
+
+
+### 监控埋点方案
+
+https://github.com/M-cheng-web/web-tracing

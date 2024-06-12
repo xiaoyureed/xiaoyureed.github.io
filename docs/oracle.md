@@ -31,6 +31,7 @@ toc_max_heading_level: 5
         - [创建表](#创建表)
         - [修改表结构](#修改表结构)
         - [删除表](#删除表)
+        - [查询表结构](#查询表结构)
     - [管理数据](#管理数据)
         - [插入数据](#插入数据)
         - [删除数据](#删除数据)
@@ -575,6 +576,17 @@ DROP TABLE brands CASCADE CONSTRAINTS;
 DROP TABLE cars purge;
 
 
+
+```
+
+### 查询表结构
+
+```sql
+-- 查询建表语句
+SELECT DBMS_METADATA.GET_DDL('TABLE', 'SSY_ABNORMAL_DISPATCH') FROM DUAL;
+
+-- 查询字段类型 (必须保证目标表属于当前登录用户，且表名称大写，否则查不到结果。)
+SELECT * from user_tab_columns WHERE table_name = 'SSY_ABNORMAL_DISPATCH'
 
 ```
 

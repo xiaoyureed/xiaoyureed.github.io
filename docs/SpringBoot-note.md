@@ -10,6 +10,9 @@ toc_max_heading_level: 5
 
 <div align="center">
 
+https://github.com/ok1996/ok-system-simple spring boot3 , java17   代码组织架构
+https://github.com/BingChunMoLi/quick
+
 https://spring.io/blog/
 
 段子: 不管什么业务，直接上一套：spring boot+mysql 集群分库分表读写分离主备切换+kafak 集群+redis 集群用于缓存或者分布式锁+prometheus grafana 性能监控+ELK 日志收集分析+Flink 与 Hive 流批数仓+k8s 部署+双机房容灾
