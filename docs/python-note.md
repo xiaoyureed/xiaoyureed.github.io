@@ -57,35 +57,38 @@ https://www.zhihu.com/question/19827960 指的关注的社区
 
 - [1. 介绍](#1-介绍)
     - [1.1. python 特点](#11-python-特点)
-    - [1.2. python 安装](#12-python-安装)
-    - [1.3. python升级](#13-python升级)
+    - [1.2. 安装 升级](#12-安装-升级)
     - [1.4. vscode 环境配置](#14-vscode-环境配置)
     - [1.5. 设置国内pip源](#15-设置国内pip源)
     - [1.6. 解释器](#16-解释器)
-    - [1.7. kite 插件使用](#17-kite-插件使用)
 - [2. 语法](#2-语法)
     - [2.1. 输入输出 打印 main魔法变量](#21-输入输出-打印-main魔法变量)
     - [2.2. 基本数据类型](#22-基本数据类型)
         - [2.2.1. 字符串](#221-字符串)
             - [2.2.1.1. 多行 不可变 比较](#2211-多行-不可变-比较)
-            - [2.2.1.2. 编码 字符处理](#2212-编码-字符处理)
+            - [字符处理](#字符处理)
+            - [2.2.1.2. 字符编码](#2212-字符编码)
             - [2.2.1.3. 格式化](#2213-格式化)
             - [2.2.1.4. 字符串方法](#2214-字符串方法)
-        - [2.2.2. 字节 bytes](#222-字节-bytes)
+        - [2.2.2. 字节数组 bytes bytearray](#222-字节数组-bytes-bytearray)
         - [2.2.3. 数字](#223-数字)
         - [2.2.4. 布尔值 空值](#224-布尔值-空值)
+        - [数组 array](#数组-array)
         - [2.2.5. 集合](#225-集合)
             - [2.2.5.1. 有序可变 list](#2251-有序可变-list)
             - [2.2.5.2. 切片 slices](#2252-切片-slices)
             - [2.2.5.3. 有序不可变列表 tuple](#2253-有序不可变列表-tuple)
             - [2.2.5.4. 无序不可重复 set](#2254-无序不可重复-set)
-        - [2.2.6. 键值存储 字典 dict](#226-键值存储-字典-dict)
+        - [2.2.6. 字典 dict](#226-字典-dict)
+            - [基本 dict](#基本-dict)
+            - [defaultdict 默认值dict](#defaultdict-默认值dict)
         - [2.2.7. 列表推导式](#227-列表推导式)
         - [2.2.8. 生成器 generator](#228-生成器-generator)
         - [2.2.9. 迭代器](#229-迭代器)
     - [2.3. 条件循环](#23-条件循环)
     - [2.4. 比较判断](#24-比较判断)
     - [2.5. 函数](#25-函数)
+        - [内置函数](#内置函数)
         - [2.5.1. 参数检查](#251-参数检查)
         - [2.5.2. 多种参数](#252-多种参数)
         - [2.5.3. 递归](#253-递归)
@@ -107,7 +110,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
 - [3. 工程化](#3-工程化)
     - [cookiecutter 项目模板](#cookiecutter-项目模板)
     - [Setuptools: 管理依赖、构建和发布](#setuptools-管理依赖构建和发布)
-    - [虚拟环境](#虚拟环境)
+    - [虚拟环境 virtual environment](#虚拟环境-virtual-environment)
     - [devops 构建流水线](#devops-构建流水线)
     - [发布自定义库](#发布自定义库)
     - [项目结构](#项目结构)
@@ -118,7 +121,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [代码风格 格式化](#代码风格-格式化)
     - [配置文件管理](#配置文件管理)
     - [测试test](#测试test)
-        - [单元测试 unittest](#单元测试-unittest)
+        - [单元测试](#单元测试)
         - [性能压测](#性能压测)
         - [集成测试 integration test](#集成测试-integration-test)
     - [3.1. 包管理](#31-包管理)
@@ -127,7 +130,9 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [3.2. 日志](#32-日志)
     - [生成文档](#生成文档)
 - [4. 多进程](#4-多进程)
-- [5. 异步](#5-异步)
+- [5. 异步 协程](#5-异步-协程)
+    - [yield 手动切换](#yield-手动切换)
+    - [gevent 自动切换](#gevent-自动切换)
 - [6. 内建模块](#6-内建模块)
     - [6.1. 日期处理](#61-日期处理)
     - [6.2. 集合](#62-集合)
@@ -142,7 +147,6 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [11.1. 文件路径 and 终端路径](#111-文件路径-and-终端路径)
     - [11.2. 获取脚本位置](#112-获取脚本位置)
 - [12. shutil 使用](#12-shutil-使用)
-- [13. venv 虚拟环境](#13-venv-虚拟环境)
 - [14. web 开发](#14-web-开发)
     - [litestar](#litestar)
     - [14.1. fastapi](#141-fastapi)
@@ -157,6 +161,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [14.3.7. blueprint蓝图 模块化开发](#1437-blueprint蓝图-模块化开发)
         - [14.3.8. 上下文对象](#1438-上下文对象)
 - [15. db 驱动 问题](#15-db-驱动-问题)
+- [爬虫 spider crawler](#爬虫-spider-crawler)
 - [16. 代替 shell 运维](#16-代替-shell-运维)
     - [16.1. 实用脚本](#161-实用脚本)
         - [16.1.1. 命令行参数解析](#1611-命令行参数解析)
@@ -215,7 +220,7 @@ python 作为脚本语言, 方法定义调用有前后顺序
 面向对象, 类似 ruby, 但是没有 ruby 面向对象纯粹
 
 
-## 1.2. python 安装
+## 1.2. 安装 升级
 
 wls 默认装的是 python2
 
@@ -227,13 +232,15 @@ apt-get install python3
 # 验证
 python3 --version
 
+
 ```
 
-## 1.3. python升级
+升级
 
 https://www.cnblogs.com/dotnetcrazy/p/9360831.html
 
 http://npm.taobao.org/mirrors Python 压缩包镜像下载
+
 
 ```sh
 wget http://npm.taobao.org/mirrors/python/3.9.4/Python-3.9.4.tgz
@@ -314,6 +321,7 @@ http://pypi.mirrors.ustc.edu.cn/simple/
 
 ```
 
+
 ## 1.6. 解释器
 
 CPython (默认)
@@ -326,7 +334,7 @@ IronPython, 把 Python 代码编译成.Net 的字节码。
 
 如果要和 Java 或.Net 平台交互，最好的办法不是用 Jython 或 IronPython，而是通过网络调用来交互，确保各程序之间的独立性。
 
-## 1.7. kite 插件使用
+
 
 # 2. 语法
 
@@ -385,6 +393,14 @@ if __name__ == "__main__":
     # r'' 形式的默认不转义
     e=r'\\\t\\'
     f='''多行内容'''
+    g = f'''xx{xxx_var}''' # 格式化
+
+    ss = 'abcde'
+    s1 = ss[0]  # a
+
+# 遍历
+for s in 'abcd':
+    print(s)
 
 
 # str 是不可变对象
@@ -397,14 +413,25 @@ if __name__ == "__main__":
 
 
 # 比较字符串是否相同 使用 ==, 这点和 java 不同
-# 不要使用 is, is 比较的是 引用地址是否相同, == 比较的才是是内容
 # is, is not 对比的是两个变量的内存地址
 # ==,!= 对比的是两个变量的值
-if 'ab' == 'ab':
+if 'ab' == 'ab':   # true
     print('ab == ab')
+
+
 ```
 
-#### 2.2.1.2. 编码 字符处理
+#### 字符处理
+
+```python
+
+
+# 方便的修改字符串
+str_list = list('abcde') # [a b c d e]
+res = ''.join(str_list)
+```
+
+#### 2.2.1.2. 字符编码
 
 ```py
  ### 编码处理 字符处理
@@ -413,19 +440,20 @@ if 'ab' == 'ab':
     # 字符编码
     # ord:把字符串转换为ASCII    bin:把字符串转换成二进制
     # oct:把字符串转换成八进制    hex:把字符串转换成16进制
-    #>>> ord('A')
+    #  chr: 吧编码转换为字符串
+    ord('A')
     #65
-    #>>> ord('中')
+    ord('中')
     #20013
-    #>>> chr(66)
+    chr(66)
     #'B'
-    #>>> chr(25991)
+    chr(25991)
     #'文'
     #>>> 'u4e2du6587'
     #'中文'
 
-    # s1=u’哈’
-    # type(u’哈’)，则会得到<type ‘unicode’>，也就是在字符前面加u就表明这是一个unicode对象，这个字会以unicode格式存在于内存中
+    s1 = u'哈'
+    type(s) # 则会得到<type ‘unicode’>，也就是在字符前面加u就表明这是一个unicode对象，这个字会以unicode格式存在于内存中
     # 如果不加u，表明这仅仅是一个使用某种编码的字符串，编码格式取决于python对源码文件编码的识别，如 # -*- coding: utf-8 -*-
     # https://www.cnblogs.com/yyxayz/p/4044528.html
 
@@ -433,19 +461,25 @@ if 'ab' == 'ab':
     # 字节
     # 如果要在网络上传输，或者保存到磁盘上，就需要把str变为以字节为单位的bytes。
     # Python对bytes类型的数据用带b前缀的单引号或双引号表示：
-    # x = b'ABC'
-    # # print("hello...")
-    # >>> 'ABC'.encode('ascii')
+    x = b'ABC'
+    print(b"hello...")
+
+    'ABC'.encode('ascii')
     # b'ABC'
-    # >>> '中文'.encode('utf-8')
-    # b'xe4xb8xadxe6x96x87'
-    # >>> b'ABC'.decode('ascii')
+    b'ABC'.decode('ascii')
     # 'ABC'
-    # >>>b'xe4xb8xadxe6x96x87'.decode('utf-8')
+
+    '中文'.encode('utf-8')
+    # b'xe4xb8xadxe6x96x87'
+    b'xe4xb8xadxe6x96x87'.decode('utf-8')
     # '中文'
-    # >>> len('ABC')
+
+  
+
+    
+    len('ABC')
     # 3
-    # >>> len('中文')
+    len('中文')
     # 2
 ```
 
@@ -625,9 +659,18 @@ sdfs
     # string.translate(str, del="")#根据 str 给出的表(包含 256 个字符)转换 string 的字符, 要过滤掉的字符放到 del 参数中
 ```
 
-### 2.2.2. 字节 bytes
+### 2.2.2. 字节数组 bytes bytearray
 
-不可变的
+```python
+
+byte_arr = bytes([1, 2, 3])  # 不可变
+
+byte_arr2 = bytearray((1, 2,3)) # 可变， 内存动态分配
+
+# 转换
+byte_arr3 = bytearray(byte_arr)
+byte_arr4 = bytes(byte_arr3)
+```
 
 
 ### 2.2.3. 数字
@@ -673,6 +716,17 @@ sdfs
 
     # 空值
     # 用None表示。None不能理解为0
+
+```
+
+### 数组 array
+
+```python
+
+arr = array.array('f', [11.11, 2.00, 0.156]) # 'f' 指定元素类型， 不可添加其他类型元素
+print(arr)
+for a in arr:
+    print(a)
 
 ```
 
@@ -756,17 +810,33 @@ sdfs
 #### 2.2.5.2. 切片 slices
 
 ```py
-# slices
+# slices  会生成新的列表
     #
     #
     l = list(range(10))
     print(l)
-    print(l[0:3])
-    print(l[:3])
-    print(l[-1])
-    print(l[-1:])
-    print(l[-2:-1])
-    print(l[-2:])
+    print(l[0:3]) # 0 1 2
+    print(l[:3]) # 0 1 2
+    print(l[-1]) # 9
+    print(l[-1:])  # [9]
+    print(l[-2:-1]) # [8]
+    print(l[-2:]) # [8, 9]
+    print(l)  # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    l2 = ['a', 'b', 'c', 'd']
+    (ele1, ele2, remaining) = l2[0], l2[1], l2[2:] # 
+    # 等价
+        (ele1, ele2, *remaining) = l2
+    ele1 # a
+    ele2 # b
+    remaining # [c, d]
+
+    (e1, middle, e2) = l2[0], l2[1:-1], l2[-1]
+    # 等价
+        (e1, *middle, e2) = l2
+
+
+
 ```
 
 
@@ -779,14 +849,15 @@ sdfs
     # 
     # 创建
     # >>> classmates = ('Michael', 'Bob', 'Tracy')
+
     # # 定义空
     # >>> t = ()
+
     # # 定义一个元素的tuple
-    # 为什么这样规定?
-    # 这是因为括号()既可以表示tuple，又可以表示数学公式中的小括号，这就产生了歧义.所以，只有1个元素的tuple定义时必须加一个逗号,，来消除歧义
     # >>> t = (1,)
-    # >>> t
-    # (1,)
+      # 为什么这样规定?
+    # 这是因为括号()既可以表示tuple，又可以表示数学公式中的小括号，这就产生了歧义.所以，只有1个元素的tuple定义时必须加一个逗号,，来消除歧义
+
     # # 可变的tuple
     # >>> t = ('a', 'b', ['A', 'B'])
     # >>> t[2][0] = 'X'
@@ -915,7 +986,9 @@ if __name__ == '__main__':
 
 ```
 
-###  2.2.6. 键值存储 字典 dict
+###  2.2.6. 字典 dict
+
+#### 基本 dict
 
 ```py
 # Dict 键值存储
@@ -924,7 +997,7 @@ if __name__ == '__main__':
     #
     # 1.  查找和插入的速度极快，不会随着 key 的增加而变慢；
     # 2.  需要占用大量的内存，内存浪费多。
-    # 3.  Key 是不可变对象 
+    # 3.  Key 是不可变对象 (如字符串， 数组， 元组)
     #     需要我们自己在代码中保证 , 因为dict根据key来计算value的存储位置，如果每次计算相同的key得出的结果不同，那dict内部就完全混乱了
     #     在Python中，字符串、整数等都是不可变的，因此，可以放心地作为key。而list是可变的，就不能作为key
     #
@@ -934,32 +1007,45 @@ if __name__ == '__main__':
     # 所以，dict 是用空间来换取时间的一种方法。
     #
     # 创建
-    # >>> d = {'Michael': 95, 'Bob': 75, 'Tracy': 85}
-    # # 获取值，如果不存在会报错
-    # >>> d['Michael']
-    # 95
-    # # 添加键值对
-    # >>> d['Adam'] = 67
-    # >>> d['Adam']
-    # 67
-    # # 添加相同的键，会冲掉已存在的
-    # >>> d['Jack'] = 90
-    # >>> d['Jack']
-    # 90
-    # >>> d['Jack'] = 88
-    # >>> d['Jack']
-    # 88 # 为了防止报错，先判断是否有该键
-    # >>> 'Thomas' in d
-    # False
-    # # 或者通过get方法，如果不存在，没有返回
-    # >>> d.get('Thomas')
-    # >>> d.get('Thomas', -1)
+    d = {'Michael': 95, 'Bob': 75, 'Tracy': 85}
+
+    # 获取值，如果不存在会报错
+    d['Michael'] # 95
+
+    # 或者通过get方法，如果不存在，不会报错，只会返回None
+    d.get('Thomas')
+    d.get('Thomas', -1)
     # -1
+
+    # # 添加/设置键值对
+    d['Adam'] = 67
+    d['Adam']
+    # 67
+
+    # 添加相同的键，会冲掉已存在的
+    d['Tracy'] = 90
+    d['Tracy']
+    # 90
+
+    # 设置值（带默认）
+    d.setdefault('a', 0)  # 若 ‘a’ key不存在， 则设置value 为0
+
+    # 添加/更新
+    d.update('aa'=11, 'bb'=22)
+
+    # 键是否存在
+    'Thomas' in d
+    # False
+
+    
     # # 删除
-    # >>> d.pop('Bob')
+    d.pop('Bob')
     # 75
-    # >>> d
+
+    d
     # {'Michael': 95, 'Tracy': 85}
+
+
     #
     # 迭代 遍历 dict
     #
@@ -977,29 +1063,97 @@ if __name__ == '__main__':
     
 ```
 
+#### defaultdict 默认值dict
+
+```python
+
+# defaultdict 是 dict 子类， 性能更高
+
+from collections import defaultdict
+
+di = defaultdict(list) # 这里 list 是传入的一个函数(这个函数返回一个函数 / lambda 表达式)， 若某个键不存在， 这调用这个函数作为默认值
+di['missing_key'].append('a')
+di['missing_key'].append('b')
+di['missing_key'].append(123)
+di['missing_key']
+# ['a', 'b', 123]
+
+# 统计字符个数
+s = 'abcaab'
+count_mapping = defaultdict(int)
+for si in s:
+    count_mapping[si] += 1
+
+
+# 缺失提示
+def missing_prompt(value):
+    return lambda: value
+d = defaultdict(missing_prompt('<missing>'))
+d['unknown'] # 'missing'
+```
+
 ### 2.2.7. 列表推导式
 
+```python
 
+l = [x*x for x in range(3)] # [0, 1, 4]
+
+def read_file(path: str) -> [str]:
+    with open(path, 'r') as f:
+        lines = [for line in f if line.startswith('<<')]
+    return lines
+
+# 省内存
+def read_file2(path: str) -> Generator[str]:
+    with open(path, 'r') as f:
+        for line in f:
+            if line.startswith('<<'):
+                yield line
+
+```
 
 ### 2.2.8. 生成器 generator
 
 ```py
 # 生成器
-    # 这种一边循环一边计算的机制，称为生成器：generator。
+和 推导式区别： 推导式会一下将列表内容生成出来， 占用内存高
+              生成器在 next(gen) 的时候才会生成出一个元素 （即‘惰性计算’特性）， 节省内存 （读取大文件的时候可用这个方式）
+
+
     #
     # 把一个列表生成式的[]改成()，就创建了一个generator
+    # 要获取 generator 内的值， 需 next(gen) , 或者 for i in xxx_gen
+    gen = (x for x in range(3))
+    i = next(gen) # 0
+    j = next(gen) # 1
+    k = next(gen) # 2
+    # m = next(gen)   # error : StopIteration
+    print(i, j, k)
+    
     #
-    #或者 -> 如果一个函数定义中包含yield关键字，那么这个函数就不再是一个普通函数，而是一个generator
+    # 或者 , 如果一个函数定义中包含yield关键字，那么这个函数就不再是一个普通函数，而是一个generator
+    def get_gen():
+        for i in range(2):
+            yield i
+        # 拿不到generator的return语句的返回值。如果想要拿到返回值，必须捕获StopIteration错误，返回值包含在StopIteration的value中
+        return 'done' 
+    gen1 = get_gen()
+    g1 = next(gen1) # 0
+    g2 = next(gen1) # 1
+    print(g1, g2)
+    try:
+        r = next(gen1)
+    except Exception as e:
+        print(str(e)) # 'done'
     #
     # 函数区别:generator和函数的执行流程不一样。函数是顺序执行，
     # 遇到return语句或者最后一行函数语句就返回。而变成
     # generator的函数，在每次调用next()的时候执行(如 next(g))，遇
     # 到yield语句返回，再次执行时从上次返回的yield语句处继续执行
     #
-    l = list(range(1,11))
-    g = (x*x for x in l)
-    for n in g:
-        print(n)
+    
+    
+
 
     # 斐波拉契数列
     def fib(max):
@@ -1008,7 +1162,7 @@ if __name__ == '__main__':
             yield b
             a, b = b, a + b
             n = n + 1
-        return 'done' # 用for循环调用generator时，发现拿不到generator的return语句的返回值。如果想要拿到返回值，必须捕获StopIteration错误，返回值包含在StopIteration的value中
+        return 'done' 
     for n in fib(6):
         print(n)
 
@@ -1066,6 +1220,24 @@ if x is not None
 ```
 
 ## 2.5. 函数
+
+### 内置函数
+
+```python
+
+next(xxx_generator)   # 调用一次生成器
+
+sum_a = sum([1, 2])   # 3 对列表求和
+
+map(), filter()
+list_b = list(map(lambda x: x * 2, xxx_list))   # 建议用列表推导代替
+list_a = list(filter(xxx_predicate, xxx_list))
+
+all() 元素均为 true, any()
+def exist_zero(iter: iterable) -> bool: # 判断是否存在 0 ， （0 即为 false）
+    return not all(iter)
+
+```
 
 ### 2.5.1. 参数检查
 
@@ -2045,16 +2217,117 @@ cookiecutter https://github.com/pyloong/cookiecutter-pythonic-project
 
 ## Setuptools: 管理依赖、构建和发布
 
-## 虚拟环境
+## 虚拟环境 virtual environment
 
 ```sh
 docker 应用级别的隔离 (适合生产)
 
-virtualenv 会在项目路径下新建一个venv目录用于存储独立的python解释器及其第三方依赖库，但项目之间会共享操作系统的环境变量、文件系统等。
+virtualenv / venv 
+    会在项目路径下新建一个venv目录用于存储独立的python解释器及其第三方依赖库，但项目之间会共享操作系统的环境变量、文件系统等。
 
 conda 隔离能力最弱，提供系统环境级别的隔离。Conda可以创建多个虚拟环境，每个环境都可以由多个项目共享。(适合开发)
     因为手上的项目之前彼此依赖、且同时在迭代开发，将多个项目安装在同一环境中，可以减少配置、测试、编译所需的时间。
 ```
+
+
+推荐 venv (virtualenv 过时了):
+
+```sh
+python -m venv venv_dir  # 创建虚拟环境venv_dir， 会自动生成venv_dir文件夹
+
+# 激活
+# 激活环境后所有的操作都在该虚拟环境中进行，不会到全局的python环境和其它python虚拟环境
+$ cd venv_dir/
+$ source ./bin/activate
+
+# 验证是否激活
+echo $VIRTUAL_ENV
+
+# 退出虚拟环境
+deactivate
+
+# 删除环境
+rm -rf venv_dir
+
+
+# 使用anaconda的conda
+$ conda create -n env_name python=version package_names(默认在此环境中安装的python包)
+# 例
+$ conda create --name django_venv python=3.8 django
+
+$ conda env list # 查看所有conda创建的虚拟环境
+
+$ conda activate env_name
+# 例
+$ conda activate django_venv
+
+$ conda deactivate  # 直接执行conda deactivate即可退出当前虚拟环境
+
+$ conda remove -n ven_name --all
+
+```
+
+
+使用 pycharm: https://blog.csdn.net/pfm685757/article/details/108590680
+
+inherit global site-packages:勾选上的话代表创建的新项目需要copy一份全局包到虚拟环境。
+
+Make available to all projects:勾选上，表示，当在虚拟环境下安装包的时候，copy一份到全局。
+
+
+```sh
+ pip3 install virtualenv
+# 虚拟环境
+# --no-site-packages，已经安装到系统Python环境中的所有第三方包都不会复制过来，这样，我们就得到了一个不带任何第三方包的“干净”的Python运行环境。
+#               更新 , 版本 >=20 后, 默认就加上了这个选项, 不必手动指定
+# -p 指定解释器
+virtualenv -p python3.6 venv  
+# 使用默认解释器
+virtualenv  venv
+# 有了venv这个Python环境，可以用source进入该环境
+source ./venv/bin/activate
+# 退出 venv
+deactivate
+
+#对当前已经创建的虚拟环境更改为可迁移, 生成压缩包解压后直接使用
+virtualenv --relocatable ./
+
+# 安装库依赖 到 venv
+pip install -r requirements.txt
+# 生成依赖文件
+pip freeze > requirements.txt 
+# 当前安装版本
+pip freeze
+
+
+
+
+
+# virtualenvwrapper,是对 virtualenv 的一个封装，目的是使后者更好用。
+
+
+# venv , Python 从3.3 版本开始，自带了一个虚拟环境 venv
+# 仅仅支持 python 3.3 和以后版本。所以，要在 python2 上使用虚拟环境，依然要利用 virtualenv 
+python3 -m venv <venv_name> # 一般命名为 .venv
+
+.venv\Scripts\activate.bat
+# or
+source .venv/bin/activate
+
+
+
+```
+
+使用 pycharm 的 venv
+
+设置 interpretor, 推荐 venv 虚拟环境
+
+"inherit global site packages" 勾选表示 project 内找不到需要的库, 就扩大范围, 到全局 base interpretor 的库去找, 但是安装的库会使用 全局 pip 安装, 会安装到 base interpretor 中, 污染全局. 建议不要勾选
+
+此时会在 project root 下生成 venv
+
+
+
 
 ## devops 构建流水线
 
@@ -2162,7 +2435,7 @@ https://github.com/dynaconf/dynaconf Dynaconf 动态配置体系
 
 ## 测试test
 
-### 单元测试 unittest
+### 单元测试
 
 ```sh
 Pytest 
@@ -2175,8 +2448,6 @@ tox 是通用的虚拟环境管理和测试命令行工具。tox 能够让我们
 
 https://github.com/pytest-dev/pytest-cov 覆盖率
 
-https://www.cnblogs.com/wxcx/p/13709570.html
-https://www.osgeo.cn/pytest/contents.html
 
 
 
@@ -2236,10 +2507,12 @@ rye install <lib name>
 rye uninstall <xxx>
 
 # 安装到当前项目的虚拟环境中
-rye add <lib name>
+rye add [-d or --dev] <lib name>
+    rye add cowsay
 rye remove <xxx>
 rye sync
-rye run <proj name>
+rye run <proj name> # 如： rye run quick-start (‘_’ 替换为 ‘-’)
+    rye run cowsay --text hellohhhh
 
 rye run <executable name>
 # eg. 
@@ -2439,7 +2712,9 @@ def muti_thread():
 ```
 
 
-# 5. 异步
+# 5. 异步 协程
+
+## yield 手动切换
 
 ```py
 
@@ -2551,6 +2826,22 @@ def async_io():
 
 ```
 
+
+## gevent 自动切换
+
+gevent 第三方库
+
+```python
+from gevent import monkey
+monkey.patch_all() # gevent 无法识别普通的 time.sleep (即无法识别普通系统 io)， 需要打补丁， 若无补丁， 需要调用 sleep 的地方要用 gevent.sleep  代替
+import gevent
+
+
+s1 = gevent.spawn(func_a, func_a_params)
+s2 = gevent.spwan(func_b, func_b_params)
+gevent.joinall([s1, s2]) # 阻塞等待
+
+```
 
 # 6. 内建模块
 
@@ -2918,105 +3209,6 @@ shutil.move('原文件夹/原文件名','目标文件夹/目标文件名')
 
 ```
 
-# 13. venv 虚拟环境
-
-推荐 venv (virtualenv 过时了):
-
-```sh
-python -m venv venv_dir  # 创建虚拟环境venv_dir， 会自动生成venv_dir文件夹
-
-# 激活
-# 激活环境后所有的操作都在该虚拟环境中进行，不会到全局的python环境和其它python虚拟环境
-$ cd venv_dir/
-$ source ./bin/activate
-
-# 验证是否激活
-echo $VIRTUAL_ENV
-
-# 退出虚拟环境
-deactivate
-
-# 删除环境
-rm -rf venv_dir
-
-
-# 使用anaconda的conda
-$ conda create -n env_name python=version package_names(默认在此环境中安装的python包)
-# 例
-$ conda create --name django_venv python=3.8 django
-
-$ conda env list # 查看所有conda创建的虚拟环境
-
-$ conda activate env_name
-# 例
-$ conda activate django_venv
-
-$ conda deactivate  # 直接执行conda deactivate即可退出当前虚拟环境
-
-$ conda remove -n ven_name --all
-
-```
-
-
-使用 pycharm: https://blog.csdn.net/pfm685757/article/details/108590680
-
-inherit global site-packages:勾选上的话代表创建的新项目需要copy一份全局包到虚拟环境。
-
-Make available to all projects:勾选上，表示，当在虚拟环境下安装包的时候，copy一份到全局。
-
-
-```sh
- pip3 install virtualenv
-# 虚拟环境
-# --no-site-packages，已经安装到系统Python环境中的所有第三方包都不会复制过来，这样，我们就得到了一个不带任何第三方包的“干净”的Python运行环境。
-#               更新 , 版本 >=20 后, 默认就加上了这个选项, 不必手动指定
-# -p 指定解释器
-virtualenv -p python3.6 venv  
-# 使用默认解释器
-virtualenv  venv
-# 有了venv这个Python环境，可以用source进入该环境
-source ./venv/bin/activate
-# 退出 venv
-deactivate
-
-#对当前已经创建的虚拟环境更改为可迁移, 生成压缩包解压后直接使用
-virtualenv --relocatable ./
-
-# 安装库依赖 到 venv
-pip install -r requirements.txt
-# 生成依赖文件
-pip freeze > requirements.txt 
-# 当前安装版本
-pip freeze
-
-
-
-
-
-# virtualenvwrapper,是对 virtualenv 的一个封装，目的是使后者更好用。
-
-
-# venv , Python 从3.3 版本开始，自带了一个虚拟环境 venv
-# 仅仅支持 python 3.3 和以后版本。所以，要在 python2 上使用虚拟环境，依然要利用 virtualenv 
-python3 -m venv <venv_name> # 一般命名为 .venv
-
-.venv\Scripts\activate.bat
-# or
-source .venv/bin/activate
-
-
-
-```
-
-使用 pycharm 的 venv
-
-设置 interpretor, 推荐 venv 虚拟环境
-
-"inherit global site packages" 勾选表示 project 内找不到需要的库, 就扩大范围, 到全局 base interpretor 的库去找, 但是安装的库会使用 全局 pip 安装, 会安装到 base interpretor 中, 污染全局. 建议不要勾选
-
-此时会在 project root 下生成 venv
-
-
 
 # 14. web 开发
 
@@ -3362,6 +3554,11 @@ mac 无法安装 postgres 驱动
 驱动在这: https://pypi.org/project/psycopg2/, 需要首先安装 postgres  `brew install postgres`, 设置 path, 然后安装 ([参考](https://www.psycopg.org/docs/install.html#install-from-source))
 
 如果还是不行 `pip install psycopg2-binary==2.8.3` ([参考](https://stackoverflow.com/questions/34304833/failed-building-wheel-for-psycopg2-macosx-using-virtualenv-and-pip))
+
+
+# 爬虫 spider crawler
+
+https://www.cnblogs.com/dyd168/p/15021673.html xpath 语法
 
 
 # 16. 代替 shell 运维
