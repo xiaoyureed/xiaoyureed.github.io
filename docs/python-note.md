@@ -76,12 +76,23 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [数组 array](#数组-array)
         - [2.2.5. 集合](#225-集合)
             - [2.2.5.1. 有序可变 list](#2251-有序可变-list)
-            - [2.2.5.2. 切片 slices](#2252-切片-slices)
+                - [切片 slices](#切片-slices)
             - [2.2.5.3. 有序不可变列表 tuple](#2253-有序不可变列表-tuple)
             - [2.2.5.4. 无序不可重复 set](#2254-无序不可重复-set)
+                - [frosenset 不可变set](#frosenset-不可变set)
         - [2.2.6. 字典 dict](#226-字典-dict)
             - [基本 dict](#基本-dict)
+            - [字典格式化](#字典格式化)
             - [defaultdict 默认值dict](#defaultdict-默认值dict)
+            - [OrderedDict 字典排序](#ordereddict-字典排序)
+            - [合并多个字典](#合并多个字典)
+                - [内置方法合并](#内置方法合并)
+                - [ChainMap 提供动态视图 首个 dict 可修改](#chainmap-提供动态视图-首个-dict-可修改)
+            - [MappingProxyType 只读视图](#mappingproxytype-只读视图)
+            - [Counter 通过字典表示列表](#counter-通过字典表示列表)
+            - [dict 场景](#dict-场景)
+                - [模拟 switch case](#模拟-switch-case)
+                - [dict 字典推导式](#dict-字典推导式)
         - [2.2.7. 列表推导式](#227-列表推导式)
         - [2.2.8. 生成器 generator](#228-生成器-generator)
         - [2.2.9. 迭代器](#229-迭代器)
@@ -99,6 +110,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [2.7. 装饰器](#27-装饰器)
     - [2.8. 模块 作用域](#28-模块-作用域)
     - [2.9. 面向对象](#29-面向对象)
+        - [@dataclass 创建实体类](#dataclass-创建实体类)
         - [2.9.1. 类](#291-类)
         - [2.9.2. 继承 鸭子类型](#292-继承-鸭子类型)
         - [2.9.3. 判断类型信息](#293-判断类型信息)
@@ -429,6 +441,11 @@ if 'ab' == 'ab':   # true
 # 方便的修改字符串
 str_list = list('abcde') # [a b c d e]
 res = ''.join(str_list)
+
+# 判断字符是否为空
+s = 'ab'
+if s:      # true
+    pass
 ```
 
 #### 2.2.1.2. 字符编码
@@ -711,11 +728,20 @@ byte_arr4 = bytes(byte_arr3)
 
 ```py
 # 布尔值
+    # 在 Python 是是作为 integer 的一个子类型
+        True 对应 1
+        False 对应 0
     # 只有True、False两种值
     # 可以用and or not运算
 
     # 空值
     # 用None表示。None不能理解为0
+
+assert True == 1     #true
+assert True == 1.0    #true
+assert 1 == 1.0      #true
+assert 1 == 1.0 == True   #true
+
 
 ```
 
@@ -807,7 +833,7 @@ for a in arr:
     print(d)
 ```
 
-#### 2.2.5.2. 切片 slices
+##### 切片 slices
 
 ```py
 # slices  会生成新的列表
@@ -953,38 +979,64 @@ if __name__ == '__main__':
 ```py
   # Set 无序不可重复
     #
-    #一组 key 的集合，但不存储 value，没有重复的 key，无序
     #set 和 dict 的唯一区别仅在于没有存储对应的 value
     #
     # 要创建一个set，需要提供一个list作为输入集合：
-    # >>> s = set([1, 2, 3])
-    # >>> s
+    s = set([1, 2, 3])
     # {1, 2, 3}
-    # # 或者直接 s = {1,2,3}创建
+
+    # or
+    s = {1,2,3}
+
+    # 空 set 不要用{}, 会误认为是定义字典
+    s = set()
+
+    # 推导式
+    s = {x*x for x in range(4)}
+
     # # 重复元素在set中自动被过滤
-    # >>> s = set([1, 1, 2, 2, 3, 3])
-    # >>> s
+    s = set([1, 1, 2, 2, 3, 3])
     # {1, 2, 3}
+
     # # 添加元素，重复添加无效
-    # >>> s.add(4)
-    # >>> s
+    s.add(4)
     # {1, 2, 3, 4}
-    # >>> s.add(4)
-    # >>> s
-    # {1, 2, 3, 4}
-    # # 删除
-    # >>> s.remove(4)
-    # >>> s
-    # {1, 2, 3}
-    # # 并集交集
-    # >>> s1 = set([1, 2, 3])
-    # >>> s2 = set([2, 3, 4])
-    # >>> s1 & s2
-    # {2, 3}
-    # >>> s1 | s2
+    s.add(4)
     # {1, 2, 3, 4}
 
+    # # 删除
+    s.remove(4)
+    # {1, 2, 3}
+
+    # # 交集  O(n)
+    s1 = set([1, 2, 3])
+    s2 = set([2, 3, 4])
+    s1 & s2
+    # {2, 3}
+
+    s1 | s2  # 并集     O(n)
+    # {1, 2, 3, 4}
+
+    # 差集
+    s1 - s2
+
+    # 是否存在 O(1)
+    assert 1 in {1, 2, 3}   # true
+
+
 ```
+
+##### frosenset 不可变set
+
+```python
+
+s  = fronsenset([1, 2, 3])
+fronsenset((1, 2, 3,))
+
+frosenset({'a': 1, 'b': 2}) # {'a', 'b'}
+
+```
+
 
 ###  2.2.6. 字典 dict
 
@@ -1063,6 +1115,23 @@ if __name__ == '__main__':
     
 ```
 
+#### 字典格式化
+
+```python
+
+print(m)   # 一行中打印， 无缩进，不好看
+
+import json
+json_str_with_indent = json.dumps(m, indent=4, sort_keys=False, ensure_ascii=False)
+print(json_str_with_indent)
+
+
+install pyyaml
+import yaml
+string = yaml.dump(m, allow_unicode=True)
+
+```
+
 #### defaultdict 默认值dict
 
 ```python
@@ -1085,11 +1154,201 @@ for si in s:
     count_mapping[si] += 1
 
 
-# 缺失提示
+# eg: 缺失提示
 def missing_prompt(value):
     return lambda: value
 d = defaultdict(missing_prompt('<missing>'))
 d['unknown'] # 'missing'
+```
+
+#### OrderedDict 字典排序
+
+```python
+
+py2 字典不保证有序， 可通过使用 OrderedDict 来保证有序
+py3 字典默认有序
+
+
+    d = {'a': 100, 'c': 200, 'b': 300}
+    # 如何按照 key 排序
+    d2 = sorted(d)  # 等价     d2 = sorted(d.keys())
+    print(d2) # ['a', 'b', 'c']
+
+    # 逆序
+    sorted(d, reverse=True)
+
+    d3 = sorted(d.items()) # 元组排序首先比较第一个元素， 第一个元素相同再比较第二个元素
+    print(d3) # [('a', 100), ('b', 300), ('c', 200)]
+    
+    # 按照 value 排序
+    d4 = sorted(d.items(), key=lambda x: x[1]) 
+    # 等价
+    d4 =sorted(d.items(), key=operator.itemgetter(1))  
+    print(d4) # [('a', 100), ('c', 200), ('b', 300)]
+    
+
+
+
+from collections import OrderedDict
+
+# 创建一个有序字典
+od = OrderedDict()
+od['first'] = 1
+od['second'] = 2
+od['third'] = 3
+
+print(od)  # OrderedDict([('first', 1), ('second', 2), ('third', 3)])
+
+# 遍历有序字典
+for key, value in od.items():
+    print(key, value)
+
+
+od.move_to_end('banana')  # 将 'banana' 移动到末尾
+od.move_to_end('orange', last=False)  # 将 'orange' 移动到开头
+
+od.popitem()  # 默认移除并返回最后一个键值对 ('orange', 2)， 类比栈结构
+od.popitem(last=False)  # 移除并返回第一个键值对 ('banana', 3) ， 类比队列结构
+```
+
+#### 合并多个字典
+
+##### 内置方法合并
+
+```python
+
+# 将后来的 map 覆盖到前面的 map 里
+m.update(m1).update(m2)
+
+
+m3 = dict(m1, **m2) # 通过**解包一次合并两个 （解包符号速度快，特别是大型字典，Python 中对**有优化）
+
+m4 = {           # 一次合并多个
+    **m1,
+    **m2,
+    **m3
+}
+```
+
+##### ChainMap 提供动态视图 首个 dict 可修改
+
+
+```python
+# ChainMap 是处理多层次映射和优先级合并的强大工具，能够在不改变原始数据结构的情况下提供动态视图。
+
+# 更新操作：ChainMap 只会影响第一个字典，即链中第一个映射。
+# 对于查找操作：ChainMap 会从左到右依次查找，直到找到匹配的键为止。若还是没找到， 会 KeyError
+
+
+from collections import ChainMap
+
+# 创建两个字典
+dict1 = {'a': 1, 'b': 2}
+dict2 = {'b': 3, 'c': 4}
+
+# 使用 ChainMap 将它们合并
+chain_map = ChainMap(dict1, dict2)
+print(chain_map)  # ChainMap({'a': 1, 'b': 2}, {'b': 3, 'c': 4})
+
+# 访问元素
+print(chain_map['a'])  # 1
+print(chain_map['b'])  # 2  # 从第一个字典中找到 'b'
+print(chain_map['c'])  # 4  # 从第二个字典中找到 'c'
+
+# 更新
+chain_map['b'] = 10
+# 删除操作
+del chain_map['a']
+
+
+# 新的子映射
+#  new_child 方法来创建一个新的子映射，它将一个新的字典添加到现有的链中。这对于需要临时覆盖某些值或提供局部变量非常有用。
+# 如 配置管理，合并多个配置文件或配置源。
+new_chain = chain_map.new_child({'a': 42, 'e': 99})
+print(new_chain)  # ChainMap({'a': 42, 'e': 99}, {'b': 10, 'd': 5}, {'b': 3, 'c': 4})
+
+print(new_chain['a'])  # 42
+print(new_chain['b'])  # 10
+print(new_chain['e'])  # 99
+
+```
+
+#### MappingProxyType 只读视图
+
+```python
+from types import MappingProxyType
+# 创建一个字典
+original_dict = {'a': 1, 'b': 2}
+# 创建字典的只读视图
+read_only_dict = MappingProxyType(original_dict)
+# 访问元素
+print(read_only_dict['a'])  # 1
+
+# 尝试修改元素会引发 TypeError
+# 只是浅拷贝了原来的字典，所以如果值是引用的话，修改值的内容也是会影响到源的！
+# 若真正实现不可变  --> frozendict
+try:
+    read_only_dict['a'] = 3
+except TypeError as e:
+    print(e)  # 'mappingproxy' object does not support item assignment
+
+
+# 如果修改原始字典，MappingProxyType 的视图也会随之更新 (读写分离)
+# 修改原始字典
+original_dict['a'] = 3
+print(read_only_dict['a'])  # 3
+# 添加新元素
+original_dict['c'] = 4
+print(read_only_dict['c'])  # 4
+
+```
+
+
+#### Counter 通过字典表示列表
+
+```python
+    c = Counter('aabbbc')
+    print(list(c.elements())) # ['a', 'a', 'b', 'b', 'b', 'c']
+
+    c = Counter({'a': 2, 'b': 1})
+    print(list(c.elements())) # [a a b]
+    len(c)  # 2
+    sum(c.values()) # 3
+
+    c = Counter(a=2, b=1)
+    print(list(c.elements())) # ['a', 'a', 'b']
+```
+
+
+#### dict 场景
+
+##### 模拟 switch case
+
+```python
+
+def calc(v1, v2, op_flag):
+    ops = {
+        '+': operator.add,
+        '-': operator.sub,
+        '*': operator.mul,
+        '/': operator.truediv,
+    }
+    return ops[op_flag](v1, v2)
+
+```
+
+##### dict 字典推导式
+
+```python
+@dataclass
+class Person:
+    name: str
+    age: int
+
+users = [Person('a', 11), Person('b', 22)]
+age_mapping = { user.name: user.age
+    for user in users if user.age != 0
+}
 ```
 
 ### 2.2.7. 列表推导式
@@ -1688,6 +1947,35 @@ def module_demo():
 ```
 
 ## 2.9. 面向对象
+
+### @dataclass 创建实体类
+
+```python
+from dataclasses import dataclass, field
+@dataclass(
+    order=True    # 自动生成比较方法：例如 __eq__ 和 __lt__ 等方法，可以通过设置 order=True 来启用。
+    frozen=True   # 声明创建出的对象不可变 （即属性不可修改， 会抛出FrozenInstanceError）
+)
+class Person:
+    name: str
+    age: int
+    # 可选的默认值：可以为类属性设置默认值。
+    email: str = field(default="", metadata={"description": "Email Address"})
+    # 指定默认工厂函数， 创建实体这个字段可不传
+    bookes: List[str] = field(default_factory=list)
+
+# 会自动生成 __init__ 方法。
+person = Person(name="Alice", age=30, email="alice@example.com")
+print(person) # Person(name='Alice', age=30, email='alice@example.com')
+
+
+
+
+
+
+字段(metadata)：可以通过 field 函数来设置字段的元数据。
+
+```
 
 ### 2.9.1. 类
 
