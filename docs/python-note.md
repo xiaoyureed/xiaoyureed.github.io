@@ -66,20 +66,27 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [2.2. 基本数据类型](#22-基本数据类型)
         - [2.2.1. 字符串](#221-字符串)
             - [2.2.1.1. 多行 不可变 比较](#2211-多行-不可变-比较)
-            - [字符处理](#字符处理)
             - [2.2.1.2. 字符编码](#2212-字符编码)
             - [2.2.1.3. 格式化](#2213-格式化)
-            - [2.2.1.4. 字符串方法](#2214-字符串方法)
+            - [2.2.1.4. 字符串处理](#2214-字符串处理)
         - [2.2.2. 字节数组 bytes bytearray](#222-字节数组-bytes-bytearray)
         - [2.2.3. 数字](#223-数字)
         - [2.2.4. 布尔值 空值](#224-布尔值-空值)
         - [数组 array](#数组-array)
         - [2.2.5. 集合](#225-集合)
-            - [2.2.5.1. 有序可变 list](#2251-有序可变-list)
-                - [切片 slices](#切片-slices)
-            - [2.2.5.3. 有序不可变列表 tuple](#2253-有序不可变列表-tuple)
-            - [2.2.5.4. 无序不可重复 set](#2254-无序不可重复-set)
+            - [2.2.5.1. list 有序可变](#2251-list-有序可变)
+                - [slices 切片](#slices-切片)
+            - [2.2.5.3. tuple 有序不可变列表](#2253-tuple-有序不可变列表)
+                - [namedtuple() 创建带名字下标的元组](#namedtuple-创建带名字下标的元组)
+                - [typeing.NamedTulple 命名的元组](#typeingnamedtulple-命名的元组)
+                - [元组解包](#元组解包)
+            - [2.2.5.4. set 无序不可重复](#2254-set-无序不可重复)
                 - [frosenset 不可变set](#frosenset-不可变set)
+            - [deque 双端队列 栈](#deque-双端队列-栈)
+            - [queue.Queue 阻塞队列](#queuequeue-阻塞队列)
+            - [queue.LifoQueue 阻塞栈](#queuelifoqueue-阻塞栈)
+            - [multiprocessing.Queue 跨进程阻塞队列](#multiprocessingqueue-跨进程阻塞队列)
+            - [queue.PriorityQueue heapq 优先级队列](#queuepriorityqueue-heapq-优先级队列)
         - [2.2.6. 字典 dict](#226-字典-dict)
             - [基本 dict](#基本-dict)
             - [字典格式化](#字典格式化)
@@ -96,6 +103,8 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [2.2.7. 列表推导式](#227-列表推导式)
         - [2.2.8. 生成器 generator](#228-生成器-generator)
         - [2.2.9. 迭代器](#229-迭代器)
+        - [二进制结构封包解包](#二进制结构封包解包)
+        - [SimpleNamespace 创建简单类](#simplenamespace-创建简单类)
     - [2.3. 条件循环](#23-条件循环)
     - [2.4. 比较判断](#24-比较判断)
     - [2.5. 函数](#25-函数)
@@ -110,6 +119,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [2.7. 装饰器](#27-装饰器)
     - [2.8. 模块 作用域](#28-模块-作用域)
     - [2.9. 面向对象](#29-面向对象)
+        - [创建类-一个全面的例子](#创建类-一个全面的例子)
         - [@dataclass 创建实体类](#dataclass-创建实体类)
         - [2.9.1. 类](#291-类)
         - [2.9.2. 继承 鸭子类型](#292-继承-鸭子类型)
@@ -147,7 +157,6 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [gevent 自动切换](#gevent-自动切换)
 - [6. 内建模块](#6-内建模块)
     - [6.1. 日期处理](#61-日期处理)
-    - [6.2. 集合](#62-集合)
 - [7. 编写命令行程序](#7-编写命令行程序)
     - [7.1. 命令行自动补全](#71-命令行自动补全)
 - [8. 类型系统 type-hint](#8-类型系统-type-hint)
@@ -433,20 +442,6 @@ if 'ab' == 'ab':   # true
 
 ```
 
-#### 字符处理
-
-```python
-
-
-# 方便的修改字符串
-str_list = list('abcde') # [a b c d e]
-res = ''.join(str_list)
-
-# 判断字符是否为空
-s = 'ab'
-if s:      # true
-    pass
-```
 
 #### 2.2.1.2. 字符编码
 
@@ -457,7 +452,7 @@ if s:      # true
     # 字符编码
     # ord:把字符串转换为ASCII    bin:把字符串转换成二进制
     # oct:把字符串转换成八进制    hex:把字符串转换成16进制
-    #  chr: 吧编码转换为字符串
+    #  chr: 吧ascii编码转换为字符串
     ord('A')
     #65
     ord('中')
@@ -527,7 +522,7 @@ if s:      # true
     print("{:.2f}".format(3.1415926))  # 3.14
 ```
 
-#### 2.2.1.4. 字符串方法
+#### 2.2.1.4. 字符串处理
 
 ```py
 
@@ -535,6 +530,7 @@ if s:      # true
     # 字符串处理方法
     #
     #
+
     len(b'ABC')  # 3
     len(b'xe4xb8xadxe6x96x87')  # 6
     len('中文'.encode('utf-8'))
@@ -553,6 +549,19 @@ sdfs
     # or
     c1 = myString.count("\n")+[1, 0][myString.endswith("\n")]
     print(c1)  # 5
+
+
+
+# 方便的修改字符串
+str_list = list('abcde') # [a b c d e]
+res = ''.join(str_list)
+
+# 判断字符是否为空
+s = 'ab'
+if s:      # true
+    pass
+
+
 
     # 查找
     find = myString.find("sf")
@@ -759,7 +768,7 @@ for a in arr:
 ### 2.2.5. 集合
 
 
-#### 2.2.5.1. 有序可变 list
+#### 2.2.5.1. list 有序可变 
 
 ```py
  #
@@ -833,7 +842,7 @@ for a in arr:
     print(d)
 ```
 
-##### 切片 slices
+##### slices 切片 
 
 ```py
 # slices  会生成新的列表
@@ -866,7 +875,7 @@ for a in arr:
 ```
 
 
-#### 2.2.5.3. 有序不可变列表 tuple
+#### 2.2.5.3. tuple 有序不可变列表 
 
 ```py
  # Tuple 不可变有序列表
@@ -874,18 +883,19 @@ for a in arr:
     # 因为tuple不可变，所以代码更安全。如果可能，能用tuple代替list就尽量用tuple
     # 
     # 创建
-    # >>> classmates = ('Michael', 'Bob', 'Tracy')
+    classmates = ('Michael', 'Bob', 'Tracy')
 
     # # 定义空
-    # >>> t = ()
+    t = ()
 
     # # 定义一个元素的tuple
-    # >>> t = (1,)
+    t = (1,)
       # 为什么这样规定?
     # 这是因为括号()既可以表示tuple，又可以表示数学公式中的小括号，这就产生了歧义.所以，只有1个元素的tuple定义时必须加一个逗号,，来消除歧义
 
     # # 可变的tuple
-    # >>> t = ('a', 'b', ['A', 'B'])
+    # 若元素不是基本类型：（这种是可以修改的）
+    t = ('a', 'b', ['A', 'B'])
     # >>> t[2][0] = 'X'
     # >>> t[2][1] = 'Y'
     # >>> t
@@ -893,8 +903,15 @@ for a in arr:
 
 
 
+```
 
-# 命名的 tuple
+##### namedtuple() 创建带名字下标的元组
+
+
+```python
+# namedtuple是一个函数，它用来创建一个自定义的tuple对象，并且规定了tuple元素的个数，并可以用属性而不是索引来引用tuple的某个元素
+# 提供了通过名称而不是索引访问字段的额外优势
+
 # -*- coding: utf-8 -*-
 # author: xiaoyu 775000738@qq.com 2021/6/11
 
@@ -903,20 +920,52 @@ from random import choice
 
 
 def named_tuple_intro():
-    # 比普通 tuple 更好的可读性, 易于维护
-    # 比字典更加轻量高效
 
-    # 构造一个类, 类名 People, 属性 name, age, like
-    People = namedtuple('People', 'name, age, like')
+    # 快速构造一个类, 
 
-    # 只读, 属性不可修改
-    person_a = People(name='zhang san', age=11, like=['apple', 'banana'])
+    # 类名 People, 属性 name, age, like
+    Car = namedtuple('Car', 'name, mileage')
+    # or
+    Person = namedtuple('Person', 'name age')
+    # or
+    Book = namedtuple('Book', ['name', 'price'])
 
-    print(person_a.name)
-    print(person_a[0])
+    c = Car('car', 11.1)
+    print(c[0], c.mileage) # car 11.1
+    print(isinstance(c, Car))   # true 
 
-    # error
-    # person_a.name = 'bb'
+    car_as_dict = c._asdict()
+    print(car_as_dict) # {'name': 'car', 'mileage': 11.1}
+
+    car_new = c._replace(name='car11')
+    print(car_new._asdict()) # {'name': 'car11', 'mileage': 11.1}
+    
+    c.name = 'rain' # AttributeError: can't set attribute
+
+
+
+
+# 读取 csv 文件
+def read_csv():
+    Person = namedtuple('Person', 'name, age, salary')
+    for per in map(Person._make, csv.reader(open('/tmp/xx.csv', 'r'))):
+        print(per.name, per.age, per.salary)
+
+
+
+
+
+# 读取数据库数据
+
+Person = namedtuple('Person', 'name, age, salary')
+import sqlite3
+conn = sqlite3.connect('/tmp/data.xx')
+cur = conn.cursor()
+cur.execute('select name, age, salary from tbl_person')
+for per in map(Person._make, cur.fetchall()):
+    print(per)
+pass
+
 
 
 def french_deck():
@@ -974,7 +1023,63 @@ if __name__ == '__main__':
 
 ```
 
-#### 2.2.5.4. 无序不可重复 set
+##### typeing.NamedTulple 命名的元组
+
+```python
+
+    from typing import NamedTuple
+    class Person(NamedTuple):
+        name: str
+        age: int
+        sal: float = 10000.01
+        
+        def __repr__(self):
+            return f'Person {self.name} {self.age} {self.sal}'
+    per = Person('rain', 11) 
+    per_str = str(per) # Person rain 11 10000.01
+    print(per_str) 
+   
+```
+
+##### 元组解包
+
+```python
+
+    (name, age, sal) = ['Rain', 11, 10000.11]
+    print(name, age, sal)
+    
+    def print_names(*names):
+        print(type(names))
+        for name in names:
+            print(name)
+    print_names('rain', 'Mary', 'Dany') # type: tuple      names 是一个元组， 有三个元素
+    print_names(['rain', 'mary'])   # type: tuple , ['rain', 'mary'] ， names 是一个元组， 有一个元素， 这个元素是一个列表（列表有三个元素）
+
+    tu1 = (1, 2,)
+    tu2 = (2, 3)
+    tu4 = (tu1, tu2, 100) #  # ((1, 2), (2, 3), 100)
+    print(tu4)
+    tu3 = (*tu1, *tu2, 100) # (1, 2, 2, 3, 100)
+    print(tu3)
+
+
+
+
+
+    Person = namedtuple('Person', 'name, age, salary')
+    p = Person('rain', 1, 1000)
+    (name, _, _) = p # rain
+    print(name)
+    (name, *_) = p
+    print(name) # rain
+    (name, _) = p # ValueError: too many values to unpack (expected 2)
+
+    (*name_and_age, _) = p # ['rain', 1]
+    print(name_and_age)
+    
+```
+
+#### 2.2.5.4. set 无序不可重复 
 
 ```py
   # Set 无序不可重复
@@ -1037,6 +1142,93 @@ frosenset({'a': 1, 'b': 2}) # {'a', 'b'}
 
 ```
 
+#### deque 双端队列 栈
+
+```python
+# Python 标准库集合框架中的 deque 类实现了一个线程安全的双端队列，支持在 O(1) 时间内从两端插入和删除。考虑到双端操作，您可以将这些数据结构用作队列和堆栈。在内部，Python 中的双端队列被实现为双向链表，在插入和删除操作中保持一致的性能，但在随机访问堆栈中的中间元素的 O(n) 性能方面表现不佳
+
+from collections import  deque
+
+    # deque是为了高效实现插入和删除操作的双向列表
+    #  是为了弥补 list  插入和删除效率很低 的缺点
+    q = deque(['a', 'b', 'c'])
+    q.append('d')
+    q.appendleft('e')
+    print(q)  # deque(['e', 'a', 'b', 'c', 'd'])
+
+    q.pop()
+    q.popleft()
+
+    # 固定窗口旋转，   正数则数字圆盘往右转
+    d = deque([a, b, c])
+    d.rotate(1)     # [c, a, b]
+    m = deque([a, b, c])
+    m.rotate(-1)  # 负数往左转     [b, c, a]
+
+
+def tail(filename, n):
+    """return the last n lines of a file"""
+    with open(filename, 'r') as f:
+        return deque(f, n)  # 原理是将 f 迭代出的每行入栈， 会保留最后 n 行
+
+
+
+# 轮询
+# roundrobin('abc', 'd', 'ef') --> [a d e b d f c]
+def roundrobin(*iterables):
+    iters = deque(map(iter, iterables)) # 将参数转为 iter 队列
+    while iters:
+        try:
+            while True:
+                yield next(iters[0])
+                iters.rotate(-1)
+        except StopException:
+            iters.popleft()
+
+```
+
+#### queue.Queue 阻塞队列
+
+#### queue.LifoQueue 阻塞栈
+
+#### multiprocessing.Queue 跨进程阻塞队列
+
+```python
+
+# multiprocessing 是一个支持生成进程的包
+# 通过使用子进程而不是线程来有效地回避全局解释器锁（ 绕开 GIL）。因此，multiprocessing模块允许开发人员充分利用给定机器上的多个处理器。它可以在 Unix/Linux 和 Windows 上运行。
+
+# multiprocessing.Queue  跨进程共享数据
+```
+
+#### queue.PriorityQueue heapq 优先级队列
+
+```python
+# heapq 包提供了堆优先级的算法
+import heapq as hq
+items = []
+hq.heappush(items, (2, 'a'))
+hq.heappush(items, (1, 'b'))
+hq.heappush(items, (4, 'c'))
+while items:
+    it = hq.heappop(items)
+    print(it)
+# (1, 'b')
+# (2, 'a')
+# (4, 'c')
+
+
+from queue import PriorityQueue
+
+pq = PriorityQueue()
+pq.put(2, 'a') # 也可以单纯 put 数字， 那么pop 的顺序是按照 index， 小的先 pop 出来
+pq.put(1, 'b')
+while not pq.empty():
+    it = pq.get()
+    print(it)
+
+
+```
 
 ###  2.2.6. 字典 dict
 
@@ -1136,7 +1328,9 @@ string = yaml.dump(m, allow_unicode=True)
 
 ```python
 
-# defaultdict 是 dict 子类， 性能更高
+# defaultdict 是 dict 子类，
+    # 使用dict时，如果引用的Key不存在，就会抛出KeyError。如果希望key不存在时，返回一个默认值，就可以用defaultdict
+
 
 from collections import defaultdict
 
@@ -1165,8 +1359,10 @@ d['unknown'] # 'missing'
 
 ```python
 
-py2 字典不保证有序， 可通过使用 OrderedDict 来保证有序
-py3 字典默认有序
+py2 字典不保证有序，
+py3 字典默认按照插入顺序排序
+
+ 可通过使用 OrderedDict 来保证有序
 
 
     d = {'a': 100, 'c': 200, 'b': 300}
@@ -1442,6 +1638,34 @@ def read_file2(path: str) -> Generator[str]:
 
 区别:  当为索引行数据类型（如：list, tuple,str)时，可以替换，当字段为hash型类型（如dict,set)时，不能替换
 
+
+### 二进制结构封包解包
+
+```python
+from struct import Struct
+my_struct = Struct('i?f') # i - int, ? - bool, f - float
+data = my_struct.pack(11, False, 11.11)
+print(data) # b'f\x00\xx....'  , 此时， data 可以被发送出去了
+un_data = my_struct.unpack(data)
+print(un_data) # (11, False, 11.11)
+```
+
+
+### SimpleNamespace 创建简单类
+
+```python
+from types import SimpleNamespace
+
+sn = SimpleNamespace(a=1, b=[1, 2], c(3,))
+sn1 = SimpleNamespace(a=1, b=[1, 2], c(3,))
+assert sn == sn1   #true        通过内部值进行比较的
+
+class Person(SimpleNamespace):
+    # 重写
+    def __repr__(self):
+        xxxxx
+
+```
 
 
 ## 2.3. 条件循环
@@ -1948,6 +2172,86 @@ def module_demo():
 
 ## 2.9. 面向对象
 
+### 创建类-一个全面的例子
+
+```python
+
+class SideBar:
+    # 类变量（大写）
+    DIV: str = 'div'
+    H1: str = 'h1'
+    MORE_PLACEHOLDER: str = 'more'
+    MORE_SIZE: int = 3
+    SHOULD_COMPRESS_HTML: bool = True
+    
+    # 构造方法，定义实例变量
+    def __init__(
+        self,
+        title: str,
+        menu_items: list[str],
+        more: str = MORE_PLACEHOLDER,
+        more_size: int = MORE_SIZE,
+        should_compress_html: bool = SHOULD_COMPRESS_HTML
+    ) -> None:
+        self.title=  title
+        self.menu_items=  menu_items
+        self.more = more
+        self.more_size = more_size
+        self.should_compress_html = should_compress_html
+
+        # 通过‘_’ 表示隐藏属性
+        self._someone = None
+
+        pass
+
+    # ---------紧跟着是其他魔术方法------------
+    
+    def __len__(self):
+        return len(self.menu_items)
+
+    def __repr__(self):
+        return f'side bar: {len(self)} items'
+    
+    
+    # ----------------------
+    
+    @property  # 暴露 新的自定义属性 ‘someone’
+    def someone(self):
+        return self._someone
+
+    @someone.setter
+    def someone(self, someone):
+        assert isinstance(someone, int), 'someone has to be a number'
+        assert someone > 0, 'someone have to be more than o'
+        self._someone  = someone
+    
+    # del sidebar.someone 这行语句会出发这个方法
+    @someone.deleter
+    def someone(self):
+        self._someone = 0
+        
+
+    # 类方法，
+    # 绑定到类，接受 cls 作为第一个参数， 可 访问类变量
+    # 常用在工厂方法， 通过 cls(xxx) 调用构造函数
+    # 可通过类，实例来调用
+    @classmethod
+    def _header(cls, title):
+        return cls._build_header(cls.H1, title)
+    
+    # 静态方法
+    # 不绑定到类或实例，不接受 self 或 cls 作为参数
+    # 可以通过类名或类的实例调用
+    @staticmethod
+    def _build_header(tag_name: str, title: str) -> str:
+        return f'<{tag_name}>{title}</{tag_name}>'
+
+    # 实例方法
+    def build(self):
+         return self._header(self.title)
+
+```
+
 ### @dataclass 创建实体类
 
 ```python
@@ -1985,7 +2289,7 @@ def oop():
 
         name__xx = "Student" # 类属性, 实例属性 类属性千万不要同名, 因为查找实例属性若没找到, 会返回类属性
 
-        __slots__ = ('name', '__score', '_age') # 用tuple定义允许绑定的属性名称
+        __slots__ = ('name', '__score', '_age') # 用tuple定义哪些属性可以绑定，的属性名称
         # `__slots__`定义的属性仅对当前类实例起作用，对继承的子类是无限制的 
         #除非在子类中也定义**slots**，这样，子类实例允许定义的属性就是自身的**slots**加上父类的**slots**
 
@@ -2015,7 +2319,7 @@ def oop():
         def set_score(self, score):
             self.__score = score
 
-        @property # 负责把一个方法变成属性调用
+        @property # 负责把一个方法变成属性
         def age(self):
             return self._age
         @age.setter # @property本身又创建了另一个装饰器@score.setter,把一个setter方法变成属性赋值
@@ -3157,52 +3461,6 @@ def builtin_module():
 
     result = now + timedelta(days=1, hours=1)
     print(result)  # 2019-06-07 00:11:36.912231
-
-```
-
-## 6.2. 集合
-
-
-```py
-# 命名的 tuple 
-from collections import namedtuple
-    # namedtuple是一个函数，它用来创建一个自定义的tuple对象，并且规定了tuple元素的个数，并可以用属性而不是索引来引用tuple的某个元素
-    Point = namedtuple('Point', ['x', 'y'])  # 相当于type(), 构造了一个类
-    p = Point(1, 2)
-    print(p.x) # 1
-    print(p.y) # 2
-
-
-
-
-from collections import  deque
-
-    # deque是为了高效实现插入和删除操作的双向列表
-    #  是为了弥补 list  插入和删除效率很低 的缺点
-    q = deque(['a', 'b', 'c'])
-    q.append('d')
-    q.appendleft('e')
-    print(q)  # deque(['e', 'a', 'b', 'c', 'd'])
-
-
-
-
-
-from collections import defaultdict
-    # 使用dict时，如果引用的Key不存在，就会抛出KeyError。如果希望key不存在时，返回一个默认值，就可以用defaultdict
-    # 如果要保持Key的顺序，可以用OrderedDict
-    # ChainMap可以把一组dict串起来并组成一个逻辑上的dict
-
-    ################
-
-    from  collections import  Counter
-
-    # Counter是一个简单的计数器
-    c = Counter()
-    for ch in 'programming':
-        c[ch] = c[ch] + 1
-
-    print(c)  # Counter({'r': 2, 'g': 2, 'm': 2, 'p': 1, 'o': 1, 'a': 1, 'i': 1, 'n': 1})
 
 ```
 
