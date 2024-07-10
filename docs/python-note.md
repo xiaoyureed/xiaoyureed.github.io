@@ -105,6 +105,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [2.2.9. 迭代器](#229-迭代器)
         - [二进制结构封包解包](#二进制结构封包解包)
         - [SimpleNamespace 创建简单类](#simplenamespace-创建简单类)
+        - [container 容器](#container-容器)
     - [2.3. 条件循环](#23-条件循环)
     - [2.4. 比较判断](#24-比较判断)
     - [2.5. 函数](#25-函数)
@@ -125,10 +126,15 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [2.9.2. 继承 鸭子类型](#292-继承-鸭子类型)
         - [2.9.3. 判断类型信息](#293-判断类型信息)
         - [2.9.4. 动态操作](#294-动态操作)
-        - [2.9.5. 魔术方法](#295-魔术方法)
         - [2.9.6. 枚举](#296-枚举)
-        - [2.9.7. 实例方法 类方法 静态方法](#297-实例方法-类方法-静态方法)
+    - [相等 `==` is `__eq__` id()](#相等--is-__eq__-id)
     - [2.10. 错误异常处理](#210-错误异常处理)
+    - [魔术方法](#魔术方法)
+        - [可迭代](#可迭代)
+        - [可调用对象实例 `__call__`](#可调用对象实例-__call__)
+        - [属性监控回调 `__getattr__` `__getattribute__`](#属性监控回调-__getattr__-__getattribute__)
+        - [可运算 操作符重载](#可运算-操作符重载)
+        - [打印格式化 可类型转换 `__str__` `__repr__` `__bool__`](#打印格式化-可类型转换-__str__-__repr__-__bool__)
 - [3. 工程化](#3-工程化)
     - [cookiecutter 项目模板](#cookiecutter-项目模板)
     - [Setuptools: 管理依赖、构建和发布](#setuptools-管理依赖构建和发布)
@@ -1625,18 +1631,83 @@ def read_file2(path: str) -> Generator[str]:
 
 ### 2.2.9. 迭代器
 
-实现了魔术方法 `__iter__, __next__`, 即为 迭代器, 若仅仅实现了 iter (iter 返回一个对象, 该对象实现了 __next), 只能视为 可迭代对象. 若为 iterator, 一定为 iterable, 反之不一定
+
+```py
+在用 for..in.. 迭代对象时，解释器先检查被迭代目标是否有 __iter__ or __next__ 方法
+如果对象没有实现 __iter__ __next__ 迭代器协议，Python的解释器就会去寻找__getitem__ , __len__ 来迭代对象，
+如果连__getitem__, __len__ 都没有定义，这解释器就会报对象不是迭代器的错误
+
+__iter__  内存消耗少, 依次读取到内存, 但是随机访问效率差
+__getitem__  先用内存布置好数据, 内存消耗大, 但随机访问效率高
+
+
+
+
+实现了魔术方法 __iter__, __next__, 即为 迭代器, 若仅仅实现了 iter (iter 返回一个对象, 该对象实现了 __next__), 只能视为 可迭代对象(iterable). 
+若为 iterator, 一定为 iterable, 反之不一定
 
 实现了魔术方法 `__getitem__`, 即为 可迭代对象
 
-```
-在用 for..in.. 迭代对象时，如果对象没有实现 __iter__ __next__ 迭代器协议，Python的解释器就会去寻找__getitem__ 来迭代对象，
-
-如果连__getitem__ 都没有定义，这解释器就会报对象不是迭代器的错误
-```
 
 
 区别:  当为索引行数据类型（如：list, tuple,str)时，可以替换，当字段为hash型类型（如dict,set)时，不能替换
+
+
+
+
+
+
+
+import datetime
+class DateRange():
+    def __init__(self, start, end):
+    	self.start = start
+        self.end = end
+        self._cur = start
+
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        if self._cur >= self.end:
+            raise StopIteration
+        
+        res = self._cur
+
+        self._cur += datetime.timedelta(days=1)
+        
+        return res
+    
+
+
+
+
+class DateRange():
+    def __init__(self, start, end):   
+    	
+        self.start = start
+        self.end = end
+        self._all = self._get_all()
+
+    def _get_all(self):
+        res = []
+        
+        cur = self.start
+        while cur < self.end:
+            res.append(cur)
+            cur += datetime.timedelta(days=1)
+        
+        return res
+    
+    def __len__(self):
+        return len(self._all)
+    
+    def __getitem__(self, index):
+        return self._all[index]
+
+```
+
+
 
 
 ### 二进制结构封包解包
@@ -1666,6 +1737,19 @@ class Person(SimpleNamespace):
         xxxxx
 
 ```
+
+
+### container 容器
+
+```python
+
+# Python 中实现 __contains__ 魔术方法并返回真值的对象称为容器。它通常与 in 运算符一起使用以检查成员是否存在
+# Python内建的容器: tuple、list、set、dict等
+# 测试一个对象是否是一个容器时，应该使用 isinstance(x, collections.abc.Container) 。
+
+
+```
+
 
 
 ## 2.3. 条件循环
@@ -2297,13 +2381,8 @@ def oop():
         # > **init**有两个下划线
         # > 定义对象方法第一个参数必须是 self，调用时不用传入 self
         #
-        # `__len__()`:len(obj)实际调用 obj 的`__len__()` 
         #
-        # `__iter__() & __next__()`:如果一个类想被用于 for ... in 循环,则必须实现`__iter__()`，返回一个迭代对象,`__next__()`方法拿到循环的下一个值
-        #
-        # `__getitem__ & __setitem__() & __delitem__()`:实现 list 按下标取元素的功能，则必须实现  
-        #
-        # `__getattr__（）`:动态返回属性
+
         #
         def __init__(self, name, score):
             self.name = name
@@ -2362,9 +2441,10 @@ def oop():
 ```py
 
  # 
-    # 继承
+    # 继承 任何类都默认继承 object
+    # 允许多继承
     #
-    class People(object):
+    class People(object): # 这里有没有 object 都是等效的
         def say(self):
             print("hello people")
         def run(self):
@@ -2399,6 +2479,12 @@ def oop():
     demo(People())
     demo(Animal()) # animal 没有继承 People, 也可作为参数传入 demo(), 鸭子类型
 
+
+# 通过 super() 调用父类实例方法
+
+
+# 存在继承的类中, call方法时查找方法顺序:
+    # 先搜寻当前类, 在往上找, 多个父类, 按照定义当前类时声明父类顺序查找   (MRO 方法解析顺序)
 
 ```
 
@@ -2524,82 +2610,6 @@ def oop():
 
 
 
-### 2.9.5. 魔术方法
-
-```py
-
-__repr__ 和 __str__: 用于 print(xx) 被调用, 若 __str__存在, 则优先使用 __str__, 一般会令 __repr__ = __str__
-
-
-
-
-    import math
-
-    class Vector:
-
-        def __init__(self, x=0, y=0):
-            self.x = x
-            self.y = y
-
-        # 为了使用 str(xxx)
-        def __repr__(self):
-            return f'Vector({self.x!r}, {self.y!r})'
-
-        # 等效 sqart(a**2 + b**2)
-        def __abs__(self):
-            return math.hypot(self.x, self.y)
-
-        # 为了使用 bool()
-        def __bool__(self):
-            return bool(abs(self))
-        # 为了使用 +
-        def __add__(self, other):
-            x = self.x + other.x
-            y = self.y + other.y
-            return Vector(x, y)
-        # for 乘法
-        def __mul__(self, scalar):
-            return Vector(self.x * scalar, self.y * scalar)
-
-
-
-
-#
-    #
-    # 应用：REST API的链式调用
-    class Chain(object):
-
-        def __init__(self, path=''):
-            self._path = path
-
-        def __getattr__(self, path):
-            return Chain('%s/%s' % (self._path, path))
-
-        def __str__(self):
-            return self._path
-
-        __repr__ = __str__
-
-    # >>> Chain().status.user.timeline.list
-    # '/status/user/timeline/list'
-
-    # `__call__（）`:通过实例本身调用的方法-------------把对象看成函数  
-    # 带有`__call__（）`的对象是`Callable`对象，如何判断？  
-    # 通过 callable(obj)，我们就可以判断一个 obj 是否是“可调用”对象
-    #
-    class Student(object):
-        def __init__(self, name):
-            self.name = name
-
-        def __call__(self):
-            print('My name is %s.' % self.name)
-    # >>> s = Student('Michael')
-    # >>> s() # self参数不要传入
-    # My name is Michael.
-
-
-
-```
 
 
 ### 2.9.6. 枚举
@@ -2656,9 +2666,32 @@ print("------------------------------")
 
 ```
 
-### 2.9.7. 实例方法 类方法 静态方法
+## 相等 `==` is `__eq__` id()
 
-https://zhuanlan.zhihu.com/p/21101992
+```python
+# '==' 比较的是内容， 若相等， 这证明两个对象的 __eq__() 方法返回一样
+# is 比较的是内存地址， 即 id() 的值
+
+a = [1, 2]
+b = a
+assert a==b  # true
+assert a is b # true
+
+# 重新赋值, 内存地址变了
+a = [1,2] 
+assert a == b # true
+assert not a is b # true
+
+
+# 特殊的
+# 缓存情况
+# 对于整数，在-5~256区间的初始值，Python会默认划分一个缓存区来存贮，只要赋值这个区间的值，不会再重新在堆内存中再划分一个新区来存贮，而是用缓存的，这样就会大大提高效率。对于字符串，在<4097个字符的情况也一样。
+a = 257
+b = a
+a = 257   # 虽然重新分配了, 但是是用的缓存, 没重新分派新地址
+assert a is b  # true
+```
+
 
 ## 2.10. 错误异常处理
 
@@ -2787,6 +2820,136 @@ def error_handling():
     # foo('0')
 
 ```
+
+
+## 魔术方法
+
+### 可迭代
+
+```python
+
+# `__iter__() & __next__()`:如果一个类想被用于 for ... in 循环,则必须实现`__iter__()`，返回一个迭代对象,`__next__()`方法拿到循环的下一个值
+#
+# `__getitem__ & __setitem__() & __delitem__()`:实现 list 按下标取元素的功能，则必须实现  
+# `__len__()`:len(obj)实际调用 obj 的`__len__()` 
+#
+
+```
+
+### 可调用对象实例 `__call__`
+
+```python
+
+    # `__call__（）`:通过实例本身调用的方法-------------把对象看成函数  
+    # 带有`__call__（）`的对象是`Callable`对象，如何判断？  
+    # 通过 callable(obj)，我们就可以判断一个 obj 是否是“可调用”对象
+    #
+    class Student(object):
+        def __init__(self, name):
+            self.name = name
+
+        def __call__(self):
+            print('My name is %s.' % self.name)
+    # >>> s = Student('Michael')
+    # >>> s() # self参数不要传入
+    # My name is Michael.
+
+```
+
+
+### 属性监控回调 `__getattr__` `__getattribute__`
+
+```python
+# `__getattr__（）`:动态返回属性 (若获取对象不存在的属性, 会调用这个方法得到返回值)
+        # 一般通过这个方法, 禁止获取不存在的对象
+        def __getattr__(self, attr):
+            raise AttributeError(f'Not suported attr: {attr}')
+
+#  __getattribute__()   无论属性存在与否, 都回先call 这个方法
+        # 可以用来做一些权限控制
+        def __getattribute(self, attr):
+            if attr == 'price':
+                if self.context.has_permission('own'):
+                    return super().__getattribute(attr)
+                else:
+                    raise AttributeError(xxx)
+            return super().__attribute__(attr)
+
+
+
+# 应用：REST API的链式调用
+class Chain(object):
+
+    def __init__(self, path=''):
+        self._path = path
+
+    def __getattr__(self, path):
+        return Chain('%s/%s' % (self._path, path))
+
+    def __str__(self):
+        return self._path
+
+    __repr__ = __str__
+
+# >>> Chain().status.user.timeline.list
+# '/status/user/timeline/list'
+
+```
+
+### 可运算 操作符重载
+
+```python
+
+        # 等效 sqart(a**2 + b**2)
+        def __abs__(self):
+            return math.hypot(self.x, self.y)
+
+        # 为了使用 +
+        def __add__(self, other):
+            x = self.x + other.x
+            y = self.y + other.y
+            return Vector(x, y)
+        # for 乘法
+        def __mul__(self, scalar):
+            return Vector(self.x * scalar, self.y * scalar)
+
+
+```
+
+### 打印格式化 可类型转换 `__str__` `__repr__` `__bool__`
+
+```py
+
+__repr__ 和 __str__: 用于 print(xx) 被调用, 若 __str__存在, 则优先使用 __str__, 一般会令 __repr__ = __str__
+
+
+
+
+    import math
+
+    class Vector:
+
+        def __init__(self, x=0, y=0):
+            self.x = x
+            self.y = y
+
+        # 为了使用 str(xxx)
+        def __repr__(self):
+            return f'Vector({self.x!r}, {self.y!r})'
+
+
+        # 为了使用 bool()
+        def __bool__(self):
+            return bool(abs(self))
+
+#
+    #
+ 
+
+
+
+```
+
 
 # 3. 工程化
 
