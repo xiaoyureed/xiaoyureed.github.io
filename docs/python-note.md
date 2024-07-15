@@ -55,39 +55,44 @@ https://www.zhihu.com/question/19827960 指的关注的社区
 
 <!--truncate-->
 
-- [1. 介绍](#1-介绍)
-    - [1.1. python 特点](#11-python-特点)
-    - [1.2. 安装 升级](#12-安装-升级)
-    - [1.4. vscode 环境配置](#14-vscode-环境配置)
-    - [1.5. 设置国内pip源](#15-设置国内pip源)
-    - [1.6. 解释器](#16-解释器)
-- [2. 语法](#2-语法)
-    - [2.1. 输入输出 打印 main魔法变量](#21-输入输出-打印-main魔法变量)
-    - [2.2. 基本数据类型](#22-基本数据类型)
-        - [2.2.1. 字符串](#221-字符串)
-            - [2.2.1.1. 多行 不可变 比较](#2211-多行-不可变-比较)
-            - [2.2.1.2. 字符编码](#2212-字符编码)
-            - [2.2.1.3. 格式化](#2213-格式化)
-            - [2.2.1.4. 字符串处理](#2214-字符串处理)
-        - [2.2.2. 字节数组 bytes bytearray](#222-字节数组-bytes-bytearray)
-        - [2.2.3. 数字](#223-数字)
-        - [2.2.4. 布尔值 空值](#224-布尔值-空值)
+- [介绍](#介绍)
+    - [python 特点](#python-特点)
+    - [安装 升级](#安装-升级)
+    - [vscode 环境配置](#vscode-环境配置)
+    - [设置国内pip源](#设置国内pip源)
+    - [解释器](#解释器)
+- [python tricks 坑](#python-tricks-坑)
+    - [函数的默认参数](#函数的默认参数)
+    - [创建生成器同时存在条件过滤](#创建生成器同时存在条件过滤)
+    - [浮点数无法被精确计算](#浮点数无法被精确计算)
+    - [递归调用无法保证调用的是自身](#递归调用无法保证调用的是自身)
+- [语法](#语法)
+    - [输入输出 打印 main魔法变量](#输入输出-打印-main魔法变量)
+    - [基本数据类型](#基本数据类型)
+        - [字符串](#字符串)
+            - [多行 不可变 比较](#多行-不可变-比较)
+            - [字符编码](#字符编码)
+            - [格式化](#格式化)
+            - [字符串处理](#字符串处理)
+        - [字节数组 bytes bytearray](#字节数组-bytes-bytearray)
+        - [数字](#数字)
+        - [布尔值 空值](#布尔值-空值)
         - [数组 array](#数组-array)
-        - [2.2.5. 集合](#225-集合)
-            - [2.2.5.1. list 有序可变](#2251-list-有序可变)
+        - [集合](#集合)
+            - [list 有序可变](#list-有序可变)
                 - [slices 切片](#slices-切片)
-            - [2.2.5.3. tuple 有序不可变列表](#2253-tuple-有序不可变列表)
+            - [tuple 有序不可变列表](#tuple-有序不可变列表)
                 - [namedtuple() 创建带名字下标的元组](#namedtuple-创建带名字下标的元组)
                 - [typeing.NamedTulple 命名的元组](#typeingnamedtulple-命名的元组)
                 - [元组解包](#元组解包)
-            - [2.2.5.4. set 无序不可重复](#2254-set-无序不可重复)
+            - [set 无序不可重复](#set-无序不可重复)
                 - [frosenset 不可变set](#frosenset-不可变set)
             - [deque 双端队列 栈](#deque-双端队列-栈)
             - [queue.Queue 阻塞队列](#queuequeue-阻塞队列)
             - [queue.LifoQueue 阻塞栈](#queuelifoqueue-阻塞栈)
             - [multiprocessing.Queue 跨进程阻塞队列](#multiprocessingqueue-跨进程阻塞队列)
             - [queue.PriorityQueue heapq 优先级队列](#queuepriorityqueue-heapq-优先级队列)
-        - [2.2.6. 字典 dict](#226-字典-dict)
+        - [字典 dict](#字典-dict)
             - [基本 dict](#基本-dict)
             - [字典格式化](#字典格式化)
             - [defaultdict 默认值dict](#defaultdict-默认值dict)
@@ -100,42 +105,49 @@ https://www.zhihu.com/question/19827960 指的关注的社区
             - [dict 场景](#dict-场景)
                 - [模拟 switch case](#模拟-switch-case)
                 - [dict 字典推导式](#dict-字典推导式)
-        - [2.2.7. 列表推导式](#227-列表推导式)
-        - [2.2.8. 生成器 generator](#228-生成器-generator)
-        - [2.2.9. 迭代器](#229-迭代器)
+        - [列表推导式](#列表推导式)
+        - [生成器 generator](#生成器-generator)
+        - [迭代器](#迭代器)
         - [二进制结构封包解包](#二进制结构封包解包)
         - [SimpleNamespace 创建简单类](#simplenamespace-创建简单类)
         - [container 容器](#container-容器)
-    - [2.3. 条件循环](#23-条件循环)
-    - [2.4. 比较判断](#24-比较判断)
-    - [2.5. 函数](#25-函数)
+    - [条件循环](#条件循环)
+    - [比较判断](#比较判断)
+    - [函数](#函数)
         - [内置函数](#内置函数)
-        - [2.5.1. 参数检查](#251-参数检查)
-        - [2.5.2. 多种参数](#252-多种参数)
-        - [2.5.3. 递归](#253-递归)
-        - [2.5.4. 高阶函数](#254-高阶函数)
-    - [2.6. 文件处理](#26-文件处理)
-        - [2.6.1. 创建文件](#261-创建文件)
-        - [2.6.2. 读写文件数据](#262-读写文件数据)
-    - [2.7. 装饰器](#27-装饰器)
-    - [2.8. 模块 作用域](#28-模块-作用域)
-    - [2.9. 面向对象](#29-面向对象)
+        - [参数检查](#参数检查)
+        - [多种参数](#多种参数)
+        - [递归](#递归)
+        - [高阶函数](#高阶函数)
+    - [文件处理](#文件处理)
+        - [创建文件](#创建文件)
+        - [读写文件数据](#读写文件数据)
+    - [装饰器](#装饰器)
+    - [模块 作用域](#模块-作用域)
+    - [面向对象](#面向对象)
         - [创建类-一个全面的例子](#创建类-一个全面的例子)
         - [@dataclass 创建实体类](#dataclass-创建实体类)
-        - [2.9.1. 类](#291-类)
-        - [2.9.2. 继承 鸭子类型](#292-继承-鸭子类型)
-        - [2.9.3. 判断类型信息](#293-判断类型信息)
-        - [2.9.4. 动态操作](#294-动态操作)
-        - [2.9.6. 枚举](#296-枚举)
-    - [相等 `==` is `__eq__` id()](#相等--is-__eq__-id)
-    - [2.10. 错误异常处理](#210-错误异常处理)
+        - [类](#类)
+        - [继承 鸭子类型](#继承-鸭子类型)
+        - [判断类型信息](#判断类型信息)
+        - [动态操作](#动态操作)
+        - [枚举](#枚举)
+        - [对象克隆 拷贝 shadow-copy deep-copy](#对象克隆-拷贝-shadow-copy-deep-copy)
+        - [abc模块 定义抽象接口](#abc模块-定义抽象接口)
+    - [错误异常处理](#错误异常处理)
+        - [系统内置的异常](#系统内置的异常)
+        - [异常捕获抛出](#异常捕获抛出)
+        - [自定义异常](#自定义异常)
     - [魔术方法](#魔术方法)
         - [可迭代](#可迭代)
         - [可调用对象实例 `__call__`](#可调用对象实例-__call__)
         - [属性监控回调 `__getattr__` `__getattribute__`](#属性监控回调-__getattr__-__getattribute__)
         - [可运算 操作符重载](#可运算-操作符重载)
-        - [打印格式化 可类型转换 `__str__` `__repr__` `__bool__`](#打印格式化-可类型转换-__str__-__repr__-__bool__)
-- [3. 工程化](#3-工程化)
+            - [加减乘除](#加减乘除)
+            - [相等比较 `==`, `is`, `__eq__`, ` id()`](#相等比较--is-__eq__--id)
+        - [打印格式化  `__str__` `__repr__`](#打印格式化--__str__-__repr__)
+        - [类型转换 `__bool__`](#类型转换-__bool__)
+- [工程化](#工程化)
     - [cookiecutter 项目模板](#cookiecutter-项目模板)
     - [Setuptools: 管理依赖、构建和发布](#setuptools-管理依赖构建和发布)
     - [虚拟环境 virtual environment](#虚拟环境-virtual-environment)
@@ -152,91 +164,91 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [单元测试](#单元测试)
         - [性能压测](#性能压测)
         - [集成测试 integration test](#集成测试-integration-test)
-    - [3.1. 包管理](#31-包管理)
+    - [包管理](#包管理)
         - [rye 使用](#rye-使用)
         - [uv](#uv)
-    - [3.2. 日志](#32-日志)
+    - [日志](#日志)
     - [生成文档](#生成文档)
-- [4. 多进程](#4-多进程)
-- [5. 异步 协程](#5-异步-协程)
+- [多进程](#多进程)
+- [异步 协程](#异步-协程)
     - [yield 手动切换](#yield-手动切换)
     - [gevent 自动切换](#gevent-自动切换)
-- [6. 内建模块](#6-内建模块)
-    - [6.1. 日期处理](#61-日期处理)
-- [7. 编写命令行程序](#7-编写命令行程序)
-    - [7.1. 命令行自动补全](#71-命令行自动补全)
-- [8. 类型系统 type-hint](#8-类型系统-type-hint)
-- [9. 调试](#9-调试)
-    - [9.1. 断言](#91-断言)
-    - [9.2. 设置断点 pdb](#92-设置断点-pdb)
-- [10. jinja2 模板](#10-jinja2-模板)
-- [11. 路径问题](#11-路径问题)
-    - [11.1. 文件路径 and 终端路径](#111-文件路径-and-终端路径)
-    - [11.2. 获取脚本位置](#112-获取脚本位置)
-- [12. shutil 使用](#12-shutil-使用)
-- [14. web 开发](#14-web-开发)
+- [内建模块](#内建模块)
+    - [日期处理](#日期处理)
+- [编写命令行程序](#编写命令行程序)
+    - [命令行自动补全](#命令行自动补全)
+- [类型系统 type-hint](#类型系统-type-hint)
+- [调试](#调试)
+    - [断言](#断言)
+    - [设置断点 pdb](#设置断点-pdb)
+- [jinja2 模板](#jinja2-模板)
+- [路径问题](#路径问题)
+    - [文件路径 and 终端路径](#文件路径-and-终端路径)
+    - [获取脚本位置](#获取脚本位置)
+- [shutil 使用](#shutil-使用)
+- [web 开发](#web-开发)
     - [litestar](#litestar)
-    - [14.1. fastapi](#141-fastapi)
-    - [14.2. Django](#142-django)
-    - [14.3. flask](#143-flask)
-        - [14.3.1. flask解决跨域问题](#1431-flask解决跨域问题)
-        - [14.3.2. 保护 flask api](#1432-保护-flask-api)
-        - [14.3.3. 命令行or idea 启动](#1433-命令行or-idea-启动)
-        - [14.3.4. rest api](#1434-rest-api)
-        - [14.3.5. 数据库交互](#1435-数据库交互)
-        - [14.3.6. flask 中的日志](#1436-flask-中的日志)
-        - [14.3.7. blueprint蓝图 模块化开发](#1437-blueprint蓝图-模块化开发)
-        - [14.3.8. 上下文对象](#1438-上下文对象)
-- [15. db 驱动 问题](#15-db-驱动-问题)
+    - [fastapi](#fastapi)
+    - [Django](#django)
+    - [flask](#flask)
+        - [flask解决跨域问题](#flask解决跨域问题)
+        - [保护 flask api](#保护-flask-api)
+        - [命令行or idea 启动](#命令行or-idea-启动)
+        - [rest api](#rest-api)
+        - [数据库交互](#数据库交互)
+        - [flask 中的日志](#flask-中的日志)
+        - [blueprint蓝图 模块化开发](#blueprint蓝图-模块化开发)
+        - [上下文对象](#上下文对象)
+- [db 驱动 问题](#db-驱动-问题)
 - [爬虫 spider crawler](#爬虫-spider-crawler)
-- [16. 代替 shell 运维](#16-代替-shell-运维)
-    - [16.1. 实用脚本](#161-实用脚本)
-        - [16.1.1. 命令行参数解析](#1611-命令行参数解析)
-        - [16.1.2. 路径](#1612-路径)
-        - [16.1.3. 文件操作](#1613-文件操作)
-        - [16.1.4. sh 命令执行](#1614-sh-命令执行)
-    - [16.2. 传递命令行参数](#162-传递命令行参数)
-    - [16.3. shell 调用 Python](#163-shell-调用-python)
-        - [16.3.1. shel 读取 Python 函数返回值](#1631-shel-读取-python-函数返回值)
-        - [16.3.2. 统计出现次数](#1632-统计出现次数)
-        - [16.3.3. 读取 csv 文件](#1633-读取-csv-文件)
-    - [16.4. Python 调用 shell](#164-python-调用-shell)
-        - [16.4.1. subprocess](#1641-subprocess)
-        - [16.4.2. os.system](#1642-ossystem)
-        - [16.4.3. os.popen](#1643-ospopen)
-        - [16.4.4. system](#1644-system)
-        - [16.4.5. sh](#1645-sh)
-        - [16.4.6. paramiko](#1646-paramiko)
-    - [16.5. 部署 springboot](#165-部署-springboot)
-- [17. 开源库](#17-开源库)
+- [代替 shell 运维](#代替-shell-运维)
+    - [实用脚本](#实用脚本)
+        - [命令行参数解析](#命令行参数解析)
+        - [路径](#路径)
+        - [文件操作](#文件操作)
+        - [sh 命令执行](#sh-命令执行)
+    - [传递命令行参数](#传递命令行参数)
+    - [shell 调用 Python](#shell-调用-python)
+        - [shel 读取 Python 函数返回值](#shel-读取-python-函数返回值)
+        - [统计出现次数](#统计出现次数)
+        - [读取 csv 文件](#读取-csv-文件)
+    - [Python 调用 shell](#python-调用-shell)
+        - [subprocess](#subprocess)
+        - [os.system](#ossystem)
+        - [os.popen](#ospopen)
+        - [system](#system)
+        - [sh](#sh)
+        - [paramiko](#paramiko)
+    - [部署 springboot](#部署-springboot)
+- [开源库](#开源库)
     - [日期时间](#日期时间)
     - [爬虫 crawler](#爬虫-crawler)
-    - [17.1. 变声 语音合成](#171-变声-语音合成)
-    - [17.2. 系统运维](#172-系统运维)
-    - [17.3. 声音](#173-声音)
-    - [17.4. 图像](#174-图像)
-    - [17.5. 数据模型定义](#175-数据模型定义)
-    - [17.6. 序列化反序列化](#176-序列化反序列化)
-    - [17.7. 做 web 开发](#177-做-web-开发)
+    - [变声 语音合成](#变声-语音合成)
+    - [系统运维](#系统运维)
+    - [声音](#声音)
+    - [图像](#图像)
+    - [数据模型定义](#数据模型定义)
+    - [序列化反序列化](#序列化反序列化)
+    - [做 web 开发](#做-web-开发)
 - [调Java](#调java)
     - [jpype](#jpype)
-    - [18. jython](#18-jython)
-- [19. 调用 rust](#19-调用-rust)
-- [20. cffi 绑定](#20-cffi-绑定)
-- [21. web应用部署](#21-web应用部署)
-    - [21.1. 生成依赖清单](#211-生成依赖清单)
-    - [21.2. gunicorn](#212-gunicorn)
-    - [21.3. supervisord 管理 daemon](#213-supervisord-管理-daemon)
+    - [jython](#jython)
+- [调用 rust](#调用-rust)
+- [cffi 绑定](#cffi-绑定)
+- [web应用部署](#web应用部署)
+    - [生成依赖清单](#生成依赖清单)
+    - [gunicorn](#gunicorn)
+    - [supervisord 管理 daemon](#supervisord-管理-daemon)
     - [pm2](#pm2)
-- [22. setup.py](#22-setuppy)
-- [23. wheel](#23-wheel)
-- [24. 自动抢购脚本](#24-自动抢购脚本)
+- [setup.py](#setuppy)
+- [wheel](#wheel)
+- [自动抢购脚本](#自动抢购脚本)
 
 
 
-# 1. 介绍
+# 介绍
 
-## 1.1. python 特点
+## python 特点
 
 python 作为脚本语言, 方法定义调用有前后顺序
 
@@ -247,7 +259,7 @@ python 作为脚本语言, 方法定义调用有前后顺序
 面向对象, 类似 ruby, 但是没有 ruby 面向对象纯粹
 
 
-## 1.2. 安装 升级
+## 安装 升级
 
 wls 默认装的是 python2
 
@@ -285,7 +297,7 @@ ln -s /usr/local/python3/bin/python3 /usr/bin/python3
 
 ```
 
-## 1.4. vscode 环境配置
+## vscode 环境配置
 
 
 [wsl 中使用 vscode](https://code.visualstudio.com/docs/remote/wsl#_getting-started)
@@ -318,7 +330,7 @@ autopep8 格式化代码库, vscode 会自动提示 (同类是 black, yapf)
 
 Coverage 有多种向你报告测试覆盖率的方式，包括将结果输出到控制台或 HTML 页面，并提示哪些行号没有覆盖到。你可以设置配置文件以自定义 Coverage 检查的内容并使其更便于运行
 
-## 1.5. 设置国内pip源
+## 设置国内pip源
 
 ```
 sudo vim ~/.pip/pip.conf  
@@ -349,7 +361,7 @@ http://pypi.mirrors.ustc.edu.cn/simple/
 ```
 
 
-## 1.6. 解释器
+## 解释器
 
 CPython (默认)
 
@@ -362,10 +374,117 @@ IronPython, 把 Python 代码编译成.Net 的字节码。
 如果要和 Java 或.Net 平台交互，最好的办法不是用 Jython 或 IronPython，而是通过网络调用来交互，确保各程序之间的独立性。
 
 
+# python tricks 坑
 
-# 2. 语法
+## 函数的默认参数
 
-## 2.1. 输入输出 打印 main魔法变量
+```python
+# 若函数有默认参数, 要小心这个坑
+# 在 Python 中, 默认参数表达式, 那只会被求值一次, 无论被 call 多少次, 都会使用这同个值的引用
+
+class Person():
+    def __init__(self, name: str, items: list[str]=[]):
+        self.name = name
+        self.items = items
+
+per1 = Person('her')
+per2 = Person('me')
+
+per1.items.append('aa')
+per2.items.append('bb')
+print(per1.items) # ['aa', 'bb']    ??
+
+
+
+# 如何修复:
+# 默认值不要给母体表达式, 给个 none, 然后根据情况手动赋值
+class Person():
+    def __init__(self, name: str, items: list[str]=None):
+        self.name = name
+        self.items = [] if items is None else items
+```
+
+
+## 创建生成器同时存在条件过滤
+
+```python
+
+
+source_list = [0, 1, 2]
+white_list = [0, 1]
+# 创建生成器时, source_list 相当于传的一个数据副本进入生成器的构造函数的, 取值在传入的一瞬间就被固定了
+# 而 white_list 是在构造函数内部使用的一个全局变量, 取值会实时变化
+g = (i for i in source_list if i in white_list)
+
+# so 此处即使 source 被改变了, 也不影生成器输出
+source_list = [3]  
+print(list(g))  # [0, 1]
+
+# 由于生成器内部的 white_list 实时变化, 所以会影响生成器输出
+white_list = [3]
+prit(list(g)) # []
+
+
+
+
+
+```
+
+## 浮点数无法被精确计算
+
+```python
+a = 0.1 + 0.2
+b = 0.3
+print( a == b) # false
+# 如何比较?
+print(abs(a - b) <= 0.0001) #true
+
+#  1e50 默认会转成 float, 10**50 会被当成 big integer
+# float 是不精确的, 而 integer 肯定是精确的, 所以不等
+print(1e50 == 10 ** 50) # false
+
+print(1e500) # inf  表示无穷
+
+import math
+print(math.isinf(1e500)) # true
+print(math.isnan(1e500 / 1e500)) # true
+```
+
+## 递归调用无法保证调用的是自身
+
+```python
+
+def fib(n):
+    if n < 2:
+        return 1
+    return fib(n - 1) + fib(n - 2)
+
+print(fib(5)) # 8 正常
+
+def g(n):
+    return 0
+f = fib
+fib = g  # fib 被改变了, 递归调用里, 掉的 fib 变成 g 函数了
+print(f(5))  # 0   ??
+
+
+
+
+# 如何修复
+# 将递归逻辑封装成闭包, 外部无法修改这段逻辑
+def fib(n):
+    def _fib(x):
+        if x < 2:
+            return 1
+        return _fib(x - 1) + _fib(x - 2)
+    return _fib(n)
+
+```
+
+
+# 语法
+
+## 输入输出 打印 main魔法变量
 
 ```py
 #!/usr/bin/env python3
@@ -405,11 +524,11 @@ if __name__ == "__main__":
 ```
 
 
-## 2.2. 基本数据类型
+## 基本数据类型
 
-### 2.2.1. 字符串 
+### 字符串 
 
-#### 2.2.1.1. 多行 不可变 比较
+#### 多行 不可变 比较
 
 ```py
 # 字符串
@@ -449,7 +568,7 @@ if 'ab' == 'ab':   # true
 ```
 
 
-#### 2.2.1.2. 字符编码
+#### 字符编码
 
 ```py
  ### 编码处理 字符处理
@@ -501,7 +620,7 @@ if 'ab' == 'ab':   # true
     # 2
 ```
 
-#### 2.2.1.3. 格式化
+#### 格式化
 
 ```py
 # 格式化 占位符
@@ -528,7 +647,7 @@ if 'ab' == 'ab':   # true
     print("{:.2f}".format(3.1415926))  # 3.14
 ```
 
-#### 2.2.1.4. 字符串处理
+#### 字符串处理
 
 ```py
 
@@ -691,7 +810,7 @@ if s:      # true
     # string.translate(str, del="")#根据 str 给出的表(包含 256 个字符)转换 string 的字符, 要过滤掉的字符放到 del 参数中
 ```
 
-### 2.2.2. 字节数组 bytes bytearray
+### 字节数组 bytes bytearray
 
 ```python
 
@@ -705,7 +824,7 @@ byte_arr4 = bytes(byte_arr3)
 ```
 
 
-### 2.2.3. 数字
+### 数字
 
 ```py
 # 整数
@@ -738,7 +857,7 @@ byte_arr4 = bytes(byte_arr3)
 
 ```
 
-### 2.2.4. 布尔值 空值
+### 布尔值 空值
 
 
 ```py
@@ -771,10 +890,10 @@ for a in arr:
 
 ```
 
-### 2.2.5. 集合
+### 集合
 
 
-#### 2.2.5.1. list 有序可变 
+#### list 有序可变 
 
 ```py
  #
@@ -881,7 +1000,7 @@ for a in arr:
 ```
 
 
-#### 2.2.5.3. tuple 有序不可变列表 
+#### tuple 有序不可变列表 
 
 ```py
  # Tuple 不可变有序列表
@@ -1085,7 +1204,7 @@ if __name__ == '__main__':
     
 ```
 
-#### 2.2.5.4. set 无序不可重复 
+#### set 无序不可重复 
 
 ```py
   # Set 无序不可重复
@@ -1236,7 +1355,7 @@ while not pq.empty():
 
 ```
 
-###  2.2.6. 字典 dict
+###  字典 dict
 
 #### 基本 dict
 
@@ -1553,7 +1672,7 @@ age_mapping = { user.name: user.age
 }
 ```
 
-### 2.2.7. 列表推导式
+### 列表推导式
 
 ```python
 
@@ -1573,7 +1692,7 @@ def read_file2(path: str) -> Generator[str]:
 
 ```
 
-### 2.2.8. 生成器 generator
+### 生成器 generator
 
 ```py
 # 生成器
@@ -1629,7 +1748,7 @@ def read_file2(path: str) -> Generator[str]:
 
 ```
 
-### 2.2.9. 迭代器
+### 迭代器
 
 
 ```py
@@ -1752,7 +1871,7 @@ class Person(SimpleNamespace):
 
 
 
-## 2.3. 条件循环
+## 条件循环
 
 ```py
 def condition_loop():
@@ -1773,7 +1892,7 @@ def condition_loop():
         count = count + 1
 ```
 
-## 2.4. 比较判断
+## 比较判断
 
 ```py
 # 在python中 None, False, 空字符串"", 0, 空列表[], 空字典{}, 空元组()都相当于False
@@ -1786,7 +1905,7 @@ if x is not None
 
 ```
 
-## 2.5. 函数
+## 函数
 
 ### 内置函数
 
@@ -1806,7 +1925,7 @@ def exist_zero(iter: iterable) -> bool: # 判断是否存在 0 ， （0 即为 f
 
 ```
 
-### 2.5.1. 参数检查
+### 参数检查
 
 ```py
 def function_demo():
@@ -1831,7 +1950,7 @@ def function_demo():
 
 ```
 
-### 2.5.2. 多种参数
+### 多种参数
 
 ```py
 
@@ -1893,7 +2012,7 @@ def function_demo():
 
 ```
 
-### 2.5.3. 递归
+### 递归
 
 ```py
 
@@ -1919,7 +2038,7 @@ def function_demo():
 ```
 
 
-### 2.5.4. 高阶函数
+### 高阶函数
 
 
 ```py
@@ -1960,9 +2079,9 @@ def map_reduce_closure_lambda():
 
 ```
 
-## 2.6. 文件处理
+## 文件处理
 
-### 2.6.1. 创建文件
+### 创建文件
 
 ```py
 def file_dir_demo():
@@ -2030,7 +2149,7 @@ def file_dir_demo():
 
 ```
 
-### 2.6.2. 读写文件数据
+### 读写文件数据
 
 ```py
 def read_write_file():
@@ -2147,7 +2266,7 @@ def read_write_file():
 ```
 
 
-## 2.7. 装饰器
+## 装饰器
 
 
 ```py
@@ -2170,7 +2289,7 @@ def wrapper_decorator():
     # 本质上, decorator就是一个返回函数的高阶函数, 接受一个函数, 返回包装后的函数
     def log(func):
         @functools.wraps(func) # 作用是修改装饰后的函数 __name__ 属性值, 如果不加, 装饰器还是工作的, 但是 __name__ 会变为 "wrapper", 显然不行
-        def wrapper(*args, **kw):
+        def wrapper(*args, **kw):  # 能接受任意的参数
             print('call %s(): ' % func.__name__)
             return func(*args, **kw)
         return wrapper
@@ -2206,10 +2325,21 @@ def cost_count(func):
         logging.info("%s tooks time: %f", func.__name__, time.time()-start)
         return t
     return wraper
+
+
+
+# 多个装饰器
+@dec2
+@dec1
+def xx():
+    pass
+
+# 等价于
+xx = dec2(dec1(xx))
 ```
 
 
-## 2.8. 模块 作用域
+## 模块 作用域
 
 ```py
 
@@ -2254,7 +2384,7 @@ def module_demo():
 
 ```
 
-## 2.9. 面向对象
+## 面向对象
 
 ### 创建类-一个全面的例子
 
@@ -2365,7 +2495,7 @@ print(person) # Person(name='Alice', age=30, email='alice@example.com')
 
 ```
 
-### 2.9.1. 类
+### 类
 
 ```py
 def oop():
@@ -2435,7 +2565,7 @@ def oop():
 
 
 
-### 2.9.2. 继承 鸭子类型
+### 继承 鸭子类型
 
 
 ```py
@@ -2460,6 +2590,8 @@ def oop():
 
     print(isinstance(stu, People)) # true
     print(isinstance(stu, Student))# true
+
+    print(issubclass(Stuent, People)) #true
 
     #
     # 鸭子类型
@@ -2486,9 +2618,20 @@ def oop():
 # 存在继承的类中, call方法时查找方法顺序:
     # 先搜寻当前类, 在往上找, 多个父类, 按照定义当前类时声明父类顺序查找   (MRO 方法解析顺序)
 
+
+
+# 打印继承链
+
+class A:
+    pass
+class B(A):
+    pass
+
+lst = B.mro()
+print(lst) # [__main__.B, __main__.A, objject]
 ```
 
-### 2.9.3. 判断类型信息
+### 判断类型信息
 
 
 ```py
@@ -2543,7 +2686,7 @@ def oop():
 
 ```
 
-### 2.9.4. 动态操作
+### 动态操作
 
 
 ```py
@@ -2612,7 +2755,7 @@ def oop():
 
 
 
-### 2.9.6. 枚举
+### 枚举
 
 
 ```py
@@ -2666,39 +2809,70 @@ print("------------------------------")
 
 ```
 
-## 相等 `==` is `__eq__` id()
+### 对象克隆 拷贝 shadow-copy deep-copy
 
 ```python
-# '==' 比较的是内容， 若相等， 这证明两个对象的 __eq__() 方法返回一样
-# is 比较的是内存地址， 即 id() 的值
 
-a = [1, 2]
-b = a
-assert a==b  # true
-assert a is b # true
+# 对于可变对象, 复制时必须进行深拷贝
 
-# 重新赋值, 内存地址变了
-a = [1,2] 
-assert a == b # true
-assert not a is b # true
+# shadw copy (创建新对象, 将原来对象内的属性的引用, 一次插入新对象)
+copy.copy()
+
+# deep copy (创建新对象, 将远对象属性的副本, 插入新对象)
+copy.deepcopy()
 
 
 # 特殊的
-# 缓存情况
-# 对于整数，在-5~256区间的初始值，Python会默认划分一个缓存区来存贮，只要赋值这个区间的值，不会再重新在堆内存中再划分一个新区来存贮，而是用缓存的，这样就会大大提高效率。对于字符串，在<4097个字符的情况也一样。
-a = 257
-b = a
-a = 257   # 虽然重新分配了, 但是是用的缓存, 没重新分派新地址
-assert a is b  # true
+# 对于 dict, xx_dict.copy() 可实现字典的 shadow copy
+# 对于 list, xx_list[:] 可以实现列表的 shadow copy
+```
+
+### abc模块 定义抽象接口
+
+```python
+
+# define the abstract class
+import abc
+class Component(metaclass=abc.ABCMeta):
+    # the sub class have to implement this method
+    @abc.abstractmethod
+    def bind_data(self):
+        pass
+
+    # the sub class have to implement this method
+    @abc.abstractmethod
+    def render(self):
+        pass
+
+
+class CompA(Component):
+    def bind_data(self):
+        return ['a', 'b', 'c']
+
+    def render(self):
+        for ele in self.bind_data():
+            print(ele)
+
+ca = CompA()
+def render(comps: list[CompA]):
+    for comp in comps:
+        comp.render()
+
+render([ca])
+
+Component.register(int)  # 注册 int 类型为子类
+Component.register(tuple)
+Component.register(dict)
 ```
 
 
-## 2.10. 错误异常处理
+## 错误异常处理
 
+### 系统内置的异常
 
-```py
-def error_handling():
-    """
+```python
+
+  """
     BaseException
     +-- SystemExit
     +-- KeyboardInterrupt
@@ -2739,7 +2913,7 @@ def error_handling():
         |    +-- ProcessLookupError
         |    +-- TimeoutError
         +-- ReferenceError
-        +-- RuntimeError
+        +-- RuntimeError                      #  自定义时一般继承他
         |    +-- NotImplementedError
         |    +-- RecursionError
         +-- SyntaxError
@@ -2747,7 +2921,7 @@ def error_handling():
         |         +-- TabError
         +-- SystemError
         +-- TypeError
-        +-- ValueError # int() 可能发生
+        +-- ValueError                          # int() 可能发生
         |    +-- UnicodeError
         |         +-- UnicodeDecodeError
         |         +-- UnicodeEncodeError
@@ -2764,6 +2938,12 @@ def error_handling():
             +-- BytesWarning
             +-- ResourceWarning
     """
+```
+
+### 异常捕获抛出
+
+```py
+
     # 通过配置，logging还可以把错误记录到日志文件里，方便事后排查
     import logging
 
@@ -2805,20 +2985,27 @@ def error_handling():
     except Exception as e:
         print("handling<<<<<<<<<<<<<")
 
-    # 自定义错误
-    #
-    # 
-    class FooError(ValueError):
-        pass
+ 
 
-    def foo(s):
-        n = int(s)
-        if n==0:
-            raise FooError('invalid value: %s' % s)
-        return 10 / n
+```
 
-    # foo('0')
+### 自定义异常
 
+```python
+
+# 自定义错误
+#
+# 
+class FooError(ValueError):
+    pass
+
+def foo(s):
+    n = int(s)
+    if n==0:
+        raise FooError('invalid value: %s' % s)
+    return 10 / n
+
+# foo('0')
 ```
 
 
@@ -2840,8 +3027,10 @@ def error_handling():
 
 ```python
 
-    # `__call__（）`:通过实例本身调用的方法-------------把对象看成函数  
-    # 带有`__call__（）`的对象是`Callable`对象，如何判断？  
+    # `__call__（）`: 类实现此方法, 则实例变量本身可作为方法调用, 写装饰器很有用
+    # 
+    # 带有`__call__（）`的对象是`Callable`对象，
+    # 如何判断？  
     # 通过 callable(obj)，我们就可以判断一个 obj 是否是“可调用”对象
     #
     class Student(object):
@@ -2850,8 +3039,9 @@ def error_handling():
 
         def __call__(self):
             print('My name is %s.' % self.name)
-    # >>> s = Student('Michael')
-    # >>> s() # self参数不要传入
+
+    s = Student('Michael')
+    s() # self参数不要传入
     # My name is Michael.
 
 ```
@@ -2898,60 +3088,117 @@ class Chain(object):
 
 ### 可运算 操作符重载
 
+#### 加减乘除
+
 ```python
 
-        # 等效 sqart(a**2 + b**2)
-        def __abs__(self):
-            return math.hypot(self.x, self.y)
+# 等效 sqart(a**2 + b**2)
+def __abs__(self):
+    return math.hypot(self.x, self.y)
 
-        # 为了使用 +
-        def __add__(self, other):
-            x = self.x + other.x
-            y = self.y + other.y
-            return Vector(x, y)
-        # for 乘法
-        def __mul__(self, scalar):
-            return Vector(self.x * scalar, self.y * scalar)
-
+# 为了使用 +
+def __add__(self, other):
+    x = self.x + other.x
+    y = self.y + other.y
+    return Vector(x, y)
+# for 乘法
+def __mul__(self, scalar):
+    return Vector(self.x * scalar, self.y * scalar)
 
 ```
 
-### 打印格式化 可类型转换 `__str__` `__repr__` `__bool__`
+#### 相等比较 `==`, `is`, `__eq__`, ` id()`
 
 ```py
 
-__repr__ 和 __str__: 用于 print(xx) 被调用, 若 __str__存在, 则优先使用 __str__, 一般会令 __repr__ = __str__
+# '==' 比较的是内容， 若相等， 这证明两个对象的 __eq__() 方法返回一样
+# is 比较的是内存地址， 即 id() 的值
 
 
 
 
-    import math
-
-    class Vector:
-
-        def __init__(self, x=0, y=0):
-            self.x = x
-            self.y = y
-
-        # 为了使用 str(xxx)
-        def __repr__(self):
-            return f'Vector({self.x!r}, {self.y!r})'
 
 
-        # 为了使用 bool()
-        def __bool__(self):
-            return bool(abs(self))
+
+
+
+
+a = [1, 2]
+b = a
+assert a==b  # true
+assert a is b # true
+
+# 重新赋值, 内存地址变了
+a = [1,2] 
+assert a == b # true
+assert not a is b # true
+
+
+# 特殊的
+# 缓存情况
+# 对于整数，在-5~256区间的初始值，Python会默认划分一个缓存区来存贮，只要赋值这个区间的值，不会再重新在堆内存中再划分一个新区来存贮，而是用缓存的，这样就会大大提高效率。对于字符串，在<4097个字符的情况也一样。
+a = 257
+b = a
+a = 257   # 虽然重新分配了, 但是是用的缓存, 没重新分派新地址
+assert a is b  # true
+
+```
+
+### 打印格式化  `__str__` `__repr__` 
+
+```py
+
+# __repr__ 和 __str__: 用于 print(xx) 被调用,
+#  若 __str__存在, 则优先使用 __str__, 一般会令 __repr__ = __str__
+
+
+
+
+import math
+
+class Vector:
+
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+
+    # 为了使用 str(xxx)
+    def __repr__(self):
+        return f'Vector({self.x!r}, {self.y!r})'
+
+    def __eq__(self, other):
+        return self.x = other.x and self.y = other.y
+
 
 #
-    #
- 
+v = Vector(1, 2)
+str(v)  # 调 __str__, 不存在则调 __repr__
+repr(v) # 调 __repr__ 
+
+v2 = eval(repr(v))  # 生成新对象, 内部属性相等
+v2 == v   # true
+type(v2).__name__ == type(v).__name__ # true 类名相同
 
 
+
+s = 'a"b'
+str(s) # 'a"b'
+repr(s) # '\'a"b\''      字符串的机器表达, 将这种表达通过字符形式呈现出来, 告诉机器, s的值是字符串
+print(str(s), repr(s))   # a"b 'a"b'
+```
+
+### 类型转换 `__bool__`
+
+```python
+
+# 为了使用 bool()
+def __bool__(self):
+    return bool(abs(self))
 
 ```
 
 
-# 3. 工程化
+# 工程化
 
 https://zhuanlan.zhihu.com/p/509167266
 https://pythonguidecn.readthedocs.io/zh/latest/writing/structure.html
@@ -3223,7 +3470,7 @@ Selenium、Pytest-Selenium、Robot Framework
     
 
 
-## 3.1. 包管理
+## 包管理
 
 https://zhuanlan.zhihu.com/p/683701953 对比
 
@@ -3300,7 +3547,7 @@ rye toolchain list [--include-downloadable]
 
 
 
-## 3.2. 日志
+## 日志
 
 
 
@@ -3328,7 +3575,7 @@ https://squidfunk.github.io/mkdocs-material/ 主题
 
 
 
-# 4. 多进程
+# 多进程
 
 https://jeremyxu2010.github.io/2020/09/python%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%AE%9E%E6%88%98/ 自带方式
 
@@ -3467,7 +3714,7 @@ def muti_thread():
 ```
 
 
-# 5. 异步 协程
+# 异步 协程
 
 ## yield 手动切换
 
@@ -3598,9 +3845,9 @@ gevent.joinall([s1, s2]) # 阻塞等待
 
 ```
 
-# 6. 内建模块
+# 内建模块
 
-## 6.1. 日期处理
+## 日期处理
 
 ```py
 def builtin_module():
@@ -3629,11 +3876,11 @@ def builtin_module():
 
 
 
-# 7. 编写命令行程序
+# 编写命令行程序
 
 https://www.jianshu.com/p/005ecf9cf8aa TODO
 
-## 7.1. 命令行自动补全
+## 命令行自动补全
 
 https://www.cnblogs.com/lgh344902118/p/8521437.html
 
@@ -3641,7 +3888,7 @@ https://www.cnblogs.com/lgh344902118/p/8521437.html
 
 
 
-# 8. 类型系统 type-hint
+# 类型系统 type-hint
 
 https://www.zhihu.com/question/265003581/answer/461562594
 https://zhuanlan.zhihu.com/p/56863684
@@ -3677,9 +3924,9 @@ https://docs.python.org/zh-cn/3/library/typing.html
 ```
 
 
-# 9. 调试
+# 调试
 
-## 9.1. 断言
+## 断言
 
 类似 print, 
 
@@ -3703,7 +3950,7 @@ Traceback (most recent call last):
 ZeroDivisionError: division by zero
 ```
 
-## 9.2. 设置断点 pdb
+## 设置断点 pdb
 
 启动Python的调试器pdb `python -m pdb err.py`, 输入命令l来查看代码, 输入命令n可以单步执行代码, 何时候都可以输入命令p 变量名来查看变量, 输入命令q结束调试，退出程序
 
@@ -3733,7 +3980,7 @@ ZeroDivisionError: division by zero
 
 
 
-# 10. jinja2 模板
+# jinja2 模板
 
 渲染使用：
 
@@ -3851,13 +4098,13 @@ template.render(name='daxin',age=18)   # 渲染
 
 ```
 
-# 11. 路径问题
+# 路径问题
 
-## 11.1. 文件路径 and 终端路径
+## 文件路径 and 终端路径
 
 需要用命令行操作的时候，也就有参数 argv的时候，我们要求终端路径和Python文件路径一致。命令行运行程序的格式是：python+Python文件名+参数
 
-## 11.2. 获取脚本位置
+## 获取脚本位置
 
 ```py
 if __name__ == '__main__':
@@ -3895,7 +4142,7 @@ if __name__ == '__main__':
 
 ```
 
-# 12. shutil 使用
+# shutil 使用
 
 TODO
 
@@ -3919,7 +4166,7 @@ shutil.move('原文件夹/原文件名','目标文件夹/目标文件名')
 ```
 
 
-# 14. web 开发
+# web 开发
 
 https://www.zhihu.com/question/20706333/answer/24927602 有哪些框架
 https://www.zhihu.com/question/41564604/answer/660256963 对比
@@ -3940,14 +4187,14 @@ https://www.zhihu.com/question/41564604/answer/660256963 对比
 https://github.com/litestar-org/litestar  和 fastapi 类似的定位和功能，但提供更多的日常开发组件，更健康的社区贡献构成，长期看好
 
 
-## 14.1. fastapi
+## fastapi
 
 
 开发 rest api 非常方便 https://juejin.cn/post/6844904051327369224
 
 https://github.com/nsidnev/fastapi-realworld-example-app
 
-## 14.2. Django
+## Django
 
 ```sh
 # 升级 pip 到 v21
@@ -3981,24 +4228,24 @@ python manage.py shell
 ```
 
 
-## 14.3. flask
+## flask
 
 
 https://github.com/humiaozuzu/awesome-flask
 
 https://github.com/yangyuexiong/Flask_BestPractices 中文
 
-### 14.3.1. flask解决跨域问题
+### flask解决跨域问题
 
 https://blog.csdn.net/h18208975507/article/details/102551339
 
-### 14.3.2. 保护 flask api
+### 保护 flask api
 
 https://blog.miguelgrinberg.com/post/restful-authentication-with-flask
 https://geekflare.com/securing-flask-api-with-jwt/
 
 
-### 14.3.3. 命令行or idea 启动
+### 命令行or idea 启动
 
 
 ```sh
@@ -4017,7 +4264,7 @@ flask run [--host=0.0.0.0]
 
 若希望走 main 方法, 需要手动配置 启动 configuration
 
-### 14.3.4. rest api
+### rest api
 
 https://www.jianshu.com/p/a25357f2d930 jsonify 相比直接返回 dict/json.dump({}) 的好处
 
@@ -4045,7 +4292,7 @@ def get_data():
 
 https://blog.csdn.net/pineapple_C/article/details/113339718 拦截器
 
-### 14.3.5. 数据库交互
+### 数据库交互
 
 
 
@@ -4131,7 +4378,7 @@ https://stackoverflow.com/questions/17972020/how-to-execute-raw-sql-in-flask-sql
 
 
 
-### 14.3.6. flask 中的日志
+### flask 中的日志
 
 https://www.jianshu.com/p/daf5c9e57c65
 
@@ -4238,11 +4485,11 @@ if __name__ == '__main__':
     app.run()
 ```
 
-### 14.3.7. blueprint蓝图 模块化开发
+### blueprint蓝图 模块化开发
 
 https://realpython.com/flask-blueprint/
 
-### 14.3.8. 上下文对象
+### 上下文对象
 
 https://sentry.io/answers/working-outside-of-application-context/ current_app 使用 (`RuntimeError: working outside of application context`报错)
 
@@ -4256,7 +4503,7 @@ https://www.zhihu.com/question/33970027
 
 
 
-# 15. db 驱动 问题
+# db 驱动 问题
 
 mac 无法安装 postgres 驱动
 
@@ -4270,7 +4517,7 @@ mac 无法安装 postgres 驱动
 https://www.cnblogs.com/dyd168/p/15021673.html xpath 语法
 
 
-# 16. 代替 shell 运维
+# 代替 shell 运维
 
 https://www.oschina.net/translate/python-scripts-replacement-bash-utility-scripts
 https://blog.51cto.com/dashui/2334754
@@ -4279,12 +4526,12 @@ https://www.cnblogs.com/jacktian-it/articles/10222930.html
 https://github.com/lalor/python_for_linux_system_administration 书籍
 
 
-## 16.1. 实用脚本
+## 实用脚本
 
 https://zhuanlan.zhihu.com/p/85728888
 TODO
 
-### 16.1.1. 命令行参数解析
+### 命令行参数解析
 
 ```py
 # $# 取参数数量
@@ -4297,7 +4544,7 @@ sys.argv[0]
 
 ```
 
-### 16.1.2. 路径
+### 路径
 
 ```py
 # 获取脚本所在路径
@@ -4315,7 +4562,7 @@ for name in glob.glob('dir/*'):
     print (name)
 ```
 
-### 16.1.3. 文件操作
+### 文件操作
 
 推荐 shutil 模块, 代替很多shell的文件操作命令，可以避免特殊情况字符转义带来的困扰
 
@@ -4342,7 +4589,7 @@ for path,dir_list,file_list in g:
         print(os.path.join(path, file_name))        
 ```
 
-### 16.1.4. sh 命令执行
+### sh 命令执行
 
 ```py
 # system命令同步执行命令，返回值为程序退出码
@@ -4368,7 +4615,7 @@ rootfs_dirs = res.strip().split('\n')
 # todo: 使用第三方sh模块 http://amoffat.github.io/sh/
 ```
 
-## 16.2. 传递命令行参数
+## 传递命令行参数
 
 通过 sys.stdin, sys.stdout
 
@@ -4399,9 +4646,9 @@ if __name__ == "__main__":
 
 `cat names.log | python namescount.py | sort -rn`
 
-## 16.3. shell 调用 Python 
+## shell 调用 Python 
 
-### 16.3.1. shel 读取 Python 函数返回值
+### shel 读取 Python 函数返回值
 
 ```py
 
@@ -4413,7 +4660,7 @@ if __name__ == "__main__":
 
 ```
 
-### 16.3.2. 统计出现次数
+### 统计出现次数
 
 ```py
 #!/usr/bin/env python
@@ -4441,7 +4688,7 @@ if __name__ == "__main__":
 `cat names.log | ./xxx.py`
 
 
-### 16.3.3. 读取 csv 文件
+### 读取 csv 文件
 
 获取指定列
 
@@ -4472,10 +4719,10 @@ if __name__ == "__main__":
 ```
 
 
-## 16.4. Python 调用 shell
+## Python 调用 shell
 
 
-### 16.4.1. subprocess 
+### subprocess 
 
 推荐
 
@@ -4537,7 +4784,7 @@ print(stdout)
 
 ```
 
-### 16.4.2. os.system
+### os.system
 
 
 ```py
@@ -4588,7 +4835,7 @@ retval = os.getcwd()
 
 ```
 
-### 16.4.3. os.popen
+### os.popen
 
 
 ```py
@@ -4606,7 +4853,7 @@ output.close()
 
 ```
 
-### 16.4.4. system
+### system
 
 ```py
 def cd(dir): system.command('cd {}'.format(dir))
@@ -4615,13 +4862,13 @@ def cd(dir): system.command('cd {}'.format(dir))
 
 
 
-### 16.4.5. sh
+### sh
 
 ```py
 # 使用 sh 包
 ```
 
-### 16.4.6. paramiko
+### paramiko
 
 https://github.com/paramiko/paramiko
 https://www.cnblogs.com/xiao-apple36/p/9144092.html
@@ -4762,7 +5009,7 @@ sftp.get(remotepath, localpath)
 tran.close()
 ```
 
-## 16.5. 部署 springboot
+## 部署 springboot
 
 ```py
 #!/usr/bin/python
@@ -4836,7 +5083,7 @@ else:
 
 
 
-# 17. 开源库
+# 开源库
 
 https://www.zhihu.com/question/24590883
 TODO
@@ -4853,28 +5100,28 @@ https://github.com/ariebovenberg/whenever
 
 https://github.com/ultrafunkamsterdam/undetected-chromedriver 一个经过优化的 Selenium WebDriver 补丁，专门用于防止浏览器自动化过程中，触发反机器人机制。它能够隐藏浏览器特征（指纹），使用起来十分方便，就像一个 Python 的第三方库一样
 
-## 17.1. 变声 语音合成
+## 变声 语音合成
 
 https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI
 
-## 17.2. 系统运维
+## 系统运维
 
 ```
 https://github.com/giampaolo/psutil 获取系统信息, 硬盘, 内存 ...
 ```
 
-## 17.3. 声音
+## 声音
 
 https://github.com/CorentinJ/Real-Time-Voice-Cloning 克隆声音
 
-## 17.4. 图像
+## 图像
 
 - Matplotlib 可视化库，可以用来绘制高质量的 2D 折线图、散点图、柱状图，或者用来显示图像
 - pil 图像处理库, 适用于 Python2, py3 则安装 pillow
 - opencv-python `import cv2`
 - Removebg 抠图
 
-## 17.5. 数据模型定义
+## 数据模型定义
 
 https://github.com/samuelcolvin/pydantic/ 使得实例化数据 model 对象更方便
 
@@ -4889,13 +5136,13 @@ https://github.com/bauerji/flask_pydantic 校验请求参数
 https://medium.com/swlh/parsing-rest-api-payload-and-query-parameters-with-flask-better-than-marshmallow-aa79c889e3ca
 
 
-## 17.6. 序列化反序列化
+## 序列化反序列化
 
 pickle
 
 https://github.com/ICRAR/ijson 高性能解析 json
 
-## 17.7. 做 web 开发
+## 做 web 开发
 
 https://github.com/pydantic/FastUI 生成 基于 react 的页面
 
@@ -4913,7 +5160,7 @@ https://streamlit.io/       为脚本制作 ui 界面
 
 https://github.com/jpype-project/jpype
 
-## 18. jython
+## jython
 
 相互调用
 
@@ -4977,7 +5224,7 @@ public class App {
 ```
 
 
-# 19. 调用 rust 
+# 调用 rust 
 
 https://www.v2ex.com/t/757216
 
@@ -4986,15 +5233,15 @@ https://blog.csdn.net/m0_37696990/article/details/96876692
 https://blog.csdn.net/muzico425/article/details/103331676
 
 
-# 20. cffi 绑定
+# cffi 绑定
 
 https://github.com/yifeikong/curl_cffi 例子
 
-# 21. web应用部署
+# web应用部署
 
 https://www.zhihu.com/question/21888077
 
-## 21.1. 生成依赖清单
+## 生成依赖清单
 
 ```sh
 # 生成依赖文件
@@ -5005,7 +5252,7 @@ pip install -r requirements.txt
 
 ```
 
-## 21.2. gunicorn
+## gunicorn
 
 gunicorn是一个wsgi http server
 
@@ -5076,7 +5323,7 @@ kill -9 <父进程pid>
 kill -HUP <parent pid>
 ```
 
-## 21.3. supervisord 管理 daemon
+## supervisord 管理 daemon
 
 supervisord.org
 
@@ -5084,14 +5331,14 @@ supervisord.org
 
 是 nodejs 的部署管理工具, 但是只要是命令行程序, 都能用它
 
-# 22. setup.py
+# setup.py
 
-# 23. wheel
+# wheel
 
 python 可以用 wheel 打包成 whl, 然后使用 ssh 执行 pip install package.whl, 然后重启一下 python 就好了
 
 
-# 24. 自动抢购脚本
+# 自动抢购脚本
 
 对于自动抢购来说，
 对于网页，selenium 和 puppeteer 比较适合，基本流程就是加载一个 webdriver，访问一个链接，等待 javascript 加载完，选择一个元素，执行操作。
