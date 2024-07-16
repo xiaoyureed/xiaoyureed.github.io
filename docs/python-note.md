@@ -94,6 +94,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
             - [queue.PriorityQueue heapq 优先级队列](#queuepriorityqueue-heapq-优先级队列)
         - [字典 dict](#字典-dict)
             - [基本 dict](#基本-dict)
+            - [字典解包](#字典解包)
             - [字典格式化](#字典格式化)
             - [defaultdict 默认值dict](#defaultdict-默认值dict)
             - [OrderedDict 字典排序](#ordereddict-字典排序)
@@ -104,7 +105,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
             - [Counter 通过字典表示列表](#counter-通过字典表示列表)
             - [dict 场景](#dict-场景)
                 - [模拟 switch case](#模拟-switch-case)
-                - [dict 字典推导式](#dict-字典推导式)
+            - [dict 字典推导式](#dict-字典推导式)
         - [列表推导式](#列表推导式)
         - [生成器 generator](#生成器-generator)
         - [迭代器](#迭代器)
@@ -124,16 +125,18 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [读写文件数据](#读写文件数据)
     - [装饰器](#装饰器)
     - [模块 作用域](#模块-作用域)
+    - [设计模式](#设计模式)
+        - [工厂模式](#工厂模式)
     - [面向对象](#面向对象)
-        - [创建类-一个全面的例子](#创建类-一个全面的例子)
-        - [@dataclass 创建实体类](#dataclass-创建实体类)
         - [类](#类)
         - [继承 鸭子类型](#继承-鸭子类型)
         - [判断类型信息](#判断类型信息)
         - [动态操作](#动态操作)
         - [枚举](#枚举)
         - [对象克隆 拷贝 shadow-copy deep-copy](#对象克隆-拷贝-shadow-copy-deep-copy)
-        - [abc模块 定义抽象接口](#abc模块-定义抽象接口)
+        - [abc模块 定义抽象基类](#abc模块-定义抽象基类)
+    - [数据类](#数据类)
+        - [@dataclass 创建实体类](#dataclass-创建实体类)
     - [错误异常处理](#错误异常处理)
         - [系统内置的异常](#系统内置的异常)
         - [异常捕获抛出](#异常捕获抛出)
@@ -148,6 +151,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [打印格式化  `__str__` `__repr__`](#打印格式化--__str__-__repr__)
         - [类型转换 `__bool__`](#类型转换-__bool__)
 - [工程化](#工程化)
+    - [依赖注入](#依赖注入)
     - [cookiecutter 项目模板](#cookiecutter-项目模板)
     - [Setuptools: 管理依赖、构建和发布](#setuptools-管理依赖构建和发布)
     - [虚拟环境 virtual environment](#虚拟环境-virtual-environment)
@@ -1432,6 +1436,30 @@ while not pq.empty():
     
 ```
 
+#### 字典解包
+
+```python
+
+data = {
+    'arr': [{
+        'name': 'aa',
+        'age': 12,
+    }, {
+        'name': 'bb',
+        'age': 11,
+    }]
+}
+class Person():
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+persons = []
+for ele in data['arr']:
+    persons.appand(Person(**ele)) # 这里是将字典解包为 key=value 的形式
+
+```
+
 #### 字典格式化
 
 ```python
@@ -1658,7 +1686,7 @@ def calc(v1, v2, op_flag):
 
 ```
 
-##### dict 字典推导式
+#### dict 字典推导式
 
 ```python
 @dataclass
@@ -1667,6 +1695,7 @@ class Person:
     age: int
 
 users = [Person('a', 11), Person('b', 22)]
+# 可以类比列表推导式
 age_mapping = { user.name: user.age
     for user in users if user.age != 0
 }
@@ -1965,7 +1994,8 @@ def function_demo():
     #
     # 所以，对于任意函数，都可以通过类似func(*args, **kw)的形式调用它，无论它的参数是如何定义的。
     #
-    def f1(a, b, c=0, *args, **kw):
+    from typing import Optional
+    def f1(a, b, c: Optional[int]=0, *args, **kw):
         print('a =', a, 'b =', b, 'c =', c, 'args =', args, 'kw =', kw)
 
     def f2(a, b, c=0, *, d, **kw):
@@ -2271,47 +2301,48 @@ def read_write_file():
 
 ```py
 
-def wrapper_decorator():
-    """
-    装饰器
-    """
-    def now():
-        print('2015-1-1')
-    now()
-    print(now.__name__)
-    f = now
-    f()
-    print(f.__name__)
+"""
+装饰器
+"""
+def now():
+    print('2015-1-1')
+now()
+print(now.__name__) # now
+f = now
+f()
+print(f.__name__)  # f     函数名字变了
 
-    print('---------------')
+print('---------------')
 
-    import functools
-    # 本质上, decorator就是一个返回函数的高阶函数, 接受一个函数, 返回包装后的函数
-    def log(func):
-        @functools.wraps(func) # 作用是修改装饰后的函数 __name__ 属性值, 如果不加, 装饰器还是工作的, 但是 __name__ 会变为 "wrapper", 显然不行
-        def wrapper(*args, **kw):  # 能接受任意的参数
-            print('call %s(): ' % func.__name__)
+import functools
+# 本质上, decorator就是一个返回函数的高阶函数, 接受一个函数, 返回包装后的函数
+def log(func):
+    @functools.wraps(func) # 作用是修改装饰后的函数 __name__ 属性值, 如果不加, 装饰器还是工作的, 但是 __name__ 会变为 "wrapper", 显然不行
+    def wrapper(*args, **kw):  # 能接受任意的参数
+        print('call %s(): ' % func.__name__)
+        return func(*args, **kw)
+    return wrapper
+
+# 把@log放到new()函数的定义处，相当于执行了 new = log(new)
+@log
+def new():
+    print('111-111-111')
+new() # 执行的是包装后的函数
+
+
+# 如果decorator本身需要传入参数，那就需要编写一个返回decorator的高阶函数
+def log1(text):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kw):
+            print('%s %s():' % (text, func.__name__))
             return func(*args, **kw)
         return wrapper
-    # 把@log放到new()函数的定义处，相当于执行了 new = log(new)
-    @log
-    def new():
-        print('111-111-111')
-    new() # 执行的是包装后的函数
-
-    # 如果decorator本身需要传入参数，那就需要编写一个返回decorator的高阶函数
-    def log1(text):
-        def decorator(func):
-            @functools.wraps(func)
-            def wrapper(*args, **kw):
-                print('%s %s():' % (text, func.__name__))
-                return func(*args, **kw)
-            return wrapper
-        return decorator
-    @log1('自定义execute') # 相当于 yyy =  log1('execute')(yyy)
-    def yyy():
-        print('zzz')
-    yyy()
+    return decorator
+@log1('自定义execute') # 相当于 yyy =  log1('execute')(yyy)
+def yyy():
+    print('zzz')
+yyy()
 
 
 
@@ -2384,11 +2415,87 @@ def module_demo():
 
 ```
 
-## 面向对象
+## 设计模式
 
-### 创建类-一个全面的例子
+### 工厂模式
 
 ```python
+
+
+
+data = {
+    "arr": [
+        {
+            "name": "aa",
+            "sex": "male",
+        },
+        {
+            "name": "bb",
+            "sex": "female",
+        },
+    ]
+}
+
+from abc import ABC, abstractmethod
+
+
+class Person(ABC):
+    def __init__(self, name, sex):
+        self.name = name
+        self.sex = sex
+
+    @abstractmethod
+    def print_gender(self):
+        """print gender"""
+
+
+class Male(Person):
+    def print_gender(self):
+        print(f"{self.name}'s gender is {self.sex} --from Male class")
+
+
+class Female(Person):
+    def print_gender(self):
+        print(f"{self.name}'s gender is {self.sex} --from Female class")
+
+
+from typing import Callable, Any
+
+creation_functions: dict[str, Callable[..., Person]] = {}
+
+
+def register(sex: str, func: Callable[..., Person]) -> None:
+    creation_functions[sex] = func
+
+
+def unregister(sex: str) -> None:
+    creation_functions.pop(sex, None)
+
+
+def create(args: dict[str, Any]) -> Person:
+    the_args = args.copy()
+    sex = the_args["sex"]
+    
+    try:
+        func = creation_functions[sex]
+        return func(**the_args)
+    except KeyError:
+        raise ValueError('unkonwn gender: ' + sex) from None
+
+register('male', Male)
+register('female', Female)
+
+for ele in data['arr']:
+    c = create(ele)
+    c.print_gender()
+```
+
+## 面向对象
+
+
+### 类
+
+```py
 
 class SideBar:
     # 类变量（大写）
@@ -2397,7 +2504,24 @@ class SideBar:
     MORE_PLACEHOLDER: str = 'more'
     MORE_SIZE: int = 3
     SHOULD_COMPRESS_HTML: bool = True
+
+     # 类属性, 
+    # 通过实例对象获取属性, 会先查实例属性, 不存在再去查类属性, 都不存在 则返回 none
+    # 建议通过 Student.name , 或者 self.__class__.name 这两种方式获取类属性
+    # 不要直接通过 self.xxx 获取类属性
+    name__xx = "Student" 
     
+
+    __slots__ = ('name', '__score', '_age', '__name') # 用tuple定义哪些属性可以作为实例变量, 在类外部就不能随便绑定类变量了
+    # `__slots__`定义的属性仅对当前类实例起作用，对继承的子类是无限制的 
+    #除非在子类中也定义**slots**，这样，子类实例允许定义的属性就是自身的**slots**加上父类的**slots**
+
+    # 构造方法
+    # > **init**有两个下划线
+    # > 定义对象方法第一个参数必须是 self，调用时不用传入 self
+    #
+    #
+
     # 构造方法，定义实例变量
     def __init__(
         self,
@@ -2413,8 +2537,11 @@ class SideBar:
         self.more_size = more_size
         self.should_compress_html = should_compress_html
 
-        # 通过‘_’ 表示隐藏属性
+        # 通过‘_’ 表示隐藏属性, 实际还是能通过 _someone 获取属性
         self._someone = None
+
+        # 通过 '__' 表示不暴露的属性, Python 编译器会将 __name 改写为 _SideBar__name, 所以通过 __name 获取属性会报错
+        self.__name = 'test'
 
         pass
 
@@ -2429,10 +2556,11 @@ class SideBar:
     
     # ----------------------
     
-    @property  # 暴露 新的自定义属性 ‘someone’
+    @property  # # 负责把一个方法变成属性, 暴露 新的自定义属性 ‘someone’
     def someone(self):
         return self._someone
 
+    # @score.setter 装饰器是 @property 又创建的另一个装饰器, 用来把一个setter方法变成属性赋值
     @someone.setter
     def someone(self, someone):
         assert isinstance(someone, int), 'someone has to be a number'
@@ -2463,103 +2591,14 @@ class SideBar:
     # 实例方法
     def build(self):
          return self._header(self.title)
-
-```
-
-### @dataclass 创建实体类
-
-```python
-from dataclasses import dataclass, field
-@dataclass(
-    order=True    # 自动生成比较方法：例如 __eq__ 和 __lt__ 等方法，可以通过设置 order=True 来启用。
-    frozen=True   # 声明创建出的对象不可变 （即属性不可修改， 会抛出FrozenInstanceError）
-)
-class Person:
-    name: str
-    age: int
-    # 可选的默认值：可以为类属性设置默认值。
-    email: str = field(default="", metadata={"description": "Email Address"})
-    # 指定默认工厂函数， 创建实体这个字段可不传
-    bookes: List[str] = field(default_factory=list)
-
-# 会自动生成 __init__ 方法。
-person = Person(name="Alice", age=30, email="alice@example.com")
-print(person) # Person(name='Alice', age=30, email='alice@example.com')
-
-
-
-
-
-
-字段(metadata)：可以通过 field 函数来设置字段的元数据。
-
-```
-
-### 类
-
-```py
-def oop():
-    class Student(object):
-
-        name__xx = "Student" # 类属性, 实例属性 类属性千万不要同名, 因为查找实例属性若没找到, 会返回类属性
-
-        __slots__ = ('name', '__score', '_age') # 用tuple定义哪些属性可以绑定，的属性名称
-        # `__slots__`定义的属性仅对当前类实例起作用，对继承的子类是无限制的 
-        #除非在子类中也定义**slots**，这样，子类实例允许定义的属性就是自身的**slots**加上父类的**slots**
-
-        # 构造方法
-        # > **init**有两个下划线
-        # > 定义对象方法第一个参数必须是 self，调用时不用传入 self
-        #
-        #
-
-        #
-        def __init__(self, name, score):
-            self.name = name
-            self.__score = score
-
-        def display(self):
-            print('%s: %s' % (self.name, self.__score))
-
-        # 增加getter和setter
-        def get_score(self):
-            return self.__score
-
-        def set_score(self, score):
-            self.__score = score
-
-        @property # 负责把一个方法变成属性
-        def age(self):
-            return self._age
-        @age.setter # @property本身又创建了另一个装饰器@score.setter,把一个setter方法变成属性赋值
-        def age(self, v):
-            if not isinstance(v, int):
-                raise ValueError('score must be an integer!')
-            if v < 0 or v > 100:
-                raise ValueError('score must between 0 ~ 100!')
-            self._age = v
-
-        def __str__(self): # `__str__()`:print(obj)实际调用 obj 的`__str__()`  
-            return 'Student object (name=%s)' % self.name
-        __repr__ = __str__# `__repr__()`:直接 obj 调用 obj 的`__repr__()`,通常和 `__str__()`一样
-
-    s1 = Student('s1', 10)
-    s1.display()
-    print(s1)
     
-    # 加了 `__slot__`, 不允许在外部绑定任何变量
-    # s1.sex = 'male'
-    # print(s1.sex)
+    # `__str__()`: print(obj)实际调用 obj 的`__str__()` 
+    def __str__(self):  
+        return 'Student object (name=%s)' % self.name
+    
+    # `__repr__()`: 直接 obj 就是调用 obj 的`__repr__()`,通常和 `__str__()`一样
+    __repr__ = __str__
 
-     # 无法访问私有的
-    # 不能直接访问__name是因为Python解释器对外把__name变量改成了_Student__name，所以，仍然可以通过_Student__name来访问__name变量
-    #print(s1.__score)
-    print(s1.get_score())
-    s1.set_score(11) # ok
-    # s1.__score =11 # error
-
-    s1.age = 10
-    print("age = ", s1.age)
 
 ```
 
@@ -2827,11 +2866,12 @@ copy.deepcopy()
 # 对于 list, xx_list[:] 可以实现列表的 shadow copy
 ```
 
-### abc模块 定义抽象接口
+### abc模块 定义抽象基类
 
 ```python
 
 # define the abstract class
+#   或者 class Xxx(abc.ABC) 也可以, 推荐这种
 import abc
 class Component(metaclass=abc.ABCMeta):
     # the sub class have to implement this method
@@ -2863,6 +2903,49 @@ render([ca])
 Component.register(int)  # 注册 int 类型为子类
 Component.register(tuple)
 Component.register(dict)
+```
+
+
+## 数据类
+
+### @dataclass 创建实体类
+
+```python
+from dataclasses import dataclass, field
+# python 3.7 开始内置提供
+@dataclass(   # 默认自动生成 __repr__, __eq__, __init__
+
+    init=True   # 生成 __init__, 默认 true
+    repr=True
+    eq=True
+
+    order=True    # 声明实现 __gt__, __ge__, __lt__, __le__ ... , 此时对象可以比较大小了, 默认是将所有属性转为 tuple比较
+                # 可通过为属性声明 field(compare=False) 来排除对该属性的比较
+    frozen=True   # 声明创建出的对象不可变 （即属性不可修改， 会抛出FrozenInstanceError）
+)
+class Person:
+    name: str
+    age: int
+    # 可选的默认值：可以为类属性设置默认值。
+    email: str = field(
+        default="", # 默认值
+        compare=False,  # 不参与比较, 默认是 true
+        metadata={"description": "Email Address"}
+    )
+    # 指定默认工厂函数， 创建实体这个字段可不传
+    bookes: List[str] = field(default_factory=list)
+
+# 会自动生成 __init__ 方法。
+person = Person(name="Alice", age=30, email="alice@example.com")
+print(person) # Person(name='Alice', age=30, email='alice@example.com')
+
+
+
+
+
+
+字段(metadata)：可以通过 field 函数来设置字段的元数据。
+
 ```
 
 
@@ -3204,6 +3287,9 @@ https://zhuanlan.zhihu.com/p/509167266
 https://pythonguidecn.readthedocs.io/zh/latest/writing/structure.html
 https://www.qin.news/python/
 
+## 依赖注入
+
+https://github.com/ets-labs/python-dependency-injector
 
 ## cookiecutter 项目模板
 
