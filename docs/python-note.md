@@ -142,7 +142,8 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [异常捕获抛出](#异常捕获抛出)
         - [自定义异常](#自定义异常)
     - [魔术方法](#魔术方法)
-        - [可迭代](#可迭代)
+        - [初始化 `__init__` `__post_init__`](#初始化-__init__-__post_init__)
+        - [可迭代 `__iter__`](#可迭代-__iter__)
         - [可调用对象实例 `__call__`](#可调用对象实例-__call__)
         - [属性监控回调 `__getattr__` `__getattribute__`](#属性监控回调-__getattr__-__getattribute__)
         - [可运算 操作符重载](#可运算-操作符重载)
@@ -150,6 +151,8 @@ https://www.zhihu.com/question/19827960 指的关注的社区
             - [相等比较 `==`, `is`, `__eq__`, ` id()`](#相等比较--is-__eq__--id)
         - [打印格式化  `__str__` `__repr__`](#打印格式化--__str__-__repr__)
         - [类型转换 `__bool__`](#类型转换-__bool__)
+- [标准库](#标准库)
+    - [日期处理](#日期处理)
 - [工程化](#工程化)
     - [依赖注入](#依赖注入)
     - [cookiecutter 项目模板](#cookiecutter-项目模板)
@@ -173,12 +176,14 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [uv](#uv)
     - [日志](#日志)
     - [生成文档](#生成文档)
-- [多进程](#多进程)
+- [并发](#并发)
+    - [GIL 简介](#gil-简介)
+    - [多线程](#多线程)
+    - [多进程](#多进程)
+    - [可变 不可变](#可变-不可变)
 - [异步 协程](#异步-协程)
     - [yield 手动切换](#yield-手动切换)
     - [gevent 自动切换](#gevent-自动切换)
-- [内建模块](#内建模块)
-    - [日期处理](#日期处理)
 - [编写命令行程序](#编写命令行程序)
     - [命令行自动补全](#命令行自动补全)
 - [类型系统 type-hint](#类型系统-type-hint)
@@ -870,7 +875,7 @@ byte_arr4 = bytes(byte_arr3)
         True 对应 1
         False 对应 0
     # 只有True、False两种值
-    # 可以用and or not运算
+    # 可以用 and ,or, not 运算
 
     # 空值
     # 用None表示。None不能理解为0
@@ -880,7 +885,26 @@ assert True == 1.0    #true
 assert 1 == 1.0      #true
 assert 1 == 1.0 == True   #true
 
+assert True == [1, 2]
+assert False == []
 
+assert True == 'a'
+assert False == ''
+
+assert False == {}
+assert True == {'a': None}
+
+assert False == ()
+assert True == (1,)
+
+assert True == XxxException
+
+
+def he():
+    pass
+assert True == he
+
+# 核心准则是: 只要变量不为 None, 就是布尔值的 true
 ```
 
 ### 数组 array
@@ -912,40 +936,47 @@ for a in arr:
 
     # 获取
     # # 获取第一个
-    # >>> classmates[0]
+    classmates[0]
     # 'Michael'
     # # 最后一个元素
-    # >>> classmates[-1] 
-    # or classmates[len(classmates) - 1]
+    classmates[-1] 
+    # or
+    classmates[len(classmates) - 1]
     # 'Tracy'
     # # 以此类推，可以获取倒数第2个、倒数第3个：
-    # >>> classmates[-2]
+    classmates[-2]
     # 'Bob'
 
     # 查找
     # index() 函数用于从列表中找出某个值第一个匹配项的索引位置
         
     # # 添加到末尾
-    # >>> classmates.append('Adam')
+    classmates.append('Adam')
     # >>> classmates ['Michael', 'Bob', 'Tracy', 'Adam']
     # # 添加到指定位置
-    # >>> classmates.insert(1, 'Jack')
-    # >>> classmates
-    # ['Michael', 'Jack', 'Bob', 'Tracy', 'Adam']
-    # # 删除末尾元素
-    # >>> classmates.pop()
+    classmates.insert(1, 'Jack')
+    # >>> classmates ['Michael', 'Jack', 'Bob', 'Tracy', 'Adam']
+    # # 删除末尾元素, 并返回
+    classmates.pop()
     # 'Adam'
     # # 删除指定位置的元素
     # >>> classmates.pop(1)
     # 'Jack'
 
+    # or
+    # 删除最后一个元素
+    del classmates[-1]
+    # 删除下标为 0, 1, 2 的元素
+    del classmates[:3]
 
     #
     # 带下标遍历
-    # enumerate()可以将list变为索引-元素对
+    # enumerate()可以将list变为索引-元素 tuple
     # for i, value in enumerate([1,2,'3', '4']):
     #     print(i, value)
     #
+
+
     # 判断对象是否能迭代
     # from collections import Iterable
     # if (isinstance("acb", Iterable)):
@@ -974,7 +1005,7 @@ for a in arr:
 ##### slices 切片 
 
 ```py
-# slices  会生成新的列表
+# slices  会生成新的列表 (包头不包尾)
     #
     #
     l = list(range(10))
@@ -2919,9 +2950,12 @@ from dataclasses import dataclass, field
     repr=True
     eq=True
 
-    order=True    # 声明实现 __gt__, __ge__, __lt__, __le__ ... , 此时对象可以比较大小了, 默认是将所有属性转为 tuple比较
+    order=False  #default to false  
+                # 声明实现 __gt__, __ge__, __lt__, __le__ , 此时对象可以比较大小了, 默认是将所有属性转为 tuple比较, 
                 # 可通过为属性声明 field(compare=False) 来排除对该属性的比较
-    frozen=True   # 声明创建出的对象不可变 （即属性不可修改， 会抛出FrozenInstanceError）
+
+    frozen=False   # 声明创建出的对象是否冰冻 （即属性不可修改， 会抛出FrozenInstanceError）
+                # 对于冰冻类的子类, 子类属性可以自由修改, 但是继承自父类的属性仍然是冰冻的
 )
 class Person:
     name: str
@@ -2937,14 +2971,16 @@ class Person:
 
 # 会自动生成 __init__ 方法。
 person = Person(name="Alice", age=30, email="alice@example.com")
-print(person) # Person(name='Alice', age=30, email='alice@example.com')
 
 
 
 
+# ---------  unsafe_hash, eq, frozen
+# 三者一起控制数据类的 hash 生成策略
 
 
-字段(metadata)：可以通过 field 函数来设置字段的元数据。
+
+
 
 ```
 
@@ -3094,7 +3130,16 @@ def foo(s):
 
 ## 魔术方法
 
-### 可迭代
+### 初始化 `__init__` `__post_init__`
+
+```python
+init   构造函数
+
+post_init 在 init 后跟着执行
+
+```
+
+### 可迭代 `__iter__`
 
 ```python
 
@@ -3279,6 +3324,37 @@ def __bool__(self):
     return bool(abs(self))
 
 ```
+
+# 标准库
+
+
+## 日期处理
+
+```py
+def builtin_module():
+    from datetime import datetime, timedelta
+
+    now = datetime.now()
+    print(now) # 2019-06-05 23:06:46.171270
+
+    time = datetime(2019, 4, 19, 1, 30)
+    print(time) # 2019-04-19 01:30:00
+
+    timestamp = time.timestamp()
+    print(timestamp)  # 1555608600.0
+    print(datetime.fromtimestamp(timestamp))  # 2019-04-19 01:30:00
+
+    cday = datetime.strptime('2015-6-1 18:19:59', '%Y-%m-%d %H:%M:%S')
+    print(cday)  # 2015-06-01 18:19:59
+
+    strftime = now.strftime('%Y-%m-%d %H:%M:%S')
+    print(strftime)  # 2019-06-05 23:06:46
+
+    result = now + timedelta(days=1, hours=1)
+    print(result)  # 2019-06-07 00:11:36.912231
+
+```
+
 
 
 # 工程化
@@ -3661,7 +3737,16 @@ https://squidfunk.github.io/mkdocs-material/ 主题
 
 
 
-# 多进程
+# 并发
+
+## GIL 简介
+
+## 多线程
+
+
+
+
+## 多进程
 
 https://jeremyxu2010.github.io/2020/09/python%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%AE%9E%E6%88%98/ 自带方式
 
@@ -3800,6 +3885,74 @@ def muti_thread():
 ```
 
 
+## 可变 不可变
+
+```python
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from multiprocessing import Lock, Manager
+
+lock = Lock()
+
+
+def mut_sum(chunk: list[int], shared) -> None:
+    global lock
+    lock.acquire()
+    shared['total'] += sum(chunk)
+    lock.release()
+
+
+def immut_sum(chunk: list[int]) -> int:
+    return sum(chunk)
+
+
+def make_chunk(max_num: int, chunk_num=1) -> list[list[int]]:
+    data = [i for i in range(max_num + 1)]
+    block_size = max_num // chunk_num
+
+    def chunk_data():
+        while data:
+            block = data[:block_size]
+            yield block
+            del data[:block_size]
+
+    return list(chunk_data())
+
+
+def mut_calc(max_num: int, max_workers=4):
+    manager = Manager()
+    shared = manager.dict()
+    shared['total'] = 0
+    chunks = make_chunk(max_num, max_workers)
+    with ProcessPoolExecutor(max_workers=max_workers) as executor:
+        futures = (
+            executor.submit(mut_sum, chunk, shared) for chunk in chunks
+        )
+        for fu in as_completed(futures):
+            e = fu.exception()
+            if e:
+                raise Exception(e)
+        return shared['total']
+
+
+def immut_calc(max_num: int, max_workers=4) -> int:
+    chunks = make_chunk(max_num, max_workers)
+    with ProcessPoolExecutor(max_workers=max_workers) as executor:
+        futures = (
+            executor.submit(immut_sum, chunk) for chunk in chunks
+        )
+
+        def process_result():
+            for fu in as_completed(futures):
+                e = fu.exception()
+                if e:
+                    raise Exception(e)
+                yield fu.result()
+
+        return sum(process_result())
+
+```
+
+
 # 异步 协程
 
 ## yield 手动切换
@@ -3928,35 +4081,6 @@ import gevent
 s1 = gevent.spawn(func_a, func_a_params)
 s2 = gevent.spwan(func_b, func_b_params)
 gevent.joinall([s1, s2]) # 阻塞等待
-
-```
-
-# 内建模块
-
-## 日期处理
-
-```py
-def builtin_module():
-    from datetime import datetime, timedelta
-
-    now = datetime.now()
-    print(now) # 2019-06-05 23:06:46.171270
-
-    time = datetime(2019, 4, 19, 1, 30)
-    print(time) # 2019-04-19 01:30:00
-
-    timestamp = time.timestamp()
-    print(timestamp)  # 1555608600.0
-    print(datetime.fromtimestamp(timestamp))  # 2019-04-19 01:30:00
-
-    cday = datetime.strptime('2015-6-1 18:19:59', '%Y-%m-%d %H:%M:%S')
-    print(cday)  # 2015-06-01 18:19:59
-
-    strftime = now.strftime('%Y-%m-%d %H:%M:%S')
-    print(strftime)  # 2019-06-05 23:06:46
-
-    result = now + timedelta(days=1, hours=1)
-    print(result)  # 2019-06-07 00:11:36.912231
 
 ```
 
