@@ -137,12 +137,15 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [abc模块 定义抽象基类](#abc模块-定义抽象基类)
     - [数据类](#数据类)
         - [@dataclass 创建实体类](#dataclass-创建实体类)
+        - [hash策略](#hash策略)
     - [错误异常处理](#错误异常处理)
         - [系统内置的异常](#系统内置的异常)
         - [异常捕获抛出](#异常捕获抛出)
         - [自定义异常](#自定义异常)
     - [魔术方法](#魔术方法)
+        - [创建 `__new__`](#创建-__new__)
         - [初始化 `__init__` `__post_init__`](#初始化-__init__-__post_init__)
+        - [__del__](#del)
         - [可迭代 `__iter__`](#可迭代-__iter__)
         - [可调用对象实例 `__call__`](#可调用对象实例-__call__)
         - [属性监控回调 `__getattr__` `__getattribute__`](#属性监控回调-__getattr__-__getattribute__)
@@ -161,8 +164,8 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [devops 构建流水线](#devops-构建流水线)
     - [发布自定义库](#发布自定义库)
     - [项目结构](#项目结构)
-    - [模块引入 import原理](#模块引入-import原理)
-    - [类型检车 type hints](#类型检车-type-hints)
+    - [模块 import](#模块-import)
+    - [type hints 类型提示](#type-hints-类型提示)
     - [linter 工具](#linter-工具)
     - [依赖安全性检查](#依赖安全性检查)
     - [代码风格 格式化](#代码风格-格式化)
@@ -953,6 +956,8 @@ for a in arr:
     # # 添加到末尾
     classmates.append('Adam')
     # >>> classmates ['Michael', 'Bob', 'Tracy', 'Adam']
+    # or
+    classmates += ['abc', 'def']
     # # 添加到指定位置
     classmates.insert(1, 'Jack')
     # >>> classmates ['Michael', 'Jack', 'Bob', 'Tracy', 'Adam']
@@ -1404,6 +1409,9 @@ while not pq.empty():
     # 3.  Key 是不可变对象 (如字符串， 数组， 元组)
     #     需要我们自己在代码中保证 , 因为dict根据key来计算value的存储位置，如果每次计算相同的key得出的结果不同，那dict内部就完全混乱了
     #     在Python中，字符串、整数等都是不可变的，因此，可以放心地作为key。而list是可变的，就不能作为key
+    # 
+    #   如果需要自定义对象作为 key, 需要保证这个类的两个对象的 __eq__ 不同
+# 
     #
     # 而 list 相反：
     # 1.  查找和插入的时间随着元素的增加而增加；
@@ -2832,50 +2840,60 @@ print(lst) # [__main__.B, __main__.A, objject]
 
 
  #
-    # 枚举类
-    #
-    #    
-    # 枚举成员可进行同一性比较  
-    # Color.red is Color.red  
-    # 　　输出结果是：True  
-    # Color.red is not Color.blue  
-    # 　　输出结果是：True  
-    # 枚举成员可进等值比较  
-    # Color.blue == Color.red  
-    # 　　输出结果是：False  
-    # Color.blue != Color.red  
-    # 　　输出结果是：True
-    from enum import Enum, unique
-    # simple way to define, 默认赋值1，2，3，4...
-    Month = Enum('Month', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'))
-    print(Month.Jan.value) # 1
-    print(Month.Jan.name) #Jan
-    print(Month.Jan)#Month.Jan
-    print(Month['Jan'])# 通过名称获取成员,  # Month.Jan
-    print(Month(1))# 通过值获取成员 # Month.Jan
-    print('----------------')
-    for month in Month:
-        print(month)
-    print('----------------')
-    for month in Month.__members__.items():
-        print(month[0], month[1])
-    print('----------------')
-    for name, value in Month.__members__.items():
-        print(name, value)
+# 枚举类
+#
+#    
 
-print("------------------------------")
-    # customize class,可自己赋值
-    @unique
-    class Weekday(Enum):
-        Sun = 0
-        Mon = 1
-        Tue = 2
-        Wed = 3
-        Thu = 4
-        Fri = 5
-        Sat = 6
-    for name, value in Weekday.__members__.items():
-        print(name, value)
+from enum import Enum, unique
+
+# simple way to define, 默认赋值1，2，3，4...
+Month = Enum('Month', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'))
+print(Month.Jan.value) # 1
+print(Month.Jan.name) #Jan
+print(Month.Jan)#Month.Jan
+
+print(Month['Jan'])# 通过名称获取成员,  # Month.Jan
+print(Month(1))# 通过值获取成员 # Month.Jan
+
+# 枚举迭代
+for month in Month:
+    print(month)
+
+for month in Month.__members__.items():
+    print(month[0], month[1])
+
+for name, value in Month.__members__.items():
+    print(name, value)
+
+
+
+# customize class,可自己赋值
+@unique
+class Weekday(Enum):
+    Sun = 0  # 赋值可以是数字, 当然也可以是字符串
+    Mon = 1
+    Tue = 2
+    Wed = 3
+    Thu = 4
+    Fri = 5
+    Sat = 6
+for name, value in Weekday.__members__.items():
+    print(name, value)
+
+
+# 枚举是否相等比较
+
+# 枚举成员可进行同一性比较  
+Color.red is Color.red  
+# 　　输出结果是：True  
+Color.red is not Color.blue  
+# 　　输出结果是：True  
+
+# 枚举成员可进等值比较  
+Color.blue == Color.red  
+# 　　输出结果是：False  
+Color.blue != Color.red  
+# 　　输出结果是：True
 
 ```
 
@@ -2946,16 +2964,27 @@ from dataclasses import dataclass, field
 # python 3.7 开始内置提供
 @dataclass(   # 默认自动生成 __repr__, __eq__, __init__
 
-    init=True   # 生成 __init__, 默认 true
-    repr=True
-    eq=True
+    init=True,   # 生成 __init__, 默认 true
+    repr=True,
+    eq=True,
 
-    order=False  #default to false  
+    order=False,  #default to false  
                 # 声明实现 __gt__, __ge__, __lt__, __le__ , 此时对象可以比较大小了, 默认是将所有属性转为 tuple比较, 
                 # 可通过为属性声明 field(compare=False) 来排除对该属性的比较
 
-    frozen=False   # 声明创建出的对象是否冰冻 （即属性不可修改， 会抛出FrozenInstanceError）
+    frozen=False ,  # 声明创建出的对象是否冰冻 （即属性不可修改， 会抛出FrozenInstanceError）
                 # 对于冰冻类的子类, 子类属性可以自由修改, 但是继承自父类的属性仍然是冰冻的
+    
+    unsafe_hash=False,  # 为true则自动生成 __hash__方法
+
+
+    match_args=True  # 默认为true, 为 __match_args__ 赋值一个元组, 用于指定哪些属性字段参与模式匹配
+
+    kw_only=False   # 默认 false, true 则限制必须使用 **kw 的方式初始化对象, 即通过 参数名=值,参数名=值 这种方式
+                    # 可以通过属性的 field (xxx) 排除
+
+    slots=False # 默认, 若为 true, 则会优化属性访问速度, 同时禁止动态添加额外属性
+
 )
 class Person:
     name: str
@@ -2973,16 +3002,70 @@ class Person:
 person = Person(name="Alice", age=30, email="alice@example.com")
 
 
+```
+
+### hash策略
+
+```py
 
 
-# ---------  unsafe_hash, eq, frozen
+# ---------  unsafe_hash, eq, frozen, 和
 # 三者一起控制数据类的 hash 生成策略
 
+@dataclass(
+    frozen=False, # 默认
+    eq=True,  # default
+    unsafe_hash=False  # default
+)
+class Person:
+    name: str
+    age: int
+
+    def get_super_hash(self):
+        return super().__hash__()
+
+p1 = Person('aa', 11)
+# error: 没有实现自己的 __hash__
+#  因为 unsafe_hash=False 不会重写父类 __hash__, 
+# 也没有手动实现__hash__, 
+# 同时 eq=true实现了 __eq__, 相当于屏蔽了父类的 __hash__ 方法
+print('p1 hash', hash(p1))  
+
+# -------------------------------------
 
 
+@dataclass(
+    frozen=False, # 默认
+    eq=False,
+    unsafe_hash=False  # default
+)
+class Person:
+    name: str
+    age: int
 
+    def get_super_hash(self):
+        return super().__hash__()
+
+
+p1 = Person('aa', 11)
+p2 = Person('aa', 11)
+print(p1 == p2)  # false, 没有重写__eq__, 相当于比较内存地址,所以不等
+print('p1 hash', hash(p1))  # 273110696 , 和 super 的 hash 一致, 因为自己没有实现 __hash__, 会调父类的
+                    # eq=False , 不会生成 __eq__, 所以不会屏蔽父类的 __hash__, 所以这次不会报错
+print('(p1.name, p1.age) hash', hash((p1.name, p1.age)))
+print('p1 super hash', p1.get_super_hash())  # 273110696
+# ----------------
+print('p2 hash', hash(p2))
+print('(p2.name, p2.age) hash', hash((p2.name, p2.age)))
+print('p2 super hash', p2.get_super_hash())
+
+
+# -------------------------------------------
 
 ```
+
+
+
 
 
 ## 错误异常处理
@@ -3130,13 +3213,28 @@ def foo(s):
 
 ## 魔术方法
 
+### 创建 `__new__`
+
+```python
+通过类创建对象, 用的较少
+def __new__(cls, param1, p2 ...):
+    xxx
+```
+
 ### 初始化 `__init__` `__post_init__`
 
 ```python
-init   构造函数
+init   有了对象之后, 对属性进行初始化
 
 post_init 在 init 后跟着执行
 
+```
+
+### __del__
+
+```python
+# 在对象内存被释放时触发执行
+# del xxx  并不一定出发 __del__, 只是减少了一个引用
 ```
 
 ### 可迭代 `__iter__`
@@ -3519,29 +3617,43 @@ tox.ini tox 的配置文件。
 
 ```
 
-## 模块引入 import原理
+## 模块 import
 
-```sh
+```py
 
-一个文件就是一个模块
+# 一个文件就是一个模块
+# 一个文件夹, 内部包含一个 __init__.py , 这个文件夹也是一个模块
 
-模块名称要短、使用小写，并避免使用特殊符号, 如".", "?"... (就 my.spam.py 来说，Python 认为需要在 my 文件夹 中找到 spam.py 文件，实际并不是这样), 可使用"_" 但不推荐
+# 模块名称要短、使用小写，并避免使用特殊符号, 如".", "?", "_"
+# (就 my.spam.py 来说，Python 认为需要在 my 文件夹 中找到 spam.py 文件，实际并不是这样), 可使用"_" 但不推荐
 
-import modu 语句将 寻找合适的文件，即调用目录下的 modu.py 文件（如果该文件存在）。如果没有 找到这份文件，Python 解释器递归地在 "PYTHONPATH" 环境变量中查找该文件，如果仍没 有找到，将抛出 ImportError 异常
-    一旦找到 modu.py，Python 解释器将在隔离的作用域内执行这个模块。所有顶层 语句都会被执行，包括其他的引用。方法与类的定义将会存储到模块的字典中。然后，这个 模块的变量、方法和类通过命名空间暴露给调用方，
+# import modu 语句将 寻找合适的文件，即调用目录下的 modu.py 文件（如果该文件存在）。
+#   - 如果没有找到这份文件，Python 解释器递归地在 "PYTHONPATH" 环境变量中查找该文件，如果仍没 有找到，将抛出 ImportError 异常
+#   - 一旦找到 modu.py，Python 解释器将在隔离的作用域内执行这个模块。
+#       所有顶层语句都会被执行. 方法与类的定义将会存储到模块的字典中。
+#       然后这个 模块的变量、方法和类通过 mudu 这个命名空间暴露给调用方，
 
-如果引用自己项目的的模块时，你的项目叫 my，模块叫 modu，那么不建议使用 from my import modu来引用，强烈推荐使用 from . import modu。
+# 如果引用自己项目的的模块时，你的项目叫 my，模块叫 modu，那么不建议使用 from my import modu来引用，
+# 强烈推荐使用 from . import modu。
 
-文件夹也可被是为一个模块, 需要加入 __init__.py 文件
+# 模块搜索优先级: PYTHONPATH、系统默认、sys.path 中的自定义路径
+    ['/Users/xiaoyu/repo/python/quick_start/.venv/bin', 
+    '/Users/xiaoyu/.rye/py/cpython@3.12.3/lib/python312.zip', 
+    '/Users/xiaoyu/.rye/py/cpython@3.12.3/lib/python3.12/lib-dynload', 
+    '/Users/xiaoyu/repo/python/quick_start/.venv/lib/python3.12/site-packages',
+    '/Users/xiaoyu/repo/python/quick_start/src', 
+    ]
+
+
 ```
 
-## 类型检车 type hints
+## type hints 类型提示
 
-```sh
+```py
 
-自 python3.5 开始，PEP484 为 python 引入了类型注解 (type hints) ----------   Mypy 是 Python 中的静态类型检查器
+# 自 python3.5 开始，PEP484 为 python 引入了类型注解 (type hints) ----------   Mypy 是 Python 中的静态类型检查器
 
-在 vscode 中你可以安装 mypy 的插件
+# 在 vscode 中你可以安装 mypy 的插件
 
 ```
 
