@@ -13309,6 +13309,8 @@ sentry 错误监控
 
 https://github.com/lettre/lettre , 再配合模板引擎tera
 
+https://github.com/stalwartlabs/mail-server 搭建自建邮件服务
+
 ## 21.25. 分发工具
 
 Cargo-release
@@ -13394,6 +13396,8 @@ https://github.com/gyroflow/gyroflow 视频防抖
 ## 图片处理
 
 https://github.com/Aloxaf/silicon
+
+https://github.com/nlfiedler/magick-rust imageMagick 的移植
 
 
 ## 网络协议 network
