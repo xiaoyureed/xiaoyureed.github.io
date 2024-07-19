@@ -127,6 +127,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [模块 作用域](#模块-作用域)
     - [设计模式](#设计模式)
         - [工厂模式](#工厂模式)
+        - [单例模式](#单例模式)
     - [面向对象](#面向对象)
         - [类](#类)
         - [继承 鸭子类型](#继承-鸭子类型)
@@ -2462,6 +2463,8 @@ def module_demo():
 
 
 
+# now we have the following data
+# trying to create diffecrrent obj accordng to the 'sex'
 data = {
     "arr": [
         {
@@ -2476,8 +2479,6 @@ data = {
 }
 
 from abc import ABC, abstractmethod
-
-
 class Person(ABC):
     def __init__(self, name, sex):
         self.name = name
@@ -2499,7 +2500,8 @@ class Female(Person):
 
 
 from typing import Callable, Any
-
+# use this map to store the creation logic
+# key is the sex, value is the create function
 creation_functions: dict[str, Callable[..., Person]] = {}
 
 
@@ -2508,7 +2510,7 @@ def register(sex: str, func: Callable[..., Person]) -> None:
 
 
 def unregister(sex: str) -> None:
-    creation_functions.pop(sex, None)
+    creation_functions.pop(sex, None) # 'None' is reuqired to avoid raising exception
 
 
 def create(args: dict[str, Any]) -> Person:
@@ -2527,6 +2529,67 @@ register('female', Female)
 for ele in data['arr']:
     c = create(ele)
     c.print_gender()
+```
+
+### 单例模式
+
+```python
+# the following ways are all ok , but the first two is recommended
+模块  # 推荐
+装饰器  # 推荐
+__new__
+classmethod
+metaclass
+
+
+
+# ----------- 通过模块
+
+# define a moddule singleton.py
+class Config:
+    pass
+
+config = Config()
+
+# 在其他模块就可以导入使用了, 这样使用的就都是同一个对象 (多线程也能正常工作)
+
+
+
+#  -------------通过装饰器
+
+def singleton(cls):
+    _instance_mapping = {}
+    _lock = threading.Lock()
+    
+    def wrapper(*args, **kwargs):
+        if cls not in _instance_mapping: 
+            with _lock:
+                if cls not in _instance_mapping:
+                    _instance_mapping[cls] = cls(*args, **kwargs)
+        return _instance_mapping[cls]
+    return wrapper
+    
+@singleton
+class Config:
+    pass
+
+
+# ---------------- 通过 __new__
+
+
+class Cofnig:
+    _instance = None
+    _lock = threading.Lock()
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = super(Cofnig, cls).__new__(cls, *args, **kwargs)
+            
+        return cls._instance
+
+
 ```
 
 ## 面向对象
@@ -2960,7 +3023,7 @@ Component.register(dict)
 ### @dataclass 创建实体类
 
 ```python
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, fields
 # python 3.7 开始内置提供
 @dataclass(   # 默认自动生成 __repr__, __eq__, __init__
 
@@ -3000,7 +3063,7 @@ class Person:
 
 # 会自动生成 __init__ 方法。
 person = Person(name="Alice", age=30, email="alice@example.com")
-
+field_list = fields(Person)  # 获取 field 列表
 
 ```
 
@@ -3198,7 +3261,7 @@ print('p2 super hash', p2.get_super_hash())
 # 自定义错误
 #
 # 
-class FooError(ValueError):
+class FooError(ValueError): # 或者直接继承 Exception
     pass
 
 def foo(s):
@@ -3855,7 +3918,17 @@ https://squidfunk.github.io/mkdocs-material/ 主题
 
 ## 多线程
 
+```python
 
+def hello(arg):
+    print('--hello', arg)
+
+from concurrent.futures import ThreadPoolExecutor
+with ThreadPoolExecutor(max_workers=10) as er:
+    for i in range(10):
+        er.submit(hello, i)
+    
+```
 
 
 ## 多进程
