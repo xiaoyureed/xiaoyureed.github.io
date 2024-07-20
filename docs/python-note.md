@@ -112,6 +112,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [二进制结构封包解包](#二进制结构封包解包)
         - [SimpleNamespace 创建简单类](#simplenamespace-创建简单类)
         - [container 容器](#container-容器)
+    - [作用域](#作用域)
     - [条件循环](#条件循环)
     - [比较判断](#比较判断)
     - [函数](#函数)
@@ -124,8 +125,8 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [创建文件](#创建文件)
         - [读写文件数据](#读写文件数据)
     - [装饰器](#装饰器)
-    - [模块 作用域](#模块-作用域)
-    - [设计模式](#设计模式)
+    - [设计模式 design pattern](#设计模式-design-pattern)
+        - [代理模式](#代理模式)
         - [工厂模式](#工厂模式)
         - [单例模式](#单例模式)
     - [面向对象](#面向对象)
@@ -146,7 +147,8 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [魔术方法](#魔术方法)
         - [创建 `__new__`](#创建-__new__)
         - [初始化 `__init__` `__post_init__`](#初始化-__init__-__post_init__)
-        - [__del__](#del)
+        - [`__del__`](#__del__)
+        - [`__exit__` 自动关闭回收](#__exit__-自动关闭回收)
         - [可迭代 `__iter__`](#可迭代-__iter__)
         - [可调用对象实例 `__call__`](#可调用对象实例-__call__)
         - [属性监控回调 `__getattr__` `__getattribute__`](#属性监控回调-__getattr__-__getattribute__)
@@ -166,6 +168,14 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [发布自定义库](#发布自定义库)
     - [项目结构](#项目结构)
     - [模块 import](#模块-import)
+        - [模块简介](#模块简介)
+            - [模块搜索路径](#模块搜索路径)
+            - [import原理](#import原理)
+        - [包内资源 `importlib.resources`](#包内资源-importlibresources)
+        - [延迟导入 lazy import](#延迟导入-lazy-import)
+        - [动态导入 实现插件模式](#动态导入-实现插件模式)
+        - [导入钩子 import hook](#导入钩子-import-hook)
+    - [`__main__` `__name__` `__file__`](#__main__-__name__-__file__)
     - [type hints 类型提示](#type-hints-类型提示)
     - [linter 工具](#linter-工具)
     - [依赖安全性检查](#依赖安全性检查)
@@ -658,6 +668,9 @@ if 'ab' == 'ab':   # true
 
     # 格式化数字
     print("{:.2f}".format(3.1415926))  # 3.14
+
+
+    print('=' * 40)  # 打印 40 个'='
 ```
 
 #### 字符串处理
@@ -988,8 +1001,15 @@ for a in arr:
     # if (isinstance("acb", Iterable)):
     #     print('ok!')
 
-
-    
+    # 判断两个 list 是否相等
+    # 可转为 tuple 之后再比较
+    @dataclass(frozen=True)
+    class Person:
+        name: str
+        age: int
+    lst1 = [Person('a', 11), Person('b', 11)]
+    lst2 = [Person('a', 11), Person('b', 11)]
+    tuple(lst1) == tuple(lst2)  # true
 
     #
     # 列表生成式
@@ -1424,7 +1444,6 @@ while not pq.empty():
 
     # 获取值，如果不存在会报错
     d['Michael'] # 95
-
     # 或者通过get方法，如果不存在，不会报错，只会返回None
     d.get('Thomas')
     d.get('Thomas', -1)
@@ -1939,6 +1958,23 @@ class Person(SimpleNamespace):
 ```
 
 
+## 作用域
+
+```python
+# 包级作用域, 包被导入则自动执行
+hehe=6
+
+def var_demo():
+    # 作用域名
+    # 函数定义了本地作用域，而模块定义的是全局作用域, 如果想要在函数内定义/修改全局作用域，需要加上global修饰符
+    global hehe
+    print(hehe) # 6
+    hehe=3 # 修改
+    pass
+
+
+```
+
 
 ## 条件循环
 
@@ -2410,52 +2446,61 @@ xx = dec2(dec1(xx))
 ```
 
 
-## 模块 作用域
 
-```py
+## 设计模式 design pattern
 
-hehe=6
+### 代理模式
 
-def var_demo():
-    # 作用域名
-    # 函数定义了本地作用域，而模块定义的是全局作用域, 如果想要在函数内定义/修改全局作用域，需要加上global修饰符
-    global hehe
-    print(hehe) # 6
-    hehe=3 # 修改
-    pass
+```python
+# ---------日志记录代理
+
+# better way: 通过装饰器, 直接包装需要代理的方法
+
+#  normal way: 创建代理类
+from abc import ABC, abstractmethod
+class Subj(ABC):
+    @abstractmethod
+    def exec(self):
+        pass
+
+class RealSubj(Subj):
+    def exec(self):
+        print('-- 实际对象的方法')
+
+class Proxy(Subj):
+    def __init__(self, real_subj: Subj):
+        self._real_subj = real_subj
+    
+    def _prev(self):
+        print('_prev')
+    
+    def _post(self):
+        print('_post')
+    
+    def exec(self):
+        self._prev()
+        self._real_subj.exec()
+        self._post()
+
+def client():
+    proxy = Proxy(RealSubj())
+    proxy.exec()
+
+client()
 
 
 
 
-def module_demo():
-    """
-    -   库 就是一个项目, 分为标准库, 第三方库(https://pypi.org/)
-    -   包 就是包含 `__init__.py` 的目录, 可能有多个子包, 也必须包含 init 文件
-    -   每个 `*py` 就是一个 模块
-    python 有自己的模块搜索路径, 但是怎么引入自定义的模块搜索路径呢?
-    # 查看默认路径
-    # 查找顺序为:
-    # 1. 程序所在目录
-    # 2. python 安装标准库目录(lib)
-    # 3. 第三方库目录 (site-package)
-    import sys
-    print(sys.path)
-    # 一次性自定义
-    sys.path.append('/Users/michael/my_py_scripts')
-    # 永久
-    设置环境变量PYTHONPATH，Python自身搜索路径不受影响
-    """
-    # 方式 1:
-    # from xx.yy import hello
-    # hello()
 
-    # 方式 2:
-    import xx.yy as yy
-    yy.hello()
+# ------------缓存代理
+# 通过装饰器, 在装饰器内维护了一个缓存 mapping, 在实际方法调用前后, 加入缓存的逻辑
+# 有现成的 -->   from functiontools import lru_cache,作为装饰器加在方法上即可
 
+# --------访问控制
+
+
+# ----------虚拟代理
 ```
-
-## 设计模式
 
 ### 工厂模式
 
@@ -2701,6 +2746,14 @@ class SideBar:
     # `__repr__()`: 直接 obj 就是调用 obj 的`__repr__()`,通常和 `__str__()`一样
     __repr__ = __str__
 
+
+# 创建对象
+d = SideBar(...)
+# 获取属性, 只适用于对象, 不能用于 dict 
+getattr(d, 'Mickael', None) # 默认值 None 必须给, 否则属性不存在会报错
+
+# 是否存在
+hasattr(d, 'xxx')
 
 ```
 
@@ -3293,12 +3346,23 @@ post_init 在 init 后跟着执行
 
 ```
 
-### __del__
+### `__del__`
 
 ```python
 # 在对象内存被释放时触发执行
 # del xxx  并不一定出发 __del__, 只是减少了一个引用
 ```
+
+### `__exit__` 自动关闭回收
+
+```python
+def __exit(self, *args):
+    # 做一些回收资源的操作, 入关闭资源连接
+    xxxx
+
+实现了 exit 方法的类可以 with Xxxcls() as o:      , 超出作用域, 自动执行 exit 方法
+```
+
 
 ### 可迭代 `__iter__`
 
@@ -3339,10 +3403,14 @@ post_init 在 init 后跟着执行
 ### 属性监控回调 `__getattr__` `__getattribute__`
 
 ```python
-# `__getattr__（）`:动态返回属性 (若获取对象不存在的属性, 会调用这个方法得到返回值)
+# `__getattr__（self, attr）`:动态返回属性 (若获取对象不存在的属性, 会调用这个方法得到返回值)
         # 一般通过这个方法, 禁止获取不存在的对象
         def __getattr__(self, attr):
             raise AttributeError(f'Not suported attr: {attr}')
+
+    # 该方法也可用在包顶级作用域下, 通过包获取某个不存在的属性, 就会走这个方法
+    #  利用这个特性, 可以实现包的懒加载
+
 
 #  __getattribute__()   无论属性存在与否, 都回先call 这个方法
         # 可以用来做一些权限控制
@@ -3682,24 +3750,72 @@ tox.ini tox 的配置文件。
 
 ## 模块 import
 
+### 模块简介
+
 ```py
 
 # 一个文件就是一个模块
 # 一个文件夹, 内部包含一个 __init__.py , 这个文件夹也是一个模块
+# 
+# 模块被导入, 包级别(即顶级)作用域的代码自动执行, 重复导入不会再次执行
 
 # 模块名称要短、使用小写，并避免使用特殊符号, 如".", "?", "_"
 # (就 my.spam.py 来说，Python 认为需要在 my 文件夹 中找到 spam.py 文件，实际并不是这样), 可使用"_" 但不推荐
 
-# import modu 语句将 寻找合适的文件，即调用目录下的 modu.py 文件（如果该文件存在）。
+
+# 如果引用自己项目的的模块时，你的项目叫 my，模块叫 modu，那么不建议使用 from my import modu来引用，
+# 强烈推荐使用 from . import modu。
+
+
+
+
+# ---------------- namespace package
+# 有时多个包存在命名冲突的风险, 或者希望吧多个包组织在一起, 方便调用, 这是可使用 命名空间包
+ns_pkg
+├── module1
+│   ├── __init__.py
+│   └── func1.py
+│   └── func2.py
+├── module2
+    └── __init__.py
+# ns_pkg 是命名空间包的根目录，module1 和 module2 是其子包
+# 导入
+from ns_pkg.module1 import func1
+from ns_pkg.module2 import func2
+
+# or
+# 这种方式 可直接通过 ns_pkg.func1, ns_pkg.func2 使用功能
+from ns_pkg import *
+
+```
+
+#### 模块搜索路径
+
+```py
+
+   python 有自己的模块搜索路径, 但是怎么引入自定义的模块搜索路径呢?
+    # 查看默认路径
+    # 查找顺序为:
+    # 1. 程序所在目录
+    # 2. python 安装标准库目录(lib)
+    # 3. 第三方库目录 (site-package)
+    import sys
+    print(sys.path)
+    # 一次性自定义
+    sys.path.append('/Users/michael/my_py_scripts')
+    # 永久
+    设置环境变量PYTHONPATH，Python自身搜索路径不受影响
+
+
+
+# import modu 语句将寻找合适的文件，即调用目录下的 modu.py 文件（如果该文件存在）。
 #   - 如果没有找到这份文件，Python 解释器递归地在 "PYTHONPATH" 环境变量中查找该文件，如果仍没 有找到，将抛出 ImportError 异常
 #   - 一旦找到 modu.py，Python 解释器将在隔离的作用域内执行这个模块。
 #       所有顶层语句都会被执行. 方法与类的定义将会存储到模块的字典中。
 #       然后这个 模块的变量、方法和类通过 mudu 这个命名空间暴露给调用方，
 
-# 如果引用自己项目的的模块时，你的项目叫 my，模块叫 modu，那么不建议使用 from my import modu来引用，
-# 强烈推荐使用 from . import modu。
 
-# 模块搜索优先级: PYTHONPATH、系统默认、sys.path 中的自定义路径
+# 模块搜索优先级: PYTHONPATH、系统默认、sys.path 中的自定义路径, 如
     ['/Users/xiaoyu/repo/python/quick_start/.venv/bin', 
     '/Users/xiaoyu/.rye/py/cpython@3.12.3/lib/python312.zip', 
     '/Users/xiaoyu/.rye/py/cpython@3.12.3/lib/python3.12/lib-dynload', 
@@ -3707,8 +3823,151 @@ tox.ini tox 的配置文件。
     '/Users/xiaoyu/repo/python/quick_start/src', 
     ]
 
+```
+
+#### import原理
+
+
+```python
+
+
 
 ```
+
+### 包内资源 `importlib.resources`
+
+```python
+# importlib.resources.open_binary(pkg, resource)  以二进制读方式打开
+# importlib.resources.open_text(pkg, resource, encoding)  以文本读方式点开
+
+
+from importlib import resources
+sys.path += ['/User/xxx/xxx/resource_pkg'] # 先讲资源路径添加到 Python 扫描目录
+with resources.open_text('resource_pkg.xxx', 'xxx.txt') as res
+    print(res.read())
+
+    # or read csv file
+    rows = csv.DictReader(res)
+    for row in rows:
+        print('col1: ', row['col1'])
+
+```
+
+### 延迟导入 lazy import
+
+```python
+
+# 为了节省内存, 模块的延迟加载可以有三种常见的方式：
+# - 在函数或方法内部使用import 不推荐, 不利于代码重构, 因为 import 语句散落在各个方法内了
+# - 借助包的dunder方法实现导航方式的包级别的模块延迟加载
+#       __getattr__, __dir__
+# - 借助继承types.ModuleType来自定义懒加载器, 实现模块级别的延迟加载
+
+
+# ------------------- 借助 dunder method
+
+# define a folder module
+mkdir lazymodule
+touch lazymodule/__init__.py
+touch lazymodule/prodct.py   # 假设这个子模块非常耗费资源, 需要延迟导入
+
+# file __init__.py
+import importlib
+from types import ModuleType
+
+__all__ = ['prodct'] # 定义需要懒加载的子包名
+
+def __getattr__(attr: str) -> ModuleType:
+    if attr in __all__:
+        return importlib.import_module(f'lazymodule.{attr}')
+    raise ModuleNotFoundError(f'{attr} not found')
+
+def __dir__(self) -> List[str]:
+    return __all__
+
+# 这样在其他地方就能正常导入懒加载的模块了
+
+
+
+
+
+
+# ---------------- 借助继承types.ModuleType
+from types import ModuleType
+import importlib
+from typing import List, Mapping
+class LazyLoader(ModuleType):
+    def __init__(self, local_name: str, parent_module_golbals: Mapping, name: str):
+        self._local_name = local_name
+        self._parent_module_golbals = parent_module_golbals
+        super(LazyLoader, self).__init__(name)
+    
+    # 幂等的, 因为import_module 不会反复注册
+    def _load(self):
+        module = importlib.import_module(self.__name__)
+        self._parent_module_golbals[self._local_name] = module
+        self.__dict__.update(modle.__dict__)
+
+        return module
+
+    def __getattr__(self, attr) -> ModuleType:
+        mod = self._load()
+        return getattr(mod, attr)
+    
+    def __dir__(self) -> List[str]:
+        mod = self._load()
+        return dir(mod)
+
+product_module = LazyLoader('product', globals(), 'lazymodule.prodct')
+```
+
+
+### 动态导入 实现插件模式
+
+```python
+
+# importlib.import_module 配合 配置中心入 console , nacos 等等, 可实现根据配置加在指定模块
+```
+
+
+### 导入钩子 import hook
+
+案例: 实现http 远程导入
+
+```python
+
+```
+
+
+## `__main__` `__name__` `__file__`
+
+```python
+# 当一个module 被导入使用时, 其 __name__ 会被指为模块名字, 即 包名, __file__ 被置为包绝对路径
+__name__ == '__main__' 可以用来检测当前模块是否是程序的最高层级环境, 即可用来检测程序的入口
+# 什么是最高层级环境?
+# - 即启动命令所在环境
+#    eg:    python xxx.py
+#           python -m xxx.py
+#           python -c "if __name__ == '__main__': xxx"
+#           echo "if __name == '__main__': xxx" | python
+
+
+
+__main__py  是 Python 包的入口文件, 即用 python -m xxx_modle  会从这个入口文件开始执行
+
+
+
+
+# 优雅的定义入口函数
+
+def main() -> int:
+    xxx
+    return 0
+if __name__ == '__main__':
+    sys.exit(main())
+
+```
+
 
 ## type hints 类型提示
 
@@ -5040,6 +5299,15 @@ if __name__ == "__main__":
 ```
 
 `cat names.log | python namescount.py | sort -rn`
+
+
+
+```python
+或者借助 
+arg = sys.argv[2] if len(sys.argv) >= 2  # 下标从 0 开始
+
+
+```
 
 ## shell 调用 Python 
 
