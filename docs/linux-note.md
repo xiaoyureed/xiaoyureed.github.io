@@ -1066,6 +1066,7 @@ root用户的umask比较严格, 会拿掉比较多的权限, 一般为'022', 这
 
 * `pwd`显示当前工作目录; `pwd -P`显示确切路径而非连接档路径
 * `mkdir -p <dir1>/<dir2>/<dir3>` 递归创建多层目录
+    * mkdir -p /xxx/xxx/{yy, zz} 分别创建 xxx/yy, xxx/zz, touch 命令同理
 * `mkdir -m 771 test1` 建立dir的同时设置权限(这时不用管预设权限umask)
 * `rmdir <dir>` 只能删除空目录; 
 * `rmdir -p <dir1>/<dir2>/<dir3>`递归删除空目录

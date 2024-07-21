@@ -124,13 +124,20 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [文件处理](#文件处理)
         - [创建文件](#创建文件)
         - [读写文件数据](#读写文件数据)
-    - [装饰器](#装饰器)
+    - [装饰器 decorator](#装饰器-decorator)
     - [设计模式 design pattern](#设计模式-design-pattern)
         - [代理模式](#代理模式)
         - [工厂模式](#工厂模式)
         - [单例模式](#单例模式)
     - [面向对象](#面向对象)
-        - [类](#类)
+        - [类 对象](#类-对象)
+        - [描述器](#描述器)
+            - [描述器介绍](#描述器介绍)
+            - [属性的查询链路顺序](#属性的查询链路顺序)
+            - [案例: 记录属性访问日志](#案例-记录属性访问日志)
+            - [案例: 属性校验](#案例-属性校验)
+            - [案例: 简单的 orm](#案例-简单的-orm)
+            - [案例: 实现属性懒加载](#案例-实现属性懒加载)
         - [继承 鸭子类型](#继承-鸭子类型)
         - [判断类型信息](#判断类型信息)
         - [动态操作](#动态操作)
@@ -170,11 +177,13 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [模块 import](#模块-import)
         - [模块简介](#模块简介)
             - [模块搜索路径](#模块搜索路径)
-            - [import原理](#import原理)
+            - [import原理 模块查询链路](#import原理-模块查询链路)
+            - [自定义导入器](#自定义导入器)
         - [包内资源 `importlib.resources`](#包内资源-importlibresources)
         - [延迟导入 lazy import](#延迟导入-lazy-import)
         - [动态导入 实现插件模式](#动态导入-实现插件模式)
         - [导入钩子 import hook](#导入钩子-import-hook)
+        - [path hook](#path-hook)
     - [`__main__` `__name__` `__file__`](#__main__-__name__-__file__)
     - [type hints 类型提示](#type-hints-类型提示)
     - [linter 工具](#linter-工具)
@@ -210,6 +219,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [获取脚本位置](#获取脚本位置)
 - [shutil 使用](#shutil-使用)
 - [web 开发](#web-开发)
+    - [用Python写ui](#用python写ui)
     - [litestar](#litestar)
     - [fastapi](#fastapi)
     - [Django](#django)
@@ -2372,7 +2382,7 @@ def read_write_file():
 ```
 
 
-## 装饰器
+## 装饰器 decorator
 
 
 ```py
@@ -2640,7 +2650,7 @@ class Cofnig:
 ## 面向对象
 
 
-### 类
+### 类 对象
 
 ```py
 
@@ -2757,7 +2767,256 @@ hasattr(d, 'xxx')
 
 ```
 
+### 描述器 
 
+
+
+#### 描述器介绍
+
+```python
+# 描述器就是类,
+# 只是类包含一组方法 __get__、__set__ 和 __delete__, 用于控制属性的访问和使用
+# 
+# 此外, 还有些可选的方法 
+#    __set_name__(self, ins, attr_name)  在描述器被赋值给某个属性时自动调用, 
+# 
+# 场景:
+# 实现属性的惰性计算
+# 控制对属性的访问权限
+# 为属性添加验证逻辑
+# 实现自定义属性类型
+
+
+# 数据描述器: 有  __get__ 和 __set__（或 __delete__）, 用于控制对属性值的访问和修改
+# 非数据描述器: 仅定义了 __get__  , 用于在获取属性值时执行自定义逻辑
+
+
+# ------------------ 定义非数据描述器
+
+class DirSize:
+    def __get__(self, ins, cls):
+        print(ins)  # 实例对象
+        print(cls)  # class 对象
+        print(isinstance(ins, cls))  # true
+
+        return len(os.listdir(ins.dirname))
+
+
+class Dir:
+    # 就是类属性, 
+    # 仅仅是借助类属性, size 这个属性指定描述器
+    #  size 若有同名的对象属性, 值会被同名的对象属性覆盖
+    size = DirSize()
+
+    def __init__(self, dirname):
+        self.dirname = dirname
+
+
+cur_dir = Dir("./")
+print(cur_dir.size)  # 会调用 DirectorySize的 get 方法
+
+# ------------------------
+
+
+
+# --------------------- 定义一个数据描述器
+
+class UppercaseDescriptor:
+    # instance 是拥有这个描述器的实例对象
+    def __get__(self, ins, cls):
+        return ins._value.upper() # 必须通过 '_' 开头的是有变量获取属性, 这里 _value 获取的是MyClass 的 value 属性 
+
+    def __set__(self, ins, value):
+        ins._value = value.upper()
+
+# 使用
+class MyClass:
+    # 实际是通过 _value 存取
+    value = UppercaseDescriptor() # 这意味着每次获取或设置 value 属性时，都会调用描述器的方法。
+
+mc = MyClass()
+mc.value = 'ab'
+print(mc.value) # AB
+print(vars(mc)) # {'_value': 'AB'}
+
+
+```
+
+
+#### 属性的查询链路顺序
+
+```python
+
+
+# 属性查询路径顺序:
+- 数据描述器的 get
+- 对象的 dict
+- 非数据描述器的 get
+- 类的 dict
+- 父类的 dict
+- mro 的顺序搜索对应类的 dict
+都找不到, 抛出 AttributeError
+
+```
+
+
+#### 案例: 记录属性访问日志
+
+
+```py
+
+
+# -----------------------
+
+
+class AttributeAccessLoggingDescriptor:
+    
+    def __set_name__(self, ins, attr_name):
+        self.pri_name = f'_{attr_name}'
+        self.pub_name = attr_name
+    
+    def __get__(self, ins, instype):
+        value = getattr(ins, self.pri_name)
+        print(f'访问 {self.pub_name} 属性, 返回值: {value}')
+        return value    
+
+    def __set__(self, ins, value):
+        print(f'更新 {self.pub_name} 属性, 属性值: {value}')
+        setattr(ins, self.pri_name, value)
+
+
+class Product:
+    name = AttributeAccessLoggingDescriptor()
+    count = AttributeAccessLoggingDescriptor()
+
+    def __init__(self, name, count):
+        self.name = name
+        self.count = count
+
+p1= Product('a', 1)
+p2 = Product('b', 2)
+
+
+```
+
+#### 案例: 属性校验
+
+```py
+
+
+
+# ----------------------------- 
+
+
+class Validator:
+
+    def __set_name__(self, ins, attr):
+        self.pri_name = f'_{attr}'
+        self.pub_name = attr
+    
+    def __get__(self, ins, cls):
+        return getattr(ins, self.pri_name)
+
+    def __set__(self, ins, val):
+        self.validate(val)
+        setattr(ins, self.pri_name, val)
+    
+    # 待实现的抽象方法
+    def validate(self, val):
+        ...
+    
+
+class OneOf(Validator):
+    def __init__(self, *options):
+        self.options = set(options)
+    
+    
+    def validate(self, val):
+        if self.options and val not in self.options:
+            raise ValueError(f'属性 {self.pub_name!r} 取值必须在 {self.options!r} 中')
+
+class Person:
+    name = OneOf('a', 'b')
+    
+    def __init__(self, name):
+        self.name = name
+        
+p = Person('a') # 不报错
+p2 =Person('c') # 报错
+
+
+
+```
+
+#### 案例: 简单的 orm
+
+```py
+
+
+# ---------------------- 
+
+import sqlite3
+conn = sqlite3.connect('/tmp/data.db')
+
+class Field:
+    def __set_name__(self, ins, attr):
+        self.sql_get_by_id = f'select {attr} from {ins.table} where {ins.key} = ?;'
+        self.sql_update_by_id = f'update {ins.table} set {attr} = ? where {ins.key} = ?;'
+    
+    def __get__(self, ins, instype):
+        return conn.execute(self.sql_get_by_id, [ins.key]).fetchone()[0]
+    
+    def __set__(self, ins, val):
+        conn.execute(self.sql_update_by_id, [val, ins.key])
+        conn.commit()
+    
+# 使用
+class User:
+    table = 'user'
+    key = 'id'
+    name = Field()
+    age = Field()
+
+    def __init__(self, key):
+        self.key = key
+
+name1 = User(1).name
+name2 = User(2).name
+
+
+
+```
+
+
+#### 案例: 实现属性懒加载
+
+```python
+
+# ------------------------- 
+# 当描述器被当作装饰器使用
+
+# 只有 __get__, 这是一个非数据描述器, 不能是数据描述器, 因为数据描述器/非数据描述器 属性读取的链路顺序不同
+class LazyProperty:
+    def __init__(self, func):
+        self.func = func
+        self.func_name = func.__name__
+    
+    def __get__(self, ins, instype):
+        val = self.func(ins)
+        ins.__dict__[self.func_name] = val
+        return val
+
+class Person:
+    @LazyProperty
+    def heavy_result(self):
+        print('some heavy task')
+        return 100000
+
+p = Person()  # 创建时, 不会初始化属性 heavy_result, 是为懒加载
+a = p.heavy_result  # 实际读取时才会执行实际的计算逻辑
+b = p.heavy_result  # 第二次调用, 会从缓存拿 
+
+```
 
 ### 继承 鸭子类型
 
@@ -3825,12 +4084,50 @@ from ns_pkg import *
 
 ```
 
-#### import原理
+#### import原理 模块查询链路
 
 
 ```python
+例如:
+import a.b.c  # a.b 是package, c 是实际模块名
+
+Python 首先尝试 import a, 到 globals() 里找是否存在 a 模块, 
+    若存在, 直接返回
+    若不在, 依次调用 importer, 找到 a, 添加到 sys.modules 里, 然后注册到 globals()
+        # 有三种 importer, 根据调用顺序:
+        - BuildinImporter
+        - FrozenImporter
+        - PathFinder
+        - 我们 也可以自定义 importer : CustomFinder, 可以自定义在 importer 链条中的顺序
+
+        前面的 importer 找不到, 就调用后面的 importer 找模块, 都找不到就报错
+
+然后尝试 import a.b , 重复上面流程
+
+最后尝试 import a.b.c
 
 
+
+# ----------------
+
+```
+
+#### 自定义导入器
+
+```python
+
+from importlib.abc import MetaPathFinder
+import sys
+class LoggingFinder(MetaPathFinder):
+    def find_spec(self, fullname, path, target=None):
+        print(f'--> {fullname}, path: {path}, target: {target}')
+        # 这里设置为找不到任何东西, 那么会调用后续的 importer 继续找
+        return None
+        # 禁止导入
+        # raise ImportError('禁止导入')
+
+# 注册导入器, 必须在 import 语句之前执行
+sys.meta_path.insert(0, LoggingFinder())
 
 ```
 
@@ -3935,9 +4232,14 @@ product_module = LazyLoader('product', globals(), 'lazymodule.prodct')
 案例: 实现http 远程导入
 
 ```python
-
+https://www.bilibili.com/video/BV1M24y117aW
 ```
 
+### path hook
+
+```python
+https://www.bilibili.com/video/BV1zM411C7WC/
+```
 
 ## `__main__` `__name__` `__file__`
 
@@ -3976,6 +4278,11 @@ if __name__ == '__main__':
 # 自 python3.5 开始，PEP484 为 python 引入了类型注解 (type hints) ----------   Mypy 是 Python 中的静态类型检查器
 
 # 在 vscode 中你可以安装 mypy 的插件
+
+
+Python 自带类型: int, str, list, tuple, dict ...
+
+typing 模块提供类型(推荐): List, Mapping...
 
 ```
 
@@ -4835,6 +5142,22 @@ https://www.zhihu.com/question/41564604/answer/660256963 对比
 
     内嵌了HTTP服务器
 
+
+## 用Python写ui
+
+```python
+
+
+https://github.com/streamlit/streamlit 最火
+
+https://github.com/gradio-app/gradio
+
+https://github.com/plotly/dash 制作数据图表,统计表
+
+https://github.com/kivy/kivy ui 框架
+
+https://github.com/pydantic/FastUI
+```
 
 ## litestar
 
