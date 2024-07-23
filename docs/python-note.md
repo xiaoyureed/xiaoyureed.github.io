@@ -125,10 +125,10 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [创建文件](#创建文件)
         - [读写文件数据](#读写文件数据)
     - [装饰器 decorator](#装饰器-decorator)
-    - [设计模式 design pattern](#设计模式-design-pattern)
-        - [代理模式](#代理模式)
-        - [工厂模式](#工厂模式)
-        - [单例模式](#单例模式)
+        - [装饰器介绍](#装饰器介绍)
+        - [类装饰器](#类装饰器)
+        - [案例: 失败重试](#案例-失败重试)
+        - [案例: 依赖注入](#案例-依赖注入)
     - [面向对象](#面向对象)
         - [类 对象](#类-对象)
         - [描述器](#描述器)
@@ -136,6 +136,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
             - [属性的查询链路顺序](#属性的查询链路顺序)
             - [案例: 记录属性访问日志](#案例-记录属性访问日志)
             - [案例: 属性校验](#案例-属性校验)
+            - [案例: 简化属性的定义](#案例-简化属性的定义)
             - [案例: 简单的 orm](#案例-简单的-orm)
             - [案例: 实现属性懒加载](#案例-实现属性懒加载)
         - [继承 鸭子类型](#继承-鸭子类型)
@@ -147,6 +148,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [数据类](#数据类)
         - [@dataclass 创建实体类](#dataclass-创建实体类)
         - [hash策略](#hash策略)
+    - [元类 Metaclass](#元类-metaclass)
     - [错误异常处理](#错误异常处理)
         - [系统内置的异常](#系统内置的异常)
         - [异常捕获抛出](#异常捕获抛出)
@@ -166,6 +168,10 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [类型转换 `__bool__`](#类型转换-__bool__)
 - [标准库](#标准库)
     - [日期处理](#日期处理)
+- [设计模式 design pattern](#设计模式-design-pattern)
+    - [代理模式 proxy](#代理模式-proxy)
+    - [工厂模式 factory](#工厂模式-factory)
+    - [单例模式 singleton](#单例模式-singleton)
 - [工程化](#工程化)
     - [依赖注入](#依赖注入)
     - [cookiecutter 项目模板](#cookiecutter-项目模板)
@@ -209,7 +215,6 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [gevent 自动切换](#gevent-自动切换)
 - [编写命令行程序](#编写命令行程序)
     - [命令行自动补全](#命令行自动补全)
-- [类型系统 type-hint](#类型系统-type-hint)
 - [调试](#调试)
     - [断言](#断言)
     - [设置断点 pdb](#设置断点-pdb)
@@ -2384,26 +2389,32 @@ def read_write_file():
 
 ## 装饰器 decorator
 
+### 装饰器介绍
 
 ```py
+# 是 py 提供的编写高阶函数的语法糖, 即底层就是一个函数, 这个函数会返回一个函数
+# 函数装饰器
+# 类装饰器
+    # __init__, __call__ 
 
-"""
-装饰器
-"""
-def now():
-    print('2015-1-1')
-now()
-print(now.__name__) # now
-f = now
-f()
-print(f.__name__)  # f     函数名字变了
+# 多个装饰器
+@dec2(arg)
+@dec1
+def xx():
+    pass
+# 等价于
+xx = dec2(arg)(dec1(xx))
 
-print('---------------')
+
+
+# ------------------------- 定义一个日志包装器
+
 
 import functools
 # 本质上, decorator就是一个返回函数的高阶函数, 接受一个函数, 返回包装后的函数
 def log(func):
-    @functools.wraps(func) # 作用是修改装饰后的函数 __name__ 属性值, 如果不加, 装饰器还是工作的, 但是 __name__ 会变为 "wrapper", 显然不行
+    # # 作用是修改装饰后的函数 __name__ 属性值, 如果不加, 装饰器还是工作的, 但是 __name__ 会变为 "wrapper", 显然不行
+    @functools.wraps(func) 
     def wrapper(*args, **kw):  # 能接受任意的参数
         print('call %s(): ' % func.__name__)
         return func(*args, **kw)
@@ -2415,6 +2426,10 @@ def new():
     print('111-111-111')
 new() # 执行的是包装后的函数
 
+
+
+
+# ------------------------------------ 带参数的包装器
 
 # 如果decorator本身需要传入参数，那就需要编写一个返回decorator的高阶函数
 def log1(text):
@@ -2433,219 +2448,213 @@ yyy()
 
 
 
+# --------------------------案例 统计执行时间
 
-def cost_count(func):
-    @wraps(func)
-    def wraper(*args, **kwargs):
-        start = time.time()
-        t = func(*args, **kwargs)
-        logging.info("%s tooks time: %f", func.__name__, time.time()-start)
-        return t
-    return wraper
+def timer(func):
+    def wrapper():
+        start = time.perf_counter() # 或者 time.time()
+        func()
+        end = time.perf_counter()
+        elapse = end - start
+        print('耗时:', elapse)
 
-
-
-# 多个装饰器
-@dec2
-@dec1
-def xx():
-    pass
-
-# 等价于
-xx = dec2(dec1(xx))
-```
-
-
-
-## 设计模式 design pattern
-
-### 代理模式
-
-```python
-# ---------日志记录代理
-
-# better way: 通过装饰器, 直接包装需要代理的方法
-
-#  normal way: 创建代理类
-from abc import ABC, abstractmethod
-class Subj(ABC):
-    @abstractmethod
-    def exec(self):
-        pass
-
-class RealSubj(Subj):
-    def exec(self):
-        print('-- 实际对象的方法')
-
-class Proxy(Subj):
-    def __init__(self, real_subj: Subj):
-        self._real_subj = real_subj
-    
-    def _prev(self):
-        print('_prev')
-    
-    def _post(self):
-        print('_post')
-    
-    def exec(self):
-        self._prev()
-        self._real_subj.exec()
-        self._post()
-
-def client():
-    proxy = Proxy(RealSubj())
-    proxy.exec()
-
-client()
-
-
-
-
-
-# ------------缓存代理
-# 通过装饰器, 在装饰器内维护了一个缓存 mapping, 在实际方法调用前后, 加入缓存的逻辑
-# 有现成的 -->   from functiontools import lru_cache,作为装饰器加在方法上即可
-
-# --------访问控制
-
-
-# ----------虚拟代理
-```
-
-### 工厂模式
-
-```python
-
-
-
-# now we have the following data
-# trying to create diffecrrent obj accordng to the 'sex'
-data = {
-    "arr": [
-        {
-            "name": "aa",
-            "sex": "male",
-        },
-        {
-            "name": "bb",
-            "sex": "female",
-        },
-    ]
-}
-
-from abc import ABC, abstractmethod
-class Person(ABC):
-    def __init__(self, name, sex):
-        self.name = name
-        self.sex = sex
-
-    @abstractmethod
-    def print_gender(self):
-        """print gender"""
-
-
-class Male(Person):
-    def print_gender(self):
-        print(f"{self.name}'s gender is {self.sex} --from Male class")
-
-
-class Female(Person):
-    def print_gender(self):
-        print(f"{self.name}'s gender is {self.sex} --from Female class")
-
-
-from typing import Callable, Any
-# use this map to store the creation logic
-# key is the sex, value is the create function
-creation_functions: dict[str, Callable[..., Person]] = {}
-
-
-def register(sex: str, func: Callable[..., Person]) -> None:
-    creation_functions[sex] = func
-
-
-def unregister(sex: str) -> None:
-    creation_functions.pop(sex, None) # 'None' is reuqired to avoid raising exception
-
-
-def create(args: dict[str, Any]) -> Person:
-    the_args = args.copy()
-    sex = the_args["sex"]
-    
-    try:
-        func = creation_functions[sex]
-        return func(**the_args)
-    except KeyError:
-        raise ValueError('unkonwn gender: ' + sex) from None
-
-register('male', Male)
-register('female', Female)
-
-for ele in data['arr']:
-    c = create(ele)
-    c.print_gender()
-```
-
-### 单例模式
-
-```python
-# the following ways are all ok , but the first two is recommended
-模块  # 推荐
-装饰器  # 推荐
-__new__
-classmethod
-metaclass
-
-
-
-# ----------- 通过模块
-
-# define a moddule singleton.py
-class Config:
-    pass
-
-config = Config()
-
-# 在其他模块就可以导入使用了, 这样使用的就都是同一个对象 (多线程也能正常工作)
-
-
-
-#  -------------通过装饰器
-
-def singleton(cls):
-    _instance_mapping = {}
-    _lock = threading.Lock()
-    
-    def wrapper(*args, **kwargs):
-        if cls not in _instance_mapping: 
-            with _lock:
-                if cls not in _instance_mapping:
-                    _instance_mapping[cls] = cls(*args, **kwargs)
-        return _instance_mapping[cls]
     return wrapper
-    
-@singleton
-class Config:
-    pass
 
+@timer
+def show():
+    print('hehe')
+    time.sleep(0.2)
 
-# ---------------- 通过 __new__
-
-
-class Cofnig:
-    _instance = None
-    _lock = threading.Lock()
-
-    def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            with cls._lock:
-                if cls._instance is None:
-                    cls._instance = super(Cofnig, cls).__new__(cls, *args, **kwargs)
-            
-        return cls._instance
+show()
 
 
 ```
+
+### 类装饰器
+
+```python
+
+# 定义类装饰器, 
+# 就是一个类, 有一个 __call__方法
+class Entity:
+    def __call__(self, cls):
+        print('__call__', cls)
+
+        def __repr__(self) -> str:
+            return f'{cls.__qualname__}()' # 返回类名, 即 cls.__name__
+        cls.__repr__ = __repr__
+
+        def hello(self):
+            print('hello')
+            
+        cls.hello = hello
+        
+        return cls
+
+# 必须加括号
+# 此时, 不等到实例化 User, Entity.__call__ 就会执行, 返回的 cls 就是包装后的 User 类
+@Entity() 
+class User:
+    ...
+
+u = User()
+print(u) # User()
+u.hello() # hello
+
+```
+
+
+### 案例: 失败重试
+
+```python
+
+
+def retry(ex_type: Exception, try_times=3, delay=1, backoff=2):
+    """失败重试
+
+    Args:
+        ex (Exception): 错误类型
+        try_times (int, optional): 重试次数. Defaults to 3.
+        delay (int, optional): 延迟. Defaults to 1.
+        backoff (int, optional): 累加. Defaults to 2.
+    """
+    
+    def decrator_retry(func):
+        @functools.wraps(func)
+        def run_with_retry_policy(*args, **kw):
+            _try_times, _delay = try_times, delay
+            while _try_times > 1:
+                try:
+                    return func(*args, **kw)
+                except ex_type:
+                    print(f'operation failed, will retry after {_delay}')
+                    _try_times -= 1
+                    _delay *= backoff
+            # 最后一次不走循环了
+            return func(*args, **kw)
+        
+        return run_with_retry_policy
+    
+    return decrator_retry
+
+# 使用
+@retry(requests.ConnectionError, try_times=4)
+def get_content(url: str) -> str:
+    res = requests.get(url)
+    return res.text
+
+```
+
+### 案例: 依赖注入
+
+```python
+
+
+
+from abc import ABC, abstractmethod
+from threading import Lock
+
+# key 是 class, 值也是 class
+comps: dict = {}
+
+class Component:
+    def __call__(self, cls):
+        if comps.get(cls) is None:
+            comps[cls] = cls
+        return comps[cls]
+
+class Inject(ABC):
+    def __init__(self, **kw):
+        self.kw = kw
+    
+    def __call__(self, cls):
+        cls_init = cls.__init__
+
+        def __init__(_self, *args, **kw):
+            cls_init(_self, *args, **kw)
+            self.inject_members(_self)
+            
+        cls.__init__ = __init__
+
+        return cls
+
+    def inject_members(self, obj):
+        for name, clazz in self.kw.items():
+            ins = self.get_instance(clazz)
+            if ins:
+                setattr(obj, name, ins)
+    
+    @abstractmethod
+    def get_instance(self, cls):
+        ...
+
+class InjectPrototype(Inject):
+    def get_instance(self, cls):
+        clazz = comps.get(cls)
+        if clazz:
+            return clazz()
+        raise KeyError(f'comps中不存在类型{cls}')
+
+class InjectSingleton(Inject):
+    # 类 和实例的映射
+    _ins_mapping: dict = {}
+
+    # 这个锁是用来获取 class 锁的
+    _lock = Lock()
+
+    # class 锁, 即类和锁的映射
+    _lock_mapping: dict = {}
+
+    def get_instance(self, cls):
+        ins = self._ins_mapping.get(cls)
+        if not ins:
+            class_lock = self._lock_mapping.get(cls)
+            if not class_lock:
+                with self._lock:
+                    class_lock = Lock()
+                    self._lock_mapping[cls] = class_lock
+            with class_lock:
+                ins = self._ins_mapping.get(cls)
+                if not ins:
+                    clazz = comps.get(cls)
+                    ins = clazz()
+                    self._ins_mapping[cls] = ins
+
+        return ins
+
+
+# 使用
+@Component()
+class UserService:
+    def get_user(self, id) -> str:
+        return f'User-{id}'
+
+@Component()
+class ProductService:
+    def get_prods(self):
+        return 'products'
+
+@InjectSingleton(user_service=UserService)
+@InjectSingleton(product_service=ProductService)
+@Component()
+class BizService:
+    def print_user(self):
+        print(self.user_service.get_user(1))
+        print(self.product_service.get_prods())
+
+@InjectSingleton(biz_service=BizService)
+class Controller:
+    def exec(self):
+        self.biz_service.print_user()
+
+c = Controller()
+c.exec()
+
+c2 = Controller()
+print(id(c.biz_service) == id(c2.biz_service)) # true, 说明注入的是单例对象
+```
+
+
 
 ## 面向对象
 
@@ -2947,6 +2956,39 @@ p2 =Person('c') # 报错
 
 
 ```
+
+#### 案例: 简化属性的定义
+
+```python
+
+
+class Life:
+    def __init__(self, min: int, max: int, error: str):
+        self.min = min
+        self.max = max
+        self.error = error
+
+    def __set_name__(self, ins, attr):
+        self.attr = attr
+
+    def __get__(self, ins, instype):
+        return ins.__dict__.get(self.attr)
+    
+    def __set__(self, ins, val):
+        if val < self.min or val > self.max:
+            raise ValueError(self.error)
+        ins.__dict__[self.attr] = val
+
+# 定义一套游戏方案
+class Scenario:
+    # 定义英雄生命值属性
+    hero_life = Life(0, 10, 'hero life not in the scope')
+    # 敌人生命值属性
+    enemy_life = Life(0, 100, 'enemy life not in the scope')
+
+    # 可以看到, 很简便, 如果通过 __init__() 或者 @property 去定义属性会很麻烦
+```
+
 
 #### 案例: 简单的 orm
 
@@ -3441,6 +3483,18 @@ print('p2 super hash', p2.get_super_hash())
 
 
 
+## 元类 Metaclass
+
+```python
+
+元类是类的工厂，生产类的类
+
+#--------------------------------- 案例: 简单 orm 实现
+https://www.bilibili.com/video/BV1Qv4y1976p/?spm_id_from=333.788&vd_source=c2f975abf353677cb814e38e073b6a75
+
+
+
+```
 
 
 ## 错误异常处理
@@ -3843,6 +3897,197 @@ def builtin_module():
 
 ```
 
+
+
+# 设计模式 design pattern
+
+## 代理模式 proxy
+
+```python
+# ---------日志记录代理
+
+# better way: 通过装饰器, 直接包装需要代理的方法
+
+#  normal way: 创建代理类
+from abc import ABC, abstractmethod
+class Subj(ABC):
+    @abstractmethod
+    def exec(self):
+        pass
+
+class RealSubj(Subj):
+    def exec(self):
+        print('-- 实际对象的方法')
+
+class Proxy(Subj):
+    def __init__(self, real_subj: Subj):
+        self._real_subj = real_subj
+    
+    def _prev(self):
+        print('_prev')
+    
+    def _post(self):
+        print('_post')
+    
+    def exec(self):
+        self._prev()
+        self._real_subj.exec()
+        self._post()
+
+def client():
+    proxy = Proxy(RealSubj())
+    proxy.exec()
+
+client()
+
+
+
+
+
+# ------------缓存代理
+# 通过装饰器, 在装饰器内维护了一个缓存 mapping, 在实际方法调用前后, 加入缓存的逻辑
+# 有现成的 -->   from functiontools import lru_cache,作为装饰器加在方法上即可
+
+# --------访问控制
+
+
+# ----------虚拟代理
+```
+
+## 工厂模式 factory
+
+```python
+
+
+
+# now we have the following data
+# trying to create diffecrrent obj accordng to the 'sex'
+data = {
+    "arr": [
+        {
+            "name": "aa",
+            "sex": "male",
+        },
+        {
+            "name": "bb",
+            "sex": "female",
+        },
+    ]
+}
+
+from abc import ABC, abstractmethod
+class Person(ABC):
+    def __init__(self, name, sex):
+        self.name = name
+        self.sex = sex
+
+    @abstractmethod
+    def print_gender(self):
+        """print gender"""
+
+
+class Male(Person):
+    def print_gender(self):
+        print(f"{self.name}'s gender is {self.sex} --from Male class")
+
+
+class Female(Person):
+    def print_gender(self):
+        print(f"{self.name}'s gender is {self.sex} --from Female class")
+
+
+from typing import Callable, Any
+# use this map to store the creation logic
+# key is the sex, value is the create function
+creation_functions: dict[str, Callable[..., Person]] = {}
+
+
+def register(sex: str, func: Callable[..., Person]) -> None:
+    creation_functions[sex] = func
+
+
+def unregister(sex: str) -> None:
+    creation_functions.pop(sex, None) # 'None' is reuqired to avoid raising exception
+
+
+def create(args: dict[str, Any]) -> Person:
+    the_args = args.copy()
+    sex = the_args["sex"]
+    
+    try:
+        func = creation_functions[sex]
+        return func(**the_args)
+    except KeyError:
+        raise ValueError('unkonwn gender: ' + sex) from None
+
+register('male', Male)
+register('female', Female)
+
+for ele in data['arr']:
+    c = create(ele)
+    c.print_gender()
+```
+
+## 单例模式 singleton
+
+```python
+# the following ways are all ok , but the first two is recommended
+模块  # 推荐
+装饰器  # 推荐
+__new__
+classmethod
+metaclass
+
+
+
+# ----------- 通过模块
+
+# define a moddule singleton.py
+class Config:
+    pass
+
+config = Config()
+
+# 在其他模块就可以导入使用了, 这样使用的就都是同一个对象 (多线程也能正常工作)
+
+
+
+#  -------------通过装饰器
+
+def singleton(cls):
+    _instance_mapping = {}
+    _lock = threading.Lock()
+    
+    def wrapper(*args, **kwargs):
+        if cls not in _instance_mapping: 
+            with _lock:
+                if cls not in _instance_mapping:
+                    _instance_mapping[cls] = cls(*args, **kwargs)
+        return _instance_mapping[cls]
+    return wrapper
+    
+@singleton
+class Config:
+    pass
+
+
+# ---------------- 通过 __new__
+
+
+class Cofnig:
+    _instance = None
+    _lock = threading.Lock()
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = super(Cofnig, cls).__new__(cls, *args, **kwargs)
+            
+        return cls._instance
+
+
+```
 
 
 # 工程化
@@ -4273,18 +4518,45 @@ if __name__ == '__main__':
 
 ## type hints 类型提示
 
+
+
+https://www.zhihu.com/question/265003581/answer/461562594
+https://zhuanlan.zhihu.com/p/56863684
+
+https://github.com/python/mypy
+
+https://github.com/google/pytype
+
+https://docs.python.org/zh-cn/3/library/typing.html
+
 ```py
+# 自python3.5开始，PEP484为python引入了类型注解(type hints)
+# 在 vscode 中你可以安装 mypy 的插件,  Mypy 是 Python 中的静态类型检查器, 
+    #
+    # https://www.cnblogs.com/linkenpark/p/11676297.html
+    # 
+    # int,long,float: 整型,长整形,浮点型
+    # bool,str: 布尔型，字符串类型
+    # 
+    # typing模块
+    # 
+    # List, Tuple, Dict, Set, Mapping:列表，元组，字典, 集合, 映射
+    # Iterable,Iterator:可迭代类型，迭代器类型
+    # Generator：生成器类型
+    #
+    # ":" 后面是参数类型
+    # "->" 是返回值的注释，-> str 意思即是提醒函数使用者返回值会是一个str型
+    def f(ham: "传一个字符串", eggs: str = 'eggs') -> str :
+        print("Annotations:", f.__annotations__)
+        print("Arguments:", ham, eggs)
+        return ham + ' and ' + eggs
 
-# 自 python3.5 开始，PEP484 为 python 引入了类型注解 (type hints) ----------   Mypy 是 Python 中的静态类型检查器
-
-# 在 vscode 中你可以安装 mypy 的插件
-
-
-Python 自带类型: int, str, list, tuple, dict ...
-
-typing 模块提供类型(推荐): List, Mapping...
+    print(f("est", 123))
 
 ```
+
+
+
 
 
 ## linter 工具
@@ -4846,43 +5118,6 @@ https://www.jianshu.com/p/005ecf9cf8aa TODO
 https://www.cnblogs.com/lgh344902118/p/8521437.html
 
  TODO
-
-
-
-# 类型系统 type-hint
-
-https://www.zhihu.com/question/265003581/answer/461562594
-https://zhuanlan.zhihu.com/p/56863684
-
-https://github.com/python/mypy
-
-https://github.com/google/pytype
-
-https://docs.python.org/zh-cn/3/library/typing.html
-
-微软于7月1日发布一款新的VS Code插件，名为 Pylance
-
-
-```py
-# 自python3.5开始，PEP484为python引入了类型注解(type hints)
-    # typing模块
-    #
-    # https://www.cnblogs.com/linkenpark/p/11676297.html
-    # int,long,float: 整型,长整形,浮点型
-    # bool,str: 布尔型，字符串类型
-    # List, Tuple, Dict, Set:列表，元组，字典, 集合
-    # Iterable,Iterator:可迭代类型，迭代器类型
-    # Generator：生成器类型
-    #
-    # ":" 后面是参数类型
-    # "->" 是返回值的注释，-> str 意思即是提醒函数使用者返回值会是一个str型
-    def f(ham: "传一个字符串", eggs: str = 'eggs') -> str :
-        print("Annotations:", f.__annotations__)
-        print("Arguments:", ham, eggs)
-        return ham + ' and ' + eggs
-
-    print(f("est", 123))
-```
 
 
 # 调试
