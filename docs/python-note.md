@@ -107,11 +107,10 @@ https://www.zhihu.com/question/19827960 指的关注的社区
                 - [模拟 switch case](#模拟-switch-case)
             - [dict 字典推导式](#dict-字典推导式)
         - [列表推导式](#列表推导式)
-        - [生成器 generator](#生成器-generator)
-        - [迭代器](#迭代器)
         - [二进制结构封包解包](#二进制结构封包解包)
         - [SimpleNamespace 创建简单类](#simplenamespace-创建简单类)
         - [container 容器](#container-容器)
+    - [赋值表达式 Assignment Expressions](#赋值表达式-assignment-expressions)
     - [作用域](#作用域)
     - [条件循环](#条件循环)
     - [比较判断](#比较判断)
@@ -121,12 +120,21 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [多种参数](#多种参数)
         - [递归](#递归)
         - [高阶函数](#高阶函数)
+    - [生成器 generator](#生成器-generator)
+        - [案例:生成器实现斐波拉契数列](#案例生成器实现斐波拉契数列)
+    - [迭代器](#迭代器)
     - [文件处理](#文件处理)
         - [创建文件](#创建文件)
         - [读写文件数据](#读写文件数据)
+    - [context manager 上下文管理器](#context-manager-上下文管理器)
+        - [案例: 临时切换工作场景后还原(多个类似例子)](#案例-临时切换工作场景后还原多个类似例子)
+        - [案例:](#案例)
+        - [案例: 计时器(更细粒度)](#案例-计时器更细粒度)
+        - [案例: 控制小数精度](#案例-控制小数精度)
     - [装饰器 decorator](#装饰器-decorator)
         - [装饰器介绍](#装饰器介绍)
         - [类装饰器](#类装饰器)
+        - [案例: 注入方法参数](#案例-注入方法参数)
         - [案例: 失败重试](#案例-失败重试)
         - [案例: 依赖注入](#案例-依赖注入)
     - [面向对象](#面向对象)
@@ -1795,141 +1803,6 @@ def read_file2(path: str) -> Generator[str]:
 
 ```
 
-### 生成器 generator
-
-```py
-# 生成器
-和 推导式区别： 推导式会一下将列表内容生成出来， 占用内存高
-              生成器在 next(gen) 的时候才会生成出一个元素 （即‘惰性计算’特性）， 节省内存 （读取大文件的时候可用这个方式）
-
-
-    #
-    # 把一个列表生成式的[]改成()，就创建了一个generator
-    # 要获取 generator 内的值， 需 next(gen) , 或者 for i in xxx_gen
-    gen = (x for x in range(3))
-    i = next(gen) # 0
-    j = next(gen) # 1
-    k = next(gen) # 2
-    # m = next(gen)   # error : StopIteration
-    print(i, j, k)
-    
-    #
-    # 或者 , 如果一个函数定义中包含yield关键字，那么这个函数就不再是一个普通函数，而是一个generator
-    def get_gen():
-        for i in range(2):
-            yield i
-        # 拿不到generator的return语句的返回值。如果想要拿到返回值，必须捕获StopIteration错误，返回值包含在StopIteration的value中
-        return 'done' 
-    gen1 = get_gen()
-    g1 = next(gen1) # 0
-    g2 = next(gen1) # 1
-    print(g1, g2)
-    try:
-        r = next(gen1)
-    except Exception as e:
-        print(str(e)) # 'done'
-    #
-    # 函数区别:generator和函数的执行流程不一样。函数是顺序执行，
-    # 遇到return语句或者最后一行函数语句就返回。而变成
-    # generator的函数，在每次调用next()的时候执行(如 next(g))，遇
-    # 到yield语句返回，再次执行时从上次返回的yield语句处继续执行
-    #
-    
-    
-
-
-    # 斐波拉契数列
-    def fib(max):
-        n, a, b = 0, 0, 1
-        while n < max:
-            yield b
-            a, b = b, a + b
-            n = n + 1
-        return 'done' 
-    for n in fib(6):
-        print(n)
-
-```
-
-### 迭代器
-
-
-```py
-在用 for..in.. 迭代对象时，解释器先检查被迭代目标是否有 __iter__ or __next__ 方法
-如果对象没有实现 __iter__ __next__ 迭代器协议，Python的解释器就会去寻找__getitem__ , __len__ 来迭代对象，
-如果连__getitem__, __len__ 都没有定义，这解释器就会报对象不是迭代器的错误
-
-__iter__  内存消耗少, 依次读取到内存, 但是随机访问效率差
-__getitem__  先用内存布置好数据, 内存消耗大, 但随机访问效率高
-
-
-
-
-实现了魔术方法 __iter__, __next__, 即为 迭代器, 若仅仅实现了 iter (iter 返回一个对象, 该对象实现了 __next__), 只能视为 可迭代对象(iterable). 
-若为 iterator, 一定为 iterable, 反之不一定
-
-实现了魔术方法 `__getitem__`, 即为 可迭代对象
-
-
-
-区别:  当为索引行数据类型（如：list, tuple,str)时，可以替换，当字段为hash型类型（如dict,set)时，不能替换
-
-
-
-
-
-
-
-import datetime
-class DateRange():
-    def __init__(self, start, end):
-    	self.start = start
-        self.end = end
-        self._cur = start
-
-    def __iter__(self):
-        return self
-    
-    def __next__(self):
-        if self._cur >= self.end:
-            raise StopIteration
-        
-        res = self._cur
-
-        self._cur += datetime.timedelta(days=1)
-        
-        return res
-    
-
-
-
-
-class DateRange():
-    def __init__(self, start, end):   
-    	
-        self.start = start
-        self.end = end
-        self._all = self._get_all()
-
-    def _get_all(self):
-        res = []
-        
-        cur = self.start
-        while cur < self.end:
-            res.append(cur)
-            cur += datetime.timedelta(days=1)
-        
-        return res
-    
-    def __len__(self):
-        return len(self._all)
-    
-    def __getitem__(self, index):
-        return self._all[index]
-
-```
-
-
 
 
 ### 二进制结构封包解包
@@ -1972,6 +1845,36 @@ class Person(SimpleNamespace):
 
 ```
 
+## 赋值表达式 Assignment Expressions
+
+Python 3.8 才支持
+
+```python
+# 正则匹配成功, 返回
+if (match := pattern.search(...)) is not None:
+    return match.group(1)
+
+# 不断读取
+while chunk := file.read(2048):
+    xxx(chunk)
+
+
+# 复杂的列表生成式
+# 如果不使用赋值表达式, 则只能写成 [y := some_method(x), some_method(x)**2, some_method(x)**3]
+[y := some_method(x), y**2, y**3]
+# 再如:
+filtered = [
+    y
+    for x in data
+    if (y := f(x)) is not None
+]
+
+
+# 禁止使用赋值表达式的场景:
+# - 表达式顶层禁止不带括号使用
+#        如: y := f(x) 语法报错, 因为这和普通赋值语句没啥区别了, 可以改为 (y := f(x)), 但是不推荐
+# - 赋值语句右侧禁止使用, 如: y0 = y1 := f(x) 报错, y0 = (y1 := f(x)) 可以但不推荐
+```
 
 ## 作用域
 
@@ -2200,6 +2103,153 @@ def map_reduce_closure_lambda():
 
 ```
 
+
+## 生成器 generator
+
+```py
+# 生成器
+和 列表推导式区别： 推导式会一下将列表内容生成出来， 占用内存高
+              生成器在 next(gen) 的时候才会生成出一个元素 （即‘惰性计算’特性）， 节省内存 （读取大文件的时候可用这个方式）
+
+和函数区别: (语句执行流程不一样)
+    genarator 是通过 yield 返回一个值 (并让出 cpu 控制权, 等待再次执行 next(gen), 就继续从 yield 下一行开始执行); 
+    而函数是属顺序执行, 遇到 return 就返回
+
+#
+# 把一个列表生成式的[]改成()，就创建了一个generator
+gen = (x for x in range(3))
+
+# 要获取 generator 内的值， 需 next(gen) , 或者 for i in xxx_gen
+i = next(gen) # 0
+j = next(gen) # 1
+k = next(gen) # 2
+# m = next(gen)   # error : StopIteration
+print(i, j, k)
+
+#
+# 或者 , 如果一个函数定义中包含yield关键字，那么这个函数的返回值, 就不再普通，而是一个generator
+def get_gen():
+    for i in range(2):
+        yield i
+    # 拿不到generator的return语句的返回值。如果想要拿到返回值，必须捕获StopIteration错误，返回值包含在StopIteration的value中
+    return 'done' 
+gen1 = get_gen()
+g1 = next(gen1) # 0
+g2 = next(gen1) # 1
+print(g1, g2)
+try:
+    r = next(gen1)
+except Exception as e:
+    print(str(e)) # 'done'
+
+
+# ------------------------ 生成器作为参数
+# 如何接受生成器的值?
+
+
+
+
+```
+
+### 案例:生成器实现斐波拉契数列
+
+```python
+
+
+
+# 
+def fib(max):
+    n, a, b = 0, 0, 1
+    while n < max:
+        yield b
+        a, b = b, a + b
+        n = n + 1
+    return 'done' 
+for n in fib(6):
+    print(n)
+
+```
+
+## 迭代器
+
+
+```py
+在用 for..in.. 迭代对象时，解释器先检查被迭代目标是否有 __iter__ or __next__ 方法
+如果对象没有实现 __iter__ __next__ 迭代器协议，Python的解释器就会去寻找__getitem__ , __len__ 来迭代对象，
+如果连__getitem__, __len__ 都没有定义，这解释器就会报对象不是迭代器的错误
+
+__iter__  内存消耗少, 依次读取到内存, 但是随机访问效率差
+__getitem__  先用内存布置好数据, 内存消耗大, 但随机访问效率高
+
+
+
+
+实现了魔术方法 __iter__, __next__, 即为 迭代器, 若仅仅实现了 iter (iter 返回一个对象, 该对象实现了 __next__), 只能视为 可迭代对象(iterable). 
+若为 iterator, 一定为 iterable, 反之不一定
+
+实现了魔术方法 `__getitem__`, 即为 可迭代对象
+
+
+
+区别:  当为索引行数据类型（如：list, tuple,str)时，可以替换，当字段为hash型类型（如dict,set)时，不能替换
+
+
+
+
+
+
+
+import datetime
+class DateRange():
+    def __init__(self, start, end):
+    	self.start = start
+        self.end = end
+        self._cur = start
+
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        if self._cur >= self.end:
+            raise StopIteration
+        
+        res = self._cur
+
+        self._cur += datetime.timedelta(days=1)
+        
+        return res
+    
+
+
+
+
+class DateRange():
+    def __init__(self, start, end):   
+    	
+        self.start = start
+        self.end = end
+        self._all = self._get_all()
+
+    def _get_all(self):
+        res = []
+        
+        cur = self.start
+        while cur < self.end:
+            res.append(cur)
+            cur += datetime.timedelta(days=1)
+        
+        return res
+    
+    def __len__(self):
+        return len(self._all)
+    
+    def __getitem__(self, index):
+        return self._all[index]
+
+```
+
+
+
 ## 文件处理
 
 ### 创建文件
@@ -2386,6 +2436,160 @@ def read_write_file():
 
 ```
 
+## context manager 上下文管理器
+
+```python
+
+# 即自动回收资源, 不必手动关闭
+# 场景:
+#   - 资源回收
+#   - 控制计算精度
+#   - pytest 测试里面, with pytest.raise(KeyError):   断言会抛出指定错误
+
+# 实现方案:
+# - 利用 __enter__, __exit__ 类方法
+# - 利用 contextlib.contextmanager 装饰器来装饰函数, 并是的函数返回一个 generator
+    # - 函数内要完整实现 try, finally 逻辑
+
+
+# 普通读写文件
+f = open(...)
+try:
+    f.write(...)
+except Exception as e:
+    print(e)
+finally:
+    f.close()
+
+
+# 利用 with
+with open(xxx) as f:
+    f.write(...) 
+
+
+
+
+# ----------- 实现上下文管理器
+
+
+class FileManager:
+    def __init__(self, fname, mode):
+        self.fname = fname
+        self.mode = mode
+    
+    # 通过 with ... as xx 拿到 这个方法的返回值
+    def __enter__(self):
+        self.file = open(self.fname, self.mode)
+        return self.file
+
+    def __exit__(self, ex_type, ex_value, ex_trackback):
+        if self.file:
+            self.file.close()
+
+# 使用
+with FileManager('xx.txt', 'r') as f:
+    print(f.read())
+
+
+```
+
+### 案例: 临时切换工作场景后还原(多个类似例子)
+
+```python
+
+# ----------------------------------------- 临时 print 到文件
+class FileStdout:
+    def __init__(self, fname):
+        self.fname = fname
+    
+    def __enter__(self):
+        # 暂时存储标准输出
+        self.stdout = sys.stdout
+        # 标准输出置为文件
+        sys.stdout = open(self.fname, 'w')
+    
+    def __exit__(self, ex_type, ex_value, ex_trace):
+        # 还原标准输出
+        sys.stdout = self.stdout
+
+# 使用
+with FileStdout('xxx/xx.txt'):
+    print('print to file')
+
+print('print to stdout')
+
+
+
+
+# -------------------------------------------- 临时切换目录
+
+class EnterDir:
+    def __init__(self, dest: str):
+        self.dest = dest
+    
+    def __enter__(self):
+        self.cwd = os.getcwd()
+        os.chdir(self.dest)
+    
+    
+    def __exit__(self, *args):
+        os.chdir(self.cwd)
+
+
+# usage
+with EnterDir('/xx'):
+    print(os.listdir())
+
+```
+
+### 案例:
+
+### 案例: 计时器(更细粒度)
+
+```python
+
+class Timer:
+    def __init__(self):
+        self.start = time.perf_counter()
+        self.end = 0
+    
+    def __enter__(self):
+        def get_elapsed():
+            return self.end - self.start
+        return get_elapsed
+    
+    def __exit__(self, *args):
+        self.end = time.perf_counter()
+
+# usage
+with Timer() as get_elapsed:
+    print('start')
+    time.sleep(1)
+    print('end')
+
+elapsed = get_elapsed()
+print(elapsed)
+```
+
+### 案例: 控制小数精度
+
+```python
+
+
+
+from decimal import localcontext, Decimal
+
+# 默认只会保留 28 位小数
+print(Decimal('1') / Decimal('99'))
+
+with localcontext() as ctx:
+    # 保留 100 位小数
+    ctx.prec = 100
+    print(Decimal('1') / Decimal('99'))
+
+
+
+```
 
 ## 装饰器 decorator
 
@@ -2468,6 +2672,29 @@ def show():
 show()
 
 
+# -------------------------- 装饰生成器时
+# 如何获取生成器的返回值?
+
+
+def timer(func):
+    def wrapper():
+        start = time.perf_counter() # 或者 time.time()
+        res = yield from func()
+        end = time.perf_counter()
+        elapse = end - start
+        print('耗时:', elapse)
+        return res
+
+    return wrapper
+
+@timer
+def hello():
+    for i in range(4):
+        time.sleep(0.2)
+        yield i * 10
+
+print(list(hello()))
+
 ```
 
 ### 类装饰器
@@ -2478,7 +2705,7 @@ show()
 # 就是一个类, 有一个 __call__方法
 class Entity:
     def __call__(self, cls):
-        print('__call__', cls)
+        print('__call__', cls)  # cls 就是被装饰的类
 
         def __repr__(self) -> str:
             return f'{cls.__qualname__}()' # 返回类名, 即 cls.__name__
@@ -2490,6 +2717,11 @@ class Entity:
         cls.hello = hello
         
         return cls
+    
+    # __init__ 不是类装饰器必须的
+    # self 是
+    def __init__(self, func):
+
 
 # 必须加括号
 # 此时, 不等到实例化 User, Entity.__call__ 就会执行, 返回的 cls 就是包装后的 User 类
@@ -2503,6 +2735,93 @@ u.hello() # hello
 
 ```
 
+### 案例: 注入方法参数
+
+```python
+
+class DbAdaptor:
+    def __init__(self, conn_str="/tmp/xxx.db"):
+        self._conn_str = conn_str
+    
+    def query(self, sql: str, params: tuple):
+        with sqlite3.Connection(self._conn_str) as conn:
+            cursor  = conn.cursor()
+            return cursor.execute(sql, params)
+
+@dataclass
+class Query:
+    sql: str
+    params: tuple
+    dba: DbAdptor = None
+
+def use_db_adaptor(func):
+    @functools.wraps(func)
+    def wrapper(query: Query):
+        query.dba  = DbAdaptor()
+        return func(query)
+    return wrapper
+
+# 使用
+# 注入了 db_adaptor 到方法参数里, 可以直接使用
+@use_db_adaptor
+def query_users(query: Query):
+    return db_adaptor.query(query.sql, query.params)
+
+# 但是这种方式只能装饰函数, 当这个函数被放到类里成了类方法, 这个装饰器就不工作了
+
+
+
+
+
+# ------------------------------ 解决 (使用类装饰器)
+
+
+class DbAdaptor:
+    def __init__(self, conn_str="/tmp/xxx.db"):
+        self._conn_str = conn_str
+    
+    def query(self, sql: str, params: tuple):
+        with sqlite3.Connection(self._conn_str) as conn:
+            cursor  = conn.cursor()
+            return cursor.execute(sql, params)
+
+
+@dataclass
+class Query:
+    sql: str
+    params: tuple
+    dba: DbAdaptor
+    
+from types import MethodType
+class use_db_adaptor:
+    # self 就是被装饰的对象
+    # func 是传参, 表示被装饰的方法
+    def __init__(self, func):
+        self.func = func
+        functools.wraps(func)(self)
+    
+    def __call__(self, query: Query):
+        query.dba = DbAdaptor()
+        return self.func(query)
+    
+    def __get__(self, obj, owner):
+        if obj is None:
+            return self
+        return self.__class__(MethodType(self.func, obj))
+
+# 可以直接在函数上使用
+@use_db_adaptor
+def query_users(q: Query):
+    return q.dba.query(q.sql, q.params)
+
+# 也能在类方法上使用
+class Client:
+    @use_db_adaptor
+    def query_user(self, q: Query):
+        return q.dba.query(q.sql, q.params)
+ 
+
+```
 
 ### 案例: 失败重试
 
