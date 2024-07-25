@@ -69,6 +69,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
 - [语法](#语法)
     - [输入输出 打印 main魔法变量](#输入输出-打印-main魔法变量)
     - [基本数据类型](#基本数据类型)
+        - [NoneType 空类型](#nonetype-空类型)
         - [字符串](#字符串)
             - [多行 不可变 比较](#多行-不可变-比较)
             - [字符编码](#字符编码)
@@ -76,7 +77,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
             - [字符串处理](#字符串处理)
         - [字节数组 bytes bytearray](#字节数组-bytes-bytearray)
         - [数字](#数字)
-        - [布尔值 空值](#布尔值-空值)
+        - [布尔值](#布尔值)
         - [数组 array](#数组-array)
         - [集合](#集合)
             - [list 有序可变](#list-有序可变)
@@ -84,7 +85,6 @@ https://www.zhihu.com/question/19827960 指的关注的社区
             - [tuple 有序不可变列表](#tuple-有序不可变列表)
                 - [namedtuple() 创建带名字下标的元组](#namedtuple-创建带名字下标的元组)
                 - [typeing.NamedTulple 命名的元组](#typeingnamedtulple-命名的元组)
-                - [元组解包](#元组解包)
             - [set 无序不可重复](#set-无序不可重复)
                 - [frosenset 不可变set](#frosenset-不可变set)
             - [deque 双端队列 栈](#deque-双端队列-栈)
@@ -94,7 +94,6 @@ https://www.zhihu.com/question/19827960 指的关注的社区
             - [queue.PriorityQueue heapq 优先级队列](#queuepriorityqueue-heapq-优先级队列)
         - [字典 dict](#字典-dict)
             - [基本 dict](#基本-dict)
-            - [字典解包](#字典解包)
             - [字典格式化](#字典格式化)
             - [defaultdict 默认值dict](#defaultdict-默认值dict)
             - [OrderedDict 字典排序](#ordereddict-字典排序)
@@ -114,7 +113,11 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [作用域](#作用域)
     - [条件循环](#条件循环)
     - [比较判断](#比较判断)
+    - [`*`解包](#解包)
+        - [集合解包](#集合解包)
+        - [字典解包](#字典解包)
     - [函数](#函数)
+        - [lambda表达式](#lambda表达式)
         - [内置函数](#内置函数)
         - [参数检查](#参数检查)
         - [多种参数](#多种参数)
@@ -155,7 +158,8 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [abc模块 定义抽象基类](#abc模块-定义抽象基类)
     - [数据类](#数据类)
         - [@dataclass 创建实体类](#dataclass-创建实体类)
-        - [hash策略](#hash策略)
+            - [hash策略](#hash策略)
+        - [pydantic.BaseModel](#pydanticbasemodel)
     - [元类 Metaclass](#元类-metaclass)
     - [错误异常处理](#错误异常处理)
         - [系统内置的异常](#系统内置的异常)
@@ -572,6 +576,29 @@ if __name__ == "__main__":
 
 ## 基本数据类型
 
+### NoneType 空类型
+
+```python
+
+# 空值
+# 用None表示。None不能理解为0
+
+# types.NoneType 空类型, 有唯一实例 None, None 是一个常量
+
+# 比较时, 使用 is, is not; 不用 ==, !=
+
+
+# tips
+def plus_one(data: Optional[int] = None):
+    # 若参数是 数字类型, 注意 0 会被翻译为 false
+    _data = data or 0
+    # 等价
+    _data = data if data else 0
+    return _data + 1
+
+print(plus_one())
+```
+
 ### 字符串 
 
 #### 多行 不可变 比较
@@ -906,7 +933,7 @@ byte_arr4 = bytes(byte_arr3)
 
 ```
 
-### 布尔值 空值
+### 布尔值
 
 
 ```py
@@ -917,8 +944,7 @@ byte_arr4 = bytes(byte_arr3)
     # 只有True、False两种值
     # 可以用 and ,or, not 运算
 
-    # 空值
-    # 用None表示。None不能理解为0
+    
 
 assert True == 1     #true
 assert True == 1.0    #true
@@ -934,10 +960,14 @@ assert False == ''
 assert False == {}
 assert True == {'a': None}
 
-assert False == ()
+assert False == () # list, set 同理
 assert True == (1,)
 
 assert True == XxxException
+
+assert False == None
+
+assert False == range(0) # generator
 
 
 def he():
@@ -945,6 +975,13 @@ def he():
 assert True == he
 
 # 核心准则是: 只要变量不为 None, 就是布尔值的 true
+
+# 某个类 实现了 __bool__, 或者 __len__, 也可以判断布尔值
+# 如下, a, b 生成的实例都是 false
+class A:
+    __bool__ return false
+class B:
+    __len__ return 0
 ```
 
 ### 数组 array
@@ -1250,43 +1287,6 @@ if __name__ == '__main__':
    
 ```
 
-##### 元组解包
-
-```python
-
-    (name, age, sal) = ['Rain', 11, 10000.11]
-    print(name, age, sal)
-    
-    def print_names(*names):
-        print(type(names))
-        for name in names:
-            print(name)
-    print_names('rain', 'Mary', 'Dany') # type: tuple      names 是一个元组， 有三个元素
-    print_names(['rain', 'mary'])   # type: tuple , ['rain', 'mary'] ， names 是一个元组， 有一个元素， 这个元素是一个列表（列表有三个元素）
-
-    tu1 = (1, 2,)
-    tu2 = (2, 3)
-    tu4 = (tu1, tu2, 100) #  # ((1, 2), (2, 3), 100)
-    print(tu4)
-    tu3 = (*tu1, *tu2, 100) # (1, 2, 2, 3, 100)
-    print(tu3)
-
-
-
-
-
-    Person = namedtuple('Person', 'name, age, salary')
-    p = Person('rain', 1, 1000)
-    (name, _, _) = p # rain
-    print(name)
-    (name, *_) = p
-    print(name) # rain
-    (name, _) = p # ValueError: too many values to unpack (expected 2)
-
-    (*name_and_age, _) = p # ['rain', 1]
-    print(name_and_age)
-    
-```
 
 #### set 无序不可重复 
 
@@ -1518,29 +1518,6 @@ while not pq.empty():
     
 ```
 
-#### 字典解包
-
-```python
-
-data = {
-    'arr': [{
-        'name': 'aa',
-        'age': 12,
-    }, {
-        'name': 'bb',
-        'age': 11,
-    }]
-}
-class Person():
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-
-persons = []
-for ele in data['arr']:
-    persons.appand(Person(**ele)) # 这里是将字典解包为 key=value 的形式
-
-```
 
 #### 字典格式化
 
@@ -1928,7 +1905,90 @@ if x is not None
 
 ```
 
+## `*`解包
+
+
+### 集合解包
+
+```python
+
+    (name, age, sal) = ['Rain', 11, 10000.11]
+    print(name, age, sal)
+    
+    def print_names(*names):
+        print(type(names))
+        for name in names:
+            print(name)
+    print_names('rain', 'Mary', 'Dany') # type: tuple      names 是一个元组， 有三个元素
+    print_names(['rain', 'mary'])   # type: tuple , ['rain', 'mary'] ， names 是一个元组， 有一个元素， 这个元素是一个列表（列表有三个元素）
+
+    tu1 = (1, 2,)
+    tu2 = (2, 3)
+    tu4 = (tu1, tu2, 100) #  # ((1, 2), (2, 3), 100)
+    print(tu4)
+    tu3 = (*tu1, *tu2, 100) # (1, 2, 2, 3, 100)
+    print(tu3)
+
+
+
+
+
+    Person = namedtuple('Person', 'name, age, salary')
+    p = Person('rain', 1, 1000)
+    (name, _, _) = p # rain
+    print(name)
+    (name, *_) = p
+    print(name) # rain
+    (name, _) = p # ValueError: too many values to unpack (expected 2)
+
+    (*name_and_age, _) = p # ['rain', 1]
+    print(name_and_age)
+
+    l1 = [1, 2, 3] # 或者 range(1, 3)
+    l2 = [3, 4]  # 或者 range(3, 4)
+    l3 = [4]     # 或者 range(4, 5)
+    all = [*l1, *l2, *l3]  # [1, 2, 3, 3, 4, 4]  , 等价于 l1 + l2 + l3, 但是效率更高
+    
+```
+
+
+### 字典解包
+
+```python
+
+data = {
+    'arr': [{
+        'name': 'aa',
+        'age': 12,
+    }, {
+        'name': 'bb',
+        'age': 11,
+    }]
+}
+class Person():
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+persons = []
+for ele in data['arr']:
+    persons.appand(Person(**ele)) # 这里是将字典解包为 key=value 的形式
+
+```
+
+
+
 ## 函数
+
+### lambda表达式
+
+```python
+# 可以这样直接赋值给一个变量, 但是不建议
+# 支持多个输入参数, 参数规范和函数的参数相同
+func = lambda x: x**2
+a = func(2)
+print(a)
+```
 
 ### 内置函数
 
@@ -1981,9 +2041,10 @@ def function_demo():
     #
     #必选参数、默认参数、可变参数、命名关键字参数、关键字参数
     #
-    # 定义
-    # c 为默认参数
+    # 对于下面的函数定义:
+    # a, b ,c 位置固定, 为固定参数 (或者叫位置参数), 其中 c 有默认值
     # *args 为 可变参数, 个数可变, 函数内部自动组装为 tuple
+    #       若定义了 *args, 则默认指定了前面都是位置参数, 后面都是关键字参数, 此时 '*' 就不可出现在参数位置里了
     # **kw  关键字参数, 内部自动组装为一个 dict
     #
     # 所以，对于任意函数，都可以通过类似func(*args, **kw)的形式调用它，无论它的参数是如何定义的。
@@ -1991,6 +2052,21 @@ def function_demo():
     from typing import Optional
     def f1(a, b, c: Optional[int]=0, *args, **kw):
         print('a =', a, 'b =', b, 'c =', c, 'args =', args, 'kw =', kw)
+
+    # 也可以通过 '/' 和 '*' 明确分割各种参数
+    #        / 是位置参数分隔符, 前面都是位置参数, 后面可以是位置参数, 也可是关键字参数 (不放在参数头部)
+    #        * 是关键字参数分隔符, 后面都是关键字参数, 前面可以是位置参数, 也可是关键字参数 (不可放在参数尾部)
+    # 
+    # 使用分隔符的意义:
+    # ---定义接口时, 使用分隔符, 可以方便接口修改时, 保证旧的客户端代码兼容
+    #       新增加的参数可以通过关键字参数来做增强
+    # 
+    # 对于如下函数, 明确指定了:
+    # pos1, pos2 是位置参数
+    # pos_or_kw 可以是位置参数, 也可是关键字参数
+    # kw1, kw2 是关键字参数
+    def func(pos1, pos2, /, pos_or_kw, *, kw1, kw2):
+        pass
 
     def f2(a, b, c=0, *, d, **kw):
         print('a =', a, 'b =', b, 'c =', c, 'd =', d, 'kw =', kw)
@@ -3740,7 +3816,7 @@ field_list = fields(Person)  # 获取 field 列表
 
 ```
 
-### hash策略
+#### hash策略
 
 ```py
 
@@ -3798,6 +3874,12 @@ print('p2 super hash', p2.get_super_hash())
 
 # -------------------------------------------
 
+```
+
+### pydantic.BaseModel
+
+```python
+# 使用 BaseModel 定义的类, 自带字段类型校验
 ```
 
 
