@@ -69,7 +69,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
 - [语法](#语法)
     - [输入输出 打印 main魔法变量](#输入输出-打印-main魔法变量)
     - [基本数据类型](#基本数据类型)
-        - [NoneType 空类型](#nonetype-空类型)
+        - [NoneType 空类型 None](#nonetype-空类型-none)
         - [字符串](#字符串)
             - [多行 不可变 比较](#多行-不可变-比较)
             - [字符编码](#字符编码)
@@ -124,7 +124,13 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [递归](#递归)
         - [高阶函数](#高阶函数)
     - [生成器 generator](#生成器-generator)
+        - [两种创建方式](#两种创建方式)
+        - [生成器 send(xxx)](#生成器-sendxxx)
+        - [生成器 throw(xxx)](#生成器-throwxxx)
+        - [yield from subgen 生成器作为参数](#yield-from-subgen-生成器作为参数)
+        - [异步生成器](#异步生成器)
         - [案例:生成器实现斐波拉契数列](#案例生成器实现斐波拉契数列)
+        - [案例: 收集失败数据同意处理](#案例-收集失败数据同意处理)
     - [迭代器](#迭代器)
     - [文件处理](#文件处理)
         - [创建文件](#创建文件)
@@ -576,7 +582,7 @@ if __name__ == "__main__":
 
 ## 基本数据类型
 
-### NoneType 空类型
+### NoneType 空类型 None
 
 ```python
 
@@ -597,7 +603,11 @@ def plus_one(data: Optional[int] = None):
     return _data + 1
 
 print(plus_one())
+
+
 ```
+
+
 
 ### 字符串 
 
@@ -1766,12 +1776,24 @@ age_mapping = { user.name: user.age
 
 l = [x*x for x in range(3)] # [0, 1, 4]
 
+# 多个参数的生成式
+lst = [
+    x * y * z       
+    for x in range(10)   # 最外层, 只认识 x
+    if x > 0
+    for y in range(x, x + 10)   # 中间层
+    if y > x+1              # 只认识 x, y
+    for z in range(x, y)   # 最内层
+    if y > x           # 认识 x, y, z
+]
+
+
 def read_file(path: str) -> [str]:
     with open(path, 'r') as f:
         lines = [for line in f if line.startswith('<<')]
     return lines
 
-# 省内存
+# 通过生成器的方式, 省内存
 def read_file2(path: str) -> Generator[str]:
     with open(path, 'r') as f:
         for line in f:
@@ -2182,8 +2204,18 @@ def map_reduce_closure_lambda():
 
 ## 生成器 generator
 
+### 两种创建方式
+
 ```py
 # 生成器
+# 它允许你定义一个函数，在函数执行过程中可以多次返回值，每次返回后暂停，下次调用时从暂停的地方继续执行。生成器通常用于创建序列，但又不一次性生成所有的元素，而是按需生成。
+
+# 两种方式创建:
+# - 把一个列表生成式的[]改成()，就创建了一个generator
+# - 或者 , 如果一个函数定义中包含yield关键字，那么这个函数的返回值, 就不再普通，而是一个generator
+
+
+
 和 列表推导式区别： 推导式会一下将列表内容生成出来， 占用内存高
               生成器在 next(gen) 的时候才会生成出一个元素 （即‘惰性计算’特性）， 节省内存 （读取大文件的时候可用这个方式）
 
@@ -2191,10 +2223,8 @@ def map_reduce_closure_lambda():
     genarator 是通过 yield 返回一个值 (并让出 cpu 控制权, 等待再次执行 next(gen), 就继续从 yield 下一行开始执行); 
     而函数是属顺序执行, 遇到 return 就返回
 
-#
-# 把一个列表生成式的[]改成()，就创建了一个generator
+# --------------------------方式 1: 创建一个生成器
 gen = (x for x in range(3))
-
 # 要获取 generator 内的值， 需 next(gen) , 或者 for i in xxx_gen
 i = next(gen) # 0
 j = next(gen) # 1
@@ -2202,12 +2232,23 @@ k = next(gen) # 2
 # m = next(gen)   # error : StopIteration
 print(i, j, k)
 
-#
-# 或者 , 如果一个函数定义中包含yield关键字，那么这个函数的返回值, 就不再普通，而是一个generator
+gen = (
+    x * y * z        # 惰性
+    for x in range(10/0)  # 最左边的(即第一个 for) 是立即求值的, 因此会不等到调用next(gen) 就立即报错
+    for y in range(x, x + 10) # 惰性
+    for z in range(x, y)  # 惰性
+    if y > x  
+)
+
+
+#----------------------------------- 方式 2: 创建一个生成器
 def get_gen():
     for i in range(2):
+        # 若进入这个 if, return 会造成 StopIteration('hah')
+        if i == 100:
+            return "hah" 
         yield i
-    # 拿不到generator的return语句的返回值。如果想要拿到返回值，必须捕获StopIteration错误，返回值包含在StopIteration的value中
+    # 循环结束, 没有yield 了, 抛出 StopIteration 错误，返回值包含在 StopIteration 的value中
     return 'done' 
 gen1 = get_gen()
 g1 = next(gen1) # 0
@@ -2219,13 +2260,86 @@ except Exception as e:
     print(str(e)) # 'done'
 
 
-# ------------------------ 生成器作为参数
+```
+
+### 生成器 send(xxx)
+
+```python
+
+# gen.send(xxx)  ----------------------------- 向生成器内部发送数据的。
+#                  类似 next(), 但是更强大, 可以给生成器内部传值
+#                  next(gen)  等价于 gen.send(None)  , 用于启动生成器或恢复生成器并获取下一个值
+#                  gen 内部通过 yield 表达式返回值接收
+#                       注意区分 ' yield 值' 和 'yield 表达式返回值'
+#                  send 方法的返回值是生成器中下一个 yield 表达式的值
+#               如果在生成器内部抛出异常，这个异常会传播到调用 send 方法的地方。
+# 生成器的 send 方法是实现协程的基础
+
+```
+
+### 生成器 throw(xxx)
+
+```python
+# gen.throw(xxx) ---------------------------- 向生成器内部发送异常
+#                 类似 next(), 但是返回生成器yield 值同时, 会向 gen 内部发送一个 异常
+```
+
+### yield from subgen 生成器作为参数
+
+
+
+```py
+
+
+# ----------------------------- 
 # 如何接受生成器的值?
+aa = yield from xxx_gen
+
+
+
+# yield from 是 Python 3.3 引入的一个语法糖，
+# yield from 是 async/await 的基础, 更加底层，async/await 是对 yield from 的语法糖封装。
+# 
+# yield from subgen 可以让外层生成器暂停，将控制权转交给另一个生成器 subgen, 获取其 yield 值
+#       外层生成器可以通过 send 方法向 subgen 发送数据
+# 如果 subgen 中抛出了一个异常，这个异常会直接传递给外层生成器的调用者
+
+def subgen():
+    for x in range(3):
+        yield x
+
+def delegating_generator():
+    yield 'start'
+    yield from subgen()
+    yield 'end'
+
+# 使用示例
+gen = delegating_generator()
+print(next(gen))  # 输出 'start'
+print(next(gen))  # 输出 0
+print(next(gen))  # 输出 1
+print(next(gen))  # 输出 2
+print(next(gen))  # 输出 'end'
+
+
+```
+
+### 异步生成器
+
+```py
+
+
+
+# --------------------------
+import asyncio
 
 
 
 
 ```
+
+
+
 
 ### 案例:生成器实现斐波拉契数列
 
@@ -2245,6 +2359,32 @@ for n in fib(6):
     print(n)
 
 ```
+
+### 案例: 收集失败数据同意处理
+
+```python
+
+
+
+data = {
+    'http://xxx/a': 'data a',
+    'http://xxx/b': 'data b',
+    'http://xx/c': 'data c'
+}
+
+def process(urls):
+    for url in urls:
+        try:
+            d = data[url]
+            print(f'--> process {d} ok')
+        except Exception as _:
+            yield url
+
+urls = [*data.keys(), 'http://a.dev', 'http://b.dev']
+failed_urls = process(urls)
+print(list(failed_urls))
+```
+
 
 ## 迭代器
 
@@ -4933,26 +5073,30 @@ https://docs.python.org/zh-cn/3/library/typing.html
 ```py
 # 自python3.5开始，PEP484为python引入了类型注解(type hints)
 # 在 vscode 中你可以安装 mypy 的插件,  Mypy 是 Python 中的静态类型检查器, 
-    #
-    # https://www.cnblogs.com/linkenpark/p/11676297.html
-    # 
-    # int,long,float: 整型,长整形,浮点型
-    # bool,str: 布尔型，字符串类型
-    # 
-    # typing模块
-    # 
-    # List, Tuple, Dict, Set, Mapping:列表，元组，字典, 集合, 映射
-    # Iterable,Iterator:可迭代类型，迭代器类型
-    # Generator：生成器类型
-    #
-    # ":" 后面是参数类型
-    # "->" 是返回值的注释，-> str 意思即是提醒函数使用者返回值会是一个str型
-    def f(ham: "传一个字符串", eggs: str = 'eggs') -> str :
-        print("Annotations:", f.__annotations__)
-        print("Arguments:", ham, eggs)
-        return ham + ' and ' + eggs
+#
+# https://www.cnblogs.com/linkenpark/p/11676297.html
+# 
+# int,long,float: 整型,长整形,浮点型
+# bool,str: 布尔型，字符串类型
+# 
+# typing模块
+# 
+# List, Tuple, Dict, Set, Mapping:列表，元组，字典, 集合, 映射
+# Iterable,Iterator:可迭代类型，迭代器类型
+# Generator：生成器类型
+#
+# ":" 后面是参数类型
+# "->" 是返回值的注释，-> str 意思即是提醒函数使用者返回值会是一个str型
+def f(ham: "传一个字符串", eggs: str = 'eggs') -> str :
+    print("Annotations:", f.__annotations__)
+    print("Arguments:", ham, eggs)
+    return ham + ' and ' + eggs
 
-    print(f("est", 123))
+print(f("est", 123))
+
+from typing import TypeAlias
+
+Tags: TypeAlias = tuple[str, ...]  # 类型别名
 
 ```
 
