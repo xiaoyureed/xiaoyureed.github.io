@@ -109,10 +109,10 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [二进制结构封包解包](#二进制结构封包解包)
         - [SimpleNamespace 创建简单类](#simplenamespace-创建简单类)
         - [container 容器](#container-容器)
+    - [日期时间处理](#日期时间处理)
     - [赋值表达式 Assignment Expressions](#赋值表达式-assignment-expressions)
     - [作用域](#作用域)
     - [条件循环](#条件循环)
-    - [比较判断](#比较判断)
     - [`*`解包](#解包)
         - [集合解包](#集合解包)
         - [字典解包](#字典解包)
@@ -197,8 +197,6 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [类型转换](#类型转换)
         - [容器类型相关](#容器类型相关)
         - [资源管理器相关](#资源管理器相关)
-- [标准库](#标准库)
-    - [日期处理](#日期处理)
 - [设计模式 design pattern](#设计模式-design-pattern)
     - [代理模式 proxy](#代理模式-proxy)
     - [工厂模式 factory](#工厂模式-factory)
@@ -222,6 +220,9 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [导入钩子 import hook](#导入钩子-import-hook)
         - [path hook](#path-hook)
     - [type hints 类型提示](#type-hints-类型提示)
+        - [基本的数据类型标注 typing包](#基本的数据类型标注-typing包)
+        - [type hint实现原理](#type-hint实现原理)
+        - [泛型](#泛型)
     - [linter 工具](#linter-工具)
     - [依赖安全性检查](#依赖安全性检查)
     - [代码风格 格式化](#代码风格-格式化)
@@ -601,6 +602,10 @@ if __name__ == "__main__":
 # 空值
 # 用None表示。None不能理解为0
 
+# 判空
+if x is None
+if x is not None
+
 # types.NoneType 空类型, 有唯一实例 None, None 是一个常量
 
 # 比较时, 使用 is, is not; 不用 ==, !=
@@ -728,6 +733,10 @@ if 'ab' == 'ab':   # true
     print("{} {}".format("hello", "world"))   # 不设置指定位置，按默认顺序
     print("{0} {1}".format("hello", "world"))  # 设置指定位置
     print('hello {name}'.format(name='xiaoyu'))
+    # 简化版
+    name = 'a'
+    print(f'xxx {name}')
+
     # 通过字典设置参数
     site = {"name": "xi", "url": "xiaoyureed.github.io"}
     print("网站名：{name}, 地址 {url}".format(**site))
@@ -743,6 +752,10 @@ if 'ab' == 'ab':   # true
 
 
     print('=' * 40)  # 打印 40 个'='
+
+    var = 'var'
+    print(f'{var:>20}')  # 右对齐, 总占位 20个字符, 类似的 '<' 左对齐, '^'中间对其 
+    print(f'{var:#>20}') # 使用'#' 填充空白
 ```
 
 #### 字符串处理
@@ -927,6 +940,9 @@ byte_arr4 = bytes(byte_arr3)
 ```py
 # 整数
     c=2
+    b = 10_000_000
+    # 打印更好看的数字, '_' 也可以换成 ','
+    print{f'{b:_}'} # 10_000_000
     a=0xff00  # 16进制
 
     # 浮点数
@@ -1856,6 +1872,37 @@ class Person(SimpleNamespace):
 
 ```
 
+
+## 日期时间处理
+
+```py
+def builtin_module():
+    from datetime import datetime, timedelta
+
+    now: datetime = datetime.now()
+    print(now) # 2019-06-05 23:06:46.171270
+    print(f'now:%y-%m-%d %H:%M:%S')
+    print(f'now:%c')  # local 版本
+
+    time = datetime(2019, 4, 19, 1, 30)
+    print(time) # 2019-04-19 01:30:00
+
+    timestamp = time.timestamp()
+    print(timestamp)  # 1555608600.0
+    print(datetime.fromtimestamp(timestamp))  # 2019-04-19 01:30:00
+
+    cday = datetime.strptime('2015-6-1 18:19:59', '%Y-%m-%d %H:%M:%S')
+    print(cday)  # 2015-06-01 18:19:59
+
+    strftime = now.strftime('%Y-%m-%d %H:%M:%S')
+    print(strftime)  # 2019-06-05 23:06:46
+
+    result = now + timedelta(days=1, hours=1)
+    print(result)  # 2019-06-07 00:11:36.912231
+
+```
+
+
 ## 赋值表达式 Assignment Expressions
 
 Python 3.8 才支持
@@ -1926,18 +1973,6 @@ def condition_loop():
         count = count + 1
 ```
 
-## 比较判断
-
-```py
-# 在python中 None, False, 空字符串"", 0, 空列表[], 空字典{}, 空元组()都相当于False
-# (ob1 is ob2) 等价于 (id(ob1) == id(ob2))
-
-# 判空
-if x is None
-if x is not None
-
-
-```
 
 ## `*`解包
 
@@ -4202,9 +4237,9 @@ def foo(s):
 ### `__main__` `__name__` `__file__`
 
 ```python
-# 当一个module 被导入使用时, 其 __name__ 会被指为模块名字, 即 包名, __file__ 被置为包绝对路径
-
-__name__ == '__main__' 可以用来检测当前模块是否是程序的最高层级环境, 即可用来检测程序的入口
+# 当一个模块 a.py 被导入使用时, 其 __name__ 会被指为模块名字, 即 包名, __file__ 被置为包绝对路径
+# 若只是作为脚本使用, python a.py   , 那 __name__ 值就是 '__main__'
+# 因此, __name__ == '__main__' 可以用来检测当前模块是否是程序的最高层级环境, 即可用来检测程序的入口
 
 # 什么是最高层级环境?
 # - 即启动命令所在环境
@@ -4215,7 +4250,7 @@ __name__ == '__main__' 可以用来检测当前模块是否是程序的最高层
 
 
 
-__main__.py  是 Python 包的入口文件, 即用 python -m xxx_modle  会从这个入口文件开始执行
+# __main__.py  是 Python 包的入口文件, 即用 python -m xxx_modle  会从这个入口文件开始执行
 
 
 
@@ -4510,6 +4545,7 @@ class A:
 
 
 #  is 和 ==
+# (ob1 is ob2) 等价于 (id(ob1) == id(ob2))
 
 a = [1, 2]
 b = a
@@ -4593,7 +4629,7 @@ def __bool__(self):
 ```python
 
 # 使得自定义对象可以像列表一样使用'lst[i]' 来读写元素
-__getitem__(self, key)
+__getitem__(self, key)  # 只要有这个方法, 就是 iterable 对象
 __setitem__(self, key, value)
 __delitem__(self, key) # del lst[i] 时调用
 
@@ -4621,36 +4657,6 @@ __exit__(self, ex_type, ex_value, traceback)
 ```
 
 
-
-# 标准库
-
-
-## 日期处理
-
-```py
-def builtin_module():
-    from datetime import datetime, timedelta
-
-    now = datetime.now()
-    print(now) # 2019-06-05 23:06:46.171270
-
-    time = datetime(2019, 4, 19, 1, 30)
-    print(time) # 2019-04-19 01:30:00
-
-    timestamp = time.timestamp()
-    print(timestamp)  # 1555608600.0
-    print(datetime.fromtimestamp(timestamp))  # 2019-04-19 01:30:00
-
-    cday = datetime.strptime('2015-6-1 18:19:59', '%Y-%m-%d %H:%M:%S')
-    print(cday)  # 2015-06-01 18:19:59
-
-    strftime = now.strftime('%Y-%m-%d %H:%M:%S')
-    print(strftime)  # 2019-06-05 23:06:46
-
-    result = now + timedelta(days=1, hours=1)
-    print(result)  # 2019-06-07 00:11:36.912231
-
-```
 
 
 
@@ -5015,6 +5021,7 @@ tox.ini tox 的配置文件。
 
 # 一个文件就是一个模块
 # 一个文件夹, 内部包含一个 __init__.py , 这个文件夹也是一个模块
+#       __init__.py 要么留空, 要么只导出需要使用的资源
 # 
 # 模块被导入, 包级别(即顶级)作用域的代码自动执行, 重复导入不会再次执行
 
@@ -5245,7 +5252,7 @@ https://www.bilibili.com/video/BV1zM411C7WC/
 
 ## type hints 类型提示
 
-
+### 基本的数据类型标注 typing包
 
 https://www.zhihu.com/question/265003581/answer/461562594
 https://zhuanlan.zhihu.com/p/56863684
@@ -5280,9 +5287,15 @@ def f(ham: "传一个字符串", eggs: str = 'eggs') -> str :
 
 print(f("est", 123))
 
+
 from typing import TypeAlias
 
 Tags: TypeAlias = tuple[str, ...]  # 类型别名
+```
+
+### type hint实现原理
+
+```python
 
 
 类似 list[int], dict[int, str] 这样的 type hint 底层实现原理是通过:
@@ -5291,11 +5304,53 @@ class list:
     def __class_getitem__(cls, item):
         xxx
 这样, list 类就能使用类似数组取值 '[]'这样的操作符
-
 ```
 
+### 泛型
 
+```python
 
+from typing import Any, Generic, List, Mapping, Optional, TypeVar
+
+class Animal:
+    pass
+
+class Dog(Animal):
+    pass
+class Cat(Animal):
+    pass
+
+# 定义泛型变量
+# 绑定到 animal 类型, 即限定了泛型可接受的类型
+AnimalType = TypeVar("AnimalType", bound=Animal)
+
+# 动物商店
+# Generic 只接受泛型变量, 不接受普通类型, 所以必须先定义一个反省变量
+# 为什么不是 Store 呢, 因为泛型绑定到了 Animal, 只接受这个类型
+class AnimalStore(Generic[AnimalType]):
+    def __init__(self, stock: List[AnimalType]):
+        self.stock = stock
+    
+    def buy(self) -> AnimalType:
+        return self.stock.pop()
+
+def buy_animal(store: AnimalStore[Animal]):
+    return store.buy()
+
+# --------- 泛型协变 covariant
+# 此处 AnimalStore[Animal] 泛型必须是 Animal
+# 因为泛型变量默认具有'不变性' (即 虽然 Animal 和 Dog 有父子关系, 但是 AnimalStore[Animal] 和 AnimalStore[Dog] 是没有父子关系的)
+#       要改变这一特性, 使得具有父子关系, 定义泛型变量时, 加入参数使得协变为true covariant=True (默认是 false), 此时这里AnimalStore的泛型就 Animal/Dog 均可了
+# -----------
+store = AnimalStore[Animal]([Dog(), Dog()])
+print('store', store)
+buy_one = buy_animal(store)
+print('buy_one', buy_one)
+
+# --------泛型逆变 contravariant
+# 和 covariant 类似, 但是父子方向相反, 若设置为 true, 则 AnimalStore[Animal] 为子, AnimalStore[Dog] 为父
+
+```
 
 
 ## linter 工具
@@ -5475,6 +5530,11 @@ def log_handling():
     n = int(s)
     logging.info('n = %d' % n)
     # print(10 / n)
+
+
+    # 推荐
+    logger = logging.getLogger(__name__)
+    logger.info('xxx')
 
 ```
 
