@@ -66,8 +66,12 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [创建生成器同时存在条件过滤](#创建生成器同时存在条件过滤)
     - [浮点数无法被精确计算](#浮点数无法被精确计算)
     - [递归调用无法保证调用的是自身](#递归调用无法保证调用的是自身)
+- [常用模块](#常用模块)
+    - [日期时间处理](#日期时间处理)
+    - [随机生成](#随机生成)
+    - [shutil 使用](#shutil-使用)
 - [语法](#语法)
-    - [输入输出 打印 main魔法变量](#输入输出-打印-main魔法变量)
+    - [输入输出 input 打印 main魔法变量](#输入输出-input-打印-main魔法变量)
     - [基本数据类型](#基本数据类型)
         - [NoneType 空类型 None](#nonetype-空类型-none)
         - [字符串](#字符串)
@@ -79,9 +83,11 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [数字](#数字)
         - [布尔值](#布尔值)
         - [数组 array](#数组-array)
+        - [容器 container](#容器-container)
         - [集合](#集合)
             - [list 有序可变](#list-有序可变)
                 - [slices 切片](#slices-切片)
+                - [列表推导式](#列表推导式)
             - [tuple 有序不可变列表](#tuple-有序不可变列表)
                 - [namedtuple() 创建带名字下标的元组](#namedtuple-创建带名字下标的元组)
                 - [typeing.NamedTulple 命名的元组](#typeingnamedtulple-命名的元组)
@@ -105,13 +111,11 @@ https://www.zhihu.com/question/19827960 指的关注的社区
             - [dict 场景](#dict-场景)
                 - [模拟 switch case](#模拟-switch-case)
             - [dict 字典推导式](#dict-字典推导式)
-        - [列表推导式](#列表推导式)
         - [二进制结构封包解包](#二进制结构封包解包)
         - [SimpleNamespace 创建简单类](#simplenamespace-创建简单类)
-        - [container 容器](#container-容器)
-    - [日期时间处理](#日期时间处理)
+    - [作用域 scope](#作用域-scope)
+    - [克隆 拷贝 shadow-copy deep-copy](#克隆-拷贝-shadow-copy-deep-copy)
     - [赋值表达式 Assignment Expressions](#赋值表达式-assignment-expressions)
-    - [作用域](#作用域)
     - [条件循环](#条件循环)
     - [`*`解包](#解包)
         - [集合解包](#集合解包)
@@ -143,6 +147,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [装饰器 decorator](#装饰器-decorator)
         - [装饰器介绍](#装饰器介绍)
         - [类装饰器](#类装饰器)
+        - [案例: 缓存](#案例-缓存)
         - [案例: 注入方法参数](#案例-注入方法参数)
         - [案例: 失败重试](#案例-失败重试)
         - [案例: 依赖注入](#案例-依赖注入)
@@ -160,7 +165,6 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [判断类型信息](#判断类型信息)
         - [动态操作](#动态操作)
         - [枚举](#枚举)
-        - [对象克隆 拷贝 shadow-copy deep-copy](#对象克隆-拷贝-shadow-copy-deep-copy)
         - [abc模块 定义抽象基类](#abc模块-定义抽象基类)
     - [数据类](#数据类)
         - [@dataclass 创建实体类](#dataclass-创建实体类)
@@ -234,14 +238,16 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [包管理](#包管理)
         - [rye 使用](#rye-使用)
         - [uv](#uv)
-    - [日志](#日志)
+    - [日志 log](#日志-log)
     - [生成文档](#生成文档)
 - [并发](#并发)
-    - [GIL 简介](#gil-简介)
-    - [多线程](#多线程)
     - [多进程](#多进程)
     - [可变 不可变](#可变-不可变)
+- [GIL 实现并发三种方式](#gil-实现并发三种方式)
+- [异步 线程](#异步-线程)
+- [异步 进程](#异步-进程)
 - [异步 协程](#异步-协程)
+    - [Python中的异步](#python中的异步)
     - [yield 手动切换](#yield-手动切换)
     - [gevent 自动切换](#gevent-自动切换)
 - [编写命令行程序](#编写命令行程序)
@@ -253,7 +259,6 @@ https://www.zhihu.com/question/19827960 指的关注的社区
 - [路径问题](#路径问题)
     - [文件路径 and 终端路径](#文件路径-and-终端路径)
     - [获取脚本位置](#获取脚本位置)
-- [shutil 使用](#shutil-使用)
 - [web 开发](#web-开发)
     - [用Python写ui](#用python写ui)
     - [litestar](#litestar)
@@ -550,10 +555,85 @@ def fib(n):
 
 ```
 
+# 常用模块
+
+
+
+## 日期时间处理
+
+```py
+def builtin_module():
+    from datetime import datetime, timedelta
+
+    now: datetime = datetime.now()
+    print(now) # 2019-06-05 23:06:46.171270
+    print(f'now:%y-%m-%d %H:%M:%S')
+    print(f'now:%c')  # local 版本
+
+    time = datetime(2019, 4, 19, 1, 30)
+    print(time) # 2019-04-19 01:30:00
+
+    timestamp = time.timestamp()
+    print(timestamp)  # 1555608600.0
+    print(datetime.fromtimestamp(timestamp))  # 2019-04-19 01:30:00
+
+    cday = datetime.strptime('2015-6-1 18:19:59', '%Y-%m-%d %H:%M:%S')
+    print(cday)  # 2015-06-01 18:19:59
+
+    strftime = now.strftime('%Y-%m-%d %H:%M:%S')
+    print(strftime)  # 2019-06-05 23:06:46
+
+    result = now + timedelta(days=1, hours=1)
+    print(result)  # 2019-06-07 00:11:36.912231
+
+```
+
+## 随机生成
+
+```python
+# 随机数
+
+
+# uuid
+from uuid import uuid4
+print(uuid4())
+
+# 带时间戳的 uuid
+from ulid import ULID
+id_ = ULID()
+print(id_)
+print(id_.timestamp) # 时间戳
+print(id_.to_uuid4()) # 转换为 uuid
+
+```
+
+
+## shutil 使用
+
+
+```py
+# 递归删除目录
+
+import shutil  
+shutil.rmtree('要清空的文件夹名')  # 先删除
+os.mkdir('要清空的文件夹名')  # 再重建
+
+import os
+for root, dirs, files in os.walk(top, topdown=False):
+    for name in files:
+        os.remove(os.path.join(root, name))
+    for name in dirs:
+        os.rmdir(os.path.join(root, name))
+
+# 移动文件夹
+shutil.move('原文件夹/原文件名','目标文件夹/目标文件名') 
+
+```
+
 
 # 语法
 
-## 输入输出 打印 main魔法变量
+## 输入输出 input 打印 main魔法变量
 
 ```py
 #!/usr/bin/env python3
@@ -590,6 +670,37 @@ def hello_print():
 if __name__ == "__main__":
     hello_print()
 
+
+
+
+
+
+
+# ----------------------------------------- 处理用户命令行输入
+name = input('Name: ')
+if not name:
+    name = 'N/A'
+print(name)
+
+# or
+name = input("Name: ") or 'none'
+
+
+
+while true:
+    match input('请输入: '):
+        case '1':
+            do_xxx()
+        case '2':
+            do_yyy()
+        case 'q':
+            sys.exit(0)
+        case _:
+            print('invalid input')
+
+# 隐藏输入
+from getpass import getpass
+pwd = getpass('Password: ')
 ```
 
 
@@ -1033,6 +1144,16 @@ for a in arr:
 
 ```
 
+### 容器 container
+
+```python
+
+# Python 中实现 __contains__ 魔术方法并返回真值的对象称为容器。它通常与 in 运算符一起使用以检查成员是否存在
+# Python内建的容器: tuple、list、set、dict等
+# 测试一个对象是否是一个容器时，应该使用 isinstance(x, collections.abc.Container) 。
+
+```
+
 ### 集合
 
 
@@ -1088,10 +1209,11 @@ for a in arr:
 
     #
     # 带下标遍历
-    # enumerate()可以将list变为索引-元素 tuple
-    # for i, value in enumerate([1,2,'3', '4']):
-    #     print(i, value)
-    #
+    #enumerate(lst)可以将list变为索引-元素 tuple, 下标 0 开始
+    #enumerate(lst, 1)可以将list变为索引-元素 tuple, 下标 1 开始
+    for i, value in enumerate([1,2,'3', '4']):
+        print(i, value)
+    
 
 
     # 判断对象是否能迭代
@@ -1124,6 +1246,11 @@ for a in arr:
     import os
     d = [d for d in os.listdir('.')]
     print(d)
+
+
+    #  ------------------- 列表格式化
+    L = ['aa', 'bb', 'cc']
+    print(*L, sep=', ', end='\n')
 ```
 
 ##### slices 切片 
@@ -1155,6 +1282,39 @@ for a in arr:
         (e1, *middle, e2) = l2
 
 
+
+```
+
+
+##### 列表推导式
+
+```python
+
+l = [x*x for x in range(3)] # [0, 1, 4]
+
+# 多个参数的生成式
+lst = [
+    x * y * z       
+    for x in range(10)   # 最外层, 只认识 x
+    if x > 0
+    for y in range(x, x + 10)   # 中间层
+    if y > x+1              # 只认识 x, y
+    for z in range(x, y)   # 最内层
+    if y > x           # 认识 x, y, z
+]
+
+
+def read_file(path: str) -> [str]:
+    with open(path, 'r') as f:
+        lines = [for line in f if line.startswith('<<')]
+    return lines
+
+# 通过生成器的方式, 省内存
+def read_file2(path: str) -> Generator[str]:
+    with open(path, 'r') as f:
+        for line in f:
+            if line.startswith('<<'):
+                yield line
 
 ```
 
@@ -1331,7 +1491,8 @@ if __name__ == '__main__':
 ```py
   # Set 无序不可重复
     #
-    #set 和 dict 的唯一区别仅在于没有存储对应的 value
+    #set 和 dict 的唯一区别仅在于没有存储对应的 value, 底层都是通过 hash 表实现的
+    # 所以没有下标, 因为下标值(即内存地址)是实时通过元素值计算出来的
     #
     # 要创建一个set，需要提供一个list作为输入集合：
     s = set([1, 2, 3])
@@ -1343,7 +1504,7 @@ if __name__ == '__main__':
     # 空 set 不要用{}, 会误认为是定义字典
     s = set()
 
-    # 推导式
+    # 推导式 , 只能用'{}', 因为'()'被 generator 推导式占用了
     s = {x*x for x in range(4)}
 
     # # 重复元素在set中自动被过滤
@@ -1753,7 +1914,10 @@ print(read_only_dict['c'])  # 4
 #### Counter 通过字典表示列表
 
 ```python
+    c = Counter(['a', 'c', 'a', 'b', 'c'])
+
     c = Counter('aabbbc')
+    # elements() 会按照字母出现次数依次重复排列各个字母
     print(list(c.elements())) # ['a', 'a', 'b', 'b', 'b', 'c']
 
     c = Counter({'a': 2, 'b': 1})
@@ -1798,37 +1962,6 @@ age_mapping = { user.name: user.age
 }
 ```
 
-### 列表推导式
-
-```python
-
-l = [x*x for x in range(3)] # [0, 1, 4]
-
-# 多个参数的生成式
-lst = [
-    x * y * z       
-    for x in range(10)   # 最外层, 只认识 x
-    if x > 0
-    for y in range(x, x + 10)   # 中间层
-    if y > x+1              # 只认识 x, y
-    for z in range(x, y)   # 最内层
-    if y > x           # 认识 x, y, z
-]
-
-
-def read_file(path: str) -> [str]:
-    with open(path, 'r') as f:
-        lines = [for line in f if line.startswith('<<')]
-    return lines
-
-# 通过生成器的方式, 省内存
-def read_file2(path: str) -> Generator[str]:
-    with open(path, 'r') as f:
-        for line in f:
-            if line.startswith('<<'):
-                yield line
-
-```
 
 
 
@@ -1861,46 +1994,74 @@ class Person(SimpleNamespace):
 ```
 
 
-### container 容器
+
+
+## 作用域 scope
 
 ```python
 
-# Python 中实现 __contains__ 魔术方法并返回真值的对象称为容器。它通常与 in 运算符一起使用以检查成员是否存在
-# Python内建的容器: tuple、list、set、dict等
-# 测试一个对象是否是一个容器时，应该使用 isinstance(x, collections.abc.Container) 。
+# ----------------------------变量的作用域问题
+# 包级(模块级)作用域, 包被导入则自动执行, 也叫做全局作用域
+hehe = 6
+
+def he():
+    # 在局部作用域使用全局变量, 推荐使用global 标识符
+    # 更好的做法: 先把全局变量赋值给一个局部暂存变量, 后面只使用这个暂存变量
+    print(hehe) # 6
+he()
+
+def hello():
+    # error 不能在 global hehe 之前使用 hehe
+    #print(hehe) 
+    
+    # 函数定义了本地作用域, 如果想要在函数内定义/修改全局作用域，需要加上global修饰符
+    global hehe
+    print(hehe) # 6
+
+    # 这里的 hehe 是方法内的本地作用域, 不是全局的那个 hehe
+    hehe = 1
+    print(hehe) # 1
+    
+hello()
 
 
+# -------------------------- 列表推导式的作用域问题
+foo = 4
+class A:
+    # 定义了类内部的本地作用域
+    foo = 2
+    # 第一个 foo 是 4, 第二个 foo 是 2
+    # 解释: 推导式在展开时, 元素生成表达式(也就是第一个 foo)会被构造为一个函数, 元素表达式会作为这个函数的函数体内容, 身处于一个独立的作用域, 不属于当前类 A 的作用域, 因此会去全局寻找 foo,因此找到 4
+    #       而第二个 foo 和推导式 '[]' 处于一个作用域, 回去推导式的同级别作用域寻找 foo, 因此找到2
+    bar = [foo for i in range(foo)]
+
+print(A.bar) # [4, 4]
+
+
+
+# ---------------------------lambda 表达式作用域问题
+# 在循环中有坑?
 ```
 
 
-## 日期时间处理
+## 克隆 拷贝 shadow-copy deep-copy
 
-```py
-def builtin_module():
-    from datetime import datetime, timedelta
+```python
 
-    now: datetime = datetime.now()
-    print(now) # 2019-06-05 23:06:46.171270
-    print(f'now:%y-%m-%d %H:%M:%S')
-    print(f'now:%c')  # local 版本
+# 对于可变对象, 复制时必须进行深拷贝
 
-    time = datetime(2019, 4, 19, 1, 30)
-    print(time) # 2019-04-19 01:30:00
+# shadw copy (创建新对象, 将原来对象内的属性的引用, 一次插入新对象)
+copy.copy( xxx)
 
-    timestamp = time.timestamp()
-    print(timestamp)  # 1555608600.0
-    print(datetime.fromtimestamp(timestamp))  # 2019-04-19 01:30:00
+# deep copy (创建新对象, 将原来对象属性的副本, 插入新对象)
+copy.deepcopy(xxx)
 
-    cday = datetime.strptime('2015-6-1 18:19:59', '%Y-%m-%d %H:%M:%S')
-    print(cday)  # 2015-06-01 18:19:59
 
-    strftime = now.strftime('%Y-%m-%d %H:%M:%S')
-    print(strftime)  # 2019-06-05 23:06:46
-
-    result = now + timedelta(days=1, hours=1)
-    print(result)  # 2019-06-07 00:11:36.912231
-
+# 特殊的
+# 对于 dict, xx_dict.copy() 可实现字典的 shadow copy
+# 对于 list, xx_list[:] , 或者 xxx_list.copy() 可以实现列表的 shadow copy
 ```
+
 
 
 ## 赋值表达式 Assignment Expressions
@@ -1934,43 +2095,38 @@ filtered = [
 # - 赋值语句右侧禁止使用, 如: y0 = y1 := f(x) 报错, y0 = (y1 := f(x)) 可以但不推荐
 ```
 
-## 作用域
-
-```python
-# 包级作用域, 包被导入则自动执行
-hehe=6
-
-def var_demo():
-    # 作用域名
-    # 函数定义了本地作用域，而模块定义的是全局作用域, 如果想要在函数内定义/修改全局作用域，需要加上global修饰符
-    global hehe
-    print(hehe) # 6
-    hehe=3 # 修改
-    pass
-
-
-```
 
 
 ## 条件循环
 
 ```py
-def condition_loop():
-    """
-    条件 循环
-    """
-    names = ['Michael', 'Bob', 'Tracy']
-    for name in names:
-        print(name)
+names = ['Michael', 'Bob', 'Tracy']
+# for in 可用于 list, tuple, dict, generator ...
+for name in names:
+    print(name)
 
-    fruits = ['banana', 'apple',  'mango']
-    for index in range(len(fruits)):
-        print('当前水果 :', fruits[index])
+fruits = ['banana', 'apple',  'mango']
+for index in range(len(fruits)):
+    print('当前水果 :', fruits[index])
 
-    count = 0
-    while (count < 9):
-        print ('The count is:', count)
-        count = count + 1
+count = 0
+while (count < 9):
+    print ('The count is:', count)
+    count = count + 1
+
+
+# -------------------------- 死循环
+from itertools import cycle
+lights = [
+    ('red', 2),
+    ('yellow', 0.5),
+    ('green', 2),
+]
+# 创建一个无线循环生成的 generator
+light_generator = cycle(lights)
+for l in light_generator:
+    xxx
+
 ```
 
 
@@ -1996,7 +2152,6 @@ def condition_loop():
     tu4 = (tu1, tu2, 100) #  # ((1, 2), (2, 3), 100)
     print(tu4)
     tu3 = (*tu1, *tu2, 100) # (1, 2, 2, 3, 100)
-    print(tu3)
 
 
 
@@ -2057,6 +2212,20 @@ for ele in data['arr']:
 func = lambda x: x**2
 a = func(2)
 print(a)
+
+
+# ------------------------------- 作为装饰器
+# 使得一个函数立即执行, 函数名字变为了变量名字
+
+# 只会被执行一次, start_time 可以当作常量
+@lambda _: _()
+def start_time() -> str:
+    from datetime import datetime
+    now = datetime.now()
+    return f'{now:%T}'
+
+print(start_time)
+
 ```
 
 ### 内置函数
@@ -2509,6 +2678,22 @@ class DateRange():
     def __getitem__(self, index):
         return self._all[index]
 
+
+
+
+
+
+
+
+# ------------------------------ zip(iterables)  将多个iterables 压缩进一个 iterator, 每个元素是一个 tuple
+names = ['aa', 'bb']
+ages = [22, 33]
+zipped = zip(names, age)
+# 若 names, ages 长度不等, 会取最短的 lst 为返回的标准
+print(list(zipped)) # [('aa', 22), ('bb', 33)]  
+
+from itertools import zip_longest
+zz = zip_longest(names, ages, fillvalue='none')
 ```
 
 
@@ -2935,8 +3120,8 @@ def show():
 show()
 
 
-# -------------------------- 装饰生成器时
-# 如何获取生成器的返回值?
+# -------------------------- 装饰generator时
+# 如何获取生成器的返回值?  通过 yield from 
 
 
 def timer(func):
@@ -2995,6 +3180,19 @@ class User:
 u = User()
 print(u) # User()
 u.hello() # hello
+
+```
+
+### 案例: 缓存
+
+```python
+
+from functools import cache
+@cache
+def calc(param):
+    print(f'{param} + 1 is ...')
+    time.sleep(1)
+    return param + 1
 
 ```
 
@@ -3246,18 +3444,19 @@ print(id(c.biz_service) == id(c2.biz_service)) # true, 说明注入的是单例�
 ```py
 
 class SideBar:
-    # 类变量（大写）
+    # 类变量（大写）, 或者叫类属性, 
+    # 通过实例对象获取属性, 会先查实例属性, 不存在再去查类属性, 都不存在 则返回 none
+    # 建议通过 Student.name , 或者 self.__class__.name 这两种方式获取类属性
+    # 不要直接通过 self.xxx 获取类属性
+    # 在类方法中, 无法直接访问类变量, 必须通过 self.xxx 才能访问, 但是不推荐
     DIV: str = 'div'
     H1: str = 'h1'
     MORE_PLACEHOLDER: str = 'more'
     MORE_SIZE: int = 3
     SHOULD_COMPRESS_HTML: bool = True
 
-     # 类属性, 
-    # 通过实例对象获取属性, 会先查实例属性, 不存在再去查类属性, 都不存在 则返回 none
-    # 建议通过 Student.name , 或者 self.__class__.name 这两种方式获取类属性
-    # 不要直接通过 self.xxx 获取类属性
-    name__xx = "Student" 
+    
+    NAME__XX = "Student" 
     
 
     __slots__ = ('name', '__score', '_age', '__name') # 用tuple定义哪些属性可以作为实例变量, 在类外部就不能随便绑定类变量了
@@ -3355,6 +3554,11 @@ getattr(d, 'Mickael', None) # 默认值 None 必须给, 否则属性不存在会
 
 # 是否存在
 hasattr(d, 'xxx')
+
+
+# 快速打印对象属性
+print(d.__dict__)  # 推荐
+print(vars(d)) # 若不带参数 d, 即 vars() 会打印当前文件的字典
 
 ```
 
@@ -3899,24 +4103,6 @@ Color.blue == Color.red
 Color.blue != Color.red  
 # 　　输出结果是：True
 
-```
-
-### 对象克隆 拷贝 shadow-copy deep-copy
-
-```python
-
-# 对于可变对象, 复制时必须进行深拷贝
-
-# shadw copy (创建新对象, 将原来对象内的属性的引用, 一次插入新对象)
-copy.copy()
-
-# deep copy (创建新对象, 将远对象属性的副本, 插入新对象)
-copy.deepcopy()
-
-
-# 特殊的
-# 对于 dict, xx_dict.copy() 可实现字典的 shadow copy
-# 对于 list, xx_list[:] 可以实现列表的 shadow copy
 ```
 
 ### abc模块 定义抽象基类
@@ -5021,16 +5207,31 @@ tox.ini tox 的配置文件。
 
 # 一个文件就是一个模块
 # 一个文件夹, 内部包含一个 __init__.py , 这个文件夹也是一个模块
-#       __init__.py 要么留空, 要么只导出需要使用的资源
+#       __init__.py  要么留空, 
+#                    要么只导出需要使用的资源, 如 from .customer import add_customer 就道出了 customer.py 中的 add_customer
+#                    要么使用 __all__ 数组定义 from mdl import * 指令能够导入的资源
+#        此外还可以
+            # __version__ 包版本
+            # __date__ 时间
+            # __author__
+            # __email__
+            # __status__ = 'production'  # 状态
+# 
 # 
 # 模块被导入, 包级别(即顶级)作用域的代码自动执行, 重复导入不会再次执行
+#       导入语法:
+#           import xxx
+#           import xxx as yyy
+#           from xx import xxx, yyy
+#           from xxx import (xxx, yy, zz)
+#           from xx import *
 
 # 模块名称要短、使用小写，并避免使用特殊符号, 如".", "?", "_"
 # (就 my.spam.py 来说，Python 认为需要在 my 文件夹 中找到 spam.py 文件，实际并不是这样), 可使用"_" 但不推荐
 
 
 # 如果引用自己项目的的模块时，你的项目叫 my，模块叫 modu，那么不建议使用 from my import modu来引用，
-# 强烈推荐使用 from . import modu。
+# 强烈推荐使用 from . import modu。或者直接 import modu
 
 
 
@@ -5516,25 +5717,34 @@ rye toolchain list [--include-downloadable]
 
 
 
-## 日志
+## 日志 log
 
 
 
 ```py
-def log_handling():
-    import logging
-    # 有debug，info，warning，error等几个级别，等级由低到高
-    # 设定为某个级别, 低于这个级别的不会输出
-    logging.basicConfig(level=logging.INFO)
-    s = '0'
-    n = int(s)
-    logging.info('n = %d' % n)
-    # print(10 / n)
+import logging
+# 有debug，info，warning，error等几个级别，等级由低到高
+# 设定为某个级别, 低于这个级别的不会输出
+#    指定日志文件 filename='xxx.log'
+logging.basicConfig(level=logging.INFO)
+s = '0'
+n = int(s)
+logger = logging.getLogger(__name__) # 推荐, 不是必须
+logger.info('n = %d' % n)
 
 
-    # 推荐
-    logger = logging.getLogger(__name__)
-    logger.info('xxx')
+
+# ------------------------------------------- loguru
+# https://github.com/Delgan/loguru
+from loguru import logger
+
+# optional
+logger.add('xxx_{time}.log')
+logger.info('abc: {}', abc)
+
+@logger.catch
+def main():
+    1/0
 
 ```
 
@@ -5551,21 +5761,7 @@ https://squidfunk.github.io/mkdocs-material/ 主题
 
 # 并发
 
-## GIL 简介
 
-## 多线程
-
-```python
-
-def hello(arg):
-    print('--hello', arg)
-
-from concurrent.futures import ThreadPoolExecutor
-with ThreadPoolExecutor(max_workers=10) as er:
-    for i in range(10):
-        er.submit(hello, i)
-    
-```
 
 
 ## 多进程
@@ -5774,8 +5970,93 @@ def immut_calc(max_num: int, max_workers=4) -> int:
 
 ```
 
+# GIL 实现并发三种方式
+
+```python
+# global interpretor lock
+# 由于 GIL 的存在, "同一时刻, 只能有一个thread 执行 Python bytecode (字节码)"
+# 所以 gil 会影响单个进程内的多个 thread 并发执行, 限制线程在多核心系统上的并发性能
+# 所以对于单进程而言, 即使有多个 cpu 核心, 也无法实现真正的并发
+
+
+# import threading 通过线程, 虽然不是真正的 concurrency, 但是对于 io 密集型任务, 仍然有效, 对于 cpu 密集,则效果不好
+
+# import multiprocessing 多进程, 将单个任务各自放在一个独立的进程中, 每个进程有自己的 GIl, 互不阻塞
+
+# import asyncio 协程 适合 io 密集型
+
+```
+
+
+# 异步 线程
+
+```python
+
+
+# --------------------------------- 最简单的线程
+from threading import Thread
+def task(i):
+    print('hello', i)
+
+t1 = Thread(target=task, args=(1,))
+t2 = Thread(target=task, args=(2,))
+t1.start() # start the thread
+t1.join() # t1 join into the main thread, simply put, the main thread will wait until t1 finished 
+# 先 t1 start, join, 再 t2 start, join 是考虑到 GIL
+# 若 t1, t2 同时 start, 受 GIL 影响, 速度反而更慢
+t2.start
+t2.join()
+
+
+# --------------------------- 线程池
+from concurrent.futures import ThreadPoolExecutor
+with ThreadPoolExecutor(max_workers=10) as er:
+    for i in range(10):
+        er.submit(task, i)
+    
+```
+
+
+# 异步 进程
 
 # 异步 协程
+
+## Python中的异步
+
+```python
+
+import asyncio
+
+# 被 async 标注的函数就是异步函数, 返回值变为 coroutine (协程)
+#       coroutine can be paused and resumed, allowing other tasks to run in the mean time
+async def task(i):
+    print("begin", i)
+    # 异步等待, 需要使用 asyncio 包
+    await asyncio.sleep(1)
+    print("end", i)
+
+asyncio.run(task(0))
+
+# --------------------------------------- 并行执行任务
+async def gather():
+    # 等待三个任务全部执行完
+    await asyncio.gather(
+        task(1), 
+        task(2),
+        task(3)
+    )
+
+asyncio.run(gather())
+
+# begin 0
+# end 0
+# begin 1
+# begin 2
+# begin 3
+# end 1
+# end 2
+# end 3
+```
 
 ## yield 手动切换
 
@@ -6137,28 +6418,6 @@ if __name__ == '__main__':
 
 ```
 
-# shutil 使用
-
-TODO
-
-```py
-# 递归删除目录
-
-import shutil  
-shutil.rmtree('要清空的文件夹名')  # 先删除
-os.mkdir('要清空的文件夹名')  # 再重建
-
-import os
-for root, dirs, files in os.walk(top, topdown=False):
-    for name in files:
-        os.remove(os.path.join(root, name))
-    for name in dirs:
-        os.rmdir(os.path.join(root, name))
-
-# 移动文件夹
-shutil.move('原文件夹/原文件名','目标文件夹/目标文件名') 
-
-```
 
 
 # web 开发
