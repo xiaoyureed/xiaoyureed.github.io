@@ -127,6 +127,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [多种参数](#多种参数)
         - [递归](#递归)
         - [高阶函数](#高阶函数)
+    - [迭代器](#迭代器)
     - [生成器 generator](#生成器-generator)
         - [两种创建方式](#两种创建方式)
         - [生成器 send(xxx)](#生成器-sendxxx)
@@ -135,7 +136,6 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [异步生成器](#异步生成器)
         - [案例:生成器实现斐波拉契数列](#案例生成器实现斐波拉契数列)
         - [案例: 收集失败数据同意处理](#案例-收集失败数据同意处理)
-    - [迭代器](#迭代器)
     - [文件处理](#文件处理)
         - [创建文件](#创建文件)
         - [读写文件数据](#读写文件数据)
@@ -295,6 +295,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [paramiko](#paramiko)
     - [部署 springboot](#部署-springboot)
 - [开源库](#开源库)
+    - [ast 获取源码信息 调试 debug](#ast-获取源码信息-调试-debug)
     - [日期时间](#日期时间)
     - [爬虫 crawler](#爬虫-crawler)
     - [变声 语音合成](#变声-语音合成)
@@ -317,6 +318,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
 - [setup.py](#setuppy)
 - [wheel](#wheel)
 - [自动抢购脚本](#自动抢购脚本)
+- [打包](#打包)
 
 
 
@@ -2418,12 +2420,110 @@ def map_reduce_closure_lambda():
 ```
 
 
+## 迭代器
+
+
+```py
+在用 for..in.. 迭代对象时，解释器先检查被迭代目标是否有 __iter__ or __next__ 方法
+如果对象没有实现 __iter__ __next__ 迭代器协议，Python的解释器就会去寻找__getitem__ , __len__ 来迭代对象，
+如果连__getitem__, __len__ 都没有定义，这解释器就会报对象不是迭代器的错误
+
+__iter__  内存消耗少, 依次读取到内存, 但是随机访问效率差
+__getitem__  先用内存布置好数据, 内存消耗大, 但随机访问效率高
+
+
+
+
+实现了魔术方法 __iter__, __next__, 即为 迭代器, 若仅仅实现了 iter (iter 返回一个对象, 该对象实现了 __next__), 只能视为 可迭代对象(iterable). 
+若为 iterator, 一定为 iterable, 反之不一定
+
+实现了魔术方法 `__getitem__`, 即为 可迭代对象
+
+
+
+区别:  当为索引行数据类型（如：list, tuple,str)时，可以替换，当字段为hash型类型（如dict,set)时，不能替换
+
+
+
+
+
+
+
+import datetime
+class DateRange():
+    def __init__(self, start, end):
+    	self.start = start
+        self.end = end
+        self._cur = start
+
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        if self._cur >= self.end:
+            raise StopIteration
+        
+        res = self._cur
+
+        self._cur += datetime.timedelta(days=1)
+        
+        return res
+    
+
+
+
+
+class DateRange():
+    def __init__(self, start, end):   
+    	
+        self.start = start
+        self.end = end
+        self._all = self._get_all()
+
+    def _get_all(self):
+        res = []
+        
+        cur = self.start
+        while cur < self.end:
+            res.append(cur)
+            cur += datetime.timedelta(days=1)
+        
+        return res
+    
+    def __len__(self):
+        return len(self._all)
+    
+    def __getitem__(self, index):
+        return self._all[index]
+
+
+
+
+
+
+
+
+# ------------------------------ zip(iterables)  将多个iterables 压缩进一个 iterator, 每个元素是一个 tuple
+names = ['aa', 'bb']
+ages = [22, 33]
+zipped = zip(names, age)
+# 若 names, ages 长度不等, 会取最短的 lst 为返回的标准
+print(list(zipped)) # [('aa', 22), ('bb', 33)]  
+
+from itertools import zip_longest
+zz = zip_longest(names, ages, fillvalue='none')
+```
+
+
+
+
 ## 生成器 generator
 
 ### 两种创建方式
 
 ```py
 # 生成器
+# 可以看作是一种特殊的迭代器
 # 它允许你定义一个函数，在函数执行过程中可以多次返回值，每次返回后暂停，下次调用时从暂停的地方继续执行。生成器通常用于创建序列，但又不一次性生成所有的元素，而是按需生成。
 
 # 两种方式创建:
@@ -2599,101 +2699,6 @@ def process(urls):
 urls = [*data.keys(), 'http://a.dev', 'http://b.dev']
 failed_urls = process(urls)
 print(list(failed_urls))
-```
-
-
-## 迭代器
-
-
-```py
-在用 for..in.. 迭代对象时，解释器先检查被迭代目标是否有 __iter__ or __next__ 方法
-如果对象没有实现 __iter__ __next__ 迭代器协议，Python的解释器就会去寻找__getitem__ , __len__ 来迭代对象，
-如果连__getitem__, __len__ 都没有定义，这解释器就会报对象不是迭代器的错误
-
-__iter__  内存消耗少, 依次读取到内存, 但是随机访问效率差
-__getitem__  先用内存布置好数据, 内存消耗大, 但随机访问效率高
-
-
-
-
-实现了魔术方法 __iter__, __next__, 即为 迭代器, 若仅仅实现了 iter (iter 返回一个对象, 该对象实现了 __next__), 只能视为 可迭代对象(iterable). 
-若为 iterator, 一定为 iterable, 反之不一定
-
-实现了魔术方法 `__getitem__`, 即为 可迭代对象
-
-
-
-区别:  当为索引行数据类型（如：list, tuple,str)时，可以替换，当字段为hash型类型（如dict,set)时，不能替换
-
-
-
-
-
-
-
-import datetime
-class DateRange():
-    def __init__(self, start, end):
-    	self.start = start
-        self.end = end
-        self._cur = start
-
-    def __iter__(self):
-        return self
-    
-    def __next__(self):
-        if self._cur >= self.end:
-            raise StopIteration
-        
-        res = self._cur
-
-        self._cur += datetime.timedelta(days=1)
-        
-        return res
-    
-
-
-
-
-class DateRange():
-    def __init__(self, start, end):   
-    	
-        self.start = start
-        self.end = end
-        self._all = self._get_all()
-
-    def _get_all(self):
-        res = []
-        
-        cur = self.start
-        while cur < self.end:
-            res.append(cur)
-            cur += datetime.timedelta(days=1)
-        
-        return res
-    
-    def __len__(self):
-        return len(self._all)
-    
-    def __getitem__(self, index):
-        return self._all[index]
-
-
-
-
-
-
-
-
-# ------------------------------ zip(iterables)  将多个iterables 压缩进一个 iterator, 每个元素是一个 tuple
-names = ['aa', 'bb']
-ages = [22, 33]
-zipped = zip(names, age)
-# 若 names, ages 长度不等, 会取最短的 lst 为返回的标准
-print(list(zipped)) # [('aa', 22), ('bb', 33)]  
-
-from itertools import zip_longest
-zz = zip_longest(names, ages, fillvalue='none')
 ```
 
 
@@ -7369,6 +7374,16 @@ TODO
 
 https://pypi.org/
 
+## ast 获取源码信息 调试 debug
+
+```python
+
+
+https://github.com/alexmojaki/executing
+    https://github.com/gruns/icecream
+    https://github.com/gaogaotiantian/objprint 推荐
+```
+
 
 ## 日期时间
 
@@ -7621,3 +7636,10 @@ python 可以用 wheel 打包成 whl, 然后使用 ssh 执行 pip install packag
 
 对于自动抢购来说，
 对于网页，selenium 和 puppeteer 比较适合，基本流程就是加载一个 webdriver，访问一个链接，等待 javascript 加载完，选择一个元素，执行操作。
+
+
+# 打包
+
+```python
+https://github.com/pyinstaller/pyinstaller 可执行包
+```
