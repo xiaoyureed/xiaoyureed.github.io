@@ -238,6 +238,7 @@ https://www.zhihu.com/question/19827960 指的关注的社区
     - [包管理](#包管理)
         - [rye 使用](#rye-使用)
         - [uv](#uv)
+        - [venv](#venv)
     - [日志 log](#日志-log)
     - [生成文档](#生成文档)
 - [并发](#并发)
@@ -5719,6 +5720,7 @@ rye toolchain list [--include-downloadable]
 ### uv
 
 
+### venv
 
 
 

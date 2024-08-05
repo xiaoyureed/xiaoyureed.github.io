@@ -495,7 +495,8 @@ sudo shutdown -h +60
 
 macOS 自带很多 shell, 通过 `cat /etc/shells` 查看
 
-Zsh 切换Bash的方法：`chsh -s /bin/zsh`，重启终端后即为Zsh了。验证 `echo $SHELL`
+Zsh 切换Bash的方法：`chsh -s /bin/zsh` or `chsh -s $(which zsh)`，重启终端后即为Zsh了。验证 `echo $SHELL` 
+or edit .bashrc : if test -t 1; then exec zsh fi
 
 `zsh --version` 查看版本是不是最新的, 最新的版本 `brew info zsh ` 查看
 

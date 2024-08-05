@@ -40,6 +40,7 @@ toc_max_heading_level: 5
         - [左连接](#左连接)
         - [右连接](#右连接)
         - [伪列](#伪列)
+- [json 处理](#json-处理)
 
 
 
@@ -724,4 +725,99 @@ select t.*,t.rowid from stuinfo t where t.rowid='AAAShjAAEAAAAEFAAD';
 -- 可用来作为分页
 -- ROWNUM 与 ROWID 不同， ROWID 是插入记录时生成， ROWNUM 是查询数据时生成。ROWID 标识的是行的物理地址。 ROWNUM 标识的是查询结果中的行的次序
 select t.stuid,t.stuname,t.sex,t.classno,t.stuaddress ,rownum  from stuinfo t ;
+```
+
+
+# json 处理
+
+```sql
+https://zhuanlan.zhihu.com/p/707617022
+
+-- json 查询表达式
+$: 表示根元素
+.: 表示当前元素
+[*]: 表示匹配数组中的所有元素
+[]: 表示过滤数组中符合条件的元素
+@: 表示当前正在处理的属性 or 数组元素
+? 是一个过滤条件开始的标志
+like "%your_search_string%" 是一个条件表达式，用于检查当前元素是否包含指定的字符串。 like 必须小写
+
+
+JSON_EXISTS(col, 'xxx')  返回布尔值, 用于判断是否存在符合条件的JSON数据
+    SELECT * FROM my_table WHERE JSON_EXISTS(json_data, '$.name'); -- json里是否存在有 name 属性
+        SELECT case when JSON_EXISTS('{"name": "John", "age": 30, "city": "New York"}', '$.name') then 'true' else 'false' end as result FROM dual;
+
+    select * from mytable where JSON_EXISTS(my_cloumn, '$.name ? (@ == "cxk")') -- name属性必须等于 cxk
+
+    ... and JSON_EXISTS(my_cloumn, '$.company ? (@.name == "unknow" && @.staffNum == "unknow")');  -- $.company.name == unknown  && $.company.staffNum == unknown
+
+    ... 	AND JSON_EXISTS(RELATED_SIX_SYSTEM, '$[*]?(@ like "%通风机%")')  -- 从字符串数组中搜 '通风机'
+
+    select json_col from json_data 
+        where  json_exists ( 
+            json_col,
+            '$?(@.abc.fname == $johnparam)' passing 'john' as "johnparam"  -- $.abc.fname == 'john'
+        );
+
+
+
+
+
+JSON_VALUE(col, path_expression [RETURNING datatype])  提取JSON数据中的单个标量值或数组
+    SELECT JSON_VALUE('{"price": 9.99，"name":"apple"}', '$.price' RETURNING NUMBER) as price FROM dual;
+
+    SELECT JSON_VALUE('{"fruits": ["apple", "banana", "orange"]}', '$.fruits') as fruits FROM dual;
+
+
+JSON_QUERY(col, path_expression [RETURNING datatype]) 用于从JSON文档中查询数据，返回一个JSON对象或数组
+                                                    不支持通配符，查询全部就是类似$.fans，不需要$.fans[*]；支持使用下标指定。
+
+    select JSON_QUERY
+    ('{
+        "name": "cxk",	
+        "sex": "female",	
+        "hobbies": ["sing", "dance", "rap", "basketball"], 
+        "company": {"name": "unknow", "staffNum": "unknow"}	
+        "fans": [		
+            {"name": "ncFans1"},
+            {"name": "ncFans2"}
+        ]
+    }', '$.hobbies[0]'
+    ) as json_query_res, --null
+    JSON_VALUE
+    ('{
+        "name": "cxk",	
+        "sex": "female",	
+        "hobbies": ["sing", "dance", "rap", "basketball"], 
+        "company": {"name": "unknow", "staffNum": "unknow"}	
+        "fans": [		
+            {"name": "ncFans1"},
+            {"name": "ncFans2"}
+        ]
+    }', '$.hobbies[0]'
+    ) as json_value_res  -- sing
+    from dual;
+
+
+
+
+JSON_OBJECT  生成一个 JSON 对象，它允许将键值对转换为 JSON 格式
+    SELECT JSON_OBJECT('name' VALUE 'John', 'age' VALUE 30) AS json_object FROM dual;
+
+JSON_ARRAY  创建一个 JSON 数组。
+    SELECT JSON_ARRAY('apple', 10, TRUE) FROM dual;--["apple", 10, TRUE]
+
+JSON_TABLE(json, path COLUMNS (column1 expr1 [, column2 expr2]...))   将JSON数据转换为表格形式
+    SELECT name, age, gender
+    FROM JSON_TABLE('{
+    "employees": [
+        { "name": "John", "age": 30, "gender": "male" },
+        { "name": "Jane", "age": 25, "gender": "female" },
+        { "name": "Bob", "age": 35, "gender": "male" }
+    ]
+    }', '$.employees[*]' COLUMNS (
+    name VARCHAR2(50) PATH '$.name',
+    age NUMBER PATH '$.age',
+    gender VARCHAR2(10) PATH '$.gender'
+    ));
 ```

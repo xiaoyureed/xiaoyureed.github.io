@@ -4332,6 +4332,8 @@ TODO
 
 expo.dev  基于 react native 的封装, 屏蔽了底层更多细节
 
+https://github.com/shopify/react-native-skia 使用 skia 做渲染
+
 https://reactnative.dev/docs/getting-started 官网
 https://github.com/reactnativecn/react-native-guide 中文资源
 https://github.com/jondot/awesome-react-native
