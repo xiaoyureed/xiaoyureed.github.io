@@ -136,6 +136,7 @@ https://github.com/Snailclimb/awesome-java#%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F 
         - [11.8.3. map 和 flatMap](#1183-map-和-flatmap)
         - [11.8.4. 去重](#1184-去重)
         - [11.8.5. collect方法 如何收集处理后的元素 分组 去重](#1185-collect方法-如何收集处理后的元素-分组-去重)
+        - [collect方法 Map 收集异常](#collect方法-map-收集异常)
         - [11.8.6. stream 中异常处理](#1186-stream-中异常处理)
     - [11.9. date 时间日期新的 api](#119-date-时间日期新的-api)
         - [11.9.1. 介绍-为什么使用](#1191-介绍-为什么使用)
@@ -4323,6 +4324,19 @@ System.out.println(Stream.of(1, 3, 5).collect(Collectors.mapping(x -> x + 1, Col
 
 
 ```
+
+### collect方法 Map 收集异常
+
+```java
+    ...
+    ...
+    .collect(HashMap::new, (m, ele) -> m.put(ele.getKey(), ...), HashMap::putAll);
+
+不要使用
+collect(Collector.toMap(...))
+
+```
+
 
 ### 11.8.6. stream 中异常处理
 
