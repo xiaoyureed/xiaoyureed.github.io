@@ -241,16 +241,17 @@ https://www.zhihu.com/question/19827960 指的关注的社区
         - [venv](#venv)
     - [日志 log](#日志-log)
     - [生成文档](#生成文档)
-- [并发](#并发)
+- [异步](#异步)
+    - [GIL 实现并发三种方式](#gil-实现并发三种方式)
+    - [concurrent.futures 包](#concurrentfutures-包)
+        - [池化 推荐用法](#池化-推荐用法)
+        - [案例: 可变-不可变方式计算](#案例-可变-不可变方式计算)
+    - [多线程](#多线程)
     - [多进程](#多进程)
-    - [可变 不可变](#可变-不可变)
-- [GIL 实现并发三种方式](#gil-实现并发三种方式)
-- [异步 线程](#异步-线程)
-- [异步 进程](#异步-进程)
-- [异步 协程](#异步-协程)
-    - [Python中的异步](#python中的异步)
-    - [yield 手动切换](#yield-手动切换)
-    - [gevent 自动切换](#gevent-自动切换)
+    - [协程](#协程)
+        - [Python中的异步](#python中的异步)
+        - [yield 手动切换](#yield-手动切换)
+        - [gevent 自动切换](#gevent-自动切换)
 - [编写命令行程序](#编写命令行程序)
     - [命令行自动补全](#命令行自动补全)
 - [调试](#调试)
@@ -5766,151 +5767,93 @@ https://squidfunk.github.io/mkdocs-material/ 主题
 
 
 
-# 并发
+
+
+# 异步 
+
+https://jeremyxu2010.github.io/2020/09/python%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%AE%9E%E6%88%98/
 
 
 
 
-## 多进程
+## GIL 实现并发三种方式
 
-https://jeremyxu2010.github.io/2020/09/python%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%AE%9E%E6%88%98/ 自带方式
-
-gevent
-
-
-https://stackoverflow.com/questions/42680357/increment-counter-for-every-access-to-a-flask-view 通过全局变量加锁, 统计 api 调用次数
-
-```py
-def multi_processing():
-    """
-    在Unix/Linux下，可以使用fork()调用实现多进程。
-    要实现跨平台的多进程，可以使用multiprocessing模块。
-    进程间通信是通过Queue、Pipes等实现的。
-    subprocess模块可以让我们非常方便地启动一个子进程，然后控制其输入和输出。通过communicate()方法输入
-    
-    """
-
-    import os
-    print("主进程 pid = ", os.getpid())
-    # fork()调用一次，返回两次，因为操作系统自动把当前
-    # 进程（称为父进程）复制了一份（称为子进程），然后，分别在父进程和子进程内返回 process id
-    # 子进程永远返回0，而父进程返回子进程的ID
-    pid = os.fork()
-    if pid ==0:
-        print("子进程, id = {}, ppid = {}".format(os.getpid(), os.getppid()))
-    else:
-        print("父进程, id = {}, son pid = {}".format(os.getpid(), pid))
+```python
+# global interpretor lock
+# 由于 GIL 的存在, "同一时刻, 只能有一个thread 执行 Python bytecode (字节码)"
+# 所以 gil 会影响单个进程内的多个 thread 并发执行, 限制线程在多核心系统上的并发性能
+# 所以对于单进程而言, 即使有多个 cpu 核心, 也无法实现真正的并发
 
 
-def multi_processing_windows():
-    """跨平台的多进程"""
-    from multiprocessing import Process
-    import os
+# import threading 通过线程, 虽然不是真正的 concurrency, 但是对于 io 密集型任务, 仍然有效, 对于 cpu 密集,则效果不好
 
-    # 子进程要执行的代码
-    def run_proc(name):
-        print('Run child process %s (%s)...' % (name, os.getpid()))
+# import multiprocessing 多进程, 将单个任务各自放在一个独立的进程中, 每个进程有自己的 GIl, 互不阻塞
 
-    print('Parent process %s.' % os.getpid())
-    p = Process(target=run_proc, args=('test',))
-    p.start()
-
-    p.join() # main process 
-    print('Child process end.')
-
-    # 进程池
-    #
-    from multiprocessing import Pool
-    import os, time, random
-
-    def long_time_task(name):
-        print('Run task %s (%s)...' % (name, os.getpid()))
-        start = time.time()
-        time.sleep(random.random() * 3)
-        end = time.time()
-        print('Task %s runs %0.2f seconds.' % (name, (end - start)))
-
-    if __name__=='__main__':
-        print('Parent process %s.' % os.getpid())
-        p = Pool(4) # Pool的默认大小是CPU的核数
-        for i in range(5):
-            p.apply_async(long_time_task, args=(i,))
-        print('Waiting for all subprocesses done...')
-        p.close()
-        p.join()
-        print('All subprocesses done.')
+# import asyncio 协程 适合 io 密集型
 
 
-def process_comunicate():
-    """进程通信"""
-    from multiprocessing import Process, Queue
-    import os, time, random
-
-    # 写数据进程执行的代码:
-    def write(q):
-        print('Process to write: %s' % os.getpid())
-        for value in ['A', 'B', 'C']:
-            print('Put %s to queue...' % value)
-            q.put(value)
-            time.sleep(random.random())
-
-    # 读数据进程执行的代码:
-    def read(q):
-        print('Process to read: %s' % os.getpid())
-        while True:
-            value = q.get(True)
-            print('Get %s from queue.' % value)
-
-    # 父进程创建Queue，并传给各个子进程：
-    q = Queue()
-    pw = Process(target=write, args=(q,))
-    pr = Process(target=read, args=(q,))
-    # 启动子进程pw，写入:
-    pw.start()
-    # 启动子进程pr，读取:
-    pr.start()
-    # 等待pw结束:
-    pw.join()
-    # pr进程里是死循环，无法等待其结束，只能强行终止:
-    pr.terminate()
 
 
-def muti_thread():
-    """
-    lock = threading.Lock() 创建锁
-    lock.acquire() 获取锁
-    lock.release() 释放锁, 一般在 finally中
-    多核任务只能用进程, 
-    因为:Python的线程虽然是真正的线程，但解释器执行代码时，有一个GIL锁：Global Interpreter Lock，
-    任何Python线程执行前，必须先获得GIL锁，然后，每执行100条字节码，解释器就自动释放GIL锁，让
-    别的线程有机会执行。这个GIL全局锁实际上把所有线程的执行代码都给上了锁，所以，多线程在Python
-    中只能交替执行，即使100个线程跑在100核CPU上，也只能用到1个核
-    """
 
-    import time, threading
+# --------------------------------- GIL 的影响
+# 多核任务只能用进程, 
+#     因为:Python的线程虽然是真正的线程，但解释器执行代码时，有一个GIL锁：Global Interpreter Lock，
+#     任何Python线程执行前，必须先获得GIL锁，然后，每执行100条字节码，解释器就自动释放GIL锁，让
+#     别的线程有机会执行。这个GIL全局锁实际上把所有线程的执行代码都给上了锁，所以，多线程在Python
+#     中只能交替执行，即使100个线程跑在100核CPU上，也只能用到1个核
+from threading import Thread
+def task(i):
+    print('hello', i)
 
-    def loop():
-        print('thread %s is running...' % threading.current_thread().name)
-        n = 0
-        while n < 5:
-            n = n + 1
-            print('thread %s >>> %s' % (threading.current_thread().name, n))
-            time.sleep(1)
-        print('thread %s ended.' % threading.current_thread().name)
-
-    print('thread %s is running...' % threading.current_thread().name)
-    # 主线程实例的名字叫MainThread，子线程的名字在创建时指定，我们用LoopThread命名子线程
-    t = threading.Thread(target=loop, name='LoopThread')
-    t.start()
-    t.join()
-    print('thread %s ended.' % threading.current_thread().name)
-
-
+t1 = Thread(target=task, args=(1,))
+t2 = Thread(target=task, args=(2,))
+t1.start() # start the thread
+t1.join() # t1 join into the main thread, simply put, the main thread will wait until t1 finished 
+# 先 t1 start, join, 再 t2 start, join 是考虑到 GIL
+# 若 t1, t2 同时 start, 受 GIL 影响, 速度反而更慢
+t2.start
+t2.join()
 
 ```
 
 
-## 可变 不可变
+
+
+## concurrent.futures 包
+
+### 池化 推荐用法
+
+```python
+# ThreadPoolExecutor  适合 io 密集型, 底层是线程
+# ProcessPoolExecutor 适合cpu 密集型, 底层是进程
+
+
+
+
+# ----------------------------------------------------- 线程池提交任务
+from concurrent.futures import ThreadPoolExecutor, as_completed
+with ThreadPoolExecutor(max_workers=10) as tpe:
+    # task 是任务函数, i 是任务函数的参数
+    # submit 会返回 future 对象
+    futures = [tpe.submit(task, i) for i in range(5)] 
+for fu in as_completed(futures):
+    print(f'result: {fu.result()}')
+
+
+# --------------------------------------------------- 进程池提交任务
+def cal(input):
+    time.sleep(5)
+    return input * 2
+
+nums = [1000, 2000, 11111]
+
+with ProcessPoolExecutor() as ppe:
+    fus = list(ppe.map(cal, nums))
+for num, fu in zip(nums, fus):
+    print(f'{num}: {fu.result()}')
+```
+
+### 案例: 可变-不可变方式计算
 
 ```python
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -5977,58 +5920,148 @@ def immut_calc(max_num: int, max_workers=4) -> int:
 
 ```
 
-# GIL 实现并发三种方式
-
-```python
-# global interpretor lock
-# 由于 GIL 的存在, "同一时刻, 只能有一个thread 执行 Python bytecode (字节码)"
-# 所以 gil 会影响单个进程内的多个 thread 并发执行, 限制线程在多核心系统上的并发性能
-# 所以对于单进程而言, 即使有多个 cpu 核心, 也无法实现真正的并发
-
-
-# import threading 通过线程, 虽然不是真正的 concurrency, 但是对于 io 密集型任务, 仍然有效, 对于 cpu 密集,则效果不好
-
-# import multiprocessing 多进程, 将单个任务各自放在一个独立的进程中, 每个进程有自己的 GIl, 互不阻塞
-
-# import asyncio 协程 适合 io 密集型
-
-```
-
-
-# 异步 线程
+## 多线程
 
 ```python
 
-
-# --------------------------------- 最简单的线程
-from threading import Thread
-def task(i):
-    print('hello', i)
-
-t1 = Thread(target=task, args=(1,))
-t2 = Thread(target=task, args=(2,))
-t1.start() # start the thread
-t1.join() # t1 join into the main thread, simply put, the main thread will wait until t1 finished 
-# 先 t1 start, join, 再 t2 start, join 是考虑到 GIL
-# 若 t1, t2 同时 start, 受 GIL 影响, 速度反而更慢
-t2.start
-t2.join()
-
-
-# --------------------------- 线程池
-from concurrent.futures import ThreadPoolExecutor
-with ThreadPoolExecutor(max_workers=10) as er:
-    for i in range(10):
-        er.submit(task, i)
+# ------------------------------------- thread 简单使用
+def muti_thread():
+    """
+    lock = threading.Lock() 创建锁
+    lock.acquire() 获取锁
+    lock.release() 释放锁, 一般在 finally中
     
+    """
+
+    import time, threading
+
+    def loop():
+        print('thread %s is running...' % threading.current_thread().name)
+        n = 0
+        while n < 5:
+            n = n + 1
+            print('thread %s >>> %s' % (threading.current_thread().name, n))
+            time.sleep(1)
+        print('thread %s ended.' % threading.current_thread().name)
+
+    print('thread %s is running...' % threading.current_thread().name)
+    # 子线程在创建时指定名字 (主线程的名字叫 MainThread，)
+    t = threading.Thread(target=loop, name='LoopThread') # 若任务方法有参数, args=(1,) 指定
+    t.start()
+    t.join()
+    print('thread %s ended.' % threading.current_thread().name)
+
+
+
 ```
 
 
-# 异步 进程
+## 多进程
 
-# 异步 协程
+```python
 
-## Python中的异步
+# ------------------------------------------------ linux 专供
+def multi_processing():
+    """
+    在Unix/Linux下，可以使用fork()调用实现多进程。
+   
+    
+    """
+
+    import os
+    print("主进程 pid = ", os.getpid())
+    # fork()调用一次，返回两次，因为操作系统自动把当前
+    # 进程（称为父进程）复制了一份（称为子进程），然后，分别在父进程和子进程内返回 process id
+    # 子进程永远返回0，而父进程返回子进程的ID
+    pid = os.fork()
+    if pid ==0:
+        print("子进程, id = {}, ppid = {}".format(os.getpid(), os.getppid()))
+    else:
+        print("父进程, id = {}, son pid = {}".format(os.getpid(), pid))
+
+
+# ---------------------------------------------------跨平台的多进程
+#  要实现跨平台的多进程，可以使用multiprocessing模块。
+    # 进程间通信是通过Queue、Pipes等实现的。
+    # subprocess模块可以让我们非常方便地启动一个子进程，然后控制其输入和输出。通过communicate()方法输入
+def multi_processing_windows():
+    from multiprocessing import Process
+    import os
+
+    # 子进程要执行的代码
+    def run_proc(name):
+        print('Run child process %s (%s)...' % (name, os.getpid()))
+
+    print('Parent process %s.' % os.getpid())
+    p = Process(target=run_proc, args=('test',))
+    p.start()
+
+    p.join() # main process 
+    print('Child process end.')
+
+    # --------------------------------------------- 进程池
+    #
+    from multiprocessing import Pool
+    import os, time, random
+
+    def long_time_task(name):
+        print('Run task %s (%s)...' % (name, os.getpid()))
+        start = time.time()
+        time.sleep(random.random() * 3)
+        end = time.time()
+        print('Task %s runs %0.2f seconds.' % (name, (end - start)))
+
+    if __name__=='__main__':
+        print('Parent process %s.' % os.getpid())
+        p = Pool(4) # Pool的默认大小是CPU的核数
+        for i in range(5):
+            p.apply_async(long_time_task, args=(i,))
+        print('Waiting for all subprocesses done...')
+        p.close()
+        p.join()
+        print('All subprocesses done.')
+
+
+def process_comunicate():
+    """进程通信"""
+    from multiprocessing import Process, Queue
+    import os, time, random
+
+    # 写数据进程执行的代码:
+    def write(q):
+        print('Process to write: %s' % os.getpid())
+        for value in ['A', 'B', 'C']:
+            print('Put %s to queue...' % value)
+            q.put(value)
+            time.sleep(random.random())
+
+    # 读数据进程执行的代码:
+    def read(q):
+        print('Process to read: %s' % os.getpid())
+        while True:
+            value = q.get(True)
+            print('Get %s from queue.' % value)
+
+    # 父进程创建Queue，并传给各个子进程：
+    q = Queue()
+    pw = Process(target=write, args=(q,))
+    pr = Process(target=read, args=(q,))
+    # 启动子进程pw，写入:
+    pw.start()
+    # 启动子进程pr，读取:
+    pr.start()
+    # 等待pw结束:
+    pw.join()
+    # pr进程里是死循环，无法等待其结束，只能强行终止:
+    pr.terminate()
+
+
+```
+
+
+## 协程
+
+### Python中的异步
 
 ```python
 
@@ -6065,7 +6098,7 @@ asyncio.run(gather())
 # end 3
 ```
 
-## yield 手动切换
+### yield 手动切换
 
 ```py
 
@@ -6178,7 +6211,7 @@ def async_io():
 ```
 
 
-## gevent 自动切换
+### gevent 自动切换
 
 gevent 第三方库
 
@@ -6193,6 +6226,7 @@ s2 = gevent.spwan(func_b, func_b_params)
 gevent.joinall([s1, s2]) # 阻塞等待
 
 ```
+
 
 
 
