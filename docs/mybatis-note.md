@@ -95,6 +95,8 @@ MyBatis 可以使用简单的 XML 或注解来配置和映射原生信息，将�
     - [10.1. #和$区别](#101-和区别)
     - [10.2. parameterType和resultType](#102-parametertype和resulttype)
     - [10.3. resultMap和resultType](#103-resultmap和resulttype)
+- [mybatis-plus](#mybatis-plus)
+    - [getter 解析 col name](#getter-解析-col-name)
 
 
 # 1. mybatis一些概念理解
@@ -2210,4 +2212,54 @@ select * from user where name = '${name}' 当我们传递的参数为 "ruhua" �
 
     * 使用resultType映射相对来说更简单，一般如果是一对一映射，则推荐使用resultType进行映射
 
+
+# mybatis-plus
+
+## getter 解析 col name
+
+https://segmentfault.com/a/1190000039657414
+
+```java
+ /**
+     * resolve col name by getter
+     * @param propertyGetter
+     * @return
+     * @param <T>
+     */
+    public static <T> String resolveColumn(SFunction<T, ?> propertyGetter) {
+        ColResolver<T> resolver = columnResolver();
+        return resolver.columnName(propertyGetter);
+    }
+
+    /**
+     * create a col resolver by entity type
+     * @return
+     * @param <T> entity type
+     */
+    public static <T> ColResolver<T> columnResolver() {
+        return ColResolver.get();
+    }
+
+    public static class ColResolver<T> extends AbstractLambdaWrapper<T, ColResolver<T>> {
+
+        public static <T> ColResolver<T> get() {
+            return new ColResolver<>();
+        }
+
+        public String columnName(SFunction<T, ?> getter) {
+            return this.columnToString(getter);
+        }
+
+        /** useless */
+        @Override
+        protected ColResolver<T> instance() {
+            return null;
+        }
+
+        @Override
+        protected String columnToString(SFunction<T, ?> column) {
+            return super.columnToString(column);
+        }
+    }
+```
 
