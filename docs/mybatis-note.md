@@ -2242,7 +2242,7 @@ https://segmentfault.com/a/1190000039657414
 
     public static class ColResolver<T> extends AbstractLambdaWrapper<T, ColResolver<T>> {
 
-        public static <T> ColResolver<T> get() {
+        public static <T> ColResolver<T> create() {
             return new ColResolver<>();
         }
 

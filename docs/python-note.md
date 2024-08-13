@@ -7474,6 +7474,8 @@ https://github.com/ICRAR/ijson 高性能解析 json
 
 ## 做 web 开发
 
+https://github.com/reactive-python/reactpy
+
 https://github.com/pydantic/FastUI 生成 基于 react 的页面
 
 Django 大一统解决方案
