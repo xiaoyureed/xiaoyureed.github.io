@@ -6481,6 +6481,7 @@ https://www.zhihu.com/question/41564604/answer/660256963 对比
 
 ```python
 
+https://github.com/AnswerDotAI/fasthtml 生成html
 
 https://github.com/streamlit/streamlit 最火
 
