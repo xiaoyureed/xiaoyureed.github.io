@@ -165,6 +165,7 @@ https://github.com/xkcoding/spring-boot-demo springboot demos
     - [15.16. 多数据库类型 databaseIdProvider](#1516-多数据库类型-databaseidprovider)
     - [15.17. spring kafka](#1517-spring-kafka)
 - [16. web 相关](#16-web-相关)
+    - [graphql 集成](#graphql-集成)
     - [websocket 集成](#websocket-集成)
     - [16.1. 加解密](#161-加解密)
     - [16.2. springboot 发送 https 或者 http 客户端 client](#162-springboot-发送-https-或者-http-客户端-client)
@@ -4152,6 +4153,16 @@ https://docs.spring.io/spring-kafka/docs/current/reference/html/#receiving-messa
 https://www.youtube.com/watch?v=SqVfCyfCJqw&t=9s
 
 # 16. web 相关
+
+## graphql 集成
+
+```
+https://github.com/netflix/dgs-framework  netflix 开源
+
+https://github.com/spring-projects/spring-graphql spring 子项目
+
+https://github.com/graphql-java/graphql-java 星星最多
+```
 
 ## websocket 集成
 
